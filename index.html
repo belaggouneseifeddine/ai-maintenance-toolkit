@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f766e">
+<meta name="description" content="Maintenance AI Toolkit — مساعد أولي لتوثيق أعطال الصيانة الصناعية والتحقق من السلامة.">
+<link rel="manifest" href="./manifest.json">
+<title>Maintenance AI Toolkit</title>
+<style>
+:root{--bg:#f3f6f8;--card:#fff;--ink:#13252b;--muted:#60747b;--line:#dce5e8;--brand:#0f766e;--brand2:#115e59;--warn:#92400e;--danger:#b91c1c;--soft:#e7f5f2;--radius:18px}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif;line-height:1.65}
+header{background:linear-gradient(135deg,#0f766e,#164e63);color:#fff;padding:24px 18px 30px;border-radius:0 0 26px 26px}
+.head{max-width:900px;margin:auto}.eyebrow{font-size:.78rem;opacity:.85;letter-spacing:.04em}.brand{font-size:1.55rem;font-weight:850;margin:.25rem 0}.sub{margin:0;opacity:.9;font-size:.93rem}
+main{max-width:900px;margin:-12px auto 30px;padding:0 14px}.nav{display:flex;gap:8px;overflow:auto;padding:8px 0 14px}.tab{white-space:nowrap;border:1px solid var(--line);background:var(--card);padding:9px 14px;border-radius:999px;font:inherit;color:var(--ink)}.tab.active{background:var(--brand);color:#fff;border-color:var(--brand)}
+.panel{display:none}.panel.active{display:block}.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin-bottom:14px;box-shadow:0 4px 18px #1232}.card h2{font-size:1.08rem;margin:0 0 12px}.hint{color:var(--muted);font-size:.9rem;margin-top:-5px}
+label{display:block;font-weight:700;font-size:.9rem;margin:12px 0 5px}input,select,textarea{width:100%;border:1px solid #c8d5d9;border-radius:12px;padding:12px;background:#fff;color:var(--ink);font:inherit;min-height:46px}textarea{min-height:100px;resize:vertical}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.btn{border:0;border-radius:12px;background:var(--brand);color:#fff;padding:12px 16px;font:inherit;font-weight:750;cursor:pointer;min-height:46px}.btn:active{transform:scale(.99)}.btn.secondary{background:#e7eff1;color:#19383e}.btn.danger{background:#fee2e2;color:#991b1b}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}.actions .btn{flex:1}.notice{padding:12px 14px;border-radius:12px;background:#fff7ed;border:1px solid #fed7aa;color:#7c2d12;font-size:.9rem}.result{border:1px solid #b7e4d9;background:#f0fdfa;border-radius:14px;padding:14px;margin-top:14px}.result h3{margin:0 0 8px;font-size:1rem}.result ul{margin:6px 0;padding-right:20px}.pill{display:inline-block;background:#e7eff1;border-radius:999px;padding:3px 9px;font-size:.78rem;margin:2px}.record{border:1px solid var(--line);border-radius:14px;padding:13px;margin-top:10px}.record h3{margin:0;font-size:.98rem}.record p{margin:4px 0;color:var(--muted);font-size:.86rem}.check{display:flex;gap:10px;align-items:flex-start;font-weight:500;margin:9px 0}.check input{width:20px;min-height:20px;height:20px;margin-top:5px;flex:0 0 auto}footer{text-align:center;color:var(--muted);font-size:.8rem;padding:12px 18px 30px}.empty{color:var(--muted);text-align:center;padding:22px 8px}
+@media(max-width:560px){.grid{grid-template-columns:1fr}.brand{font-size:1.3rem}.card{padding:15px}}
+</style>
+</head>
+<body>
+<header><div class="head"><div class="eyebrow">INDUSTRIAL MAINTENANCE • MVP 0.1</div><div class="brand">Maintenance AI Toolkit</div><p class="sub">مساعد عملي لتوثيق الأعطال وتنظيم خطوات الفحص بأمان.</p></div></header>
+<main>
+<nav class="nav" aria-label="التنقل">
+<button class="tab active" data-tab="diagnose">تشخيص أولي</button><button class="tab" data-tab="safety">السلامة</button><button class="tab" data-tab="log">سجل الصيانة</button>
+</nav>
+<section id="diagnose" class="panel active">
+<div class="card"><h2>بيانات الآلة والعطل</h2><p class="hint">املأ المعلومات المتوفرة فقط. النتائج قواعد إرشادية وليست تشخيصًا مؤكدًا.</p>
+<form id="diagnosisForm">
+<div class="grid"><div><label for="machine">نوع المعدة</label><select id="machine"><option value="pump">مضخة</option><option value="motor">محرك كهربائي</option><option value="conveyor">ناقل / سير</option><option value="compressor">ضاغط هواء</option><option value="hydraulic">نظام هيدروليكي</option><option value="other">معدة أخرى</option></select></div>
+<div><label for="symptom">العَرَض الرئيسي</label><select id="symptom"><option value="not_start">لا تعمل / لا تبدأ</option><option value="noise">ضجيج أو اهتزاز غير عادي</option><option value="overheat">ارتفاع الحرارة</option><option value="leak">تسرب</option><option value="low_flow">ضغط أو تدفق ضعيف</option><option value="trip">فصل كهربائي / إنذار</option><option value="other">عَرَض آخر</option></select></div></div>
+<label for="code">رمز الخطأ أو الإنذار (اختياري)</label><input id="code" placeholder="مثال: E-01، Overload...">
+<label for="observations">ملاحظات وقياسات مؤكدة</label><textarea id="observations" placeholder="متى بدأ العطل؟ هل تغيّر صوت المعدة؟ اذكر القيم والوحدات ومصدرها."></textarea>
+<div class="notice" style="margin-top:14px">قبل أي فحص: أوقف العمل إذا كان هناك خطر، وطبّق العزل والقفل ووضع بطاقة التحذير (LOTO) وفق إجراءات موقعك. لا تفتح نظامًا مضغوطًا أو تلمس أجزاء كهربائية حية.</div>
+<div class="actions"><button class="btn" type="submit">إنشاء خطة فحص أولية</button><button class="btn secondary" type="reset">مسح الحقول</button></div>
+</form><div id="diagnosisResult" aria-live="polite"></div></div>
+</section>
+<section id="safety" class="panel">
+<div class="card"><h2>قائمة تحقق قبل التدخل</h2><p class="hint">هذه القائمة لا تستبدل إجراءات السلامة المعتمدة في موقع العمل.</p>
+<div id="safetyChecks">
+<label class="check"><input type="checkbox"> تم إيقاف المعدة وفق الإجراء المعتمد وإبلاغ المسؤول.</label>
+<label class="check"><input type="checkbox"> تم عزل مصادر الطاقة الكهربائية والميكانيكية والهيدروليكية/الهوائية ذات الصلة.</label>
+<label class="check"><input type="checkbox"> تم تطبيق LOTO والتحقق من انعدام الطاقة بواسطة شخص مؤهل.</label>
+<label class="check"><input type="checkbox"> تم تفريغ الضغط وتأمين الأجزاء المتحركة ورفع الأحمال حسب الإجراء.</label>
+<label class="check"><input type="checkbox"> معدات الوقاية الشخصية والأدوات المناسبة متوفرة.</label>
+<label class="check"><input type="checkbox"> مخطط المعدة ودليل المصنع وإجراءات الموقع متاحة.</label>
+</div><div class="notice">إذا لم تستطع تأكيد أي بند، لا تبدأ التدخل؛ صعّد الأمر للمسؤول أو مختص السلامة.</div>
+<div class="actions"><button class="btn secondary" id="resetSafety">إعادة ضبط القائمة</button></div></div>
+</section>
+<section id="log" class="panel">
+<div class="card"><h2>سجل التدخلات</h2><p class="hint">يحفظ هذا النموذج السجلات على هذا الجهاز فقط باستخدام التخزين المحلي. لا تدخل معلومات سرية.</p>
+<form id="logForm"><label for="logMachine">المعدة / رقم الأصل</label><input id="logMachine" required placeholder="مثال: P-102 / مضخة مياه">
+<label for="logFault">العطل أو الملاحظة</label><textarea id="logFault" required placeholder="وصف مختصر لما تمت ملاحظته"></textarea>
+<label for="logAction">الإجراء والنتيجة</label><textarea id="logAction" required placeholder="ما الذي تم عمله؟ وما النتيجة؟"></textarea>
+<div class="grid"><div><label for="logStatus">الحالة</label><select id="logStatus"><option>قيد الفحص</option><option>تم الإصلاح</option><option>يتطلب قطع غيار</option><option>تم التصعيد</option></select></div><div><label for="logDate">التاريخ</label><input id="logDate" type="date" required></div></div>
+<div class="actions"><button class="btn" type="submit">حفظ السجل</button><button class="btn secondary" type="button" id="exportCsv">تصدير CSV</button></div></form>
+<div id="records"></div><div class="actions"><button class="btn danger" type="button" id="clearRecords">حذف جميع السجلات</button></div>
+</div>
+</section>
+</main>
+<footer>أداة أولية غير معتمدة هندسيًا. اتبع دليل المصنع وإجراءات موقعك، ولا تعتمد على هذا التطبيق وحده لاتخاذ قرارات سلامة أو تشغيل.</footer>
+<script>
+const $=id=>document.getElementById(id);
+document.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b===btn));document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===btn.dataset.tab));}));
+const guidance={
+pump:{not_start:['تحقق بصريًا من حالة التغذية وإشارات لوحة التحكم وفق الإجراء المصرّح به.','راجع سجل الإنذارات وحالة الحماية؛ لا تعِد الضبط المتكرر دون معرفة السبب.','تحقق من وجود أمر تشغيل وتصريح التشغيل في نظام التحكم.'],noise:['تحقق من تثبيت القاعدة والحواجز، ثم راجع سجل الاهتزاز والمحامل إن توفرت قياسات آمنة.','ضع في الاعتبار التجويف أو دخول الهواء أو عدم المحاذاة؛ لا تفك المعدة أثناء التشغيل.'],overheat:['راجع اتجاهات الحرارة والحمل والتبريد مقارنة بحدود المصنع.','افحص التهوية والتشحيم من الخارج فقط بعد تأمين المعدة.'],leak:['حدد نوع السائل ومصدر التسرب من مسافة آمنة، واعزل المنطقة عند الحاجة.','لا تشد الوصلات أو تفكها تحت الضغط؛ اتبع إجراء التفريغ والعزل.'],low_flow:['تحقق من مستوى الخزان ووضع الصمامات ومؤشر الضغط/التدفق إن كان ذلك آمنًا.','راجع احتمال انسداد المرشح أو دخول الهواء أو تغير نقطة التشغيل مقارنة بالمواصفات.'],trip:['سجل رمز الحماية والظروف السابقة للفصل؛ لا تتجاوز الحماية أو تكرر إعادة التشغيل.','اطلب من كهربائي مؤهل فحص سبب الفصل وفق إجراءات العزل.']},
+motor:{not_start:['راجع الإنذار وحالة أمر التشغيل من واجهة التحكم دون فتح اللوحات.','قد تكون الأسباب تغذية أو حماية أو interlock أو حملًا ميكانيكيًا؛ يلزم فحص مؤهل.'],noise:['راجع تثبيت المعدة وسجل الاهتزاز والمحامل، مع منع الاقتراب من الأجزاء المتحركة.'],overheat:['قارن الحمل والحرارة ببيانات المصنع؛ افحص التهوية خارجيًا بعد العزل.'],trip:['سجل رمز الفصل وحالة الحمل؛ لا تتجاوز المرحل الحراري أو وسائل الحماية.']},
+conveyor:{not_start:['تحقق من حالة الطوارئ والحواجز وإشارات التحكم دون تجاوز أي interlock.','راجع سجل الأعطال؛ أي فحص ميكانيكي يتطلب العزل وتأمين الأجزاء.'],noise:['أوقف المعدة واعزلها قبل فحص السير أو البكرات أو المحامل.'],overheat:['راجع الحمل والاحتكاك وسجل حرارة المحامل وفق إجراء آمن.']},
+compressor:{not_start:['راجع لوحة الإنذارات وضغط النظام وحالة التحكم حسب دليل المصنع.','لا تفتح خطوط الهواء أو أوعية الضغط قبل العزل والتفريغ والتحقق من انعدام الضغط.'],noise:['أوقف الضاغط عند صوت غير معتاد، ثم اتبع دليل المصنع وفحصًا مؤهلًا.'],overheat:['راجع سجل الحرارة والتهوية ومستوى الزيت وفق تعليمات المصنع.'],low_flow:['راجع ضغط الخروج والمرشحات وحالة التسرب من المؤشرات المتاحة؛ لا تفك خطوطًا مضغوطة.']},
+hydraulic:{leak:['ابتعد عن التسرب عالي الضغط؛ حقن الزيت تحت الجلد حالة طبية طارئة. لا تستخدم اليد للبحث عن التسرب.','اعزل الطاقة وفرّغ الضغط وفق تعليمات المصنع قبل أي تدخل.'],low_flow:['راجع مستوى الزيت ودرجة الحرارة ومؤشرات الضغط من نقاط القياس المعتمدة.','تحقق من سجل المرشحات وحالة المضخة والصمامات؛ لا تضبط صمام تنفيس دون مواصفات وإذن.'],overheat:['راجع درجة حرارة الزيت ومستواه والمرشحات والحمل وفق حدود المصنع.']},
+other:{}
+};
+const general=['وثّق الحالة كما هي، ولا تفترض سببًا واحدًا قبل جمع الأدلة.','قارن القياسات بدليل المصنع وحدود التشغيل المعتمدة للمعدة نفسها.','إذا كانت المعلومات غير كافية أو بقي الخطر قائمًا، أوقف التشخيص وصعّد إلى مختص مؤهل.'];
+$('diagnosisForm').addEventListener('submit',e=>{e.preventDefault();const machine=$('machine').value,symptom=$('symptom').value,code=$('code').value.trim(),obs=$('observations').value.trim();let steps=(guidance[machine]&&guidance[machine][symptom])||[];steps=[...steps,...general];$('diagnosisResult').innerHTML='<div class="result"><h3>خطة فحص إرشادية — ليست تشخيصًا مؤكدًا</h3><span class="pill">المعدة: '+escapeHtml($('machine').selectedOptions[0].text)+'</span><span class="pill">العَرَض: '+escapeHtml($('symptom').selectedOptions[0].text)+'</span>'+(code?'<p><b>رمز مسجل:</b> '+escapeHtml(code)+'</p>':'')+'<ul>'+steps.map(s=>'<li>'+escapeHtml(s)+'</li>').join('')+'</ul>'+(obs?'<p><b>ملاحظاتك:</b> '+escapeHtml(obs)+'</p>':'')+'<div class="actions"><button class="btn" id="saveDiagnosis" type="button">حفظ كبلاغ صيانة</button></div></div>'; $('saveDiagnosis').addEventListener('click',()=>{const all=getRecords();all.unshift({date:new Date().toISOString().slice(0,10),machine:$('machine').selectedOptions[0].text,fault:$('symptom').selectedOptions[0].text+(code?' — '+code:'')+(obs?' | '+obs:''),action:'خطة فحص إرشادية تم إنشاؤها؛ لم يتم تأكيد السبب.',status:'قيد الفحص'});saveRecords(all);renderRecords();$('log').classList.add('active');$('diagnose').classList.remove('active');document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab==='log'));});});
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+$('resetSafety').addEventListener('click',()=>document.querySelectorAll('#safetyChecks input').forEach(c=>c.checked=false));
+const KEY='maintenance-ai-toolkit-records-v1';function getRecords(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch{return []}}function saveRecords(a){localStorage.setItem(KEY,JSON.stringify(a))}
+$('logDate').value=new Date().toISOString().slice(0,10);
+$('logForm').addEventListener('submit',e=>{e.preventDefault();const a=getRecords();a.unshift({date:$('logDate').value,machine:$('logMachine').value.trim(),fault:$('logFault').value.trim(),action:$('logAction').value.trim(),status:$('logStatus').value});saveRecords(a);e.target.reset();$('logDate').value=new Date().toISOString().slice(0,10);renderRecords();});
+function renderRecords(){const a=getRecords();$('records').innerHTML=a.length?a.map((r,i)=>'<article class="record"><h3>'+escapeHtml(r.machine)+' <span class="pill">'+escapeHtml(r.status)+'</span></h3><p>'+escapeHtml(r.date)+'</p><p><b>العطل:</b> '+escapeHtml(r.fault)+'</p><p><b>الإجراء:</b> '+escapeHtml(r.action)+'</p><button class="btn secondary" data-delete="'+i+'" type="button">حذف هذا السجل</button></article>').join(''):'<div class="empty">لا توجد سجلات بعد.</div>';document.querySelectorAll('[data-delete]').forEach(b=>b.addEventListener('click',()=>{const x=getRecords();x.splice(Number(b.dataset.delete),1);saveRecords(x);renderRecords()}));}
+$('exportCsv').addEventListener('click',()=>{const rows=[['Date','Machine','Fault','Action','Status'],...getRecords().map(r=>[r.date,r.machine,r.fault,r.action,r.status])];const csv='\ufeff'+rows.map(row=>row.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(',')).join('\r\n');const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));const a=document.createElement('a');a.href=url;a.download='maintenance-log.csv';a.click();URL.revokeObjectURL(url);});
+$('clearRecords').addEventListener('click',()=>{if(confirm('هل تريد حذف جميع السجلات المحفوظة على هذا الجهاز؟')){localStorage.removeItem(KEY);renderRecords();}});
+renderRecords();
+if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
+</script>
+</body></html>
