@@ -1,0 +1,13 @@
+{
+  "name": "Maintenance AI Toolkit",
+  "short_name": "Maintenance AI",
+  "description": "مساعد أولي لتوثيق أعطال الصيانة الصناعية والتحقق من السلامة",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f3f6f8",
+  "theme_color": "#0f766e",
+  "icons": []
+}
