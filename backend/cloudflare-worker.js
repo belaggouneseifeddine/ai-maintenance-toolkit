@@ -6,6 +6,10 @@
  */
 const WINDOW_MS = 60_000;
 const MAX_REQUESTS_PER_WINDOW = 12;
+const MAX_BODY_BYTES = 8_192;
+const MAX_TRACKED_IPS = 5_000;
+const UPSTREAM_TIMEOUT_MS = 20_000;
+// Best-effort per-isolate guard only; use Cloudflare Rate Limiting/WAF for shared enforcement.
 const requestsByIp = new Map();
 
 function corsHeaders(origin, allowedOrigin) {
@@ -33,8 +37,23 @@ export default {
       return json({ error: "Backend is not configured yet." }, 503, origin, allowedOrigin);
     }
 
+    const contentType = request.headers.get("Content-Type") || "";
+    if (!/^application\/json(?:\s*;|\s*$)/i.test(contentType)) {
+      return json({ error: "Content-Type must be application/json." }, 415, origin, allowedOrigin);
+    }
+    const declaredLength = Number(request.headers.get("Content-Length") || 0);
+    if (declaredLength > MAX_BODY_BYTES) {
+      return json({ error: "Request body too large." }, 413, origin, allowedOrigin);
+    }
+
     const ip = request.headers.get("CF-Connecting-IP") || "unknown";
     const now = Date.now();
+    // Periodically discard expired entries and cap memory used by this best-effort map.
+    if (requestsByIp.size > MAX_TRACKED_IPS || Math.random() < 0.02) {
+      for (const [key, value] of requestsByIp) {
+        if (now - value.start > WINDOW_MS || requestsByIp.size > MAX_TRACKED_IPS) requestsByIp.delete(key);
+      }
+    }
     const previous = requestsByIp.get(ip) || { start: now, count: 0 };
     if (now - previous.start > WINDOW_MS) { previous.start = now; previous.count = 0; }
     previous.count += 1;
@@ -44,7 +63,13 @@ export default {
     }
 
     let body;
-    try { body = await request.json(); } catch {
+    try {
+      const rawBody = await request.text();
+      if (new TextEncoder().encode(rawBody).byteLength > MAX_BODY_BYTES) {
+        return json({ error: "Request body too large." }, 413, origin, allowedOrigin);
+      }
+      body = JSON.parse(rawBody);
+    } catch {
       return json({ error: "Invalid JSON request." }, 400, origin, allowedOrigin);
     }
     const { machine, symptom, code = "", observations = "" } = body || {};
@@ -64,6 +89,7 @@ export default {
     let upstream;
     try {
       upstream = await fetch(base + "/chat/completions", {
+        signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS),
         method: "POST",
         headers: { "Authorization": "Bearer " + env.AI_API_KEY, "Content-Type": "application/json" },
         body: JSON.stringify({

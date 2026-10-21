@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title id="title">Maintenance AI Toolkit</title>
+  <rect width="512" height="512" rx="112" fill="#0f766e"/>
+  <path d="M110 150h110v-28h72v28h110v72h-28v68h28v72H292v28h-72v-28H110v-72h28v-68h-28z" fill="#dff7f1"/>
+  <circle cx="256" cy="256" r="76" fill="#115e59" stroke="#fff" stroke-width="16"/>
+  <path d="M220 258l25 25 51-58" fill="none" stroke="#fff" stroke-width="19" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M256 64v42M256 406v42M64 256h42M406 256h42" stroke="#fff" stroke-width="12" stroke-linecap="round" opacity=".9"/>
+</svg>
