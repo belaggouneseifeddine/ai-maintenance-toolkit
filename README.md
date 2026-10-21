@@ -8,7 +8,7 @@ The interface now includes an optional AI tab, and `backend/cloudflare-worker.js
 ## Current prototype
 The repository contains a static progressive web app (PWA) intended for phone browsers. The current Arabic-first interface includes:
 - Structured fault entry for selected equipment types and symptoms.
-- Rule-based troubleshooting guidance for pumps, motors, conveyors, compressors, and hydraulic systems.
+- Rule-based troubleshooting guidance for pumps, motors, conveyors, compressors, hydraulic systems, actuated valves, VFDs, and instrumentation signals.\n- A source-backed fault knowledge base covering symptoms, safe checks, escalation, and limits.
 - Safety reminders and a checklist.
 - Local maintenance records saved in the browser on the current device.
 - CSV export for saved records.
