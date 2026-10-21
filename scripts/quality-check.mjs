@@ -24,8 +24,8 @@ const checks = [
   ["Maintenance records persist locally", () => assert.match(html, /localStorage\.setItem\(KEY/)],
   ["CSV export exists", () => assert.match(html, /maintenance-log\.csv/)],
   ["CSV export neutralizes spreadsheet formula injection", () => {
-    assert.match(html, /function csvCell\\(value\\)/);
-    assert.match(html, /row\\.map\\(csvCell\\)/);
+    assert.ok(html.includes("function csvCell(value)"));
+    assert.ok(html.includes("row.map(csvCell)"));
     assert.match(html, /const safe=/);
   }],
   ["AI endpoint is configurable without a browser-side provider key", () => {
