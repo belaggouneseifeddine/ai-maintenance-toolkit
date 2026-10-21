@@ -183,7 +183,7 @@ const checks = [
   ["Service worker caches the app shell and icon with a bumped cache version", () => {
     assert.match(sw, /APP_SHELL/);
     assert.match(sw, /\.\/icon\.svg/);
-    assert.match(sw, /maintenance-ai-toolkit-v11/);
+    assert.match(sw, /maintenance-ai-toolkit-v12/);
   }]
 ];
 
