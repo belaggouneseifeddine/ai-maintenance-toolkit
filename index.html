@@ -80,13 +80,13 @@ footer{line-height:1.8}
 #draftSummary{white-space:pre-wrap;overflow-wrap:anywhere}
 [hidden]{display:none!important}
 
-.header-controls{display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap;margin-top:14px;max-width:520px}
+.header-controls{display:flex;align-items:flex-end;gap:10px;flex-wrap:nowrap;margin-top:14px;max-width:520px}
 .language-control{flex:1 1 170px;min-width:150px}
 .header-controls label{margin:0 0 5px;color:#fff;font-size:.85rem}
 #languageSwitcher{display:block;width:100%;max-width:none;min-height:44px;margin:0;background:#fff;color:#102a30;border:1px solid #ffffff55}
 .theme-toggle{flex:0 0 auto;min-height:44px;border:1px solid #ffffff66;border-radius:12px;padding:9px 14px;background:#ffffff18;color:#fff;font:inherit;font-weight:750;cursor:pointer}
 .theme-toggle:focus-visible{outline:3px solid #fff;outline-offset:2px}
-@media(max-width:420px){.header-controls{gap:8px}.language-control{flex:1 1 145px}.theme-toggle{padding:8px 10px;font-size:.85rem}}
+@media(max-width:420px){.header-controls{gap:8px;align-items:flex-end}.language-control{flex:1 1 130px;min-width:0}.theme-toggle{padding:8px 10px;font-size:.85rem;white-space:nowrap}}
 
 </style>
 <link rel="stylesheet" href="./ux-redesign.css">
