@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 
 const html = readFileSync("index.html", "utf8");
 const diagnosticFlowsSource = readFileSync("diagnostic-flows.js", "utf8");
-const diagnosticFlows = (() => { const match = diagnosticFlowsSource.match(/window\.MAINTENANCE_DIAGNOSTIC_FLOWS\s*=\s*Object\.freeze\(([\s\S]*?)\);\s*\}\)\(\);/); assert.ok(match, "Structured diagnostic flow export must exist"); return Function("window", diagnosticFlowsSource.replace(/^\/\*[\s\S]*?\*\/\s*/, "").replace(/\(function \(\) \{[\s\S]*?window\.MAINTENANCE_DIAGNOSTIC_FLOWS = Object\.freeze\(/, "return (").replace(/\);\s*\}\)\(\);\s*$/, ");"))({}); })();
+const diagnosticFlows = (() => { const match = diagnosticFlowsSource.match(/window\.MAINTENANCE_DIAGNOSTIC_FLOWS\s*=\s*(\{[\s\S]*?\n\});/); assert.ok(match, "Structured diagnostic flow export must exist"); return JSON.parse(match[1]); })();
 const worker = readFileSync("backend/cloudflare-worker.js", "utf8");
 const vercelApi = readFileSync("api/chat.js", "utf8");
 const safety = readFileSync("SAFETY.md", "utf8");
