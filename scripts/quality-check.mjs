@@ -28,6 +28,10 @@ const checks = [
     assert.ok(html.includes("row.map(csvCell)"));
     assert.match(html, /const safe=/);
   }],
+  ["AI requests require explicit user consent before sending maintenance data", () => {
+    assert.match(html, /id="aiConsent" type="checkbox" required/);
+    assert.match(html, /أوافق على إرسال وصف العطل والقياسات/);
+  }],
   ["AI endpoint is configurable without a browser-side provider key", () => {
     assert.match(html, /AI_ENDPOINT_KEY/);
     assert.doesNotMatch(html, /sk-[A-Za-z0-9]{20,}/);
