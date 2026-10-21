@@ -11,6 +11,7 @@
 - [x] Bumped the service-worker cache to v27 so updated frontend files can be picked up by clients.
 - [x] Added one-time migration for legacy photo rows from `recordIndex` to `recordId`; legacy attachments that no longer map to a record are shown as unavailable rather than silently reassigned.
 - [x] Added a Node regression test for JavaScript syntax and month-end date behavior; expanded the workflow to run all `tests/*.test.cjs` when relevant files change.
+- [x] Expanded French/English localization for preventive-maintenance statuses, handover reports, photos, statistics, and dynamic alerts; confirmed `maintenance-v03.js` parses after the update. Real-browser language-switch verification remains pending.
 - [ ] Verify the actual GitHub Actions run result; available status checks currently show Vercel build-rate-limit failures, not a confirmed result for the new test workflow.
 - [ ] Verify photo migration on real browser storage. Historical photo links that were already wrong before migration cannot be reconstructed reliably from array positions alone.
 
@@ -40,14 +41,14 @@ The main log form and some generated records currently write records without IDs
 ### P2 — Dynamic localization is incomplete
 File: `maintenance-v03.js`
 
-The feature panel has a small hard-coded Arabic-to-French/English map. Several dynamic messages and generated record strings are Arabic literals, including preventive-maintenance status/alerts, validation errors, report text, photo status/errors, and some statistics labels. The observer translates only text nodes whose complete trimmed text matches a key, so mixed text and changing values often remain untranslated.
+The feature panel has a hard-coded Arabic-to-French/English map. Dynamic preventive-maintenance status/alerts, validation errors, report text, photo status/errors, and statistics labels had incomplete coverage. The translation pass now includes these phrases and supports selected fixed phrases embedded in mixed text nodes. It also includes generated record/status text rather than skipping every `.record` node.
 
 Required fix:
-- Use the existing `MaintenanceI18n.t(key)` dictionary where possible.
-- Add translation keys for the feature panel instead of broad text-node replacement.
-- Translate dynamic status, validation, empty-state, photo and report messages.
-- Keep user-entered maintenance notes unchanged.
-- Test Arabic, French and English after switching languages while the panel is open and after adding/removing records.
+- [x] Add French/English translations for dynamic status, validation, empty-state, photo, report and statistics messages.
+- [x] Translate mixed fixed phrases such as status labels around dynamic dates and counts.
+- [x] Avoid translating input values and textareas; translation uses a bounded set of fixed phrases for mixed text.
+- [ ] Test Arabic, French and English in a real browser after switching languages while the panel is open and after adding/removing records.
+- [ ] Consider replacing text-node translation with explicit `MaintenanceI18n.t(key)` calls for longer-term maintainability.
 
 ### P2 — Monthly due-date edge case
 
