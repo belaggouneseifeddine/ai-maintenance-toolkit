@@ -380,7 +380,7 @@ $('printDiagnosis').addEventListener('click',()=>window.print());
 $('saveDiagnosis').addEventListener('click',()=>{
 const all=getRecords();
 all.unshift({date:localDateString(),machine:(assetId?assetId+' — ':'')+$('machine').selectedOptions[0].text,fault:$('symptom').selectedOptions[0].text+(code?' — '+code:'')+(followup?' | إجابة السؤال: '+followup:'')+(obs?' | '+obs:''),action:'خطة فحص إرشادية تم إنشاؤها؛ لم يتم تأكيد السبب.'+(manualRef?' مرجع الدليل: '+manualRef:''),status:priority==='urgent'?'تم التصعيد': 'قيد الفحص'});
-saveRecords(all);renderRecords();$('log').classList.add('active');$('diagnose').classList.remove('active');document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab==='log'));
+saveRecords(all);renderRecords();lastDiagnosisDraft=null;persistDraft();renderDraftSummary();$('log').classList.add('active');$('diagnose').classList.remove('active');document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab==='log'));
 });
 });
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
