@@ -87,7 +87,7 @@ const checks = [
     assert.match(html, /أوافق على إرسال وصف العطل والقياسات/);
   }],
   ["Direct Gemini request has a timeout and preserves readable output", () => {
-    assert.match(html, /e\.preventDefault\(\);\$\('aiConsent'\)\.checked=false/);
+    assert.match(html, /e\.preventDefault\(\);\s*\$\('aiConsent'\)\.checked=false/);
     assert.match(html, /signal:AbortSignal\.timeout\(35000\)/);
     assert.match(html, /#aiResult\{white-space:pre-wrap/);
   }],
