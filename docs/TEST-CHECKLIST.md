@@ -67,3 +67,31 @@ Use this checklist on the published site from an Android phone. Record the brows
 
 ## Acceptance rule
 Do not describe the app as production-ready until the critical flows above have been tested on the target device. The current app uses local browser storage and rule-based guidance; it has no connected AI model or server-side synchronization.
+
+## Answer-aware diagnostic regression cases
+
+These cases cover the currently implemented answer-specific branches. Use only safe observations and existing instrument readings; do not create a hazardous condition to test a branch.
+
+- [ ] **Pump / low flow:** choose "نعم، طبيعي" for the suction/source question; confirm the next step asks to compare discharge pressure/flow with baseline and pump curve rather than assuming suction blockage.
+- [ ] **Pump / low flow:** choose "منخفض أو غير مستقر"; confirm guidance asks for safe review of source/suction and escalation when harmful operating signs appear.
+- [ ] **Motor / does not start:** choose "لا يوجد أمر تشغيل"; confirm the result says to inspect the command/permissives through the approved control diagram and forbids bridging interlocks.
+- [ ] **Motor / does not start:** choose "أمر موجود مع إنذار/فصل"; confirm it asks to preserve the alarm/event log and consult the exact model manual before reset.
+- [ ] **Compressor / low flow:** choose "نعم، فرق الضغط في الشبكة محتمل"; confirm the result compares outlet and point-of-use pressure under similar load.
+- [ ] **Compressor / low flow:** choose "ضغط المخرج نفسه منخفض"; confirm it does not suggest changing setpoints or the relief valve.
+- [ ] **Hydraulic / leak:** choose "نعم أو غير متأكد"; confirm the high-pressure injection warning is prominent and instructs the user to move away, escalate, and never use a hand to locate a leak.
+- [ ] **Hydraulic / leak:** choose "لا أستطيع التحديد"; confirm the result conservatively treats the leak as potentially high pressure.
+- [ ] **Thermal / high pressure:** choose "نعم، تجاوز مؤكد — أوقف وصعّد"; confirm the instruction is to keep the equipment stopped and not restart, adjust, or isolate a safety valve.
+- [ ] **Thermal / high pressure:** choose "لا أعرف حد المعدة"; confirm the app does not invent a limit and directs the user to the model-specific limit and escalation process.
+- [ ] **VFD / trip:** choose "نعم، الرمز محفوظ"; confirm the exact full fault code and matching drive model/manual are required; no meaning is guessed from another model.
+- [ ] **VFD / trip:** choose "تمت إعادة الضبط بالفعل"; confirm it asks to document pre/post-reset conditions and discourages repeated resets if the fault returns.
+- [ ] For each case, leave the follow-up unanswered once; confirm the general diagnosis still works and does not claim the branch was evaluated.
+- [ ] Confirm the displayed result is labelled guidance, not a confirmed diagnosis, and that user-provided code/notes are rendered as text.
+
+## Architecture roadmap review
+
+- [ ] Treat `docs/DIAGNOSTIC-ARCHITECTURE-ROADMAP.md` as a proposal, not a statement that all planned capabilities are implemented.
+- [ ] Any future diagnostic schema has stable IDs for questions/answers and validates required fields before runtime use.
+- [ ] Every machine-specific value or alarm interpretation is tied to an exact model/source; unknown values stay unknown.
+- [ ] The deterministic safety gate takes precedence over AI output.
+- [ ] No manuals, observations, or plant data are sent to an external service without explicit user consent.
+
