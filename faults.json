@@ -1,0 +1,681 @@
+{
+  "schemaVersion": 1,
+  "languageSupport": [
+    "ar",
+    "fr",
+    "en"
+  ],
+  "faults": [
+    {
+      "id": "pump-cavitation",
+      "equipmentType": "pump",
+      "symptoms": [
+        "noise",
+        "low_flow"
+      ],
+      "title": {
+        "ar": "التكهف (Cavitation)",
+        "fr": "Cavitation",
+        "en": "Cavitation"
+      },
+      "keywords": {
+        "ar": [
+          "تكهف",
+          "تجويف",
+          "صوت حصى",
+          "فرقعة",
+          "فقاعات",
+          "ضعف التدفق",
+          "سحب ضعيف",
+          "اهتزاز"
+        ],
+        "fr": [
+          "cavitation",
+          "gravier",
+          "claquement",
+          "bulles",
+          "debit faible",
+          "aspiration faible",
+          "vibration"
+        ],
+        "en": [
+          "cavitation",
+          "gravel noise",
+          "crackling",
+          "bubbles",
+          "low flow",
+          "poor suction",
+          "vibration"
+        ]
+      },
+      "causes": [
+        {
+          "id": "cavitation-suction",
+          "label": {
+            "ar": "ظروف سحب غير ملائمة أو انخفاض مستوى المصدر",
+            "fr": "Conditions d’aspiration défavorables ou niveau de source bas",
+            "en": "Unfavorable suction conditions or low source level"
+          },
+          "keywords": [
+            "سحب",
+            "مستوى",
+            "aspiration",
+            "niveau",
+            "suction",
+            "level"
+          ]
+        },
+        {
+          "id": "cavitation-restriction",
+          "label": {
+            "ar": "تقييد أو انسداد محتمل في مسار السحب",
+            "fr": "Restriction ou obstruction possible de la conduite d’aspiration",
+            "en": "Possible restriction or blockage in the suction path"
+          },
+          "keywords": [
+            "انسداد",
+            "مرشح",
+            "obstruction",
+            "filtre",
+            "blockage",
+            "strainer"
+          ]
+        },
+        {
+          "id": "cavitation-air",
+          "label": {
+            "ar": "دخول هواء أو تسرب في جهة السحب",
+            "fr": "Entrée d’air ou fuite côté aspiration",
+            "en": "Air ingress or leakage on the suction side"
+          },
+          "keywords": [
+            "هواء",
+            "تسرب",
+            "air",
+            "fuite",
+            "ingress",
+            "leak"
+          ]
+        },
+        {
+          "id": "cavitation-operating",
+          "label": {
+            "ar": "التشغيل خارج ظروف المضخة المعتمدة",
+            "fr": "Fonctionnement hors des conditions prévues de la pompe",
+            "en": "Operation outside the pump’s approved operating conditions"
+          },
+          "keywords": [
+            "منحنى",
+            "تدفق",
+            "courbe",
+            "débit",
+            "curve",
+            "flow"
+          ]
+        }
+      ],
+      "safeChecks": [
+        {
+          "ar": "من مسافة آمنة، سجّل تغير الصوت والتدفق دون لمس أجزاء متحركة.",
+          "fr": "À distance sûre, noter l’évolution du bruit et du débit sans toucher les pièces mobiles.",
+          "en": "From a safe distance, record changes in noise and flow without touching moving parts."
+        },
+        {
+          "ar": "راجع مستوى المصدر ومؤشرات السحب المتاحة من نظام مراقبة آمن.",
+          "fr": "Vérifier le niveau de la source et les indications d’aspiration disponibles depuis un système sûr.",
+          "en": "Review source level and available suction indications from a safe monitoring point."
+        },
+        {
+          "ar": "قارن ظروف التشغيل بمنحنى المضخة ودليل الطراز نفسه؛ لا تخمّن حدودًا رقمية.",
+          "fr": "Comparer les conditions à la courbe et au manuel du modèle exact; ne pas inventer de limites numériques.",
+          "en": "Compare operating conditions with the exact model’s pump curve and manual; do not guess numerical limits."
+        },
+        {
+          "ar": "لا تفك خطًا ولا تفتح نظامًا مضغوطًا؛ اعزل الطاقة واتبع إجراء الموقع قبل أي تدخل.",
+          "fr": "Ne pas démonter une conduite ni ouvrir un système sous pression; isoler les énergies selon la procédure du site.",
+          "en": "Do not disconnect piping or open a pressurized system; isolate energy under the site procedure before intervention."
+        }
+      ],
+      "escalation": {
+        "ar": "صعّد إذا استمر صوت التكهف، أو تدهور الأداء، أو تعذر تأكيد ظروف السحب بأمان.",
+        "fr": "Escalader si le bruit persiste, si les performances se dégradent ou si l’aspiration ne peut pas être vérifiée en sécurité.",
+        "en": "Escalate if cavitation-like noise persists, performance worsens, or suction conditions cannot be safely verified."
+      }
+    },
+    {
+      "id": "pump-loss-of-prime",
+      "equipmentType": "pump",
+      "symptoms": [
+        "low_flow",
+        "not_start"
+      ],
+      "title": {
+        "ar": "فقدان التحضير",
+        "fr": "Perte d’amorçage",
+        "en": "Loss of prime"
+      },
+      "keywords": {
+        "ar": [
+          "فقدان التحضير",
+          "فقدان التهيئة",
+          "المضخة غير محضرة",
+          "لا تضخ",
+          "هواء في السحب",
+          "مستوى السائل",
+          "جافة"
+        ],
+        "fr": [
+          "perte d’amorçage",
+          "désamorçage",
+          "pompe non amorcée",
+          "ne débite pas",
+          "air aspiration",
+          "niveau liquide",
+          "à sec"
+        ],
+        "en": [
+          "loss of prime",
+          "lost prime",
+          "not primed",
+          "no delivery",
+          "air in suction",
+          "liquid level",
+          "running dry"
+        ]
+      },
+      "causes": [
+        {
+          "id": "prime-low-level",
+          "label": {
+            "ar": "مستوى السائل المصدر غير كافٍ",
+            "fr": "Niveau de liquide source insuffisant",
+            "en": "Insufficient source liquid level"
+          },
+          "keywords": [
+            "مستوى",
+            "خزان",
+            "niveau",
+            "réservoir",
+            "level",
+            "tank"
+          ]
+        },
+        {
+          "id": "prime-air-leak",
+          "label": {
+            "ar": "دخول هواء محتمل في خط السحب أو الوصلات",
+            "fr": "Entrée d’air possible dans la conduite ou les raccords d’aspiration",
+            "en": "Possible air ingress in suction piping or connections"
+          },
+          "keywords": [
+            "هواء",
+            "وصلة",
+            "تسرب",
+            "air",
+            "raccord",
+            "leak",
+            "connection"
+          ]
+        },
+        {
+          "id": "prime-foot-valve",
+          "label": {
+            "ar": "صمام قدم أو صمام عدم رجوع لا يحتفظ بالسائل",
+            "fr": "Clapet de pied ou clapet anti-retour ne retenant pas le liquide",
+            "en": "Foot valve or check valve may not retain liquid"
+          },
+          "keywords": [
+            "صمام",
+            "عدم الرجوع",
+            "clapet",
+            "anti-retour",
+            "valve",
+            "check valve"
+          ]
+        },
+        {
+          "id": "prime-procedure",
+          "label": {
+            "ar": "إجراء التحضير غير مكتمل أو غير مطابق للمصنع",
+            "fr": "Procédure d’amorçage incomplète ou non conforme au fabricant",
+            "en": "Priming procedure incomplete or inconsistent with manufacturer instructions"
+          },
+          "keywords": [
+            "تحضير",
+            "إجراء",
+            "amorçage",
+            "procédure",
+            "priming",
+            "procedure"
+          ]
+        }
+      ],
+      "safeChecks": [
+        {
+          "ar": "تحقق من حالة التشغيل والمؤشرات من نقطة مراقبة آمنة؛ لا تشغّل مضخة قد تعمل جافة.",
+          "fr": "Vérifier l’état et les indicateurs depuis un point sûr; ne pas faire fonctionner une pompe susceptible de tourner à sec.",
+          "en": "Check status and indicators from a safe point; do not run a pump that may be dry."
+        },
+        {
+          "ar": "راجع مستوى السائل ومسار السحب بصريًا من الخارج دون فك الوصلات.",
+          "fr": "Vérifier le niveau du liquide et observer l’extérieur de l’aspiration sans démonter les raccords.",
+          "en": "Review liquid level and visually inspect the outside of the suction path without disconnecting fittings."
+        },
+        {
+          "ar": "راجع إجراء التحضير المعتمد ودليل المضخة للطراز المحدد.",
+          "fr": "Consulter la procédure d’amorçage approuvée et le manuel du modèle exact.",
+          "en": "Consult the approved priming procedure and exact pump model manual."
+        },
+        {
+          "ar": "قبل أي تدخل، أوقف المعدة واعزل الطاقة وفرّغ الضغط وفق إجراء الموقع.",
+          "fr": "Avant toute intervention, arrêter, isoler les énergies et dépressuriser selon la procédure du site.",
+          "en": "Before intervention, stop the equipment, isolate energy and depressurize under the site procedure."
+        }
+      ],
+      "escalation": {
+        "ar": "صعّد إذا تعذر تأكيد التحضير أو ظل احتمال التشغيل الجاف أو رجوع السائل قائمًا.",
+        "fr": "Escalader si l’amorçage ne peut pas être confirmé ou si un fonctionnement à sec ou un retour de liquide reste possible.",
+        "en": "Escalate if prime cannot be confirmed or dry running/backflow remains possible."
+      }
+    },
+    {
+      "id": "pump-abnormal-vibration",
+      "equipmentType": "pump",
+      "symptoms": [
+        "noise",
+        "intermittent"
+      ],
+      "title": {
+        "ar": "اهتزاز غير طبيعي",
+        "fr": "Vibration anormale",
+        "en": "Abnormal vibration"
+      },
+      "keywords": {
+        "ar": [
+          "اهتزاز",
+          "رجة",
+          "ضجيج",
+          "عدم اتزان",
+          "محمل",
+          "رولمان",
+          "محاذاة",
+          "قاعدة مرتخية"
+        ],
+        "fr": [
+          "vibration",
+          "bruit",
+          "déséquilibre",
+          "roulement",
+          "alignement",
+          "fixation desserrée"
+        ],
+        "en": [
+          "vibration",
+          "noise",
+          "imbalance",
+          "bearing",
+          "misalignment",
+          "loose mounting"
+        ]
+      },
+      "causes": [
+        {
+          "id": "vibration-alignment",
+          "label": {
+            "ar": "عدم محاذاة محتمل بين المضخة والمحرك",
+            "fr": "Désalignement possible entre la pompe et le moteur",
+            "en": "Possible misalignment between pump and motor"
+          },
+          "keywords": [
+            "محاذاة",
+            "اقتران",
+            "alignement",
+            "accouplement",
+            "alignment",
+            "coupling"
+          ]
+        },
+        {
+          "id": "vibration-bearing",
+          "label": {
+            "ar": "تدهور محتمل في المحامل أو التزييت",
+            "fr": "Dégradation possible des roulements ou de la lubrification",
+            "en": "Possible bearing or lubrication degradation"
+          },
+          "keywords": [
+            "محمل",
+            "رولمان",
+            "تزييت",
+            "roulement",
+            "lubrification",
+            "bearing",
+            "lubrication"
+          ]
+        },
+        {
+          "id": "vibration-mounting",
+          "label": {
+            "ar": "ارتخاء محتمل في التثبيت أو الأساس",
+            "fr": "Fixation ou fondation possiblement desserrée",
+            "en": "Possible loose mounting or foundation"
+          },
+          "keywords": [
+            "قاعدة",
+            "تثبيت",
+            "fondation",
+            "fixation",
+            "mounting",
+            "foundation"
+          ]
+        },
+        {
+          "id": "vibration-hydraulic",
+          "label": {
+            "ar": "اضطراب هيدروليكي أو تكهف محتمل",
+            "fr": "Perturbation hydraulique ou cavitation possible",
+            "en": "Possible hydraulic disturbance or cavitation"
+          },
+          "keywords": [
+            "تدفق",
+            "سحب",
+            "تكهف",
+            "débit",
+            "aspiration",
+            "cavitation",
+            "flow",
+            "suction"
+          ]
+        }
+      ],
+      "safeChecks": [
+        {
+          "ar": "سجّل مكان الاهتزاز ووقت ظهوره من خارج منطقة الخطر.",
+          "fr": "Noter l’emplacement et le moment de la vibration depuis une zone sûre.",
+          "en": "Record where and when vibration occurs from outside the hazard area."
+        },
+        {
+          "ar": "راجع الاتجاهات والسجلات المتاحة للمحامل والاهتزاز دون لمس المعدة أثناء التشغيل.",
+          "fr": "Examiner les tendances et historiques disponibles sans toucher la machine en marche.",
+          "en": "Review available bearing and vibration trends without touching running equipment."
+        },
+        {
+          "ar": "بعد الإيقاف والعزل والتحقق من انعدام الطاقة، اطلب فحص التثبيت والمحاذاة بواسطة شخص مؤهل.",
+          "fr": "Après arrêt, consignation et vérification d’absence d’énergie, faire contrôler la fixation et l’alignement par une personne qualifiée.",
+          "en": "After shutdown, lockout and verification of zero energy, have a qualified person check mounting and alignment."
+        },
+        {
+          "ar": "راجع دليل المصنع وخط الأساس المعتمد بدل استخدام حدود اهتزاز عامة.",
+          "fr": "Consulter le manuel et la référence approuvée plutôt que des limites génériques de vibration.",
+          "en": "Use the manufacturer manual and approved baseline instead of generic vibration limits."
+        }
+      ],
+      "escalation": {
+        "ar": "أوقف وصعّد عند اهتزاز مفاجئ أو متزايد أو صوت اصطدام أو خطر حركة أو تلف محتمل.",
+        "fr": "Arrêter et escalader en cas de vibration soudaine ou croissante, de choc, de mouvement dangereux ou de dommage possible.",
+        "en": "Stop and escalate for sudden/increasing vibration, impact noise, hazardous motion or suspected damage."
+      }
+    },
+    {
+      "id": "pump-mechanical-seal-leak",
+      "equipmentType": "pump",
+      "symptoms": [
+        "leak"
+      ],
+      "title": {
+        "ar": "تسرب الختم الميكانيكي",
+        "fr": "Fuite de garniture mécanique",
+        "en": "Mechanical seal leakage"
+      },
+      "keywords": {
+        "ar": [
+          "ختم ميكانيكي",
+          "مانع تسرب",
+          "تسرب",
+          "سائل حول العمود",
+          "جوان",
+          "ميكانيكال سيل"
+        ],
+        "fr": [
+          "garniture mécanique",
+          "fuite",
+          "joint mécanique",
+          "liquide autour de l’arbre"
+        ],
+        "en": [
+          "mechanical seal",
+          "seal leak",
+          "leakage",
+          "liquid around shaft",
+          "shaft seal"
+        ]
+      },
+      "causes": [
+        {
+          "id": "seal-wear",
+          "label": {
+            "ar": "تآكل أو تلف محتمل في أسطح الختم",
+            "fr": "Usure ou dommage possible des faces d’étanchéité",
+            "en": "Possible wear or damage to seal faces"
+          },
+          "keywords": [
+            "تآكل",
+            "تلف",
+            "usure",
+            "dommage",
+            "wear",
+            "damage"
+          ]
+        },
+        {
+          "id": "seal-dry-run",
+          "label": {
+            "ar": "احتمال تشغيل دون تزييت/تبريد كافٍ للختم",
+            "fr": "Fonctionnement possible sans lubrification/refroidissement suffisant",
+            "en": "Possible operation without adequate seal lubrication/cooling"
+          },
+          "keywords": [
+            "جاف",
+            "تبريد",
+            "تزييت",
+            "sec",
+            "refroidissement",
+            "lubrification",
+            "dry",
+            "cooling",
+            "lubrication"
+          ]
+        },
+        {
+          "id": "seal-vibration",
+          "label": {
+            "ar": "اهتزاز أو عدم محاذاة قد يؤثران في الختم",
+            "fr": "Vibration ou désalignement pouvant affecter la garniture",
+            "en": "Vibration or misalignment may affect the seal"
+          },
+          "keywords": [
+            "اهتزاز",
+            "محاذاة",
+            "vibration",
+            "alignement",
+            "alignment"
+          ]
+        },
+        {
+          "id": "seal-installation",
+          "label": {
+            "ar": "تركيب أو توافق غير صحيح محتمل",
+            "fr": "Montage ou compatibilité possiblement incorrects",
+            "en": "Possible incorrect installation or compatibility"
+          },
+          "keywords": [
+            "تركيب",
+            "مادة",
+            "montage",
+            "compatibilité",
+            "installation",
+            "material"
+          ]
+        }
+      ],
+      "safeChecks": [
+        {
+          "ar": "حدد نوع السائل ومسار التسرب من مسافة آمنة، ولا تلمس السائل المجهول.",
+          "fr": "Identifier le fluide et le trajet de fuite à distance sûre; ne pas toucher un fluide inconnu.",
+          "en": "Identify the fluid and leak path from a safe distance; do not touch an unknown fluid."
+        },
+        {
+          "ar": "راجع سجل التسرب واتجاهه وظروف التشغيل من المؤشرات المتاحة.",
+          "fr": "Examiner l’historique de fuite, son évolution et les conditions disponibles.",
+          "en": "Review leak history, progression and available operating conditions."
+        },
+        {
+          "ar": "لا تشد الختم ولا تفك الحاجز أو الوصلات أثناء الضغط أو الحركة.",
+          "fr": "Ne pas resserrer la garniture ni démonter les protections ou raccords sous pression ou en mouvement.",
+          "en": "Do not tighten the seal or remove guards/fittings under pressure or while moving."
+        },
+        {
+          "ar": "اعزل الطاقة وفرّغ الضغط وفق إجراء الموقع قبل فحص الختم بواسطة شخص مؤهل.",
+          "fr": "Isoler les énergies et dépressuriser selon la procédure du site avant inspection par une personne qualifiée.",
+          "en": "Isolate energy and depressurize under site procedure before a qualified person inspects the seal."
+        }
+      ],
+      "escalation": {
+        "ar": "صعّد فورًا إذا كان السائل خطِرًا أو ساخنًا أو قابلًا للاشتعال، أو كان التسرب يتزايد أو لا يمكن عزله بأمان.",
+        "fr": "Escalader immédiatement si le fluide est dangereux, chaud ou inflammable, si la fuite augmente ou si l’isolement sûr est incertain.",
+        "en": "Escalate immediately if the fluid is hazardous, hot or flammable, leakage increases, or safe isolation is uncertain."
+      }
+    },
+    {
+      "id": "pump-check-valve-failure",
+      "equipmentType": "pump",
+      "symptoms": [
+        "low_flow",
+        "intermittent"
+      ],
+      "title": {
+        "ar": "خلل صمام عدم الرجوع",
+        "fr": "Défaillance du clapet anti-retour",
+        "en": "Check valve malfunction"
+      },
+      "keywords": {
+        "ar": [
+          "صمام عدم الرجوع",
+          "صمام رجوع",
+          "رجوع التدفق",
+          "تدفق عكسي",
+          "مطرقة مائية",
+          "صمام لا يغلق",
+          "backflow"
+        ],
+        "fr": [
+          "clapet anti-retour",
+          "retour de débit",
+          "écoulement inverse",
+          "coup de bélier",
+          "clapet bloqué"
+        ],
+        "en": [
+          "check valve",
+          "non-return valve",
+          "backflow",
+          "reverse flow",
+          "water hammer",
+          "valve stuck"
+        ]
+      },
+      "causes": [
+        {
+          "id": "check-stuck",
+          "label": {
+            "ar": "تعليق محتمل في عنصر الإغلاق",
+            "fr": "Blocage possible de l’élément de fermeture",
+            "en": "Possible sticking of the closing element"
+          },
+          "keywords": [
+            "عالق",
+            "تعليق",
+            "bloqué",
+            "blocage",
+            "stuck",
+            "sticking"
+          ]
+        },
+        {
+          "id": "check-debris",
+          "label": {
+            "ar": "تراكم شوائب أو عائق محتمل",
+            "fr": "Débris ou obstruction possible",
+            "en": "Possible debris or obstruction"
+          },
+          "keywords": [
+            "شوائب",
+            "انسداد",
+            "débris",
+            "obstruction",
+            "debris",
+            "blockage"
+          ]
+        },
+        {
+          "id": "check-wear",
+          "label": {
+            "ar": "تآكل أو تلف محتمل في أسطح الإغلاق",
+            "fr": "Usure ou dommage possible des surfaces d’étanchéité",
+            "en": "Possible wear or damage to sealing surfaces"
+          },
+          "keywords": [
+            "تآكل",
+            "تلف",
+            "usure",
+            "dommage",
+            "wear",
+            "damage"
+          ]
+        },
+        {
+          "id": "check-installation",
+          "label": {
+            "ar": "تركيب أو اتجاه تدفق غير مطابق للمخطط",
+            "fr": "Montage ou sens d’écoulement non conforme au schéma",
+            "en": "Installation or flow direction inconsistent with the diagram"
+          },
+          "keywords": [
+            "اتجاه",
+            "تركيب",
+            "sens",
+            "montage",
+            "direction",
+            "installation"
+          ]
+        }
+      ],
+      "safeChecks": [
+        {
+          "ar": "راجع مؤشر التدفق أو ضغط الخط وسجل رجوع التدفق من نقطة مراقبة آمنة.",
+          "fr": "Examiner les indications de débit/pression et l’historique de retour depuis un point sûr.",
+          "en": "Review flow/pressure indications and backflow history from a safe monitoring point."
+        },
+        {
+          "ar": "تحقق من اتجاه السهم على جسم الصمام بصريًا من الخارج فقط إذا كان الوصول آمنًا.",
+          "fr": "Vérifier visuellement la flèche du corps de vanne uniquement si l’accès extérieur est sûr.",
+          "en": "Visually check the valve body flow arrow from outside only if access is safe."
+        },
+        {
+          "ar": "لا تفك الصمام ولا تختبره تحت الضغط؛ اعزل وفرّغ الطاقة حسب إجراء الموقع.",
+          "fr": "Ne pas démonter ni tester le clapet sous pression; isoler et dépressuriser selon la procédure du site.",
+          "en": "Do not disassemble or test the valve under pressure; isolate and depressurize under site procedure."
+        },
+        {
+          "ar": "راجع نوع الصمام واتجاه التركيب وتعليمات المصنع الخاصة بالطراز.",
+          "fr": "Consulter le type de clapet, le sens de montage et les instructions du modèle exact.",
+          "en": "Check valve type, installation direction and instructions for the exact model."
+        }
+      ],
+      "escalation": {
+        "ar": "صعّد إذا ظهر رجوع تدفق أو مطرقة مائية أو تعذر عزل الخط أو كان فشل الصمام يهدد الأشخاص أو العملية.",
+        "fr": "Escalader en cas de retour de débit, coup de bélier, isolement impossible ou risque pour les personnes/le procédé.",
+        "en": "Escalate for backflow, water hammer, inability to isolate, or risk to people or process."
+      }
+    }
+  ]
+}

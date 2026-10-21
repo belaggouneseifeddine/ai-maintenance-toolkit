@@ -72,10 +72,17 @@ footer{line-height:1.8}
   .print-only{color:#111!important}
 }
 
+
+#languageSwitcher{max-width:190px;min-height:44px;margin-top:12px;background:#fff;color:#102a30;border:1px solid #ffffff55}
+#safetyGateNotice{display:none;margin-top:12px}
+#recordFilters{margin:14px 0;padding:14px;border:1px solid var(--line);border-radius:14px;background:#f8fbfc}
+#draftPanel{margin:12px 0;padding:14px;border:1px dashed #0f766e;border-radius:14px;background:#f0fdfa}
+#draftSummary{white-space:pre-wrap;overflow-wrap:anywhere}
+[hidden]{display:none!important}
 </style>
 </head>
 <body>
-<header><div class="head"><div class="eyebrow">INDUSTRIAL MAINTENANCE • MVP 0.1</div><div class="brand">Maintenance AI Toolkit</div><p class="sub">مساعد عملي لتوثيق الأعطال وتنظيم خطوات الفحص بأمان.</p></div></header>
+<header><div class="head"><div class="eyebrow">INDUSTRIAL MAINTENANCE • MVP 0.1</div><div class="brand">Maintenance AI Toolkit</div><p class="sub">مساعد عملي لتوثيق الأعطال وتنظيم خطوات الفحص بأمان.</p><label for="languageSwitcher" style="color:#fff">اللغة / Language / Langue</label><select id="languageSwitcher" aria-label="Language"><option value="ar">العربية</option><option value="fr">Français</option><option value="en">English</option></select></div></header>
 <main>
 <nav class="nav" aria-label="التنقل">
 <button class="tab active" data-tab="diagnose">ابدأ التشخيص</button><button class="tab" data-tab="ai">مساعد AI</button><button class="tab" data-tab="knowledge">قاعدة الأعطال</button><button class="tab" data-tab="safety">السلامة</button><button class="tab" data-tab="log">سجل الصيانة</button>
@@ -91,7 +98,7 @@ footer{line-height:1.8}
 <label for="observations">ملاحظات وقياسات مؤكدة</label><textarea id="observations" placeholder="متى بدأ العطل؟ هل تغيّر صوت المعدة؟ اذكر القيم والوحدات ومصدرها."></textarea>
 <div class="result" id="followupBox"><h3>سؤال يميّز بين الأسباب المحتملة</h3><p class="hint" id="followupPrompt">اختر المعدة والعَرَض لعرض سؤال موجّه.</p><select id="followupAnswer" aria-label="إجابة سؤال التشخيص"><option value="">اختر الإجابة إن كانت معلومة</option></select><p class="hint">يمكن تركه فارغًا. لا تنفّذ اختبارًا خطِرًا لمجرد الإجابة عن السؤال.</p></div>
 <div class="notice" style="margin-top:14px">قبل أي فحص: أوقف العمل إذا كان هناك خطر، وطبّق العزل والقفل ووضع بطاقة التحذير (LOTO) وفق إجراءات موقعك. لا تفتح نظامًا مضغوطًا أو تلمس أجزاء كهربائية حية.</div>
-<div class="actions"><button class="btn" type="submit">إنشاء خطة فحص أولية</button><button class="btn secondary" type="reset">مسح الحقول</button></div>
+<div id="safetyGateNotice" class="notice" role="alert"><p>لن تظهر خطة الفحص حتى تؤكد جميع بنود قائمة السلامة. هذا القفل يقلل خطر اقتراح تدخل قبل التحقق من العزل والطاقة المخزنة ومعدات الوقاية ودليل المصنع.</p><button class="btn secondary" type="button" id="openSafetyFromGate">افتح قائمة السلامة</button></div><div class="actions"><button class="btn" type="submit">إنشاء خطة فحص أولية</button><button class="btn secondary" type="reset">مسح الحقول</button></div>
 </form><div id="diagnosisResult" aria-live="polite"></div></div>
 </section>
 <section id="ai" class="panel">
@@ -191,10 +198,12 @@ footer{line-height:1.8}
 </section>
 <section id="log" class="panel">
 <div class="card"><h2>سجل التدخلات</h2><p class="hint">يحفظ هذا النموذج السجلات على هذا الجهاز فقط باستخدام التخزين المحلي. لا تدخل معلومات سرية.</p>
+<div id="recordFilters"><h3>بحث وتصفية</h3><div class="grid"><div><label for="recordSearch">بحث باسم المعدة أو رقم الأصل</label><input id="recordSearch" type="search" placeholder="ابحث في السجلات"></div><div><label for="recordStatusFilter">تصفية حسب الحالة</label><select id="recordStatusFilter"><option value="">كل الحالات</option><option value="قيد الفحص">قيد الفحص</option><option value="تم الإصلاح">تم الإصلاح</option><option value="يتطلب قطع غيار">يتطلب قطع غيار</option><option value="تم التصعيد">تم التصعيد</option></select></div><div><label for="recordDateFilter">تصفية حسب التاريخ</label><input id="recordDateFilter" type="date"></div></div><div class="actions"><button class="btn secondary" id="clearRecordFilters" type="button">مسح المرشحات</button></div></div>
+<div id="draftPanel"><h3 id="draftTitle">المسودة المحفوظة تلقائيًا</h3><p id="draftSummary" class="hint">تظهر هنا مسودة التشخيص بعد إنشاء الخطة. تُحفظ بيانات النموذج محليًا تلقائيًا.</p><div class="actions"><button class="btn" id="saveDraft" type="button">حفظ المسودة كسجل</button><button class="btn secondary" id="clearDraft" type="button">مسح المسودة</button></div></div>
 <form id="logForm"><label for="logMachine">المعدة / رقم الأصل</label><input id="logMachine" required placeholder="مثال: P-102 / مضخة مياه">
 <label for="logFault">العطل أو الملاحظة</label><textarea id="logFault" required placeholder="وصف مختصر لما تمت ملاحظته"></textarea>
 <label for="logAction">الإجراء والنتيجة</label><textarea id="logAction" required placeholder="ما الذي تم عمله؟ وما النتيجة؟"></textarea>
-<div class="grid"><div><label for="logStatus">الحالة</label><select id="logStatus"><option>قيد الفحص</option><option>تم الإصلاح</option><option>يتطلب قطع غيار</option><option>تم التصعيد</option></select></div><div><label for="logDate">التاريخ</label><input id="logDate" type="date" required></div></div>
+<div class="grid"><div><label for="logStatus">الحالة</label><select id="logStatus"><option value="قيد الفحص">قيد الفحص</option><option value="تم الإصلاح">تم الإصلاح</option><option value="يتطلب قطع غيار">يتطلب قطع غيار</option><option value="تم التصعيد">تم التصعيد</option></select></div><div><label for="logDate">التاريخ</label><input id="logDate" type="date" required></div></div>
 <div class="actions"><button class="btn" type="submit">حفظ السجل</button><button class="btn secondary" type="button" id="exportCsv">تصدير CSV</button></div></form>
 <div id="records"></div><div class="actions"><button class="btn danger" type="button" id="clearRecords">حذف جميع السجلات</button></div>
 </div>
@@ -202,6 +211,8 @@ footer{line-height:1.8}
 </main>
 <footer>أداة أولية غير معتمدة هندسيًا. اتبع دليل المصنع وإجراءات موقعك، ولا تعتمد على هذا التطبيق وحده لاتخاذ قرارات سلامة أو تشغيل.</footer>
 <script src="./diagnostic-flows.js"></script>
+<script src="./diagnostic-engine.js"></script>
+<script src="./i18n.js"></script>
 <script>
 const $=id=>document.getElementById(id);
 document.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b===btn));document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===btn.dataset.tab));}));
@@ -302,33 +313,109 @@ $('aiEndpoint').value=localStorage.getItem(AI_ENDPOINT_KEY)||'';
 $('saveAiEndpoint').addEventListener('click',()=>{const endpoint=$('aiEndpoint').value.trim();if(endpoint&&!/^https:\/\//i.test(endpoint)){alert('استخدم رابط HTTPS صالحًا.');return;}if(endpoint)localStorage.setItem(AI_ENDPOINT_KEY,endpoint);else localStorage.removeItem(AI_ENDPOINT_KEY);alert('تم حفظ إعداد الرابط على هذا الجهاز فقط.');});
 $('aiForm').addEventListener('submit',async e=>{e.preventDefault();$('aiConsent').checked=false;const endpoint=$('aiEndpoint').value.trim();const box=$('aiResult');box.hidden=false;box.textContent='';if(!endpoint){box.textContent='لم يُضبط رابط الخادم بعد. انشر Backend آمنًا واضبط مزوّد AI أولًا. التشخيص المحلي ما زال متاحًا في تبويب «تشخيص أولي».';return;}if(!/^https:\/\//i.test(endpoint)){box.textContent='الرابط غير صالح: يجب أن يبدأ بـ https://';return;}const button=$('askAi');button.disabled=true;button.textContent='جارٍ تحليل العطل…';box.textContent='جارٍ إرسال وصف العطل إلى الخادم الذي ضبطته…';try{const response=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},signal:AbortSignal.timeout(25000),body:JSON.stringify({machine:$('aiMachine').value.trim(),symptom:$('aiSymptom').value.trim(),code:$('aiCode').value.trim(),observations:$('aiObservations').value.trim()})});let data={};try{data=await response.json()}catch{}if(!response.ok)throw new Error(data.error||('تعذر إكمال الطلب (HTTP '+response.status+').'));box.textContent=(data.answer||'لم يُرجع الخادم إجابة قابلة للعرض.')+'\n\nتنبيه: راجع كل اقتراح مقابل دليل المصنع وإجراءات السلامة المعتمدة.';}catch(err){box.textContent='تعذر الاتصال بمساعد AI: '+(err.message||'خطأ غير معروف')+'\n\nيمكنك مواصلة استخدام التشخيص المحلي. تأكد من نشر الخادم وإعداد CORS ومفتاح المزوّد بشكل صحيح.';}finally{button.disabled=false;button.textContent='تحليل العطل';}});
 
-$('diagnosisForm').addEventListener('submit',e=>{
+
+const DRAFT_KEY='maintenance-ai-toolkit-draft-v1';
+let lastDiagnosisDraft=null;
+const faultLibraryPromise=fetch('./faults.json').then(response=>{if(!response.ok)throw new Error('Fault library unavailable');return response.json();}).then(data=>{window.MAINTENANCE_FAULTS=data;return data;}).catch(()=>null);
+function tr(key){return window.MaintenanceI18n?window.MaintenanceI18n.t(key):key;}
+function renderEngineResults(result){
+const lang=result.language||'ar';
+const labels={
+ar:{title:'نتيجة محرك التشخيص بالقواعد',rank:'سبب الترتيب',score:'نقاط المطابقة',causes:'الأسباب المحتملة مرتبة',checks:'فحوصات آمنة مقترحة',escalation:'شروط التصعيد',safety:'قبل كل فحص: تأكد من العزل وحالة الطاقة الآمنة وفق إجراء الموقع.',advisory:'هذه النتيجة إرشادية وليست تشخيصًا مؤكدًا. راجع دليل الشركة المصنّعة.',causeScore:'كلمات مطابقة'},
+fr:{title:'Résultat du moteur de diagnostic à règles',rank:'Raison du classement',score:'Score de correspondance',causes:'Causes possibles classées',checks:'Contrôles sûrs proposés',escalation:'Conditions d’escalade',safety:'Avant chaque contrôle : confirmer l’isolement et l’état sûr selon la procédure du site.',advisory:'Résultat indicatif, pas un diagnostic confirmé. Consultez le manuel du fabricant.',causeScore:'mots correspondants'},
+en:{title:'Rule-based diagnostic result',rank:'Ranking reason',score:'Match score',causes:'Ranked possible causes',checks:'Suggested safe checks',escalation:'Escalation conditions',safety:'Before every check: verify isolation and safe energy state under site procedures.',advisory:'This result is advisory, not a confirmed diagnosis. Consult the manufacturer manual.',causeScore:'matching keywords'}
+}[lang];
+if(!result.matched)return '<section class="result" id="ruleDiagnosis"><h3>'+labels.title+'</h3><p role="status"><b>'+escapeHtml(result.message)+'</b></p><p>'+escapeHtml(result.reason)+'</p><p class="hint">'+escapeHtml(labels.advisory)+'</p></section>';
+return '<section class="result" id="ruleDiagnosis"><h3>'+labels.title+'</h3>'+result.results.map((fault,index)=>'<article class="record"><h3>'+(index+1)+'. '+escapeHtml(fault.title)+'</h3><p><b>'+labels.score+':</b> '+fault.score+'</p><p><b>'+labels.rank+':</b> '+escapeHtml(fault.rankingReason)+'</p><h4>'+labels.causes+'</h4><ol>'+fault.causes.map(cause=>'<li><b>'+escapeHtml(cause.label)+'</b><br><span class="hint">'+escapeHtml(cause.reason)+(cause.matchedKeywords.length?' ('+labels.causeScore+': '+escapeHtml(cause.matchedKeywords.join(', '))+')':'')+'</span></li>').join('')+'</ol><h4>'+labels.checks+'</h4><ul>'+fault.safeChecks.map(check=>'<li><b>'+escapeHtml(labels.safety)+'</b> '+escapeHtml(check)+'</li>').join('')+'</ul><div class="notice"><b>'+labels.escalation+':</b> '+escapeHtml(fault.escalation)+'</div></article>').join('')+'<p class="hint">'+escapeHtml(labels.advisory)+'</p></section>';
+}
+function currentFormDraft(){
+return {machine:$('machine').value,symptom:$('symptom').value,assetId:$('assetId').value,priority:$('priority').value,technician:$('technician').value,manualRef:$('manualRef').value,code:$('code').value,observations:$('observations').value,followupAnswer:$('followupAnswer').value,recordDraft:lastDiagnosisDraft};
+}
+function persistDraft(){
+try{localStorage.setItem(DRAFT_KEY,JSON.stringify({...currentFormDraft(),updatedAt:new Date().toISOString()}));}catch(error){console.warn('Draft could not be saved locally.',error);}
+}
+function renderDraftSummary(){
+const box=$('draftSummary');if(!box)return;
+const d=lastDiagnosisDraft;
+box.textContent=d?((window.MaintenanceI18n&&window.MaintenanceI18n.getLanguage()==='en')?'Date: ':window.MaintenanceI18n&&window.MaintenanceI18n.getLanguage()==='fr'?'Date : ':'التاريخ: ')+d.date+'\n'+((window.MaintenanceI18n&&window.MaintenanceI18n.getLanguage()==='en')?'Equipment: ':window.MaintenanceI18n&&window.MaintenanceI18n.getLanguage()==='fr'?'Équipement : ':'المعدة: ')+d.machine+'\n'+((window.MaintenanceI18n&&window.MaintenanceI18n.getLanguage()==='en')?'Fault: ':window.MaintenanceI18n&&window.MaintenanceI18n.getLanguage()==='fr'?'Panne : ':'العَرَض: ')+d.fault+'\n'+((window.MaintenanceI18n&&window.MaintenanceI18n.getLanguage()==='en')?'Status: Under inspection':window.MaintenanceI18n&&window.MaintenanceI18n.getLanguage()==='fr'?'Statut : En cours d’inspection':'الحالة: قيد الفحص'):'لا توجد مسودة تشخيص بعد. املأ النموذج؛ سيُحفظ تلقائيًا على هذا الجهاز.';
+$('saveDraft').disabled=!d;
+}
+function restoreDraft(){
+try{
+const raw=localStorage.getItem(DRAFT_KEY);if(!raw){renderDraftSummary();return;}
+const d=JSON.parse(raw);lastDiagnosisDraft=d.recordDraft||null;
+for(const id of ['machine','symptom','assetId','priority','technician','manualRef','code','observations','followupAnswer'])if(d[id]!==undefined&&$(id))$(id).value=d[id];
+if($('machine'))$('machine').dispatchEvent(new Event('change'));
+if($('symptom'))$('symptom').dispatchEvent(new Event('change'));
+}catch(error){console.warn('Saved draft could not be restored.',error);}
+renderDraftSummary();
+}
+
+$('diagnosisForm').addEventListener('submit',async e=>{
 e.preventDefault();
+const safetyChecks=[...document.querySelectorAll('#safetyChecks input')];
+const gate=$('safetyGateNotice');
+if(!safetyChecks.length||safetyChecks.some(box=>!box.checked)){
+$('diagnosisResult').innerHTML='';
+gate.style.display='block';
+gate.scrollIntoView({behavior:'smooth',block:'center'});
+return;
+}
+gate.style.display='none';
 const machine=$('machine').value,symptom=$('symptom').value,code=$('code').value.trim(),obs=$('observations').value.trim(),followup=$('followupAnswer').value;
 const assetId=$('assetId').value.trim(),technician=$('technician').value.trim(),manualRef=$('manualRef').value.trim(),priority=$('priority').value;
 const priorityLabel=$('priority').selectedOptions[0].text;
 const createdAt=new Date().toLocaleString();
 let steps=(guidance[machine]&&guidance[machine][symptom])||[];
 steps=[...steps,...(symptomGeneral[symptom]||[]),...general];
-const branchSteps=followupGuidance(machine,symptom,followup);
-$('diagnosisResult').innerHTML='<div class="result"><div class="print-only" style="display:none"><h2>تقرير فحص صيانة — Maintenance Inspection Report</h2><p><b>وقت الإنشاء:</b> '+escapeHtml(createdAt)+'</p><p><b>رقم الأصل:</b> '+escapeHtml(assetId||'غير محدد')+' | <b>الأولوية:</b> '+escapeHtml(priorityLabel)+'</p>'+(technician?'<p><b>الفني:</b> '+escapeHtml(technician)+'</p>':'')+(manualRef?'<p><b>مرجع الدليل:</b> '+escapeHtml(manualRef)+'</p>':'')+'<hr></div><h3>خطة فحص إرشادية — ليست تشخيصًا مؤكدًا</h3><span class="pill">المعدة: '+escapeHtml($('machine').selectedOptions[0].text)+'</span><span class="pill">العَرَض: '+escapeHtml($('symptom').selectedOptions[0].text)+'</span><span class="pill">الأولوية: '+escapeHtml(priorityLabel)+'</span>'+(assetId?'<p><b>رقم الأصل:</b> '+escapeHtml(assetId)+'</p>':'')+(technician?'<p><b>الفني:</b> '+escapeHtml(technician)+'</p>':'')+(code?'<p><b>رمز مسجل:</b> '+escapeHtml(code)+'</p>':'')+(priority==='urgent'?'<div class="notice" role="alert"><b>تنبيه أولوية عاجلة — حسب اختيار المستخدم:</b> لا تبدأ أو تواصل العمل إذا كان الوضع غير آمن. طبّق العزل والإجراءات المحلية وصعّد إلى شخص مؤهل. لا تتجاوز الحواجز أو interlocks أو أجهزة الحماية.</div>':priority==='high'?'<div class="notice"><b>أولوية مرتفعة — حسب اختيار المستخدم:</b> نسّق مع مسؤول الصيانة والإنتاج قبل الاختبار، واستخدم إجراءات الموقع ودليل المصنع.</div>':'')+'<h3>خطوات الفحص المقترحة</h3><ul>'+steps.map(s=>'<li>'+escapeHtml(s)+'</li>').join('')+'</ul>'+(branchSteps.length?'<h3>خطوة تالية بحسب إجابتك</h3><ul>'+branchSteps.map(s=>'<li>'+escapeHtml(s)+'</li>').join('')+'</ul>':'')+(followup?'<p><b>إجابة السؤال الموجّه:</b> '+escapeHtml(followup)+'</p>':'')+(obs?'<h3>الملاحظات والقياسات التي أدخلها المستخدم</h3><p>'+escapeHtml(obs)+'</p>':'')+(manualRef?'<p><b>مرجع الدليل الذي أدخله المستخدم:</b> '+escapeHtml(manualRef)+'</p>':'')+'<p class="hint">الإجابة تساعد على توجيه الفحص ولا تثبت السبب. لا تُجرِ قياسًا كهربائيًا حيًا أو اختبار ضغط/حركة غير مصرح به.</p><p class="print-only" style="display:none"><b>حالة التقرير:</b> توصيات إرشادية؛ يجب تسجيل القياسات الفعلية ونتيجة الفحص بعد التنفيذ. لا يمثل هذا التقرير اعتمادًا هندسيًا أو تصريح عمل.</p><div class="actions"><button class="btn" id="saveDiagnosis" type="button">حفظ كبلاغ صيانة</button><button class="btn secondary" id="printDiagnosis" type="button">طباعة / حفظ PDF</button></div></div>';
+let branchSteps=followupGuidance(machine,symptom,followup);
+const faultLibrary=await faultLibraryPromise;
+const engineResult=window.diagnose({equipmentType:machine,symptom,observations:obs,errorCode:code,language:window.MaintenanceI18n?window.MaintenanceI18n.getLanguage():'ar'},faultLibrary);
+if(machine==='pump'&&!engineResult.matched){steps=[];branchSteps=[];}
+lastDiagnosisDraft={date:localDateString(),machine:(assetId?assetId+' — ':'')+$('machine').selectedOptions[0].text,fault:$('symptom').selectedOptions[0].text+(code?' — '+code:'')+(followup?' | '+followup:'')+(obs?' | '+obs:''),action:'مسودة تشخيص إرشادية؛ السبب غير مؤكد.'+(manualRef?' مرجع الدليل: '+manualRef:''),status:'قيد الفحص'};
+persistDraft();
+renderDraftSummary();
+$('diagnosisResult').innerHTML='<div class="result"><div class="print-only" style="display:none"><h2>تقرير فحص صيانة — Maintenance Inspection Report</h2><p><b>وقت الإنشاء:</b> '+escapeHtml(createdAt)+'</p><p><b>رقم الأصل:</b> '+escapeHtml(assetId||'غير محدد')+' | <b>الأولوية:</b> '+escapeHtml(priorityLabel)+'</p>'+(technician?'<p><b>الفني:</b> '+escapeHtml(technician)+'</p>':'')+(manualRef?'<p><b>مرجع الدليل:</b> '+escapeHtml(manualRef)+'</p>':'')+'<hr></div><h3>خطة فحص إرشادية — ليست تشخيصًا مؤكدًا</h3><span class="pill">المعدة: '+escapeHtml($('machine').selectedOptions[0].text)+'</span><span class="pill">العَرَض: '+escapeHtml($('symptom').selectedOptions[0].text)+'</span><span class="pill">الأولوية: '+escapeHtml(priorityLabel)+'</span>'+(assetId?'<p><b>رقم الأصل:</b> '+escapeHtml(assetId)+'</p>':'')+(technician?'<p><b>الفني:</b> '+escapeHtml(technician)+'</p>':'')+(code?'<p><b>رمز مسجل:</b> '+escapeHtml(code)+'</p>':'')+(priority==='urgent'?'<div class="notice" role="alert"><b>تنبيه أولوية عاجلة — حسب اختيار المستخدم:</b> لا تبدأ أو تواصل العمل إذا كان الوضع غير آمن. طبّق العزل والإجراءات المحلية وصعّد إلى شخص مؤهل. لا تتجاوز الحواجز أو interlocks أو أجهزة الحماية.</div>':priority==='high'?'<div class="notice"><b>أولوية مرتفعة — حسب اختيار المستخدم:</b> نسّق مع مسؤول الصيانة والإنتاج قبل الاختبار، واستخدم إجراءات الموقع ودليل المصنع.</div>':'')+renderEngineResults(engineResult)+(steps.length?'<h3>خطوات الفحص العامة</h3><ul>'+steps.map(s=>'<li>'+escapeHtml(s)+'</li>').join('')+'</ul>':'')+(branchSteps.length?'<h3>خطوة تالية بحسب إجابتك</h3><ul>'+branchSteps.map(s=>'<li>'+escapeHtml(s)+'</li>').join('')+'</ul>':'')+(followup?'<p><b>إجابة السؤال الموجّه:</b> '+escapeHtml(followup)+'</p>':'')+(obs?'<h3>الملاحظات والقياسات التي أدخلها المستخدم</h3><p>'+escapeHtml(obs)+'</p>':'')+(manualRef?'<p><b>مرجع الدليل الذي أدخله المستخدم:</b> '+escapeHtml(manualRef)+'</p>':'')+'<p class="hint">الإجابة تساعد على توجيه الفحص ولا تثبت السبب. لا تُجرِ قياسًا كهربائيًا حيًا أو اختبار ضغط/حركة غير مصرح به.</p><p class="print-only" style="display:none"><b>حالة التقرير:</b> توصيات إرشادية؛ يجب تسجيل القياسات الفعلية ونتيجة الفحص بعد التنفيذ. لا يمثل هذا التقرير اعتمادًا هندسيًا أو تصريح عمل.</p><div class="actions"><button class="btn" id="saveDiagnosis" type="button">حفظ كبلاغ صيانة</button><button class="btn secondary" id="printDiagnosis" type="button">طباعة / حفظ PDF</button></div></div>';
 $('printDiagnosis').addEventListener('click',()=>window.print());
 $('saveDiagnosis').addEventListener('click',()=>{
 const all=getRecords();
 all.unshift({date:localDateString(),machine:(assetId?assetId+' — ':'')+$('machine').selectedOptions[0].text,fault:$('symptom').selectedOptions[0].text+(code?' — '+code:'')+(followup?' | إجابة السؤال: '+followup:'')+(obs?' | '+obs:''),action:'خطة فحص إرشادية تم إنشاؤها؛ لم يتم تأكيد السبب.'+(manualRef?' مرجع الدليل: '+manualRef:''),status:priority==='urgent'?'تم التصعيد': 'قيد الفحص'});
-saveRecords(all);renderRecords();$('log').classList.add('active');$('diagnose').classList.remove('active');document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab==='log'));
+saveRecords(all);renderRecords();lastDiagnosisDraft=null;persistDraft();renderDraftSummary();$('log').classList.add('active');$('diagnose').classList.remove('active');document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab==='log'));
 });
 });
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-$('resetSafety').addEventListener('click',()=>document.querySelectorAll('#safetyChecks input').forEach(c=>c.checked=false));
+$('resetSafety').addEventListener('click',()=>{document.querySelectorAll('#safetyChecks input').forEach(c=>c.checked=false);$('diagnosisResult').innerHTML='';$('safetyGateNotice').style.display='none';});
 const KEY='maintenance-ai-toolkit-records-v1';function getRecords(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch{return []}}function saveRecords(a){localStorage.setItem(KEY,JSON.stringify(a))}
 function localDateString(date=new Date()){const y=date.getFullYear();const m=String(date.getMonth()+1).padStart(2,'0');const d=String(date.getDate()).padStart(2,'0');return `${y}-${m}-${d}`;}
 $('logDate').value=localDateString();
 $('logForm').addEventListener('submit',e=>{e.preventDefault();const a=getRecords();a.unshift({date:$('logDate').value,machine:$('logMachine').value.trim(),fault:$('logFault').value.trim(),action:$('logAction').value.trim(),status:$('logStatus').value});saveRecords(a);e.target.reset();$('logDate').value=localDateString();renderRecords();});
-function renderRecords(){const a=getRecords();$('records').innerHTML=a.length?a.map((r,i)=>'<article class="record"><h3>'+escapeHtml(r.machine)+' <span class="pill">'+escapeHtml(r.status)+'</span></h3><p>'+escapeHtml(r.date)+'</p><p><b>العطل:</b> '+escapeHtml(r.fault)+'</p><p><b>الإجراء:</b> '+escapeHtml(r.action)+'</p><button class="btn secondary" data-delete="'+i+'" type="button">حذف هذا السجل</button></article>').join(''):'<div class="empty">لا توجد سجلات بعد.</div>';document.querySelectorAll('[data-delete]').forEach(b=>b.addEventListener('click',()=>{const x=getRecords();x.splice(Number(b.dataset.delete),1);saveRecords(x);renderRecords()}));}
+function renderRecords(){
+const currentLanguage=window.MaintenanceI18n?window.MaintenanceI18n.getLanguage():'ar';
+const statusText=status=>status==='قيد الفحص'?tr('statusInProgress'):status==='تم الإصلاح'?tr('statusRepaired'):status==='يتطلب قطع غيار'?tr('statusParts'):status==='تم التصعيد'?tr('statusEscalated'):status;
+const all=getRecords();
+const query=($('recordSearch')&&$('recordSearch').value||'').trim().toLocaleLowerCase();
+const status=$('recordStatusFilter')&&$('recordStatusFilter').value||'';
+const date=$('recordDateFilter')&&$('recordDateFilter').value||'';
+const filtered=all.map((record,index)=>({record,index})).filter(item=>{
+const machine=String(item.record.machine||'').toLocaleLowerCase();
+return (!query||machine.includes(query))&&(!status||item.record.status===status)&&(!date||item.record.date===date);
+});
+$('records').innerHTML=filtered.length?filtered.map(item=>{const r=item.record;return '<article class="record"><h3>'+escapeHtml(r.machine)+' <span class="pill">'+escapeHtml(statusText(r.status))+'</span></h3><p>'+escapeHtml(r.date)+'</p><p><b>'+escapeHtml(tr('faultLabel'))+'</b> '+escapeHtml(r.fault)+'</p><p><b>'+escapeHtml(tr('actionLabel'))+'</b> '+escapeHtml(r.action)+'</p><button class="btn secondary" data-delete="'+item.index+'" type="button">'+escapeHtml(tr('deleteRecord'))+'</button></article>';}).join(''):('<div class="empty">'+escapeHtml(tr('noRecords'))+'</div>');
+document.querySelectorAll('[data-delete]').forEach(b=>b.addEventListener('click',()=>{const x=getRecords();x.splice(Number(b.dataset.delete),1);saveRecords(x);renderRecords();}));
+}
 function csvCell(value){const text=String(value??'');const safe=/^[\t\r\n ]*[=+\-@]/.test(text)?"'"+text:text;return '"'+safe.replace(/"/g,'""')+'"';}
 $('exportCsv').addEventListener('click',()=>{const rows=[['Date','Machine','Fault','Action','Status'],...getRecords().map(r=>[r.date,r.machine,r.fault,r.action,r.status])];const csv='\ufeff'+rows.map(row=>row.map(csvCell).join(',')).join('\r\n');const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));const a=document.createElement('a');a.href=url;a.download='maintenance-log.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});
 $('clearRecords').addEventListener('click',()=>{if(confirm('هل تريد حذف جميع السجلات المحفوظة على هذا الجهاز؟')){localStorage.removeItem(KEY);renderRecords();}});
+
+$('openSafetyFromGate').addEventListener('click',()=>document.querySelector('.tab[data-tab="safety"]').click());
+document.querySelectorAll('#safetyChecks input').forEach(box=>box.addEventListener('change',()=>{const all=[...document.querySelectorAll('#safetyChecks input')];if(all.length&&all.every(item=>item.checked))$('safetyGateNotice').style.display='none';else if($('diagnosisResult').innerHTML){$('diagnosisResult').innerHTML='';$('safetyGateNotice').style.display='block';}}));
+['recordSearch','recordStatusFilter','recordDateFilter'].forEach(id=>$(id).addEventListener('input',renderRecords));
+$('clearRecordFilters').addEventListener('click',()=>{$('recordSearch').value='';$('recordStatusFilter').value='';$('recordDateFilter').value='';renderRecords();});
+$('diagnosisForm').querySelectorAll('input,select,textarea').forEach(field=>field.addEventListener('input',persistDraft));
+$('diagnosisForm').querySelectorAll('input,select,textarea').forEach(field=>field.addEventListener('change',persistDraft));
+$('saveDraft').addEventListener('click',()=>{if(!lastDiagnosisDraft)return;const all=getRecords();all.unshift({...lastDiagnosisDraft});saveRecords(all);renderRecords();lastDiagnosisDraft=null;persistDraft();renderDraftSummary();$('log').classList.add('active');$('diagnose').classList.remove('active');document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab==='log'));});
+$('clearDraft').addEventListener('click',()=>{localStorage.removeItem(DRAFT_KEY);lastDiagnosisDraft=null;$('diagnosisForm').reset();$('diagnosisResult').innerHTML='';renderDraftSummary();});
+restoreDraft();
 renderRecords();
 if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
 </script>

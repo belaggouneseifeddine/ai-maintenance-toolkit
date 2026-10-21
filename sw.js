@@ -1,6 +1,6 @@
-const CACHE_NAME = "maintenance-ai-toolkit-v11";
+const CACHE_NAME = "maintenance-ai-toolkit-v12";
 const APP_SHELL = ["./", "./index.html",
-  "./diagnostic-flows.js", "./manifest.json", "./icon.svg"];
+  "./diagnostic-flows.js", "./diagnostic-engine.js", "./faults.json", "./i18n.js", "./manifest.json", "./icon.svg"];
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_SHELL)));
   self.skipWaiting();

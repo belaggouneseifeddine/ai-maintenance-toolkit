@@ -50,3 +50,15 @@ The repository contains a static progressive web app (PWA) intended for phone br
 
 ## Language
 The current interface is Arabic-first. English and French localization can be added after the MVP flows are stable.
+
+
+## v0.2 diagnostic engine (branch under review)
+- Offline rule-based pump-fault matching from `faults.json` and `diagnostic-engine.js`; weak matches are not guessed.
+- Five general pump fault patterns with Arabic/French/English labels, keywords, causes, safe checks, and escalation criteria.
+- Inspection-plan safety gate requires all checklist confirmations before rendering a plan.
+- Local autosaved form draft, one-tap draft-to-log save, and draft clearing.
+- Arabic/French/English interface strings, automatic RTL for Arabic, and remembered language preference.
+- Local record search by equipment, status, and exact date; existing record key and CSV export are preserved.
+- PWA shell cache v12 includes the engine, fault data, and translations.
+
+The feature branch is not deployed by this change. Review the pull request and run the phone checklist before merging.
