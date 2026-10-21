@@ -14,6 +14,8 @@ on:
     paths:
       - "diagnostic-engine.js"
       - "maintenance-v03.js"
+      - "index.html"
+      - "sw.js"
       - "faults.json"
       - "tests/**"
       - ".github/workflows/diagnostic-tests.yml"
