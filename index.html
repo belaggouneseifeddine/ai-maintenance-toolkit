@@ -80,6 +80,7 @@ footer{line-height:1.8}
 #draftSummary{white-space:pre-wrap;overflow-wrap:anywhere}
 [hidden]{display:none!important}
 </style>
+<link rel="stylesheet" href="./ux-redesign.css">
 </head>
 <body>
 <header><div class="head"><div class="eyebrow">INDUSTRIAL MAINTENANCE • MVP 0.1</div><div class="brand">Maintenance AI Toolkit</div><p class="sub">مساعد عملي لتوثيق الأعطال وتنظيم خطوات الفحص بأمان.</p><label for="languageSwitcher" style="color:#fff">اللغة / Language / Langue</label><select id="languageSwitcher" aria-label="Language"><option value="ar">العربية</option><option value="fr">Français</option><option value="en">English</option></select></div></header>
@@ -420,6 +421,7 @@ renderRecords();
 if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
 </script>
 <script src="./maintenance-v03.js"></script>
+<script src="./ux-redesign.js"></script>
 <footer class="author">
 <p>صمّمه وطوّره: <strong>Seif Eddine Belaggoune</strong> — تقني صيانة صناعية</p>
 <p><a href="./cv.html" target="_blank" rel="noopener noreferrer">📄 السيرة الذاتية (CV)</a></p>

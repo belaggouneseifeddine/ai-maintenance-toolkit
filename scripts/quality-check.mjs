@@ -3,6 +3,8 @@ import assert from "node:assert/strict";
 import vm from "node:vm";
 
 const html = readFileSync("index.html", "utf8");
+const ux = readFileSync("ux-redesign.js", "utf8");
+const uxCss = readFileSync("ux-redesign.css", "utf8");
 const diagnosticFlowsSource = readFileSync("diagnostic-flows.js", "utf8");
 const diagnosticFlows = (() => { const match = diagnosticFlowsSource.match(/window\.MAINTENANCE_DIAGNOSTIC_FLOWS\s*=\s*(\{[\s\S]*?\n\});/); assert.ok(match, "Structured diagnostic flow export must exist"); return JSON.parse(match[1]); })();
 const worker = readFileSync("backend/cloudflare-worker.js", "utf8");
@@ -45,6 +47,16 @@ const checks = [
     }
     assert.match(html, /diagnostic-flows\.js/);
     assert.match(html, /MAINTENANCE_DIAGNOSTIC_FLOWS\.flows\["pump\|low_flow"\]/);
+  }],
+  ["UX dashboard is wired, starts as home, and preserves existing navigation", () => {
+    assert.ok(html.includes("ux-redesign.js"));
+    assert.ok(html.includes("ux-redesign.css"));
+    assert.match(ux, /homeDashboard/);
+    assert.match(ux, /maintenance-ai-toolkit-records-v1/);
+    assert.match(uxCss, /ux-actions/);
+    new vm.Script(ux, { filename: "ux-redesign.js" });
+    assert.ok(deployWorkflow.includes("ux-redesign.js ux-redesign.css"));
+    assert.ok(sw.includes("ux-redesign.js") && sw.includes("ux-redesign.css"));
   }],
   ["Core navigation panels", () => {
     for (const id of ["diagnose", "ai", "knowledge", "safety", "log"]) {
@@ -188,7 +200,7 @@ const checks = [
   ["Service worker caches the app shell and icon with a bumped cache version", () => {
     assert.match(sw, /APP_SHELL/);
     assert.match(sw, /\.\/icon\.svg/);
-    assert.match(sw, /maintenance-ai-toolkit-v14/);
+    assert.match(sw, /maintenance-ai-toolkit-v15/);
   }]
 ,
   ["Pump fault library has the five requested multilingual fault entries", () => {
@@ -262,7 +274,7 @@ const checks = [
     for (const node of Object.values(tree.nodes)) if (node.result) assert.ok(node.safe && node.escalate && node.cause);
   }],
   ["PWA caches all new offline dependencies and bumps its cache", () => {
-    assert.match(sw, /maintenance-ai-toolkit-v14/);
+    assert.match(sw, /maintenance-ai-toolkit-v15/);
     for (const asset of ["diagnostic-engine.js", "faults.json", "i18n.js"]) assert.ok(sw.includes(asset), "Missing offline cache asset " + asset);
     assert.match(manifest.icons[0].src, /icon\.svg/);
   }]
