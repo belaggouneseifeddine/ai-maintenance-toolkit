@@ -1,6 +1,6 @@
 # Maintenance AI Toolkit API (Cloudflare Workers)
 
-This backend serves the GitHub Pages frontend. It does not use Vercel.
+This backend serves the GitHub Pages frontend using Cloudflare Workers.
 
 ## Fast deployment through GitHub Actions
 
