@@ -176,7 +176,8 @@ footer{line-height:1.8}
 <div class="actions"><button class="btn secondary" id="resetSafety">إعادة ضبط القائمة</button></div></div>
 </section>
 <section id="log" class="panel">
-<div class="card"><h2>سجل التدخلات</h2><p class="hint">يحفظ هذا النموذج السجلات على هذا الجهاز فقط باستخدام التخزين المحلي. لا تدخل معلومات سرية.</p><form id="logForm"><label for="logMachine">المعدة / رقم الأصل</label><input id="logMachine" required placeholder="مثال: P-102 / مضخة مياه">
+<div class="card"><h2>سجل التدخلات</h2><p class="hint">يحفظ هذا النموذج السجلات على هذا الجهاز فقط باستخدام التخزين المحلي. لا تدخل معلومات سرية.</p>
+<form id="logForm"><label for="logMachine">المعدة / رقم الأصل</label><input id="logMachine" required placeholder="مثال: P-102 / مضخة مياه">
 <label for="logFault">العطل أو الملاحظة</label><textarea id="logFault" required placeholder="وصف مختصر لما تمت ملاحظته"></textarea>
 <label for="logAction">الإجراء والنتيجة</label><textarea id="logAction" required placeholder="ما الذي تم عمله؟ وما النتيجة؟"></textarea>
 <div class="grid"><div><label for="logStatus">الحالة</label><select id="logStatus"><option>قيد الفحص</option><option>تم الإصلاح</option><option>يتطلب قطع غيار</option><option>تم التصعيد</option></select></div><div><label for="logDate">التاريخ</label><input id="logDate" type="date" required></div></div>
