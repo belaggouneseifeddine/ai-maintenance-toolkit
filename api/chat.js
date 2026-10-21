@@ -46,12 +46,12 @@ export default async function handler(req, res) {
     try { body = JSON.parse(body); } catch { return send(res, 400, { error: "Invalid JSON request." }, origin, allowedOrigin); }
   }
   if (!body || typeof body !== "object" || Array.isArray(body)) return send(res, 400, { error: "Invalid JSON request." }, origin, allowedOrigin);
-  const { machine, symptom, code = "", observations = "" } = body;
-  if (![machine, symptom, code, observations].every(v => typeof v === "string")) {
+  const { machine, symptom, code = "", observations = "", language = "ar" } = body;
+  if (![machine, symptom, code, observations, language].every(v => typeof v === "string")) {
     return send(res, 400, { error: "All fields must be text." }, origin, allowedOrigin);
   }
   if (Buffer.byteLength(JSON.stringify(body), "utf8") > MAX_BODY_BYTES ||
-      machine.length > 120 || symptom.length > 240 || code.length > 300 || observations.length > 3000) {
+      machine.length > 120 || symptom.length > 240 || code.length > 300 || observations.length > 3000 || !["ar", "fr", "en"].includes(language)) {
     return send(res, 413, { error: "Input too long. Shorten the fault details." }, origin, allowedOrigin);
   }
   if (!machine.trim() || !symptom.trim()) return send(res, 400, { error: "Equipment and symptom are required." }, origin, allowedOrigin);
@@ -70,7 +70,8 @@ export default async function handler(req, res) {
 
   const base = (process.env.AI_BASE_URL || "https://generativelanguage.googleapis.com/v1beta/openai").replace(/\/+$/, "");
   const model = process.env.AI_MODEL || "gemini-2.5-flash";
-  const systemPrompt = `You are a cautious industrial maintenance troubleshooting assistant. Reply in Arabic. You are not a substitute for the manufacturer manual, site procedures, or a qualified technician. Never recommend bypassing guards, interlocks, alarms, or protective devices. Never instruct users to touch energized electrical parts, open pressurized systems, or investigate hydraulic leaks by hand. Start with stop-work and isolation warnings when relevant. Do not invent specifications or assert a definite root cause from limited evidence. Structure the response with: (1) uncertainty/summary, (2) plausible causes without false precision, (3) safe non-invasive checks, (4) measurements/evidence needed and that they must be obtained by authorized qualified personnel using approved procedures, (5) stop/escalation conditions, (6) missing information. Remind the user to follow LOTO, manufacturer instructions, and site procedures.`;
+  const replyLanguage = language === "fr" ? "French" : language === "en" ? "English" : "Arabic";
+  const systemPrompt = `You are a cautious industrial maintenance troubleshooting assistant. Reply in ${replyLanguage}. You are not a substitute for the manufacturer manual, site procedures, or a qualified technician. Never recommend bypassing guards, interlocks, alarms, or protective devices. Never instruct users to touch energized electrical parts, open pressurized systems, or investigate hydraulic leaks by hand. Start with stop-work and isolation warnings when relevant. Do not invent specifications or assert a definite root cause from limited evidence. Structure the response with: (1) uncertainty/summary, (2) plausible causes without false precision, (3) safe non-invasive checks, (4) measurements/evidence needed and that they must be obtained by authorized qualified personnel using approved procedures, (5) stop/escalation conditions, (6) missing information. Remind the user to follow LOTO, manufacturer instructions, and site procedures.`;
   const userPrompt = `Equipment: ${machine}\nSymptom: ${symptom}\nAlarm code: ${code || "not provided"}\nObservations and measurements: ${observations || "not provided"}\nGive a cautious preliminary assessment.`;
 
   let upstream;
