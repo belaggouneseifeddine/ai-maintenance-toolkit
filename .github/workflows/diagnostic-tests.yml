@@ -1,0 +1,32 @@
+name: Diagnostic engine tests
+
+on:
+  push:
+    paths:
+      - "diagnostic-engine.js"
+      - "faults.json"
+      - "tests/**"
+      - ".github/workflows/diagnostic-tests.yml"
+  pull_request:
+    paths:
+      - "diagnostic-engine.js"
+      - "faults.json"
+      - "tests/**"
+      - ".github/workflows/diagnostic-tests.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnostic-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Run diagnostic regression tests
+        run: node --test tests/diagnostic-engine.test.cjs
