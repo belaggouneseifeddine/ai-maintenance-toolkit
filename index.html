@@ -388,7 +388,7 @@ $('resetSafety').addEventListener('click',()=>{document.querySelectorAll('#safet
 const KEY='maintenance-ai-toolkit-records-v1';function getRecords(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch{return []}}function saveRecords(a){localStorage.setItem(KEY,JSON.stringify(a))}
 function localDateString(date=new Date()){const y=date.getFullYear();const m=String(date.getMonth()+1).padStart(2,'0');const d=String(date.getDate()).padStart(2,'0');return `${y}-${m}-${d}`;}
 $('logDate').value=localDateString();
-$('logForm').addEventListener('submit',e=>{e.preventDefault();const a=getRecords();a.unshift({date:$('logDate').value,machine:$('logMachine').value.trim(),fault:$('logFault').value.trim(),action:$('logAction').value.trim(),status:$('logStatus').value});saveRecords(a);e.target.reset();$('logDate').value=localDateString();renderRecords();});
+$('logForm').addEventListener('submit',e=>{e.preventDefault();const a=getRecords();a.unshift({date:$('logDate').value,createdAt:new Date().toISOString(),machine:$('logMachine').value.trim(),fault:$('logFault').value.trim(),action:$('logAction').value.trim(),status:$('logStatus').value});saveRecords(a);e.target.reset();$('logDate').value=localDateString();renderRecords();});
 function renderRecords(){
 const currentLanguage=window.MaintenanceI18n?window.MaintenanceI18n.getLanguage():'ar';
 const statusText=status=>status==='قيد الفحص'?tr('statusInProgress'):status==='تم الإصلاح'?tr('statusRepaired'):status==='يتطلب قطع غيار'?tr('statusParts'):status==='تم التصعيد'?tr('statusEscalated'):status;
