@@ -5,6 +5,8 @@ const html = readFileSync("index.html", "utf8");
 const worker = readFileSync("backend/cloudflare-worker.js", "utf8");
 const vercelApi = readFileSync("api/chat.js", "utf8");
 const safety = readFileSync("SAFETY.md", "utf8");
+const knowledge = readFileSync("knowledge/INDUSTRIAL-FAULT-KNOWLEDGE-BASE.md", "utf8");
+const motorCasebook = readFileSync("knowledge/ELECTRIC-MOTOR-AND-VFD-CASEBOOK.md", "utf8");
 const manifest = JSON.parse(readFileSync("manifest.json", "utf8"));
 const sw = readFileSync("sw.js", "utf8");
 
@@ -83,6 +85,28 @@ const checks = [
     assert.match(html, /:focus-visible/);
     assert.match(html, /prefers-reduced-motion/);
     assert.match(html, /Mobile-first visual polish/);
+  }],
+  ["Knowledge base includes pump, motor, compressor, hydraulic, valve, instrumentation, conveyor, bearing, PLC and thermal coverage", () => {
+    for (const term of [/Centrifugal and other process pumps/i, /Electric motors and driven equipment/i, /Compressors and compressed-air networks/i, /Hydraulic/i, /valve/i, /instrumentation/i, /conveyor/i, /Bearings and lubrication systems/i, /PLC and HMI/i, /Thermal systems/i]) {
+      assert.match(knowledge, term);
+    }
+  }],
+  ["Knowledge base includes explicit stop-work triggers, stored-energy isolation, and hydraulic injection warning", () => {
+    assert.match(knowledge, /Stop-work triggers/i);
+    assert.match(knowledge, /lockout\/tagout/i);
+    assert.match(knowledge, /Hydraulic injection warning/i);
+    assert.match(knowledge, /Never use a hand to search for a hydraulic leak/i);
+  }],
+  ["Knowledge base links authoritative source documents and prohibits invented limits", () => {
+    assert.match(knowledge, /energy\.gov/);
+    assert.match(knowledge, /library\.e\.abb\.com/);
+    assert.match(knowledge, /Do not fill unknown values with guesses/i);
+    assert.match(knowledge, /Do not use these notes to choose setpoints/i);
+  }],
+  ["Motor/VFD casebook warns against repeated resets and bypassing protection", () => {
+    assert.match(motorCasebook, /Never bridge an overload/i);
+    assert.match(motorCasebook, /repeatedly reset/i);
+    assert.match(motorCasebook, /DC bus can remain charged/i);
   }],
   ["AI instructions prohibit bypassing safety systems", () => {
     assert.match(worker, /Never recommend bypassing guards, interlocks, alarms, or protective devices/);
