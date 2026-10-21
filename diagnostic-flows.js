@@ -1,6 +1,6 @@
 /* Structured, model-independent diagnostic flow data. Unknown values remain unknown. */
 window.MAINTENANCE_DIAGNOSTIC_FLOWS = {
-    "schemaVersion": 1,
+    "schemaVersion": 2,
     "flows": {
       "pump|low_flow": {
         "id": "pump-low-flow-v1",
