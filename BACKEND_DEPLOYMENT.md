@@ -1,16 +1,30 @@
 # Maintenance AI Toolkit API (Cloudflare Workers)
 
-This is a standalone backend for the GitHub Pages frontend. It does not use Vercel.
+This backend serves the GitHub Pages frontend. It does not use Vercel.
 
-## Deploy
+## Fast deployment through GitHub Actions
 
-1. Create a Cloudflare account and open **Workers & Pages**.
-2. Create a Worker named `maintenance-ai-toolkit-api`.
-3. Deploy the contents of `worker.js` (or connect this repository and set the Worker entry point to `worker.js`).
-4. In the Worker settings, add the secret `AI_API_KEY` with your valid Google Gemini API key. Do not commit API keys to Git.
-5. Optionally add variables `AI_MODEL=gemini-2.5-flash` and `AI_BASE_URL=https://generativelanguage.googleapis.com/v1beta/openai`.
-6. Deploy and copy the Worker URL, for example the URL Cloudflare assigns to your Worker.
-7. Open the app at https://belaggouneseifeddine.github.io/ai-maintenance-toolkit/ and paste the Worker URL ending in `/api/chat` into the AI endpoint field, for example `https://YOUR-WORKER.workers.dev/api/chat`. The Worker also exposes `/health`.
+The repository includes a manual workflow at **Actions → Deploy Maintenance AI Toolkit API**. Configure these three repository Actions secrets first:
+
+1. `CLOUDFLARE_API_TOKEN`: a Cloudflare API token with permission to edit Workers Scripts for the target account.
+2. `CLOUDFLARE_ACCOUNT_ID`: the Cloudflare account ID.
+3. `GEMINI_API_KEY`: your valid Google Gemini API key. Do not paste it into chat or commit it to the repository.
+
+Add them under **Repository → Settings → Secrets and variables → Actions → New repository secret**:
+https://github.com/belaggouneseifeddine/ai-maintenance-toolkit/settings/secrets/actions
+
+Then open:
+https://github.com/belaggouneseifeddine/ai-maintenance-toolkit/actions/workflows/deploy-worker.yml
+
+Choose **Run workflow**. The workflow uploads `GEMINI_API_KEY` to the Worker as the `AI_API_KEY` secret and deploys `worker.js) using `wrangler.toml`. It does not print the secret. Check the workflow run for the actual result.
+
+## Connect the frontend
+
+After a successful run, open the Worker URL shown in the workflow logs or Cloudflare dashboard. Check `https://YOUR-WORKER.workers.dev/health`, then open:
+
+https://belaggouneseifeddine.github.io/ai-maintenance-toolkit/
+
+Paste the Worker URL ending in `/api/chat` into the AI endpoint field, for example `https://YOUR-WORKER.workers.dev/api/chat`. The frontend stores that endpoint in this browser.
 
 ## API
 
@@ -18,8 +32,6 @@ This is a standalone backend for the GitHub Pages frontend. It does not use Verc
 - `POST /api/chat`: JSON body `{ "machine": "...", "symptom": "...", "code": "", "observations": "", "language": "ar" }`.
 - Supported languages: `ar`, `fr`, `en`.
 
-The Worker restricts browser requests to the GitHub Pages origin, validates payloads, limits request size, and keeps provider errors/credentials out of responses. Provider calls may incur Gemini usage charges. Configure usage limits in the provider account before public release.
+The Worker restricts browser requests to the GitHub Pages origin, validates payloads, limits request size, and keeps provider errors/credentials out of responses. Provider calls may incur Gemini usage charges; configure provider usage limits before public release.
 
-## Important
-
-A source-code commit is not a deployed backend. A Cloudflare Worker URL and the `AI_API_KEY` secret must be configured in Cloudflare before live AI requests can succeed. Never store API keys in this public repository or browser JavaScript.
+**Important:** committing source code does not deploy the backend. A successful workflow run and a valid Worker URL are required before live AI diagnosis can work.
