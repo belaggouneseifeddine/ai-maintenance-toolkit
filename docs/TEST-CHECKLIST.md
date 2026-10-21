@@ -20,6 +20,8 @@ Use this checklist on the published site from an Android phone. Record the brows
 - [ ] Ingersoll Rand casebook link opens and its free manual links are reachable.
 - [ ] The compressor case distinguishes rotary-screw and reciprocating designs.
 - [ ] The transcribed alarm “SOUVRAC MOT ELEC” is not interpreted without a clear display/model-specific manual.
+- [ ] Motor casebook covers no-start, overload trip, VFD trip, overheating/vibration, and contactor chatter.
+- [ ] Motor/VFD guidance requires exact model-specific alarm manuals and forbids bypassing protection or repeated resets.
 
 ## Diagnosis flow
 - [ ] Submit a pump fault with a symptom and confirm a result appears.
