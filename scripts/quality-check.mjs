@@ -284,9 +284,7 @@ const checks = [
     for (const asset of ["diagnostic-engine.js", "faults.json", "i18n.js"]) assert.ok(sw.includes(asset), "Missing offline cache asset " + asset);
     assert.match(manifest.icons[0].src, /icon\.svg/);
   }]
-];
-
-
+,
   ["Direct Gemini experiment uses a transient key and handles API quota errors", () => {
     assert.match(html, /id="geminiApiKey" type="password"/);
     assert.match(html, /x-goog-api-key':apiKey/);
@@ -296,6 +294,7 @@ const checks = [
     assert.doesNotMatch(html, /localStorage\.(?:setItem|getItem)\([^)]*geminiApiKey/i);
     assert.doesNotMatch(html, /const AI_ENDPOINT_KEY/);
   }],
+];
 
 let failed = 0;
 for (const [name, run] of checks) {
