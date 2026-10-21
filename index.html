@@ -321,7 +321,7 @@ if(!$('aiConsent').checked){box.textContent='وافق على إرسال وصف �
 const endpoint=String(endpointInput.value||'').trim().replace(/\/+$/,'');
 if(!endpoint){box.textContent='لم يتم إعداد رابط الخادم بعد. انشر api/chat.js على خدمة تدعم وظائف الخادم، ثم أدخل رابطها المنتهي بـ /api/chat هنا. التشخيص المحلي ما زال متاحًا.';return;}
 let endpointUrl;
-try{endpointUrl=new URL(endpoint);if(!['https:','http:'].includes(endpointUrl.protocol))throw new Error();}catch{box.textContent='رابط الخادم غير صالح. أدخل رابط HTTPS كاملًا ينتهي بـ /api/chat.';return;}
+try{endpointUrl=new URL(endpoint);if(endpointUrl.protocol!=='https:')throw new Error();}catch{box.textContent='رابط الخادم غير صالح. أدخل رابط HTTPS كاملًا ينتهي بـ /api/chat.';return;}
 try{localStorage.setItem(AI_ENDPOINT_KEY,endpoint);}catch{}
 const button=$('askAi');button.disabled=true;button.textContent='جارٍ تحليل العطل…';
 box.textContent='جارٍ الاتصال بخادم الذكاء الاصطناعي…';
