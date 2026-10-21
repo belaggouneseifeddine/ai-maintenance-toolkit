@@ -86,7 +86,7 @@ footer{line-height:1.8}
 <header><div class="head"><div class="eyebrow">INDUSTRIAL MAINTENANCE • MVP 0.1</div><div class="brand">Maintenance AI Toolkit</div><p class="sub">مساعد عملي لتوثيق الأعطال وتنظيم خطوات الفحص بأمان.</p><label for="languageSwitcher" style="color:#fff">اللغة / Language / Langue</label><select id="languageSwitcher" aria-label="Language"><option value="ar">العربية</option><option value="fr">Français</option><option value="en">English</option></select></div></header>
 <main>
 <nav class="nav" aria-label="التنقل">
-<button class="tab active" data-tab="diagnose">ابدأ التشخيص</button><button class="tab" data-tab="ai">مساعد AI</button><button class="tab" data-tab="knowledge">قاعدة الأعطال</button><button class="tab" data-tab="safety">السلامة</button><button class="tab" data-tab="log">سجل الصيانة</button>
+<button class="tab active" data-tab="diagnose">التشخيص</button><button class="tab" data-tab="ai">مساعد AI</button><button class="tab" data-tab="knowledge">قاعدة الأعطال</button><button class="tab" data-tab="safety">السلامة</button><button class="tab" data-tab="log">سجل الصيانة</button>
 </nav>
 <section id="diagnose" class="panel active">
 <div class="card"><h2>بيانات الآلة والعطل</h2><p class="hint">املأ المعلومات المتوفرة فقط. النتائج قواعد إرشادية وليست تشخيصًا مؤكدًا.</p>
@@ -99,7 +99,7 @@ footer{line-height:1.8}
 <label for="observations">ملاحظات وقياسات مؤكدة</label><textarea id="observations" placeholder="متى بدأ العطل؟ هل تغيّر صوت المعدة؟ اذكر القيم والوحدات ومصدرها."></textarea>
 <div class="result" id="followupBox"><h3>سؤال يميّز بين الأسباب المحتملة</h3><p class="hint" id="followupPrompt">اختر المعدة والعَرَض لعرض سؤال موجّه.</p><select id="followupAnswer" aria-label="إجابة سؤال التشخيص"><option value="">اختر الإجابة إن كانت معلومة</option></select><p class="hint">يمكن تركه فارغًا. لا تنفّذ اختبارًا خطِرًا لمجرد الإجابة عن السؤال.</p></div>
 <div class="notice" style="margin-top:14px">قبل أي فحص: أوقف العمل إذا كان هناك خطر، وطبّق العزل والقفل ووضع بطاقة التحذير (LOTO) وفق إجراءات موقعك. لا تفتح نظامًا مضغوطًا أو تلمس أجزاء كهربائية حية.</div>
-<div id="safetyGateNotice" class="notice" role="alert"><p>لن تظهر خطة الفحص حتى تؤكد جميع بنود قائمة السلامة. هذا القفل يقلل خطر اقتراح تدخل قبل التحقق من العزل والطاقة المخزنة ومعدات الوقاية ودليل المصنع.</p><button class="btn secondary" type="button" id="openSafetyFromGate">افتح قائمة السلامة</button></div><div class="actions"><button class="btn" type="submit">إنشاء خطة فحص أولية</button><button class="btn secondary" type="reset">مسح الحقول</button></div>
+<div id="safetyGateNotice" class="notice" role="alert"><p>لن تظهر خطة الفحص حتى تؤكد جميع بنود قائمة السلامة. هذا القفل يقلل خطر اقتراح تدخل قبل التحقق من العزل والطاقة المخزنة ومعدات الوقاية ودليل المصنع.</p><button class="btn secondary" type="button" id="openSafetyFromGate">افتح قائمة السلامة</button></div><div class="actions"><button class="btn" type="submit">إنشاء خطة فحص أولية</button><button class="btn secondary" type="reset">إعادة ضبط الحقول</button></div>
 </form><div id="diagnosisResult" aria-live="polite"></div></div>
 </section>
 <section id="ai" class="panel">
@@ -414,6 +414,7 @@ document.querySelectorAll('#safetyChecks input').forEach(box=>box.addEventListen
 $('clearRecordFilters').addEventListener('click',()=>{$('recordSearch').value='';$('recordStatusFilter').value='';$('recordDateFilter').value='';renderRecords();});
 $('diagnosisForm').querySelectorAll('input,select,textarea').forEach(field=>field.addEventListener('input',persistDraft));
 $('diagnosisForm').querySelectorAll('input,select,textarea').forEach(field=>field.addEventListener('change',persistDraft));
+$('diagnosisForm').addEventListener('reset',()=>{setTimeout(()=>{localStorage.removeItem(DRAFT_KEY);lastDiagnosisDraft=null;$('diagnosisResult').innerHTML='';$('safetyGateNotice').style.display='none';updateFollowup();renderDraftSummary();},0);});
 $('saveDraft').addEventListener('click',()=>{if(!lastDiagnosisDraft)return;const all=getRecords();all.unshift({...lastDiagnosisDraft});saveRecords(all);renderRecords();lastDiagnosisDraft=null;persistDraft();renderDraftSummary();$('log').classList.add('active');$('diagnose').classList.remove('active');document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab==='log'));});
 $('clearDraft').addEventListener('click',()=>{localStorage.removeItem(DRAFT_KEY);lastDiagnosisDraft=null;$('diagnosisForm').reset();$('diagnosisResult').innerHTML='';renderDraftSummary();});
 restoreDraft();
