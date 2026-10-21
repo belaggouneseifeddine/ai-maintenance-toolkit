@@ -206,7 +206,7 @@ const checks = [
   ["Service worker caches the app shell and icon with a bumped cache version", () => {
     assert.match(sw, /APP_SHELL/);
     assert.match(sw, /\.\/icon\.svg/);
-    assert.match(sw, /maintenance-ai-toolkit-v17/);
+    assert.match(sw, /maintenance-ai-toolkit-v18/);
   }]
 ,
   ["Pump fault library has the five requested multilingual fault entries", () => {
@@ -280,11 +280,22 @@ const checks = [
     for (const node of Object.values(tree.nodes)) if (node.result) assert.ok(node.safe && node.escalate && node.cause);
   }],
   ["PWA caches all new offline dependencies and bumps its cache", () => {
-    assert.match(sw, /maintenance-ai-toolkit-v17/);
+    assert.match(sw, /maintenance-ai-toolkit-v18/);
     for (const asset of ["diagnostic-engine.js", "faults.json", "i18n.js"]) assert.ok(sw.includes(asset), "Missing offline cache asset " + asset);
     assert.match(manifest.icons[0].src, /icon\.svg/);
   }]
 ];
+
+
+  ["Direct Gemini experiment uses a transient key and handles API quota errors", () => {
+    assert.match(html, /id="geminiApiKey" type="password"/);
+    assert.match(html, /x-goog-api-key':apiKey/);
+    assert.match(html, /generativelanguage\.googleapis\.com\/v1beta\/models/);
+    assert.match(html, /response\.status===429/);
+    assert.match(html, /clearGeminiKey/);
+    assert.doesNotMatch(html, /localStorage\.(?:setItem|getItem)\([^)]*geminiApiKey/i);
+    assert.doesNotMatch(html, /const AI_ENDPOINT_KEY/);
+  }],
 
 let failed = 0;
 for (const [name, run] of checks) {
