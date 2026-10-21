@@ -86,13 +86,15 @@ const checks = [
     assert.match(html, /id="aiConsent" type="checkbox" required/);
     assert.match(html, /أوافق على إرسال وصف العطل والقياسات/);
   }],
-  ["AI consent is consumed per submission and client request has a timeout", () => {
-    assert.match(html, /e\.preventDefault\(\);\$\('aiConsent'\)\.checked=false/);
-    assert.match(html, /signal:AbortSignal\.timeout\(25000\)/);
+  ["Direct Gemini request has a timeout and preserves readable output", () => {
+    assert.match(html, /e\.preventDefault\(\);\s*\$\('aiConsent'\)\.checked=false/);
+    assert.match(html, /signal:AbortSignal\.timeout\(35000\)/);
     assert.match(html, /#aiResult\{white-space:pre-wrap/);
   }],
-  ["AI endpoint is configurable without a browser-side provider key", () => {
-    assert.match(html, /AI_ENDPOINT_KEY/);
+  ["Experimental Gemini key is entered at runtime, not hardcoded or persisted", () => {
+    assert.match(html, /id="geminiApiKey" type="password"/);
+    assert.match(html, /clearGeminiKey/);
+    assert.doesNotMatch(html, /AI_ENDPOINT_KEY/);
     assert.doesNotMatch(html, /sk-[A-Za-z0-9]{20,}/);
     assert.doesNotMatch(html, /AIza[0-9A-Za-z_-]{30,}/);
   }],
@@ -206,7 +208,7 @@ const checks = [
   ["Service worker caches the app shell and icon with a bumped cache version", () => {
     assert.match(sw, /APP_SHELL/);
     assert.match(sw, /\.\/icon\.svg/);
-    assert.match(sw, /maintenance-ai-toolkit-v17/);
+    assert.match(sw, /maintenance-ai-toolkit-v18/);
   }]
 ,
   ["Pump fault library has the five requested multilingual fault entries", () => {
@@ -280,10 +282,20 @@ const checks = [
     for (const node of Object.values(tree.nodes)) if (node.result) assert.ok(node.safe && node.escalate && node.cause);
   }],
   ["PWA caches all new offline dependencies and bumps its cache", () => {
-    assert.match(sw, /maintenance-ai-toolkit-v17/);
+    assert.match(sw, /maintenance-ai-toolkit-v18/);
     for (const asset of ["diagnostic-engine.js", "faults.json", "i18n.js"]) assert.ok(sw.includes(asset), "Missing offline cache asset " + asset);
     assert.match(manifest.icons[0].src, /icon\.svg/);
   }]
+,
+  ["Direct Gemini experiment uses a transient key and handles API quota errors", () => {
+    assert.match(html, /id="geminiApiKey" type="password"/);
+    assert.match(html, /x-goog-api-key':apiKey/);
+    assert.match(html, /generativelanguage\.googleapis\.com\/v1beta\/models/);
+    assert.match(html, /response\.status===429/);
+    assert.match(html, /clearGeminiKey/);
+    assert.doesNotMatch(html, /localStorage\.(?:setItem|getItem)\([^)]*geminiApiKey/i);
+    assert.doesNotMatch(html, /const AI_ENDPOINT_KEY/);
+  }],
 ];
 
 let failed = 0;
