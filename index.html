@@ -389,6 +389,8 @@ function localDateString(date=new Date()){const y=date.getFullYear();const m=Str
 $('logDate').value=localDateString();
 $('logForm').addEventListener('submit',e=>{e.preventDefault();const a=getRecords();a.unshift({date:$('logDate').value,machine:$('logMachine').value.trim(),fault:$('logFault').value.trim(),action:$('logAction').value.trim(),status:$('logStatus').value});saveRecords(a);e.target.reset();$('logDate').value=localDateString();renderRecords();});
 function renderRecords(){
+const currentLanguage=window.MaintenanceI18n?window.MaintenanceI18n.getLanguage():'ar';
+const statusText=status=>status==='قيد الفحص'?tr('statusInProgress'):status==='تم الإصلاح'?tr('statusRepaired'):status==='يتطلب قطع غيار'?tr('statusParts'):status==='تم التصعيد'?tr('statusEscalated'):status;
 const all=getRecords();
 const query=($('recordSearch')&&$('recordSearch').value||'').trim().toLocaleLowerCase();
 const status=$('recordStatusFilter')&&$('recordStatusFilter').value||'';
@@ -397,7 +399,7 @@ const filtered=all.map((record,index)=>({record,index})).filter(item=>{
 const machine=String(item.record.machine||'').toLocaleLowerCase();
 return (!query||machine.includes(query))&&(!status||item.record.status===status)&&(!date||item.record.date===date);
 });
-$('records').innerHTML=filtered.length?filtered.map(item=>{const r=item.record;return '<article class="record"><h3>'+escapeHtml(r.machine)+' <span class="pill">'+escapeHtml(r.status)+'</span></h3><p>'+escapeHtml(r.date)+'</p><p><b>العطل:</b> '+escapeHtml(r.fault)+'</p><p><b>الإجراء:</b> '+escapeHtml(r.action)+'</p><button class="btn secondary" data-delete="'+item.index+'" type="button">حذف هذا السجل</button></article>';}).join(''):('<div class="empty">'+escapeHtml(tr('noRecords'))+'</div>');
+$('records').innerHTML=filtered.length?filtered.map(item=>{const r=item.record;return '<article class="record"><h3>'+escapeHtml(r.machine)+' <span class="pill">'+escapeHtml(statusText(r.status))+'</span></h3><p>'+escapeHtml(r.date)+'</p><p><b>'+escapeHtml(tr('faultLabel'))+'</b> '+escapeHtml(r.fault)+'</p><p><b>'+escapeHtml(tr('actionLabel'))+'</b> '+escapeHtml(r.action)+'</p><button class="btn secondary" data-delete="'+item.index+'" type="button">'+escapeHtml(tr('deleteRecord'))+'</button></article>';}).join(''):('<div class="empty">'+escapeHtml(tr('noRecords'))+'</div>');
 document.querySelectorAll('[data-delete]').forEach(b=>b.addEventListener('click',()=>{const x=getRecords();x.splice(Number(b.dataset.delete),1);saveRecords(x);renderRecords();}));
 }
 function csvCell(value){const text=String(value??'');const safe=/^[\t\r\n ]*[=+\-@]/.test(text)?"'"+text:text;return '"'+safe.replace(/"/g,'""')+'"';}
