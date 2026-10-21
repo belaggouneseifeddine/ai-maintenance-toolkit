@@ -18,4 +18,6 @@ test("actual monthly due-date function clamps month-end dates", () => {
   assert.equal(due("2026-01-31"), "2026-02-28");
   assert.equal(due("2024-01-31"), "2024-02-29");
   assert.equal(due("2026-12-31"), "2027-01-31");
+  assert.equal(due("2026-02-31"), "");
+  assert.equal(due(""), "");
 });
