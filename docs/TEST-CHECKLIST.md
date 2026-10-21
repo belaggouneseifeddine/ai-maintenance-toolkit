@@ -22,6 +22,16 @@ Use this checklist on the published site from an Android phone. Record the brows
 - [ ] Motor casebook covers no-start, overload trip, VFD trip, overheating/vibration, and contactor chatter.
 - [ ] Motor/VFD guidance requires exact model-specific alarm manuals and forbids bypassing protection or repeated resets.
 
+## AI assistant and privacy
+- [ ] Submit the AI form without checking consent; browser blocks submission and no request is sent.
+- [ ] Check consent and submit once; verify the checkbox is cleared immediately for the next request.
+- [ ] Submit again without re-checking consent; verify the request cannot be sent.
+- [ ] Leave the endpoint empty and submit with consent; verify no maintenance data is sent and local diagnosis remains available.
+- [ ] Use an untrusted or malformed endpoint only in a controlled test; verify HTTPS validation and clear error handling.
+- [ ] Simulate an unavailable/slow endpoint; verify the request times out and the button becomes usable again.
+- [ ] Verify AI response line breaks are readable on a narrow Android screen.
+- [ ] Confirm the configured endpoint belongs to a trusted operator before sending any data; never use confidential plant or personal data.
+
 ## Diagnosis flow
 - [ ] Submit a pump fault with a symptom and confirm a result appears.
 - [ ] Change equipment/symptom and confirm the follow-up question and choices update where supported.
