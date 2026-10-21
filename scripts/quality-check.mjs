@@ -49,8 +49,8 @@ const checks = [
     assert.match(html, /MAINTENANCE_DIAGNOSTIC_FLOWS\.flows\["pump\|low_flow"\]/);
   }],
   ["UX dashboard is wired, starts as home, and preserves existing navigation", () => {
-    assert.match(html, /ux-redesign\\.js/);
-    assert.match(html, /ux-redesign\\.css/);
+    assert.ok(html.includes("ux-redesign.js"));
+    assert.ok(html.includes("ux-redesign.css"));
     assert.match(ux, /homeDashboard/);
     assert.match(ux, /maintenance-ai-toolkit-records-v1/);
     assert.match(uxCss, /ux-actions/);
