@@ -83,7 +83,19 @@ export default {
     } catch {
       return json({ error: "AI provider could not be reached. Local diagnostic mode remains available." }, 502, origin);
     }
-    if (!upstream.ok) return json({ error: "AI provider returned an error (" + upstream.status + "). Check provider settings and quota." }, 502, origin);
+    if (!upstream.ok) {
+      let providerDetail = "";
+      try {
+        const errorBody = await upstream.text();
+        let parsed;
+        try { parsed = JSON.parse(errorBody); } catch {}
+        providerDetail = String(parsed?.error?.message || parsed?.message || "").slice(0, 500);
+      } catch {}
+      return json({
+        error: "AI provider returned an error (" + upstream.status + ").",
+        provider_detail: providerDetail || "No safe error details were returned. Check API key, model, and provider endpoint."
+      }, 502, origin);
+    }
     let data;
     try { data = await upstream.json(); } catch { return json({ error: "AI provider returned an unreadable response." }, 502, origin); }
     const answer = data?.choices?.[0]?.message?.content;
