@@ -51,7 +51,10 @@ const checks = [
   ["UX dashboard is wired, starts as home, and preserves existing navigation", () => {
     assert.ok(html.includes("ux-redesign.js"));
     assert.ok(html.includes("ux-redesign.css"));
-    assert.equal((html.match(/type="reset"[^>]*>إعادة ضبط الحقول/g)||[]).length, 1, "Diagnosis form should show exactly one reset button");
+    assert.equal((html.match(/type="reset"[^>]*>التشخيص/g)||[]).length, 1, "Diagnosis form should show exactly one reset button with the requested Arabic label");
+    assert.match(i18n, /resetFields:"التشخيص"/);
+    assert.match(i18n, /resetFields:"Diagnostic"/);
+    assert.match(i18n, /resetFields:"Diagnosis"/);
     assert.ok(html.includes("localStorage.removeItem(DRAFT_KEY);lastDiagnosisDraft=null"), "Reset must clear the autosaved diagnosis draft");
     assert.ok(html.includes("data-tab=\"diagnose\">التشخيص</button>"), "Navigation should avoid duplicating the home quick-action label");
     assert.match(ux, /homeDashboard/);
@@ -203,7 +206,7 @@ const checks = [
   ["Service worker caches the app shell and icon with a bumped cache version", () => {
     assert.match(sw, /APP_SHELL/);
     assert.match(sw, /\.\/icon\.svg/);
-    assert.match(sw, /maintenance-ai-toolkit-v16/);
+    assert.match(sw, /maintenance-ai-toolkit-v17/);
   }]
 ,
   ["Pump fault library has the five requested multilingual fault entries", () => {
@@ -277,7 +280,7 @@ const checks = [
     for (const node of Object.values(tree.nodes)) if (node.result) assert.ok(node.safe && node.escalate && node.cause);
   }],
   ["PWA caches all new offline dependencies and bumps its cache", () => {
-    assert.match(sw, /maintenance-ai-toolkit-v16/);
+    assert.match(sw, /maintenance-ai-toolkit-v17/);
     for (const asset of ["diagnostic-engine.js", "faults.json", "i18n.js"]) assert.ok(sw.includes(asset), "Missing offline cache asset " + asset);
     assert.match(manifest.icons[0].src, /icon\.svg/);
   }]
