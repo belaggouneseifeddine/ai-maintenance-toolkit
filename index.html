@@ -187,6 +187,7 @@ footer{line-height:1.8}
 </section>
 </main>
 <footer>أداة أولية غير معتمدة هندسيًا. اتبع دليل المصنع وإجراءات موقعك، ولا تعتمد على هذا التطبيق وحده لاتخاذ قرارات سلامة أو تشغيل.</footer>
+<script src="./diagnostic-flows.js"></script>
 <script>
 const $=id=>document.getElementById(id);
 document.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b===btn));document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===btn.dataset.tab));}));
@@ -207,7 +208,7 @@ thermal:{low_flow:["راجع مؤشرات التدفق وفرق الحرارة �
 other:{}
 };
 const followupBank={
-"pump|low_flow":{q:"هل ضغط السحب/مستوى المصدر طبيعي حسب المؤشرات المتاحة؟",a:["نعم، طبيعي","منخفض أو غير مستقر","لا توجد قراءة موثوقة"]},
+"pump|low_flow":{q:window.MAINTENANCE_DIAGNOSTIC_FLOWS.flows["pump|low_flow"].question.text,a:window.MAINTENANCE_DIAGNOSTIC_FLOWS.flows["pump|low_flow"].answers.map(item=>item.label)},
 "pump|noise":{q:"هل بدأ الصوت مع تراجع التدفق أو الضغط؟",a:["نعم، بالتزامن","لا، الأداء طبيعي","غير معروف"]},
 "motor|not_start":{q:"ماذا يظهر في واجهة التحكم؟",a:["لا يوجد أمر تشغيل","أمر موجود مع إنذار/فصل","أمر موجود ولا يظهر إنذار","غير معروف"]},
 "motor|overheat":{q:"هل الحمل أو التيار المسجل أعلى من خط الأساس/بيانات اللوحة؟",a:["نعم","لا","لا توجد بيانات موثوقة"]},
@@ -242,11 +243,7 @@ const followupBank={
 function followupGuidance(machine,symptom,answer){
 if(!answer)return [];
 const rules={
-"pump|low_flow":{
-"نعم، طبيعي":["إذا كانت قراءة السحب والمصدر طبيعية، قارن ضغط الخروج والتدفق بخط الأساس ومنحنى المضخة؛ لا تفترض انسداد السحب."],
-"منخفض أو غير مستقر":["انخفاض/عدم استقرار السحب قد يساهم في ضعف التدفق. أوقف وصعّد إذا ظهرت مؤشرات تشغيل ضار، وراجع المصدر وخط السحب وفق إجراء الموقع."],
-"لا توجد قراءة موثوقة":["لا تستنتج السبب دون قياس موثوق؛ اجمع قراءات معتمدة من نقاط القياس المحددة في دليل المعدة."]
-},
+"pump|low_flow":Object.fromEntries(window.MAINTENANCE_DIAGNOSTIC_FLOWS.flows["pump|low_flow"].answers.map(item=>[item.label,[item.guidance]])),
 "motor|not_start":{
 "لا يوجد أمر تشغيل":["اتبع مخطط التحكم المعتمد للتحقق من مصدر الأمر وشروط السماح من واجهة التحكم؛ لا تجسّر دوائر أو تتجاوز interlocks."],
 "أمر موجود مع إنذار/فصل":["احفظ رمز الإنذار وسجل الأحداث، وابحث عن السبب وفق دليل الموديل قبل أي إعادة ضبط."],

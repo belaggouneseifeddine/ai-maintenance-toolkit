@@ -2,6 +2,8 @@ import { readFileSync } from "node:fs";
 import assert from "node:assert/strict";
 
 const html = readFileSync("index.html", "utf8");
+const diagnosticFlowsSource = readFileSync("diagnostic-flows.js", "utf8");
+const diagnosticFlows = (() => { const match = diagnosticFlowsSource.match(/window\.MAINTENANCE_DIAGNOSTIC_FLOWS\s*=\s*(\{[\s\S]*?\n\});/); assert.ok(match, "Structured diagnostic flow export must exist"); return JSON.parse(match[1]); })();
 const worker = readFileSync("backend/cloudflare-worker.js", "utf8");
 const vercelApi = readFileSync("api/chat.js", "utf8");
 const safety = readFileSync("SAFETY.md", "utf8");
@@ -12,6 +14,19 @@ const sw = readFileSync("sw.js", "utf8");
 
 const checks = [
   ["Arabic RTL document", () => assert.match(html, /<html lang="ar" dir="rtl">/)],
+  ["Structured pump low-flow flow has stable IDs and validated answer guidance", () => {
+    const flow = diagnosticFlows.flows["pump|low_flow"];
+    assert.equal(diagnosticFlows.schemaVersion, 1);
+    assert.equal(flow.id, "pump-low-flow-v1");
+    assert.equal(flow.equipmentId, "pump");
+    assert.equal(flow.symptomId, "low_flow");
+    assert.ok(flow.question.id && flow.question.text);
+    assert.equal(flow.answers.length, 3);
+    assert.deepEqual(flow.answers.map(answer => answer.id), ["source-normal", "source-low-unstable", "source-no-reliable-reading"]);
+    for (const answer of flow.answers) assert.ok(answer.label && answer.guidance);
+    assert.match(html, /diagnostic-flows\.js/);
+    assert.match(html, /MAINTENANCE_DIAGNOSTIC_FLOWS\.flows\["pump\|low_flow"\]/);
+  }],
   ["Core navigation panels", () => {
     for (const id of ["diagnose", "ai", "knowledge", "safety", "log"]) {
       assert.match(html, new RegExp('id="' + id + '"'));
@@ -139,7 +154,7 @@ const checks = [
   ["Service worker caches the app shell and icon with a bumped cache version", () => {
     assert.match(sw, /APP_SHELL/);
     assert.match(sw, /\.\/icon\.svg/);
-    assert.match(sw, /maintenance-ai-toolkit-v9/);
+    assert.match(sw, /maintenance-ai-toolkit-v10/);
   }]
 ];
 
