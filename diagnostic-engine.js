@@ -76,7 +76,7 @@
 
     const equipment = normalizeText(input && input.equipmentType);
     const symptom = normalizeText(input && input.symptom);
-    const notes = normalizeText([input && input.observations, input && input.errorCode].filter(Boolean).join(" "));
+    const notes = normalizeText(input && input.observations);
     const results = data.faults.map(fault => {
       const equipmentMatch = normalizeText(fault.equipmentType) === equipment;
       const symptomMatch = (fault.symptoms || []).some(item => normalizeText(item) === symptom);
