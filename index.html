@@ -356,6 +356,7 @@ e.preventDefault();
 const safetyChecks=[...document.querySelectorAll('#safetyChecks input')];
 const gate=$('safetyGateNotice');
 if(!safetyChecks.length||safetyChecks.some(box=>!box.checked)){
+$('diagnosisResult').innerHTML='';
 gate.style.display='block';
 gate.scrollIntoView({behavior:'smooth',block:'center'});
 return;
@@ -382,7 +383,7 @@ saveRecords(all);renderRecords();$('log').classList.add('active');$('diagnose').
 });
 });
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-$('resetSafety').addEventListener('click',()=>document.querySelectorAll('#safetyChecks input').forEach(c=>c.checked=false));
+$('resetSafety').addEventListener('click',()=>{document.querySelectorAll('#safetyChecks input').forEach(c=>c.checked=false);$('diagnosisResult').innerHTML='';$('safetyGateNotice').style.display='none';});
 const KEY='maintenance-ai-toolkit-records-v1';function getRecords(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch{return []}}function saveRecords(a){localStorage.setItem(KEY,JSON.stringify(a))}
 function localDateString(date=new Date()){const y=date.getFullYear();const m=String(date.getMonth()+1).padStart(2,'0');const d=String(date.getDate()).padStart(2,'0');return `${y}-${m}-${d}`;}
 $('logDate').value=localDateString();
@@ -404,12 +405,12 @@ $('exportCsv').addEventListener('click',()=>{const rows=[['Date','Machine','Faul
 $('clearRecords').addEventListener('click',()=>{if(confirm('هل تريد حذف جميع السجلات المحفوظة على هذا الجهاز؟')){localStorage.removeItem(KEY);renderRecords();}});
 
 $('openSafetyFromGate').addEventListener('click',()=>document.querySelector('.tab[data-tab="safety"]').click());
-document.querySelectorAll('#safetyChecks input').forEach(box=>box.addEventListener('change',()=>{const all=[...document.querySelectorAll('#safetyChecks input')];if(all.length&&all.every(item=>item.checked))$('safetyGateNotice').style.display='none';}));
+document.querySelectorAll('#safetyChecks input').forEach(box=>box.addEventListener('change',()=>{const all=[...document.querySelectorAll('#safetyChecks input')];if(all.length&&all.every(item=>item.checked))$('safetyGateNotice').style.display='none';else if($('diagnosisResult').innerHTML){$('diagnosisResult').innerHTML='';$('safetyGateNotice').style.display='block';}}));
 ['recordSearch','recordStatusFilter','recordDateFilter'].forEach(id=>$(id).addEventListener('input',renderRecords));
 $('clearRecordFilters').addEventListener('click',()=>{$('recordSearch').value='';$('recordStatusFilter').value='';$('recordDateFilter').value='';renderRecords();});
 $('diagnosisForm').querySelectorAll('input,select,textarea').forEach(field=>field.addEventListener('input',persistDraft));
 $('diagnosisForm').querySelectorAll('input,select,textarea').forEach(field=>field.addEventListener('change',persistDraft));
-$('saveDraft').addEventListener('click',()=>{if(!lastDiagnosisDraft)return;const all=getRecords();all.unshift({...lastDiagnosisDraft});saveRecords(all);renderRecords();$('log').classList.add('active');$('diagnose').classList.remove('active');document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab==='log'));});
+$('saveDraft').addEventListener('click',()=>{if(!lastDiagnosisDraft)return;const all=getRecords();all.unshift({...lastDiagnosisDraft});saveRecords(all);renderRecords();lastDiagnosisDraft=null;persistDraft();renderDraftSummary();$('log').classList.add('active');$('diagnose').classList.remove('active');document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab==='log'));});
 $('clearDraft').addEventListener('click',()=>{localStorage.removeItem(DRAFT_KEY);lastDiagnosisDraft=null;$('diagnosisForm').reset();$('diagnosisResult').innerHTML='';renderDraftSummary();});
 restoreDraft();
 renderRecords();
