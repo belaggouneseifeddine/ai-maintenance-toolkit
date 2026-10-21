@@ -104,3 +104,10 @@ These cases cover the currently implemented answer-specific branches. Use only s
 - [ ] Save the print preview as PDF using the Android print dialog where supported.
 - [ ] Save the diagnosis to the local log and verify the asset ID and selected priority/status are retained.
 - [ ] Confirm the report labels suggested steps as guidance, not completed work or a confirmed root cause.
+
+
+## Structured diagnostic-flow regression additions
+- [ ] **Motor / no-start:** confirm the prompt and answer options are loaded from structured flow data; each answer retains safe, answer-specific guidance.
+- [ ] **VFD / trip:** confirm the prompt and answer options are loaded from structured data; guidance requires exact drive model and matching OEM fault reference.
+- [ ] Verify structured flow answer IDs are unique and unknown states do not trigger a guessed diagnosis.
+- [ ] Confirm the service worker cache changes after this release and refreshes the structured flow data.
