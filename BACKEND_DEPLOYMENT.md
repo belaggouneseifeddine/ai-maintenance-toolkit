@@ -16,7 +16,7 @@ https://github.com/belaggouneseifeddine/ai-maintenance-toolkit/settings/secrets/
 Then open:
 https://github.com/belaggouneseifeddine/ai-maintenance-toolkit/actions/workflows/deploy-worker.yml
 
-Choose **Run workflow**. The workflow uploads `GEMINI_API_KEY` to the Worker as the `AI_API_KEY` secret and deploys `worker.js) using `wrangler.toml`. It does not print the secret. Check the workflow run for the actual result.
+Choose **Run workflow**. The workflow uploads `GEMINI_API_KEY` to the Worker as the `AI_API_KEY` secret and deploys `worker.js` using `wrangler.toml`. It does not print the secret. Check the workflow run for the actual result.
 
 ## Connect the frontend
 
