@@ -2,7 +2,7 @@
 
 **Status:** Initial source-backed reference for the Maintenance AI Toolkit prototype  
 **Language:** Arabic-first  
-**Scope:** Common symptoms in pumps, electric motors, compressed-air systems, hydraulic systems, and actuated valves.
+**Scope:** Common symptoms in pumps, electric motors, compressed-air systems, hydraulic systems, actuated valves, variable-frequency drives, instrumentation, and conveyors.
 
 ## How to use this reference
 
@@ -76,6 +76,31 @@ OSHA incident reports document serious injuries caused by high-pressure hydrauli
 | Valve does not move | Missing command, interlock condition, actuator power/air/hydraulic supply issue, positioner or feedback issue, mechanical sticking | Review command, alarm, and position feedback from the control system; compare supply indications with the actuator manual | Force the valve or bypass interlocks to obtain movement |
 | Incorrect or unstable position | Feedback/calibration issue, supply instability, process forces, actuator/positioner fault | Record commanded versus actual position and alarm history; request qualified instrumentation/controls review | Change calibration or control parameters without an approved procedure |
 | Leakage or abnormal noise | Seal/packing/body issue, flow conditions, cavitation or mechanical issue depending on service | Identify service fluid and pressure hazard from a safe distance; use approved isolation and depressurization before work | Dismantle a valve under pressure or assume every noise has the same cause |
+
+### 6. Variable-frequency drives (VFDs) and motor controls
+
+| Symptom | Possible causes to investigate | Safe, evidence-led checks | Do not |
+|---|---|---|---|
+| Drive trips or shows an alarm | Overload, supply disturbance, motor/cable fault, cooling issue, configuration or control condition | Record the exact code, drive model, operating state, load context, and fault history; compare with the exact manufacturer's manual | Guess the meaning of a code, repeatedly reset the drive, or bypass a protective function |
+| Motor does not respond to a command | Wrong command source, missing permissive/interlock, drive not ready, control/network issue | Review status, selected command source, permissives, and alarm history from the authorized interface | Bypass interlocks or open an energized drive cabinet |
+| Drive/motor overheating | Load, cooling/ventilation, installation conditions, motor issue, parameter mismatch | Review available temperature/load trends and external ventilation; compare against the specific manual and nameplate | Change current limits, switching/frequency settings, or protection parameters without approved engineering review |
+| Unusual noise or vibration | Driven-machine issue, bearing/coupling problem, electrical/drive-related condition | Stop for sudden/severe symptoms; review trends and involve qualified electrical/mechanical personnel | Assume the VFD alone is the cause or work near rotating parts |
+
+### 7. Sensors and instrumentation
+
+| Symptom | Possible causes to investigate | Safe, evidence-led checks | Do not |
+|---|---|---|---|
+| Implausible, frozen, or unstable reading | Sensor fault, process condition, wiring/connection issue, scaling/unit mismatch, calibration drift, communication issue | Record value, unit, timestamp, measurement point, and alarm; compare with an independent approved indication or historical trend where safe | Treat a single reading as proof or use an unverified value for a safety-critical decision |
+| Lost signal or out-of-range alarm | Sensor/power/loop issue, connector or cable fault, I/O channel or network issue, process outside range | Review the control-system channel/status and event history; ask qualified instrumentation staff to test the circuit under approved isolation procedures | Bridge terminals, inject signals, or open live panels without authorization |
+| Difference between command and feedback | Feedback sensor, scaling, actuator/mechanical issue, communication delay | Compare command, feedback, alarm history, and process state; verify units and approved calibration records | Change scaling/calibration or suppress the alarm without the correct procedure |
+
+### 8. Conveyors and belt systems
+
+| Symptom | Possible causes to investigate | Safe, evidence-led checks | Do not |
+|---|---|---|---|
+| Conveyor will not start | Emergency-stop circuit, guard/interlock, missing permissive, motor/drive fault, jam or control issue | Review the control-system status and fault history; confirm guards and emergency-stop status through approved checks | Bypass a guard, interlock, or emergency stop |
+| Belt tracking or slipping problem | Alignment, tension, pulley/roller condition, loading, contamination, mechanical wear | Stop, isolate, and secure the system before inspection; follow the specific manufacturer's tracking/tension procedure | Adjust or touch a moving belt or reach into nip/pinch points |
+| Abnormal bearing noise or heat | Bearing wear, misalignment, lubrication or loading issue | Stop for sudden/severe changes; compare approved trend data and inspect after isolation | Continue running to see whether a serious noise disappears |
 
 ## Diagnostic workflow for the app
 
