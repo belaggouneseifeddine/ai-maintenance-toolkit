@@ -1,4 +1,4 @@
-const CACHE_NAME = "maintenance-ai-toolkit-v10";
+const CACHE_NAME = "maintenance-ai-toolkit-v11";
 const APP_SHELL = ["./", "./index.html",
   "./diagnostic-flows.js", "./manifest.json", "./icon.svg"];
 self.addEventListener("install", event => {
