@@ -10,21 +10,23 @@ Use this checklist on the published site from an Android phone. Record the brows
 
 ## Knowledge base
 - [ ] Knowledge tab opens and links to the cited technical references.
-- [ ] Valve/actuator appears in the equipment selector and produces conservative guidance.
+- [ ] Valve/actuator, pneumatic system, gearbox, bearing, electrical control/PLC, and thermal system appear in the equipment selector and produce conservative guidance.
 - [ ] VFD and sensor/instrumentation appear in the equipment selector.
+- [ ] New symptoms (slow cycle, intermittent fault, high pressure, abnormal consumption) produce safe fallback guidance.
 - [ ] A VFD trip and an implausible/lost sensor signal produce specific guidance.
 - [ ] Conveyor start/tracking/noise guidance includes isolation and pinch-point warnings.
 - [ ] New knowledge entries do not provide invented setpoints, torque values, or pressure limits.
 - [ ] Safety warnings for hydraulic injection, stored pressure, and energy isolation are visible.
 
-- [ ] Ingersoll Rand casebook link opens and its free manual links are reachable.
-- [ ] The compressor case distinguishes rotary-screw and reciprocating designs.
-- [ ] The transcribed alarm “SOUVRAC MOT ELEC” is not interpreted without a clear display/model-specific manual.
+- [ ] General knowledge is presented by equipment family and workflow, not as a dedicated brand-specific case study.
 - [ ] Motor casebook covers no-start, overload trip, VFD trip, overheating/vibration, and contactor chatter.
 - [ ] Motor/VFD guidance requires exact model-specific alarm manuals and forbids bypassing protection or repeated resets.
 
 ## Diagnosis flow
 - [ ] Submit a pump fault with a symptom and confirm a result appears.
+- [ ] Change equipment/symptom and confirm the follow-up question and choices update where supported.
+- [ ] Submit a diagnosis with a follow-up answer and verify the answer is included in the result.
+- [ ] Leave the follow-up question unanswered and confirm diagnosis still works.
 - [ ] Submit a motor fault and confirm equipment-specific guidance appears.
 - [ ] Submit a compressor or hydraulic fault and review pressure/energy warnings.
 - [ ] Enter an unusual error code and verify it is displayed safely as text.
