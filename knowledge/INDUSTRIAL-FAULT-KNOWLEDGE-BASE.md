@@ -102,6 +102,46 @@ OSHA incident reports document serious injuries caused by high-pressure hydrauli
 | Belt tracking or slipping problem | Alignment, tension, pulley/roller condition, loading, contamination, mechanical wear | Stop, isolate, and secure the system before inspection; follow the specific manufacturer's tracking/tension procedure | Adjust or touch a moving belt or reach into nip/pinch points |
 | Abnormal bearing noise or heat | Bearing wear, misalignment, lubrication or loading issue | Stop for sudden/severe changes; compare approved trend data and inspect after isolation | Continue running to see whether a serious noise disappears |
 
+### 9. Pneumatic systems and air preparation
+
+| Symptom | Possible causes to investigate | Safe, evidence-led checks | Do not |
+|---|---|---|---|
+| Actuator is slow or weak | Low/unstable supply pressure, restricted filter, regulator issue, valve/actuator wear, exhaust restriction, load change | Compare approved supply-pressure and cycle-time indicators with baseline; review filter and condensate maintenance records | Disconnect a pressurized tube or adjust regulator settings without authorization |
+| Air leak or continuous exhaust | Tube/fitting leak, valve seal, actuator seal, exhaust silencer or control-valve issue | Locate from a safe distance using the site's approved leak-detection method; isolate and exhaust stored pressure before repair | Use fingers to locate a leak or remove a fitting under pressure |
+| Water or oil carryover | Drain, separator, filter, or dryer issue; upstream contamination | Review air-quality indicators and service history; identify whether the point is upstream or downstream of treatment | Assume every moisture issue is a failed compressor |
+
+### 10. Gearboxes, couplings, and rotating assemblies
+
+| Symptom | Possible causes to investigate | Safe, evidence-led checks | Do not |
+|---|---|---|---|
+| New noise or vibration | Bearing damage, misalignment, looseness, gear wear, lubrication issue, process/load change | Record load, temperature, vibration trend, and onset; stop for sudden/severe changes; inspect only after isolation | Remove guards or touch rotating equipment while running |
+| High temperature or oil leak | Incorrect/low lubricant, seal damage, overload, ventilation issue, misalignment | Compare with the exact manual and historical trend; inspect externally after shutdown and safe isolation | Guess lubricant grade or quantity, or open a hot gearbox without the specified procedure |
+| Repeated mechanical trips | Jam, overload, driven-machine fault, coupling or gearbox damage | Preserve alarm sequence and load conditions; inspect the whole drive train rather than assuming the motor is the cause | Repeatedly reset or restart a suspected jammed drive |
+
+### 11. Bearings and lubrication systems
+
+| Symptom | Possible causes to investigate | Safe, evidence-led checks | Do not |
+|---|---|---|---|
+| Bearing temperature rising | Lubrication problem, overload, contamination, misalignment, installation or bearing damage | Review trend, lubrication records, load and vibration together; use approved temperature data | Touch a hot bearing or add lubricant without the correct type/quantity and procedure |
+| Abnormal vibration | Bearing wear, imbalance, looseness, resonance, coupling/alignment issue, process disturbance | Compare trend and operating conditions; inspect after isolation and control of stored energy | Treat vibration alone as proof that the bearing must be replaced |
+| Lubricant contamination | Water/dust ingress, seal failure, incorrect storage or handling, degradation | Review sample/test results and service history; follow the equipment's contamination-control procedure | Mix lubricant types without manufacturer approval |
+
+### 12. Electrical distribution, control panels, PLC and HMI
+
+| Symptom | Possible causes to investigate | Safe, evidence-led checks | Do not |
+|---|---|---|---|
+| Machine does not start | Missing command/permissive, emergency-stop or guard status, control supply, overload/drive trip, process condition | Review authorized HMI/PLC status, alarm history, and sequence-of-events log | Bypass safety circuits, force outputs, bridge terminals, or open an energized panel |
+| Intermittent fault | Loose connection, unstable supply, sensor/communication issue, environmental condition, program/sequence issue | Record exact timestamps, machine state, alarms and recent changes; compare logs across occurrences | Change PLC logic or replace parts without evidence and change-control approval |
+| Sensor value disagrees with process | Sensor, wiring, scaling, I/O channel, communication or actual process issue | Confirm units, tag, range and timestamp; compare with an independent approved indication | Use an unverified value for a safety-critical decision or suppress an alarm |
+
+### 13. Thermal systems, heat exchangers and cooling
+
+| Symptom | Possible causes to investigate | Safe, evidence-led checks | Do not |
+|---|---|---|---|
+| Poor heating or cooling | Low/uneven flow, fouling, air binding, control-valve issue, sensor error, load change | Compare inlet/outlet temperatures, flow and pressure trends with the operating baseline and manual | Open hot or pressurized circuits before isolation, cooling and pressure verification |
+| High pressure or temperature | Blocked flow, control failure, excess load, sensor error, relief/protection issue | Verify the indication through approved instruments; treat a confirmed or suspected limit exceedance as a stop/escalation condition | Adjust or isolate relief devices, or invent acceptable limits |
+| Repeated trips | Flow/temperature condition, control/interlock issue, fan/pump failure, fouling | Capture trip code and preceding trends; inspect linked equipment and sequence of events | Reset repeatedly without identifying the initiating condition |
+
 ## Diagnostic workflow for the app
 
 1. **Triage:** Check immediate hazards and decide whether to stop/escalate.
@@ -120,9 +160,9 @@ OSHA incident reports document serious injuries caused by high-pressure hydrauli
 4. **U.S. Occupational Safety and Health Administration (OSHA)**, hydraulic fluid injection injury incident report: https://www.osha.gov/ords/imis/accidentsearch.accident_detail?id=170764609
 5. **OSHA**, additional high-pressure hydraulic-fluid injection incident (2019): https://www.osha.gov/ords/imis/accident_detail?id=1434300.015
 
-## Ingersoll Rand model-specific follow-up
+## Equipment-specific reference policy
 
-For compressor troubleshooting examples that require more detail than this general reference, use the dedicated [Ingersoll Rand Compressor Troubleshooting Casebook](./INGERSOLL-RAND-COMPRESSOR-CASEBOOK.md). It records a symptom-led diagnostic workflow, distinguishes rotary-screw from reciprocating designs, and links to free OEM support pages and model-specific PDF manuals. Always match the manual to the nameplate and controller before using model-specific procedures.
+When a fault depends on a particular make or model, capture the complete nameplate and controller details, exact alarm text, firmware/manual revision when available, and operating context. Then consult the matching manufacturer's documentation. Do not transfer alarm meanings, setpoints, maintenance intervals, or procedures between different models or equipment designs.
 
 ## Electric motor and VFD model-specific follow-up
 
