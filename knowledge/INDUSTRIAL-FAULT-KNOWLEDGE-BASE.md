@@ -124,6 +124,10 @@ OSHA incident reports document serious injuries caused by high-pressure hydrauli
 
 For compressor troubleshooting examples that require more detail than this general reference, use the dedicated [Ingersoll Rand Compressor Troubleshooting Casebook](./INGERSOLL-RAND-COMPRESSOR-CASEBOOK.md). It records a symptom-led diagnostic workflow, distinguishes rotary-screw from reciprocating designs, and links to free OEM support pages and model-specific PDF manuals. Always match the manual to the nameplate and controller before using model-specific procedures.
 
+## Electric motor and VFD model-specific follow-up
+
+For more detailed symptom-led checks, see the [Electric Motor & Drive Troubleshooting Casebook](./ELECTRIC-MOTOR-AND-VFD-CASEBOOK.md). It covers motor no-start, overload trips, VFD alarms, overheating/vibration, and contactor chatter with free manufacturer references. Match all fault codes and procedures to the installed model and manual revision.
+
 ## Limitations and review policy
 
 - This knowledge base summarizes general references; it is not a substitute for equipment-specific manuals, drawings, risk assessments, permits, or local regulations.
