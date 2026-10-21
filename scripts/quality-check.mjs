@@ -137,6 +137,12 @@ const checks = [
     assert.match(html, /thermal\|high_pressure/);
     assert.match(html, /لا تعِد التشغيل ولا تعدّل أو تعزل صمام أمان/);
   }],
+  ["Urgent and high report priorities display conservative escalation guidance", () => {
+    assert.match(html, /priority==='urgent'\?'<div class="notice" role="alert">/);
+    assert.match(html, /لا تبدأ أو تواصل العمل إذا كان الوضع غير آمن/);
+    assert.match(html, /لا تتجاوز الحواجز أو interlocks أو أجهزة الحماية/);
+    assert.match(html, /نسّق مع مسؤول الصيانة والإنتاج قبل الاختبار/);
+  }],
   ["Diagnostic report captures asset context, priority, provenance and printable output", () => {
     for (const id of ["assetId", "priority", "technician", "manualRef"]) assert.match(html, new RegExp('id="' + id + '"'));
     assert.match(html, /Maintenance Inspection Report/);
