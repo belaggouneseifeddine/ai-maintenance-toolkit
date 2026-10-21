@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 
 const html = readFileSync("index.html", "utf8");
 const worker = readFileSync("backend/cloudflare-worker.js", "utf8");
+const vercelApi = readFileSync("api/chat.js", "utf8");
 const safety = readFileSync("SAFETY.md", "utf8");
 const manifest = JSON.parse(readFileSync("manifest.json", "utf8"));
 const sw = readFileSync("sw.js", "utf8");
@@ -48,6 +49,26 @@ const checks = [
   ["In-memory rate limiting is explicitly documented as best-effort", () => {
     assert.match(worker, /Best-effort per-isolate guard only/);
     assert.match(worker, /MAX_TRACKED_IPS = 5_000/);
+  }],
+  ["Vercel AI endpoint keeps provider credentials server-side", () => {
+    assert.match(vercelApi, /process\.env\.AI_API_KEY/);
+    assert.doesNotMatch(vercelApi, /AIza[0-9A-Za-z_-]{30,}/);
+    assert.doesNotMatch(vercelApi, /sk-[A-Za-z0-9]{20,}/);
+  }],
+  ["Vercel AI endpoint validates method, origin, content type, and input", () => {
+    assert.match(vercelApi, /req\.method !== "POST"/);
+    assert.match(vercelApi, /origin !== allowedOrigin/);
+    assert.match(vercelApi, /Content-Type must be application\/json/);
+    assert.match(vercelApi, /observations\.length > 3000/);
+  }],
+  ["Vercel AI endpoint uses timeout and bounded output", () => {
+    assert.match(vercelApi, /AbortSignal\.timeout\(20_000\)/);
+    assert.match(vercelApi, /answer\.slice\(0, 12000\)/);
+  }],
+  ["Mobile UI includes keyboard focus and reduced-motion support", () => {
+    assert.match(html, /:focus-visible/);
+    assert.match(html, /prefers-reduced-motion/);
+    assert.match(html, /Mobile-first visual polish/);
   }],
   ["AI instructions prohibit bypassing safety systems", () => {
     assert.match(worker, /Never recommend bypassing guards, interlocks, alarms, or protective devices/);
