@@ -139,7 +139,7 @@ const checks = [
   }],
   ["Follow-up answers generate evidence-specific next steps rather than being only logged", () => {
     assert.match(html, /function followupGuidance\(machine,symptom,answer\)/);
-    assert.match(html, /const branchSteps=followupGuidance\(machine,symptom,followup\)/);
+    assert.match(html, /let branchSteps=followupGuidance\(machine,symptom,followup\)/);
     assert.match(html, /خطوة تالية بحسب إجابتك/);
   }],
   ["High-pressure hydraulic leak answer always directs away from contact and to escalation", () => {
