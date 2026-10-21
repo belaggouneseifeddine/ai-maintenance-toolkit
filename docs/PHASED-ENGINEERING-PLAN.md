@@ -27,7 +27,7 @@ Status: initial static review completed; live runtime verification remains open.
 - [x] Add a GitHub Actions workflow to run those tests on relevant changes.
 - [ ] Execute the tests in CI and record the run result.
 - [ ] Add browser-level tests for language switching, header theme toggle, navigation and form validation.
-- [ ] Fix photo-to-record identity using stable record IDs and migration-safe handling.
+- [x] Fix photo-to-record identity using stable record IDs and migration-safe handling (real-browser verification pending).
 - [ ] Test JSON backup/import round trips and malformed-file handling.
 
 ## Phase 2 — Localization and mobile UX
