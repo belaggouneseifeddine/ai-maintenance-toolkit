@@ -62,6 +62,8 @@ const checks = [
     assert.match(uxCss, /ux-actions/);
     new vm.Script(ux, { filename: "ux-redesign.js" });
     assert.ok(deployWorkflow.includes("ux-redesign.js ux-redesign.css"));
+    assert.ok(deployWorkflow.includes("sw.js gemini-config.js diagnostic-flows.js"), "GitHub Pages deployment must publish the Gemini config script loaded by index.html");
+    assert.ok(sw.includes("gemini-config.js"), "Service worker app shell must include the Gemini config script");
     assert.ok(sw.includes("ux-redesign.js") && sw.includes("ux-redesign.css"));
   }],
   ["Core navigation panels", () => {
