@@ -80,7 +80,7 @@ const kh={ar:["المضخات","المحركات الكهربائية","الضو
  const statusFilter=document.getElementById("recordStatusFilter");if(statusFilter){const value=statusFilter.value;statusFilter.options[0].textContent=d.allStatuses;for(const o of statusFilter.options){if(o.value==="قيد الفحص")o.textContent=d.statusInProgress;if(o.value==="تم الإصلاح")o.textContent=d.statusRepaired;if(o.value==="يتطلب قطع غيار")o.textContent=d.statusParts;if(o.value==="تم التصعيد")o.textContent=d.statusEscalated;}statusFilter.value=value;}
  const dateFilter=document.getElementById("recordDateFilter");if(dateFilter)dateFilter.setAttribute("aria-label",d.filterDate);
  const gate=document.getElementById("safetyGateNotice");if(gate){const p=gate.querySelector("p");if(p)p.textContent=d.safetyIncomplete;const b=gate.querySelector("button");if(b)b.textContent=d.openSafety;}
- if(typeof root.renderRecords==="function")root.renderRecords();root.dispatchEvent(new Event("maintenance-language-changed"));
+ if(typeof root.renderRecords==="function")root.renderRecords();document.dispatchEvent(new Event("maintenance-language-changed"));
 }
 root.MaintenanceI18n={t,applyLanguage,getLanguage:()=>current};
 document.addEventListener("DOMContentLoaded",()=>{const selector=document.getElementById("languageSwitcher");const saved=localStorage.getItem("maintenance-ai-toolkit-language-v1")||"ar";if(selector){selector.value=saved;selector.addEventListener("change",()=>applyLanguage(selector.value));}applyLanguage(saved);});
