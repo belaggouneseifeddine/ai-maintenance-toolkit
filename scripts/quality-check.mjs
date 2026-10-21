@@ -188,7 +188,7 @@ const checks = [
   ["Service worker caches the app shell and icon with a bumped cache version", () => {
     assert.match(sw, /APP_SHELL/);
     assert.match(sw, /\.\/icon\.svg/);
-    assert.match(sw, /maintenance-ai-toolkit-v12/);
+    assert.match(sw, /maintenance-ai-toolkit-v13/);
   }]
 ,
   ["Pump fault library has the five requested multilingual fault entries", () => {
@@ -249,7 +249,7 @@ const checks = [
     assert.match(html, /function csvCell\(value\)/);
   }],
   ["PWA caches all new offline dependencies and bumps its cache", () => {
-    assert.match(sw, /maintenance-ai-toolkit-v12/);
+    assert.match(sw, /maintenance-ai-toolkit-v13/);
     for (const asset of ["diagnostic-engine.js", "faults.json", "i18n.js"]) assert.ok(sw.includes(asset), "Missing offline cache asset " + asset);
     assert.match(manifest.icons[0].src, /icon\.svg/);
   }]
