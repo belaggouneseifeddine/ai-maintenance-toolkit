@@ -213,7 +213,7 @@ footer{line-height:1.8}
 <label for="logAction">الإجراء والنتيجة</label><textarea id="logAction" required placeholder="ما الذي تم عمله؟ وما النتيجة؟"></textarea>
 <div class="grid"><div><label for="logStatus">الحالة</label><select id="logStatus"><option value="قيد الفحص">قيد الفحص</option><option value="تم الإصلاح">تم الإصلاح</option><option value="يتطلب قطع غيار">يتطلب قطع غيار</option><option value="تم التصعيد">تم التصعيد</option></select></div><div><label for="logDate">التاريخ</label><input id="logDate" type="date" required></div></div>
 <div class="actions"><button class="btn" type="submit">حفظ السجل</button><button class="btn secondary" type="button" id="exportCsv">تصدير CSV</button></div></form>
-<div id="records"></div><div class="actions"><button class="btn secondary" type="button" id="exportJson">تصدير نسخة JSON</button><button class="btn secondary" type="button" id="importJson">استيراد نسخة JSON</button><input id="importJsonFile" type="file" accept="application/json,.json" hidden><button class="btn danger" type="button" id="clearRecords">حذف جميع السجلات</button></div><p class="hint">النسخة الاحتياطية تُحفظ كملف على جهازك. الاستيراد يدمج السجلات ولا يحذف السجلات الحالية.</p>
+<div id="records"></div><div class="actions"><button class="btn secondary" type="button" id="exportJson">تصدير نسخة JSON</button><button class="btn secondary" type="button" id="importJson">استيراد نسخة JSON</button><input id="importJsonFile" type="file" accept="application/json,.json" hidden><button class="btn danger" type="button" id="clearRecords">حذف جميع السجلات</button></div><p class="hint" id="backupNote">النسخة الاحتياطية تُحفظ كملف على جهازك. الاستيراد يدمج السجلات ولا يحذف السجلات الحالية.</p>
 </div>
 </section>
 </main>
