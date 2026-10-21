@@ -25,6 +25,7 @@ Use this checklist on the published site from an Android phone. Record the brows
 ## Diagnosis flow
 - [ ] Submit a pump fault with a symptom and confirm a result appears.
 - [ ] Change equipment/symptom and confirm the follow-up question and choices update where supported.
+- [ ] Verify follow-up questions for pneumatic leak/low flow, gearbox overheating/leak, bearing noise/vibration, PLC start/trip, and thermal overheating/low flow.
 - [ ] Submit a diagnosis with a follow-up answer and verify the answer is included in the result.
 - [ ] Leave the follow-up question unanswered and confirm diagnosis still works.
 - [ ] Submit a motor fault and confirm equipment-specific guidance appears.
