@@ -120,6 +120,10 @@ OSHA incident reports document serious injuries caused by high-pressure hydrauli
 4. **U.S. Occupational Safety and Health Administration (OSHA)**, hydraulic fluid injection injury incident report: https://www.osha.gov/ords/imis/accidentsearch.accident_detail?id=170764609
 5. **OSHA**, additional high-pressure hydraulic-fluid injection incident (2019): https://www.osha.gov/ords/imis/accident_detail?id=1434300.015
 
+## Ingersoll Rand model-specific follow-up
+
+For compressor troubleshooting examples that require more detail than this general reference, use the dedicated [Ingersoll Rand Compressor Troubleshooting Casebook](./INGERSOLL-RAND-COMPRESSOR-CASEBOOK.md). It records a symptom-led diagnostic workflow, distinguishes rotary-screw from reciprocating designs, and links to free OEM support pages and model-specific PDF manuals. Always match the manual to the nameplate and controller before using model-specific procedures.
+
 ## Limitations and review policy
 
 - This knowledge base summarizes general references; it is not a substitute for equipment-specific manuals, drawings, risk assessments, permits, or local regulations.
