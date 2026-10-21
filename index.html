@@ -239,6 +239,43 @@ const followupBank={
 "motor|vibration":{q:"هل الاهتزاز مرتبط بتغير الحمل أو ظهر بعد صيانة/فك وتركيب؟",a:["بعد صيانة أو تركيب","مع تغير الحمل","غير معروف"]},
 "conveyor|noise":{q:"هل الصوت يأتي من منطقة محددة أم من مسار السير عمومًا؟",a:["منطقة محددة","على طول المسار","غير معروف"]}
 };
+function followupGuidance(machine,symptom,answer){
+if(!answer)return [];
+const rules={
+"pump|low_flow":{
+"نعم، طبيعي":["إذا كانت قراءة السحب والمصدر طبيعية، قارن ضغط الخروج والتدفق بخط الأساس ومنحنى المضخة؛ لا تفترض انسداد السحب."],
+"منخفض أو غير مستقر":["انخفاض/عدم استقرار السحب قد يساهم في ضعف التدفق. أوقف وصعّد إذا ظهرت مؤشرات تشغيل ضار، وراجع المصدر وخط السحب وفق إجراء الموقع."],
+"لا توجد قراءة موثوقة":["لا تستنتج السبب دون قياس موثوق؛ اجمع قراءات معتمدة من نقاط القياس المحددة في دليل المعدة."]
+},
+"motor|not_start":{
+"لا يوجد أمر تشغيل":["اتبع مخطط التحكم المعتمد للتحقق من مصدر الأمر وشروط السماح من واجهة التحكم؛ لا تجسّر دوائر أو تتجاوز interlocks."],
+"أمر موجود مع إنذار/فصل":["احفظ رمز الإنذار وسجل الأحداث، وابحث عن السبب وفق دليل الموديل قبل أي إعادة ضبط."],
+"أمر موجود ولا يظهر إنذار":["لا تكرر محاولات البدء؛ اطلب من شخص مؤهل التحقق من دائرة القدرة والحمل الميكانيكي وفق إجراءات العزل."]
+},
+"compressor|low_flow":{
+"نعم، فرق الضغط في الشبكة محتمل":["قارن الضغط عند المخرج ونقطة الاستخدام في ظروف حمل متقاربة، ثم راجع الشبكة والمرشحات والتسربات بالطريقة المعتمدة."],
+"ضغط المخرج نفسه منخفض":["راجع سجل الضاغط والإنذارات وحالة المرشحات/المجفف وفق دليل المصنع؛ لا تغيّر نقاط الضبط أو صمام الأمان."],
+"لا توجد قراءات مقارنة":["اجمع قراءات ضغط موثوقة مع وحداتها ومواقعها قبل تحديد إن كانت المشكلة في الضاغط أو الشبكة."]
+},
+"hydraulic|leak":{
+"نعم أو غير متأكد":["خطر حقن سائل عالي الضغط لا يمكن استبعاده: ابتعد عن المنطقة، أوقف وصعّد وفق إجراء الموقع، ولا تستخدم اليد للبحث عن التسرب. الاشتباه في حقن تحت الجلد حالة طبية طارئة."],
+"لا، تسرب منخفض الضغط مؤكد":["استمر فقط وفق إجراء الموقع وبعد التحقق من تصنيف الضغط والعزل الآمن؛ لا تفك وصلة قبل تفريغ الطاقة والتحقق من الحالة الآمنة."],
+"لا أستطيع التحديد":["تعامل معه كتسرب قد يكون عالي الضغط: ابتعد وصعّد إلى شخص مؤهل، ولا تقترب أو تلمس السائل."]
+},
+"thermal|high_pressure":{
+"نعم، تجاوز مؤكد — أوقف وصعّد":["أبقِ المعدة متوقفة وصعّد فورًا وفق إجراء الموقع؛ لا تعِد التشغيل ولا تعدّل أو تعزل صمام أمان."],
+"القراءة مشكوك فيها":["لا تتجاهل الإنذار؛ اتبع إجراء الموقع للتحقق من القراءة باستخدام مؤشر معتمد. لا تتجاوز الحماية."],
+"لا أعرف حد المعدة":["لا يمكن تقييم القراءة دون حد المصنع المحدد. أبقِ الحالة تحت سيطرة الإجراء المعتمد وصعّد بدل تخمين حد."]
+},
+"vfd|trip":{
+"نعم، الرمز محفوظ":["استخدم رمز العطل الكامل مع موديل المغير ودليل المصنع المطابق لتحديد الفحوص المسموحة؛ لا تنقل معنى الرمز من موديل آخر."],
+"لا، لا يوجد سجل متاح":["وثّق الرمز والظروف في المرة القادمة قبل إعادة الضبط؛ لا تكرر التشغيل إذا كان سبب الفصل مجهولًا."],
+"تمت إعادة الضبط بالفعل":["سجّل ما حدث قبل/بعد إعادة الضبط، ولا تكررها إذا عاد العطل؛ افحص السبب وفق دليل الموديل."]
+}
+};
+const answers=rules[machine+"|"+symptom];
+return answers&&answers[answer]||[];
+}
 function updateFollowup(){const key=$("machine").value+"|"+$("symptom").value;const item=followupBank[key];$("followupPrompt").textContent=item?item.q:"لا يوجد سؤال متخصص لهذا الاختيار بعد؛ سجّل القياسات والإنذار كما هي.";const sel=$("followupAnswer");sel.innerHTML='<option value="">اختر الإجابة إن كانت معلومة</option>';if(item)item.a.forEach(a=>{const o=document.createElement("option");o.value=a;o.textContent=a;sel.appendChild(o);});}
 $("machine").addEventListener("change",updateFollowup);$("symptom").addEventListener("change",updateFollowup);updateFollowup();
 const symptomGeneral={
@@ -254,7 +291,7 @@ $('aiEndpoint').value=localStorage.getItem(AI_ENDPOINT_KEY)||'';
 $('saveAiEndpoint').addEventListener('click',()=>{const endpoint=$('aiEndpoint').value.trim();if(endpoint&&!/^https:\/\//i.test(endpoint)){alert('استخدم رابط HTTPS صالحًا.');return;}if(endpoint)localStorage.setItem(AI_ENDPOINT_KEY,endpoint);else localStorage.removeItem(AI_ENDPOINT_KEY);alert('تم حفظ إعداد الرابط على هذا الجهاز فقط.');});
 $('aiForm').addEventListener('submit',async e=>{e.preventDefault();$('aiConsent').checked=false;const endpoint=$('aiEndpoint').value.trim();const box=$('aiResult');box.hidden=false;box.textContent='';if(!endpoint){box.textContent='لم يُضبط رابط الخادم بعد. انشر Backend آمنًا واضبط مزوّد AI أولًا. التشخيص المحلي ما زال متاحًا في تبويب «تشخيص أولي».';return;}if(!/^https:\/\//i.test(endpoint)){box.textContent='الرابط غير صالح: يجب أن يبدأ بـ https://';return;}const button=$('askAi');button.disabled=true;button.textContent='جارٍ تحليل العطل…';box.textContent='جارٍ إرسال وصف العطل إلى الخادم الذي ضبطته…';try{const response=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},signal:AbortSignal.timeout(25000),body:JSON.stringify({machine:$('aiMachine').value.trim(),symptom:$('aiSymptom').value.trim(),code:$('aiCode').value.trim(),observations:$('aiObservations').value.trim()})});let data={};try{data=await response.json()}catch{}if(!response.ok)throw new Error(data.error||('تعذر إكمال الطلب (HTTP '+response.status+').'));box.textContent=(data.answer||'لم يُرجع الخادم إجابة قابلة للعرض.')+'\n\nتنبيه: راجع كل اقتراح مقابل دليل المصنع وإجراءات السلامة المعتمدة.';}catch(err){box.textContent='تعذر الاتصال بمساعد AI: '+(err.message||'خطأ غير معروف')+'\n\nيمكنك مواصلة استخدام التشخيص المحلي. تأكد من نشر الخادم وإعداد CORS ومفتاح المزوّد بشكل صحيح.';}finally{button.disabled=false;button.textContent='تحليل العطل';}});
 
-$('diagnosisForm').addEventListener('submit',e=>{e.preventDefault();const machine=$('machine').value,symptom=$('symptom').value,code=$('code').value.trim(),obs=$('observations').value.trim(),followup=$('followupAnswer').value;let steps=(guidance[machine]&&guidance[machine][symptom])||[];steps=[...steps,...(symptomGeneral[symptom]||[]),...general];$('diagnosisResult').innerHTML='<div class="result"><h3>خطة فحص إرشادية — ليست تشخيصًا مؤكدًا</h3><span class="pill">المعدة: '+escapeHtml($('machine').selectedOptions[0].text)+'</span><span class="pill">العَرَض: '+escapeHtml($('symptom').selectedOptions[0].text)+'</span>'+(code?'<p><b>رمز مسجل:</b> '+escapeHtml(code)+'</p>':'')+'<ul>'+steps.map(s=>'<li>'+escapeHtml(s)+'</li>').join('')+'</ul>'+(followup?'<p><b>إجابة السؤال الموجّه:</b> '+escapeHtml(followup)+'</p>':'')+(obs?'<p><b>ملاحظاتك:</b> '+escapeHtml(obs)+'</p>':'')+'<p class="hint">الإجابة تساعد على توجيه الفحص ولا تثبت السبب. لا تُجرِ قياسًا كهربائيًا حيًا أو اختبار ضغط/حركة غير مصرح به.</p><div class="actions"><button class="btn" id="saveDiagnosis" type="button">حفظ كبلاغ صيانة</button></div></div>'; $('saveDiagnosis').addEventListener('click',()=>{const all=getRecords();all.unshift({date:localDateString(),machine:$('machine').selectedOptions[0].text,fault:$('symptom').selectedOptions[0].text+(code?' — '+code:'')+(followup?' | إجابة السؤال: '+followup:'')+(obs?' | '+obs:''),action:'خطة فحص إرشادية تم إنشاؤها؛ لم يتم تأكيد السبب.',status:'قيد الفحص'});saveRecords(all);renderRecords();$('log').classList.add('active');$('diagnose').classList.remove('active');document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab==='log'));});});
+$('diagnosisForm').addEventListener('submit',e=>{e.preventDefault();const machine=$('machine').value,symptom=$('symptom').value,code=$('code').value.trim(),obs=$('observations').value.trim(),followup=$('followupAnswer').value;let steps=(guidance[machine]&&guidance[machine][symptom])||[];steps=[...steps,...(symptomGeneral[symptom]||[]),...general];const branchSteps=followupGuidance(machine,symptom,followup);$('diagnosisResult').innerHTML='<div class="result"><h3>خطة فحص إرشادية — ليست تشخيصًا مؤكدًا</h3><span class="pill">المعدة: '+escapeHtml($('machine').selectedOptions[0].text)+'</span><span class="pill">العَرَض: '+escapeHtml($('symptom').selectedOptions[0].text)+'</span>'+(code?'<p><b>رمز مسجل:</b> '+escapeHtml(code)+'</p>':'')+'<ul>'+steps.map(s=>'<li>'+escapeHtml(s)+'</li>').join('')+'</ul>'+(branchSteps.length?'<h3>خطوة تالية بحسب إجابتك</h3><ul>'+branchSteps.map(s=>'<li>'+escapeHtml(s)+'</li>').join('')+'</ul>':'')+(followup?'<p><b>إجابة السؤال الموجّه:</b> '+escapeHtml(followup)+'</p>':'')+(obs?'<p><b>ملاحظاتك:</b> '+escapeHtml(obs)+'</p>':'')+'<p class="hint">الإجابة تساعد على توجيه الفحص ولا تثبت السبب. لا تُجرِ قياسًا كهربائيًا حيًا أو اختبار ضغط/حركة غير مصرح به.</p><div class="actions"><button class="btn" id="saveDiagnosis" type="button">حفظ كبلاغ صيانة</button></div></div>'; $('saveDiagnosis').addEventListener('click',()=>{const all=getRecords();all.unshift({date:localDateString(),machine:$('machine').selectedOptions[0].text,fault:$('symptom').selectedOptions[0].text+(code?' — '+code:'')+(followup?' | إجابة السؤال: '+followup:'')+(obs?' | '+obs:''),action:'خطة فحص إرشادية تم إنشاؤها؛ لم يتم تأكيد السبب.',status:'قيد الفحص'});saveRecords(all);renderRecords();$('log').classList.add('active');$('diagnose').classList.remove('active');document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab==='log'));});});
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 $('resetSafety').addEventListener('click',()=>document.querySelectorAll('#safetyChecks input').forEach(c=>c.checked=false));
 const KEY='maintenance-ai-toolkit-records-v1';function getRecords(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch{return []}}function saveRecords(a){localStorage.setItem(KEY,JSON.stringify(a))}
