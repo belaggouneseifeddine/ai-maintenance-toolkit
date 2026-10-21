@@ -137,6 +137,15 @@ const checks = [
     assert.match(html, /thermal\|high_pressure/);
     assert.match(html, /لا تعِد التشغيل ولا تعدّل أو تعزل صمام أمان/);
   }],
+  ["Diagnostic report captures asset context, priority, provenance and printable output", () => {
+    for (const id of ["assetId", "priority", "technician", "manualRef"]) assert.match(html, new RegExp('id="' + id + '"'));
+    assert.match(html, /Maintenance Inspection Report/);
+    assert.match(html, /window\.print\(\)/);
+    assert.match(html, /print-only/);
+    assert.match(html, /escapeHtml\(assetId\|\|'غير محدد'\)/);
+    assert.match(html, /مرجع الدليل الذي أدخله المستخدم/);
+    assert.match(html, /لا يمثل هذا التقرير اعتمادًا هندسيًا أو تصريح عمل/);
+  }],
   ["Diagnostic branch output escapes generated guidance and retains optional answers", () => {
     assert.match(html, /branchSteps\.map\(s=>'<li>'\+escapeHtml\(s\)/);
     assert.match(html, /إجابة السؤال الموجّه/);
