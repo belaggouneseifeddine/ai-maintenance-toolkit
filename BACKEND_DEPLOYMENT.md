@@ -10,7 +10,7 @@ This is a standalone backend for the GitHub Pages frontend. It does not use Verc
 4. In the Worker settings, add the secret `AI_API_KEY` with your valid Google Gemini API key. Do not commit API keys to Git.
 5. Optionally add variables `AI_MODEL=gemini-2.5-flash` and `AI_BASE_URL=https://generativelanguage.googleapis.com/v1beta/openai`.
 6. Deploy and copy the Worker URL, for example the URL Cloudflare assigns to your Worker.
-7. Open the app at https://belaggouneseifeddine.github.io/ai-maintenance-toolkit/ and paste the Worker URL into the AI endpoint field. The frontend appends `/api/chat`; the Worker also exposes `/health`.
+7. Open the app at https://belaggouneseifeddine.github.io/ai-maintenance-toolkit/ and paste the Worker URL ending in `/api/chat` into the AI endpoint field, for example `https://YOUR-WORKER.workers.dev/api/chat`. The Worker also exposes `/health`.
 
 ## API
 
