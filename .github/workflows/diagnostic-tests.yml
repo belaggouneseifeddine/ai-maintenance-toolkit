@@ -11,6 +11,7 @@ on:
   pull_request:
     paths:
       - "diagnostic-engine.js"
+      - "maintenance-v03.js"
       - "faults.json"
       - "tests/**"
       - ".github/workflows/diagnostic-tests.yml"
