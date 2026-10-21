@@ -86,13 +86,15 @@ const checks = [
     assert.match(html, /id="aiConsent" type="checkbox" required/);
     assert.match(html, /أوافق على إرسال وصف العطل والقياسات/);
   }],
-  ["AI consent is consumed per submission and client request has a timeout", () => {
+  ["Direct Gemini request has a timeout and preserves readable output", () => {
     assert.match(html, /e\.preventDefault\(\);\$\('aiConsent'\)\.checked=false/);
-    assert.match(html, /signal:AbortSignal\.timeout\(25000\)/);
+    assert.match(html, /signal:AbortSignal\.timeout\(35000\)/);
     assert.match(html, /#aiResult\{white-space:pre-wrap/);
   }],
-  ["AI endpoint is configurable without a browser-side provider key", () => {
-    assert.match(html, /AI_ENDPOINT_KEY/);
+  ["Experimental Gemini key is entered at runtime, not hardcoded or persisted", () => {
+    assert.match(html, /id="geminiApiKey" type="password"/);
+    assert.match(html, /clearGeminiKey/);
+    assert.doesNotMatch(html, /AI_ENDPOINT_KEY/);
     assert.doesNotMatch(html, /sk-[A-Za-z0-9]{20,}/);
     assert.doesNotMatch(html, /AIza[0-9A-Za-z_-]{30,}/);
   }],
