@@ -10,7 +10,7 @@ window.MAINTENANCE_DIAGNOSTIC_FLOWS = {
           id: "pump-low-flow-suction-source-status",
           text: "هل ضغط السحب/مستوى المصدر طبيعي حسب المؤشرات المتاحة؟"
         },
-        answers: Object.freeze([
+        answers: [
           {
             id: "source-normal",
             label: "نعم، طبيعي",
@@ -26,7 +26,7 @@ window.MAINTENANCE_DIAGNOSTIC_FLOWS = {
             label: "لا توجد قراءة موثوقة",
             guidance: "لا تستنتج السبب دون قياس موثوق؛ اجمع قراءات معتمدة من نقاط القياس المحددة في دليل المعدة."
           }
-        ])
+        ]
       }
     }
 };
