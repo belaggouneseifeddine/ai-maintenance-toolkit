@@ -35,6 +35,7 @@ The repository contains a static progressive web app (PWA) intended for phone br
 - `SAFETY.md` — safety boundaries
 - `docs/troubleshooting-workflow.md` — structured diagnostic workflow
 - `knowledge/fault-report-template.md` — reusable fault report
+- `knowledge/INDUSTRIAL-FAULT-KNOWLEDGE-BASE.md` — source-backed fault patterns and safety boundaries for pumps, motors, compressors, hydraulics, and valves
 - `docs/TEST-CHECKLIST.md` — manual acceptance tests
 - `docs/AI-INTEGRATION-PLAN.md` — safe path toward optional AI integration
 
