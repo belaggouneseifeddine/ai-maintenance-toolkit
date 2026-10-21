@@ -370,7 +370,8 @@ let steps=(guidance[machine]&&guidance[machine][symptom])||[];
 steps=[...steps,...(symptomGeneral[symptom]||[]),...general];
 let branchSteps=followupGuidance(machine,symptom,followup);
 const faultLibrary=await faultLibraryPromise;
-const engineResult=window.diagnose({equipmentType:machine,symptom,observations:obs,errorCode:code,language:window.MaintenanceI18n?window.MaintenanceI18n.getLanguage():'ar'},faultLibrary);\nif(machine==='pump'&&!engineResult.matched){steps=[];branchSteps=[];}
+const engineResult=window.diagnose({equipmentType:machine,symptom,observations:obs,errorCode:code,language:window.MaintenanceI18n?window.MaintenanceI18n.getLanguage():'ar'},faultLibrary);
+if(machine==='pump'&&!engineResult.matched){steps=[];branchSteps=[];}
 lastDiagnosisDraft={date:localDateString(),machine:(assetId?assetId+' — ':'')+$('machine').selectedOptions[0].text,fault:$('symptom').selectedOptions[0].text+(code?' — '+code:'')+(followup?' | '+followup:'')+(obs?' | '+obs:''),action:'مسودة تشخيص إرشادية؛ السبب غير مؤكد.'+(manualRef?' مرجع الدليل: '+manualRef:''),status:'قيد الفحص'};
 persistDraft();
 renderDraftSummary();
