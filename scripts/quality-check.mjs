@@ -108,6 +108,24 @@ const checks = [
     assert.match(motorCasebook, /repeatedly reset/i);
     assert.match(motorCasebook, /DC bus can remain charged/i);
   }],
+  ["Follow-up answers generate evidence-specific next steps rather than being only logged", () => {
+    assert.match(html, /function followupGuidance\(machine,symptom,answer\)/);
+    assert.match(html, /const branchSteps=followupGuidance\(machine,symptom,followup\)/);
+    assert.match(html, /خطوة تالية بحسب إجابتك/);
+  }],
+  ["High-pressure hydraulic leak answer always directs away from contact and to escalation", () => {
+    assert.match(html, /hydraulic\|leak/);
+    assert.match(html, /خطر حقن سائل عالي الضغط لا يمكن استبعاده/);
+    assert.match(html, /لا تستخدم اليد للبحث عن التسرب/);
+  }],
+  ["High-pressure thermal branch forbids restart and safety-valve adjustment", () => {
+    assert.match(html, /thermal\|high_pressure/);
+    assert.match(html, /لا تعِد التشغيل ولا تعدّل أو تعزل صمام أمان/);
+  }],
+  ["Diagnostic branch output escapes generated guidance and retains optional answers", () => {
+    assert.match(html, /branchSteps\.map\(s=>'<li>'\+escapeHtml\(s\)/);
+    assert.match(html, /إجابة السؤال الموجّه/);
+  }],
   ["AI instructions prohibit bypassing safety systems", () => {
     assert.match(worker, /Never recommend bypassing guards, interlocks, alarms, or protective devices/);
     assert.match(safety, /lockout\/tagout/i);
