@@ -2,7 +2,7 @@
 "use strict";
 const dictionaries={
 ar:{
- appTitle:"Maintenance AI Toolkit",eyebrow:"الصيانة الصناعية • إصدار تجريبي 0.2",sub:"مساعد عملي لتوثيق الأعطال وتنظيم خطوات الفحص بأمان.",
+ appTitle:"Maintenance AI Toolkit",prototypeWarning:"أداة أولية غير معتمدة هندسيًا. اتبع دليل المصنع وإجراءات موقعك، ولا تعتمد على هذا التطبيق وحده لاتخاذ قرارات سلامة أو تشغيل.",eyebrow:"الصيانة الصناعية • إصدار تجريبي 0.2",sub:"مساعد عملي لتوثيق الأعطال وتنظيم خطوات الفحص بأمان.",
  navDiagnose:"ابدأ التشخيص",navAI:"مساعد AI",navKnowledge:"قاعدة الأعطال",navSafety:"السلامة",navLog:"سجل الصيانة",
  diagnosisTitle:"بيانات الآلة والعطل",diagnosisHint:"املأ المعلومات المتوفرة فقط. النتائج قواعد إرشادية وليست تشخيصًا مؤكدًا.",
  machine:"نوع المعدة",symptom:"العَرَض الرئيسي",asset:"رقم الأصل / المعدة (اختياري)",priority:"أولوية البلاغ",technician:"اسم الفني (اختياري)",manualRef:"مرجع الدليل / الصفحة (اختياري)",code:"رمز الخطأ أو الإنذار (اختياري)",observations:"ملاحظات وقياسات مؤكدة",
@@ -14,7 +14,7 @@ ar:{
  priorityOptions:{routine:"عادي — فحص مخطط",high:"مرتفع — يؤثر في الإنتاج",urgent:"عاجل — خطر محتمل أو حالة غير آمنة"}
 },
 fr:{
- appTitle:"Maintenance AI Toolkit",eyebrow:"MAINTENANCE INDUSTRIELLE • VERSION BÊTA 0.2",sub:"Assistant pratique pour documenter les pannes et organiser les contrôles en sécurité.",
+ appTitle:"Maintenance AI Toolkit",prototypeWarning:"Prototype non approuvé pour l’ingénierie. Suivez le manuel constructeur et les procédures du site; ne l’utilisez pas seul pour les décisions de sécurité ou d’exploitation.",eyebrow:"MAINTENANCE INDUSTRIELLE • VERSION BÊTA 0.2",sub:"Assistant pratique pour documenter les pannes et organiser les contrôles en sécurité.",
  navDiagnose:"Diagnostic",navAI:"Assistant IA",navKnowledge:"Base de pannes",navSafety:"Sécurité",navLog:"Journal de maintenance",
  diagnosisTitle:"Équipement et panne",diagnosisHint:"Saisissez uniquement les informations disponibles. Les résultats sont indicatifs, pas un diagnostic confirmé.",
  machine:"Type d’équipement",symptom:"Symptôme principal",asset:"Identifiant équipement (facultatif)",priority:"Priorité du rapport",technician:"Technicien (facultatif)",manualRef:"Référence du manuel / page (facultatif)",code:"Code défaut ou alarme (facultatif)",observations:"Observations et mesures confirmées",
@@ -26,7 +26,7 @@ fr:{
  priorityOptions:{routine:"Normale — contrôle planifié",high:"Élevée — impact production",urgent:"Urgente — danger potentiel"}
 },
 en:{
- appTitle:"Maintenance AI Toolkit",eyebrow:"INDUSTRIAL MAINTENANCE • BETA 0.2",sub:"A practical assistant for documenting faults and organizing safe inspections.",
+ appTitle:"Maintenance AI Toolkit",prototypeWarning:"Initial tool not engineering-approved. Follow the manufacturer manual and site procedures; do not rely on this app alone for safety or operating decisions.",eyebrow:"INDUSTRIAL MAINTENANCE • BETA 0.2",sub:"A practical assistant for documenting faults and organizing safe inspections.",
  navDiagnose:"Diagnose",navAI:"AI assistant",navKnowledge:"Fault library",navSafety:"Safety",navLog:"Maintenance log",
  diagnosisTitle:"Equipment and fault",diagnosisHint:"Enter only information you have. Results are guidance, not a confirmed diagnosis.",
  machine:"Equipment type",symptom:"Main symptom",asset:"Asset ID (optional)",priority:"Report priority",technician:"Technician (optional)",manualRef:"Manual reference / page (optional)",code:"Fault or alarm code (optional)",observations:"Observations and verified measurements",
@@ -59,7 +59,7 @@ function applyLanguage(language){
  setText("#log h2",d.logTitle);setText("#log .hint",d.logHint);
  setLabel("logMachine","logMachine");setLabel("logFault","logFault");setLabel("logAction","logAction");setLabel("logStatus","logStatus");setLabel("logDate","logDate");
  setText('#logForm button[type="submit"]',d.saveLog);setText("#exportCsv",d.exportCsv);setText("#clearRecords",d.clearRecords);
- setText("footer:not(.author)",d.advisory);
+ setText("footer:not(.author)",d.prototypeWarning);
  translateOptions("machine",d.equipment);translateOptions("symptom",d.symptoms);translateOptions("priority",d.priorityOptions);
  translateOptions("logStatus",{"قيد الفحص":d.statusInProgress,"تم الإصلاح":d.statusRepaired,"يتطلب قطع غيار":d.statusParts,"تم التصعيد":d.statusEscalated});
  const placeholders={assetId:{ar:"مثال: P-102",fr:"Ex. : P-102",en:"e.g. P-102"},technician:{ar:"اسم مُعدّ التقرير",fr:"Nom du technicien",en:"Report author"},manualRef:{ar:"الموديل، اسم الدليل، الصفحة",fr:"Modèle, manuel, page",en:"Model, manual, page"},code:{ar:"مثال: E-01، Overload...",fr:"Ex. : code d’alarme",en:"e.g. alarm code"},observations:{ar:"متى بدأ العطل؟ اذكر الملاحظات المؤكدة ومصدرها.",fr:"Quand la panne a-t-elle commencé ? Décrivez les faits vérifiés.",en:"When did the fault start? Enter verified observations."},logMachine:{ar:"مثال: P-102 / مضخة مياه",fr:"Ex. : P-102 / pompe à eau",en:"e.g. P-102 / water pump"},logFault:{ar:"وصف مختصر لما تمت ملاحظته",fr:"Décrivez brièvement l’observation",en:"Briefly describe the observation"},logAction:{ar:"ما الذي تم عمله؟ وما النتيجة؟",fr:"Action effectuée et résultat",en:"Action taken and result"}};
