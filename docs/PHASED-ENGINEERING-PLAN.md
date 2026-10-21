@@ -28,6 +28,9 @@ Status: initial static review completed; live runtime verification remains open.
 - [ ] Execute the tests in CI and record the run result.
 - [ ] Add browser-level tests for language switching, header theme toggle, navigation and form validation.
 - [x] Fix photo-to-record identity using stable record IDs and migration-safe handling (real-browser verification pending).
+- [x] Validate monthly due dates and custom report date ranges; reject invalid preventive-maintenance dates.
+- [x] Add JavaScript syntax regression tests for the maintenance utility and inline scripts in `index.html`.
+- [x] Bump the service-worker cache to v27 after frontend changes.
 - [ ] Test JSON backup/import round trips and malformed-file handling.
 
 ## Phase 2 — Localization and mobile UX
