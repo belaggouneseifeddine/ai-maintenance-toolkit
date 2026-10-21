@@ -325,7 +325,8 @@ try{endpointUrl=new URL(endpoint);if(!['https:','http:'].includes(endpointUrl.pr
 try{localStorage.setItem(AI_ENDPOINT_KEY,endpoint);}catch{}
 const button=$('askAi');button.disabled=true;button.textContent='جارٍ تحليل العطل…';
 box.textContent='جارٍ الاتصال بخادم الذكاء الاصطناعي…';
-const payload={machine:$('aiMachine').value.trim(),symptom:$('aiSymptom').value.trim(),code:$('aiCode').value.trim(),observations:$('aiObservations').value.trim()};
+const lang=window.MaintenanceI18n?window.MaintenanceI18n.getLanguage():'ar';
+const payload={machine:$('aiMachine').value.trim(),symptom:$('aiSymptom').value.trim(),code:$('aiCode').value.trim(),observations:$('aiObservations').value.trim(),language:['ar','fr','en'].includes(lang)?lang:'ar'};
 try{
 const response=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},signal:AbortSignal.timeout(35000),body:JSON.stringify(payload)});
 let data={};try{data=await response.json()}catch{}
