@@ -7,8 +7,9 @@ The interface now includes an optional AI tab, and `backend/cloudflare-worker.js
 
 ## Current prototype
 The repository contains a static progressive web app (PWA) intended for phone browsers. The current Arabic-first interface includes:
-- Structured fault entry for selected equipment types and symptoms.
-- Rule-based troubleshooting guidance for pumps, motors, conveyors, compressors, hydraulic systems, actuated valves, VFDs, and instrumentation signals.
+- Structured fault entry for a wider set of equipment: pumps, motors, conveyors, compressors, hydraulic and pneumatic systems, actuated valves, VFDs, instrumentation, gearboxes, bearings, electrical control/PLC, and thermal systems.
+- Symptom-specific follow-up questions for selected fault paths, with answers recorded in the generated inspection plan; questions are optional and do not claim a confirmed diagnosis.
+- General symptom fallback guidance for slow cycles, intermittent faults, high pressure, and abnormal consumption.
 - A source-backed fault knowledge base covering symptoms, safe checks, escalation, and limits.
 - Safety reminders and a checklist.
 - Local maintenance records saved in the browser on the current device.
@@ -36,9 +37,8 @@ The repository contains a static progressive web app (PWA) intended for phone br
 - `SAFETY.md` — safety boundaries
 - `docs/troubleshooting-workflow.md` — structured diagnostic workflow
 - `knowledge/fault-report-template.md` — reusable fault report
-- `knowledge/INDUSTRIAL-FAULT-KNOWLEDGE-BASE.md` — source-backed fault patterns and safety boundaries for pumps, motors, compressors, hydraulics, and valves
-- `knowledge/INGERSOLL-RAND-COMPRESSOR-CASEBOOK.md` — model-aware compressor diagnostic questions, fault hypotheses, and free OEM manuals/PDFs
-- `knowledge/ELECTRIC-MOTOR-AND-VFD-CASEBOOK.md` — symptom-led motor, contactor, overload, and VFD troubleshooting with free OEM manuals/PDFs
+- `knowledge/INDUSTRIAL-FAULT-KNOWLEDGE-BASE.md` — source-backed fault patterns and safety boundaries across multiple equipment families
+- `knowledge/ELECTRIC-MOTOR-AND-VFD-CASEBOOK.md` — supplemental symptom-led motor, contactor, overload, and VFD troubleshooting with free OEM manuals/PDFs
 - `docs/TEST-CHECKLIST.md` — manual acceptance tests
 - `docs/AI-INTEGRATION-PLAN.md` — safe path toward optional AI integration
 
