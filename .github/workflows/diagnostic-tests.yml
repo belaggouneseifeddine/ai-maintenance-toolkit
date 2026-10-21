@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - "diagnostic-engine.js"
+      - "maintenance-v03.js"
       - "faults.json"
       - "tests/**"
       - ".github/workflows/diagnostic-tests.yml"
@@ -29,4 +30,4 @@ jobs:
         with:
           node-version: 22
       - name: Run diagnostic regression tests
-        run: node --test tests/diagnostic-engine.test.cjs
+        run: node --test tests/*.test.cjs
