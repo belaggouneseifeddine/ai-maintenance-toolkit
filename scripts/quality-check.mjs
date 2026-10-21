@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs";
 import assert from "node:assert/strict";
+import vm from "node:vm";
 
 const html = readFileSync("index.html", "utf8");
 const diagnosticFlowsSource = readFileSync("diagnostic-flows.js", "utf8");
@@ -11,6 +12,11 @@ const knowledge = readFileSync("knowledge/INDUSTRIAL-FAULT-KNOWLEDGE-BASE.md", "
 const motorCasebook = readFileSync("knowledge/ELECTRIC-MOTOR-AND-VFD-CASEBOOK.md", "utf8");
 const manifest = JSON.parse(readFileSync("manifest.json", "utf8"));
 const sw = readFileSync("sw.js", "utf8");
+const faults = JSON.parse(readFileSync("faults.json", "utf8"));
+const diagnosticEngineSource = readFileSync("diagnostic-engine.js", "utf8");
+const i18n = readFileSync("i18n.js", "utf8");
+const engineWindow = {};
+vm.runInNewContext(diagnosticEngineSource, { window: engineWindow, console });
 
 const checks = [
   ["Arabic RTL document", () => assert.match(html, /<html lang="ar" dir="rtl">/)],
@@ -180,6 +186,70 @@ const checks = [
     assert.match(sw, /maintenance-ai-toolkit-v11/);
   }]
 ];
+
+
+  ["Pump fault library has the five requested multilingual fault entries", () => {
+    assert.equal(faults.faults.length, 5);
+    assert.deepEqual(faults.faults.map(fault => fault.id), [
+      "pump-cavitation", "pump-loss-of-prime", "pump-abnormal-vibration",
+      "pump-mechanical-seal-leak", "pump-check-valve-failure"
+    ]);
+    for (const fault of faults.faults) {
+      assert.equal(fault.equipmentType, "pump");
+      for (const language of ["ar", "fr", "en"]) {
+        assert.ok(fault.title[language], fault.id + " missing title " + language);
+        assert.ok(fault.keywords[language].length >= 3, fault.id + " missing keywords " + language);
+        assert.ok(fault.safeChecks.filter(item => item[language]).length >= 3, fault.id + " missing safe checks " + language);
+        assert.ok(fault.escalation[language], fault.id + " missing escalation " + language);
+      }
+      assert.ok(fault.causes.length >= 3 && fault.causes.length <= 5);
+      assert.ok(fault.safeChecks.length >= 3 && fault.safeChecks.length <= 5);
+      for (const cause of fault.causes) assert.ok(cause.id && cause.keywords.length && cause.label.ar && cause.label.fr && cause.label.en);
+    }
+  }],
+  ["Rule-based engine ranks a supported cavitation case and explains ranking", () => {
+    const result = engineWindow.diagnose({ equipmentType: "pump", symptom: "noise", observations: "صوت حصى مع تكهف", language: "ar" }, faults);
+    assert.equal(result.matched, true);
+    assert.equal(result.results[0].id, "pump-cavitation");
+    assert.ok(result.results[0].rankingReason.includes("تطابق"));
+    assert.ok(result.results[0].causes[0].reason);
+    assert.ok(result.results[0].safeChecks.length >= 3);
+    assert.ok(result.results[0].escalation);
+  }],
+  ["Rule-based engine rejects weak evidence instead of guessing", () => {
+    const result = engineWindow.diagnose({ equipmentType: "other", symptom: "other", observations: "xyz unknown", language: "en" }, faults);
+    assert.equal(result.matched, false);
+    assert.equal(result.message, "No sufficient match; escalate to the supervisor");
+    assert.equal(result.results.length, 0);
+  }],
+  ["Rule-based engine normalizes French accents and ignores case", () => {
+    const result = engineWindow.diagnose({ equipmentType: "pump", symptom: "leak", observations: "FUITE DE GARNITURE MÉCANIQUE", language: "fr" }, faults);
+    assert.equal(result.matched, true);
+    assert.equal(result.results[0].id, "pump-mechanical-seal-leak");
+  }],
+  ["Safety gate, auto-draft, three-language switch and record filters are wired", () => {
+    assert.match(html, /safetyChecks\.some\(box=>!box\.checked\)/);
+    assert.match(html, /id="safetyGateNotice"/);
+    assert.match(html, /maintenance-ai-toolkit-draft-v1/);
+    assert.match(html, /localStorage\.setItem\(DRAFT_KEY/);
+    assert.match(html, /id="languageSwitcher"/);
+    assert.match(html, /id="recordSearch"/);
+    assert.match(html, /id="recordStatusFilter"/);
+    assert.match(html, /id="recordDateFilter"/);
+    assert.match(i18n, /fr:/);
+    assert.match(i18n, /en:/);
+    assert.match(i18n, /document\.documentElement\.dir=current==="ar"\?"rtl":"ltr"/);
+  }],
+  ["Existing local-storage key and CSV export remain unchanged", () => {
+    assert.match(html, /const KEY='maintenance-ai-toolkit-records-v1'/);
+    assert.match(html, /maintenance-log\.csv/);
+    assert.match(html, /function csvCell\(value\)/);
+  }],
+  ["PWA caches all new offline dependencies and bumps its cache", () => {
+    assert.match(sw, /maintenance-ai-toolkit-v12/);
+    for (const asset of ["diagnostic-engine.js", "faults.json", "i18n.js"]) assert.ok(sw.includes(asset), "Missing offline cache asset " + asset);
+    assert.match(manifest.icons[0].src, /icon\.svg/);
+  }],
 
 let failed = 0;
 for (const [name, run] of checks) {
