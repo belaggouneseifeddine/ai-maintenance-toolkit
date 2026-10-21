@@ -1,0 +1,50 @@
+/* UX refresh: clear hierarchy, thumb-friendly controls, accessible contrast */
+:root{--ux-ink:#102a30;--ux-muted:#587078;--ux-line:#d8e5e8;--ux-card:#fff;--ux-bg:#f4f8f9}
+body{background:var(--ux-bg)}
+header{padding:22px 18px 32px}
+header .brand{font-weight:850}
+header .sub{max-width:700px}
+main{max-width:1040px}
+.nav{position:sticky;top:0;z-index:20;margin-inline:-2px;padding:10px 2px 12px;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid #d8e5e877}
+.tab{flex:0 0 auto}
+.panel{animation:ux-enter .18s ease-out}
+@keyframes ux-enter{from{opacity:.65;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.ux-hero{position:relative;overflow:hidden;margin:2px 0 14px;padding:clamp(20px,4vw,34px);border-radius:24px;background:linear-gradient(130deg,#0b625d,#0f766e 52%,#164e63);color:white;box-shadow:0 12px 30px #0f766e20}
+.ux-hero:after{content:"";position:absolute;width:190px;height:190px;right:-55px;bottom:-105px;border:1px solid #ffffff30;border-radius:50%;box-shadow:0 0 0 24px #ffffff0a,0 0 0 48px #ffffff08;pointer-events:none}
+.ux-eyebrow{font-size:.8rem;font-weight:800;opacity:.9;letter-spacing:.02em}
+.ux-hero h1{position:relative;z-index:1;font-size:clamp(1.45rem,4vw,2.15rem);line-height:1.35;margin:10px 0 8px;max-width:680px}
+.ux-hero p{position:relative;z-index:1;line-height:1.8;max-width:680px;margin:0 0 14px;color:#e5f5f3}
+.ux-prototype{display:inline-flex;border:1px solid #ffffff55;background:#ffffff14;padding:5px 10px;border-radius:999px;font-size:.78rem;font-weight:750}
+.ux-safety{display:flex;gap:12px;align-items:flex-start;background:#fff8eb;border:1px solid #f2d6a8;color:#70410c;border-radius:17px;padding:14px 16px;margin:0 0 18px}
+.ux-safety-icon{display:grid;place-items:center;flex:0 0 30px;width:30px;height:30px;border-radius:10px;background:#f5dfb7;font-weight:900}
+.ux-safety h2{font-size:.98rem;margin:0 0 3px}.ux-safety p{font-size:.88rem;line-height:1.75;margin:0}
+.ux-overview h2,.ux-section-head h2{font-size:1.1rem;margin:0 0 10px}
+.ux-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:20px}
+.ux-stat{display:flex;flex-direction:column;gap:6px;min-width:0;padding:15px;border:1px solid var(--line);border-radius:17px;background:var(--card);box-shadow:0 4px 15px #102a3008}
+.ux-stat span{font-size:.82rem;color:var(--ux-muted);font-weight:700}.ux-stat strong{font-size:1.75rem;line-height:1.2;font-variant-numeric:tabular-nums}
+.ux-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:0 0 22px}
+.ux-action{display:flex;align-items:center;gap:12px;text-align:start;width:100%;min-width:0;min-height:94px;padding:16px;border:1px solid var(--line);border-radius:18px;background:var(--card);color:var(--ux-ink);font:inherit;cursor:pointer;box-shadow:0 4px 16px #102a3008;transition:transform .15s,border-color .15s,box-shadow .15s}
+.ux-action:hover{transform:translateY(-2px);border-color:#75b9b0;box-shadow:0 8px 20px #102a3010}
+.ux-action-primary{border-color:#8ac9bf;background:linear-gradient(145deg,#effbf8,#fff)}
+.ux-action-icon{display:grid;place-items:center;flex:0 0 42px;width:42px;height:42px;border-radius:14px;background:#e2f4f0;color:#0f766e;font-size:1.4rem;font-weight:800}
+.ux-action b,.ux-action small{display:block}.ux-action b{font-size:.98rem;line-height:1.45}.ux-action small{font-size:.78rem;line-height:1.6;color:var(--ux-muted);margin-top:4px}.ux-arrow{margin-inline-start:auto;color:#0f766e;font-size:1.1rem}
+.ux-section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}.ux-section-head h2{margin:0}
+.ux-link{border:0;background:transparent;color:#0f766e;font:inherit;font-size:.85rem;font-weight:800;padding:8px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.ux-record{padding:14px 15px;margin:0 0 9px;border:1px solid var(--line);border-radius:15px;background:var(--card)}
+.ux-record-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}.ux-record-top b{overflow-wrap:anywhere}.ux-record p{margin:7px 0;color:var(--ux-muted);font-size:.9rem;line-height:1.7;overflow-wrap:anywhere}.ux-record small{color:var(--ux-muted)}
+.ux-status{display:inline-block;flex:0 0 auto;max-width:46%;padding:3px 8px;border-radius:999px;background:#e7f5f2;color:#115e59;font-size:.72rem;font-weight:800;overflow-wrap:anywhere}
+.ux-empty{text-align:center;padding:25px 18px;border:1px dashed var(--ux-line);border-radius:18px;background:var(--ux-card);color:var(--ux-muted)}.ux-empty>span{font-size:2rem;color:#0f766e}.ux-empty p{margin:8px auto 14px;max-width:360px}
+:focus-visible{outline:3px solid #0d948855!important;outline-offset:3px!important}
+:root[data-theme="dark"] body{background:#101a1e}
+:root[data-theme="dark"] .nav{background:#101a1eeF;border-color:#33474d}
+:root[data-theme="dark"] .ux-safety{background:#382b19;border-color:#795c2a;color:#ffe7b8}
+:root[data-theme="dark"] .ux-safety-icon{background:#6a4a1b;color:#fff0c7}
+:root[data-theme="dark"] .ux-stat,:root[data-theme="dark"] .ux-action,:root[data-theme="dark"] .ux-record,:root[data-theme="dark"] .ux-empty{background:#17262b;color:#edf5f6;border-color:#33474d}
+:root[data-theme="dark"] .ux-action-primary{background:linear-gradient(145deg,#153b36,#17262b);border-color:#28675f}
+:root[data-theme="dark"] .ux-action-icon{background:#214b46;color:#b9f1e8}
+:root[data-theme="dark"] .ux-stat span,:root[data-theme="dark"] .ux-action small,:root[data-theme="dark"] .ux-record p,:root[data-theme="dark"] .ux-record small{color:#b5c6ca}
+:root[data-theme="dark"] .ux-status{background:#214b46;color:#d5fff6}
+:root[data-theme="dark"] .ux-link{color:#6ee7d8}
+@media(max-width:560px){main{padding-inline:10px}.ux-actions{grid-template-columns:1fr;gap:9px}.ux-action{min-height:82px;padding:13px}.ux-stats{gap:7px}.ux-stat{padding:12px 9px;border-radius:14px}.ux-stat span{font-size:.72rem;line-height:1.45}.ux-stat strong{font-size:1.5rem}.ux-safety{padding:12px}.ux-record-top{flex-direction:column;gap:5px}.ux-status{max-width:100%}.ux-hero{border-radius:20px}.nav{top:0}}
+@media(prefers-reduced-motion:reduce){.panel{animation:none}.ux-action{transition:none}}
+@media print{.ux-hero,.ux-safety,.ux-overview,.ux-actions,.ux-recent,.nav{display:none!important}}
