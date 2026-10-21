@@ -8,6 +8,12 @@ Use this checklist on the published site from an Android phone. Record the brows
 - [ ] Layout fits a narrow phone screen; fields and buttons are usable without horizontal scrolling.
 - [ ] Arabic text direction and labels display correctly.
 
+## Knowledge base
+- [ ] Knowledge tab opens and links to the cited technical references.
+- [ ] Valve/actuator appears in the equipment selector and produces conservative guidance.
+- [ ] New knowledge entries do not provide invented setpoints, torque values, or pressure limits.
+- [ ] Safety warnings for hydraulic injection, stored pressure, and energy isolation are visible.
+
 ## Diagnosis flow
 - [ ] Submit a pump fault with a symptom and confirm a result appears.
 - [ ] Submit a motor fault and confirm equipment-specific guidance appears.
