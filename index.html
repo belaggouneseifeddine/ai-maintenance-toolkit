@@ -308,7 +308,8 @@ high_pressure:['تحقق من القراءة ومصدرها وحد التشغي�
 consumption:['قارن استهلاك الطاقة أو المادة بمعدل الإنتاج والحمل وخط الأساس، وراجع التسربات والقراءات وسجل التغييرات دون تغيير إعدادات الحماية.'],
 other:['صف ما تغير ومتى بدأ العطل، وسجّل رمز الإنذار والقراءات مع الوحدات ومصدرها؛ لا تستنتج السبب من وصف عام.']
 };
-const general=['وثّق اconst AI_ENDPOINT_KEY='maintenance-ai-toolkit-endpoint-v1';
+const general=['وثّق الحالة كما هي، ولا تفترض سببًا واحدًا قبل جمع الأدلة.','قارن القياسات بدليل المصنع وحدود التشغيل المعتمدة للمعدة نفسها.','إذا كانت المعلومات غير كافية أو بقي الخطر قائمًا، أوقف التشخيص وصعّد إلى مختص مؤهل.'];
+const AI_ENDPOINT_KEY='maintenance-ai-toolkit-endpoint-v1';
 const endpointInput=$('aiEndpoint');
 try{endpointInput.value=localStorage.getItem(AI_ENDPOINT_KEY)||'';}catch{}
 endpointInput.addEventListener('change',()=>{try{localStorage.setItem(AI_ENDPOINT_KEY,endpointInput.value.trim());}catch{}});
@@ -317,7 +318,7 @@ e.preventDefault();
 const box=$('aiResult');
 box.hidden=false;box.textContent='';
 if(!$('aiConsent').checked){box.textContent='وافق على إرسال وصف العطل إلى الخادم قبل المتابعة.';return;}
-const endpoint=String(endpointInput.value||'').trim().replace(/\\/+$/,'');
+const endpoint=String(endpointInput.value||'').trim().replace(/\/+$/,'');
 if(!endpoint){box.textContent='لم يتم إعداد رابط الخادم بعد. انشر api/chat.js على خدمة تدعم وظائف الخادم، ثم أدخل رابطها المنتهي بـ /api/chat هنا. التشخيص المحلي ما زال متاحًا.';return;}
 let endpointUrl;
 try{endpointUrl=new URL(endpoint);if(!['https:','http:'].includes(endpointUrl.protocol))throw new Error();}catch{box.textContent='رابط الخادم غير صالح. أدخل رابط HTTPS كاملًا ينتهي بـ /api/chat.';return;}
@@ -332,14 +333,10 @@ if(!response.ok){const detail=data.error||('HTTP '+response.status);throw new Er
 if(typeof data.answer!=='string'||!data.answer.trim())throw new Error('استجابة الخادم لا تحتوي على إجابة صالحة.');
 const lang=window.MaintenanceI18n?window.MaintenanceI18n.getLanguage():'ar';
 const suffix=lang==='fr'?'Avis préliminaire uniquement. Vérifiez le manuel du fabricant et les procédures de sécurité.':lang==='en'?'Preliminary guidance only. Verify the manufacturer manual and site safety procedures.':'تنبيه: نتيجة أولية؛ راجع دليل المصنع وإجراءات السلامة قبل أي تدخل.';
-box.textContent=data.answer.trim()+'\\n\\n'+suffix;
-}catch(err){const message=err&&err.name==='TimeoutError'?'انتهت مهلة الاتصال بالخادم.':err&&err.message==='Failed to fetch'?'تعذر الاتصال بالخادم. تحقق من نشره وإعداد CORS ورابط HTTPS.':(err.message||'خطأ غير معروف');box.textContent='تعذر إكمال التحليل بالذكاء الاصطناعي: '+message+'\\n\\nالتشخيص المحلي ما زال متاحًا.';}
-finally{button.disabled=false;button.textContent='تحليل العطل';}
-}); قبل أي تدخل.';
-}catch(err){box.textContent='تعذر إكمال طلب Gemini: '+(err.message||'خطأ غير معروف')+'\\n\\nالتشخيص المحلي ما زال متاحًا.';}
+box.textContent=data.answer.trim()+'\n\n'+suffix;
+}catch(err){const message=err&&err.name==='TimeoutError'?'انتهت مهلة الاتصال بالخادم.':err&&err.message==='Failed to fetch'?'تعذر الاتصال بالخادم. تحقق من نشره وإعداد CORS ورابط HTTPS.':(err.message||'خطأ غير معروف');box.textContent='تعذر إكمال التحليل بالذكاء الاصطناعي: '+message+'\n\nالتشخيص المحلي ما زال متاحًا.';}
 finally{button.disabled=false;button.textContent='تحليل العطل';}
 });
-
 
 const DRAFT_KEY='maintenance-ai-toolkit-draft-v1';
 let lastDiagnosisDraft=null;
