@@ -313,6 +313,44 @@ $('aiEndpoint').value=localStorage.getItem(AI_ENDPOINT_KEY)||'';
 $('saveAiEndpoint').addEventListener('click',()=>{const endpoint=$('aiEndpoint').value.trim();if(endpoint&&!/^https:\/\//i.test(endpoint)){alert('استخدم رابط HTTPS صالحًا.');return;}if(endpoint)localStorage.setItem(AI_ENDPOINT_KEY,endpoint);else localStorage.removeItem(AI_ENDPOINT_KEY);alert('تم حفظ إعداد الرابط على هذا الجهاز فقط.');});
 $('aiForm').addEventListener('submit',async e=>{e.preventDefault();$('aiConsent').checked=false;const endpoint=$('aiEndpoint').value.trim();const box=$('aiResult');box.hidden=false;box.textContent='';if(!endpoint){box.textContent='لم يُضبط رابط الخادم بعد. انشر Backend آمنًا واضبط مزوّد AI أولًا. التشخيص المحلي ما زال متاحًا في تبويب «تشخيص أولي».';return;}if(!/^https:\/\//i.test(endpoint)){box.textContent='الرابط غير صالح: يجب أن يبدأ بـ https://';return;}const button=$('askAi');button.disabled=true;button.textContent='جارٍ تحليل العطل…';box.textContent='جارٍ إرسال وصف العطل إلى الخادم الذي ضبطته…';try{const response=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},signal:AbortSignal.timeout(25000),body:JSON.stringify({machine:$('aiMachine').value.trim(),symptom:$('aiSymptom').value.trim(),code:$('aiCode').value.trim(),observations:$('aiObservations').value.trim()})});let data={};try{data=await response.json()}catch{}if(!response.ok)throw new Error(data.error||('تعذر إكمال الطلب (HTTP '+response.status+').'));box.textContent=(data.answer||'لم يُرجع الخادم إجابة قابلة للعرض.')+'\n\nتنبيه: راجع كل اقتراح مقابل دليل المصنع وإجراءات السلامة المعتمدة.';}catch(err){box.textContent='تعذر الاتصال بمساعد AI: '+(err.message||'خطأ غير معروف')+'\n\nيمكنك مواصلة استخدام التشخيص المحلي. تأكد من نشر الخادم وإعداد CORS ومفتاح المزوّد بشكل صحيح.';}finally{button.disabled=false;button.textContent='تحليل العطل';}});
 
+
+const DRAFT_KEY='maintenance-ai-toolkit-draft-v1';
+let lastDiagnosisDraft=null;
+const faultLibraryPromise=fetch('./faults.json').then(response=>{if(!response.ok)throw new Error('Fault library unavailable');return response.json();}).then(data=>{window.MAINTENANCE_FAULTS=data;return data;}).catch(()=>null);
+function tr(key){return window.MaintenanceI18n?window.MaintenanceI18n.t(key):key;}
+function renderEngineResults(result){
+const lang=result.language||'ar';
+const labels={
+ar:{title:'نتيجة محرك التشخيص بالقواعد',rank:'سبب الترتيب',score:'نقاط المطابقة',causes:'الأسباب المحتملة مرتبة',checks:'فحوصات آمنة مقترحة',escalation:'شروط التصعيد',safety:'قبل كل فحص: تأكد من العزل وحالة الطاقة الآمنة وفق إجراء الموقع.',advisory:'هذه النتيجة إرشادية وليست تشخيصًا مؤكدًا. راجع دليل الشركة المصنّعة.',causeScore:'كلمات مطابقة'},
+fr:{title:'Résultat du moteur de diagnostic à règles',rank:'Raison du classement',score:'Score de correspondance',causes:'Causes possibles classées',checks:'Contrôles sûrs proposés',escalation:'Conditions d’escalade',safety:'Avant chaque contrôle : confirmer l’isolement et l’état sûr selon la procédure du site.',advisory:'Résultat indicatif, pas un diagnostic confirmé. Consultez le manuel du fabricant.',causeScore:'mots correspondants'},
+en:{title:'Rule-based diagnostic result',rank:'Ranking reason',score:'Match score',causes:'Ranked possible causes',checks:'Suggested safe checks',escalation:'Escalation conditions',safety:'Before every check: verify isolation and safe energy state under site procedures.',advisory:'This result is advisory, not a confirmed diagnosis. Consult the manufacturer manual.',causeScore:'matching keywords'}
+}[lang];
+if(!result.matched)return '<section class="result" id="ruleDiagnosis"><h3>'+labels.title+'</h3><p role="status"><b>'+escapeHtml(result.message)+'</b></p><p>'+escapeHtml(result.reason)+'</p><p class="hint">'+escapeHtml(labels.advisory)+'</p></section>';
+return '<section class="result" id="ruleDiagnosis"><h3>'+labels.title+'</h3>'+result.results.map((fault,index)=>'<article class="record"><h3>'+(index+1)+'. '+escapeHtml(fault.title)+'</h3><p><b>'+labels.score+':</b> '+fault.score+'</p><p><b>'+labels.rank+':</b> '+escapeHtml(fault.rankingReason)+'</p><h4>'+labels.causes+'</h4><ol>'+fault.causes.map(cause=>'<li><b>'+escapeHtml(cause.label)+'</b><br><span class="hint">'+escapeHtml(cause.reason)+(cause.matchedKeywords.length?' ('+labels.causeScore+': '+escapeHtml(cause.matchedKeywords.join(', '))+')':'')+'</span></li>').join('')+'</ol><h4>'+labels.checks+'</h4><ul>'+fault.safeChecks.map(check=>'<li><b>'+escapeHtml(labels.safety)+'</b> '+escapeHtml(check)+'</li>').join('')+'</ul><div class="notice"><b>'+labels.escalation+':</b> '+escapeHtml(fault.escalation)+'</div></article>').join('')+'<p class="hint">'+escapeHtml(labels.advisory)+'</p></section>';
+}
+function currentFormDraft(){
+return {machine:$('machine').value,symptom:$('symptom').value,assetId:$('assetId').value,priority:$('priority').value,technician:$('technician').value,manualRef:$('manualRef').value,code:$('code').value,observations:$('observations').value,followupAnswer:$('followupAnswer').value,recordDraft:lastDiagnosisDraft};
+}
+function persistDraft(){
+try{localStorage.setItem(DRAFT_KEY,JSON.stringify({...currentFormDraft(),updatedAt:new Date().toISOString()}));}catch(error){console.warn('Draft could not be saved locally.',error);}
+}
+function renderDraftSummary(){
+const box=$('draftSummary');if(!box)return;
+const d=lastDiagnosisDraft;
+box.textContent=d?((window.MaintenanceI18n&&window.MaintenanceI18n.getLanguage()==='en')?'Date: ':window.MaintenanceI18n&&window.MaintenanceI18n.getLanguage()==='fr'?'Date : ':'التاريخ: ')+d.date+'\n'+((window.MaintenanceI18n&&window.MaintenanceI18n.getLanguage()==='en')?'Equipment: ':window.MaintenanceI18n&&window.MaintenanceI18n.getLanguage()==='fr'?'Équipement : ':'المعدة: ')+d.machine+'\n'+((window.MaintenanceI18n&&window.MaintenanceI18n.getLanguage()==='en')?'Fault: ':window.MaintenanceI18n&&window.MaintenanceI18n.getLanguage()==='fr'?'Panne : ':'العَرَض: ')+d.fault+'\n'+((window.MaintenanceI18n&&window.MaintenanceI18n.getLanguage()==='en')?'Status: Under inspection':window.MaintenanceI18n&&window.MaintenanceI18n.getLanguage()==='fr'?'Statut : En cours d’inspection':'الحالة: قيد الفحص'):'لا توجد مسودة تشخيص بعد. املأ النموذج؛ سيُحفظ تلقائيًا على هذا الجهاز.';
+$('saveDraft').disabled=!d;
+}
+function restoreDraft(){
+try{
+const raw=localStorage.getItem(DRAFT_KEY);if(!raw)return;
+const d=JSON.parse(raw);lastDiagnosisDraft=d.recordDraft||null;
+for(const id of ['machine','symptom','assetId','priority','technician','manualRef','code','observations','followupAnswer'])if(d[id]!==undefined&&$(id))$(id).value=d[id];
+if($('machine'))$('machine').dispatchEvent(new Event('change'));
+if($('symptom'))$('symptom').dispatchEvent(new Event('change'));
+}catch(error){console.warn('Saved draft could not be restored.',error);}
+renderDraftSummary();
+}
+
 $('diagnosisForm').addEventListener('submit',async e=>{
 e.preventDefault();
 const safetyChecks=[...document.querySelectorAll('#safetyChecks input')];
@@ -349,10 +387,31 @@ const KEY='maintenance-ai-toolkit-records-v1';function getRecords(){try{return J
 function localDateString(date=new Date()){const y=date.getFullYear();const m=String(date.getMonth()+1).padStart(2,'0');const d=String(date.getDate()).padStart(2,'0');return `${y}-${m}-${d}`;}
 $('logDate').value=localDateString();
 $('logForm').addEventListener('submit',e=>{e.preventDefault();const a=getRecords();a.unshift({date:$('logDate').value,machine:$('logMachine').value.trim(),fault:$('logFault').value.trim(),action:$('logAction').value.trim(),status:$('logStatus').value});saveRecords(a);e.target.reset();$('logDate').value=localDateString();renderRecords();});
-function renderRecords(){const a=getRecords();$('records').innerHTML=a.length?a.map((r,i)=>'<article class="record"><h3>'+escapeHtml(r.machine)+' <span class="pill">'+escapeHtml(r.status)+'</span></h3><p>'+escapeHtml(r.date)+'</p><p><b>العطل:</b> '+escapeHtml(r.fault)+'</p><p><b>الإجراء:</b> '+escapeHtml(r.action)+'</p><button class="btn secondary" data-delete="'+i+'" type="button">حذف هذا السجل</button></article>').join(''):'<div class="empty">لا توجد سجلات بعد.</div>';document.querySelectorAll('[data-delete]').forEach(b=>b.addEventListener('click',()=>{const x=getRecords();x.splice(Number(b.dataset.delete),1);saveRecords(x);renderRecords()}));}
+function renderRecords(){
+const all=getRecords();
+const query=($('recordSearch')&&$('recordSearch').value||'').trim().toLocaleLowerCase();
+const status=$('recordStatusFilter')&&$('recordStatusFilter').value||'';
+const date=$('recordDateFilter')&&$('recordDateFilter').value||'';
+const filtered=all.map((record,index)=>({record,index})).filter(item=>{
+const machine=String(item.record.machine||'').toLocaleLowerCase();
+return (!query||machine.includes(query))&&(!status||item.record.status===status)&&(!date||item.record.date===date);
+});
+$('records').innerHTML=filtered.length?filtered.map(item=>{const r=item.record;return '<article class="record"><h3>'+escapeHtml(r.machine)+' <span class="pill">'+escapeHtml(r.status)+'</span></h3><p>'+escapeHtml(r.date)+'</p><p><b>العطل:</b> '+escapeHtml(r.fault)+'</p><p><b>الإجراء:</b> '+escapeHtml(r.action)+'</p><button class="btn secondary" data-delete="'+item.index+'" type="button">حذف هذا السجل</button></article>';}).join(''):('<div class="empty">'+escapeHtml(tr('noRecords'))+'</div>');
+document.querySelectorAll('[data-delete]').forEach(b=>b.addEventListener('click',()=>{const x=getRecords();x.splice(Number(b.dataset.delete),1);saveRecords(x);renderRecords();}));
+}
 function csvCell(value){const text=String(value??'');const safe=/^[\t\r\n ]*[=+\-@]/.test(text)?"'"+text:text;return '"'+safe.replace(/"/g,'""')+'"';}
 $('exportCsv').addEventListener('click',()=>{const rows=[['Date','Machine','Fault','Action','Status'],...getRecords().map(r=>[r.date,r.machine,r.fault,r.action,r.status])];const csv='\ufeff'+rows.map(row=>row.map(csvCell).join(',')).join('\r\n');const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));const a=document.createElement('a');a.href=url;a.download='maintenance-log.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});
 $('clearRecords').addEventListener('click',()=>{if(confirm('هل تريد حذف جميع السجلات المحفوظة على هذا الجهاز؟')){localStorage.removeItem(KEY);renderRecords();}});
+
+$('openSafetyFromGate').addEventListener('click',()=>document.querySelector('.tab[data-tab="safety"]').click());
+document.querySelectorAll('#safetyChecks input').forEach(box=>box.addEventListener('change',()=>{const all=[...document.querySelectorAll('#safetyChecks input')];if(all.length&&all.every(item=>item.checked))$('safetyGateNotice').style.display='none';}));
+['recordSearch','recordStatusFilter','recordDateFilter'].forEach(id=>$(id).addEventListener('input',renderRecords));
+$('clearRecordFilters').addEventListener('click',()=>{$('recordSearch').value='';$('recordStatusFilter').value='';$('recordDateFilter').value='';renderRecords();});
+$('diagnosisForm').querySelectorAll('input,select,textarea').forEach(field=>field.addEventListener('input',persistDraft));
+$('diagnosisForm').querySelectorAll('input,select,textarea').forEach(field=>field.addEventListener('change',persistDraft));
+$('saveDraft').addEventListener('click',()=>{if(!lastDiagnosisDraft)return;const all=getRecords();all.unshift({...lastDiagnosisDraft});saveRecords(all);renderRecords();$('log').classList.add('active');$('diagnose').classList.remove('active');document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab==='log'));});
+$('clearDraft').addEventListener('click',()=>{localStorage.removeItem(DRAFT_KEY);lastDiagnosisDraft=null;$('diagnosisForm').reset();$('diagnosisResult').innerHTML='';renderDraftSummary();});
+restoreDraft();
 renderRecords();
 if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
 </script>
