@@ -2,6 +2,9 @@
 
 An Android-first, mobile-friendly industrial maintenance troubleshooting prototype.
 
+## Experimental AI assistant
+The interface now includes an optional AI tab, and `backend/cloudflare-worker.js` provides a server-side proxy template. The backend is **not deployed or connected yet**. Follow [`docs/AI-SETUP.md`](docs/AI-SETUP.md) to configure it. Never put provider API keys in the browser or public repository.
+
 ## Current prototype
 The repository contains a static progressive web app (PWA) intended for phone browsers. The current Arabic-first interface includes:
 - Structured fault entry for selected equipment types and symptoms.
