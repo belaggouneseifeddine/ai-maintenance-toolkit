@@ -185,9 +185,7 @@ const checks = [
     assert.match(sw, /\.\/icon\.svg/);
     assert.match(sw, /maintenance-ai-toolkit-v12/);
   }]
-];
-
-
+,
   ["Pump fault library has the five requested multilingual fault entries", () => {
     assert.equal(faults.faults.length, 5);
     assert.deepEqual(faults.faults.map(fault => fault.id), [
@@ -249,7 +247,8 @@ const checks = [
     assert.match(sw, /maintenance-ai-toolkit-v12/);
     for (const asset of ["diagnostic-engine.js", "faults.json", "i18n.js"]) assert.ok(sw.includes(asset), "Missing offline cache asset " + asset);
     assert.match(manifest.icons[0].src, /icon\.svg/);
-  }],
+  }]
+];
 
 let failed = 0;
 for (const [name, run] of checks) {
