@@ -338,7 +338,7 @@ const payload={machine:$('aiMachine').value.trim(),symptom:$('aiSymptom').value.
 try{
 const response=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},signal:AbortSignal.timeout(35000),body:JSON.stringify(payload)});
 let data={};try{data=await response.json()}catch{}
-if(!response.ok){const detail=data.error||('HTTP '+response.status);throw new Error(response.status===404?'لم يتم العثور على API endpoint؛ تحقق من رابط الخادم.':response.status===503?'الخادم غير مُعدّ بعد؛ أضف AI_API_KEY إلى متغيرات بيئة الخادم ثم أعد النشر.':detail);}
+if(!response.ok){const detail=[data.error,data.provider_detail].filter(Boolean).join(' — ')||('HTTP '+response.status);throw new Error(response.status===404?'لم يتم العثور على API endpoint؛ تحقق من رابط الخادم.':response.status===503?'الخادم غير مُعدّ بعد؛ أضف AI_API_KEY إلى متغيرات بيئة الخادم ثم أعد النشر.':detail);}
 if(typeof data.answer!=='string'||!data.answer.trim())throw new Error('استجابة الخادم لا تحتوي على إجابة صالحة.');
 const lang=window.MaintenanceI18n?window.MaintenanceI18n.getLanguage():'ar';
 const suffix=lang==='fr'?'Avis préliminaire uniquement. Vérifiez le manuel du fabricant et les procédures de sécurité.':lang==='en'?'Preliminary guidance only. Verify the manufacturer manual and site safety procedures.':'تنبيه: نتيجة أولية؛ راجع دليل المصنع وإجراءات السلامة قبل أي تدخل.';
