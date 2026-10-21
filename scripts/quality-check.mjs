@@ -249,10 +249,10 @@ const checks = [
     assert.match(html, /function csvCell\(value\)/);
   }],
   ["v0.3 tools are wired and stored locally", () => {
-    assert.match(html, /maintenance-v03\\.js/);
-    assert.match(sw, /maintenance-v03\\.css/);
-    assert.match(sw, /decision-trees\\.json/);
-    assert.match(deployWorkflow, /maintenance-v03\\.js maintenance-v03\\.css decision-trees\\.json/);
+    assert.ok(html.includes("maintenance-v03.js"));
+    assert.ok(sw.includes("maintenance-v03.css"));
+    assert.ok(sw.includes("decision-trees.json"));
+    assert.ok(deployWorkflow.includes("maintenance-v03.js maintenance-v03.css decision-trees.json"));
     assert.match(html, /maintenance-ai-toolkit-records-v1/);
   }],
   ["Pump decision tree requires LOTO gate and has safe escalation", () => {
