@@ -12,6 +12,7 @@ const knowledge = readFileSync("knowledge/INDUSTRIAL-FAULT-KNOWLEDGE-BASE.md", "
 const motorCasebook = readFileSync("knowledge/ELECTRIC-MOTOR-AND-VFD-CASEBOOK.md", "utf8");
 const manifest = JSON.parse(readFileSync("manifest.json", "utf8"));
 const sw = readFileSync("sw.js", "utf8");
+const deployWorkflow = readFileSync(".github/workflows/deploy-pages.yml", "utf8");
 const faults = JSON.parse(readFileSync("faults.json", "utf8"));
 const diagnosticEngineSource = readFileSync("diagnostic-engine.js", "utf8");
 const i18n = readFileSync("i18n.js", "utf8");
