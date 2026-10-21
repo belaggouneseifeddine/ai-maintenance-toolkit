@@ -4,7 +4,7 @@
 
 ## الخيار المقترح للتجربة
 
-ابدأ بـ **Cloudflare Workers AI** ونموذج `@cf/meta/llama-3.1-8b-instruct-fp8-fast` إذا كان متاحًا في حسابك. توثيق Cloudflare الحالي يذكر مخصصًا مجانيًا قدره 10,000 Neurons يوميًا، مع اختلاف الاستهلاك حسب النموذج والطلب. بعض النماذج تتطلب خطة مدفوعة؛ لا تختَر نموذجًا يتطلب الدفع إذا كنت ملتزمًا بميزانية صفرية.
+ابدأ بـ **Cloudflare Workers AI** ونموذج `@cf/zai-org/glm-4.7-flash` إذا كان متاحًا في حسابك. توثيق Cloudflare الحالي يذكر مخصصًا مجانيًا قدره 10,000 Neurons يوميًا، مع اختلاف الاستهلاك حسب النموذج والطلب. بعض النماذج تتطلب خطة مدفوعة؛ لا تختَر نموذجًا يتطلب الدفع إذا كنت ملتزمًا بميزانية صفرية.
 
 المراجع الرسمية:
 - الأسعار والحصة اليومية: https://developers.cloudflare.com/workers-ai/platform/pricing/
@@ -30,7 +30,7 @@
 
 - **Secret** `AI_API_KEY`: الـ API Token الذي أنشأته.
 - **Variable** `AI_BASE_URL`: `https://api.cloudflare.com/client/v4/accounts/ACCOUNT_ID/ai/v1` واستبدل `ACCOUNT_ID` بمعرّف حسابك.
-- **Variable** `AI_MODEL`: `@cf/meta/llama-3.1-8b-instruct-fp8-fast`.
+- **Variable** `AI_MODEL`: `@cf/zai-org/glm-4.7-flash`.
 - **Variable** `ALLOWED_ORIGIN`: `https://belaggouneseifeddine.github.io` بالضبط.
 
 احفظ التغييرات وأعد النشر إذا طلبت لوحة Cloudflare ذلك. لا تضع الـ Token في `AI_BASE_URL` أو في أي ملف عام.
