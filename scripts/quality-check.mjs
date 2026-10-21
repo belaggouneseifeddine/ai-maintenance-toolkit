@@ -36,6 +36,19 @@ const checks = [
     assert.match(worker, /machine\.length > 120/);
     assert.match(worker, /observations\.length > 3000/);
   }],
+  ["AI backend rejects non-JSON and caps request body bytes", () => {
+    assert.match(worker, /Content-Type must be application\/json/);
+    assert.match(worker, /MAX_BODY_BYTES = 8_192/);
+    assert.match(worker, /new TextEncoder\(\)\.encode\(rawBody\)\.byteLength/);
+  }],
+  ["AI upstream calls have a timeout", () => {
+    assert.match(worker, /UPSTREAM_TIMEOUT_MS = 20_000/);
+    assert.match(worker, /AbortSignal\.timeout\(UPSTREAM_TIMEOUT_MS\)/);
+  }],
+  ["In-memory rate limiting is explicitly documented as best-effort", () => {
+    assert.match(worker, /Best-effort per-isolate guard only/);
+    assert.match(worker, /MAX_TRACKED_IPS = 5_000/);
+  }],
   ["AI instructions prohibit bypassing safety systems", () => {
     assert.match(worker, /Never recommend bypassing guards, interlocks, alarms, or protective devices/);
     assert.match(safety, /lockout\/tagout/i);
