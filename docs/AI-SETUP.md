@@ -1,47 +1,43 @@
-# Configure the optional AI assistant
+# Configure the optional Gemini assistant
 
-The published app continues to work without AI. The AI tab is a client interface; it does not call a model until a backend is deployed, configured, and tested.
+The frontend remains usable without AI. The AI assistant works only after the Cloudflare Worker is deployed, the provider key is configured as a Worker secret, and a real request succeeds.
 
-## Recommended zero-budget starting point: Gemini API + Cloudflare Worker
+## Single supported backend
 
-This is a suggested starting point, not a verified live integration. Availability, quotas, model IDs, and terms can change; check the provider dashboard before use.
+- Worker source: `worker.js`
+- Worker configuration: `wrangler.toml`
+- Deployment workflow: [Deploy Maintenance AI Toolkit API](https://github.com/belaggouneseifeddine/ai-maintenance-toolkit/actions/workflows/deploy-worker.yml)
+- API key creation: https://aistudio.google.com/apikey
+- Gemini OpenAI-compatible API documentation: https://ai.google.dev/gemini-api/docs/openai
+- Pricing and quotas: https://ai.google.dev/gemini-api/docs/pricing
 
-- Frontend: GitHub Pages — https://belaggouneseifeddine.github.io
-- Backend template: `backend/cloudflare-worker.js`
-- Gemini API docs: https://ai.google.dev/gemini-api/docs/openai
-- Gemini pricing and free-tier terms: https://ai.google.dev/gemini-api/docs/pricing
-- Google AI Studio for creating an API key: https://aistudio.google.com/apikey
+The workflow expects these GitHub Actions repository secrets:
+- `CLOUDFLARE_API_TOKEN`
+- `CLOUDFLARE_ACCOUNT_ID`
+- `GEMINI_API_KEY`
 
-### Gemini settings for the current Worker
+The workflow uploads `GEMINI_API_KEY` to the Worker as `AI_API_KEY`, then deploys `worker.js`. It does not expose the key in the frontend or print it in logs.
 
-The Worker uses an OpenAI-compatible `/chat/completions` endpoint. Gemini documents compatibility with this interface.
+## After deployment
 
-- `AI_BASE_URL`: `https://generativelanguage.googleapis.com/v1beta/openai`
-- `AI_MODEL`: `gemini-2.5-flash` (verify that this model is currently available to your API key before relying on it)
-- `AI_API_KEY`: your Gemini API key, stored only as a Cloudflare Worker secret
-- `ALLOWED_ORIGIN`: `https://belaggouneseifeddine.github.io`
+1. Confirm the GitHub Actions workflow completed successfully.
+2. Open the Worker URL shown in the deployment logs.
+3. Verify `https://YOUR-WORKER.workers.dev/health` returns JSON with `"ok": true`.
+4. In the app's **AI assistant** section, enter the Worker URL ending in `/api/chat`, for example `https://YOUR-WORKER.workers.dev/api/chat`.
+5. Press **Save endpoint**, then test with generic, non-sensitive data such as a centrifugal pump with abnormal vibration.
+6. Verify the response is a preliminary assessment and review it against the exact manufacturer manual and site procedures.
 
-Do not append `/chat/completions` to `AI_BASE_URL`; the Worker adds that path itself.
+Saving an endpoint only stores its URL on the current device; it does not verify that the server is online.
 
-## Setup steps (Android phone)
+## Security and limitations
 
-1. Open Google AI Studio at https://aistudio.google.com/apikey and create an API key if your account is eligible.
-2. Review the current free-tier availability, quota, and data-use terms before sending any information. The Gemini pricing page says content submitted on the Free tier may be used to improve Google's products. Use only generic, non-sensitive test examples; never submit plant names, customer details, credentials, internal documents, or confidential maintenance data.
-3. Open Cloudflare Dashboard → **Workers & Pages**. Create a Worker and deploy the contents of `backend/cloudflare-worker.js`.
-4. In the Worker settings, add `AI_API_KEY` as a **Secret**. Add `AI_BASE_URL`, `AI_MODEL`, and `ALLOWED_ORIGIN` as variables using the exact values above.
-5. Deploy the Worker and copy its HTTPS URL.
-6. Open the Maintenance AI Toolkit website, select **مساعد AI**, paste the Worker URL, and select **حفظ الرابط على هذا الجهاز**.
-7. Run one generic test, such as equipment = centrifugal pump, symptom = abnormal vibration, alarm code = none, observations = no readings available. Do not treat the answer as an authoritative diagnosis.
-
-## Security and cost limits
-
-- Never put the provider key in `index.html`, localStorage, a public GitHub file, or the Worker URL field. Only store it as a Worker Secret.
-- Cloudflare Workers has a free plan with request limits, but this does not make the AI provider free. Confirm both sets of limits and usage terms.
-- The current Worker has an in-memory per-IP limit only. It is best-effort, not robust shared rate limiting or authentication. A public endpoint can be targeted by non-browser clients even if CORS is configured. Keep this as a personal test deployment until abuse controls and provider quota limits have been reviewed; do not enable paid billing.
-- The Worker sends equipment type, symptom, alarm code, and observations to the provider. Do not use real or confidential industrial data.
-- AI can be wrong. Follow lockout/tagout (LOTO), manufacturer manuals, site procedures, and qualified-person requirements. Never bypass guards, interlocks, alarms, or protective devices.
-- If the Worker is missing or the provider is unavailable, the local rule-based diagnostic mode should remain available.
+- Never put the provider key in `index.html`, browser storage, the endpoint field, or a public repository file.
+- The frontend sends equipment, symptom, alarm code, observations, and selected language to the configured Worker and then to the provider.
+- Do not submit plant names, customer data, credentials, internal manuals, or confidential maintenance records. Review current provider data-use terms, quotas, and charges first.
+- The Worker has a best-effort in-memory request limit, not robust shared rate limiting or authentication. CORS is not authentication. Treat this as a personal prototype, not a production public service.
+- If the Worker is not configured or the provider is unavailable, use the local rule-based mode.
+- AI output is not authoritative. Follow LOTO, site procedures, manufacturer instructions, and qualified-person requirements.
 
 ## Verification status
 
-The repository contains the UI and Worker template. The Worker has not been deployed or connected to a provider by this documentation change. Do not describe the AI assistant as live until a real request and a representative troubleshooting test both succeed.
+Source files and a deployment workflow are present in the repository. That does not prove the Worker is deployed or the Gemini request succeeds. Only mark AI as live after the health check and a real generic `POST /api/chat` test succeed.
