@@ -21,7 +21,9 @@
     const matches = [];
     for (const term of terms || []) {
       const needle = normalizeText(term);
-      if (needle.length >= 3 && normalized.includes(needle) && !matches.some(item => normalizeText(item) === needle)) {
+      const paddedText = " " + normalized + " ";
+      const paddedNeedle = " " + needle + " ";
+      if (needle.length >= 3 && paddedText.includes(paddedNeedle) && !matches.some(item => normalizeText(item) === needle)) {
         matches.push(term);
       }
     }
