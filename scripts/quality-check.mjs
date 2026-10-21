@@ -16,14 +16,22 @@ const checks = [
   ["Arabic RTL document", () => assert.match(html, /<html lang="ar" dir="rtl">/)],
   ["Structured pump low-flow flow has stable IDs and validated answer guidance", () => {
     const flow = diagnosticFlows.flows["pump|low_flow"];
-    assert.equal(diagnosticFlows.schemaVersion, 1);
+    assert.equal(diagnosticFlows.schemaVersion, 2);
     assert.equal(flow.id, "pump-low-flow-v1");
     assert.equal(flow.equipmentId, "pump");
     assert.equal(flow.symptomId, "low_flow");
     assert.ok(flow.question.id && flow.question.text);
     assert.equal(flow.answers.length, 3);
     assert.deepEqual(flow.answers.map(answer => answer.id), ["source-normal", "source-low-unstable", "source-no-reliable-reading"]);
-    for (const answer of flow.answers) assert.ok(answer.label && answer.guidance);
+    for (const answer of flow.answers) assert.ok(answer.id && answer.label && answer.guidance);
+    for (const key of ["motor|not_start", "vfd|trip"]) {
+      const structured = diagnosticFlows.flows[key];
+      assert.ok(structured, "Missing structured flow: " + key);
+      assert.ok(structured.id && structured.question.id && structured.question.text);
+      assert.ok(structured.answers.length >= 3);
+      assert.equal(new Set(structured.answers.map(answer => answer.id)).size, structured.answers.length, "Answer IDs must be unique in " + key);
+      for (const answer of structured.answers) assert.ok(answer.id && answer.label && answer.guidance);
+    }
     assert.match(html, /diagnostic-flows\.js/);
     assert.match(html, /MAINTENANCE_DIAGNOSTIC_FLOWS\.flows\["pump\|low_flow"\]/);
   }],
@@ -169,7 +177,7 @@ const checks = [
   ["Service worker caches the app shell and icon with a bumped cache version", () => {
     assert.match(sw, /APP_SHELL/);
     assert.match(sw, /\.\/icon\.svg/);
-    assert.match(sw, /maintenance-ai-toolkit-v10/);
+    assert.match(sw, /maintenance-ai-toolkit-v11/);
   }]
 ];
 
