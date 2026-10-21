@@ -111,3 +111,13 @@ These cases cover the currently implemented answer-specific branches. Use only s
 - [ ] **VFD / trip:** confirm the prompt and answer options are loaded from structured data; guidance requires exact drive model and matching OEM fault reference.
 - [ ] Verify structured flow answer IDs are unique and unknown states do not trigger a guessed diagnosis.
 - [ ] Confirm the service worker cache changes after this release and refreshes the structured flow data.
+
+
+## v0.2 diagnostic engine — seven Android checks
+- [ ] **Safety gate:** leave one safety item unchecked and submit; no inspection plan or fault result should appear. Confirm the safety warning is visible. Check every item and submit again.
+- [ ] **Supported match:** select Pump + abnormal noise and enter notes such as “صوت حصى وتكهف”; confirm cavitation ranks first, the ranking reason is shown, and each safe check begins with a safety reminder.
+- [ ] **Weak/no match:** select a non-pump equipment type or enter unrelated notes; confirm the engine says “لا يوجد تطابق كافٍ، صعّد للمسؤول” in Arabic (or equivalent in the selected language) and does not invent a pump fault.
+- [ ] **Autosaved draft:** enter fields, refresh the page, and confirm the draft fields return; clear the draft and verify it is removed without deleting saved records.
+- [ ] **Language switch:** switch Arabic → French → English; confirm the main controls change language, Arabic restores RTL, and the chosen language remains after refresh.
+- [ ] **Offline/PWA:** first open the site online and wait for the service worker update; then enable airplane mode and reload. Confirm the app shell, fault library, and rule engine load from cache. This must be tested on the published URL after an approved deployment.
+- [ ] **Legacy records and filters:** verify existing records remain visible, search by equipment, filter by status and date, export CSV, and confirm the existing `maintenance-ai-toolkit-records-v1` data remains intact.
