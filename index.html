@@ -114,7 +114,7 @@ footer{line-height:1.8}
 <section id="ai" class="panel">
 <div class="card"><h2>مساعد الصيانة بالذكاء الاصطناعي — Gemini</h2>
 <p class="hint">يتصل المساعد بخادم خلفي آمن؛ لا تضع مفتاح Gemini في هذا التطبيق أو في المستودع العام. يجب نشر الخادم وضبط مفتاحه كمتغير بيئة قبل تفعيل التحليل.</p>
-<label for="aiEndpoint">رابط خادم الذكاء الاصطناعي (API endpoint)</label><input id="aiEndpoint" type="url" inputmode="url" maxlength="300" value="https://maintenance-ai-toolkit-api-seif.workers.dev/api/chat" placeholder="https://YOUR-WORKER.workers.dev/api/chat" autocomplete="url"><div class="actions"><button class="btn secondary" type="button" id="saveAiEndpoint">حفظ الرابط على هذا الجهاز</button></div><p class="hint">يُحفظ رابط الخادم على هذا الجهاز فقط. لا تدخل أي مفتاح API في هذا الحقل.</p>
+<label for="aiEndpoint">رابط خادم الذكاء الاصطناعي (API endpoint)</label><input id="aiEndpoint" type="url" inputmode="url" maxlength="300" value="https://maintenance-ai-toolkit-api.maintenance-ai-toolkit-api-seif.workers.dev/api/chat" placeholder="https://YOUR-WORKER.workers.dev/api/chat" autocomplete="url"><div class="actions"><button class="btn secondary" type="button" id="saveAiEndpoint">حفظ الرابط على هذا الجهاز</button></div><p class="hint">يُحفظ رابط الخادم على هذا الجهاز فقط. لا تدخل أي مفتاح API في هذا الحقل.</p>
 <p class="hint">النموذج المستخدم: Gemini 2.5 Flash.</p>
 <form id="aiForm">
 <label for="aiMachine">نوع المعدة / الموديل إن عُرف</label><input id="aiMachine" required maxlength="120" placeholder="مثال: مضخة طرد مركزي، موديل غير معروف">
@@ -318,7 +318,7 @@ other:['صف ما تغير ومتى بدأ العطل، وسجّل رمز الإ
 const general=['وثّق الحالة كما هي، ولا تفترض سببًا واحدًا قبل جمع الأدلة.','قارن القياسات بدليل المصنع وحدود التشغيل المعتمدة للمعدة نفسها.','إذا كانت المعلومات غير كافية أو بقي الخطر قائمًا، أوقف التشخيص وصعّد إلى مختص مؤهل.'];
 const AI_ENDPOINT_KEY='maintenance-ai-toolkit-endpoint-v1';
 const endpointInput=$('aiEndpoint');
-try{endpointInput.value=localStorage.getItem(AI_ENDPOINT_KEY)||'https://maintenance-ai-toolkit-api-seif.workers.dev/api/chat';}catch{}
+try{endpointInput.value=localStorage.getItem(AI_ENDPOINT_KEY)||'https://maintenance-ai-toolkit-api.maintenance-ai-toolkit-api-seif.workers.dev/api/chat';}catch{}
 endpointInput.addEventListener('change',()=>{try{localStorage.setItem(AI_ENDPOINT_KEY,endpointInput.value.trim());}catch{}});
 $('saveAiEndpoint').addEventListener('click',()=>{const value=String(endpointInput.value||'').trim().replace(/\/+$/,'');try{if(value){const parsed=new URL(value);if(parsed.protocol!=='https:'||!parsed.pathname.endsWith('/api/chat'))throw new Error();localStorage.setItem(AI_ENDPOINT_KEY,value);endpointInput.value=value;$('aiResult').hidden=false;$('aiResult').textContent='تم حفظ رابط الخادم على هذا الجهاز. لم يتم اختبار الاتصال بعد.';}else{localStorage.removeItem(AI_ENDPOINT_KEY);$('aiResult').hidden=false;$('aiResult').textContent='تم مسح رابط الخادم المحفوظ.';}}catch{$('aiResult').hidden=false;$('aiResult').textContent='رابط غير صالح. أدخل رابط HTTPS ينتهي بـ /api/chat.';}});
 $('aiForm').addEventListener('submit',async e=>{
