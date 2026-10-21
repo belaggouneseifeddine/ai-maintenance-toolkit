@@ -89,6 +89,7 @@ footer{line-height:1.8}
 <label for="aiSymptom">العطل أو العرض الرئيسي</label><input id="aiSymptom" required maxlength="240" placeholder="مثال: ضغط الخروج منخفض">
 <label for="aiCode">رمز الإنذار (اختياري)</label><input id="aiCode" maxlength="300" placeholder="الرمز كما يظهر على الشاشة">
 <label for="aiObservations">الملاحظات والقياسات مع الوحدات (اختياري)</label><textarea id="aiObservations" maxlength="3000" placeholder="اذكر ما لاحظته فقط، ولا تضع بيانات سرية أو معلومات تخص المصنع الحساسة."></textarea>
+<label class="check" for="aiConsent"><input id="aiConsent" type="checkbox" required><span>أوافق على إرسال وصف العطل والقياسات التي أدخلتها إلى رابط الخادم الذي ضبطته. تحققت من أن الرابط موثوق، ولن أرسل بيانات شخصية أو معلومات سرية عن المصنع.</span></label>
 <div class="notice">لا تستخدم اقتراحات الذكاء الاصطناعي وحدها لاتخاذ قرارات تشغيل أو سلامة. طبّق LOTO وإجراءات موقعك، ولا تتجاوز الحمايات أو تفتح الأنظمة المضغوطة.</div>
 <div class="actions"><button class="btn" id="askAi" type="submit">تحليل العطل</button></div>
 </form>
