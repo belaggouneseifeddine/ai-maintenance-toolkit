@@ -57,8 +57,13 @@ const checks = [
     assert.equal(manifest.lang, "ar");
     assert.equal(manifest.dir, "rtl");
     assert.equal(manifest.display, "standalone");
+    assert.ok(manifest.icons.some(icon => icon.src === "./icon.svg"), "PWA icon must be declared");
   }],
-  ["Service worker declares app-shell caching", () => assert.match(sw, /APP_SHELL/)]
+  ["Service worker caches the app shell and icon with a bumped cache version", () => {
+    assert.match(sw, /APP_SHELL/);
+    assert.match(sw, /\.\/icon\.svg/);
+    assert.match(sw, /maintenance-ai-toolkit-v9/);
+  }]
 ];
 
 let failed = 0;
