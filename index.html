@@ -412,16 +412,16 @@ $('diagnosisResult').innerHTML='<div class="result"><div class="print-only" styl
 $('printDiagnosis').addEventListener('click',()=>window.print());
 $('saveDiagnosis').addEventListener('click',()=>{
 const all=getRecords();
-all.unshift({date:localDateString(),machine:(assetId?assetId+' — ':'')+$('machine').selectedOptions[0].text,fault:$('symptom').selectedOptions[0].text+(code?' — '+code:'')+(followup?' | إجابة السؤال: '+followup:'')+(obs?' | '+obs:''),action:'خطة فحص إرشادية تم إنشاؤها؛ لم يتم تأكيد السبب.'+(manualRef?' مرجع الدليل: '+manualRef:''),status:priority==='urgent'?'تم التصعيد': 'قيد الفحص'});
+all.unshift({id:newRecordId(),date:localDateString(),machine:(assetId?assetId+' — ':'')+$('machine').selectedOptions[0].text,fault:$('symptom').selectedOptions[0].text+(code?' — '+code:'')+(followup?' | إجابة السؤال: '+followup:'')+(obs?' | '+obs:''),action:'خطة فحص إرشادية تم إنشاؤها؛ لم يتم تأكيد السبب.'+(manualRef?' مرجع الدليل: '+manualRef:''),status:priority==='urgent'?'تم التصعيد': 'قيد الفحص'});
 saveRecords(all);renderRecords();lastDiagnosisDraft=null;persistDraft();renderDraftSummary();$('log').classList.add('active');$('diagnose').classList.remove('active');document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab==='log'));
 });
 });
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 $('resetSafety').addEventListener('click',()=>{document.querySelectorAll('#safetyChecks input').forEach(c=>c.checked=false);$('diagnosisResult').innerHTML='';$('safetyGateNotice').style.display='none';});
-const KEY='maintenance-ai-toolkit-records-v1';function getRecords(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch{return []}}function saveRecords(a){localStorage.setItem(KEY,JSON.stringify(a))}
+const KEY='maintenance-ai-toolkit-records-v1';function getRecords(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch{return []}}function saveRecords(a){localStorage.setItem(KEY,JSON.stringify(a))}function newRecordId(){return 'rec-'+Date.now().toString(36)+Math.random().toString(36).slice(2,10)}
 function localDateString(date=new Date()){const y=date.getFullYear();const m=String(date.getMonth()+1).padStart(2,'0');const d=String(date.getDate()).padStart(2,'0');return `${y}-${m}-${d}`;}
 $('logDate').value=localDateString();
-$('logForm').addEventListener('submit',e=>{e.preventDefault();const a=getRecords();a.unshift({date:$('logDate').value,createdAt:new Date().toISOString(),machine:$('logMachine').value.trim(),fault:$('logFault').value.trim(),action:$('logAction').value.trim(),status:$('logStatus').value});saveRecords(a);e.target.reset();$('logDate').value=localDateString();renderRecords();});
+$('logForm').addEventListener('submit',e=>{e.preventDefault();const a=getRecords();a.unshift({id:newRecordId(),date:$('logDate').value,createdAt:new Date().toISOString(),machine:$('logMachine').value.trim(),fault:$('logFault').value.trim(),action:$('logAction').value.trim(),status:$('logStatus').value});saveRecords(a);e.target.reset();$('logDate').value=localDateString();renderRecords();});
 function renderRecords(){
 const currentLanguage=window.MaintenanceI18n?window.MaintenanceI18n.getLanguage():'ar';
 const statusText=status=>status==='قيد الفحص'?tr('statusInProgress'):status==='تم الإصلاح'?tr('statusRepaired'):status==='يتطلب قطع غيار'?tr('statusParts'):status==='تم التصعيد'?tr('statusEscalated'):status;
@@ -472,7 +472,7 @@ $('clearRecordFilters').addEventListener('click',()=>{$('recordSearch').value=''
 $('diagnosisForm').querySelectorAll('input,select,textarea').forEach(field=>field.addEventListener('input',persistDraft));
 $('diagnosisForm').querySelectorAll('input,select,textarea').forEach(field=>field.addEventListener('change',persistDraft));
 $('diagnosisForm').addEventListener('reset',()=>{setTimeout(()=>{localStorage.removeItem(DRAFT_KEY);lastDiagnosisDraft=null;$('diagnosisResult').innerHTML='';$('safetyGateNotice').style.display='none';updateFollowup();renderDraftSummary();},0);});
-$('saveDraft').addEventListener('click',()=>{if(!lastDiagnosisDraft)return;const all=getRecords();all.unshift({...lastDiagnosisDraft});saveRecords(all);renderRecords();lastDiagnosisDraft=null;persistDraft();renderDraftSummary();$('log').classList.add('active');$('diagnose').classList.remove('active');document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab==='log'));});
+$('saveDraft').addEventListener('click',()=>{if(!lastDiagnosisDraft)return;const all=getRecords();all.unshift({...lastDiagnosisDraft,id:lastDiagnosisDraft.id||newRecordId()});saveRecords(all);renderRecords();lastDiagnosisDraft=null;persistDraft();renderDraftSummary();$('log').classList.add('active');$('diagnose').classList.remove('active');document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab==='log'));});
 $('clearDraft').addEventListener('click',()=>{localStorage.removeItem(DRAFT_KEY);lastDiagnosisDraft=null;$('diagnosisForm').reset();$('diagnosisResult').innerHTML='';renderDraftSummary();});
 restoreDraft();
 renderRecords();
