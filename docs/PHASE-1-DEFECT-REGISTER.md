@@ -7,6 +7,8 @@
 - [x] Fixed monthly due-date calculation so January 31 clamps to the last day of February, including leap years.
 - [x] Added validation for malformed preventive-maintenance dates and custom report ranges.
 - [x] Added stable IDs to existing maintenance records and changed new photo links to use record IDs.
+- [x] Updated the main log, diagnosis-save, and draft-save paths to assign IDs at record creation.
+- [x] Bumped the service-worker cache to v27 so updated frontend files can be picked up by clients.
 - [x] Added one-time migration for legacy photo rows from `recordIndex` to `recordId`; legacy attachments that no longer map to a record are shown as unavailable rather than silently reassigned.
 - [x] Added a Node regression test for JavaScript syntax and month-end date behavior; expanded the workflow to run all `tests/*.test.cjs` when relevant files change.
 - [ ] Verify the actual GitHub Actions run result; available status checks currently show Vercel build-rate-limit failures, not a confirmed result for the new test workflow.
