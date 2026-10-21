@@ -10,7 +10,7 @@ Use this checklist on the published site from an Android phone. Record the brows
 
 ## Knowledge base
 - [ ] Knowledge tab opens and links to the cited technical references.
-- [ ] Valve/actuator appears in the equipment selector and produces conservative guidance.
+- [ ] Valve/actuator appears in the equipment selector and produces conservative guidance.\n- [ ] VFD and sensor/instrumentation appear in the equipment selector.\n- [ ] A VFD trip and an implausible/lost sensor signal produce specific guidance.\n- [ ] Conveyor start/tracking/noise guidance includes isolation and pinch-point warnings.
 - [ ] New knowledge entries do not provide invented setpoints, torque values, or pressure limits.
 - [ ] Safety warnings for hydraulic injection, stored pressure, and energy isolation are visible.
 
