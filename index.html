@@ -103,11 +103,9 @@ footer{line-height:1.8}
 </form><div id="diagnosisResult" aria-live="polite"></div></div>
 </section>
 <section id="ai" class="panel">
-<div class="card"><h2>مساعد الصيانة بالذكاء الاصطناعي — تجريبي</h2>
-<p class="hint">وضع تجريبي مباشر مع Gemini API — أدخل مفتاحًا مخصصًا للتجربة فقط. لن يحفظ التطبيق المفتاح في التخزين المحلي أو يرفعه إلى GitHub، لكن المتصفح سيرسله إلى Google مع كل طلب. لا تستخدم مفتاحًا حساسًا أو بيانات مصنع سرية.</p>
-<label for="geminiApiKey">مفتاح Gemini API (لا يُحفظ)</label><input id="geminiApiKey" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="ألصق مفتاح التجربة هنا">
-<label for="geminiModel">النموذج</label><select id="geminiModel"><option value="gemini-3.8-flash">Gemini 3.8 Flash</option><option value="gemini-2.5-flash">Gemini 2.5 Flash (بديل)</option></select>
-<div class="actions"><button class="btn secondary" id="clearGeminiKey" type="button">مسح المفتاح</button></div>
+<div class="card"><h2>مساعد الصيانة بالذكاء الاصطناعي — Gemini</h2>
+<p class="hint">يقرأ التطبيق المفتاح من ملف الإعدادات <code>gemini-config.js</code>؛ لا حاجة لإدخاله أثناء التصفح. تنبيه: إذا وضعت مفتاحًا حقيقيًا في ملف منشور علنًا، يمكن للآخرين نسخه واستخدامه. استخدم مفتاحًا تجريبيًا محدود الحصة ولا ترسل بيانات سرية.</p>
+<p class="hint">النموذج المستخدم: Gemini 2.5 Flash.</p>
 <form id="aiForm">
 <label for="aiMachine">نوع المعدة / الموديل إن عُرف</label><input id="aiMachine" required maxlength="120" placeholder="مثال: مضخة طرد مركزي، موديل غير معروف">
 <label for="aiSymptom">العطل أو العرض الرئيسي</label><input id="aiSymptom" required maxlength="240" placeholder="مثال: ضغط الخروج منخفض">
@@ -310,29 +308,27 @@ consumption:['قارن استهلاك الطاقة أو المادة بمعدل 
 other:['صف ما تغير ومتى بدأ العطل، وسجّل رمز الإنذار والقراءات مع الوحدات ومصدرها؛ لا تستنتج السبب من وصف عام.']
 };
 const general=['وثّق الحالة كما هي، ولا تفترض سببًا واحدًا قبل جمع الأدلة.','قارن القياسات بدليل المصنع وحدود التشغيل المعتمدة للمعدة نفسها.','إذا كانت المعلومات غير كافية أو بقي الخطر قائمًا، أوقف التشخيص وصعّد إلى مختص مؤهل.'];
-const GEMINI_MODEL_DEFAULT='gemini-3.8-flash';
-$('clearGeminiKey').addEventListener('click',()=>{$('geminiApiKey').value='';$('aiResult').hidden=true;$('aiResult').textContent='';});
+const GEMINI_MODEL_DEFAULT='gemini-2.5-flash';
 $('aiForm').addEventListener('submit',async e=>{
 e.preventDefault();
-$('aiConsent').checked=false;
-const apiKey=$('geminiApiKey').value.trim();
-const model=$('geminiModel').value||GEMINI_MODEL_DEFAULT;
 const box=$('aiResult');
 box.hidden=false;box.textContent='';
-if(!apiKey){box.textContent='أدخل مفتاح Gemini API التجريبي أولًا. لن يُحفظ المفتاح بعد مغادرة الصفحة أو تحديثها.';return;}
+const apiKey=String(window.GEMINI_API_KEY||'').trim();
+if(!apiKey||apiKey==='PASTE_YOUR_GEMINI_API_KEY_HERE'){box.textContent='لم يتم إعداد المفتاح بعد. افتح gemini-config.js وضع مفتاح Gemini في القيمة المحددة ثم حدّث التطبيق.';return;}
+if(!$('aiConsent').checked){box.textContent='وافق على إرسال وصف العطل إلى Google Gemini قبل المتابعة.';return;}
 const button=$('askAi');button.disabled=true;button.textContent='جارٍ تحليل العطل…';
-box.textContent='جارٍ إرسال طلب تجريبي إلى Gemini…';
+box.textContent='جارٍ إرسال طلب إلى Gemini…';
 const lang=window.MaintenanceI18n?window.MaintenanceI18n.getLanguage():'ar';
 const langName=lang==='fr'?'French':lang==='en'?'English':'Arabic';
-const prompt='You are an industrial maintenance troubleshooting assistant. Reply in '+langName+'. Analyze only the facts supplied; distinguish confirmed facts from hypotheses; list the most likely causes with evidence, safe non-invasive checks, required measurements with units, and escalation conditions. Never advise bypassing interlocks or safety devices, working on energized equipment, or opening pressurized systems. State that advice is preliminary and must be checked against the manufacturer manual and site procedures. If data is insufficient, ask concise follow-up questions. Do not invent machine-specific specifications.\n\nEquipment: '+$('aiMachine').value.trim()+'\nSymptom: '+$('aiSymptom').value.trim()+'\nAlarm code: '+($('aiCode').value.trim()||'Not provided')+'\nObservations/measurements: '+($('aiObservations').value.trim()||'Not provided');
+const prompt='You are an industrial maintenance troubleshooting assistant. Reply in '+langName+'. Analyze only the facts supplied; distinguish confirmed facts from hypotheses; list likely causes with evidence, safe non-invasive checks, required measurements with units, and escalation conditions. Never advise bypassing interlocks or safety devices, working on energized equipment, or opening pressurized systems. State that advice is preliminary and must be checked against the manufacturer manual and site procedures. If data is insufficient, ask concise follow-up questions. Do not invent machine-specific specifications.\\n\\nEquipment: '+$('aiMachine').value.trim()+'\\nSymptom: '+$('aiSymptom').value.trim()+'\\nAlarm code: '+($('aiCode').value.trim()||'Not provided')+'\\nObservations/measurements: '+($('aiObservations').value.trim()||'Not provided');
 try{
-const response=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+encodeURIComponent(model)+':generateContent',{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':apiKey},signal:AbortSignal.timeout(35000),body:JSON.stringify({contents:[{role:'user',parts:[{text:prompt}]}],generationConfig:{temperature:0.2,maxOutputTokens:1200}})});
+const response=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+encodeURIComponent(GEMINI_MODEL_DEFAULT)+':generateContent',{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':apiKey},signal:AbortSignal.timeout(35000),body:JSON.stringify({contents:[{role:'user',parts:[{text:prompt}]}],generationConfig:{temperature:0.2,maxOutputTokens:1200}})});
 let data={};try{data=await response.json()}catch{}
-if(!response.ok){const apiMessage=data.error&&data.error.message;let msg=apiMessage||('HTTP '+response.status);if(response.status===429)msg='تم بلوغ حد الطلبات أو الحصة (429). تحقق من Rate Limits في AI Studio ثم انتظر قبل إعادة المحاولة. '+msg;else if(response.status===400||response.status===401||response.status===403)msg='رفض Gemini الطلب. تحقق من صلاحية المفتاح والنموذج وإعدادات المشروع. '+msg;throw new Error(msg);}
-const answer=(data.candidates||[]).flatMap(c=>(c.content&&c.content.parts)||[]).map(p=>p.text||'').filter(Boolean).join('\n').trim();
+if(!response.ok){const apiMessage=data.error&&data.error.message;let msg=apiMessage||('HTTP '+response.status);if(response.status===429)msg='تم بلوغ حد الطلبات أو الحصة (429). انتظر ثم تحقق من الحصة. '+msg;else if(response.status===400||response.status===401||response.status===403)msg='رفض Gemini الطلب. تحقق من المفتاح والنموذج وإعدادات المشروع. '+msg;throw new Error(msg);}
+const answer=(data.candidates||[]).flatMap(c=>(c.content&&c.content.parts)||[]).map(p=>p.text||'').filter(Boolean).join('\\n').trim();
 if(!answer)throw new Error('لم يُرجع Gemini نصًا. قد يكون الرد محجوبًا أو لا يحتوي على محتوى نصي.');
-box.textContent=answer+'\n\nتنبيه: نتيجة تجريبية أولية؛ راجع دليل المصنع وإجراءات السلامة قبل أي تدخل.';
-}catch(err){box.textContent='تعذر إكمال تجربة Gemini: '+(err.message||'خطأ غير معروف')+'\n\nالتشخيص المحلي ما زال متاحًا. لا تكرر الطلب بسرعة إذا ظهرت رسالة الحصة أو 429.';}
+box.textContent=answer+'\\n\\nتنبيه: نتيجة تجريبية أولية؛ راجع دليل المصنع وإجراءات السلامة قبل أي تدخل.';
+}catch(err){box.textContent='تعذر إكمال طلب Gemini: '+(err.message||'خطأ غير معروف')+'\\n\\nالتشخيص المحلي ما زال متاحًا.';}
 finally{button.disabled=false;button.textContent='تحليل العطل';}
 });
 
@@ -443,6 +439,7 @@ restoreDraft();
 renderRecords();
 if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
 </script>
+<script src="./gemini-config.js"></script>
 <script src="./maintenance-v03.js"></script>
 <script src="./ux-redesign.js"></script>
 <footer class="author">
