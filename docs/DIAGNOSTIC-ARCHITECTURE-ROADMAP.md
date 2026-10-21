@@ -142,3 +142,10 @@ Only after timestamped, quality-controlled history exists, explore trend analysi
 - Sensitive maintenance data is not sent without per-request consent.
 - Offline local diagnosis remains usable if the AI endpoint is unavailable.
 - The release notes clearly distinguish implemented, automated-tested, and manually-tested behaviour.
+
+
+## Implemented in the diagnostic report pilot
+- Optional asset ID, technician name, priority selected by the user, and manual/page reference.
+- Printable inspection report suitable for the browser's “Save as PDF” print flow.
+- The report separates user-entered observations from suggested checks and explicitly states that it is not an engineering approval or work permit.
+- The selected priority is carried into the local log status; this is a user selection, not an automatic risk assessment.

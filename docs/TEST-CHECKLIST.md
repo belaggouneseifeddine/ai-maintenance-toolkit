@@ -95,3 +95,12 @@ These cases cover the currently implemented answer-specific branches. Use only s
 - [ ] The deterministic safety gate takes precedence over AI output.
 - [ ] No manuals, observations, or plant data are sent to an external service without explicit user consent.
 
+
+
+## Diagnostic report and work-order context (new)
+- [ ] Enter an asset ID, priority, technician name, and manual/page reference; generate a diagnosis.
+- [ ] Verify all entered fields appear in the result/report and unusual text is escaped as text.
+- [ ] Select “طباعة / حفظ PDF”; confirm the print preview contains only the report, not navigation, input forms, or action buttons.
+- [ ] Save the print preview as PDF using the Android print dialog where supported.
+- [ ] Save the diagnosis to the local log and verify the asset ID and selected priority/status are retained.
+- [ ] Confirm the report labels suggested steps as guidance, not completed work or a confirmed root cause.
