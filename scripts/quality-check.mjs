@@ -23,6 +23,11 @@ const checks = [
   ["User-entered maintenance records are HTML-escaped", () => assert.match(html, /function escapeHtml\s*\(/)],
   ["Maintenance records persist locally", () => assert.match(html, /localStorage\.setItem\(KEY/)],
   ["CSV export exists", () => assert.match(html, /maintenance-log\.csv/)],
+  ["CSV export neutralizes spreadsheet formula injection", () => {
+    assert.match(html, /function csvCell\\(value\\)/);
+    assert.match(html, /row\\.map\\(csvCell\\)/);
+    assert.match(html, /const safe=\\/\\^\\[\\\\t\\\\r\\\\n \\]\\*\\[=\\+\\\\-@\\]\\//);
+  }],
   ["AI endpoint is configurable without a browser-side provider key", () => {
     assert.match(html, /AI_ENDPOINT_KEY/);
     assert.doesNotMatch(html, /sk-[A-Za-z0-9]{20,}/);
