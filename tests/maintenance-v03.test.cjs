@@ -12,8 +12,8 @@ test("maintenance-v03.js parses as valid JavaScript", () => {
 
 test("inline JavaScript in index.html parses", () => {
   const html = fs.readFileSync(require.resolve("../index.html"), "utf8");
-  const scripts = [...html.matchAll(/<script\\b([^>]*)>([\\s\\S]*?)<\\/script>/gi)];
-  const inlineScripts = scripts.filter(match => !/\\bsrc\\s*=/i.test(match[1]) && !/type\\s*=\\s*["']application\\/ld\\+json["']/i.test(match[1]) && match[2].trim());
+  const scripts = [...html.matchAll(/<script\b([^>]*)>([\s\\S]*?)<\/script>/gi)];
+  const inlineScripts = scripts.filter(match => !/\bsrc\s*=/i.test(match[1]) && !/type\s*=\s*["']application\/ld\\+json["']/i.test(match[1]) && match[2].trim());
   assert.ok(inlineScripts.length > 0, "no inline scripts found in index.html");
   inlineScripts.forEach((match, index) => {
     assert.doesNotThrow(() => new vm.Script(match[2], { filename: "index.html inline script " + (index + 1) }));
