@@ -38,6 +38,7 @@ The repository contains a static progressive web app (PWA) intended for phone br
 - `knowledge/fault-report-template.md` — reusable fault report
 - `knowledge/INDUSTRIAL-FAULT-KNOWLEDGE-BASE.md` — source-backed fault patterns and safety boundaries for pumps, motors, compressors, hydraulics, and valves
 - `knowledge/INGERSOLL-RAND-COMPRESSOR-CASEBOOK.md` — model-aware compressor diagnostic questions, fault hypotheses, and free OEM manuals/PDFs
+- `knowledge/ELECTRIC-MOTOR-AND-VFD-CASEBOOK.md` — symptom-led motor, contactor, overload, and VFD troubleshooting with free OEM manuals/PDFs
 - `docs/TEST-CHECKLIST.md` — manual acceptance tests
 - `docs/AI-INTEGRATION-PLAN.md` — safe path toward optional AI integration
 
