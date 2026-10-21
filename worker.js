@@ -68,7 +68,8 @@ export default {
 
     let upstream;
     try {
-      upstream = await fetch((env.AI_BASE_URL || "https://generativelanguage.googleapis.com/v1beta/openai").replace(/\\/+$/, "") + "/chat/completions", {
+      const baseUrl = env.AI_BASE_URL || "https://generativelanguage.googleapis.com/v1beta/openai";
+      upstream = await fetch(baseUrl + "/chat/completions", {
         method: "POST",
         headers: { "Authorization": "Bearer " + env.AI_API_KEY, "Content-Type": "application/json" },
         signal: AbortSignal.timeout(20000),
