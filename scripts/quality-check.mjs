@@ -188,7 +188,7 @@ const checks = [
   ["Service worker caches the app shell and icon with a bumped cache version", () => {
     assert.match(sw, /APP_SHELL/);
     assert.match(sw, /\.\/icon\.svg/);
-    assert.match(sw, /maintenance-ai-toolkit-v13/);
+    assert.match(sw, /maintenance-ai-toolkit-v14/);
   }]
 ,
   ["Pump fault library has the five requested multilingual fault entries", () => {
@@ -248,8 +248,21 @@ const checks = [
     assert.match(html, /maintenance-log\.csv/);
     assert.match(html, /function csvCell\(value\)/);
   }],
+  ["v0.3 tools are wired and stored locally", () => {
+    assert.match(html, /maintenance-v03\\.js/);
+    assert.match(sw, /maintenance-v03\\.css/);
+    assert.match(sw, /decision-trees\\.json/);
+    assert.match(deployWorkflow, /maintenance-v03\\.js maintenance-v03\\.css decision-trees\\.json/);
+    assert.match(html, /maintenance-ai-toolkit-records-v1/);
+  }],
+  ["Pump decision tree requires LOTO gate and has safe escalation", () => {
+    const tree = JSON.parse(readFileSync("decision-trees.json", "utf8"));
+    assert.equal(tree.equipment, "pump");
+    assert.ok(tree.nodes.rotates && tree.nodes.noisy && tree.nodes.lowflow);
+    for (const node of Object.values(tree.nodes)) if (node.result) assert.ok(node.safe && node.escalate && node.cause);
+  }],
   ["PWA caches all new offline dependencies and bumps its cache", () => {
-    assert.match(sw, /maintenance-ai-toolkit-v13/);
+    assert.match(sw, /maintenance-ai-toolkit-v14/);
     for (const asset of ["diagnostic-engine.js", "faults.json", "i18n.js"]) assert.ok(sw.includes(asset), "Missing offline cache asset " + asset);
     assert.match(manifest.icons[0].src, /icon\.svg/);
   }]
