@@ -188,7 +188,7 @@ const checks = [
   ["Service worker caches the app shell and icon with a bumped cache version", () => {
     assert.match(sw, /APP_SHELL/);
     assert.match(sw, /\.\/icon\.svg/);
-    assert.match(sw, /maintenance-ai-toolkit-v12/);
+    assert.match(sw, /maintenance-ai-toolkit-v13/);
   }]
 ,
   ["Pump fault library has the five requested multilingual fault entries", () => {
@@ -230,6 +230,20 @@ const checks = [
     assert.equal(result.matched, true);
     assert.equal(result.results[0].id, "pump-mechanical-seal-leak");
   }],
+  ["Keyword matching requires whole words or phrases, not arbitrary substrings", () => {
+    const result = engineWindow.diagnose({ equipmentType: "pump", symptom: "leak", observations: "the repair area was cleaned", language: "en" }, faults);
+    assert.equal(result.matched, false, "The substring 'air' inside 'repair' must not count as evidence");
+  }],
+  ["Keyword matching still accepts a supported English phrase", () => {
+    const result = engineWindow.diagnose({ equipmentType: "pump", symptom: "leak", observations: "mechanical seal leakage around shaft", language: "en" }, faults);
+    assert.equal(result.matched, true);
+    assert.equal(result.results[0].id, "pump-mechanical-seal-leak");
+  }],
+  ["Cause ranking ignores keyword fragments inside unrelated words", () => {
+    const result = engineWindow.diagnose({ equipmentType: "pump", symptom: "leak", observations: "mechanical seal leakage repair complete", language: "en" }, faults);
+    assert.equal(result.matched, true);
+    assert.equal(result.results[0].causes.some(cause => cause.matchedKeywords.includes("air")), false);
+  }],
   ["Safety gate, auto-draft, three-language switch and record filters are wired", () => {
     assert.match(html, /safetyChecks\.some\(box=>!box\.checked\)/);
     assert.match(html, /id="safetyGateNotice"/);
@@ -249,7 +263,7 @@ const checks = [
     assert.match(html, /function csvCell\(value\)/);
   }],
   ["PWA caches all new offline dependencies and bumps its cache", () => {
-    assert.match(sw, /maintenance-ai-toolkit-v12/);
+    assert.match(sw, /maintenance-ai-toolkit-v13/);
     for (const asset of ["diagnostic-engine.js", "faults.json", "i18n.js"]) assert.ok(sw.includes(asset), "Missing offline cache asset " + asset);
     assert.match(manifest.icons[0].src, /icon\.svg/);
   }]
