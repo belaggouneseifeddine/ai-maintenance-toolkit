@@ -16,7 +16,11 @@ const deployWorkflow = readFileSync(".github/workflows/deploy-pages.yml", "utf8"
 const faults = JSON.parse(readFileSync("faults.json", "utf8"));
 const diagnosticEngineSource = readFileSync("diagnostic-engine.js", "utf8");
 const i18n = readFileSync("i18n.js", "utf8");
-const engineWindow = {};\nconst inlineScript = html.match(/<script>\\s*([\\s\\S]*?)<\\/script>/);\nassert.ok(inlineScript, "Inline application script must exist");\nnew vm.Script(inlineScript[1], { filename: "index-inline.js" });\nnew vm.Script(i18n, { filename: "i18n.js" });
+const engineWindow = {};
+const inlineScript = html.match(/<script>\s*([\s\S]*?)<\/script>/);
+assert.ok(inlineScript, "Inline application script must exist");
+new vm.Script(inlineScript[1], { filename: "index-inline.js" });
+new vm.Script(i18n, { filename: "i18n.js" });
 vm.runInNewContext(diagnosticEngineSource, { window: engineWindow, console });
 
 const checks = [
