@@ -2,7 +2,20 @@
 
 ## Confirmed from source inspection
 
+## Implementation progress — 2026-10-21
+
+- [x] Fixed monthly due-date calculation so January 31 clamps to the last day of February, including leap years.
+- [x] Added validation for malformed preventive-maintenance dates and custom report ranges.
+- [x] Added stable IDs to existing maintenance records and changed new photo links to use record IDs.
+- [x] Added one-time migration for legacy photo rows from `recordIndex` to `recordId`; legacy attachments that no longer map to a record are shown as unavailable rather than silently reassigned.
+- [x] Added a Node regression test for JavaScript syntax and month-end date behavior; expanded the workflow to run all `tests/*.test.cjs` when relevant files change.
+- [ ] Verify the actual GitHub Actions run result; available status checks currently show Vercel build-rate-limit failures, not a confirmed result for the new test workflow.
+- [ ] Verify photo migration on real browser storage. Historical photo links that were already wrong before migration cannot be reconstructed reliably from array positions alone.
+
+
 ### P1 — Photo attachments use array positions instead of stable record identity
+
+Status: code fix committed; real-browser migration test pending.
 File: `maintenance-v03.js`
 
 - The photo selector serializes the current array position as its option value.
@@ -35,9 +48,13 @@ Required fix:
 - Test Arabic, French and English after switching languages while the panel is open and after adding/removing records.
 
 ### P2 — Monthly due-date edge case
+
+Status: code fix committed; regression test added; CI result pending.
 The monthly due-date calculation uses JavaScript `Date.setMonth`. For dates near the end of a month, this can roll into the following month instead of clamping to its last day. Test month-end dates and define a deliberate calendar rule before release.
 
 ### P2 — Date validation
+
+Status: custom report range and new preventive-task date validation committed. Existing malformed task records are now excluded from due/overdue calculations and shown with an invalid-date label; browser verification pending.
 Custom report ranges should reject or clearly handle a start date later than the end date. Preventive-maintenance tasks should require a valid last-execution date before computing a due date.
 
 ## Release-blocking verification still required
