@@ -83,7 +83,7 @@ footer{line-height:1.8}
 <link rel="stylesheet" href="./ux-redesign.css">
 </head>
 <body>
-<header><div class="head"><div class="eyebrow">INDUSTRIAL MAINTENANCE • MVP 0.1</div><div class="brand">Maintenance AI Toolkit</div><p class="sub">مساعد عملي لتوثيق الأعطال وتنظيم خطوات الفحص بأمان.</p><label for="languageSwitcher" style="color:#fff">اللغة / Language / Langue</label><select id="languageSwitcher" aria-label="Language"><option value="ar">العربية</option><option value="fr">Français</option><option value="en">English</option></select></div></header>
+<header><div class="head"><div class="eyebrow">INDUSTRIAL MAINTENANCE • MVP 0.2</div><div class="brand">Maintenance AI Toolkit</div><p class="sub">مساعد عملي لتوثيق الأعطال وتنظيم خطوات الفحص بأمان.</p><label for="languageSwitcher" style="color:#fff">اللغة / Language / Langue</label><select id="languageSwitcher" aria-label="Language"><option value="ar">العربية</option><option value="fr">Français</option><option value="en">English</option></select></div></header>
 <main>
 <nav class="nav" aria-label="التنقل">
 <button class="tab active" data-tab="diagnose">التشخيص</button><button class="tab" data-tab="ai">مساعد AI</button><button class="tab" data-tab="knowledge">قاعدة الأعطال</button><button class="tab" data-tab="safety">السلامة</button><button class="tab" data-tab="log">سجل الصيانة</button>
@@ -105,7 +105,7 @@ footer{line-height:1.8}
 <section id="ai" class="panel">
 <div class="card"><h2>مساعد الصيانة بالذكاء الاصطناعي — Gemini</h2>
 <p class="hint">يتصل المساعد بخادم خلفي آمن؛ لا تضع مفتاح Gemini في هذا التطبيق أو في المستودع العام. يجب نشر الخادم وضبط مفتاحه كمتغير بيئة قبل تفعيل التحليل.</p>
-<label for="aiEndpoint">رابط خادم الذكاء الاصطناعي (API endpoint)</label><input id="aiEndpoint" type="url" inputmode="url" maxlength="300" placeholder="https://your-backend.example/api/chat" autocomplete="url"><p class="hint">يُحفظ رابط الخادم على هذا الجهاز فقط. لا تدخل أي مفتاح API في هذا الحقل.</p>
+<label for="aiEndpoint">رابط خادم الذكاء الاصطناعي (API endpoint)</label><input id="aiEndpoint" type="url" inputmode="url" maxlength="300" placeholder="https://YOUR-WORKER.workers.dev/api/chat" autocomplete="url"><div class="actions"><button class="btn secondary" type="button" id="saveAiEndpoint">حفظ الرابط على هذا الجهاز</button></div><p class="hint">يُحفظ رابط الخادم على هذا الجهاز فقط. لا تدخل أي مفتاح API في هذا الحقل.</p>
 <p class="hint">النموذج المستخدم: Gemini 2.5 Flash.</p>
 <form id="aiForm">
 <label for="aiMachine">نوع المعدة / الموديل إن عُرف</label><input id="aiMachine" required maxlength="120" placeholder="مثال: مضخة طرد مركزي، موديل غير معروف">
@@ -173,8 +173,6 @@ footer{line-height:1.8}
 <li>وثّق النتيجة؛ إذا لم تتطابق الأدلة أو بقي الخطر، أوقف التشخيص وصعّد لمختص.</li>
 </ol>
 <p><a href="./knowledge/ELECTRIC-MOTOR-AND-VFD-CASEBOOK.md" target="_blank" rel="noopener noreferrer">فتح دليل تشخيص المحركات الكهربائية وVFD والحمايات — PDF ومراجع مجانية</a></p>
-<h3>مراجع إضافية للمعدات المتخصصة</h3>
-<p><a href="./knowledge/ELECTRIC-MOTOR-AND-VFD-CASEBOOK.md" target="_blank" rel="noopener noreferrer">دليل تشخيص المحركات الكهربائية وVFD والحمايات — مراجع مجانية</a></p>
 <h3>المراجع الفنية</h3>
 <ul>
 <li><a href="https://www.energy.gov/sites/prod/files/2014/05/f16/pump.pdf" target="_blank" rel="noopener noreferrer">U.S. Department of Energy — Improving Pumping System Performance</a></li>
@@ -313,13 +311,14 @@ const AI_ENDPOINT_KEY='maintenance-ai-toolkit-endpoint-v1';
 const endpointInput=$('aiEndpoint');
 try{endpointInput.value=localStorage.getItem(AI_ENDPOINT_KEY)||'';}catch{}
 endpointInput.addEventListener('change',()=>{try{localStorage.setItem(AI_ENDPOINT_KEY,endpointInput.value.trim());}catch{}});
+$('saveAiEndpoint').addEventListener('click',()=>{const value=String(endpointInput.value||'').trim().replace(/\/+$/,'');try{if(value){const parsed=new URL(value);if(parsed.protocol!=='https:'||!parsed.pathname.endsWith('/api/chat'))throw new Error();localStorage.setItem(AI_ENDPOINT_KEY,value);endpointInput.value=value;$('aiResult').hidden=false;$('aiResult').textContent='تم حفظ رابط الخادم على هذا الجهاز. لم يتم اختبار الاتصال بعد.';}else{localStorage.removeItem(AI_ENDPOINT_KEY);$('aiResult').hidden=false;$('aiResult').textContent='تم مسح رابط الخادم المحفوظ.';}}catch{$('aiResult').hidden=false;$('aiResult').textContent='رابط غير صالح. أدخل رابط HTTPS ينتهي بـ /api/chat.';}});
 $('aiForm').addEventListener('submit',async e=>{
 e.preventDefault();
 const box=$('aiResult');
 box.hidden=false;box.textContent='';
 if(!$('aiConsent').checked){box.textContent='وافق على إرسال وصف العطل إلى الخادم قبل المتابعة.';return;}
 const endpoint=String(endpointInput.value||'').trim().replace(/\/+$/,'');
-if(!endpoint){box.textContent='لم يتم إعداد رابط الخادم بعد. انشر api/chat.js على خدمة تدعم وظائف الخادم، ثم أدخل رابطها المنتهي بـ /api/chat هنا. التشخيص المحلي ما زال متاحًا.';return;}
+if(!endpoint){box.textContent='لم يتم إعداد رابط الخادم بعد. انشر Cloudflare Worker ثم أدخل رابطه المنتهي بـ /api/chat. يبقى التشخيص المحلي متاحًا.';return;}
 let endpointUrl;
 try{endpointUrl=new URL(endpoint);if(endpointUrl.protocol!=='https:')throw new Error();}catch{box.textContent='رابط الخادم غير صالح. أدخل رابط HTTPS كاملًا ينتهي بـ /api/chat.';return;}
 try{localStorage.setItem(AI_ENDPOINT_KEY,endpoint);}catch{}
