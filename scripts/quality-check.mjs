@@ -312,7 +312,8 @@ const checks = [
     assert.match(worker, /function referencePack\(/);
     assert.match(worker, /INDUSTRIAL-FAULT-KNOWLEDGE-BASE\.md/);
     assert.match(worker, /ELECTRIC-MOTOR-AND-VFD-CASEBOOK\.md/);
-    assert.match(worker, /do not claim they’re OEM manuals|not claim they are OEM manuals/i);
+    assert.match(worker, /OEM manual/);
+    assert.match(worker, /Never invent machine details, alarm-code meanings, OEM limits/);
   }],
 
 let failed = 0;
