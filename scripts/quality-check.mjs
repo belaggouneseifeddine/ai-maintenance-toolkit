@@ -195,7 +195,7 @@ const checks = [
   ["Service worker caches the app shell and icon with a bumped cache version", () => {
     assert.match(sw, /APP_SHELL/);
     assert.match(sw, /\.\/icon\.svg/);
-    assert.match(sw, /maintenance-ai-toolkit-v30/);
+    assert.match(sw, /maintenance-ai-toolkit-v31/);
   }]
 ,
   ["Pump fault library has the five requested multilingual fault entries", () => {
@@ -283,7 +283,7 @@ const checks = [
     for (const node of Object.values(tree.nodes)) if (node.result) assert.ok(node.safe && node.escalate && node.cause);
   }],
   ["PWA caches all new offline dependencies and bumps its cache", () => {
-    assert.match(sw, /maintenance-ai-toolkit-v30/);
+    assert.match(sw, /maintenance-ai-toolkit-v31/);
     for (const asset of ["diagnostic-engine.js", "faults.json", "i18n.js"]) assert.ok(sw.includes(asset), "Missing offline cache asset " + asset);
     assert.match(manifest.icons[0].src, /icon\.svg/);
   }]
@@ -302,7 +302,7 @@ const checks = [
     assert.match(worker, /startLine/);
     assert.match(worker, /retrievalStatus/);
     assert.match(worker, /Retrieved knowledge excerpts/);
-    assert.match(worker, /citations, retrieval:/);
+    assert.match(worker, /citations: usedCitations, retrieval:/);
     assert.match(worker, /Never invent machine details, alarm-code meanings, OEM limits/);
   }],
   ["AI prompt treats user-supplied text as untrusted and API errors avoid raw provider details", () => {
@@ -315,7 +315,7 @@ const checks = [
     assert.match(worker, /responseMimeType: "application\/json"/);
     assert.match(worker, /responseSchema: DIAGNOSIS_SCHEMA/);
     assert.match(worker, /function validateDiagnosis\(/);
-    assert.match(worker, /safety-gate-missing/);
+    assert.match(worker, /v\.safety\.gate_required !== true/);
     assert.match(worker, /diagnosis\.inspection_steps = diagnosis\.inspection_steps\.map/);
     assert.match(worker, /validSourceIds/);
   }],
