@@ -64,7 +64,7 @@ console.log("CORS_PREFLIGHT_OK");
 const validation = await fetch(configuredEndpoint, {
   method: "POST",
   headers: { "Origin": appOrigin, "Content-Type": "application/json" },
-  body: "{}",
+  body: JSON.stringify({ machine: "", symptom: "", code: "", observations: "", measurementStatus: "unknown", language: "ar" }),
   signal: AbortSignal.timeout(10000)
 });
 const validationBody = await validation.text();
