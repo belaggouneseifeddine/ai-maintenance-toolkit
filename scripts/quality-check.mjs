@@ -250,6 +250,18 @@ const checks = [
     assert.match(i18n, /en:/);
     assert.match(i18n, /document\.documentElement\.dir=current==="ar"\?"rtl":"ltr"/);
   }],
+  ["Stored user content is HTML-escaped before insertion and CSV formula injection is mitigated", () => {
+    assert.match(html, /function escapeHtml\(s\)\{return String\(s\)\.replace\(\/\[&<>"\x27\]\/g/);
+    assert.match(html, /escapeHtml\(r\.machine\)/);
+    assert.match(html, /escapeHtml\(r\.fault\)/);
+    assert.match(html, /escapeHtml\(r\.action\)/);
+    assert.match(html, /function csvCell\(value\)\{const text=String\(value\?\?\x27\x27\);const safe=\/\^\[\\t\\r\\n \]\*\[=+\\-@\]/);
+  }],
+  ["Local-storage read and write failures are handled", () => {
+    assert.match(html, /function getRecords\(\)\{try\{/);
+    assert.match(html, /function saveRecords\(a\)\{try\{/);
+    assert.match(html, /Storage may be unavailable or full/);
+  }],
   ["Existing local-storage key and CSV export remain unchanged", () => {
     assert.match(html, /const KEY='maintenance-ai-toolkit-records-v1'/);
     assert.match(html, /maintenance-log\.csv/);
