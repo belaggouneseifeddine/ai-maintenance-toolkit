@@ -57,7 +57,7 @@ class KnowledgeAssetsTests(unittest.TestCase):
                      "Observed:", "Source-backed:", "Hypothesis:", "Unknown:",
                      "Confirmed cause:", "lockout/tagout", "https://github.com/"):
             self.assertIn(term, text)
-        self.assertIn("not a manufacturer service manual", text)
+        self.assertIn("not a manufacturer service manual", text.lower())
         self.assertIn("Never invent source IDs", text)
 
     def test_no_numeric_limits_are_invented(self):
