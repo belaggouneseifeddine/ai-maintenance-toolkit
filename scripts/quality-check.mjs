@@ -301,6 +301,20 @@ const checks = [
   }],
 ];
 
+
+  ["Evidence Gate scores evidence and requests clarification for vague symptoms", () => {
+    assert.match(worker, /function assessEvidence\(/);
+    assert.match(worker, /needsClarification: vague && !c && o\.length < 20/);
+    assert.match(worker, /source: "evidence-gate"/);
+    assert.match(worker, /evidence_gate:/);
+  }],
+  ["Evidence Gate maps machine symptoms to reference guidance without inventing OEM page numbers", () => {
+    assert.match(worker, /function referencePack\(/);
+    assert.match(worker, /INDUSTRIAL-FAULT-KNOWLEDGE-BASE\.md/);
+    assert.match(worker, /ELECTRIC-MOTOR-AND-VFD-CASEBOOK\.md/);
+    assert.match(worker, /do not claim they’re OEM manuals|not claim they are OEM manuals/i);
+  }],
+
 let failed = 0;
 for (const [name, run] of checks) {
   try {
