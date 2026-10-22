@@ -41,7 +41,7 @@ function formatDiagnosis(v) {
   for (const [label,items] of [[en?"TOOLS / DATA":fr?"OUTILS / DONNÉES":"الأدوات والبيانات",v.required_tools],[en?"STOP-WORK SIGNS":fr?"SIGNES D’ARRÊT":"علامات التوقف",v.danger_signs],[en?"UNKNOWN / UNCONFIRMED":fr?"INCONNU / NON CONFIRMÉ":"غير معروف / غير مؤكد",v.unknowns]]) if (items.length) lines.push(label,...items.map(x=>"• "+x),"");
   lines.push((en?"ESCALATION":fr?"ESCALADE":"التصعيد")+": "+(v.escalation.required?"Required":"Not currently indicated")+" — "+v.escalation.reason);
   if (v.clarifying_questions.length) lines.push("",en?"QUESTIONS":fr?"QUESTIONS":"أسئلة التوضيح",...v.clarifying_questions.map((q,i)=>(i+1)+". "+q.question+" — "+q.reason));
-  return lines.join("\\n");
+  return lines.join("\n");
 }
 
 
