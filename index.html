@@ -336,7 +336,7 @@ box.textContent='جارٍ الاتصال بخادم الذكاء الاصطنا�
 const lang=window.MaintenanceI18n?window.MaintenanceI18n.getLanguage():'ar';
 const payload={machine:$('aiMachine').value.trim(),symptom:$('aiSymptom').value.trim(),code:$('aiCode').value.trim(),observations:$('aiObservations').value.trim(),language:['ar','fr','en'].includes(lang)?lang:'ar'};
 try{
-const response=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},signal:AbortSignal.timeout(35000),body:JSON.stringify(payload)});
+const response=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},signal:AbortSignal.timeout(65000),body:JSON.stringify(payload)});
 let data={};try{data=await response.json()}catch{}
 if(!response.ok){const detail=[data.error,data.provider_detail].filter(Boolean).join(' — ')||('HTTP '+response.status);throw new Error(response.status===404?'لم يتم العثور على API endpoint؛ تحقق من رابط الخادم.':response.status===503?'الخادم غير مُعدّ بعد؛ أضف AI_API_KEY إلى متغيرات بيئة الخادم ثم أعد النشر.':detail);}
 if(typeof data.answer!=='string'||!data.answer.trim())throw new Error('استجابة الخادم لا تحتوي على إجابة صالحة.');
