@@ -68,22 +68,45 @@ export default {
 
     let upstream;
     const model = env.AI_MODEL || "gemini-3.8-flash";
-    try {
-      upstream = await fetch("https://generativelanguage.googleapis.com/v1beta/models/" + encodeURIComponent(model) + ":generateContent", {
-        method: "POST",
-        headers: {
-          "x-goog-api-key": env.AI_API_KEY,
-          "Content-Type": "application/json"
-        },
-        signal: AbortSignal.timeout(55000),
-        body: JSON.stringify({
-          systemInstruction: { parts: [{ text: systemPrompt }] },
-          contents: [{ role: "user", parts: [{ text: userPrompt }] }],
-          generationConfig: { temperature: 0.2, maxOutputTokens: 900 }
-        })
-      });
-    } catch (err) {
-      const detail = String(err?.message || err || "Unknown network error").slice(0, 300);
+    const requestBody = JSON.stringify({
+      systemInstruction: { parts: [{ text: systemPrompt }] },
+      contents: [{ role: "user", parts: [{ text: userPrompt }] }],
+      generationConfig: { temperature: 0.2, maxOutputTokens: 900 }
+    });
+    const retryableStatuses = new Set([429, 500, 502, 503, 504]);
+    const retryDelays = [700, 1600];
+    let lastNetworkError = null;
+
+    for (let attempt = 0; attempt <= retryDelays.length; attempt++) {
+      try {
+        upstream = await fetch("https://generativelanguage.googleapis.com/v1beta/models/" + encodeURIComponent(model) + ":generateContent", {
+          method: "POST",
+          headers: {
+            "x-goog-api-key": env.AI_API_KEY,
+            "Content-Type": "application/json"
+          },
+          signal: AbortSignal.timeout(55000),
+          body: requestBody
+        });
+        lastNetworkError = null;
+      } catch (err) {
+        lastNetworkError = err;
+        if (attempt < retryDelays.length) {
+          await new Promise(resolve => setTimeout(resolve, retryDelays[attempt]));
+          continue;
+        }
+        break;
+      }
+      if (!retryableStatuses.has(upstream.status) || attempt >= retryDelays.length) break;
+      const retryAfter = Number(upstream.headers.get("Retry-After") || 0);
+      const delay = retryAfter > 0
+        ? Math.min(retryAfter * 1000, 5000)
+        : retryDelays[attempt];
+      await new Promise(resolve => setTimeout(resolve, delay));
+    }
+
+    if (lastNetworkError) {
+      const detail = String(lastNetworkError?.message || lastNetworkError || "Unknown network error").slice(0, 300);
       return json({
         error: "AI provider request failed before receiving an HTTP response.",
         provider_detail: detail,
@@ -98,9 +121,14 @@ export default {
         try { parsed = JSON.parse(errorBody); } catch {}
         providerDetail = String(parsed?.error?.message || parsed?.message || "").slice(0, 500);
       } catch {}
+      const retryable = retryableStatuses.has(upstream.status);
       return json({
-        error: "Gemini API returned an error (" + upstream.status + ").",
-        provider_detail: providerDetail || "No error detail returned. Check Gemini API key, model access, and quota."
+        error: retryable
+          ? "Gemini is temporarily busy or rate-limited. Please retry shortly."
+          : "Gemini API returned an error (" + upstream.status + ").",
+        provider_status: upstream.status,
+        provider_detail: providerDetail || "No error detail returned. Check Gemini API key, model access, and quota.",
+        retryable: retryable
       }, 502, origin);
     }
     let data;
