@@ -13,18 +13,19 @@
   },
   "sources": [
     {
-      "id": "pump-multistage-fault-diagnosis-mdpi-2022",
-      "title": "Multistage Centrifugal Pump Fault Diagnosis Using Informative Ratio Principal Component Analysis",
-      "url": "https://www.mdpi.com/1424-8220/22/1/179",
-      "publisher": "MDPI Sensors",
+      "id": "water-pump-bearing-fault-pmc-2021",
+      "title": "A Novel Feature Extraction and Fault Detection Technique for the Intelligent Fault Identification of Water Pump Bearings",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8234243/",
+      "publisher": "PubMed Central",
       "license": "CC-BY-4.0",
       "license_url": "https://creativecommons.org/licenses/by/4.0/",
-      "license_evidence_url": "https://www.mdpi.com/1424-8220/22/1/179",
+      "license_evidence_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8234243/",
       "license_verified_on": "2026-10-22",
       "source_last_updated": null,
       "last_update_status": "not_independently_confirmed",
       "equipment": [
-        "centrifugal_pump"
+        "water_pump",
+        "pump_bearing"
       ],
       "use": [
         "qualitative_fault_names",
@@ -39,19 +40,18 @@
       "status": "candidate"
     },
     {
-      "id": "water-pump-bearing-fault-pmc-2021",
-      "title": "A Novel Feature Extraction and Fault Detection Technique for the Intelligent Fault Identification of Water Pump Bearings",
-      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8234243/",
+      "id": "centrifugal-pump-fault-pmc-2022",
+      "title": "Multistage Centrifugal Pump Fault Diagnosis Using Informative Ratio Principal Component Analysis",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8747656/",
       "publisher": "PubMed Central",
       "license": "CC-BY-4.0",
       "license_url": "https://creativecommons.org/licenses/by/4.0/",
-      "license_evidence_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8234243/",
+      "license_evidence_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8747656/",
       "license_verified_on": "2026-10-22",
       "source_last_updated": null,
       "last_update_status": "not_independently_confirmed",
       "equipment": [
-        "water_pump",
-        "pump_bearing"
+        "centrifugal_pump"
       ],
       "use": [
         "qualitative_fault_names",
