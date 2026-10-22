@@ -65,5 +65,64 @@
       ],
       "status": "candidate"
     }
+  ],
+  "reference_only_portals": [
+    {
+      "id": "festo-pneumatics-valves",
+      "equipment": [
+        "pneumatics",
+        "valves",
+        "actuators"
+      ],
+      "url": "https://www.festo.com/fox/net/supportportal/default.aspx?cat=2164",
+      "license_status": "reuse permission not granted by this registry",
+      "fetch_allowed": false,
+      "usage": "Find model-specific OEM documents only; do not copy or auto-fetch manual text."
+    },
+    {
+      "id": "emerson-automation-knowledge-center",
+      "equipment": [
+        "valves",
+        "pneumatics",
+        "drives",
+        "hmi_scada"
+      ],
+      "url": "https://discreteautomation.emerson.com/knowledge-center",
+      "license_status": "reuse permission not granted by this registry",
+      "fetch_allowed": false,
+      "usage": "Reference portal only; verify the exact product and document terms."
+    },
+    {
+      "id": "siemens-industrial-documentation",
+      "equipment": [
+        "plc",
+        "hmi_scada",
+        "drives"
+      ],
+      "url": "https://www.siemens.com/en-gb/support/documentation-downloads/",
+      "license_status": "reuse permission not granted by this registry",
+      "fetch_allowed": false,
+      "usage": "Reference portal only; verify exact product/version and document terms."
+    },
+    {
+      "id": "ingersoll-rand-compressor-documents",
+      "equipment": [
+        "air_compressors"
+      ],
+      "url": "https://my.ingersollrand.com/",
+      "license_status": "reuse permission not granted by this registry",
+      "fetch_allowed": false,
+      "usage": "Model/serial-specific portal; may require registration; do not auto-fetch."
+    },
+    {
+      "id": "atlas-copco-compressor-manuals",
+      "equipment": [
+        "air_compressors"
+      ],
+      "url": "https://www.atlascopco.com/en-ca/compressors/manuals",
+      "license_status": "reuse permission not granted by this registry",
+      "fetch_allowed": false,
+      "usage": "Reference manuals by product range; do not republish content without permission."
+    }
   ]
 }
