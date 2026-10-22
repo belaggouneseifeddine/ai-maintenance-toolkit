@@ -5,6 +5,7 @@ import vm from "node:vm";
 const html = readFileSync("index.html", "utf8");
 const ux = readFileSync("ux-redesign.js", "utf8");
 const uxCss = readFileSync("ux-redesign.css", "utf8");
+const navRedesign = readFileSync("navigation-redesign.js", "utf8");
 const diagnosticFlowsSource = readFileSync("diagnostic-flows.js", "utf8");
 const diagnosticFlows = (() => { const match = diagnosticFlowsSource.match(/window\.MAINTENANCE_DIAGNOSTIC_FLOWS\s*=\s*(\{[\s\S]*?\n\});/); assert.ok(match, "Structured diagnostic flow export must exist"); return JSON.parse(match[1]); })();
 const worker = readFileSync("worker.js", "utf8");
@@ -195,7 +196,7 @@ const checks = [
   ["Service worker caches the app shell and icon with a bumped cache version", () => {
     assert.match(sw, /APP_SHELL/);
     assert.match(sw, /\.\/icon\.svg/);
-    assert.match(sw, /maintenance-ai-toolkit-v30/);
+    assert.match(sw, /maintenance-ai-toolkit-v31/);
   }]
 ,
   ["Pump fault library has the five requested multilingual fault entries", () => {
@@ -283,7 +284,7 @@ const checks = [
     for (const node of Object.values(tree.nodes)) if (node.result) assert.ok(node.safe && node.escalate && node.cause);
   }],
   ["PWA caches all new offline dependencies and bumps its cache", () => {
-    assert.match(sw, /maintenance-ai-toolkit-v30/);
+    assert.match(sw, /maintenance-ai-toolkit-v31/);
     for (const asset of ["diagnostic-engine.js", "faults.json", "i18n.js"]) assert.ok(sw.includes(asset), "Missing offline cache asset " + asset);
     assert.match(manifest.icons[0].src, /icon\.svg/);
   }]
@@ -302,7 +303,7 @@ const checks = [
     assert.match(worker, /startLine/);
     assert.match(worker, /retrievalStatus/);
     assert.match(worker, /Retrieved knowledge excerpts/);
-    assert.match(worker, /citations, retrieval:/);
+    assert.match(worker, /citations: usedCitations, retrieval:/);
     assert.match(worker, /Never invent machine details, alarm-code meanings, OEM limits/);
   }],
   ["AI prompt treats user-supplied text as untrusted and API errors avoid raw provider details", () => {
@@ -311,6 +312,49 @@ const checks = [
     assert.match(worker, /Raw provider details are intentionally not returned/);
   }],
 
+  ["AI responses use a structured schema and server-side validation", () => {
+    assert.match(worker, /responseMimeType: "application\/json"/);
+    assert.match(worker, /responseSchema: DIAGNOSIS_SCHEMA/);
+    assert.match(worker, /function validateDiagnosis\(/);
+    assert.match(worker, /v\.safety\.gate_required !== true/);
+    assert.match(worker, /diagnosis\.inspection_steps = diagnosis\.inspection_steps\.map/);
+    assert.match(worker, /validSourceIds/);
+  }],
+  ["AI clarification accepts unknown measurements and never requests hazardous live measurements", () => {
+    assert.match(html, /id="aiMeasurementStatus"/);
+    assert.match(html, /لا أعرف \/ لست متأكدًا/);
+    assert.match(html, /لا توجد قراءة متاحة/);
+    assert.match(html, /measurementStatus:\$\('aiMeasurementStatus'\)\.value/);
+    assert.match(worker, /measurementStatus = "unknown"/);
+    assert.match(worker, /Never ask the user to perform a live measurement/);
+    assert.match(worker, /readings collected by an authorized qualified person/);
+  }],
+  ["Cloudflare Worker rate-limit binding is configured and used", () => {
+    const wrangler = readFileSync("wrangler.toml", "utf8");
+    assert.match(wrangler, /name = "AI_RATE_LIMITER"/);
+    assert.match(wrangler, /limit = 10/);
+    assert.match(wrangler, /period = 60/);
+    assert.match(worker, /env\.AI_RATE_LIMITER\.limit/);
+  }],
+  ["AI sessions are saved locally after a structured response", () => {
+    assert.match(html, /source:"ai-assistant"/);
+    assert.match(html, /diagnosis:d/);
+    assert.match(html, /renderRecords\(\)/);
+  }],
+
+  ["Five-tab navigation groups existing features without deleting their source panels", () => {
+    assert.match(html, /navigation-redesign\.js/);
+    assert.match(deployWorkflow, /navigation-redesign\.js/);
+    assert.match(sw, /navigation-redesign\.js/);
+    assert.match(navRedesign, /diagnoseTab\.textContent = "المساعد"/);
+    assert.match(navRedesign, /aiTab\.dataset\.tab = "knowledge"/);
+    assert.match(navRedesign, /logTab\.dataset\.tab = "v03"/);
+    assert.match(navRedesign, /home\.classList\.remove\("panel", "active"\)/);
+    assert.match(navRedesign, /ai\.classList\.remove\("panel", "active"\)/);
+    assert.match(uxCss, /position:fixed/);
+    assert.match(uxCss, /env\(safe-area-inset-bottom\)/);
+    new vm.Script(navRedesign, { filename: "navigation-redesign.js" });
+  }],
 ];
 
 let failed = 0;

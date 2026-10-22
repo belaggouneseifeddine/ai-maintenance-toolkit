@@ -48,3 +48,19 @@ main{max-width:1040px}
 @media(max-width:560px){main{padding-inline:10px}.ux-actions{grid-template-columns:1fr;gap:9px}.ux-action{min-height:82px;padding:13px}.ux-stats{gap:7px}.ux-stat{padding:12px 9px;border-radius:14px}.ux-stat span{font-size:.72rem;line-height:1.45}.ux-stat strong{font-size:1.5rem}.ux-safety{padding:12px}.ux-record-top{flex-direction:column;gap:5px}.ux-status{max-width:100%}.ux-hero{border-radius:20px}.nav{top:0}}
 @media(prefers-reduced-motion:reduce){.panel{animation:none}.ux-action{transition:none}}
 @media print{.ux-hero,.ux-safety,.ux-overview,.ux-actions,.ux-recent,.nav{display:none!important}}
+
+
+/* Five-item mobile bottom navigation with safe-area spacing. */
+.bottom-navigation{display:flex;align-items:stretch;justify-content:space-around;gap:4px}
+.bottom-tab{display:flex;flex:1 1 0;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-width:0;min-height:54px;padding:7px 3px;border-radius:13px;font-size:.72rem;font-weight:750;line-height:1.2;white-space:normal}
+.bottom-tab-icon{font-size:1.15rem;line-height:1.2}
+.bottom-tab-label{overflow-wrap:anywhere}
+#ai{scroll-margin-top:20px}
+@media(max-width:700px){
+  main{padding-bottom:calc(100px + env(safe-area-inset-bottom))}
+  .bottom-navigation{position:fixed;top:auto;bottom:0;left:0;right:0;z-index:1000;margin:0;padding:7px max(8px,env(safe-area-inset-left)) calc(7px + env(safe-area-inset-bottom));border-top:1px solid var(--line);border-bottom:0;border-radius:16px 16px 0 0;background:color-mix(in srgb,var(--card) 94%,transparent);backdrop-filter:blur(16px);box-shadow:0 -6px 24px #102a3010}
+  .bottom-navigation .tab{border:0;background:transparent;color:var(--muted)}
+  .bottom-navigation .tab.active{background:var(--soft);color:var(--brand)}
+  :root[data-theme="dark"] .bottom-navigation{background:#142126f2;border-color:#33474d}
+  :root[data-theme="dark"] .bottom-navigation .tab.active{background:#1d3d3a;color:#a8e5d9}
+}
