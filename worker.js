@@ -69,7 +69,10 @@ function assessEvidence({ machine, symptom, code, observations, language }) {
 const KNOWLEDGE_FILES = [
   "knowledge/INDUSTRIAL-FAULT-KNOWLEDGE-BASE.md",
   "knowledge/ELECTRIC-MOTOR-AND-VFD-CASEBOOK.md",
-  "knowledge/INGERSOLL-RAND-COMPRESSOR-CASEBOOK.md"
+  "knowledge/INGERSOLL-RAND-COMPRESSOR-CASEBOOK.md",
+  "knowledge/CENTRIFUGAL-PUMP-TROUBLESHOOTING-DRAFT.md",
+  "knowledge/EQUIPMENT-TROUBLESHOOTING-AR-FR-EN.md",
+  "knowledge/UNIVERSAL-INDUSTRIAL-FAULT-ATLAS-AR-FR-EN.md"
 ];
 const REPO_RAW_BASE = "https://raw.githubusercontent.com/belaggouneseifeddine/ai-maintenance-toolkit/main/";
 

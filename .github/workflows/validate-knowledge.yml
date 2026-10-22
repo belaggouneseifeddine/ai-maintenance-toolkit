@@ -1,0 +1,41 @@
+name: Validate knowledge assets
+
+on:
+  push:
+    branches: [assistant-redesign]
+    paths:
+      - "knowledge/**"
+      - "scripts/**"
+      - ".github/workflows/validate-knowledge.yml"
+  pull_request:
+    paths:
+      - "knowledge/**"
+      - "scripts/**"
+      - ".github/workflows/validate-knowledge.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile Python scripts
+        run: python -m py_compile scripts/fetch_licensed_sources.py scripts/test_knowledge_assets.py
+      - name: Validate source registry without network access
+        run: python scripts/fetch_licensed_sources.py --validate-only
+      - name: Run offline knowledge asset tests
+        run: python -m unittest discover -s scripts -p 'test_*.py' -v
+      - name: Verify allowlisted source pages can be fetched over HTTPS
+        run: python scripts/fetch_licensed_sources.py --cache-dir /tmp/maintenance-ai-source-cache
+      - name: Smoke test currently published app and configured Worker health
+        run: node scripts/smoke-test-live.mjs
+      - name: Confirm raw source cache was not added to the repository workspace
+        run: |
+          test -d /tmp/maintenance-ai-source-cache
+          test -z "$(git status --porcelain -- .source-cache)"

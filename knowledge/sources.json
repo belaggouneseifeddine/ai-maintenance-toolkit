@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "policy": {
+    "allow_only_explicit_licenses": true,
+    "accepted_licenses": [
+      "CC-BY-4.0",
+      "MIT"
+    ],
+    "reject_missing_or_ambiguous_license": true,
+    "exclude_vibration_numeric_datasets": true,
+    "store_raw_source_text_in_repository": false,
+    "require_human_review_before_knowledge_publication": true
+  },
+  "sources": [
+    {
+      "id": "water-pump-bearing-fault-pmc-2021",
+      "title": "A Novel Feature Extraction and Fault Detection Technique for the Intelligent Fault Identification of Water Pump Bearings",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8234243/",
+      "publisher": "PubMed Central",
+      "license": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "license_evidence_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8234243/",
+      "license_verified_on": "2026-10-22",
+      "source_last_updated": null,
+      "last_update_status": "not_independently_confirmed",
+      "equipment": [
+        "water_pump",
+        "pump_bearing"
+      ],
+      "use": [
+        "qualitative_fault_names",
+        "symptoms",
+        "general_causes"
+      ],
+      "exclude": [
+        "vibration_numeric_datasets",
+        "raw_tables",
+        "raw_figures"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "centrifugal-pump-fault-pmc-2022",
+      "title": "Multistage Centrifugal Pump Fault Diagnosis Using Informative Ratio Principal Component Analysis",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8747656/",
+      "publisher": "PubMed Central",
+      "license": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "license_evidence_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8747656/",
+      "license_verified_on": "2026-10-22",
+      "source_last_updated": null,
+      "last_update_status": "not_independently_confirmed",
+      "equipment": [
+        "centrifugal_pump"
+      ],
+      "use": [
+        "qualitative_fault_names",
+        "symptoms",
+        "general_causes"
+      ],
+      "exclude": [
+        "vibration_numeric_datasets",
+        "raw_tables",
+        "raw_figures"
+      ],
+      "status": "candidate"
+    }
+  ],
+  "reference_only_portals": [
+    {
+      "id": "festo-pneumatics-valves",
+      "equipment": [
+        "pneumatics",
+        "valves",
+        "actuators"
+      ],
+      "url": "https://www.festo.com/fox/net/supportportal/default.aspx?cat=2164",
+      "license_status": "reuse permission not granted by this registry",
+      "fetch_allowed": false,
+      "usage": "Find model-specific OEM documents only; do not copy or auto-fetch manual text."
+    },
+    {
+      "id": "emerson-automation-knowledge-center",
+      "equipment": [
+        "valves",
+        "pneumatics",
+        "drives",
+        "hmi_scada"
+      ],
+      "url": "https://discreteautomation.emerson.com/knowledge-center",
+      "license_status": "reuse permission not granted by this registry",
+      "fetch_allowed": false,
+      "usage": "Reference portal only; verify the exact product and document terms."
+    },
+    {
+      "id": "siemens-industrial-documentation",
+      "equipment": [
+        "plc",
+        "hmi_scada",
+        "drives"
+      ],
+      "url": "https://www.siemens.com/en-gb/support/documentation-downloads/",
+      "license_status": "reuse permission not granted by this registry",
+      "fetch_allowed": false,
+      "usage": "Reference portal only; verify exact product/version and document terms."
+    },
+    {
+      "id": "ingersoll-rand-compressor-documents",
+      "equipment": [
+        "air_compressors"
+      ],
+      "url": "https://my.ingersollrand.com/",
+      "license_status": "reuse permission not granted by this registry",
+      "fetch_allowed": false,
+      "usage": "Model/serial-specific portal; may require registration; do not auto-fetch."
+    },
+    {
+      "id": "atlas-copco-compressor-manuals",
+      "equipment": [
+        "air_compressors"
+      ],
+      "url": "https://www.atlascopco.com/en-ca/compressors/manuals",
+      "license_status": "reuse permission not granted by this registry",
+      "fetch_allowed": false,
+      "usage": "Reference manuals by product range; do not republish content without permission."
+    }
+  ]
+}

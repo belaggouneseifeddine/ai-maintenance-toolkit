@@ -1,0 +1,4 @@
+# Temporary licensed-source fetch cache; never commit raw extracted source text
+.source-cache/
+__pycache__/
+*.py[cod]
