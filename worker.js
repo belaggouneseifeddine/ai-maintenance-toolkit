@@ -2,6 +2,49 @@ const ALLOWED_ORIGIN = "https://belaggouneseifeddine.github.io";
 const MAX_BODY_BYTES = 8192;
 const LANGUAGES = new Set(["ar", "fr", "en"]);
 
+const DIAGNOSIS_SCHEMA = {
+  type: "OBJECT",
+  properties: {
+    status: { type: "STRING", enum: ["needs_clarification", "preliminary_assessment", "escalation_required", "unable_to_assess"] },
+    language: { type: "STRING", enum: ["ar", "en", "fr"] },
+    safety: { type: "OBJECT", properties: { gate_required: { type: "BOOLEAN" }, loto_required_before_intervention: { type: "BOOLEAN" }, warnings: { type: "ARRAY", items: { type: "STRING" } }, stop_conditions: { type: "ARRAY", items: { type: "STRING" } } }, required: ["gate_required", "loto_required_before_intervention", "warnings", "stop_conditions"] },
+    clarifying_questions: { type: "ARRAY", items: { type: "OBJECT", properties: { id: { type: "STRING" }, question: { type: "STRING" }, reason: { type: "STRING" } }, required: ["id", "question", "reason"] } },
+    possible_causes: { type: "ARRAY", items: { type: "OBJECT", properties: { id: { type: "STRING" }, label: { type: "STRING" }, confidence: { type: "STRING", enum: ["high", "medium", "low"] }, evidence_for: { type: "ARRAY", items: { type: "STRING" } }, evidence_against: { type: "ARRAY", items: { type: "STRING" } }, next_check: { type: "STRING" } }, required: ["id", "label", "confidence", "evidence_for", "evidence_against", "next_check"] } },
+    inspection_steps: { type: "ARRAY", items: { type: "OBJECT", properties: { order: { type: "INTEGER" }, action: { type: "STRING" }, kind: { type: "STRING", enum: ["observation", "intervention"] }, purpose: { type: "STRING" }, requires_loto: { type: "BOOLEAN" }, expected_outcome: { type: "STRING" } }, required: ["order", "action", "kind", "purpose", "requires_loto", "expected_outcome"] } },
+    required_tools: { type: "ARRAY", items: { type: "STRING" } }, danger_signs: { type: "ARRAY", items: { type: "STRING" } },
+    escalation: { type: "OBJECT", properties: { required: { type: "BOOLEAN" }, reason: { type: "STRING" } }, required: ["required", "reason"] },
+    sources: { type: "ARRAY", items: { type: "STRING" } }, unknowns: { type: "ARRAY", items: { type: "STRING" } },
+    session_summary: { type: "OBJECT", properties: { equipment: { type: "STRING" }, symptom: { type: "STRING" }, confirmed_cause: { type: "STRING" }, work_status: { type: "STRING", enum: ["open", "in_progress", "resolved", "escalated"] } }, required: ["equipment", "symptom", "confirmed_cause", "work_status"] }
+  },
+  required: ["status", "language", "safety", "clarifying_questions", "possible_causes", "inspection_steps", "required_tools", "danger_signs", "escalation", "sources", "unknowns", "session_summary"]
+};
+function validTextList(v, max, len = 500) { return Array.isArray(v) && v.length <= max && v.every(x => typeof x === "string" && x.length <= len); }
+function validateDiagnosis(v, language, sourceIds) {
+  if (!v || typeof v !== "object" || Array.isArray(v)) return false;
+  if (!["needs_clarification","preliminary_assessment","escalation_required","unable_to_assess"].includes(v.status) || v.language !== language) return false;
+  if (!v.safety || v.safety.gate_required !== true || v.safety.loto_required_before_intervention !== true || !validTextList(v.safety.warnings,8) || !validTextList(v.safety.stop_conditions,8)) return false;
+  if (!Array.isArray(v.clarifying_questions) || v.clarifying_questions.length > 4 || !v.clarifying_questions.every(q => q && typeof q.id === "string" && q.id.length <= 80 && typeof q.question === "string" && q.question.length <= 500 && typeof q.reason === "string" && q.reason.length <= 400)) return false;
+  if (v.status === "needs_clarification" && !v.clarifying_questions.length) return false;
+  if (!Array.isArray(v.possible_causes) || v.possible_causes.length > 3 || !v.possible_causes.every(c => c && typeof c.id === "string" && c.id.length <= 80 && typeof c.label === "string" && c.label.length <= 300 && ["high","medium","low"].includes(c.confidence) && validTextList(c.evidence_for,5) && validTextList(c.evidence_against,5) && typeof c.next_check === "string" && c.next_check.length <= 600)) return false;
+  if (!Array.isArray(v.inspection_steps) || v.inspection_steps.length > 8 || !v.inspection_steps.every(x => x && Number.isInteger(x.order) && x.order >= 1 && x.order <= 8 && typeof x.action === "string" && x.action.length <= 600 && ["observation","intervention"].includes(x.kind) && typeof x.purpose === "string" && x.purpose.length <= 400 && typeof x.requires_loto === "boolean" && typeof x.expected_outcome === "string" && x.expected_outcome.length <= 400)) return false;
+  if (!validTextList(v.required_tools,8,160) || !validTextList(v.danger_signs,8) || !validTextList(v.unknowns,10)) return false;
+  if (!v.escalation || typeof v.escalation.required !== "boolean" || typeof v.escalation.reason !== "string" || v.escalation.reason.length > 500 || (v.status === "escalation_required" && !v.escalation.required)) return false;
+  if (!Array.isArray(v.sources) || v.sources.length > 4 || !v.sources.every(x => typeof x === "string" && sourceIds.has(x))) return false;
+  const z = v.session_summary;
+  return !!z && typeof z.equipment === "string" && z.equipment.length <= 120 && typeof z.symptom === "string" && z.symptom.length <= 240 && (z.confirmed_cause === null || typeof z.confirmed_cause === "string") && ["open","in_progress","resolved","escalated"].includes(z.work_status);
+}
+function formatDiagnosis(v) {
+  const en = v.language === "en", fr = v.language === "fr";
+  const lines = [en ? "SAFETY GATE" : fr ? "SÉCURITÉ AVANT INTERVENTION" : "بوابة السلامة", ...v.safety.warnings.map(x => "• " + x), ""];
+  if (v.possible_causes.length) { lines.push(en ? "POSSIBLE CAUSES (not confirmed)" : fr ? "CAUSES POSSIBLES (non confirmées)" : "الأسباب المحتملة (غير مؤكدة)"); v.possible_causes.forEach((c,i) => lines.push((i+1)+". "+c.label+" — "+c.confidence, "   "+c.evidence_for.join("; "), c.evidence_against.length ? "   "+c.evidence_against.join("; ") : "", "   Next check: "+c.next_check)); lines.push(""); }
+  if (v.inspection_steps.length) { lines.push(en ? "PRIORITIZED CHECKS" : fr ? "VÉRIFICATIONS PRIORITAIRES" : "خطوات التحقق حسب الأولوية"); v.inspection_steps.slice().sort((a,b)=>a.order-b.order).forEach(x => lines.push(x.order+". "+x.action+" — "+x.purpose+" ["+(x.requires_loto ? "LOTO/site procedure" : x.kind)+"]", "   Expected: "+x.expected_outcome)); lines.push(""); }
+  for (const [label,items] of [[en?"TOOLS / DATA":fr?"OUTILS / DONNÉES":"الأدوات والبيانات",v.required_tools],[en?"STOP-WORK SIGNS":fr?"SIGNES D’ARRÊT":"علامات التوقف",v.danger_signs],[en?"UNKNOWN / UNCONFIRMED":fr?"INCONNU / NON CONFIRMÉ":"غير معروف / غير مؤكد",v.unknowns]]) if (items.length) lines.push(label,...items.map(x=>"• "+x),"");
+  lines.push((en?"ESCALATION":fr?"ESCALADE":"التصعيد")+": "+(v.escalation.required?"Required":"Not currently indicated")+" — "+v.escalation.reason);
+  if (v.clarifying_questions.length) lines.push("",en?"QUESTIONS":fr?"QUESTIONS":"أسئلة التوضيح",...v.clarifying_questions.map((q,i)=>(i+1)+". "+q.question+" — "+q.reason));
+  return lines.join("\\n");
+}
+
+
 function normalizeEvidenceText(value) {
   return String(value || "").toLocaleLowerCase().normalize("NFD")
     .replace(/[\u0300-\u036f\u064B-\u065F\u0670\u06D6-\u06ED]/g, "")
@@ -149,11 +192,11 @@ export default {
     }
     if (!body || typeof body !== "object" || Array.isArray(body)) return json({ error: "Invalid JSON request." }, 400, origin);
 
-    const { machine, symptom, code = "", observations = "", language = "ar" } = body;
-    if (![machine, symptom, code, observations, language].every(v => typeof v === "string")) {
+    const { machine, symptom, code = "", observations = "", measurementStatus = "unknown", language = "ar" } = body;
+    if (![machine, symptom, code, observations, measurementStatus, language].every(v => typeof v === "string")) {
       return json({ error: "All fields must be text." }, 400, origin);
     }
-    if (machine.length > 120 || symptom.length > 240 || code.length > 300 || observations.length > 3000 || !LANGUAGES.has(language)) {
+    if (machine.length > 120 || symptom.length > 240 || code.length > 300 || observations.length > 3000 || !["unknown", "none", "available"].includes(measurementStatus) || !LANGUAGES.has(language)) {
       return json({ error: "Input too long or language unsupported." }, 413, origin);
     }
     if (!machine.trim() || !symptom.trim()) return json({ error: "Equipment and symptom are required." }, 400, origin);
@@ -171,6 +214,11 @@ export default {
       return json({ answer: lead + "\\n\\n" + prompts.map((q,i)=>(i+1)+". "+q).join("\\n") + "\\n\\n" + safety, evidence_gate: { level: evidence.level, points: evidence.points, missing: evidence.missing, sources: evidenceRefs.map(x => x.split(" — ")[0]) }, source: "evidence-gate" }, 200, origin);
     }
 
+    if (env.AI_RATE_LIMITER) {
+      const key = request.headers.get("cf-connecting-ip") || "unknown-client";
+      const decision = await env.AI_RATE_LIMITER.limit({ key });
+      if (!decision.success) return json({ error: "Request limit reached. Please wait and try again." }, 429, origin);
+    }
     const replyLanguage = language === "fr" ? "French" : language === "en" ? "English" : "Arabic";
     const retrieval = await retrieveKnowledge(machine, symptom, code, observations);
     const retrievedContext = retrieval.chunks.map((chunk, i) => `[S${i + 1}] Source: ${chunk.source} | Section: ${chunk.heading} | lines ${chunk.startLine}-${chunk.endLine} | relevance ${chunk.score}\n${chunk.text}`).join("\n\n");
@@ -191,9 +239,9 @@ Use only the evidence supplied. Rank plausible causes, show how to distinguish t
     let upstream;
     const model = env.AI_MODEL || "gemini-3.8-flash";
     const requestBody = JSON.stringify({
-      systemInstruction: { parts: [{ text: systemPrompt }] },
+      systemInstruction: { parts: [{ text: systemPrompt + " Output only JSON matching the supplied response schema. safety.gate_required and safety.loto_required_before_intervention must always be true. Never ask the user to perform a live measurement, open equipment, touch hazardous parts, or enter a hazardous area. Ask only for information already available or for readings collected by an authorized qualified person under site procedures. Do not treat confidence labels as statistical probabilities. A cause is confirmed only when explicit evidence verifies it; otherwise confirmed_cause must be null." }] },
       contents: [{ role: "user", parts: [{ text: userPrompt }] }],
-      generationConfig: { temperature: 0.2, maxOutputTokens: 1400 }
+      generationConfig: { temperature: 0.2, maxOutputTokens: 1800, responseMimeType: "application/json", responseSchema: DIAGNOSIS_SCHEMA }
     });
     const retryableStatuses = new Set([429, 500, 502, 503, 504]);
     const retryDelays = [700, 1600];
@@ -243,11 +291,18 @@ Use only the evidence supplied. Rank plausible causes, show how to distinguish t
     }
     let data;
     try { data = await upstream.json(); } catch { return json({ error: "Gemini returned an unreadable response." }, 502, origin); }
-    const answer = data?.candidates?.[0]?.content?.parts?.map(part => part.text || "").join("\n").trim();
-    if (typeof answer !== "string" || !answer) {
+    const rawOutput = data?.candidates?.[0]?.content?.parts?.map(part => part.text || "").join("\n").trim();
+    if (typeof rawOutput !== "string" || !rawOutput) {
       const blockReason = data?.promptFeedback?.blockReason;
-      return json({ error: blockReason ? "Gemini blocked the request: " + blockReason : "Gemini response did not contain an answer." }, 502, origin);
+      return json({ error: blockReason ? "Gemini blocked the request." : "Gemini response did not contain an answer." }, 502, origin);
     }
-    return json({ answer: answer.slice(0, 12000), citations, retrieval: { status: retrieval.retrievalStatus, matchedChunks: retrieval.chunks.length, availableDocuments: retrieval.availableDocuments } }, 200, origin);
+    let diagnosis;
+    try { diagnosis = JSON.parse(rawOutput); } catch { return json({ error: "AI response could not be validated. Please retry or use local diagnostic tools." }, 502, origin); }
+    const validSourceIds = new Set(citations.map(c => c.id));
+    if (!validateDiagnosis(diagnosis, language, validSourceIds)) return json({ error: "AI response failed safety and structure validation. Please retry or escalate to the maintenance supervisor.", retryable: true }, 502, origin);
+    diagnosis.inspection_steps = diagnosis.inspection_steps.map(step => ({ ...step, requires_loto: step.kind === "intervention" ? true : step.requires_loto }));
+    const usedCitations = citations.filter(c => diagnosis.sources.includes(c.id));
+    const answer = formatDiagnosis(diagnosis);
+    return json({ answer: answer.slice(0, 12000), diagnosis, citations: usedCitations, retrieval: { status: retrieval.retrievalStatus, matchedChunks: retrieval.chunks.length, availableDocuments: retrieval.availableDocuments } }, 200, origin);
   }
 };
