@@ -59,7 +59,7 @@ test("Worker structured response schema requires safety, questions, causes, step
 });
 
 test("valid structured diagnosis is accepted", () => {
-  assert.equal(context.__validateDiagnosis(validDiagnosis(), "ar", new Set(["S1"])), null);
+  assert.equal(context.__validateDiagnosis(validDiagnosis(), "ar", new Set(["S1"])), true);
 });
 
 test("response without mandatory safety and LOTO gate is rejected", () => {
