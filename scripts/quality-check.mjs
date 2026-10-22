@@ -255,7 +255,9 @@ const checks = [
     assert.match(html, /escapeHtml\(r\.machine\)/);
     assert.match(html, /escapeHtml\(r\.fault\)/);
     assert.match(html, /escapeHtml\(r\.action\)/);
-    assert.match(html, /function csvCell\(value\)/);\n    assert.match(html, /const safe=/);\n    assert.match(html, /test\(text\)/);
+    assert.match(html, /function csvCell\(value\)/);
+    assert.match(html, /const safe=/);
+    assert.match(html, /test\(text\)/);
   }],
   ["Local-storage read and write failures are handled", () => {
     assert.match(html, /function getRecords\(\)\{try\{/);
