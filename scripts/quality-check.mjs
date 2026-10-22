@@ -87,11 +87,11 @@ const checks = [
     assert.match(html, /id="aiConsent" type="checkbox" required/);
     assert.match(html, /أوافق على إرسال وصف العطل والقياسات/);
   }],
-  ["Configured Gemini request requires consent, has a timeout, and preserves readable output", () => {
-    assert.match(html, /e\.preventDefault\(\);/);
+  ["Cloudflare API request requires consent, uses a timeout, and preserves readable output", () => {
     assert.match(html, /if\(!\$\('aiConsent'\)\.checked\)/);
-    assert.match(html, /signal:AbortSignal\.timeout\(35000\)/);
+    assert.match(html, /signal:AbortSignal\.timeout\(65000\)/);
     assert.match(html, /#aiResult\{white-space:pre-wrap/);
+    assert.match(html, /maintenance-ai-toolkit-api-seif\.workers\.dev\/api\/chat/);
   }],
   ["Frontend uses the Cloudflare endpoint and does not contain provider API keys", () => {
     assert.match(html, /id="aiEndpoint"/);
@@ -270,21 +270,11 @@ const checks = [
     for (const node of Object.values(tree.nodes)) if (node.result) assert.ok(node.safe && node.escalate && node.cause);
   }],
   ["PWA caches all new offline dependencies and bumps its cache", () => {
-    assert.match(sw, /maintenance-ai-toolkit-v19/);
+    assert.match(sw, /maintenance-ai-toolkit-v30/);
     for (const asset of ["diagnostic-engine.js", "faults.json", "i18n.js"]) assert.ok(sw.includes(asset), "Missing offline cache asset " + asset);
     assert.match(manifest.icons[0].src, /icon\.svg/);
   }]
 ,
-  ["Configured Gemini experiment handles quota errors without exposing a key input", () => {
-    assert.match(html, /window\.GEMINI_API_KEY/);
-    assert.match(html, /x-goog-api-key':apiKey/);
-    assert.match(html, /generativelanguage\.googleapis\.com\/v1beta\/models/);
-    assert.match(html, /response\.status===429/);
-    assert.doesNotMatch(html, /id="geminiApiKey" type="password"/);
-    assert.doesNotMatch(html, /const AI_ENDPOINT_KEY/);
-  }],
-
-
   ["Evidence Gate scores evidence and requests clarification for vague symptoms", () => {
     assert.match(worker, /function assessEvidence\(/);
     assert.match(worker, /needsClarification: vague && !c && o\.length < 20/);
