@@ -36,7 +36,9 @@ function validateDiagnosis(v, language, sourceIds) {
 function formatDiagnosis(v) {
   const en = v.language === "en", fr = v.language === "fr";
   const confidence = { high: en ? "high" : fr ? "élevée" : "عالية", medium: en ? "medium" : fr ? "moyenne" : "متوسطة", low: en ? "low" : fr ? "faible" : "منخفضة" };
-  const lines = [en ? "SAFETY GATE" : fr ? "SÉCURITÉ AVANT INTERVENTION" : "بوابة السلامة", ...v.safety.warnings.map(x => "• " + x), ""];
+  const lines = [en ? "SAFETY GATE" : fr ? "SÉCURITÉ AVANT INTERVENTION" : "بوابة السلامة", ...v.safety.warnings.map(x => "• " + x)];
+  if (v.safety.stop_conditions.length) lines.push(en ? "STOP WORK IF" : fr ? "ARRÊTER SI" : "أوقف العمل إذا", ...v.safety.stop_conditions.map(x => "• " + x));
+  lines.push("");
   if (v.possible_causes.length) { lines.push(en ? "POSSIBLE CAUSES (not confirmed)" : fr ? "CAUSES POSSIBLES (non confirmées)" : "الأسباب المحتملة (غير مؤكدة)"); v.possible_causes.forEach((c,i) => lines.push((i+1)+". "+c.label+" — "+confidence[c.confidence], "   "+c.evidence_for.join("; "), c.evidence_against.length ? "   "+c.evidence_against.join("; ") : "", "   "+(en?"Next check: ":fr?"Contrôle suivant : ":"التحقق التالي: ")+c.next_check)); lines.push(""); }
   if (v.inspection_steps.length) { lines.push(en ? "PRIORITIZED CHECKS" : fr ? "VÉRIFICATIONS PRIORITAIRES" : "خطوات التحقق حسب الأولوية"); v.inspection_steps.slice().sort((a,b)=>a.order-b.order).forEach(x => lines.push(x.order+". "+x.action+" — "+x.purpose+" ["+(x.requires_loto ? "LOTO/site procedure" : x.kind)+"]", "   "+(en?"Expected: ":fr?"Résultat attendu : ":"النتيجة المتوقعة: ")+x.expected_outcome)); lines.push(""); }
   for (const [label,items] of [[en?"TOOLS / DATA":fr?"OUTILS / DONNÉES":"الأدوات والبيانات",v.required_tools],[en?"STOP-WORK SIGNS":fr?"SIGNES D’ARRÊT":"علامات التوقف",v.danger_signs],[en?"UNKNOWN / UNCONFIRMED":fr?"INCONNU / NON CONFIRMÉ":"غير معروف / غير مؤكد",v.unknowns]]) if (items.length) lines.push(label,...items.map(x=>"• "+x),"");
