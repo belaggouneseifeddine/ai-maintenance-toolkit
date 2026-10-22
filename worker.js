@@ -85,7 +85,7 @@ export default {
             "x-goog-api-key": env.AI_API_KEY,
             "Content-Type": "application/json"
           },
-          signal: AbortSignal.timeout(55000),
+          signal: AbortSignal.timeout(17000),
           body: requestBody
         });
         lastNetworkError = null;
