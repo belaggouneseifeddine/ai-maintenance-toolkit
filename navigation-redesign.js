@@ -62,9 +62,29 @@
       button.setAttribute("aria-label", labels[i]);
     });
   }
+  function applyMeasurementLanguage() {
+    const language = (document.getElementById("languageSwitcher") || {}).value || document.documentElement.lang || "ar";
+    const copy = {
+      ar: { label: "حالة القياسات المتاحة", unknown: "لا أعرف / لست متأكدًا", none: "لا توجد قراءة متاحة", available: "توجد قراءات مسجلة بالفعل", hint: "لا تنفّذ قياسًا حيًا أو تلمس معدات خطرة لمجرد الإجابة. استخدم فقط المعلومات والقراءات المتاحة بالفعل." },
+      en: { label: "Measurement availability", unknown: "I don't know / not sure", none: "No reading available", available: "Existing readings are available", hint: "Do not perform a live measurement or touch hazardous equipment just to answer. Use only information and readings already available." },
+      fr: { label: "Disponibilité des mesures", unknown: "Je ne sais pas / incertain", none: "Aucune mesure disponible", available: "Des mesures déjà relevées sont disponibles", hint: "N’effectuez pas de mesure en direct et ne touchez pas un équipement dangereux pour répondre. Utilisez uniquement les informations déjà disponibles." }
+    };
+    const c = copy[language] || copy.ar;
+    const label = document.querySelector('label[for="aiMeasurementStatus"]');
+    const select = document.getElementById("aiMeasurementStatus");
+    const hint = document.getElementById("aiMeasurementHint");
+    if (label) label.textContent = c.label;
+    if (select) {
+      select.options[0].textContent = c.unknown;
+      select.options[1].textContent = c.none;
+      select.options[2].textContent = c.available;
+    }
+    if (hint) hint.textContent = c.hint;
+  }
   applyNavLanguage();
+  applyMeasurementLanguage();
   const languageSwitcher = document.getElementById("languageSwitcher");
-  if (languageSwitcher) languageSwitcher.addEventListener("change", applyNavLanguage);
+  if (languageSwitcher) languageSwitcher.addEventListener("change", () => { applyNavLanguage(); applyMeasurementLanguage(); });
 
   nav.setAttribute("aria-label", "التنقل الرئيسي");
   nav.classList.add("bottom-navigation");
