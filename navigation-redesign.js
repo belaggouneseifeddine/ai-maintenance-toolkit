@@ -42,12 +42,29 @@
   logTab.textContent = "المزيد";
   logTab.dataset.tab = "v03";
 
+  const tabs = [diagnoseTab, aiTab, knowledgeTab, safetyTab, logTab];
   const icons = ["◉", "⌕", "⬡", "▤", "⋯"];
-  [diagnoseTab, aiTab, knowledgeTab, safetyTab, logTab].forEach((button, i) => {
+  const names = {
+    ar: ["المساعد", "الأعطال", "السلامة", "السجل", "المزيد"],
+    fr: ["Assistant", "Pannes", "Sécurité", "Historique", "Plus"],
+    en: ["Assistant", "Faults", "Safety", "History", "More"]
+  };
+  tabs.forEach((button, i) => {
     button.classList.add("bottom-tab");
-    button.setAttribute("aria-label", button.textContent);
-    button.innerHTML = '<span class="bottom-tab-icon" aria-hidden="true">' + icons[i] + '</span><span class="bottom-tab-label">' + button.textContent + '</span>';
+    button.innerHTML = '<span class="bottom-tab-icon" aria-hidden="true">' + icons[i] + '</span><span class="bottom-tab-label"></span>';
   });
+  function applyNavLanguage() {
+    const language = (document.getElementById("languageSwitcher") || {}).value || document.documentElement.lang || "ar";
+    const labels = names[language] || names.ar;
+    tabs.forEach((button, i) => {
+      const label = button.querySelector(".bottom-tab-label");
+      if (label) label.textContent = labels[i];
+      button.setAttribute("aria-label", labels[i]);
+    });
+  }
+  applyNavLanguage();
+  const languageSwitcher = document.getElementById("languageSwitcher");
+  if (languageSwitcher) languageSwitcher.addEventListener("change", applyNavLanguage);
 
   nav.setAttribute("aria-label", "التنقل الرئيسي");
   nav.classList.add("bottom-navigation");
