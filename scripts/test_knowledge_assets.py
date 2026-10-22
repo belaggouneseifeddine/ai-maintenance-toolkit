@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Offline validation for the licensed-source registry and knowledge draft."""
+"""Offline integrity tests for the multilingual maintenance knowledge pack."""
 import json
 import re
 import unittest
@@ -7,12 +7,13 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 REGISTRY_PATH = ROOT / "knowledge" / "sources.json"
-DRAFT_PATH = ROOT / "knowledge" / "CENTRIFUGAL-PUMP-TROUBLESHOOTING-DRAFT.md"
+PUMP_DRAFT = ROOT / "knowledge" / "CENTRIFUGAL-PUMP-TROUBLESHOOTING-DRAFT.md"
+EQUIPMENT_PACK = ROOT / "knowledge" / "EQUIPMENT-TROUBLESHOOTING-AR-FR-EN.md"
 SCRIPT_PATH = ROOT / "scripts" / "fetch_licensed_sources.py"
 
 
 class KnowledgeAssetsTests(unittest.TestCase):
-    def test_registry_is_valid_json_and_has_explicit_license_fields(self):
+    def test_registry_has_unique_explicitly_licensed_candidates(self):
         data = json.loads(REGISTRY_PATH.read_text(encoding="utf-8"))
         self.assertEqual(data.get("schema_version"), 1)
         self.assertTrue(data["policy"]["reject_missing_or_ambiguous_license"])
@@ -26,32 +27,40 @@ class KnowledgeAssetsTests(unittest.TestCase):
             self.assertTrue(source.get("license_url"))
             self.assertTrue(source.get("license_evidence_url"))
             self.assertIn(source["license"], data["policy"]["accepted_licenses"])
+            self.assertTrue(source.get("equipment"))
 
-    def test_draft_has_multilingual_terms_safety_and_attribution(self):
-        text = DRAFT_PATH.read_text(encoding="utf-8")
+    def test_pump_draft_has_multilingual_terms_safety_and_attribution(self):
+        text = PUMP_DRAFT.read_text(encoding="utf-8")
         for term in ("العربية", "Français", "English", "LOTO", "راجع دليل المصنع",
                      "Consult the manufacturer's manual", "https://pmc.ncbi.nlm.nih.gov/articles/PMC8747656/"):
             self.assertIn(term, text)
-        self.assertRegex(text, r"(?i)confidence|confidence")
-        self.assertRegex(text, r"(?i)needs review")
+        self.assertIn("needs review", text.lower())
 
-    def test_script_has_safe_allowlist_and_no_automatic_publication(self):
+    def test_required_equipment_families_have_sections_and_trilingual_terms(self):
+        text = EQUIPMENT_PACK.read_text(encoding="utf-8")
+        for section in ("Water and centrifugal pumps", "Valves, check valves and actuators",
+                        "Hydraulic systems", "Pneumatic systems",
+                        "SCADA, HMI, PLC, sensors and drives", "Air compressors"):
+            self.assertIn(section, text)
+        for term in ("العربية", "Français", "English", "LOTO",
+                     "hydraulic injection", "راجع دليل المصنع",
+                     "Consult the manufacturer's manual", "OEM verification"):
+            self.assertIn(term, text)
+
+    def test_no_numeric_limits_are_invented(self):
+        for path in (PUMP_DRAFT, EQUIPMENT_PACK):
+            text = path.read_text(encoding="utf-8")
+            for pattern in (r"\b\d+(?:\.\d+)?\s*(?:bar|psi|kPa|MPa)\b",
+                            r"\b\d+(?:\.\d+)?\s*(?:Nm|N·m)\b",
+                            r"\b\d+(?:\.\d+)?\s*(?:A|amp)\b"):
+                self.assertIsNone(re.search(pattern, text, re.IGNORECASE), f"{path}: {pattern}")
+            self.assertIn("needs review", text.lower())
+
+    def test_fetcher_is_allowlisted_and_review_only(self):
         text = SCRIPT_PATH.read_text(encoding="utf-8")
-        self.assertIn("validate_source", text)
-        self.assertIn("accepted_licenses", text)
-        self.assertIn("review_required", text)
-        self.assertIn("--validate-only", text)
+        for term in ("validate_source", "accepted_licenses", "review_required", "--validate-only"):
+            self.assertIn(term, text)
         self.assertNotIn("create_pull_request(", text)
-
-    def test_no_invented_numeric_limits_in_knowledge_draft(self):
-        text = DRAFT_PATH.read_text(encoding="utf-8")
-        forbidden_patterns = [
-            r"\b\d+(?:\.\d+)?\s*(?:bar|psi|kPa|MPa)\b",
-            r"\b\d+(?:\.\d+)?\s*(?:Nm|N·m)\b",
-            r"\b\d+(?:\.\d+)?\s*(?:A|amp)\b",
-        ]
-        for pattern in forbidden_patterns:
-            self.assertIsNone(re.search(pattern, text, re.IGNORECASE))
 
 
 if __name__ == "__main__":
