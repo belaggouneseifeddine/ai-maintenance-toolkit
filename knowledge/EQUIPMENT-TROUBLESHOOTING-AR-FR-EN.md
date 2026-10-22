@@ -140,3 +140,16 @@ Possible hypotheses: cooling/ventilation issue, fluid/lubrication issue, operati
 5. Never invent setpoints, limits, torque, tolerances, part compatibility or maintenance intervals.
 6. If model-specific information is missing say: **راجع دليل المصنع / Consultez le manuel du fabricant / Consult the manufacturer's manual.**
 7. Do not claim an online source was fetched or verified without a fetch record and human review.
+
+
+## 8. Official OEM documentation portals — reference only, not automatically ingested
+
+These links are starting points for finding the current document that matches the nameplate. They are **not** proof that the generic troubleshooting notes above have been verified against a specific machine, and they do not grant permission to republish OEM manual text.
+
+- **Festo — pneumatic components and valves:** https://www.festo.com/fox/net/supportportal/default.aspx?cat=2164
+- **Emerson Automation — valves, pneumatic products, drives and HMI/SCADA knowledge center:** https://discreteautomation.emerson.com/knowledge-center
+- **Siemens — industrial product documentation and downloads:** https://www.siemens.com/en-gb/support/documentation-downloads/
+- **Ingersoll Rand — compressor customer portal/manuals for registered equipment:** https://my.ingersollrand.com/
+- **Atlas Copco — compressor manuals by product range:** https://www.atlascopco.com/en-ca/compressors/manuals
+
+**Verification procedure:** locate the document using the complete nameplate/model/serial data; record the document ID, revision/date and exact page/section; check the particular statement and its safety conditions; then mark only that statement **موثّق / Vérifié / Verified**. If a portal requires login or the exact manual is unavailable, keep the claim **يحتاج مراجعة / À vérifier / Needs review** and ask the user for the manual PDF or its exact link. Do not fetch or redistribute proprietary manuals automatically.
