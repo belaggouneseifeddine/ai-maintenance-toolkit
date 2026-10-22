@@ -45,3 +45,30 @@ const configuredHealth = healthResults.find(x => x.base === configuredBase && x.
 if (!configuredHealth) {
   throw new Error("The Worker endpoint configured in the published app did not pass /health. See healthResults for tested candidates.");
 }
+
+const appOrigin = "https://belaggouneseifeddine.github.io";
+const preflight = await fetch(configuredEndpoint, {
+  method: "OPTIONS",
+  headers: {
+    "Origin": appOrigin,
+    "Access-Control-Request-Method": "POST",
+    "Access-Control-Request-Headers": "content-type"
+  },
+  signal: AbortSignal.timeout(10000)
+});
+if (preflight.status !== 204 || preflight.headers.get("access-control-allow-origin") !== appOrigin) {
+  throw new Error(`CORS preflight failed: HTTP ${preflight.status}, allow-origin=${preflight.headers.get("access-control-allow-origin")}`);
+}
+console.log("CORS_PREFLIGHT_OK");
+
+const validation = await fetch(configuredEndpoint, {
+  method: "POST",
+  headers: { "Origin": appOrigin, "Content-Type": "application/json" },
+  body: "{}",
+  signal: AbortSignal.timeout(10000)
+});
+const validationBody = await validation.text();
+if (validation.status !== 400 || !validationBody.includes("Equipment and symptom are required.")) {
+  throw new Error(`API input-validation smoke test failed: HTTP ${validation.status}; response=${validationBody.slice(0, 300)}`);
+}
+console.log("API_INPUT_VALIDATION_OK (invalid payload rejected before AI provider call)");
