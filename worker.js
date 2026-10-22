@@ -75,7 +75,7 @@ export default {
           "x-goog-api-key": env.AI_API_KEY,
           "Content-Type": "application/json"
         },
-        signal: AbortSignal.timeout(20000),
+        signal: AbortSignal.timeout(55000),
         body: JSON.stringify({
           systemInstruction: { parts: [{ text: systemPrompt }] },
           contents: [{ role: "user", parts: [{ text: userPrompt }] }],
