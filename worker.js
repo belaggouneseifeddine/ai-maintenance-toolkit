@@ -14,7 +14,7 @@ const DIAGNOSIS_SCHEMA = {
     required_tools: { type: "ARRAY", items: { type: "STRING" } }, danger_signs: { type: "ARRAY", items: { type: "STRING" } },
     escalation: { type: "OBJECT", properties: { required: { type: "BOOLEAN" }, reason: { type: "STRING" } }, required: ["required", "reason"] },
     sources: { type: "ARRAY", items: { type: "STRING" } }, unknowns: { type: "ARRAY", items: { type: "STRING" } },
-    session_summary: { type: "OBJECT", properties: { equipment: { type: "STRING" }, symptom: { type: "STRING" }, confirmed_cause: { type: "STRING" }, work_status: { type: "STRING", enum: ["open", "in_progress", "resolved", "escalated"] } }, required: ["equipment", "symptom", "confirmed_cause", "work_status"] }
+    session_summary: { type: "OBJECT", properties: { equipment: { type: "STRING" }, symptom: { type: "STRING" }, confirmed_cause: { type: "STRING", description: "Empty string unless a cause is explicitly verified." }, work_status: { type: "STRING", enum: ["open", "in_progress", "resolved", "escalated"] } }, required: ["equipment", "symptom", "confirmed_cause", "work_status"] }
   },
   required: ["status", "language", "safety", "clarifying_questions", "possible_causes", "inspection_steps", "required_tools", "danger_signs", "escalation", "sources", "unknowns", "session_summary"]
 };
@@ -210,8 +210,17 @@ export default {
           ? ["What exactly happens: fully stopped, fails to start, runs with no output/flow, or trips?", "What is the exact alarm text and equipment make/model?"]
           : ["ما الذي يحدث تحديدًا: توقف كامل، فشل في البدء، تشغيل دون تدفق/خرج، أم فصل حماية؟", "ما نص الإنذار حرفيًا وما الشركة المصنّعة والطراز؟"];
       const lead = language === "fr" ? "Preuves insuffisantes pour classer les causes. Aucune cause racine n’est établie." : language === "en" ? "Evidence is insufficient to rank causes. No root cause is established." : "الأدلة غير كافية لترتيب الأسباب؛ لم يتم إثبات السبب الجذري.";
-      const safety = language === "fr" ? "Sécurité : ne contournez aucune protection; appliquez la consignation du site avant inspection." : language === "en" ? "Safety: do not bypass protection; follow site isolation/LOTO before inspection." : "السلامة: لا تتجاوز وسائل الحماية؛ اتبع العزل وتأمين مصادر الطاقة (LOTO) قبل الفحص.";
-      return json({ answer: lead + "\\n\\n" + prompts.map((q,i)=>(i+1)+". "+q).join("\\n") + "\\n\\n" + safety, evidence_gate: { level: evidence.level, points: evidence.points, missing: evidence.missing, sources: evidenceRefs.map(x => x.split(" — ")[0]) }, source: "evidence-gate" }, 200, origin);
+      const safety = language === "fr" ? "Sécurité : ne contournez aucune protection; appliquez la consignation du site avant intervention." : language === "en" ? "Safety: do not bypass protection; follow site isolation/LOTO before intervention." : "السلامة: لا تتجاوز وسائل الحماية؛ اتبع العزل وتأمين مصادر الطاقة (LOTO) قبل التدخل.";
+      const diagnosis = {
+        status: "needs_clarification", language,
+        safety: { gate_required: true, loto_required_before_intervention: true, warnings: [safety], stop_conditions: [] },
+        clarifying_questions: prompts.map((question, i) => ({ id: "evidence-q" + (i + 1), question, reason: language === "en" ? "This information changes the diagnostic path." : language === "fr" ? "Cette information modifie le parcours de diagnostic." : "هذه المعلومة قد تغيّر مسار التشخيص." })),
+        possible_causes: [], inspection_steps: [], required_tools: [], danger_signs: [],
+        escalation: { required: false, reason: language === "en" ? "Evidence is insufficient to decide." : language === "fr" ? "Les preuves sont insuffisantes pour décider." : "الأدلة غير كافية لاتخاذ قرار." },
+        sources: [], unknowns: evidence.missing,
+        session_summary: { equipment: machine, symptom, confirmed_cause: "", work_status: "open" }
+      };
+      return json({ answer: lead + "\n\n" + formatDiagnosis(diagnosis), diagnosis, evidence_gate: { level: evidence.level, points: evidence.points, missing: evidence.missing }, source: "evidence-gate" }, 200, origin);
     }
 
     if (env.AI_RATE_LIMITER) {
@@ -239,7 +248,7 @@ Use only the evidence supplied. Rank plausible causes, show how to distinguish t
     let upstream;
     const model = env.AI_MODEL || "gemini-3.8-flash";
     const requestBody = JSON.stringify({
-      systemInstruction: { parts: [{ text: systemPrompt + " Output only JSON matching the supplied response schema. safety.gate_required and safety.loto_required_before_intervention must always be true. Never ask the user to perform a live measurement, open equipment, touch hazardous parts, or enter a hazardous area. Ask only for information already available or for readings collected by an authorized qualified person under site procedures. Do not treat confidence labels as statistical probabilities. A cause is confirmed only when explicit evidence verifies it; otherwise confirmed_cause must be null." }] },
+      systemInstruction: { parts: [{ text: systemPrompt + " Output only JSON matching the supplied response schema. safety.gate_required and safety.loto_required_before_intervention must always be true. Never ask the user to perform a live measurement, open equipment, touch hazardous parts, or enter a hazardous area. Ask only for information already available or for readings collected by an authorized qualified person under site procedures. Do not treat confidence labels as statistical probabilities. A cause is confirmed only when explicit evidence verifies it; otherwise confirmed_cause must be an empty string." }] },
       contents: [{ role: "user", parts: [{ text: userPrompt }] }],
       generationConfig: { temperature: 0.2, maxOutputTokens: 1800, responseMimeType: "application/json", responseSchema: DIAGNOSIS_SCHEMA }
     });
