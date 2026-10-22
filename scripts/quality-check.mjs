@@ -5,6 +5,7 @@ import vm from "node:vm";
 const html = readFileSync("index.html", "utf8");
 const ux = readFileSync("ux-redesign.js", "utf8");
 const uxCss = readFileSync("ux-redesign.css", "utf8");
+const navRedesign = readFileSync("navigation-redesign.js", "utf8");
 const diagnosticFlowsSource = readFileSync("diagnostic-flows.js", "utf8");
 const diagnosticFlows = (() => { const match = diagnosticFlowsSource.match(/window\.MAINTENANCE_DIAGNOSTIC_FLOWS\s*=\s*(\{[\s\S]*?\n\});/); assert.ok(match, "Structured diagnostic flow export must exist"); return JSON.parse(match[1]); })();
 const worker = readFileSync("worker.js", "utf8");
@@ -339,6 +340,20 @@ const checks = [
     assert.match(html, /source:"ai-assistant"/);
     assert.match(html, /diagnosis:d/);
     assert.match(html, /renderRecords\(\)/);
+  }],
+
+  ["Five-tab navigation groups existing features without deleting their source panels", () => {
+    assert.match(html, /navigation-redesign\.js/);
+    assert.match(deployWorkflow, /navigation-redesign\.js/);
+    assert.match(sw, /navigation-redesign\.js/);
+    assert.match(navRedesign, /diagnoseTab\.textContent = "المساعد"/);
+    assert.match(navRedesign, /aiTab\.dataset\.tab = "knowledge"/);
+    assert.match(navRedesign, /logTab\.dataset\.tab = "v03"/);
+    assert.match(navRedesign, /home\.classList\.remove\("panel", "active"\)/);
+    assert.match(navRedesign, /ai\.classList\.remove\("panel", "active"\)/);
+    assert.match(uxCss, /position:fixed/);
+    assert.match(uxCss, /env\(safe-area-inset-bottom\)/);
+    new vm.Script(navRedesign, { filename: "navigation-redesign.js" });
   }],
 ];
 
