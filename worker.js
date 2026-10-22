@@ -67,7 +67,7 @@ export default {
     const userPrompt = `Equipment: ${machine}\nSymptom: ${symptom}\nAlarm code: ${code || "not provided"}\nObservations and measurements: ${observations || "not provided"}\nGive a cautious preliminary assessment.`;
 
     let upstream;
-    const model = env.AI_MODEL || "gemini-2.5-flash";
+    const model = env.AI_MODEL || "gemini-3.8-flash";
     try {
       upstream = await fetch("https://generativelanguage.googleapis.com/v1beta/models/" + encodeURIComponent(model) + ":generateContent", {
         method: "POST",
