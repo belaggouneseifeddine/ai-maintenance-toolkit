@@ -67,17 +67,19 @@ export default {
     const userPrompt = `Equipment: ${machine}\nSymptom: ${symptom}\nAlarm code: ${code || "not provided"}\nObservations and measurements: ${observations || "not provided"}\nGive a cautious preliminary assessment.`;
 
     let upstream;
+    const model = env.AI_MODEL || "gemini-2.5-flash";
     try {
-      const baseUrl = env.AI_BASE_URL || "https://generativelanguage.googleapis.com/v1beta/openai";
-      upstream = await fetch(baseUrl + "/chat/completions", {
+      upstream = await fetch("https://generativelanguage.googleapis.com/v1beta/models/" + encodeURIComponent(model) + ":generateContent", {
         method: "POST",
-        headers: { "Authorization": "Bearer " + env.AI_API_KEY, "Content-Type": "application/json" },
+        headers: {
+          "x-goog-api-key": env.AI_API_KEY,
+          "Content-Type": "application/json"
+        },
         signal: AbortSignal.timeout(20000),
         body: JSON.stringify({
-          model: env.AI_MODEL || "gemini-2.5-flash",
-          temperature: 0.2,
-          max_tokens: 900,
-          messages: [{ role: "system", content: systemPrompt }, { role: "user", content: userPrompt }]
+          systemInstruction: { parts: [{ text: systemPrompt }] },
+          contents: [{ role: "user", parts: [{ text: userPrompt }] }],
+          generationConfig: { temperature: 0.2, maxOutputTokens: 900 }
         })
       });
     } catch {
@@ -92,14 +94,17 @@ export default {
         providerDetail = String(parsed?.error?.message || parsed?.message || "").slice(0, 500);
       } catch {}
       return json({
-        error: "AI provider returned an error (" + upstream.status + ").",
-        provider_detail: providerDetail || "No safe error details were returned. Check API key, model, and provider endpoint."
+        error: "Gemini API returned an error (" + upstream.status + ").",
+        provider_detail: providerDetail || "No error detail returned. Check Gemini API key, model access, and quota."
       }, 502, origin);
     }
     let data;
-    try { data = await upstream.json(); } catch { return json({ error: "AI provider returned an unreadable response." }, 502, origin); }
-    const answer = data?.choices?.[0]?.message?.content;
-    if (typeof answer !== "string" || !answer.trim()) return json({ error: "AI provider response did not contain an answer." }, 502, origin);
+    try { data = await upstream.json(); } catch { return json({ error: "Gemini returned an unreadable response." }, 502, origin); }
+    const answer = data?.candidates?.[0]?.content?.parts?.map(part => part.text || "").join("\n").trim();
+    if (typeof answer !== "string" || !answer) {
+      const blockReason = data?.promptFeedback?.blockReason;
+      return json({ error: blockReason ? "Gemini blocked the request: " + blockReason : "Gemini response did not contain an answer." }, 502, origin);
+    }
     return json({ answer: answer.slice(0, 12000) }, 200, origin);
   }
 };
