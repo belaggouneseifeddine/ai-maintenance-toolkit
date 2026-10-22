@@ -310,7 +310,37 @@ const checks = [
     assert.doesNotMatch(worker, /provider_detail:/);
     assert.match(worker, /Raw provider details are intentionally not returned/);
   }],
+,
 
+  ["AI responses use a structured schema and server-side validation", () => {
+    assert.match(worker, /responseMimeType: "application\/json"/);
+    assert.match(worker, /responseSchema: DIAGNOSIS_SCHEMA/);
+    assert.match(worker, /function validateDiagnosis\(/);
+    assert.match(worker, /safety-gate-missing/);
+    assert.match(worker, /diagnosis\.inspection_steps = diagnosis\.inspection_steps\.map/);
+    assert.match(worker, /validSourceIds/);
+  }],
+  ["AI clarification accepts unknown measurements and never requests hazardous live measurements", () => {
+    assert.match(html, /id="aiMeasurementStatus"/);
+    assert.match(html, /لا أعرف \/ لست متأكدًا/);
+    assert.match(html, /لا توجد قراءة متاحة/);
+    assert.match(html, /measurementStatus:\$\('aiMeasurementStatus'\)\.value/);
+    assert.match(worker, /measurementStatus = "unknown"/);
+    assert.match(worker, /Never ask the user to perform a live measurement/);
+    assert.match(worker, /readings collected by an authorized qualified person/);
+  }],
+  ["Cloudflare Worker rate-limit binding is configured and used", () => {
+    const wrangler = readFileSync("wrangler.toml", "utf8");
+    assert.match(wrangler, /name = "AI_RATE_LIMITER"/);
+    assert.match(wrangler, /limit = 10/);
+    assert.match(wrangler, /period = 60/);
+    assert.match(worker, /env\.AI_RATE_LIMITER\.limit/);
+  }],
+  ["AI sessions are saved locally after a structured response", () => {
+    assert.match(html, /source:"ai-assistant"/);
+    assert.match(html, /diagnosis:d/);
+    assert.match(html, /renderRecords\(\)/);
+  }],
 ];
 
 let failed = 0;
