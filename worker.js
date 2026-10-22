@@ -82,8 +82,13 @@ export default {
           generationConfig: { temperature: 0.2, maxOutputTokens: 900 }
         })
       });
-    } catch {
-      return json({ error: "AI provider could not be reached. Local diagnostic mode remains available." }, 502, origin);
+    } catch (err) {
+      const detail = String(err?.message || err || "Unknown network error").slice(0, 300);
+      return json({
+        error: "AI provider request failed before receiving an HTTP response.",
+        provider_detail: detail,
+        model: model
+      }, 502, origin);
     }
     if (!upstream.ok) {
       let providerDetail = "";
