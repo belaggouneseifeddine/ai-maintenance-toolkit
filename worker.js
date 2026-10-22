@@ -4,9 +4,9 @@ const LANGUAGES = new Set(["ar", "fr", "en"]);
 
 function normalizeEvidenceText(value) {
   return String(value || "").toLocaleLowerCase().normalize("NFD")
-    .replace(/[\\u0300-\\u036f\\u064B-\\u065F\\u0670\\u06D6-\\u06ED]/g, "")
+    .replace(/[\u0300-\u036f\u064B-\u065F\u0670\u06D6-\u06ED]/g, "")
     .replace(/[أإآٱ]/g, "ا").replace(/ى/g, "ي").replace(/ة/g, "ه")
-    .replace(/[^\\p{L}\\p{N}]+/gu, " ").trim().replace(/\\s+/g, " ");
+    .replace(/[^\p{L}\p{N}]+/gu, " ").trim().replace(/\s+/g, " ");
 }
 function assessEvidence({ machine, symptom, code, observations, language }) {
   const m = normalizeEvidenceText(machine), s = normalizeEvidenceText(symptom);
