@@ -9,6 +9,7 @@ ROOT = Path(__file__).resolve().parents[1]
 REGISTRY_PATH = ROOT / "knowledge" / "sources.json"
 PUMP_DRAFT = ROOT / "knowledge" / "CENTRIFUGAL-PUMP-TROUBLESHOOTING-DRAFT.md"
 EQUIPMENT_PACK = ROOT / "knowledge" / "EQUIPMENT-TROUBLESHOOTING-AR-FR-EN.md"
+UNIVERSAL_ATLAS = ROOT / "knowledge" / "UNIVERSAL-INDUSTRIAL-FAULT-ATLAS-AR-FR-EN.md"
 SCRIPT_PATH = ROOT / "scripts" / "fetch_licensed_sources.py"
 
 
@@ -46,6 +47,18 @@ class KnowledgeAssetsTests(unittest.TestCase):
                      "hydraulic injection", "راجع دليل المصنع",
                      "Consult the manufacturer's manual", "OEM verification"):
             self.assertIn(term, text)
+
+    def test_universal_fault_atlas_covers_cross_domain_diagnostics(self):
+        text = UNIVERSAL_ATLAS.read_text(encoding="utf-8")
+        for term in ("Electrical power and motors", "Electronics, sensors and instrumentation",
+                     "PLC, HMI, SCADA, drives and communications", "Hydraulics",
+                     "Pneumatics and compressed air", "Mechanical transmission",
+                     "Pumps, fans and compressors", "Cross-domain symptom matrix",
+                     "Observed:", "Source-backed:", "Hypothesis:", "Unknown:",
+                     "Confirmed cause:", "lockout/tagout", "https://github.com/"):
+            self.assertIn(term, text)
+        self.assertIn("not a manufacturer service manual", text)
+        self.assertIn("Never invent source IDs", text)
 
     def test_no_numeric_limits_are_invented(self):
         for path in (PUMP_DRAFT, EQUIPMENT_PACK):
