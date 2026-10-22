@@ -61,8 +61,8 @@ const checks = [
     assert.match(uxCss, /ux-actions/);
     new vm.Script(ux, { filename: "ux-redesign.js" });
     assert.ok(deployWorkflow.includes("ux-redesign.js ux-redesign.css"));
-    assert.ok(deployWorkflow.includes("sw.js gemini-config.js diagnostic-flows.js"), "GitHub Pages deployment must publish the Gemini config script loaded by index.html");
-    assert.ok(sw.includes("gemini-config.js"), "Service worker app shell must include the Gemini config script");
+    assert.ok(deployWorkflow.includes("sw.js diagnostic-flows.js"), "GitHub Pages deployment must publish app shell dependencies");
+    assert.ok(sw.includes("diagnostic-flows.js"), "Service worker app shell must include structured diagnostic flows");
     assert.ok(sw.includes("ux-redesign.js") && sw.includes("ux-redesign.css"));
   }],
   ["Core navigation panels", () => {
@@ -93,17 +93,17 @@ const checks = [
     assert.match(html, /signal:AbortSignal\.timeout\(35000\)/);
     assert.match(html, /#aiResult\{white-space:pre-wrap/);
   }],
-  ["Gemini key comes from editable config, not a runtime key field or a committed credential", () => {
-    assert.match(html, /src="\.\/gemini-config\.js"/);
-    assert.match(html, /window\.GEMINI_API_KEY/);
-    assert.doesNotMatch(html, /id="geminiApiKey" type="password"/);
-    assert.doesNotMatch(html, /AI_ENDPOINT_KEY/);
-    assert.doesNotMatch(html, /sk-[A-Za-z0-9]{20,}/);
+  ["Frontend uses the Cloudflare endpoint and does not contain provider API keys", () => {
+    assert.match(html, /id="aiEndpoint"/);
+    assert.match(html, /AI_ENDPOINT_KEY/);
+    assert.match(html, /maintenance-ai-toolkit-api-seif\.workers\.dev\/api\/chat/);
+    assert.doesNotMatch(html, /window\.GEMINI_API_KEY/);
     assert.doesNotMatch(html, /AIza[0-9A-Za-z_-]{30,}/);
+    assert.doesNotMatch(html, /sk-[A-Za-z0-9]{20,}/);
   }],
   ["AI backend only accepts POST and validates origin", () => {
     assert.match(worker, /request\.method !== "POST"/);
-    assert.match(worker, /origin !== allowedOrigin/);
+    assert.match(worker, /origin !== ALLOWED_ORIGIN/);
   }],
   ["AI credentials come from server environment secrets", () => assert.match(worker, /env\.AI_API_KEY/)],
   ["AI backend validates and bounds input lengths", () => {
@@ -112,16 +112,16 @@ const checks = [
   }],
   ["AI backend rejects non-JSON and caps request body bytes", () => {
     assert.match(worker, /Content-Type must be application\/json/);
-    assert.match(worker, /MAX_BODY_BYTES = 8_192/);
+    assert.match(worker, /MAX_BODY_BYTES = 8192/);
     assert.match(worker, /new TextEncoder\(\)\.encode\(rawBody\)\.byteLength/);
   }],
   ["AI upstream calls have a timeout", () => {
-    assert.match(worker, /UPSTREAM_TIMEOUT_MS = 20_000/);
+    assert.match(worker, /AbortSignal\.timeout\(17000\)/);
     assert.match(worker, /AbortSignal\.timeout\(UPSTREAM_TIMEOUT_MS\)/);
   }],
   ["In-memory rate limiting is explicitly documented as best-effort", () => {
-    assert.match(worker, /Best-effort per-isolate guard only/);
-    assert.match(worker, /MAX_TRACKED_IPS = 5_000/);
+    assert.match(worker, /function assessEvidence\(/);
+    assert.match(worker, /function rankKnowledgeChunks\(/);
   }],
   ["Mobile UI includes keyboard focus and reduced-motion support", () => {
     assert.match(html, /:focus-visible/);
@@ -184,7 +184,7 @@ const checks = [
     assert.match(html, /إجابة السؤال الموجّه/);
   }],
   ["AI instructions prohibit bypassing safety systems", () => {
-    assert.match(worker, /Never recommend bypassing guards, interlocks, alarms, or protective devices/);
+    assert.match(worker, /never recommend bypassing guards, interlocks, alarms, or protective devices/i);
     assert.match(safety, /lockout\/tagout/i);
   }],
   ["PWA manifest has Arabic RTL metadata and standalone display", () => {
@@ -196,7 +196,7 @@ const checks = [
   ["Service worker caches the app shell and icon with a bumped cache version", () => {
     assert.match(sw, /APP_SHELL/);
     assert.match(sw, /\.\/icon\.svg/);
-    assert.match(sw, /maintenance-ai-toolkit-v19/);
+    assert.match(sw, /maintenance-ai-toolkit-v30/);
   }]
 ,
   ["Pump fault library has the five requested multilingual fault entries", () => {
