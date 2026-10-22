@@ -52,16 +52,15 @@
   nav.setAttribute("aria-label", "التنقل الرئيسي");
   nav.classList.add("bottom-navigation");
 
-  nav.addEventListener("click", event => {
+  document.addEventListener("click", event => {
     const goButton = event.target.closest("[data-go='ai']");
-    if (goButton) {
-      event.preventDefault();
-      const target = document.getElementById("ai");
-      if (target) {
-        target.scrollIntoView({ behavior: "smooth", block: "start" });
-        const input = document.getElementById("aiSymptom");
-        if (input) input.focus({ preventScroll: true });
-      }
+    if (!goButton) return;
+    event.preventDefault();
+    const target = document.getElementById("ai");
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      const input = document.getElementById("aiSymptom");
+      if (input) input.focus({ preventScroll: true });
     }
   });
 
