@@ -310,7 +310,6 @@ const checks = [
     assert.doesNotMatch(worker, /provider_detail:/);
     assert.match(worker, /Raw provider details are intentionally not returned/);
   }],
-,
 
   ["AI responses use a structured schema and server-side validation", () => {
     assert.match(worker, /responseMimeType: "application\/json"/);
