@@ -12,7 +12,8 @@ const APP_SHELL = [
   "./maintenance-v03.css",
   "./decision-trees.json",
   "./ux-redesign.js",
-  "./ux-redesign.css"
+  "./ux-redesign.css",
+  "./navigation-redesign.js"
 ];
 
 self.addEventListener("install", event => {
