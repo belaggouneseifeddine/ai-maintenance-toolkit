@@ -342,17 +342,20 @@ const checks = [
     assert.match(html, /renderRecords\(\)/);
   }],
 
-  ["Five-tab navigation groups existing features without deleting their source panels", () => {
+  ["Dedicated home screen and six-tab mobile navigation preserve existing feature panels", () => {
     assert.match(html, /navigation-redesign\.js/);
     assert.match(deployWorkflow, /navigation-redesign\.js/);
     assert.match(sw, /navigation-redesign\.js/);
-    assert.match(navRedesign, /diagnoseTab\.textContent = "المساعد"/);
-    assert.match(navRedesign, /aiTab\.dataset\.tab = "knowledge"/);
-    assert.match(navRedesign, /logTab\.dataset\.tab = "v03"/);
-    assert.match(navRedesign, /home\.classList\.remove\("panel", "active"\)/);
-    assert.match(navRedesign, /ai\.classList\.remove\("panel", "active"\)/);
+    assert.match(navRedesign, /id:'homeDashboard'/);
+    assert.match(navRedesign, /id:'diagnose'/);
+    assert.match(navRedesign, /id:'knowledge'/);
+    assert.match(navRedesign, /id:'safety'/);
+    assert.match(navRedesign, /id:'log'/);
+    assert.match(navRedesign, /id:'v03'/);
+    assert.match(navRedesign, /activate\('homeDashboard',false\)/);
+    assert.match(navRedesign, /ai\.classList\.remove\('panel','active'\)/);
     assert.match(uxCss, /position:fixed/);
-    assert.match(uxCss, /env\(safe-area-inset-bottom\)/);
+    assert.match(uxCss, /env\(safe-area-inset-bottom/);
     new vm.Script(navRedesign, { filename: "navigation-redesign.js" });
   }],
 ];
