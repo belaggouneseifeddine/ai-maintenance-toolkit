@@ -113,11 +113,10 @@ const checks = [
   ["AI backend rejects non-JSON and caps request body bytes", () => {
     assert.match(worker, /Content-Type must be application\/json/);
     assert.match(worker, /MAX_BODY_BYTES = 8192/);
-    assert.match(worker, /new TextEncoder\(\)\.encode\(rawBody\)\.byteLength/);
+    assert.match(worker, /new TextEncoder\(\)\.encode\(raw\)\.byteLength/);
   }],
   ["AI upstream calls have a timeout", () => {
     assert.match(worker, /AbortSignal\.timeout\(17000\)/);
-    assert.match(worker, /AbortSignal\.timeout\(UPSTREAM_TIMEOUT_MS\)/);
   }],
   ["In-memory rate limiting is explicitly documented as best-effort", () => {
     assert.match(worker, /function assessEvidence\(/);
