@@ -7,7 +7,7 @@ const ux = readFileSync("ux-redesign.js", "utf8");
 const uxCss = readFileSync("ux-redesign.css", "utf8");
 const diagnosticFlowsSource = readFileSync("diagnostic-flows.js", "utf8");
 const diagnosticFlows = (() => { const match = diagnosticFlowsSource.match(/window\.MAINTENANCE_DIAGNOSTIC_FLOWS\s*=\s*(\{[\s\S]*?\n\});/); assert.ok(match, "Structured diagnostic flow export must exist"); return JSON.parse(match[1]); })();
-const worker = readFileSync("backend/cloudflare-worker.js", "utf8");
+const worker = readFileSync("worker.js", "utf8");
 const vercelApi = readFileSync("api/chat.js", "utf8");
 const safety = readFileSync("SAFETY.md", "utf8");
 const knowledge = readFileSync("knowledge/INDUSTRIAL-FAULT-KNOWLEDGE-BASE.md", "utf8");
@@ -308,13 +308,7 @@ const checks = [
     assert.match(worker, /source: "evidence-gate"/);
     assert.match(worker, /evidence_gate:/);
   }],
-  ["Evidence Gate maps machine symptoms to reference guidance without inventing OEM page numbers", () => {
-    assert.match(worker, /function referencePack\(/);
-    assert.match(worker, /INDUSTRIAL-FAULT-KNOWLEDGE-BASE\.md/);
-    assert.match(worker, /ELECTRIC-MOTOR-AND-VFD-CASEBOOK\.md/);
-    assert.match(worker, /OEM manual/);
-    assert.match(worker, /Never invent machine details, alarm-code meanings, OEM limits/);
-  }],
+  ["RAG retrieves actual knowledge-file sections and records source provenance", () => {\n    assert.match(worker, /async function retrieveKnowledge\\(/);\n    assert.match(worker, /raw\\.githubusercontent\\.com/);\n    assert.match(worker, /function splitKnowledgeDocument\\(/);\n    assert.match(worker, /function rankKnowledgeChunks\\(/);\n    assert.match(worker, /startLine/);\n    assert.match(worker, /retrievalStatus/);\n    assert.match(worker, /Retrieved knowledge excerpts/);\n    assert.match(worker, /citations, retrieval:/);\n    assert.match(worker, /Never invent machine details, alarm-code meanings, OEM limits/);\n  }],
 
 
   ["Worker prefers GEMINI_API_KEY and preserves the legacy secret only as fallback", () => {
