@@ -35,11 +35,12 @@ function validateDiagnosis(v, language, sourceIds) {
 }
 function formatDiagnosis(v) {
   const en = v.language === "en", fr = v.language === "fr";
+  const confidence = { high: en ? "high" : fr ? "élevée" : "عالية", medium: en ? "medium" : fr ? "moyenne" : "متوسطة", low: en ? "low" : fr ? "faible" : "منخفضة" };
   const lines = [en ? "SAFETY GATE" : fr ? "SÉCURITÉ AVANT INTERVENTION" : "بوابة السلامة", ...v.safety.warnings.map(x => "• " + x), ""];
-  if (v.possible_causes.length) { lines.push(en ? "POSSIBLE CAUSES (not confirmed)" : fr ? "CAUSES POSSIBLES (non confirmées)" : "الأسباب المحتملة (غير مؤكدة)"); v.possible_causes.forEach((c,i) => lines.push((i+1)+". "+c.label+" — "+c.confidence, "   "+c.evidence_for.join("; "), c.evidence_against.length ? "   "+c.evidence_against.join("; ") : "", "   Next check: "+c.next_check)); lines.push(""); }
-  if (v.inspection_steps.length) { lines.push(en ? "PRIORITIZED CHECKS" : fr ? "VÉRIFICATIONS PRIORITAIRES" : "خطوات التحقق حسب الأولوية"); v.inspection_steps.slice().sort((a,b)=>a.order-b.order).forEach(x => lines.push(x.order+". "+x.action+" — "+x.purpose+" ["+(x.requires_loto ? "LOTO/site procedure" : x.kind)+"]", "   Expected: "+x.expected_outcome)); lines.push(""); }
+  if (v.possible_causes.length) { lines.push(en ? "POSSIBLE CAUSES (not confirmed)" : fr ? "CAUSES POSSIBLES (non confirmées)" : "الأسباب المحتملة (غير مؤكدة)"); v.possible_causes.forEach((c,i) => lines.push((i+1)+". "+c.label+" — "+confidence[c.confidence], "   "+c.evidence_for.join("; "), c.evidence_against.length ? "   "+c.evidence_against.join("; ") : "", "   "+(en?"Next check: ":fr?"Contrôle suivant : ":"التحقق التالي: ")+c.next_check)); lines.push(""); }
+  if (v.inspection_steps.length) { lines.push(en ? "PRIORITIZED CHECKS" : fr ? "VÉRIFICATIONS PRIORITAIRES" : "خطوات التحقق حسب الأولوية"); v.inspection_steps.slice().sort((a,b)=>a.order-b.order).forEach(x => lines.push(x.order+". "+x.action+" — "+x.purpose+" ["+(x.requires_loto ? "LOTO/site procedure" : x.kind)+"]", "   "+(en?"Expected: ":fr?"Résultat attendu : ":"النتيجة المتوقعة: ")+x.expected_outcome)); lines.push(""); }
   for (const [label,items] of [[en?"TOOLS / DATA":fr?"OUTILS / DONNÉES":"الأدوات والبيانات",v.required_tools],[en?"STOP-WORK SIGNS":fr?"SIGNES D’ARRÊT":"علامات التوقف",v.danger_signs],[en?"UNKNOWN / UNCONFIRMED":fr?"INCONNU / NON CONFIRMÉ":"غير معروف / غير مؤكد",v.unknowns]]) if (items.length) lines.push(label,...items.map(x=>"• "+x),"");
-  lines.push((en?"ESCALATION":fr?"ESCALADE":"التصعيد")+": "+(v.escalation.required?"Required":"Not currently indicated")+" — "+v.escalation.reason);
+  lines.push((en?"ESCALATION":fr?"ESCALADE":"التصعيد")+": "+(v.escalation.required?(en?"Required":fr?"Requise":"مطلوب"):(en?"Not currently indicated":fr?"Non indiquée pour le moment":"غير محدد حاليًا"))+" — "+v.escalation.reason);
   if (v.clarifying_questions.length) lines.push("",en?"QUESTIONS":fr?"QUESTIONS":"أسئلة التوضيح",...v.clarifying_questions.map((q,i)=>(i+1)+". "+q.question+" — "+q.reason));
   return lines.join("\n");
 }
@@ -65,7 +66,8 @@ function assessEvidence({ machine, symptom, code, observations, language }) {
 }
 const KNOWLEDGE_FILES = [
   "knowledge/INDUSTRIAL-FAULT-KNOWLEDGE-BASE.md",
-  "knowledge/ELECTRIC-MOTOR-AND-VFD-CASEBOOK.md"
+  "knowledge/ELECTRIC-MOTOR-AND-VFD-CASEBOOK.md",
+  "knowledge/INGERSOLL-RAND-COMPRESSOR-CASEBOOK.md"
 ];
 const REPO_RAW_BASE = "https://raw.githubusercontent.com/belaggouneseifeddine/ai-maintenance-toolkit/main/";
 
