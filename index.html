@@ -338,11 +338,11 @@ const payload={machine:$('aiMachine').value.trim(),symptom:$('aiSymptom').value.
 try{
 const response=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},signal:AbortSignal.timeout(65000),body:JSON.stringify(payload)});
 let data={};try{data=await response.json()}catch{}
-if(!response.ok){const detail=[data.error,data.provider_detail].filter(Boolean).join(' — ')||('HTTP '+response.status);throw new Error(response.status===404?'لم يتم العثور على API endpoint؛ تحقق من رابط الخادم.':response.status===503?'الخادم غير مُعدّ بعد؛ أضف AI_API_KEY إلى متغيرات بيئة الخادم ثم أعد النشر.':detail);}
+if(!response.ok){const detail=[data.error].filter(Boolean).join(' — ')||('HTTP '+response.status);throw new Error(response.status===404?'لم يتم العثور على API endpoint؛ تحقق من رابط الخادم.':response.status===503?'الخادم غير مُعدّ بعد؛ أضف AI_API_KEY إلى متغيرات بيئة الخادم ثم أعد النشر.':detail);}
 if(typeof data.answer!=='string'||!data.answer.trim())throw new Error('استجابة الخادم لا تحتوي على إجابة صالحة.');
 const lang=window.MaintenanceI18n?window.MaintenanceI18n.getLanguage():'ar';
 const suffix=lang==='fr'?'Avis préliminaire uniquement. Vérifiez le manuel du fabricant et les procédures de sécurité.':lang==='en'?'Preliminary guidance only. Verify the manufacturer manual and site safety procedures.':'تنبيه: نتيجة أولية؛ راجع دليل المصنع وإجراءات السلامة قبل أي تدخل.';
-box.textContent=data.answer.trim()+'\n\n'+suffix;
+const citationLines=Array.isArray(data.citations)&&data.citations.length?'\n\n'+(lang==='en'?'Retrieved knowledge sources:':lang==='fr'?'Sources de connaissances récupérées :':'مصادر المعرفة المسترجعة:')+'\n'+data.citations.map(c=>'['+String(c.id||'S?')+'] '+String(c.source||'')+' — '+String(c.section||'')+' (lines '+String(c.startLine||'?')+'–'+String(c.endLine||'?')+')').join('\n'):'';box.textContent=data.answer.trim()+citationLines+'\n\n'+suffix;
 }catch(err){const message=err&&err.name==='TimeoutError'?'انتهت مهلة الاتصال بالخادم.':err&&err.message==='Failed to fetch'?'تعذر الاتصال بالخادم. تحقق من نشره وإعداد CORS ورابط HTTPS.':(err.message||'خطأ غير معروف');box.textContent='تعذر إكمال التحليل بالذكاء الاصطناعي: '+message+'\n\nالتشخيص المحلي ما زال متاحًا.';}
 finally{button.disabled=false;button.textContent='تحليل العطل';}
 });
