@@ -33,6 +33,8 @@ jobs:
         run: python -m unittest discover -s scripts -p 'test_*.py' -v
       - name: Verify allowlisted source pages can be fetched over HTTPS
         run: python scripts/fetch_licensed_sources.py --cache-dir /tmp/maintenance-ai-source-cache
+      - name: Smoke test currently published app and configured Worker health
+        run: node scripts/smoke-test-live.mjs
       - name: Confirm raw source cache was not added to the repository workspace
         run: |
           test -d /tmp/maintenance-ai-source-cache
