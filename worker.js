@@ -191,8 +191,10 @@ export default {
         "vary": "Origin"
       }});
     }
-    if (origin !== ALLOWED_ORIGIN) return json({ error: "Origin not allowed." }, 403, origin);
+    // Return a clear method error for direct browser navigation (GET) before checking Origin.
+    // Actual diagnosis requests must still be POSTs from the allowlisted GitHub Pages origin.
     if (request.method !== "POST") return json({ error: "Use POST." }, 405, origin);
+    if (origin !== ALLOWED_ORIGIN) return json({ error: "Origin not allowed." }, 403, origin);
     const apiKey = env.GEMINI_API_KEY || env.AI_API_KEY; // Prefer the requested secret; legacy fallback prevents an unplanned outage.
     if (!apiKey) return json({ error: "AI backend is not configured. Set the GEMINI_API_KEY Worker secret." }, 503, origin);
     if (!(request.headers.get("content-type") || "").toLowerCase().includes("application/json")) {
