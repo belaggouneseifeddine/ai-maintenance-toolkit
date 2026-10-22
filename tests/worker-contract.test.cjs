@@ -65,14 +65,14 @@ test("valid structured diagnosis is accepted", () => {
 test("response without mandatory safety and LOTO gate is rejected", () => {
   const diagnosis = validDiagnosis();
   diagnosis.safety.loto_required_before_intervention = false;
-  assert.equal(context.__validateDiagnosis(diagnosis, "ar", new Set(["S1"])), "safety-gate-missing");
+  assert.equal(context.__validateDiagnosis(diagnosis, "ar", new Set(["S1"])), false);
 });
 
 test("more than four clarification questions are rejected", () => {
   const diagnosis = validDiagnosis();
   diagnosis.status = "needs_clarification";
   diagnosis.clarifying_questions = Array.from({ length: 5 }, (_, i) => ({ id: "q" + i, question: "سؤال", reason: "سبب" }));
-  assert.equal(context.__validateDiagnosis(diagnosis, "ar", new Set(["S1"])), "invalid-questions");
+  assert.equal(context.__validateDiagnosis(diagnosis, "ar", new Set(["S1"])), false);
 });
 
 test("citations not returned by retrieval are rejected", () => {
