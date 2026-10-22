@@ -75,6 +75,9 @@ const KNOWLEDGE_FILES = [
   "knowledge/UNIVERSAL-INDUSTRIAL-FAULT-ATLAS-AR-FR-EN.md"
 ];
 const REPO_RAW_BASE = "https://raw.githubusercontent.com/belaggouneseifeddine/ai-maintenance-toolkit/main/";
+// Short per-isolate cache avoids refetching every knowledge file on each diagnosis.
+const KNOWLEDGE_CACHE_TTL_MS = 5 * 60 * 1000;
+let knowledgeCache = { expiresAt: 0, documents: null };
 
 function splitKnowledgeDocument(markdown, path) {
   const lines = String(markdown || "").split(/\r?\n/);
@@ -124,7 +127,11 @@ function rankKnowledgeChunks(chunks, query) {
 
 async function retrieveKnowledge(machine, symptom, code, observations) {
   const query = [machine, symptom, code, observations].filter(Boolean).join(" ");
-  const documents = await Promise.all(KNOWLEDGE_FILES.map(async path => {
+  let documents;
+  if (knowledgeCache.documents && Date.now() < knowledgeCache.expiresAt) {
+    documents = knowledgeCache.documents;
+  } else {
+    documents = await Promise.all(KNOWLEDGE_FILES.map(async path => {
     try {
       const response = await fetch(REPO_RAW_BASE + path, {
         headers: { "Accept": "text/plain" },
@@ -136,7 +143,12 @@ async function retrieveKnowledge(machine, symptom, code, observations) {
     } catch {
       return { path, chunks: [], error: "fetch-failed" };
     }
-  }));
+    }));
+    // Cache only if at least one source was parsed; retry quickly if every upstream fetch fails.
+    if (documents.some(d => d.chunks.length)) {
+      knowledgeCache = { expiresAt: Date.now() + KNOWLEDGE_CACHE_TTL_MS, documents };
+    }
+  }
   const allChunks = documents.flatMap(d => d.chunks);
   const ranked = rankKnowledgeChunks(allChunks, query);
   return {
