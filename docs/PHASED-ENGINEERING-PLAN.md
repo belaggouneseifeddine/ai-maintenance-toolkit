@@ -1,6 +1,6 @@
 # Phased engineering plan
 
-Last reviewed: 2026-10-21
+Last reviewed: 2026-10-22
 
 ## Working rules
 
@@ -52,8 +52,8 @@ Status: initial static review completed; live runtime verification remains open.
 
 ## Phase 4 — AI backend and privacy
 
-- [ ] Verify /health and one real generic POST to /api/chat.
-- [ ] Test invalid input, wrong provider key, quota/rate error, timeout and malformed upstream response.
+- [x] Align frontend timeout (65s) with bounded backend retry budget (up to three 17s provider attempts plus short delays; theoretical budget below frontend timeout). Real provider POST remains unverified because direct test execution is restricted.
+- [ ] Test invalid input, wrong provider key, quota/rate error, timeout and malformed upstream response; automated regression coverage for the retry budget is still needed.
 - [ ] Confirm frontend validates HTTPS and only sends data after explicit consent.
 - [ ] Add operational abuse controls and usage monitoring before public release; CORS is not authentication.
 - [ ] Confirm server-side secrets only and review provider data handling/terms before sending plant information.
