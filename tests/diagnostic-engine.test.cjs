@@ -45,7 +45,7 @@ test("insufficient evidence does not invent a fault", () => {
   assert.match(result.message, /No sufficient match/);
 });
 
-test("unsupported language safely falls back to Arabic", () => {
+test("unsupported language falls back to Arabic and shows a tentative equipment/symptom match", () => {
   const result = diagnose({
     equipmentType: "pump",
     symptom: "noise",
@@ -53,7 +53,9 @@ test("unsupported language safely falls back to Arabic", () => {
     language: "xx"
   }, faults);
   assert.equal(result.language, "ar");
-  assert.equal(result.matched, false);
+  assert.equal(result.matched, true);
+  assert.ok(result.results.length > 0);
+  assert.match(result.results[0].rankingReason, /مطابقة أولية/);
 });
 
 test("missing or malformed fault library fails safely", () => {
