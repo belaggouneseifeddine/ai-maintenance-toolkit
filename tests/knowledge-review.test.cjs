@@ -1,5 +1,6 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
+const vm = require("node:vm");
 const fs = require("node:fs");
 
 const review = fs.readFileSync(require.resolve("../knowledge-review.js"), "utf8");
@@ -28,4 +29,20 @@ test("knowledge candidate export is local and limited to reviewed records", () =
 test("reviewed status requires a reviewer and meaningful notes", () => {
   assert.match(review, /status==="reviewed_for_consideration"&&\(!reviewer\|\|notes\.length<10\)/);
   assert.match(review, /reviewed_candidates_only_no_automatic_publication/);
+});
+
+
+test("knowledge review module initializes without browser-side reference errors", () => {
+  const document = { readyState: "loading", addEventListener() {} };
+  assert.doesNotThrow(() => vm.runInNewContext(review, {
+    document,
+    window: {},
+    console,
+    Date,
+    JSON,
+    Math,
+    String,
+    Object,
+    Array
+  }, { filename: "knowledge-review.js" }));
 });
