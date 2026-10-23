@@ -282,7 +282,7 @@ test("cause traceability links only excerpts that lexically support the stated e
   assert.equal(result.possible_causes[1].evidence_class, "hypothesis_only");
   assert.deepEqual(result.possible_causes[1].source_ids, []);
   assert.equal(result.possible_causes[1].confidence, "low");
-  assert.deepEqual(result.sources, ["S1"]);
+  assert.equal(Array.from(result.sources).join(","), "S1");
 });
 
 test("weak evidence plus no relevant retrieval abstains before Gemini", async () => {
