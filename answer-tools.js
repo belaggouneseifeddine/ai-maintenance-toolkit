@@ -34,9 +34,9 @@ function put(payload,data,now){
 }
 function clear(){try{root.localStorage.removeItem(CACHE_KEY);return true;}catch(_){return false;}}
 const words={
- ar:{cache:"تفعيل التخزين المحلي الاختياري للإجابات المتطابقة لمدة 24 ساعة. لا تُخزّن حالات التصعيد أو تحذيرات السلامة.",speak:"قراءة الإجابة صوتيًا",stop:"إيقاف القراءة",clear:"مسح الإجابات المحفوظة",notice:"هذه الإجابة من الذاكرة المحلية الاختيارية وليست تحليلًا جديدًا. راجع السياق الحالي وإجراءات السلامة.",unsupported:"ميزة القراءة الصوتية غير متاحة في هذا المتصفح.",empty:"لا توجد إجابة لقراءتها."},
- fr:{cache:"Activer le cache local facultatif des réponses identiques pendant 24 h. Les escalades et alertes de sécurité ne sont jamais mises en cache.",speak:"Lire la réponse à voix haute",stop:"Arrêter la lecture",clear:"Effacer les réponses enregistrées",notice:"Réponse issue du cache local facultatif, pas d’une nouvelle analyse. Vérifiez le contexte et les procédures de sécurité.",unsupported:"La lecture vocale n’est pas disponible dans ce navigateur.",empty:"Aucune réponse à lire."},
- en:{cache:"Optionally cache identical answers on this device for 24 hours. Escalations and safety alerts are never cached.",speak:"Read answer aloud",stop:"Stop reading",clear:"Clear saved answers",notice:"This answer came from the optional local cache, not a fresh analysis. Recheck the current context and safety procedures.",unsupported:"Speech playback is not available in this browser.",empty:"There is no answer to read."}
+ ar:{cache:"تفعيل التخزين المحلي الاختياري للإجابات المتطابقة لمدة 24 ساعة. لا تُخزّن حالات التصعيد أو تحذيرات السلامة.",speak:"قراءة الإجابة صوتيًا",stop:"إيقاف القراءة",clear:"مسح الإجابات المحفوظة",cleared:"تم مسح الإجابات المحفوظة محليًا.",notice:"هذه الإجابة من الذاكرة المحلية الاختيارية وليست تحليلًا جديدًا. راجع السياق الحالي وإجراءات السلامة.",unsupported:"ميزة القراءة الصوتية غير متاحة في هذا المتصفح.",empty:"لا توجد إجابة لقراءتها."},
+ fr:{cache:"Activer le cache local facultatif des réponses identiques pendant 24 h. Les escalades et alertes de sécurité ne sont jamais mises en cache.",speak:"Lire la réponse à voix haute",stop:"Arrêter la lecture",clear:"Effacer les réponses enregistrées",cleared:"Les réponses enregistrées localement ont été effacées.",notice:"Réponse issue du cache local facultatif, pas d’une nouvelle analyse. Vérifiez le contexte et les procédures de sécurité.",unsupported:"La lecture vocale n’est pas disponible dans ce navigateur.",empty:"Aucune réponse à lire."},
+ en:{cache:"Optionally cache identical answers on this device for 24 hours. Escalations and safety alerts are never cached.",speak:"Read answer aloud",stop:"Stop reading",clear:"Clear saved answers",cleared:"Saved local answers have been cleared.",notice:"This answer came from the optional local cache, not a fresh analysis. Recheck the current context and safety procedures.",unsupported:"Speech playback is not available in this browser.",empty:"There is no answer to read."}
 };
 function lang(){const select=root.document&&root.document.getElementById("languageSwitcher");return select&&words[select.value]?select.value:"ar";}
 function cacheNotice(language){return (words[language]||words.ar).notice;}
@@ -76,7 +76,7 @@ function init(){
   if(clearButton)clearButton.addEventListener("click",function(){
     clear();
     const result=root.document.getElementById("aiResult");
-    if(result&&!result.hidden)result.textContent+=(result.textContent?"\n\n":"")+(words[lang()].clear+": OK");
+    if(result&&!result.hidden)result.textContent+=(result.textContent?"\n\n":"")+words[lang()].cleared;
   });
   if(language)language.addEventListener("change",updateLabels);
   root.document.addEventListener("maintenance-language-changed",updateLabels);
