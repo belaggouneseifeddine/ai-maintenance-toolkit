@@ -128,3 +128,15 @@ test("Arabic protection-bypass request is routed to safety review", () => {
   assert.equal(result.decision.route, "safety_review");
   assert.equal(result.decision.requiresNetwork, false);
 });
+
+test("ordinary bypass-valve explanation is not mistaken for defeating a safety device", () => {
+  const result = core.routeRequest({
+    intent: "explain",
+    language: "en",
+    equipment: { type: "hydraulic circuit" },
+    symptom: "Explain how a bypass valve regulates flow",
+    consent: { sendToAI: true }
+  });
+  assert.equal(result.decision.route, "ai_assist");
+  assert.equal(result.decision.safetyReviewRequired, false);
+});
