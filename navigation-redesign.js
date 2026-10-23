@@ -1,6 +1,7 @@
 /* Real navigation model: dedicated home, diagnosis workspace, and preserved feature panels. */
 (function(){
 'use strict';
+function initializeNavigation(){
 const $=s=>document.querySelector(s);
 const nav=$('.nav'), main=$('main');
 if(!nav||!main)return;
@@ -63,4 +64,7 @@ const langSwitch=$('#languageSwitcher');if(langSwitch)langSwitch.addEventListene
 applyLabels();
 nav.classList.add('bottom-navigation');
 activate('homeDashboard',false);
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initializeNavigation,{once:true});
+else initializeNavigation();
 })();
