@@ -4,6 +4,12 @@ on:
   push:
     paths:
       - "diagnostic-engine.js"
+      - "worker.js"
+      - "normalization.js"
+      - "knowledge/**"
+      - "scripts/**"
+      - "wrangler.toml"
+      - ".github/workflows/validate-knowledge.yml"
       - "maintenance-v03.js"
       - "index.html"
       - "sw.js"
@@ -13,6 +19,12 @@ on:
   pull_request:
     paths:
       - "diagnostic-engine.js"
+      - "worker.js"
+      - "normalization.js"
+      - "knowledge/**"
+      - "scripts/**"
+      - "wrangler.toml"
+      - ".github/workflows/validate-knowledge.yml"
       - "maintenance-v03.js"
       - "index.html"
       - "sw.js"
