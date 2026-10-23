@@ -21,19 +21,23 @@
     const s = normalizeText(value);
     const groups = {
       pump: ["pump","pumps","pompe","pompes","مضخه","مضخة","مضخات"],
-      motor: ["motor","electric motor","moteur","moteur electrique","محرك","محرك كهربائي","موتور"],
+      motor: ["motor","electric motor","electric_motor","moteur","moteur electrique","محرك","محرك كهربائي","موتور"],
       hydraulic: ["hydraulic","hydraulic system","hydraulique","systeme hydraulique","هيدروليك","نظام هيدروليكي"],
       pneumatic: ["pneumatic","pneumatic system","pneumatique","هوائي","نظام هوائي"],
       gearbox: ["gearbox","gear box","reducer","reducteur","علبة تروس","جيربوكس"],
       instrumentation: ["instrumentation","sensor","capteur","حساس","مجس","جهاز قياس"],
       electrical_control: ["plc","control panel","armoire electrique","لوحة كهربائية","متحكم منطقي"],
-      thermal: ["heat exchanger","echangeur thermique","مبادل حراري","نظام تبريد"],
+      thermal: ["heat exchanger","heat_exchanger","echangeur thermique","مبادل حراري","نظام تبريد","cooling","refrigeration","تبريد","تبريد صناعي"],
+      mechanical: ["bearing","roulement","محمل","رولمان بلي"],
       vfd: ["vfd","variable frequency drive","frequency inverter","drive","inverter","variateur","variateur de frequence","مغير التردد","مغير تردد","انفرتر","إنفرتر"],
       compressor: ["compressor","air compressor","compresseur","ضاغط","ضاغط هواء","كمبروسر"],
       valve: ["valve","check valve","non return valve","clapet","vanne","صمام","صمام عدم الرجوع"],
       conveyor: ["conveyor","convoyeur","ناقل","سير ناقل"]
     };
     for (const [id, aliases] of Object.entries(groups)) if (aliases.some(alias => normalizeText(alias) === s)) return id;
+    if (["motor","electric_motor"].includes(s)) return "motor";
+    if (["sensor","instrumentation"].includes(s)) return "instrumentation";
+    if (["plc","electrical_control"].includes(s)) return "electrical_control";
     return s;
   }
 
@@ -55,6 +59,8 @@
       intermittent: ["intermittent","intermittently","sporadic","intermittent","متقطع","بشكل متقطع"]
     };
     for (const [id, aliases] of Object.entries(groups)) if (aliases.some(alias => normalizeText(alias) === s)) return id;
+    if (["noise","vibration"].includes(s)) return "noise_vibration";
+    if (["low_flow","low_pressure"].includes(s)) return "low_flow_pressure";
     return s;
   }
 
@@ -121,7 +127,7 @@
     const notes = normalizeText(input && input.observations);
     const results = data.faults.map(fault => {
       const equipmentMatch = canonicalEquipment(fault.equipmentType) === equipment;
-      const symptomMatch = (fault.symptoms || []).some(item => canonicalSymptom(item) === symptom);
+      const symptomMatch = (fault.symptoms || []).some(item => { const candidate = canonicalSymptom(item); return candidate === symptom || (symptom === "noise_vibration" && ["noise","vibration"].includes(candidate)) || (symptom === "low_flow_pressure" && ["low_flow","low_pressure"].includes(candidate)); });
       const allKeywords = Object.values(fault.keywords || {}).flat();
       const keywordMatches = findMatches(notes, allKeywords);
       const distinctHits = Math.min(keywordMatches.length, 3);
@@ -145,9 +151,12 @@
         : lang === "fr"
           ? "Correspondance initiale seulement; ajoutez des observations pour préciser les possibilités."
           : "Preliminary match only; add observations to narrow the possibilities.");
+      const confidence = keywordMatches.length >= 2 ? "medium" : "low";
       return {
         id: fault.id,
         title: (fault.title && fault.title[lang]) || fault.id,
+        confidence,
+        confidenceLabel: ({ ar: { low: "منخفضة — مطابقة أولية", medium: "متوسطة — توجد كلمات داعمة" }, fr: { low: "Faible — correspondance initiale", medium: "Moyenne — mots concordants" }, en: { low: "Low — preliminary match", medium: "Medium — supporting keywords found" } })[lang][confidence],
         score,
         equipmentMatch,
         symptomMatch,
