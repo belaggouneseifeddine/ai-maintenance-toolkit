@@ -4,10 +4,15 @@ const CACHE_KEY="maintenance-ai-toolkit-answer-cache-v1";
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000;
 const MAX_ENTRIES=12;
 function hash(value){
-  let h=2166136261;
+  let h1=2166136261,h2=2246822519;
   const text=JSON.stringify(value);
-  for(let i=0;i<text.length;i++){h^=text.charCodeAt(i);h=Math.imul(h,16777619);}
-  return (h>>>0).toString(36);
+  for(let i=0;i<text.length;i++){
+    const code=text.charCodeAt(i);
+    h1=Math.imul(h1^code,16777619);
+    h2=Math.imul(h2^code,3266489917);
+    h2^=h2>>>13;
+  }
+  return (h1>>>0).toString(16).padStart(8,"0")+(h2>>>0).toString(16).padStart(8,"0");
 }
 function readStore(){
   try{const value=JSON.parse(root.localStorage.getItem(CACHE_KEY)||"{}");return value&&typeof value==="object"&&!Array.isArray(value)?value:{};}
