@@ -27,5 +27,5 @@ test("knowledge candidate export is local and limited to reviewed records", () =
 
 test("reviewed status requires a reviewer and meaningful notes", () => {
   assert.match(review, /status==="reviewed_for_consideration"&&\(!reviewer\|\|notes\.length<10\)/);
-  assert.match(review, /لم يُنشر أي سجل/);
+  assert.match(review, /reviewed_candidates_only_no_automatic_publication/);
 });
