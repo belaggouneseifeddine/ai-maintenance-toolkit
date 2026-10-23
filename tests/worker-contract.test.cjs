@@ -270,7 +270,7 @@ test("cause traceability links only excerpts that lexically support the stated e
   ];
   const chunks = [
     { source: "knowledge/pump.md", heading: "Pump flow", text: "Compare low flow pressure readings with the approved baseline.", startLine: 1, endLine: 8 },
-    { source: "knowledge/motor.md", heading: "Motor bearings", text: "Review lubrication history and vibration records. No bearing temperature evidence is provided.", startLine: 10, endLine: 20 }
+    { source: "knowledge/motor.md", heading: "Motor bearings", text: "Review alarm history and discharge pressure; no temperature details are available.", startLine: 10, endLine: 20 }
   ];
   const result = context.__applyEvidenceTraceability(diagnosis, citations, chunks);
   assert.equal(result.possible_causes[0].evidence_class, "source_supported_hypothesis");
