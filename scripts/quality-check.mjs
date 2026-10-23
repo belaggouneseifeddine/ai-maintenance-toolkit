@@ -18,8 +18,8 @@ const deployWorkflow = readFileSync(".github/workflows/deploy-pages.yml", "utf8"
 const faults = JSON.parse(readFileSync("faults.json", "utf8"));
 const diagnosticEngineSource = readFileSync("diagnostic-engine.js", "utf8");
 const normalizationSource = readFileSync("normalization.js", "utf8");
-const speechReadoutSource = readFileSync("speech-readout.js", "utf8");
 const knowledgeReviewSource = readFileSync("knowledge-review.js", "utf8");
+const answerToolsSource = readFileSync("answer-tools.js", "utf8");
 const i18n = readFileSync("i18n.js", "utf8");
 const engineWindow = {};
 const inlineScript = html.match(/<script>\s*([\s\S]*?)<\/script>/);
@@ -37,22 +37,6 @@ const checks = [
     assert.match(deployWorkflow, /diagnostic-flows\.js normalization\.js diagnostic-engine\.js/);
     assert.ok(engineWindow.MaintenanceNormalization.aliasReviewCount > 0);
     assert.ok(engineWindow.MaintenanceNormalization.getReviewAliases().every(item => item.status === "review_required"));
-  }],
-  ["Speech readout is local, multilingual, accessible, and shipped in the app shell", () => {
-    assert.ok(html.includes('src="./speech-readout.js"'));
-    assert.match(html, /id="aiSpeechControls"/);
-    assert.match(html, /id="readAiAnswer"/);
-    assert.match(html, /id="stopAiReading"/);
-    assert.match(html, /id="aiSpeechStatus"[^>]*aria-live="polite"/);
-    assert.match(speechReadoutSource, /SpeechSynthesisUtterance/);
-    assert.match(speechReadoutSource, /maintenance-ai-answer-ready/);
-    assert.match(speechReadoutSource, /maintenance-language-changed/);
-    assert.ok(!speechReadoutSource.includes("fetch("), "Speech readout must not make network requests");
-    assert.ok(sw.includes('"./speech-readout.js"'));
-    assert.match(sw, /maintenance-ai-toolkit-v35/);
-    assert.ok(deployWorkflow.includes("i18n.js speech-readout.js icon.svg"));
-    for (const key of ["readAIAnswer", "stopAIReading", "speechUnsupported", "speechReady"]) assert.ok(i18n.includes(key));
-    new vm.Script(speechReadoutSource, { filename: "speech-readout.js" });
   }],
   ["Arabic RTL document", () => assert.match(html, /<html lang="ar" dir="rtl">/)],
   ["Structured pump low-flow flow has stable IDs and validated answer guidance", () => {
@@ -77,6 +61,15 @@ const checks = [
     assert.match(html, /MAINTENANCE_DIAGNOSTIC_FLOWS\.flows\["pump\|low_flow"\]/);
     assert.match(html, /MAINTENANCE_DIAGNOSTIC_FLOWS\.flows\["compressor\|low_pressure"\]/);
     assert.match(html, /MAINTENANCE_DIAGNOSTIC_FLOWS\.flows\["valve\|not_start"\]/);
+  }],
+  ["Optional answer cache is opt-in, expires, and excludes safety escalation; speech controls are available", () => {
+    assert.match(html, /id="aiCacheEnabled"/);
+    assert.match(html, /id="speakAiAnswer"/);
+    assert.match(answerToolsSource, /CACHE_TTL_MS = 24 \* 60 \* 60 \* 1000/);
+    assert.match(answerToolsSource, /status==="preliminary_assessment"/);
+    assert.match(answerToolsSource, /speechSynthesis/);
+    assert.match(sw, /answer-tools\.js/);
+    assert.match(deployWorkflow, /knowledge-review\.js answer-tools\.js/);
   }],
   ["Local knowledge review requires a human review and never publishes automatically", () => {
     assert.match(html, /id="knowledgeReviewCard"/);
@@ -130,7 +123,7 @@ const checks = [
     assert.match(html, /أوافق على إرسال وصف العطل والقياسات/);
   }],
   ["Cloudflare API request requires consent, uses a timeout, and preserves readable output", () => {
-    assert.match(html, /if\(!\$\('aiConsent'\)\.checked\)/);
+    assert.match(html, /if\(!\$\('aiConsent'\)\.checked&&!cached\)/);
     assert.match(html, /signal:AbortSignal\.timeout\(65000\)/);
     assert.match(html, /#aiResult\{white-space:pre-wrap/);
     assert.match(html, /maintenance-ai-toolkit-api-seif\.workers\.dev\/api\/chat/);
@@ -333,7 +326,7 @@ const checks = [
   }],
   ["PWA caches all new offline dependencies and bumps its cache", () => {
     assert.match(sw, /maintenance-ai-toolkit-v35/);
-    for (const asset of ["normalization.js", "knowledge-review.js", "diagnostic-engine.js", "faults.json", "i18n.js"]) assert.ok(sw.includes(asset), "Missing offline cache asset " + asset);
+    for (const asset of ["normalization.js", "knowledge-review.js", "answer-tools.js", "diagnostic-engine.js", "faults.json", "i18n.js"]) assert.ok(sw.includes(asset), "Missing offline cache asset " + asset);
     assert.match(manifest.icons[0].src, /icon\.svg/);
   }]
 ,
