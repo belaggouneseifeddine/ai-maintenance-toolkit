@@ -2,7 +2,7 @@ name: Validate knowledge assets
 
 on:
   push:
-    branches: [assistant-redesign, fix/pmc-fulltext-xml-fetch-reviewed]
+    branches: [main, assistant-redesign, fix/pmc-fulltext-xml-fetch-reviewed]
     paths:
       - "knowledge/**"
       - "scripts/**"
