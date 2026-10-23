@@ -363,20 +363,22 @@ e.preventDefault();
 const box=$('aiResult');
 if(window.MaintenanceAnswerTools)window.MaintenanceAnswerTools.stopSpeech();
 box.hidden=false;box.textContent='';
-if(!$('aiConsent').checked){box.textContent='وافق على إرسال وصف العطل إلى الخادم قبل المتابعة.';return;}
-const endpoint=String(endpointInput.value||'').trim().replace(/\/+$/,'');
-if(!endpoint){box.textContent='لم يتم إعداد رابط الخادم بعد. انشر Cloudflare Worker ثم أدخل رابطه المنتهي بـ /api/chat. يبقى التشخيص المحلي متاحًا.';return;}
-let endpointUrl;
-try{endpointUrl=new URL(endpoint);if(endpointUrl.protocol!=='https:'||!endpointUrl.pathname.endsWith('/api/chat'))throw new Error();}catch{box.textContent='رابط الخادم غير صالح. أدخل رابط HTTPS كاملًا ينتهي بـ /api/chat.';return;}
-try{localStorage.setItem(AI_ENDPOINT_KEY,endpoint);}catch{}
-const button=$('askAi');button.disabled=true;button.textContent='جارٍ تحليل العطل…';
-box.textContent='جارٍ الاتصال بخادم الذكاء الاصطناعي…';
 const lang=window.MaintenanceI18n?window.MaintenanceI18n.getLanguage():'ar';
 const payload={machine:$('aiMachine').value.trim(),symptom:$('aiSymptom').value.trim(),code:$('aiCode').value.trim(),observations:$('aiObservations').value.trim(),measurementStatus:$('aiMeasurementStatus').value,language:['ar','fr','en'].includes(lang)?lang:'ar'};
+const cacheEnabled=$('aiCacheEnabled')?.checked===true;
+const cached=cacheEnabled&&window.MaintenanceAnswerTools?window.MaintenanceAnswerTools.get(payload):null;
+if(!$('aiConsent').checked&&!cached){box.textContent='وافق على إرسال وصف العطل إلى الخادم قبل المتابعة.';return;}
+const endpoint=String(endpointInput.value||'').trim().replace(/\/+$/,'');
+if(!cached&&!endpoint){box.textContent='لم يتم إعداد رابط الخادم بعد. انشر Cloudflare Worker ثم أدخل رابطه المنتهي بـ /api/chat. يبقى التشخيص المحلي متاحًا.';return;}
+if(!cached){
+ let endpointUrl;
+ try{endpointUrl=new URL(endpoint);if(endpointUrl.protocol!=='https:'||!endpointUrl.pathname.endsWith('/api/chat'))throw new Error();}catch{box.textContent='رابط الخادم غير صالح. أدخل رابط HTTPS كاملًا ينتهي بـ /api/chat.';return;}
+ try{localStorage.setItem(AI_ENDPOINT_KEY,endpoint);}catch{}
+}
+const button=$('askAi');button.disabled=true;button.textContent='جارٍ تحليل العطل…';
+box.textContent=cached?'جارٍ تحميل الإجابة المحفوظة…':'جارٍ الاتصال بخادم الذكاء الاصطناعي…';
 try{
 let data={},fromCache=false;
- const cacheEnabled=$('aiCacheEnabled')?.checked===true;
- const cached=cacheEnabled&&window.MaintenanceAnswerTools?window.MaintenanceAnswerTools.get(payload):null;
  if(cached){data=cached;fromCache=true;}
  else{
   const response=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},signal:AbortSignal.timeout(65000),body:JSON.stringify(payload)});
