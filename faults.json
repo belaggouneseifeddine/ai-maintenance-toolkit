@@ -676,6 +676,520 @@
         "fr": "Escalader en cas de retour de débit, coup de bélier, isolement impossible ou risque pour les personnes/le procédé.",
         "en": "Escalate for backflow, water hammer, inability to isolate, or risk to people or process."
       }
+    },
+    {
+      "id": "motor-no-start",
+      "equipmentType": "motor",
+      "symptoms": [
+        "not_start"
+      ],
+      "title": {
+        "ar": "المحرك لا يبدأ التشغيل",
+        "fr": "Le moteur ne démarre pas",
+        "en": "Motor fails to start"
+      },
+      "keywords": {
+        "ar": [
+          "لا يبدأ",
+          "لا يعمل",
+          "قاطع",
+          "كونتاكتور",
+          "حماية",
+          "جهد"
+        ],
+        "fr": [
+          "ne démarre pas",
+          "disjoncteur",
+          "contacteur",
+          "protection",
+          "tension"
+        ],
+        "en": [
+          "fails to start",
+          "breaker",
+          "contactor",
+          "overload",
+          "voltage"
+        ]
+      },
+      "causes": [
+        {
+          "id": "motor-no-start-cause-1",
+          "label": {
+            "ar": "غياب أمر التشغيل أو شرط السماح",
+            "fr": "Commande ou autorisation absente",
+            "en": "Missing run command or permissive"
+          },
+          "keywords": [
+            "أمر",
+            "commande",
+            "command",
+            "enable"
+          ]
+        },
+        {
+          "id": "motor-no-start-cause-2",
+          "label": {
+            "ar": "فصل حماية أو حمل زائد",
+            "fr": "Déclenchement de protection ou surcharge",
+            "en": "Protection trip or overload"
+          },
+          "keywords": [
+            "حماية",
+            "قاطع",
+            "protection",
+            "overload"
+          ]
+        },
+        {
+          "id": "motor-no-start-cause-3",
+          "label": {
+            "ar": "خلل تغذية محتمل",
+            "fr": "Problème d’alimentation possible",
+            "en": "Possible supply issue"
+          },
+          "keywords": [
+            "جهد",
+            "tension",
+            "voltage",
+            "phase"
+          ]
+        }
+      ],
+      "safeChecks": [
+        {
+          "ar": "راجع أوامر التشغيل والإنذارات من واجهة التحكم.",
+          "fr": "Consulter les commandes et alarmes sur l’interface.",
+          "en": "Review run commands and alarms on the control interface."
+        },
+        {
+          "ar": "راجع سجل الفصل قبل إعادة الضبط؛ لا تكرر المحاولات.",
+          "fr": "Consulter l’historique avant réarmement; éviter les répétitions.",
+          "en": "Review trip history before reset; do not repeatedly restart."
+        },
+        {
+          "ar": "أي فحص داخل اللوحة يتطلب شخصًا مؤهلًا وإجراءات عزل.",
+          "fr": "Toute inspection interne exige une personne qualifiée et la consignation.",
+          "en": "Internal cabinet checks require qualified personnel and isolation."
+        }
+      ],
+      "escalation": {
+        "ar": "صعّد عند تكرر الفصل أو ظهور دخان أو رائحة احتراق.",
+        "fr": "Escalader en cas de déclenchements répétés, fumée ou odeur de brûlé.",
+        "en": "Escalate for repeated trips, smoke or burning smell."
+      }
+    },
+    {
+      "id": "motor-overheating",
+      "equipmentType": "motor",
+      "symptoms": [
+        "overheating"
+      ],
+      "title": {
+        "ar": "ارتفاع حرارة المحرك",
+        "fr": "Surchauffe du moteur",
+        "en": "Motor overheating"
+      },
+      "keywords": {
+        "ar": [
+          "سخونة",
+          "حرارة",
+          "تهوية",
+          "مروحة",
+          "حمل",
+          "محمل"
+        ],
+        "fr": [
+          "surchauffe",
+          "ventilation",
+          "ventilateur",
+          "surcharge",
+          "roulement"
+        ],
+        "en": [
+          "overheating",
+          "ventilation",
+          "fan",
+          "overload",
+          "bearing"
+        ]
+      },
+      "causes": [
+        {
+          "id": "motor-overheating-cause-1",
+          "label": {
+            "ar": "تبريد أو تهوية غير كافيين",
+            "fr": "Refroidissement ou ventilation insuffisants",
+            "en": "Inadequate cooling or ventilation"
+          },
+          "keywords": [
+            "تهوية",
+            "مروحة",
+            "ventilation",
+            "fan"
+          ]
+        },
+        {
+          "id": "motor-overheating-cause-2",
+          "label": {
+            "ar": "حمل أو تيار أعلى من المعتاد",
+            "fr": "Charge ou courant anormalement élevé",
+            "en": "Abnormally high load or current"
+          },
+          "keywords": [
+            "حمل",
+            "تيار",
+            "charge",
+            "current"
+          ]
+        },
+        {
+          "id": "motor-overheating-cause-3",
+          "label": {
+            "ar": "احتكاك أو تدهور محمل محتمل",
+            "fr": "Frottement ou roulement dégradé possible",
+            "en": "Possible friction or bearing degradation"
+          },
+          "keywords": [
+            "محمل",
+            "roulement",
+            "bearing"
+          ]
+        }
+      ],
+      "safeChecks": [
+        {
+          "ar": "سجّل الحرارة والإنذارات من نقطة مراقبة آمنة.",
+          "fr": "Relever température et alarmes depuis un point sûr.",
+          "en": "Record temperature and alarms from a safe monitoring point."
+        },
+        {
+          "ar": "قارن الحمل والتيار بخط الأساس المعتمد.",
+          "fr": "Comparer charge et courant à la référence approuvée.",
+          "en": "Compare load and current with the approved baseline."
+        },
+        {
+          "ar": "لا تلمس المعدة الساخنة؛ اعزل الطاقة قبل الفحص.",
+          "fr": "Ne pas toucher le moteur chaud; isoler avant inspection.",
+          "en": "Do not touch the hot motor; isolate before inspection."
+        }
+      ],
+      "escalation": {
+        "ar": "أوقف وصعّد عند ارتفاع سريع أو دخان أو رائحة احتراق.",
+        "fr": "Arrêter et escalader en cas de hausse rapide, fumée ou odeur de brûlé.",
+        "en": "Stop and escalate for rapid temperature rise, smoke or burning smell."
+      }
+    },
+    {
+      "id": "vfd-trip",
+      "equipmentType": "vfd",
+      "symptoms": [
+        "trip"
+      ],
+      "title": {
+        "ar": "فصل مغير التردد أو إنذار",
+        "fr": "Déclenchement ou alarme du variateur",
+        "en": "VFD trip or alarm"
+      },
+      "keywords": {
+        "ar": [
+          "إنذار",
+          "فصل",
+          "كود عطل",
+          "زيادة تيار",
+          "جهد زائد",
+          "حرارة"
+        ],
+        "fr": [
+          "défaut",
+          "déclenchement",
+          "code erreur",
+          "surintensité",
+          "surtension",
+          "surchauffe"
+        ],
+        "en": [
+          "fault code",
+          "trip",
+          "overcurrent",
+          "overvoltage",
+          "overtemperature"
+        ]
+      },
+      "causes": [
+        {
+          "id": "vfd-trip-cause-1",
+          "label": {
+            "ar": "رمز عطل خاص بالطراز يحتاج إلى دليل المغير",
+            "fr": "Le code exige le manuel du modèle exact",
+            "en": "Fault code requires the exact drive manual"
+          },
+          "keywords": [
+            "كود",
+            "رمز",
+            "code",
+            "fault"
+          ]
+        },
+        {
+          "id": "vfd-trip-cause-2",
+          "label": {
+            "ar": "حمل أو تسارع غير ملائم محتمل",
+            "fr": "Charge ou rampe d’accélération potentiellement inadaptée",
+            "en": "Possible load or acceleration-ramp issue"
+          },
+          "keywords": [
+            "حمل",
+            "تسارع",
+            "charge",
+            "acceleration",
+            "load"
+          ]
+        },
+        {
+          "id": "vfd-trip-cause-3",
+          "label": {
+            "ar": "اضطراب تغذية أو حرارة محتمل",
+            "fr": "Perturbation d’alimentation ou de température possible",
+            "en": "Possible supply or temperature disturbance"
+          },
+          "keywords": [
+            "جهد",
+            "حرارة",
+            "tension",
+            "voltage",
+            "temperature"
+          ]
+        }
+      ],
+      "safeChecks": [
+        {
+          "ar": "احفظ رمز العطل وسجل الأحداث قبل إعادة الضبط.",
+          "fr": "Enregistrer le code et l’historique avant réarmement.",
+          "en": "Save the fault code and event log before reset."
+        },
+        {
+          "ar": "تحقق من موديل المغير ودليله المطابق.",
+          "fr": "Vérifier le modèle exact et son manuel.",
+          "en": "Check the exact drive model and matching manual."
+        },
+        {
+          "ar": "لا تتجاوز الحمايات؛ الفحص الداخلي للمؤهلين بعد العزل فقط.",
+          "fr": "Ne pas contourner les protections; inspection interne après consignation par personnel qualifié.",
+          "en": "Never bypass protection; internal checks only by qualified personnel after isolation."
+        }
+      ],
+      "escalation": {
+        "ar": "صعّد عند تكرر الفصل أو وجود تلف أو دخان.",
+        "fr": "Escalader en cas de déclenchements répétés, dommage ou fumée.",
+        "en": "Escalate for repeated trips, damage or smoke."
+      }
+    },
+    {
+      "id": "compressor-high-temperature",
+      "equipmentType": "compressor",
+      "symptoms": [
+        "overheating"
+      ],
+      "title": {
+        "ar": "ارتفاع حرارة الضاغط",
+        "fr": "Surchauffe du compresseur",
+        "en": "Compressor high temperature"
+      },
+      "keywords": {
+        "ar": [
+          "حرارة مرتفعة",
+          "حرارة الزيت",
+          "مبرد",
+          "تهوية",
+          "فلتر"
+        ],
+        "fr": [
+          "température élevée",
+          "huile",
+          "refroidisseur",
+          "ventilation",
+          "filtre"
+        ],
+        "en": [
+          "high temperature",
+          "oil temperature",
+          "cooler",
+          "ventilation",
+          "filter"
+        ]
+      },
+      "causes": [
+        {
+          "id": "compressor-high-temperature-cause-1",
+          "label": {
+            "ar": "تبريد أو تدفق هواء غير كافٍ محتمل",
+            "fr": "Refroidissement ou débit d’air insuffisant possible",
+            "en": "Possible inadequate cooling or airflow"
+          },
+          "keywords": [
+            "مبرد",
+            "مروحة",
+            "cooler",
+            "fan",
+            "airflow"
+          ]
+        },
+        {
+          "id": "compressor-high-temperature-cause-2",
+          "label": {
+            "ar": "مستوى أو حالة زيت غير مناسبة محتملة",
+            "fr": "Niveau ou état d’huile inadéquat possible",
+            "en": "Possible oil level or condition issue"
+          },
+          "keywords": [
+            "زيت",
+            "مستوى",
+            "huile",
+            "oil",
+            "level"
+          ]
+        },
+        {
+          "id": "compressor-high-temperature-cause-3",
+          "label": {
+            "ar": "تقييد مرشح أو مدخل هواء محتمل",
+            "fr": "Restriction de filtre ou d’admission possible",
+            "en": "Possible filter or intake restriction"
+          },
+          "keywords": [
+            "فلتر",
+            "مرشح",
+            "filtre",
+            "filter",
+            "intake"
+          ]
+        }
+      ],
+      "safeChecks": [
+        {
+          "ar": "سجّل الحرارة والإنذار والحمل من واجهة الضاغط.",
+          "fr": "Relever température, alarme et charge sur l’interface.",
+          "en": "Record temperature, alarm and load on the compressor interface."
+        },
+        {
+          "ar": "راجع حالة المرشحات وسجل الصيانة من الخارج فقط.",
+          "fr": "Examiner les filtres et l’historique sans démontage.",
+          "en": "Review filters and service history without disassembly."
+        },
+        {
+          "ar": "لا تفتح دائرة ساخنة أو مضغوطة؛ اعزل وفرّغ الضغط حسب الإجراء.",
+          "fr": "Ne pas ouvrir un circuit chaud/sous pression; isoler et dépressuriser selon procédure.",
+          "en": "Do not open hot/pressurized circuits; isolate and depressurize per procedure."
+        }
+      ],
+      "escalation": {
+        "ar": "أوقف وصعّد عند إنذار حرارة أو ارتفاع سريع.",
+        "fr": "Arrêter et escalader en cas d’alarme de température ou hausse rapide.",
+        "en": "Stop and escalate for temperature alarm or rapid rise."
+      }
+    },
+    {
+      "id": "compressor-low-pressure",
+      "equipmentType": "compressor",
+      "symptoms": [
+        "low_pressure"
+      ],
+      "title": {
+        "ar": "ضغط خرج منخفض من الضاغط",
+        "fr": "Pression de sortie faible du compresseur",
+        "en": "Compressor low outlet pressure"
+      },
+      "keywords": {
+        "ar": [
+          "ضغط منخفض",
+          "تسرب هواء",
+          "مرشح",
+          "حمل",
+          "صمام"
+        ],
+        "fr": [
+          "pression faible",
+          "fuite d’air",
+          "filtre",
+          "charge",
+          "vanne"
+        ],
+        "en": [
+          "low pressure",
+          "air leak",
+          "filter",
+          "load",
+          "valve"
+        ]
+      },
+      "causes": [
+        {
+          "id": "compressor-low-pressure-cause-1",
+          "label": {
+            "ar": "طلب هواء أعلى من القدرة المتاحة محتمل",
+            "fr": "Demande d’air supérieure à la capacité disponible possible",
+            "en": "Possible air demand exceeding capacity"
+          },
+          "keywords": [
+            "طلب",
+            "demande",
+            "demand",
+            "consommation"
+          ]
+        },
+        {
+          "id": "compressor-low-pressure-cause-2",
+          "label": {
+            "ar": "تسرب في الشبكة محتمل",
+            "fr": "Fuite possible dans le réseau",
+            "en": "Possible network leak"
+          },
+          "keywords": [
+            "تسرب",
+            "fuite",
+            "leak",
+            "hose"
+          ]
+        },
+        {
+          "id": "compressor-low-pressure-cause-3",
+          "label": {
+            "ar": "تقييد مرشح أو مشكلة صمام محتملة",
+            "fr": "Restriction de filtre ou problème de vanne possible",
+            "en": "Possible filter restriction or valve issue"
+          },
+          "keywords": [
+            "فلتر",
+            "صمام",
+            "filtre",
+            "valve",
+            "filter"
+          ]
+        }
+      ],
+      "safeChecks": [
+        {
+          "ar": "قارن ضغط الخرج والحمل بالخط الأساسي المعتمد.",
+          "fr": "Comparer pression de sortie et charge à la référence approuvée.",
+          "en": "Compare outlet pressure and load with the approved baseline."
+        },
+        {
+          "ar": "راجع مؤشرات المرشحات والصيانة دون فتح دائرة مضغوطة.",
+          "fr": "Examiner filtres et indicateurs sans ouvrir le circuit pressurisé.",
+          "en": "Review filter/service indicators without opening the pressurized circuit."
+        },
+        {
+          "ar": "لا تبحث عن التسرب باليد؛ استخدم طريقة كشف معتمدة وآمنة.",
+          "fr": "Ne jamais rechercher une fuite à la main; utiliser une méthode sûre approuvée.",
+          "en": "Never search for leaks by hand; use an approved safe method."
+        }
+      ],
+      "escalation": {
+        "ar": "صعّد إذا هدد الضغط المنخفض سلامة العملية أو صاحبه إنذار آخر.",
+        "fr": "Escalader si la basse pression compromet le procédé ou s’accompagne d’autres alarmes.",
+        "en": "Escalate if low pressure threatens the process or occurs with other alarms."
+      }
     }
   ]
 }
