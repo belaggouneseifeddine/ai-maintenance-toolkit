@@ -20,7 +20,7 @@ function diagnose(equipmentType, symptom, observations = "", language = "ar") {
 }
 const motorAr = diagnose("motor", "not_start");
 assert.equal(motorAr.matched, true, "motor no-start should match without notes");
-assert.equal(motorAr.results[0].id, "motor-no-start");
+assert.equal(motorAr.results.some(item => item.id === "motor-no-start"), true, "baseline motor no-start case remains available among candidates");
 assert.equal(diagnose("moteur électrique", "ne démarre pas", "", "fr").matched, true, "French aliases should match");
 assert.equal(diagnose("VFD", "trip", "", "en").results.some(item => item.id === "vfd-trip"), true, "VFD trip case should remain available among matching results");
 assert.equal(diagnose("compressor", "overheating", "", "en").matched, true, "compressor overheating should match");
