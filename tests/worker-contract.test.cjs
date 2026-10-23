@@ -7,6 +7,7 @@ const source = fs.readFileSync(require.resolve("../normalization.js"), "utf8") +
 let upstreamPayload = null;
 let upstreamCalls = 0;
 let knowledgeCalls = 0;
+let mockIntervention = false;
 const mockKnowledge = "# مضخة طرد مركزي — ضعف التدفق\\n\\nتتضمن هذه الملاحظة الفنية مراجعة القراءات المتاحة ومقارنة الضغط والتدفق بخط الأساس ودليل المصنع. لا تستخدمها كقيمة ضبط ولا كبديل لإجراءات الموقع.";
 const context = {
   Request, Response, URL, AbortSignal, TextEncoder, setTimeout, clearTimeout, console,
@@ -17,6 +18,7 @@ const context = {
       upstreamCalls++;
       upstreamPayload = JSON.parse(options.body);
       const diagnosis = validDiagnosis();
+      if (mockIntervention) diagnosis.inspection_steps[0].kind = "intervention";
       diagnosis.session_summary.equipment = "مضخة طرد مركزي";
       diagnosis.session_summary.symptom = "ضعف تدفق الماء أثناء التشغيل";
       return new Response(JSON.stringify({ candidates: [{ content: { parts: [{ text: JSON.stringify(diagnosis) }] } }] }), { status: 200, headers: { "content-type": "application/json" } });
@@ -283,6 +285,31 @@ test("cause traceability links only excerpts that lexically support the stated e
   assert.deepEqual(result.possible_causes[1].source_ids, []);
   assert.equal(result.possible_causes[1].confidence, "low");
   assert.equal(Array.from(result.sources).join(","), "S1");
+});
+
+
+
+test("Worker forces LOTO on every intervention step even when Gemini omits it", async () => {
+  mockIntervention = true;
+  try {
+    const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
+      method: "POST",
+      headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
+      body: JSON.stringify({
+        machine: "centrifugal pump",
+        symptom: "low flow",
+        observations: "existing alarm history is available",
+        language: "ar"
+      })
+    }), { AI_API_KEY: "test-only-placeholder" });
+    assert.equal(response.status, 200);
+    const body = await response.json();
+    assert.equal(body.diagnosis.inspection_steps[0].kind, "intervention");
+    assert.equal(body.diagnosis.inspection_steps[0].requires_loto, true);
+    assert.match(body.answer, /LOTO\/site procedure/);
+  } finally {
+    mockIntervention = false;
+  }
 });
 
 test("weak evidence plus no relevant retrieval abstains before Gemini", async () => {
