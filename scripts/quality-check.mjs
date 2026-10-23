@@ -18,6 +18,7 @@ const deployWorkflow = readFileSync(".github/workflows/deploy-pages.yml", "utf8"
 const faults = JSON.parse(readFileSync("faults.json", "utf8"));
 const diagnosticEngineSource = readFileSync("diagnostic-engine.js", "utf8");
 const normalizationSource = readFileSync("normalization.js", "utf8");
+const speechReadoutSource = readFileSync("speech-readout.js", "utf8");
 const knowledgeReviewSource = readFileSync("knowledge-review.js", "utf8");
 const i18n = readFileSync("i18n.js", "utf8");
 const engineWindow = {};
@@ -36,6 +37,22 @@ const checks = [
     assert.match(deployWorkflow, /diagnostic-flows\.js normalization\.js diagnostic-engine\.js/);
     assert.ok(engineWindow.MaintenanceNormalization.aliasReviewCount > 0);
     assert.ok(engineWindow.MaintenanceNormalization.getReviewAliases().every(item => item.status === "review_required"));
+  }],
+  ["Speech readout is local, multilingual, accessible, and shipped in the app shell", () => {
+    assert.ok(html.includes('src="./speech-readout.js"'));
+    assert.match(html, /id="aiSpeechControls"/);
+    assert.match(html, /id="readAiAnswer"/);
+    assert.match(html, /id="stopAiReading"/);
+    assert.match(html, /id="aiSpeechStatus"[^>]*aria-live="polite"/);
+    assert.match(speechReadoutSource, /SpeechSynthesisUtterance/);
+    assert.match(speechReadoutSource, /maintenance-ai-answer-ready/);
+    assert.match(speechReadoutSource, /maintenance-language-changed/);
+    assert.ok(!speechReadoutSource.includes("fetch("), "Speech readout must not make network requests");
+    assert.ok(sw.includes('"./speech-readout.js"'));
+    assert.match(sw, /maintenance-ai-toolkit-v35/);
+    assert.ok(deployWorkflow.includes("i18n.js speech-readout.js icon.svg"));
+    for (const key of ["readAIAnswer", "stopAIReading", "speechUnsupported", "speechReady"]) assert.ok(i18n.includes(key));
+    new vm.Script(speechReadoutSource, { filename: "speech-readout.js" });
   }],
   ["Arabic RTL document", () => assert.match(html, /<html lang="ar" dir="rtl">/)],
   ["Structured pump low-flow flow has stable IDs and validated answer guidance", () => {
@@ -223,7 +240,7 @@ const checks = [
   ["Service worker caches the app shell and icon with a bumped cache version", () => {
     assert.match(sw, /APP_SHELL/);
     assert.match(sw, /\.\/icon\.svg/);
-    assert.match(sw, /maintenance-ai-toolkit-v34/);
+    assert.match(sw, /maintenance-ai-toolkit-v35/);
   }]
 ,
   ["Multilingual fault library covers pumps, motors, VFDs and compressors", () => {
@@ -315,7 +332,7 @@ const checks = [
     for (const node of Object.values(tree.nodes)) if (node.result) assert.ok(node.safe && node.escalate && node.cause);
   }],
   ["PWA caches all new offline dependencies and bumps its cache", () => {
-    assert.match(sw, /maintenance-ai-toolkit-v34/);
+    assert.match(sw, /maintenance-ai-toolkit-v35/);
     for (const asset of ["normalization.js", "knowledge-review.js", "diagnostic-engine.js", "faults.json", "i18n.js"]) assert.ok(sw.includes(asset), "Missing offline cache asset " + asset);
     assert.match(manifest.icons[0].src, /icon\.svg/);
   }]
