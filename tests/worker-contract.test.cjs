@@ -3,7 +3,8 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const vm = require("node:vm");
 
-const source = fs.readFileSync(require.resolve("../worker.js"), "utf8");
+const source = fs.readFileSync(require.resolve("../worker.js"), "utf8").replace('import "./normalization.js";', "");
+const normalizationSource = fs.readFileSync(require.resolve("../normalization.js"), "utf8");
 let upstreamPayload = null;
 let upstreamCalls = 0;
 let knowledgeCalls = 0;
