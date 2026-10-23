@@ -22,7 +22,7 @@ Mobile-first progressive web app (PWA) for preliminary industrial-maintenance tr
 - Maintenance records are stored in the current browser/device and are not automatically synchronized or backed up.
 - The app is a PWA, not a native Android APK.
 - The AI assistant is **not confirmed live** until the Worker is deployed and a real generic request returns a valid answer.
-- The Worker currently has only best-effort in-memory rate limiting; it is not a production abuse-control system.
+- The Worker has a configured Cloudflare rate-limit binding (10 requests per 60 seconds per client key). Runtime enforcement, broader abuse monitoring, and cost controls still require operational verification; CORS is not authentication.
 
 ## AI deployment
 
@@ -47,6 +47,7 @@ Never commit API keys or put them in browser code, local storage, or the public 
 - `maintenance-v03.js`, `ux-redesign.js` — maintenance workflow and home dashboard
 - `manifest.json`, `sw.js` — PWA metadata and cache
 - `worker.js`, `wrangler.toml` — Cloudflare Worker API
+- `engineering-core.js` — isolated request-normalization and routing core; not yet wired into the production UI
 - `BACKEND_DEPLOYMENT.md`, `docs/AI-SETUP.md` — backend setup
 
 ## Safety
