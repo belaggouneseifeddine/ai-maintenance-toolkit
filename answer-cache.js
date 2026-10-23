@@ -41,8 +41,12 @@
   }
 
   function create(options = {}) {
-    const storage = options.storage || root.localStorage;
-    const cryptoProvider = options.crypto || root.crypto;
+    let defaultStorage = null;
+    let defaultCrypto = null;
+    try { defaultStorage = root.localStorage; } catch {}
+    try { defaultCrypto = root.crypto; } catch {}
+    const storage = options.storage || defaultStorage;
+    const cryptoProvider = options.crypto || defaultCrypto;
     const Encoder = options.TextEncoder || root.TextEncoder;
     const now = typeof options.now === "function" ? options.now : () => Date.now();
 
