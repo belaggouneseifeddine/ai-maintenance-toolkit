@@ -194,7 +194,7 @@ export default {
     // Return a clear method error for direct browser navigation (GET) before checking Origin.
     // Actual diagnosis requests must still be POSTs from the allowlisted GitHub Pages origin.
     if (request.method !== "POST") return json({ error: "Use POST." }, 405, origin);
-    if (origin !== ALLOWED_ORIGIN) return json({ error: "Origin not allowed." }, 403, origin);
+    if (origin !== ALLOWED_ORIGIN) return json({ error: "Origin not allowed. Open the published Maintenance AI Toolkit app and submit the diagnosis form; /api/chat is not a browser page and requires a POST request from the allowed app origin." }, 403, origin);
     const apiKey = env.GEMINI_API_KEY || env.AI_API_KEY; // Prefer the requested secret; legacy fallback prevents an unplanned outage.
     if (!apiKey) return json({ error: "AI backend is not configured. Set the GEMINI_API_KEY Worker secret." }, 503, origin);
     if (!(request.headers.get("content-type") || "").toLowerCase().includes("application/json")) {
@@ -268,7 +268,7 @@ Use only the evidence supplied. Rank plausible causes, show how to distinguish t
 
 
     let upstream;
-    const model = env.AI_MODEL || "gemini-3.8-flash";
+    const model = env.AI_MODEL || "gemini-2.5-flash";
     const requestBody = JSON.stringify({
       systemInstruction: { parts: [{ text: systemPrompt + " Output only JSON matching the supplied response schema. safety.gate_required and safety.loto_required_before_intervention must always be true. Never ask the user to perform a live measurement, open equipment, touch hazardous parts, or enter a hazardous area. Ask only for information already available or for readings collected by an authorized qualified person under site procedures. Do not treat confidence labels as statistical probabilities. A cause is confirmed only when explicit evidence verifies it; otherwise confirmed_cause must be an empty string." }] },
       contents: [{ role: "user", parts: [{ text: userPrompt }] }],
