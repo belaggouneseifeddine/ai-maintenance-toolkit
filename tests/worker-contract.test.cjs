@@ -25,7 +25,7 @@ const context = {
   }
 };
 const executable = source.replace("export default {", "const workerHandler = {") +
-  "\nglobalThis.__validateDiagnosis = validateDiagnosis; globalThis.__diagnosisSchema = DIAGNOSIS_SCHEMA; globalThis.__worker = workerHandler; globalThis.__retrievalTerms = retrievalTerms;";
+  "\nglobalThis.__validateDiagnosis = validateDiagnosis; globalThis.__diagnosisSchema = DIAGNOSIS_SCHEMA; globalThis.__worker = workerHandler; globalThis.__retrievalTerms = retrievalTerms; globalThis.__rankLegacy = rankKnowledgeChunks; globalThis.__rankBM25 = rankKnowledgeChunksBM25;";
 new vm.Script(executable, { filename: "worker.js" }).runInNewContext(context);
 
 function validDiagnosis() {
@@ -219,4 +219,36 @@ test("Worker retrieval expands confirmed aliases but does not promote review-onl
   assert.ok(confirmed.includes("low_flow"));
   const uncertain = context.__retrievalTerms("بومبة");
   assert.equal(uncertain.includes("pump"), false);
+});
+
+
+test("BM25 ranking is benchmarked against legacy lexical ranking without top-1 regression", () => {
+  const longDistractor = "pump low flow " + Array.from({ length: 80 }, () => "routine maintenance note").join(" ");
+  const chunks = [
+    { source: "knowledge/overview.md", heading: "Pump low flow overview", startLine: 1, endLine: 90, text: longDistractor },
+    { source: "knowledge/pump.md", heading: "Pump diagnostics", startLine: 20, endLine: 28, text: "Pump has low flow. Review existing suction pressure, discharge pressure, strainer history, and compare readings with the approved baseline." },
+    { source: "knowledge/pump.md", heading: "Pump cavitation and abnormal noise", startLine: 50, endLine: 58, text: "Cavitation may produce gravel-like noise and vibration. Review existing suction conditions and compare readings with manufacturer guidance." },
+    { source: "knowledge/compressor.md", heading: "Compressor low pressure", startLine: 10, endLine: 18, text: "Review existing discharge pressure, alarm history, and compare the recorded value with the model-specific manual." }
+  ];
+  const queries = [
+    { query: "pump low flow", expected: "knowledge/pump.md:20" },
+    { query: "compressor low pressure", expected: "knowledge/compressor.md:10" },
+    { query: "pump cavitation noise", expected: "knowledge/pump.md:50" }
+  ];
+  let legacyTop1 = 0;
+  let bm25Top1 = 0;
+  let overlapAt4 = 0;
+  for (const item of queries) {
+    const legacy = context.__rankLegacy(chunks, item.query);
+    const bm25 = context.__rankBM25(chunks, item.query);
+    const id = chunk => chunk.source + ":" + chunk.startLine;
+    if (legacy[0] && id(legacy[0]) === item.expected) legacyTop1++;
+    if (bm25[0] && id(bm25[0]) === item.expected) bm25Top1++;
+    overlapAt4 += bm25.filter(chunk => legacy.some(old => id(old) === id(chunk))).length;
+  }
+  console.log("BM25 comparison: legacy top-1 " + legacyTop1 + "/" + queries.length +
+    ", BM25 top-1 " + bm25Top1 + "/" + queries.length +
+    ", cumulative overlap@4 " + overlapAt4 + "/" + (queries.length * 4));
+  assert.ok(bm25Top1 >= legacyTop1, "BM25 top-1 accuracy must not regress versus legacy ranking");
+  assert.equal(bm25Top1, queries.length, "BM25 must rank each expected relevant chunk first in the fixed synthetic benchmark");
 });

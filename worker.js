@@ -226,6 +226,49 @@ function rankKnowledgeChunks(chunks, query) {
     .slice(0, 4);
 }
 
+// BM25 ranking. The legacy lexical ranker above remains available as a deterministic fallback
+// and is evaluated alongside BM25 so ranking changes can be measured instead of assumed.
+function rankKnowledgeChunksBM25(chunks, query) {
+  if (!Array.isArray(chunks) || !chunks.length) return [];
+  const terms = [...new Set(retrievalTerms(query))];
+  if (!terms.length) return [];
+  const docs = chunks.map(chunk => {
+    const normalized = normalizeEvidenceText(chunk.heading + " " + chunk.text);
+    const tokens = normalized.split(" ").filter(token => token.length >= 2);
+    const frequencies = new Map();
+    for (const token of tokens) frequencies.set(token, (frequencies.get(token) || 0) + 1);
+    const shared = globalThis.MaintenanceNormalization;
+    const expandedTerms = shared ? shared.expandQuery(normalized).tokens : [];
+    for (const token of expandedTerms) if (!frequencies.has(token)) frequencies.set(token, 1);
+    const heading = normalizeEvidenceText(chunk.heading);
+    const headingTerms = new Set(heading.split(" ").filter(Boolean));
+    return { chunk, frequencies, length: Math.max(tokens.length, 1), headingTerms };
+  });
+  const averageLength = docs.reduce((sum, doc) => sum + doc.length, 0) / docs.length || 1;
+  const documentFrequency = new Map();
+  for (const term of terms) {
+    documentFrequency.set(term, docs.reduce((count, doc) => count + (doc.frequencies.has(term) ? 1 : 0), 0));
+  }
+  const k1 = 1.5;
+  const b = 0.75;
+  return docs.map(doc => {
+    let score = 0;
+    for (const term of terms) {
+      const tf = doc.frequencies.get(term) || 0;
+      if (!tf) continue;
+      const df = documentFrequency.get(term) || 0;
+      const idf = Math.log(1 + (docs.length - df + 0.5) / (df + 0.5));
+      const denominator = tf + k1 * (1 - b + b * doc.length / averageLength);
+      score += idf * (tf * (k1 + 1)) / denominator;
+      if (doc.headingTerms.has(term)) score += idf * 0.8;
+    }
+    return { ...doc.chunk, score: Number(score.toFixed(6)), rankingAlgorithm: "bm25" };
+  }).filter(chunk => chunk.score > 0)
+    .sort((a, b) => b.score - a.score || a.startLine - b.startLine)
+    .slice(0, 4);
+}
+
+
 async function retrieveKnowledge(machine, symptom, code, observations) {
   const query = [machine, symptom, code, observations].filter(Boolean).join(" ");
   let documents;
@@ -251,11 +294,27 @@ async function retrieveKnowledge(machine, symptom, code, observations) {
     }
   }
   const allChunks = documents.flatMap(d => d.chunks);
-  const ranked = rankKnowledgeChunks(allChunks, query);
+  const legacyRanked = rankKnowledgeChunks(allChunks, query);
+  const bm25Ranked = rankKnowledgeChunksBM25(allChunks, query);
+  const selectedRanker = bm25Ranked.length ? "bm25" : "legacy-fallback";
+  const ranked = bm25Ranked.length ? bm25Ranked : legacyRanked;
+  const legacyIds = legacyRanked.map(chunk => chunk.source + ":" + chunk.startLine);
+  const bm25Ids = bm25Ranked.map(chunk => chunk.source + ":" + chunk.startLine);
+  const overlapAt4 = bm25Ids.filter(id => legacyIds.includes(id)).length;
+  const rankingComparison = {
+    selectedRanker,
+    legacyCandidates: legacyRanked.length,
+    bm25Candidates: bm25Ranked.length,
+    legacyTop1: legacyIds[0] || null,
+    bm25Top1: bm25Ids[0] || null,
+    top1Changed: (legacyIds[0] || null) !== (bm25Ids[0] || null),
+    overlapAt4
+  };
   return {
     chunks: ranked,
     sources: [...new Set(ranked.map(c => c.source))],
     availableDocuments: documents.filter(d => d.chunks.length).map(d => d.path),
+    rankingComparison,
     retrievalStatus: ranked.length ? "retrieved" : allChunks.length ? "no-match" : "unavailable"
   };
 }
@@ -447,6 +506,6 @@ Use only the evidence supplied. Rank plausible causes, show how to distinguish t
     diagnosis.inspection_steps = diagnosis.inspection_steps.map(step => ({ ...step, requires_loto: step.kind === "intervention" ? true : step.requires_loto }));
     const usedCitations = citations.filter(c => diagnosis.sources.includes(c.id));
     const answer = formatDiagnosis(diagnosis);
-    return json({ answer: answer.slice(0, 12000), diagnosis, citations: usedCitations, retrieval: { status: retrieval.retrievalStatus, matchedChunks: retrieval.chunks.length, availableDocuments: retrieval.availableDocuments } }, 200, origin);
+    return json({ answer: answer.slice(0, 12000), diagnosis, citations: usedCitations, retrieval: { status: retrieval.retrievalStatus, matchedChunks: retrieval.chunks.length, availableDocuments: retrieval.availableDocuments, ranking: retrieval.rankingComparison } }, 200, origin);
   }
 };

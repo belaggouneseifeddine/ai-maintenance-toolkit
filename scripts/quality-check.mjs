@@ -132,6 +132,9 @@ const checks = [
   ["In-memory rate limiting is explicitly documented as best-effort", () => {
     assert.match(worker, /function assessEvidence\(/);
     assert.match(worker, /function rankKnowledgeChunks\(/);
+    assert.match(worker, /function rankKnowledgeChunksBM25\(/);
+    assert.match(worker, /rankingComparison/);
+    assert.match(worker, /selectedRanker/);
   }],
   ["Mobile UI includes keyboard focus and reduced-motion support", () => {
     assert.match(html, /:focus-visible/);
