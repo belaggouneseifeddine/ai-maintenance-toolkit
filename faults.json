@@ -1190,6 +1190,330 @@
         "fr": "Escalader si la basse pression compromet le procédé ou s’accompagne d’autres alarmes.",
         "en": "Escalate if low pressure threatens the process or occurs with other alarms."
       }
+    },
+    {
+      "id": "motor-overheat",
+      "equipmentType": "motor",
+      "symptoms": [
+        "overheat"
+      ],
+      "title": {
+        "ar": "ارتفاع حرارة المحرك",
+        "fr": "Surchauffe du moteur",
+        "en": "Motor overheating"
+      },
+      "keywords": {
+        "ar": [
+          "حرارة المحرك",
+          "سخونة",
+          "مروحة تبريد",
+          "حمل زائد",
+          "تهوية"
+        ],
+        "fr": [
+          "surchauffe moteur",
+          "ventilation",
+          "ventilateur",
+          "surcharge"
+        ],
+        "en": [
+          "motor overheating",
+          "cooling fan",
+          "overload",
+          "ventilation"
+        ]
+      },
+      "causes": [
+        {
+          "id": "overload",
+          "label": {
+            "ar": "حمل ميكانيكي أو كهربائي زائد محتمل",
+            "fr": "Surcharge mécanique ou électrique possible",
+            "en": "Possible mechanical or electrical overload"
+          },
+          "keywords": [
+            "حمل",
+            "تيار",
+            "surcharge",
+            "courant",
+            "load",
+            "current"
+          ]
+        },
+        {
+          "id": "cooling",
+          "label": {
+            "ar": "ضعف تبريد أو انسداد تهوية محتمل",
+            "fr": "Refroidissement insuffisant ou ventilation obstruée",
+            "en": "Possible inadequate cooling or blocked ventilation"
+          },
+          "keywords": [
+            "تبريد",
+            "مروحة",
+            "تهوية",
+            "refroidissement",
+            "ventilateur",
+            "cooling",
+            "fan"
+          ]
+        },
+        {
+          "id": "bearing",
+          "label": {
+            "ar": "احتكاك أو تدهور محمل محتمل",
+            "fr": "Frottement ou dégradation possible d’un roulement",
+            "en": "Possible friction or bearing degradation"
+          },
+          "keywords": [
+            "محمل",
+            "تزييت",
+            "roulement",
+            "lubrification",
+            "bearing",
+            "lubrication"
+          ]
+        }
+      ],
+      "safeChecks": [
+        {
+          "ar": "راجع سجل الحرارة والحمل والإنذارات المتاح بالفعل.",
+          "fr": "Examiner les tendances de température, la charge et les alarmes disponibles.",
+          "en": "Review existing temperature, load and alarm trends."
+        },
+        {
+          "ar": "تحقق بصريًا من فتحات التهوية الخارجية فقط؛ لا تلمس المحرك أثناء التشغيل.",
+          "fr": "Inspecter visuellement les ouvertures de ventilation externes; ne pas toucher le moteur en marche.",
+          "en": "Visually inspect external ventilation openings; do not touch a running motor."
+        },
+        {
+          "ar": "قبل الفحص الميكانيكي، أوقف واعزل الطاقة وتحقق من انعدامها وفق إجراء الموقع.",
+          "fr": "Avant inspection mécanique, arrêter, isoler et vérifier l’absence d’énergie selon la procédure du site.",
+          "en": "Before mechanical inspection, stop, isolate and verify zero energy under site procedure."
+        }
+      ],
+      "escalation": {
+        "ar": "أوقف وصعّد عند ارتفاع سريع للحرارة أو دخان أو تكرر فصل الحماية.",
+        "fr": "Arrêter et escalader si la température monte rapidement, en cas de fumée ou de déclenchements répétés.",
+        "en": "Stop and escalate for rapidly rising temperature, smoke, or repeated protection trips."
+      }
+    },
+    {
+      "id": "compressor-overheat",
+      "equipmentType": "compressor",
+      "symptoms": [
+        "overheat",
+        "trip"
+      ],
+      "title": {
+        "ar": "ارتفاع حرارة الضاغط",
+        "fr": "Surchauffe du compresseur",
+        "en": "Compressor overheating"
+      },
+      "keywords": {
+        "ar": [
+          "ضاغط",
+          "كمبريسور",
+          "حرارة عالية",
+          "فلتر مسدود",
+          "تبريد",
+          "زيت"
+        ],
+        "fr": [
+          "compresseur",
+          "température élevée",
+          "filtre colmaté",
+          "refroidissement",
+          "huile"
+        ],
+        "en": [
+          "compressor",
+          "high temperature",
+          "blocked filter",
+          "cooling",
+          "oil temperature"
+        ]
+      },
+      "causes": [
+        {
+          "id": "cooling",
+          "label": {
+            "ar": "تبريد غير كافٍ أو مبادل حراري متسخ محتمل",
+            "fr": "Refroidissement insuffisant ou échangeur encrassé possible",
+            "en": "Possible inadequate cooling or fouled heat exchanger"
+          },
+          "keywords": [
+            "تبريد",
+            "مبرد",
+            "refroidissement",
+            "échangeur",
+            "cooling",
+            "heat exchanger"
+          ]
+        },
+        {
+          "id": "filter",
+          "label": {
+            "ar": "تقييد تدفق الهواء أو انسداد مرشح محتمل",
+            "fr": "Restriction du débit d’air ou filtre colmaté possible",
+            "en": "Possible airflow restriction or clogged filter"
+          },
+          "keywords": [
+            "فلتر",
+            "مرشح",
+            "انسداد",
+            "filtre",
+            "colmaté",
+            "filter",
+            "blocked"
+          ]
+        },
+        {
+          "id": "lubrication",
+          "label": {
+            "ar": "مشكلة تزييت محتملة حسب تصميم الضاغط",
+            "fr": "Problème de lubrification possible selon la conception",
+            "en": "Possible lubrication issue depending on compressor design"
+          },
+          "keywords": [
+            "زيت",
+            "تزييت",
+            "huile",
+            "lubrification",
+            "oil"
+          ]
+        }
+      ],
+      "safeChecks": [
+        {
+          "ar": "راجع سجل الحرارة والإنذارات ومؤشرات الضغط المتاحة.",
+          "fr": "Examiner les tendances de température, les alarmes et les indications de pression.",
+          "en": "Review temperature trends, alarms and available pressure indicators."
+        },
+        {
+          "ar": "افحص بصريًا مداخل الهواء والتهوية من الخارج دون فتح الغلاف.",
+          "fr": "Inspecter visuellement les entrées d’air et la ventilation sans ouvrir l’enveloppe.",
+          "en": "Visually inspect external air inlets and ventilation without opening the enclosure."
+        },
+        {
+          "ar": "لا تفتح دوائر الزيت أو الهواء المضغوط تحت الضغط؛ اتبع إجراء العزل والتفريغ.",
+          "fr": "Ne pas ouvrir les circuits d’huile ou d’air comprimé sous pression; suivre la procédure d’isolement et de dépressurisation.",
+          "en": "Do not open oil or compressed-air circuits under pressure; follow isolation and depressurization procedures."
+        }
+      ],
+      "escalation": {
+        "ar": "أوقف وصعّد عند إنذار حرارة أو دخان أو تسرب خطر أو ضغط غير آمن.",
+        "fr": "Arrêter et escalader en cas d’alarme de température, de fumée, de fuite dangereuse ou de pression dangereuse.",
+        "en": "Stop and escalate for temperature alarms, smoke, hazardous leakage, or unsafe pressure."
+      }
+    },
+    {
+      "id": "compressor-low-output",
+      "equipmentType": "compressor",
+      "symptoms": [
+        "low_flow",
+        "low_pressure"
+      ],
+      "title": {
+        "ar": "ضعف خرج الضاغط أو ضغط الشبكة",
+        "fr": "Faible débit du compresseur ou pression réseau basse",
+        "en": "Low compressor output or network pressure"
+      },
+      "keywords": {
+        "ar": [
+          "هواء مضغوط",
+          "ضغط منخفض",
+          "تدفق ضعيف",
+          "تسرب هواء",
+          "فلتر"
+        ],
+        "fr": [
+          "air comprimé",
+          "pression faible",
+          "débit faible",
+          "fuite d’air",
+          "filtre"
+        ],
+        "en": [
+          "compressed air",
+          "low pressure",
+          "low flow",
+          "air leak",
+          "filter"
+        ]
+      },
+      "causes": [
+        {
+          "id": "network-leak",
+          "label": {
+            "ar": "تسربات الشبكة أو ارتفاع الطلب محتمل",
+            "fr": "Fuites réseau ou demande élevée possibles",
+            "en": "Possible network leaks or high demand"
+          },
+          "keywords": [
+            "تسرب",
+            "شبكة",
+            "fuite",
+            "réseau",
+            "leak",
+            "network"
+          ]
+        },
+        {
+          "id": "intake",
+          "label": {
+            "ar": "تقييد مدخل الهواء أو المرشح محتمل",
+            "fr": "Restriction d’admission ou filtre possible",
+            "en": "Possible intake restriction or filter issue"
+          },
+          "keywords": [
+            "مدخل",
+            "فلتر",
+            "admission",
+            "filtre",
+            "intake",
+            "filter"
+          ]
+        },
+        {
+          "id": "control",
+          "label": {
+            "ar": "حالة التحميل/التفريغ أو التحكم تحتاج مراجعة",
+            "fr": "L’état charge/décharge ou la commande doit être examiné",
+            "en": "Load/unload state or controls need review"
+          },
+          "keywords": [
+            "تحكم",
+            "تحميل",
+            "تفريغ",
+            "commande",
+            "charge",
+            "unload",
+            "control"
+          ]
+        }
+      ],
+      "safeChecks": [
+        {
+          "ar": "قارن قراءات الضغط المسجلة عند الضاغط ونقاط الاستخدام دون فك أي خط.",
+          "fr": "Comparer les pressions enregistrées au compresseur et aux points d’utilisation sans démonter de conduite.",
+          "en": "Compare recorded pressure at the compressor and points of use without disconnecting piping."
+        },
+        {
+          "ar": "راجع سجل التشغيل وحالة التحميل/التفريغ والإنذارات وفق دليل الطراز.",
+          "fr": "Examiner l’historique, l’état charge/décharge et les alarmes selon le manuel du modèle.",
+          "en": "Review operating history, load/unload state and alarms against the model manual."
+        },
+        {
+          "ar": "لا تبحث عن التسرب باليد ولا تفك خطوطًا مضغوطة؛ استخدم وسائل الكشف المعتمدة.",
+          "fr": "Ne pas rechercher une fuite avec la main ni démonter une conduite sous pression; utiliser les moyens approuvés.",
+          "en": "Never search for leaks by hand or disconnect pressurized lines; use approved leak detection."
+        }
+      ],
+      "escalation": {
+        "ar": "صعّد إذا هبط الضغط بما يهدد العملية أو ظهرت أصوات غير طبيعية أو تسرب خطر.",
+        "fr": "Escalader si la pression menace le procédé ou en cas de bruit anormal ou de fuite dangereuse.",
+        "en": "Escalate if pressure loss threatens the process or abnormal noise or hazardous leakage occurs."
+      }
     }
   ]
 }
