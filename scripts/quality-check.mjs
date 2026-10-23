@@ -19,6 +19,7 @@ const faults = JSON.parse(readFileSync("faults.json", "utf8"));
 const diagnosticEngineSource = readFileSync("diagnostic-engine.js", "utf8");
 const normalizationSource = readFileSync("normalization.js", "utf8");
 const speechReadoutSource = readFileSync("speech-readout.js", "utf8");
+const answerCacheSource = readFileSync("answer-cache.js", "utf8");
 const knowledgeReviewSource = readFileSync("knowledge-review.js", "utf8");
 const i18n = readFileSync("i18n.js", "utf8");
 const engineWindow = {};
@@ -49,10 +50,28 @@ const checks = [
     assert.match(speechReadoutSource, /maintenance-language-changed/);
     assert.ok(!speechReadoutSource.includes("fetch("), "Speech readout must not make network requests");
     assert.ok(sw.includes('"./speech-readout.js"'));
-    assert.match(sw, /maintenance-ai-toolkit-v35/);
-    assert.ok(deployWorkflow.includes("i18n.js speech-readout.js icon.svg"));
+    assert.match(sw, /maintenance-ai-toolkit-v36/);
+    assert.ok(deployWorkflow.includes("i18n.js speech-readout.js answer-cache.js icon.svg"));
     for (const key of ["readAIAnswer", "stopAIReading", "speechUnsupported", "speechReady"]) assert.ok(i18n.includes(key));
     new vm.Script(speechReadoutSource, { filename: "speech-readout.js" });
+  }],
+  ["Answer cache is opt-in, exact-input, local-only, expiring, and excludes safety responses", () => {
+    assert.ok(html.includes('id="cacheAiAnswers"'));
+    assert.ok(html.includes('id="aiCacheHint"'));
+    assert.ok(html.includes('id="clearAiAnswerCache"'));
+    assert.match(html, /id="aiCacheStatus"[^>]*aria-live="polite"/);
+    assert.ok(html.includes('src="./answer-cache.js"'));
+    assert.match(answerCacheSource, /SHA-256/);
+    assert.match(answerCacheSource, /24 \* 60 \* 60 \* 1000/);
+    assert.match(answerCacheSource, /safety_gate/);
+    assert.match(answerCacheSource, /escalation\.required !== true/);
+    assert.match(answerCacheSource, /matchedChunks/);
+    assert.ok(!answerCacheSource.includes("fetch("), "Answer cache must not make network requests");
+    assert.ok(sw.includes('"./answer-cache.js"'));
+    assert.match(sw, /maintenance-ai-toolkit-v36/);
+    assert.ok(deployWorkflow.includes("speech-readout.js answer-cache.js icon.svg"));
+    for (const key of ["cacheAIAnswers", "aiCacheHint", "clearAiAnswerCache", "aiCacheCleared", "aiCacheHit"]) assert.ok(i18n.includes(key));
+    new vm.Script(answerCacheSource, { filename: "answer-cache.js" });
   }],
   ["Arabic RTL document", () => assert.match(html, /<html lang="ar" dir="rtl">/)],
   ["Structured pump low-flow flow has stable IDs and validated answer guidance", () => {
@@ -240,7 +259,7 @@ const checks = [
   ["Service worker caches the app shell and icon with a bumped cache version", () => {
     assert.match(sw, /APP_SHELL/);
     assert.match(sw, /\.\/icon\.svg/);
-    assert.match(sw, /maintenance-ai-toolkit-v35/);
+    assert.match(sw, /maintenance-ai-toolkit-v36/);
   }]
 ,
   ["Multilingual fault library covers pumps, motors, VFDs and compressors", () => {
@@ -332,7 +351,7 @@ const checks = [
     for (const node of Object.values(tree.nodes)) if (node.result) assert.ok(node.safe && node.escalate && node.cause);
   }],
   ["PWA caches all new offline dependencies and bumps its cache", () => {
-    assert.match(sw, /maintenance-ai-toolkit-v35/);
+    assert.match(sw, /maintenance-ai-toolkit-v36/);
     for (const asset of ["normalization.js", "knowledge-review.js", "diagnostic-engine.js", "faults.json", "i18n.js"]) assert.ok(sw.includes(asset), "Missing offline cache asset " + asset);
     assert.match(manifest.icons[0].src, /icon\.svg/);
   }]
