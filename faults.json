@@ -1519,8 +1519,7 @@
       "id": "motor-overload-trip",
       "equipmentType": "electric_motor",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "trip"
       ],
       "title": {
         "ar": "فصل حماية الحمل الزائد",
@@ -1619,8 +1618,7 @@
       "id": "motor-fails-to-start",
       "equipmentType": "electric_motor",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "not_start"
       ],
       "title": {
         "ar": "المحرك لا يبدأ التشغيل",
@@ -1718,8 +1716,7 @@
       "id": "motor-hums-no-rotation",
       "equipmentType": "electric_motor",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "not_start"
       ],
       "title": {
         "ar": "طنين دون دوران",
@@ -1818,8 +1815,7 @@
       "id": "motor-excessive-vibration",
       "equipmentType": "electric_motor",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "vibration"
       ],
       "title": {
         "ar": "اهتزاز المحرك مرتفع",
@@ -1915,8 +1911,7 @@
       "id": "motor-bearing-noise",
       "equipmentType": "electric_motor",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "noise"
       ],
       "title": {
         "ar": "ضجيج محامل المحرك",
@@ -2014,8 +2009,7 @@
       "id": "motor-phase-loss",
       "equipmentType": "electric_motor",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "not_start"
       ],
       "title": {
         "ar": "فقدان طور كهربائي",
@@ -2112,8 +2106,7 @@
       "id": "motor-phase-imbalance",
       "equipmentType": "electric_motor",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "intermittent"
       ],
       "title": {
         "ar": "عدم توازن الأطوار",
@@ -2209,8 +2202,7 @@
       "id": "motor-insulation-low",
       "equipmentType": "electric_motor",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "bad_signal"
       ],
       "title": {
         "ar": "انخفاض مقاومة العزل",
@@ -2307,8 +2299,7 @@
       "id": "motor-winding-fault",
       "equipmentType": "electric_motor",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "trip"
       ],
       "title": {
         "ar": "اشتباه عطل في ملفات المحرك",
@@ -2406,8 +2397,7 @@
       "id": "motor-rotation-wrong",
       "equipmentType": "electric_motor",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "bad_signal"
       ],
       "title": {
         "ar": "اتجاه دوران غير صحيح",
@@ -2503,8 +2493,7 @@
       "id": "motor-starts-stops",
       "equipmentType": "electric_motor",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "intermittent"
       ],
       "title": {
         "ar": "تشغيل وفصل متكرر للمحرك",
@@ -2600,8 +2589,7 @@
       "id": "motor-low-speed",
       "equipmentType": "electric_motor",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "slow_cycle"
       ],
       "title": {
         "ar": "سرعة المحرك منخفضة",
@@ -2697,8 +2685,7 @@
       "id": "motor-high-current",
       "equipmentType": "electric_motor",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "intermittent"
       ],
       "title": {
         "ar": "تيار المحرك مرتفع",
@@ -2794,8 +2781,7 @@
       "id": "motor-low-torque",
       "equipmentType": "electric_motor",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "slow_cycle"
       ],
       "title": {
         "ar": "عزم المحرك ضعيف",
@@ -2891,8 +2877,7 @@
       "id": "vfd-overcurrent",
       "equipmentType": "vfd",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "trip"
       ],
       "title": {
         "ar": "إنذار زيادة تيار VFD",
@@ -2990,8 +2975,7 @@
       "id": "vfd-overvoltage",
       "equipmentType": "vfd",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "trip"
       ],
       "title": {
         "ar": "إنذار ارتفاع جهد VFD",
@@ -3089,8 +3073,7 @@
       "id": "vfd-undervoltage",
       "equipmentType": "vfd",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "trip"
       ],
       "title": {
         "ar": "إنذار انخفاض جهد VFD",
@@ -3188,8 +3171,7 @@
       "id": "vfd-overtemperature",
       "equipmentType": "vfd",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "overheat"
       ],
       "title": {
         "ar": "ارتفاع حرارة مغير السرعة",
@@ -3285,8 +3267,7 @@
       "id": "vfd-ground-fault",
       "equipmentType": "vfd",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "trip"
       ],
       "title": {
         "ar": "عطل تسرب أرضي في VFD",
@@ -3381,8 +3362,7 @@
       "id": "vfd-motor-not-running",
       "equipmentType": "vfd",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "not_start"
       ],
       "title": {
         "ar": "VFD جاهز لكن المحرك لا يعمل",
@@ -3478,8 +3458,7 @@
       "id": "vfd-frequency-unstable",
       "equipmentType": "vfd",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "bad_signal"
       ],
       "title": {
         "ar": "تذبذب تردد خرج VFD",
@@ -3575,8 +3554,7 @@
       "id": "vfd-communication-loss",
       "equipmentType": "vfd",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "not_start"
       ],
       "title": {
         "ar": "فقدان اتصال VFD",
@@ -3672,8 +3650,7 @@
       "id": "vfd-parameter-mismatch",
       "equipmentType": "vfd",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "bad_signal"
       ],
       "title": {
         "ar": "إعدادات المحرك غير مطابقة في VFD",
@@ -3769,8 +3746,7 @@
       "id": "vfd-speed-reference-missing",
       "equipmentType": "vfd",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "not_start"
       ],
       "title": {
         "ar": "مرجع السرعة غير موجود",
@@ -3868,8 +3844,7 @@
       "id": "vfd-fan-failure",
       "equipmentType": "vfd",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "trip"
       ],
       "title": {
         "ar": "تعطل مروحة تبريد VFD",
@@ -3965,8 +3940,7 @@
       "id": "vfd-dc-bus-ripple",
       "equipmentType": "vfd",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "intermittent"
       ],
       "title": {
         "ar": "اشتباه تموج مرتفع في ناقل DC",
@@ -4062,8 +4036,7 @@
       "id": "compressor-oil-low",
       "equipmentType": "compressor",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "low_pressure"
       ],
       "title": {
         "ar": "انخفاض مستوى زيت الضاغط",
@@ -4159,8 +4132,7 @@
       "id": "compressor-oil-pressure-low",
       "equipmentType": "compressor",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "low_pressure"
       ],
       "title": {
         "ar": "انخفاض ضغط زيت الضاغط",
@@ -4253,8 +4225,7 @@
       "id": "compressor-oil-carryover",
       "equipmentType": "compressor",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "low_flow"
       ],
       "title": {
         "ar": "زيادة الزيت في هواء الخروج",
@@ -4351,8 +4322,7 @@
       "id": "compressor-intake-restriction",
       "equipmentType": "compressor",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "low_flow"
       ],
       "title": {
         "ar": "تقييد مدخل هواء الضاغط",
@@ -4448,8 +4418,7 @@
       "id": "compressor-air-leak",
       "equipmentType": "compressor",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "leak"
       ],
       "title": {
         "ar": "تسرب هواء في شبكة الضغط",
@@ -4546,8 +4515,7 @@
       "id": "compressor-cycling",
       "equipmentType": "compressor",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "intermittent"
       ],
       "title": {
         "ar": "تشغيل وفصل متكرر للضاغط",
@@ -4643,8 +4611,7 @@
       "id": "compressor-condensate",
       "equipmentType": "compressor",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "low_flow"
       ],
       "title": {
         "ar": "تراكم مكثفات في الهواء المضغوط",
@@ -4740,8 +4707,7 @@
       "id": "compressor-separator-pressure-drop",
       "equipmentType": "compressor",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "low_flow"
       ],
       "title": {
         "ar": "ارتفاع فرق ضغط فاصل الزيت",
@@ -4837,8 +4803,7 @@
       "id": "compressor-belt-slip",
       "equipmentType": "compressor",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "vibration"
       ],
       "title": {
         "ar": "انزلاق سير الضاغط",
@@ -4934,8 +4899,7 @@
       "id": "compressor-drain-failure",
       "equipmentType": "compressor",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "trip"
       ],
       "title": {
         "ar": "تعطل تصريف المكثفات",
@@ -5031,8 +4995,7 @@
       "id": "pump-low-flow",
       "equipmentType": "pump",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "low_flow"
       ],
       "title": {
         "ar": "تدفق المضخة منخفض",
@@ -5128,8 +5091,7 @@
       "id": "pump-no-discharge-pressure",
       "equipmentType": "pump",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "not_start"
       ],
       "title": {
         "ar": "لا يوجد ضغط عند مخرج المضخة",
@@ -5224,8 +5186,7 @@
       "id": "pump-seal-leak",
       "equipmentType": "pump",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "leak"
       ],
       "title": {
         "ar": "تسرب مانع التسرب الميكانيكي",
@@ -5320,8 +5281,7 @@
       "id": "pump-bearing-overheat",
       "equipmentType": "pump",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "overheat"
       ],
       "title": {
         "ar": "ارتفاع حرارة محامل المضخة",
@@ -5417,8 +5377,7 @@
       "id": "pump-coupling-misalignment",
       "equipmentType": "pump",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "vibration"
       ],
       "title": {
         "ar": "عدم محاذاة الاقتران",
@@ -5513,8 +5472,7 @@
       "id": "pump-rotation-reversed",
       "equipmentType": "pump",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "bad_signal"
       ],
       "title": {
         "ar": "دوران المضخة بالاتجاه المعاكس",
@@ -5609,8 +5567,7 @@
       "id": "pump-air-lock",
       "equipmentType": "pump",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "low_flow"
       ],
       "title": {
         "ar": "احتباس هواء في المضخة أو الخط",
@@ -5706,8 +5663,7 @@
       "id": "pump-discharge-blockage",
       "equipmentType": "pump",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "low_flow"
       ],
       "title": {
         "ar": "انسداد محتمل في خط الطرد",
@@ -5802,8 +5758,7 @@
       "id": "pump-impeller-damage",
       "equipmentType": "pump",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "trip"
       ],
       "title": {
         "ar": "تلف أو تآكل دافع المضخة",
@@ -5899,8 +5854,7 @@
       "id": "pump-excessive-flow",
       "equipmentType": "pump",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "low_flow"
       ],
       "title": {
         "ar": "تدفق أعلى من المتوقع",
@@ -5996,8 +5950,7 @@
       "id": "pump-pressure-fluctuation",
       "equipmentType": "pump",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "low_pressure"
       ],
       "title": {
         "ar": "تذبذب ضغط المضخة",
@@ -6093,8 +6046,7 @@
       "id": "pump-dry-running",
       "equipmentType": "pump",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "low_flow"
       ],
       "title": {
         "ar": "اشتباه تشغيل المضخة دون سائل",
@@ -6191,8 +6143,7 @@
       "id": "valve-stuck-closed",
       "equipmentType": "valve",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "not_start"
       ],
       "title": {
         "ar": "صمام عالق في وضع الإغلاق",
@@ -6287,8 +6238,7 @@
       "id": "valve-stuck-open",
       "equipmentType": "valve",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "not_start"
       ],
       "title": {
         "ar": "صمام عالق في وضع الفتح",
@@ -6383,8 +6333,7 @@
       "id": "valve-internal-leakage",
       "equipmentType": "valve",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "leak"
       ],
       "title": {
         "ar": "تسرب داخلي عبر الصمام",
@@ -6479,8 +6428,7 @@
       "id": "valve-actuator-no-response",
       "equipmentType": "valve",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "not_start"
       ],
       "title": {
         "ar": "مشغل الصمام لا يستجيب",
@@ -6575,8 +6523,7 @@
       "id": "valve-position-feedback",
       "equipmentType": "valve",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "bad_signal"
       ],
       "title": {
         "ar": "إشارة موضع الصمام غير صحيحة",
@@ -6671,8 +6618,7 @@
       "id": "valve-solenoid-fault",
       "equipmentType": "valve",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "trip"
       ],
       "title": {
         "ar": "اشتباه عطل في الملف اللولبي",
@@ -6768,8 +6714,7 @@
       "id": "valve-water-hammer",
       "equipmentType": "valve",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "noise"
       ],
       "title": {
         "ar": "طرق مائي عند تغير التدفق",
@@ -6864,8 +6809,7 @@
       "id": "hydraulic-low-pressure",
       "equipmentType": "hydraulic",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "trip"
       ],
       "title": {
         "ar": "انخفاض ضغط النظام الهيدروليكي",
@@ -6958,8 +6902,7 @@
       "id": "hydraulic-overheating",
       "equipmentType": "hydraulic",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "overheat"
       ],
       "title": {
         "ar": "ارتفاع حرارة الزيت الهيدروليكي",
@@ -7055,8 +6998,7 @@
       "id": "hydraulic-foaming",
       "equipmentType": "hydraulic",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "overheat"
       ],
       "title": {
         "ar": "رغوة في الزيت الهيدروليكي",
@@ -7152,8 +7094,7 @@
       "id": "hydraulic-filter-clogged",
       "equipmentType": "hydraulic",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "low_flow"
       ],
       "title": {
         "ar": "اشتباه انسداد مرشح هيدروليكي",
@@ -7248,8 +7189,7 @@
       "id": "hydraulic-cylinder-drift",
       "equipmentType": "hydraulic",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "bad_signal"
       ],
       "title": {
         "ar": "انجراف الأسطوانة الهيدروليكية",
@@ -7345,8 +7285,7 @@
       "id": "hydraulic-cylinder-slow",
       "equipmentType": "hydraulic",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "slow_cycle"
       ],
       "title": {
         "ar": "حركة الأسطوانة الهيدروليكية بطيئة",
@@ -7442,8 +7381,7 @@
       "id": "hydraulic-pump-noise",
       "equipmentType": "hydraulic",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "noise"
       ],
       "title": {
         "ar": "ضجيج المضخة الهيدروليكية",
@@ -7536,8 +7474,7 @@
       "id": "hydraulic-internal-leak",
       "equipmentType": "hydraulic",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "leak"
       ],
       "title": {
         "ar": "اشتباه تسرب داخلي هيدروليكي",
@@ -7630,8 +7567,7 @@
       "id": "hydraulic-hose-damage",
       "equipmentType": "hydraulic",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "trip"
       ],
       "title": {
         "ar": "تلف أو انتفاخ خرطوم هيدروليكي",
@@ -7726,8 +7662,7 @@
       "id": "hydraulic-pressure-spike",
       "equipmentType": "hydraulic",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "low_pressure"
       ],
       "title": {
         "ar": "ارتفاع مفاجئ في الضغط الهيدروليكي",
@@ -7822,8 +7757,7 @@
       "id": "hydraulic-valve-sticking",
       "equipmentType": "hydraulic",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "trip"
       ],
       "title": {
         "ar": "صمام هيدروليكي يعلق",
@@ -7918,8 +7852,7 @@
       "id": "pneumatic-low-pressure",
       "equipmentType": "pneumatic",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "trip"
       ],
       "title": {
         "ar": "انخفاض ضغط الهواء المضغوط",
@@ -8012,8 +7945,7 @@
       "id": "pneumatic-cylinder-slow",
       "equipmentType": "pneumatic",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "slow_cycle"
       ],
       "title": {
         "ar": "بطء الأسطوانة الهوائية",
@@ -8106,8 +8038,7 @@
       "id": "pneumatic-cylinder-stuck",
       "equipmentType": "pneumatic",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "not_start"
       ],
       "title": {
         "ar": "أسطوانة هوائية عالقة",
@@ -8200,8 +8131,7 @@
       "id": "pneumatic-air-leak",
       "equipmentType": "pneumatic",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "leak"
       ],
       "title": {
         "ar": "تسرب هواء من الدائرة الهوائية",
@@ -8294,8 +8224,7 @@
       "id": "pneumatic-moisture",
       "equipmentType": "pneumatic",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "trip"
       ],
       "title": {
         "ar": "رطوبة أو ماء في الهواء المضغوط",
@@ -8391,8 +8320,7 @@
       "id": "pneumatic-regulator-fault",
       "equipmentType": "pneumatic",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "trip"
       ],
       "title": {
         "ar": "منظم ضغط هوائي لا يحافظ على الضبط",
@@ -8488,8 +8416,7 @@
       "id": "pneumatic-solenoid-fault",
       "equipmentType": "pneumatic",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "trip"
       ],
       "title": {
         "ar": "صمام هوائي كهربائي لا يبدل",
@@ -8583,8 +8510,7 @@
       "id": "pneumatic-filter-clogged",
       "equipmentType": "pneumatic",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "low_flow"
       ],
       "title": {
         "ar": "انسداد مرشح الهواء",
@@ -8678,8 +8604,7 @@
       "id": "plc-not-running",
       "equipmentType": "plc",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "not_start"
       ],
       "title": {
         "ar": "وحدة PLC لا تعمل",
@@ -8774,8 +8699,7 @@
       "id": "plc-input-not-changing",
       "equipmentType": "plc",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "bad_signal"
       ],
       "title": {
         "ar": "مدخل PLC لا يتغير",
@@ -8870,8 +8794,7 @@
       "id": "plc-output-not-energizing",
       "equipmentType": "plc",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "bad_signal"
       ],
       "title": {
         "ar": "خرج PLC لا يتفعل",
@@ -8966,8 +8889,7 @@
       "id": "plc-communication-loss",
       "equipmentType": "plc",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "not_start"
       ],
       "title": {
         "ar": "فقدان اتصال PLC",
@@ -9062,8 +8984,7 @@
       "id": "plc-program-change",
       "equipmentType": "plc",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "bad_signal"
       ],
       "title": {
         "ar": "تغير غير متوقع في منطق PLC",
@@ -9158,8 +9079,7 @@
       "id": "hmi-frozen",
       "equipmentType": "hmi",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "not_start"
       ],
       "title": {
         "ar": "واجهة HMI متجمدة",
@@ -9255,8 +9175,7 @@
       "id": "hmi-wrong-values",
       "equipmentType": "hmi",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "bad_signal"
       ],
       "title": {
         "ar": "قيم HMI غير صحيحة أو قديمة",
@@ -9352,8 +9271,7 @@
       "id": "sensor-no-signal",
       "equipmentType": "sensor",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "not_start"
       ],
       "title": {
         "ar": "الحساس لا يعطي إشارة",
@@ -9448,8 +9366,7 @@
       "id": "sensor-signal-fluctuation",
       "equipmentType": "sensor",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "bad_signal"
       ],
       "title": {
         "ar": "إشارة الحساس متذبذبة",
@@ -9545,8 +9462,7 @@
       "id": "sensor-out-of-range",
       "equipmentType": "sensor",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "bad_signal"
       ],
       "title": {
         "ar": "قراءة الحساس خارج النطاق",
@@ -9641,8 +9557,7 @@
       "id": "sensor-drift",
       "equipmentType": "sensor",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "bad_signal"
       ],
       "title": {
         "ar": "انحراف تدريجي في قراءة الحساس",
@@ -9737,8 +9652,7 @@
       "id": "sensor-wiring-fault",
       "equipmentType": "sensor",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "trip"
       ],
       "title": {
         "ar": "اشتباه عطل في توصيلات الحساس",
@@ -9833,8 +9747,7 @@
       "id": "proximity-sensor-no-detect",
       "equipmentType": "sensor",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "not_start"
       ],
       "title": {
         "ar": "حساس التقارب لا يكتشف الهدف",
@@ -9928,8 +9841,7 @@
       "id": "photoelectric-sensor-false-trigger",
       "equipmentType": "sensor",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "overheat"
       ],
       "title": {
         "ar": "تفعيل كاذب للحساس الضوئي",
@@ -10023,8 +9935,7 @@
       "id": "encoder-feedback-loss",
       "equipmentType": "sensor",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "not_start"
       ],
       "title": {
         "ar": "فقدان إشارة المشفر Encoder",
@@ -10119,8 +10030,7 @@
       "id": "temperature-sensor-fault",
       "equipmentType": "sensor",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "trip"
       ],
       "title": {
         "ar": "اشتباه عطل حساس الحرارة",
@@ -10216,8 +10126,7 @@
       "id": "pressure-sensor-fault",
       "equipmentType": "sensor",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "trip"
       ],
       "title": {
         "ar": "اشتباه عطل حساس الضغط",
@@ -10313,8 +10222,7 @@
       "id": "level-sensor-fault",
       "equipmentType": "sensor",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "trip"
       ],
       "title": {
         "ar": "اشتباه عطل حساس المستوى",
@@ -10410,8 +10318,7 @@
       "id": "flowmeter-no-reading",
       "equipmentType": "instrumentation",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "not_start"
       ],
       "title": {
         "ar": "مقياس التدفق لا يعطي قراءة",
@@ -10505,8 +10412,7 @@
       "id": "pressure-transmitter-drift",
       "equipmentType": "instrumentation",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "low_pressure"
       ],
       "title": {
         "ar": "انحراف مرسل الضغط",
@@ -10600,8 +10506,7 @@
       "id": "temperature-transmitter-fault",
       "equipmentType": "instrumentation",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "trip"
       ],
       "title": {
         "ar": "خلل مرسل الحرارة",
@@ -10695,8 +10600,7 @@
       "id": "level-switch-chatter",
       "equipmentType": "instrumentation",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "noise"
       ],
       "title": {
         "ar": "تذبذب مفتاح المستوى",
@@ -10790,8 +10694,7 @@
       "id": "contactor-chatter",
       "equipmentType": "electrical_control",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "trip"
       ],
       "title": {
         "ar": "اهتزاز أو طقطقة الكونتاكتور",
@@ -10887,8 +10790,7 @@
       "id": "contactor-not-pulling-in",
       "equipmentType": "electrical_control",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "not_start"
       ],
       "title": {
         "ar": "الكونتاكتور لا يجذب",
@@ -10981,8 +10883,7 @@
       "id": "contactor-welded",
       "equipmentType": "electrical_control",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "trip"
       ],
       "title": {
         "ar": "اشتباه التصاق نقاط الكونتاكتور",
@@ -11075,8 +10976,7 @@
       "id": "overload-relay-tripping",
       "equipmentType": "electrical_control",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "trip"
       ],
       "title": {
         "ar": "فصل مرحل الحمل الزائد",
@@ -11169,8 +11069,7 @@
       "id": "fuse-repeated-failure",
       "equipmentType": "electrical_control",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "trip"
       ],
       "title": {
         "ar": "احتراق المصهر بشكل متكرر",
@@ -11264,8 +11163,7 @@
       "id": "control-voltage-missing",
       "equipmentType": "electrical_control",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "not_start"
       ],
       "title": {
         "ar": "غياب جهد دائرة التحكم",
@@ -11358,8 +11256,7 @@
       "id": "emergency-stop-chain-open",
       "equipmentType": "safety_circuit",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "trip"
       ],
       "title": {
         "ar": "دائرة إيقاف الطوارئ مفتوحة",
@@ -11455,8 +11352,7 @@
       "id": "safety-interlock-not-made",
       "equipmentType": "safety_circuit",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "trip"
       ],
       "title": {
         "ar": "شرط دائرة الأمان غير محقق",
@@ -11550,8 +11446,7 @@
       "id": "safety-relay-fault",
       "equipmentType": "safety_circuit",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "trip"
       ],
       "title": {
         "ar": "اشتباه عطل مرحل الأمان",
@@ -11645,8 +11540,7 @@
       "id": "bearing-lubrication-failure",
       "equipmentType": "mechanical",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "trip"
       ],
       "title": {
         "ar": "قصور تشحيم المحامل",
@@ -11741,8 +11635,7 @@
       "id": "bearing-wear",
       "equipmentType": "mechanical",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "vibration"
       ],
       "title": {
         "ar": "تآكل المحمل",
@@ -11837,8 +11730,7 @@
       "id": "shaft-misalignment",
       "equipmentType": "mechanical",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "vibration"
       ],
       "title": {
         "ar": "عدم محاذاة الأعمدة",
@@ -11931,8 +11823,7 @@
       "id": "mechanical-looseness",
       "equipmentType": "mechanical",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "vibration"
       ],
       "title": {
         "ar": "ارتخاء ميكانيكي",
@@ -12027,8 +11918,7 @@
       "id": "belt-tension-issue",
       "equipmentType": "mechanical",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "vibration"
       ],
       "title": {
         "ar": "شد السير غير صحيح",
@@ -12123,8 +12013,7 @@
       "id": "gearbox-overheating",
       "equipmentType": "gearbox",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "overheat"
       ],
       "title": {
         "ar": "ارتفاع حرارة علبة التروس",
@@ -12217,8 +12106,7 @@
       "id": "gearbox-oil-low",
       "equipmentType": "gearbox",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "low_pressure"
       ],
       "title": {
         "ar": "انخفاض زيت علبة التروس",
@@ -12311,8 +12199,7 @@
       "id": "gearbox-noise",
       "equipmentType": "gearbox",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "noise"
       ],
       "title": {
         "ar": "ضجيج علبة التروس",
@@ -12408,8 +12295,7 @@
       "id": "conveyor-belt-tracking",
       "equipmentType": "conveyor",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "vibration"
       ],
       "title": {
         "ar": "انحراف مسار السير الناقل",
@@ -12503,8 +12389,7 @@
       "id": "conveyor-belt-slip",
       "equipmentType": "conveyor",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "vibration"
       ],
       "title": {
         "ar": "انزلاق السير الناقل",
@@ -12597,8 +12482,7 @@
       "id": "conveyor-jam",
       "equipmentType": "conveyor",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "not_start"
       ],
       "title": {
         "ar": "انحشار الناقل",
@@ -12693,8 +12577,7 @@
       "id": "conveyor-speed-mismatch",
       "equipmentType": "conveyor",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "slow_cycle"
       ],
       "title": {
         "ar": "عدم تطابق سرعة الناقل",
@@ -12787,8 +12670,7 @@
       "id": "filter-high-differential-pressure",
       "equipmentType": "filtration",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "trip"
       ],
       "title": {
         "ar": "ارتفاع فرق الضغط عبر المرشح",
@@ -12881,8 +12763,7 @@
       "id": "heat-exchanger-poor-transfer",
       "equipmentType": "heat_exchanger",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "low_flow"
       ],
       "title": {
         "ar": "ضعف انتقال الحرارة في المبادل",
@@ -12977,8 +12858,7 @@
       "id": "cooling-fan-failure",
       "equipmentType": "cooling",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "trip"
       ],
       "title": {
         "ar": "تعطل مروحة التبريد",
@@ -13071,8 +12951,7 @@
       "id": "cooling-water-low-flow",
       "equipmentType": "cooling",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "low_flow"
       ],
       "title": {
         "ar": "انخفاض تدفق مياه التبريد",
@@ -13165,8 +13044,7 @@
       "id": "steam-trap-failure",
       "equipmentType": "steam_system",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "trip"
       ],
       "title": {
         "ar": "اشتباه عطل مصيدة البخار",
@@ -13260,8 +13138,7 @@
       "id": "boiler-low-water-alarm",
       "equipmentType": "boiler",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "trip"
       ],
       "title": {
         "ar": "إنذار انخفاض مستوى ماء المرجل",
@@ -13354,8 +13231,7 @@
       "id": "refrigeration-high-pressure",
       "equipmentType": "refrigeration",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "trip"
       ],
       "title": {
         "ar": "إنذار ضغط مرتفع في التبريد",
@@ -13448,8 +13324,7 @@
       "id": "refrigeration-low-pressure",
       "equipmentType": "refrigeration",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "trip"
       ],
       "title": {
         "ar": "إنذار ضغط منخفض في التبريد",
@@ -13542,8 +13417,7 @@
       "id": "ups-battery-alarm",
       "equipmentType": "ups",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "trip"
       ],
       "title": {
         "ar": "إنذار بطارية UPS",
@@ -13636,8 +13510,7 @@
       "id": "power-supply-voltage-unstable",
       "equipmentType": "power_supply",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "intermittent"
       ],
       "title": {
         "ar": "جهد التغذية غير مستقر",
@@ -13733,8 +13606,7 @@
       "id": "power-supply-phase-sequence",
       "equipmentType": "power_supply",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "trip"
       ],
       "title": {
         "ar": "تسلسل الأطوار غير صحيح",
@@ -13829,8 +13701,7 @@
       "id": "earth-leakage-trip",
       "equipmentType": "power_supply",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "trip"
       ],
       "title": {
         "ar": "فصل حماية التسرب الأرضي",
@@ -13924,8 +13795,7 @@
       "id": "electrical-panel-hotspot",
       "equipmentType": "electrical_panel",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "overheat"
       ],
       "title": {
         "ar": "ارتفاع حرارة داخل لوحة كهربائية",
@@ -14019,8 +13889,7 @@
       "id": "network-switch-link-down",
       "equipmentType": "industrial_network",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "bad_signal"
       ],
       "title": {
         "ar": "انقطاع رابط شبكة صناعية",
@@ -14113,8 +13982,7 @@
       "id": "fieldbus-device-offline",
       "equipmentType": "industrial_network",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "not_start"
       ],
       "title": {
         "ar": "جهاز Fieldbus غير متصل",
@@ -14207,8 +14075,7 @@
       "id": "robot-axis-following-error",
       "equipmentType": "robotics",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "bad_signal"
       ],
       "title": {
         "ar": "خطأ تتبع محور الروبوت",
@@ -14302,8 +14169,7 @@
       "id": "robot-homing-failure",
       "equipmentType": "robotics",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "not_start"
       ],
       "title": {
         "ar": "فشل مرجعة محور الروبوت",
@@ -14396,8 +14262,7 @@
       "id": "lubrication-system-low-flow",
       "equipmentType": "lubrication",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "low_flow"
       ],
       "title": {
         "ar": "انخفاض تدفق نظام التشحيم",
@@ -14490,8 +14355,7 @@
       "id": "vacuum-low-level",
       "equipmentType": "vacuum",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "low_flow"
       ],
       "title": {
         "ar": "مستوى التفريغ ضعيف",
@@ -14586,8 +14450,7 @@
       "id": "dust-collector-high-pressure-drop",
       "equipmentType": "dust_collector",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "trip"
       ],
       "title": {
         "ar": "ارتفاع فرق الضغط في مجمع الغبار",
@@ -14682,8 +14545,7 @@
       "id": "fire-alarm-device-fault",
       "equipmentType": "fire_safety",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "trip"
       ],
       "title": {
         "ar": "عطل في جهاز إنذار الحريق",
@@ -14776,8 +14638,7 @@
       "id": "leak-detector-fault",
       "equipmentType": "instrumentation",
       "symptoms": [
-        "fault",
-        "abnormal_operation"
+        "trip"
       ],
       "title": {
         "ar": "اشتباه عطل كاشف التسرب",
