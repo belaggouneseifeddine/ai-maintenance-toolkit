@@ -64,6 +64,7 @@ const checks = [
     assert.ok(html.includes('id="clearAiAnswerCache"'));
     assert.match(html, /id="aiCacheStatus"[^>]*aria-live="polite"/);
     assert.ok(html.includes('src="./answer-cache.js"'));
+    assert.equal(html.split('src="./answer-cache.js"').length - 1, 1, "answer cache script must load exactly once");
     assert.match(answerCacheSource, /SHA-256/);
     assert.match(answerCacheSource, /24 \* 60 \* 60 \* 1000/);
     assert.match(answerCacheSource, /safety_gate/);
