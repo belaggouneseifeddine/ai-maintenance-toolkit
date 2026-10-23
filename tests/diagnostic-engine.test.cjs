@@ -1,6 +1,7 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
 
+require("../normalization.js");
 const faults = require("../faults.json");
 global.MAINTENANCE_FAULTS = faults;
 require("../diagnostic-engine.js");

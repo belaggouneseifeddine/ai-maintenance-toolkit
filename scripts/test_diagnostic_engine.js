@@ -4,6 +4,7 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const vm = require("node:vm");
 global.window = global;
+vm.runInThisContext(fs.readFileSync("normalization.js", "utf8"), { filename: "normalization.js" });
 vm.runInThisContext(fs.readFileSync("diagnostic-engine.js", "utf8"), { filename: "diagnostic-engine.js" });
 const library = JSON.parse(fs.readFileSync("faults.json", "utf8"));
 assert.equal(library.faults.length > 100, true, "expanded local fault library must contain more than 100 cases");

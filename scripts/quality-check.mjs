@@ -17,15 +17,25 @@ const sw = readFileSync("sw.js", "utf8");
 const deployWorkflow = readFileSync(".github/workflows/deploy-pages.yml", "utf8");
 const faults = JSON.parse(readFileSync("faults.json", "utf8"));
 const diagnosticEngineSource = readFileSync("diagnostic-engine.js", "utf8");
+const normalizationSource = readFileSync("normalization.js", "utf8");
 const i18n = readFileSync("i18n.js", "utf8");
 const engineWindow = {};
 const inlineScript = html.match(/<script>\s*([\s\S]*?)<\/script>/);
 assert.ok(inlineScript, "Inline application script must exist");
 new vm.Script(inlineScript[1], { filename: "index-inline.js" });
 new vm.Script(i18n, { filename: "i18n.js" });
-vm.runInNewContext(diagnosticEngineSource, { window: engineWindow, console });
+const engineContext = { window: engineWindow, globalThis: engineWindow, console };
+vm.runInNewContext(normalizationSource, engineContext);
+vm.runInNewContext(diagnosticEngineSource, engineContext);
 
 const checks = [
+  ["Shared normalization is loaded by the UI, Worker and Pages deployment", () => {
+    assert.match(html, /<script src="\.\/normalization\.js"><\/script>/);
+    assert.match(worker, /import "\.\/normalization\.js";/);
+    assert.match(deployWorkflow, /diagnostic-flows\.js normalization\.js diagnostic-engine\.js/);
+    assert.ok(engineWindow.MaintenanceNormalization.aliasReviewCount > 0);
+    assert.ok(engineWindow.MaintenanceNormalization.getReviewAliases().every(item => item.status === "review_required"));
+  }],
   ["Arabic RTL document", () => assert.match(html, /<html lang="ar" dir="rtl">/)],
   ["Structured pump low-flow flow has stable IDs and validated answer guidance", () => {
     const flow = diagnosticFlows.flows["pump|low_flow"];
@@ -196,7 +206,7 @@ const checks = [
   ["Service worker caches the app shell and icon with a bumped cache version", () => {
     assert.match(sw, /APP_SHELL/);
     assert.match(sw, /\.\/icon\.svg/);
-    assert.match(sw, /maintenance-ai-toolkit-v32/);
+    assert.match(sw, /maintenance-ai-toolkit-v33/);
   }]
 ,
   ["Multilingual fault library covers pumps, motors, VFDs and compressors", () => {
@@ -288,8 +298,8 @@ const checks = [
     for (const node of Object.values(tree.nodes)) if (node.result) assert.ok(node.safe && node.escalate && node.cause);
   }],
   ["PWA caches all new offline dependencies and bumps its cache", () => {
-    assert.match(sw, /maintenance-ai-toolkit-v32/);
-    for (const asset of ["diagnostic-engine.js", "faults.json", "i18n.js"]) assert.ok(sw.includes(asset), "Missing offline cache asset " + asset);
+    assert.match(sw, /maintenance-ai-toolkit-v33/);
+    for (const asset of ["normalization.js", "diagnostic-engine.js", "faults.json", "i18n.js"]) assert.ok(sw.includes(asset), "Missing offline cache asset " + asset);
     assert.match(manifest.icons[0].src, /icon\.svg/);
   }]
 ,
