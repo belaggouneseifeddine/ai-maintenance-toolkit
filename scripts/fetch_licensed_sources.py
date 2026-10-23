@@ -86,13 +86,13 @@ def validate_source(source: dict, accepted_licenses: set[str]) -> None:
 
 
 def fetch_page(source: dict) -> tuple[bytes, str]:
-    request = Request(source["url"], headers={"User-Agent": USER_AGENT, "Accept": "text/html"})
+    request = Request(source["url"], headers={"User-Agent": USER_AGENT, "Accept": "application/xml, text/xml, application/xhtml+xml, text/html;q=0.9"})
     with urlopen(request, timeout=TIMEOUT_SECONDS) as response:
         final_url = response.geturl()
         if urlparse(final_url).scheme != "https":
             raise ValueError(f"{source['id']}: redirected to non-HTTPS URL")
         content_type = response.headers.get_content_type()
-        if content_type not in {"text/html", "application/xhtml+xml"}:
+        if content_type not in {"text/html", "application/xhtml+xml", "application/xml", "text/xml"}:
             raise ValueError(f"{source['id']}: unexpected content type {content_type}")
         body = response.read(MAX_BYTES + 1)
         if len(body) > MAX_BYTES:
