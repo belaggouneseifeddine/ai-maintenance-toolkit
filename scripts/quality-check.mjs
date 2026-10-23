@@ -66,7 +66,7 @@ const checks = [
     assert.match(html, /id="aiCacheEnabled"/);
     assert.match(html, /id="speakAiAnswer"/);
     assert.match(answerToolsSource, /CACHE_TTL_MS = 24 \* 60 \* 60 \* 1000/);
-    assert.match(answerToolsSource, /status !== "preliminary_assessment"/);
+    assert.match(answerToolsSource, /status==="preliminary_assessment"/);
     assert.match(answerToolsSource, /speechSynthesis/);
     assert.match(sw, /answer-tools\.js/);
     assert.match(deployWorkflow, /knowledge-review\.js answer-tools\.js/);
