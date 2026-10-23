@@ -20,6 +20,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Set up Node.js for diagnostic tests
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Test local diagnostic engine
+        run: node scripts/test_diagnostic_engine.js
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Prepare static site
