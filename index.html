@@ -238,6 +238,9 @@ footer{line-height:1.8}
     <button class="btn secondary" type="button" id="krRefresh">تحديث السجلات</button>
     <button class="btn secondary" type="button" id="krExport">تصدير السجلات التي اجتازت المراجعة</button>
   </div>
+  <label id="krOutputLabel" for="krExportOutput">JSON للسجلات المراجَعة — انسخه يدويًا؛ لن يُنشر تلقائيًا</label>
+  <textarea id="krExportOutput" rows="8" readonly></textarea>
+
   <p id="krStatusMessage" role="status" aria-live="polite"></p>
   <div id="krReviewList"></div>
 </div>
@@ -530,6 +533,7 @@ renderRecords();
 if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
 </script>
 <script src="./maintenance-v03.js"></script>
+<script src="./knowledge-review.js"></script>
 <script src="./ux-redesign.js"></script>
 <script src="./navigation-redesign.js"></script>
 <footer class="author">
