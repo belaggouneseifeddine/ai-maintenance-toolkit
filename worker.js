@@ -294,11 +294,27 @@ async function retrieveKnowledge(machine, symptom, code, observations) {
     }
   }
   const allChunks = documents.flatMap(d => d.chunks);
-  const ranked = rankKnowledgeChunks(allChunks, query);
+  const legacyRanked = rankKnowledgeChunks(allChunks, query);
+  const bm25Ranked = rankKnowledgeChunksBM25(allChunks, query);
+  const selectedRanker = bm25Ranked.length ? "bm25" : "legacy-fallback";
+  const ranked = bm25Ranked.length ? bm25Ranked : legacyRanked;
+  const legacyIds = legacyRanked.map(chunk => chunk.source + ":" + chunk.startLine);
+  const bm25Ids = bm25Ranked.map(chunk => chunk.source + ":" + chunk.startLine);
+  const overlapAt4 = bm25Ids.filter(id => legacyIds.includes(id)).length;
+  const rankingComparison = {
+    selectedRanker,
+    legacyCandidates: legacyRanked.length,
+    bm25Candidates: bm25Ranked.length,
+    legacyTop1: legacyIds[0] || null,
+    bm25Top1: bm25Ids[0] || null,
+    top1Changed: (legacyIds[0] || null) !== (bm25Ids[0] || null),
+    overlapAt4
+  };
   return {
     chunks: ranked,
     sources: [...new Set(ranked.map(c => c.source))],
     availableDocuments: documents.filter(d => d.chunks.length).map(d => d.path),
+    rankingComparison,
     retrievalStatus: ranked.length ? "retrieved" : allChunks.length ? "no-match" : "unavailable"
   };
 }
@@ -490,6 +506,6 @@ Use only the evidence supplied. Rank plausible causes, show how to distinguish t
     diagnosis.inspection_steps = diagnosis.inspection_steps.map(step => ({ ...step, requires_loto: step.kind === "intervention" ? true : step.requires_loto }));
     const usedCitations = citations.filter(c => diagnosis.sources.includes(c.id));
     const answer = formatDiagnosis(diagnosis);
-    return json({ answer: answer.slice(0, 12000), diagnosis, citations: usedCitations, retrieval: { status: retrieval.retrievalStatus, matchedChunks: retrieval.chunks.length, availableDocuments: retrieval.availableDocuments } }, 200, origin);
+    return json({ answer: answer.slice(0, 12000), diagnosis, citations: usedCitations, retrieval: { status: retrieval.retrievalStatus, matchedChunks: retrieval.chunks.length, availableDocuments: retrieval.availableDocuments, ranking: retrieval.rankingComparison } }, 200, origin);
   }
 };
