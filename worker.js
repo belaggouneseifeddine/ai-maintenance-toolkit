@@ -269,6 +269,92 @@ function rankKnowledgeChunksBM25(chunks, query) {
 }
 
 
+
+const EVIDENCE_STOPWORDS = new Set([
+  "this","that","with","from","have","has","are","was","were","the","and","for","not","but","can","may","could","would","should","into","when","where","then","than","their","there","which","what","about","because","possible","cause","causes","check","evidence","support",
+  "avec","dans","pour","sont","être","etre","une","des","les","sur","par","pas","mais","que","qui","dans","cette","cela","comme","peut","plus","moins","cause","causes","vérifier","verifier",
+  "من","في","على","الى","إلى","عن","مع","هذا","هذه","ذلك","تلك","الذي","التي","يمكن","قد","تم","وجود","سبب","اسباب","الأسباب","الاسباب","التحقق","عند","بعد","قبل","و","او","أو"
+]);
+
+function evidenceTerms(value) {
+  return [...new Set(normalizeEvidenceText(value).split(" ").filter(term =>
+    term.length >= 3 && !EVIDENCE_STOPWORDS.has(term) && !/^\d+$/.test(term)
+  ))];
+}
+
+function scoreCauseSupport(cause, chunk) {
+  if (!cause || !chunk || !Array.isArray(cause.evidence_for) || !cause.evidence_for.length) return 0;
+  const claimTerms = evidenceTerms([cause.label, ...cause.evidence_for].join(" "));
+  if (claimTerms.length < 2) return 0;
+  const sourceTerms = new Set(normalizeEvidenceText(chunk.heading + " " + chunk.text).split(" ").filter(Boolean));
+  const overlap = claimTerms.filter(term => sourceTerms.has(term)).length;
+  const ratio = overlap / claimTerms.length;
+  return overlap >= 2 && ratio >= 0.2 ? ratio : 0;
+}
+
+function applyEvidenceTraceability(diagnosis, citations, chunks) {
+  const evidenceSources = citations.map((citation, index) => ({ id: citation.id, chunk: chunks[index] })).filter(item => item.chunk);
+  for (const cause of diagnosis.possible_causes || []) {
+    const supporting = evidenceSources.map(item => ({
+      id: item.id,
+      ratio: scoreCauseSupport(cause, item.chunk)
+    })).filter(item => item.ratio > 0).sort((a, b) => b.ratio - a.ratio);
+    cause.source_ids = supporting.slice(0, 2).map(item => item.id);
+    cause.evidence_class = cause.source_ids.length ? "source_supported_hypothesis" : "hypothesis_only";
+    if (cause.evidence_class === "hypothesis_only") cause.confidence = "low";
+    else if (cause.confidence === "high") cause.confidence = "medium";
+  }
+  diagnosis.sources = [...new Set((diagnosis.possible_causes || []).flatMap(cause => cause.source_ids || []))];
+  return diagnosis;
+}
+
+function buildInsufficientEvidenceDiagnosis({ machine, symptom, evidence, language }) {
+  const text = {
+    en: {
+      warning: "Do not bypass protective devices. Follow site isolation/LOTO procedures before intervention.",
+      reason: "Evidence is insufficient and no relevant knowledge excerpt was retrieved. No cause is ranked and Gemini was not called.",
+      question1: "What exact alarm text, symptom timing, or operating state is already available?",
+      question2: "What are the manufacturer and exact model from the nameplate?"
+    },
+    fr: {
+      warning: "Ne contournez aucune protection. Appliquez la procédure de consignation du site avant toute intervention.",
+      reason: "Les preuves sont insuffisantes et aucun extrait pertinent n’a été retrouvé. Aucune cause n’est classée et Gemini n’a pas été appelé.",
+      question1: "Quel texte d’alarme exact, moment d’apparition ou état de fonctionnement est déjà disponible ?",
+      question2: "Quels sont le fabricant et le modèle exacts figurant sur la plaque ?"
+    },
+    ar: {
+      warning: "لا تتجاوز وسائل الحماية. اتبع إجراء الموقع لعزل الطاقة وتأمينها (LOTO) قبل أي تدخل.",
+      reason: "الأدلة غير كافية ولم يُسترجع مقطع معرفة ذي صلة. لم يتم ترتيب أي سبب ولم يُستدعَ Gemini.",
+      question1: "ما نص الإنذار حرفيًا أو توقيت ظهور العَرَض أو حالة التشغيل المتاحة لديك؟",
+      question2: "ما الشركة المصنّعة والطراز الدقيقان على لوحة البيانات؟"
+    }
+  }[language] || null;
+  const copy = text || {
+    warning: "اتبع إجراء الموقع لعزل الطاقة قبل التدخل.",
+    reason: "الأدلة غير كافية ولم يُسترجع مرجع ذو صلة؛ لم يتم ترتيب الأسباب.",
+    question1: "ما نص الإنذار أو تفاصيل ظهور العَرَض؟",
+    question2: "ما الشركة المصنّعة والطراز؟"
+  };
+  return {
+    status: "unable_to_assess",
+    language,
+    safety: { gate_required: true, loto_required_before_intervention: true, warnings: [copy.warning], stop_conditions: [] },
+    clarifying_questions: [
+      { id: "evidence-q1", question: copy.question1, reason: copy.reason },
+      { id: "evidence-q2", question: copy.question2, reason: copy.reason }
+    ],
+    possible_causes: [],
+    inspection_steps: [],
+    required_tools: [],
+    danger_signs: [],
+    escalation: { required: false, reason: copy.reason },
+    sources: [],
+    unknowns: evidence.missing,
+    session_summary: { equipment: machine, symptom, confirmed_cause: "", work_status: "open" }
+  };
+}
+
+
 async function retrieveKnowledge(machine, symptom, code, observations) {
   const query = [machine, symptom, code, observations].filter(Boolean).join(" ");
   let documents;
