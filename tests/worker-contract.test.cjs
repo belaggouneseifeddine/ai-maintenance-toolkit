@@ -25,7 +25,7 @@ const context = {
   }
 };
 const executable = source.replace("export default {", "const workerHandler = {") +
-  "\nglobalThis.__validateDiagnosis = validateDiagnosis; globalThis.__diagnosisSchema = DIAGNOSIS_SCHEMA; globalThis.__worker = workerHandler; globalThis.__retrievalTerms = retrievalTerms; globalThis.__rankLegacy = rankKnowledgeChunks; globalThis.__rankBM25 = rankKnowledgeChunksBM25;";
+  "\nglobalThis.__validateDiagnosis = validateDiagnosis; globalThis.__diagnosisSchema = DIAGNOSIS_SCHEMA; globalThis.__worker = workerHandler; globalThis.__retrievalTerms = retrievalTerms; globalThis.__applyEvidenceTraceability = applyEvidenceTraceability; globalThis.__buildInsufficientEvidenceDiagnosis = buildInsufficientEvidenceDiagnosis; globalThis.__rankLegacy = rankKnowledgeChunks; globalThis.__rankBM25 = rankKnowledgeChunksBM25;";
 new vm.Script(executable, { filename: "worker.js" }).runInNewContext(context);
 
 function validDiagnosis() {
@@ -45,6 +45,8 @@ function validDiagnosis() {
       confidence: "low",
       evidence_for: ["العَرَض متوافق جزئيًا."],
       evidence_against: [],
+      source_ids: ["S1"],
+      evidence_class: "source_supported_hypothesis",
       next_check: "راجع البيانات المتاحة فقط."
     }],
     inspection_steps: [{
