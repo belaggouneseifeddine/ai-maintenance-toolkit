@@ -36,7 +36,11 @@ class KnowledgeAssetsTests(unittest.TestCase):
         self.assertIn("https://www.ebi.ac.uk/europepmc/webservices/rest/PMC8234243/fullTextXML", source_urls)
         self.assertIn("https://www.ebi.ac.uk/europepmc/webservices/rest/PMC8747656/fullTextXML", source_urls)
         fetcher = SCRIPT_PATH.read_text(encoding="utf-8")
-        self.assertIn('"Accept": "application/xml, text/xml, application/xhtml+xml, text/html;q=0.9, */*;q=0.1"', fetcher)
+        self.assertIn('"Accept": "application/xml, text/xml, application/xhtml+xml, text/html;q=0.9"', fetcher)
+        self.assertNotIn('application/xhtml+xml, text/html;q=0.9, */*', fetcher)
+        self.assertIn('urlparse(final_url).scheme != "https"', fetcher)
+        self.assertIn('if content_type not in {', fetcher)
+        self.assertIn('if len(text) < 300:', fetcher)
         self.assertIn('"application/xml", "text/xml"', fetcher)
 
     def test_pump_draft_has_multilingual_terms_safety_and_attribution(self):
