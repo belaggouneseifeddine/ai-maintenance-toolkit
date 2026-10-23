@@ -56,7 +56,7 @@ The next step should not be a wholesale rewrite. It should be a thin, testable e
 4. Return provenance separately from prose: source ID, file, heading/line range, retrieval method, and confidence/limitations. Do not fabricate manufacturer page numbers.
 5. Make model failure degrade gracefully to local diagnostic guidance and clearly state that AI was unavailable.
 6. Add behavioral tests for rendered UI paths, source-supported claims, malformed model output, prompt-injection in retrieved documents, timeout, quota failure, and safety escalation.
-7. Replace best-effort in-memory abuse protection with an operational shared/platform rate limiter and usage monitoring before public multi-user exposure.
+7. Verify the configured Cloudflare platform rate limiter under controlled load and add usage/cost monitoring before public multi-user exposure.
 8. Separate local session context from durable maintenance records; do not silently upload records.
 9. Document which modules are implemented, tested, experimental, or planned.
 
@@ -74,7 +74,7 @@ The next step should not be a wholesale rewrite. It should be a thin, testable e
 |---|---|---|---|---|
 | AUD-01 | P0 | Actual provider generation is not verified in this audit | Historical CI covered health and deterministic gates, not a successful generation; direct request blocked in this environment | Run a controlled generic POST from a network-enabled environment using the existing Worker secret; record sanitized status/schema only |
 | AUD-02 | P1 | Main branch lacks required-check protection | GitHub branch metadata says protection disabled | Configure required PR checks and prohibit unreviewed direct-to-main changes where feasible |
-| AUD-03 | P1 | Public Worker abuse controls need operational verification | Docs describe prototype limitations; Wrangler config contains a rate-limit binding but deployment/effectiveness is not proven by source alone | Verify deployed config and test limit behavior safely; add usage/cost monitoring |
+| AUD-03 | P1 | Rate-limit binding is configured, but runtime enforcement and broader abuse controls need verification | Read-only Cloudflare inspection on 2026-10-24 confirmed the deployed Worker has an `AI_RATE_LIMITER` binding set to 10 requests per 60 seconds; no limit-exhaustion test was run | Test enforcement safely and add usage/cost monitoring; CORS is not authentication |
 | AUD-04 | P1 | Retrieval is lexical and coverage-limited | Current documented design fetches and ranks selected Markdown sections | Add deterministic retrieval tests and low-evidence behavior before considering semantic retrieval |
 | AUD-05 | P1 | Browser app is large and tightly coupled | Core UI and some diagnosis logic remain in `index.html` | Extract one small capability behind tests at a time |
 | AUD-06 | P2 | Maintenance records are device-local | README and setup docs | Add explicit export/backup UX before considering optional sync |
@@ -88,3 +88,15 @@ The next step should not be a wholesale rewrite. It should be a thin, testable e
 - [ ] Branch/PR gate policy is established or the limitation is explicitly accepted.
 - [ ] Each high-priority risk has an owner/status and an evidence-based remediation plan.
 - [ ] The first engineering-core implementation has behavioral tests and preserves local diagnosis.
+
+
+## Post-audit verification update — 2026-10-24
+
+A read-only Cloudflare API inspection after this audit confirmed:
+
+- Worker script `maintenance-ai-toolkit-api` exists in the connected account.
+- Latest listed deployment at inspection time was created on 2026-10-23 at 04:15 UTC, with its active version receiving 100% of traffic.
+- Secret binding metadata includes `AI_API_KEY`. The secret value was not read or exposed.
+- Deployed settings include `AI_RATE_LIMITER` with a 10-request / 60-second configuration, matching `wrangler.toml`; the Worker source calls this binding.
+- This verifies the existence of deployment and bindings, not successful Gemini generation or rate-limit enforcement. A direct request from the audit runtime was blocked by unavailable outbound DNS/network access; the recorded CI smoke test covers health, CORS, invalid payloads, and deterministic safety gates but not a successful model-generated answer.
+- PR #47 merged the first isolated `engineering-core.js` module and tests in commit `2a29b31a16ae9406aa22a5a1a809d838f9fb8816`. It is not yet wired into the production UI, and therefore does not change the live app's behavior.
