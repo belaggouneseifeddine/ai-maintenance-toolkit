@@ -124,6 +124,7 @@ footer{line-height:1.8}
 <label for="aiObservations">الملاحظات والقياسات مع الوحدات (اختياري)</label><textarea id="aiObservations" maxlength="3000" placeholder="اذكر ما لاحظته فقط، ولا تضع بيانات سرية أو معلومات تخص المصنع الحساسة."></textarea>
 <label for="aiMeasurementStatus">حالة القياسات المتاحة</label><select id="aiMeasurementStatus"><option value="unknown">لا أعرف / لست متأكدًا</option><option value="none">لا توجد قراءة متاحة</option><option value="available">توجد قراءات مسجلة بالفعل</option></select><p class="hint" id="aiMeasurementHint">لا تنفّذ قياسًا حيًا أو تلمس معدات خطرة لمجرد الإجابة. استخدم فقط المعلومات والقراءات المتاحة بالفعل.</p>
 <label class="check" for="aiConsent"><input id="aiConsent" type="checkbox" required><span>أوافق على إرسال وصف العطل والقياسات إلى خادم الذكاء الاصطناعي المُعدّ للتجربة. لن أرسل بيانات شخصية أو معلومات سرية عن المصنع.</span></label>
+<label class="check" for="cacheAiAnswers"><input id="cacheAiAnswers" type="checkbox"><span>حفظ الإجابات المتكررة على هذا الجهاز</span></label><p id="aiCacheHint" class="hint">اختياري: تُحفظ الإجابات المطابقة تمامًا محليًا لمدة 24 ساعة. لا تُخزَّن إجابات السلامة أو التصعيد أو الإجابات بلا دليل مسترجع.</p><div class="actions no-print"><button class="btn secondary" type="button" id="clearAiAnswerCache">مسح الإجابات المحفوظة</button></div><p id="aiCacheStatus" class="hint no-print" aria-live="polite"></p>
 <div class="notice">لا تستخدم اقتراحات الذكاء الاصطناعي وحدها لاتخاذ قرارات تشغيل أو سلامة. طبّق LOTO وإجراءات موقعك، ولا تتجاوز الحمايات أو تفتح الأنظمة المضغوطة.</div>
 <div class="actions"><button class="btn" id="askAi" type="submit">تحليل العطل</button></div>
 </form>
@@ -256,6 +257,7 @@ footer{line-height:1.8}
 <script src="./diagnostic-engine.js"></script>
 <script src="./i18n.js"></script>
 <script src="./speech-readout.js"></script>
+<script src="./answer-cache.js"></script>
 <script>
 const $=id=>document.getElementById(id);
 document.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b===btn));document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===btn.dataset.tab));}));
@@ -359,11 +361,37 @@ const endpointInput=$('aiEndpoint');
 try{const savedEndpoint=localStorage.getItem(AI_ENDPOINT_KEY)||'';const correctEndpoint='https://maintenance-ai-toolkit-api.maintenance-ai-toolkit-api-seif.workers.dev/api/chat';if(savedEndpoint.includes('maintenance-ai-toolkit-api-seif.workers.dev')&&!savedEndpoint.includes('maintenance-ai-toolkit-api.maintenance-ai-toolkit-api-seif.workers.dev')){localStorage.setItem(AI_ENDPOINT_KEY,correctEndpoint);endpointInput.value=correctEndpoint;}else{endpointInput.value=savedEndpoint||correctEndpoint;}}catch{endpointInput.value='https://maintenance-ai-toolkit-api.maintenance-ai-toolkit-api-seif.workers.dev/api/chat';}
 endpointInput.addEventListener('change',()=>{try{localStorage.setItem(AI_ENDPOINT_KEY,endpointInput.value.trim());}catch{}});
 $('saveAiEndpoint').addEventListener('click',()=>{document.dispatchEvent(new Event('maintenance-ai-answer-cleared'));const value=String(endpointInput.value||'').trim().replace(/\/+$/,'');try{if(value){const parsed=new URL(value);if(parsed.protocol!=='https:'||!parsed.pathname.endsWith('/api/chat'))throw new Error();localStorage.setItem(AI_ENDPOINT_KEY,value);endpointInput.value=value;$('aiResult').hidden=false;$('aiResult').textContent='تم حفظ رابط الخادم على هذا الجهاز. لم يتم اختبار الاتصال بعد.';}else{localStorage.removeItem(AI_ENDPOINT_KEY);$('aiResult').hidden=false;$('aiResult').textContent='تم مسح رابط الخادم المحفوظ.';}}catch{$('aiResult').hidden=false;$('aiResult').textContent='رابط غير صالح. أدخل رابط HTTPS ينتهي بـ /api/chat.';}});
+function renderAIAnswer(data,payload,lang,fromCache) {
+const box=$('aiResult');
+if(typeof data.answer!=='string'||!data.answer.trim())throw new Error('استجابة الخادم لا تحتوي على إجابة صالحة.');
+const suffix=lang==='fr'?'Avis préliminaire uniquement. Vérifiez le manuel du fabricant et les procédures de sécurité.':lang==='en'?'Preliminary guidance only. Verify the manufacturer manual and site safety procedures.':'تنبيه: نتيجة أولية؛ راجع دليل المصنع وإجراءات السلامة قبل أي تدخل.';
+const citationLines=Array.isArray(data.citations)&&data.citations.length?'\n\n'+(lang==='en'?'Retrieved knowledge sources:':lang==='fr'?'Sources de connaissances récupérées :':'مصادر المعرفة المسترجعة:')+'\n'+data.citations.map(c=>'['+String(c.id||'S?')+'] '+String(c.source||'')+' — '+String(c.section||'')+' (lines '+String(c.startLine||'?')+'–'+String(c.endLine||'?')+')').join('\n'):'';
+box.textContent=data.answer.trim()+citationLines+'\n\n'+suffix;
+if(data.diagnosis){
+ const d=data.diagnosis;
+ const record={id:newRecordId(),date:localDateString(),machine:payload.machine,fault:payload.symptom,action:data.answer.trim(),status:d.session_summary&&d.session_summary.work_status==="escalated"?"تم التصعيد":"قيد الفحص",source:"ai-assistant",code:payload.code,observations:payload.observations,measurementStatus:payload.measurementStatus,diagnosis:d,citations:Array.isArray(data.citations)?data.citations:[],createdAt:new Date().toISOString()};
+ const all=getRecords();all.unshift(record);
+ if(saveRecords(all)){renderRecords();box.textContent+="\n\nتم حفظ جلسة التشخيص في سجل الصيانة على هذا الجهاز.";}
+}
+if(fromCache){
+ const note=window.MaintenanceI18n?window.MaintenanceI18n.t("aiCacheHit"):"Reused a locally saved answer; no new request was sent.";
+ box.textContent+="\n\n"+note;
+}
+document.dispatchEvent(new Event("maintenance-ai-answer-ready"));
+}
+
 $('aiForm').addEventListener('submit',async e=>{
 e.preventDefault();
 const box=$('aiResult');
 box.hidden=false;box.textContent='';
 document.dispatchEvent(new Event('maintenance-ai-answer-cleared'));
+const lang=window.MaintenanceI18n?window.MaintenanceI18n.getLanguage():'ar';
+const payload={machine:$('aiMachine').value.trim(),symptom:$('aiSymptom').value.trim(),code:$('aiCode').value.trim(),observations:$('aiObservations').value.trim(),measurementStatus:$('aiMeasurementStatus').value,language:['ar','fr','en'].includes(lang)?lang:'ar'};
+if($('cacheAiAnswers').checked&&window.MaintenanceAnswerCache){
+ let cached=null;
+ try{cached=await window.MaintenanceAnswerCache.get(payload);}catch{}
+ if(cached){renderAIAnswer(cached,payload,lang,true);return;}
+}
 if(!$('aiConsent').checked){box.textContent='وافق على إرسال وصف العطل إلى الخادم قبل المتابعة.';return;}
 const endpoint=String(endpointInput.value||'').trim().replace(/\/+$/,'');
 if(!endpoint){box.textContent='لم يتم إعداد رابط الخادم بعد. انشر Cloudflare Worker ثم أدخل رابطه المنتهي بـ /api/chat. يبقى التشخيص المحلي متاحًا.';return;}
@@ -372,8 +400,6 @@ try{endpointUrl=new URL(endpoint);if(endpointUrl.protocol!=='https:'||!endpointU
 try{localStorage.setItem(AI_ENDPOINT_KEY,endpoint);}catch{}
 const button=$('askAi');button.disabled=true;button.textContent='جارٍ تحليل العطل…';
 box.textContent='جارٍ الاتصال بخادم الذكاء الاصطناعي…';
-const lang=window.MaintenanceI18n?window.MaintenanceI18n.getLanguage():'ar';
-const payload={machine:$('aiMachine').value.trim(),symptom:$('aiSymptom').value.trim(),code:$('aiCode').value.trim(),observations:$('aiObservations').value.trim(),measurementStatus:$('aiMeasurementStatus').value,language:['ar','fr','en'].includes(lang)?lang:'ar'};
 try{
 const response=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},signal:AbortSignal.timeout(65000),body:JSON.stringify(payload)});
 let data={};try{data=await response.json()}catch{}
@@ -390,16 +416,10 @@ if(!response.ok){
  throw new Error(detail);
 }
 if(typeof data.answer!=='string'||!data.answer.trim())throw new Error('استجابة الخادم لا تحتوي على إجابة صالحة.');
-const lang=window.MaintenanceI18n?window.MaintenanceI18n.getLanguage():'ar';
-const suffix=lang==='fr'?'Avis préliminaire uniquement. Vérifiez le manuel du fabricant et les procédures de sécurité.':lang==='en'?'Preliminary guidance only. Verify the manufacturer manual and site safety procedures.':'تنبيه: نتيجة أولية؛ راجع دليل المصنع وإجراءات السلامة قبل أي تدخل.';
-const citationLines=Array.isArray(data.citations)&&data.citations.length?'\n\n'+(lang==='en'?'Retrieved knowledge sources:':lang==='fr'?'Sources de connaissances récupérées :':'مصادر المعرفة المسترجعة:')+'\n'+data.citations.map(c=>'['+String(c.id||'S?')+'] '+String(c.source||'')+' — '+String(c.section||'')+' (lines '+String(c.startLine||'?')+'–'+String(c.endLine||'?')+')').join('\n'):'';box.textContent=data.answer.trim()+citationLines+'\n\n'+suffix;
-if(data.diagnosis){
- const d=data.diagnosis;
- const record={id:newRecordId(),date:localDateString(),machine:payload.machine,fault:payload.symptom,action:data.answer.trim(),status:d.session_summary&&d.session_summary.work_status==="escalated"?"تم التصعيد":"قيد الفحص",source:"ai-assistant",code:payload.code,observations:payload.observations,measurementStatus:payload.measurementStatus,diagnosis:d,citations:Array.isArray(data.citations)?data.citations:[],createdAt:new Date().toISOString()};
- const all=getRecords();all.unshift(record);
- if(saveRecords(all)){renderRecords();box.textContent+="\n\nتم حفظ جلسة التشخيص في سجل الصيانة على هذا الجهاز.";}
+if($('cacheAiAnswers').checked&&window.MaintenanceAnswerCache) {
+ try{await window.MaintenanceAnswerCache.set(payload,data);}catch{}
 }
-document.dispatchEvent(new Event("maintenance-ai-answer-ready"));
+renderAIAnswer(data,payload,lang,false);
 }catch(err){const message=err&&err.name==='TimeoutError'?'انتهت مهلة الاتصال بالخادم بعد 65 ثانية. تحقق من اتصال الإنترنت وحالة Gemini ثم أعد المحاولة.':err&&err.message==='Failed to fetch'?'تعذر قراءة استجابة الخادم. تحقق من الإنترنت ورابط HTTPS وCORS؛ افتح التطبيق من رابط GitHub Pages الرسمي وليس من معاينة أو ملف محلي.':(err.message||'خطأ غير معروف');box.textContent='تعذر إكمال التحليل بالذكاء الاصطناعي: '+message+'\n\nلم يُحذف أي سجل. يمكنك استخدام التشخيص المحلي مؤقتًا، ثم إعادة المحاولة بعد معالجة السبب.';}
 finally{button.disabled=false;button.textContent='تحليل العطل';}
 });
