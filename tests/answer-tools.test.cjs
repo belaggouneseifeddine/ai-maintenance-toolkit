@@ -20,6 +20,7 @@ const preliminary={answer:"Preliminary guidance",citations:[{id:"S1"}],diagnosis
 
 test("answer cache is exact-query, local, and returns a stored preliminary answer",()=>{
   const {api,store}=setup();
+  assert.equal(api.hash(payload).length,16);
   assert.equal(api.get(payload,1000),null);
   assert.equal(api.put(payload,preliminary,1000),true);
   const result=api.get(payload,1001);
