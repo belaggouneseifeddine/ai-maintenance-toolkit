@@ -1629,7 +1629,8 @@
         ],
         "fr": [
           "moteur ne démarre pas",
-          "ne tourne pas"
+          "ne tourne pas",
+          "Moteur ne démarre pas"
         ],
         "en": [
           "motor will not start",
@@ -1821,15 +1822,18 @@
       "keywords": {
         "ar": [
           "اهتزاز المحرك",
-          "رجفة"
+          "رجفة",
+          "اهتزاز المحرك مرتفع"
         ],
         "fr": [
           "vibration moteur",
-          "vibrations excessives"
+          "vibrations excessives",
+          "Vibrations moteur excessives"
         ],
         "en": [
           "motor vibration",
-          "excessive vibration"
+          "excessive vibration",
+          "Excessive motor vibration"
         ]
       },
       "causes": [
@@ -1922,7 +1926,8 @@
         ],
         "fr": [
           "bruit roulement",
-          "grondement"
+          "grondement",
+          "Bruit des roulements moteur"
         ],
         "en": [
           "bearing noise",
@@ -2015,11 +2020,13 @@
       "keywords": {
         "ar": [
           "فقدان طور",
-          "فاز ناقص"
+          "فاز ناقص",
+          "فقدان طور كهربائي"
         ],
         "fr": [
           "perte de phase",
-          "phase manquante"
+          "phase manquante",
+          "Perte de phase"
         ],
         "en": [
           "phase loss",
@@ -2112,15 +2119,18 @@
       "keywords": {
         "ar": [
           "عدم توازن الفازات",
-          "تيار غير متوازن"
+          "تيار غير متوازن",
+          "عدم توازن الأطوار"
         ],
         "fr": [
           "déséquilibre phases",
-          "courant déséquilibré"
+          "courant déséquilibré",
+          "Déséquilibre des phases"
         ],
         "en": [
           "phase imbalance",
-          "unbalanced current"
+          "unbalanced current",
+          "Phase imbalance"
         ]
       },
       "causes": [
@@ -2208,11 +2218,13 @@
       "keywords": {
         "ar": [
           "عزل ضعيف",
-          "تسرب أرضي"
+          "تسرب أرضي",
+          "انخفاض مقاومة العزل"
         ],
         "fr": [
           "faible isolement",
-          "défaut terre"
+          "défaut terre",
+          "Faible résistance d’isolement"
         ],
         "en": [
           "low insulation",
@@ -2310,7 +2322,8 @@
         ],
         "fr": [
           "enroulements moteur",
-          "bobinage brûlé"
+          "bobinage brûlé",
+          "Défaut possible des enroulements"
         ],
         "en": [
           "motor winding",
@@ -2403,15 +2416,18 @@
       "keywords": {
         "ar": [
           "اتجاه الدوران",
-          "يدور بالعكس"
+          "يدور بالعكس",
+          "اتجاه دوران غير صحيح"
         ],
         "fr": [
           "sens de rotation",
-          "tourne à l’envers"
+          "tourne à l’envers",
+          "Sens de rotation incorrect"
         ],
         "en": [
           "wrong rotation",
-          "reverse rotation"
+          "reverse rotation",
+          "Incorrect rotation direction"
         ]
       },
       "causes": [
@@ -2499,15 +2515,18 @@
       "keywords": {
         "ar": [
           "يفصل ويشتغل",
-          "تشغيل متقطع"
+          "تشغيل متقطع",
+          "تشغيل وفصل متكرر للمحرك"
         ],
         "fr": [
           "démarre et s’arrête",
-          "fonctionnement intermittent"
+          "fonctionnement intermittent",
+          "Démarrages et arrêts répétés"
         ],
         "en": [
           "starts and stops",
-          "intermittent running"
+          "intermittent running",
+          "Motor starts and stops repeatedly"
         ]
       },
       "causes": [
@@ -2595,15 +2614,18 @@
       "keywords": {
         "ar": [
           "سرعة منخفضة",
-          "RPM منخفض"
+          "RPM منخفض",
+          "سرعة المحرك منخفضة"
         ],
         "fr": [
           "vitesse faible",
-          "régime bas"
+          "régime bas",
+          "Vitesse moteur faible"
         ],
         "en": [
           "low speed",
-          "low rpm"
+          "low rpm",
+          "Low motor speed"
         ]
       },
       "causes": [
@@ -2691,15 +2713,18 @@
       "keywords": {
         "ar": [
           "تيار مرتفع",
-          "أمبير عالي"
+          "أمبير عالي",
+          "تيار المحرك مرتفع"
         ],
         "fr": [
           "courant élevé",
-          "intensité élevée"
+          "intensité élevée",
+          "Courant moteur élevé"
         ],
         "en": [
           "high motor current",
-          "amps high"
+          "amps high",
+          "High motor current"
         ]
       },
       "causes": [
@@ -2787,15 +2812,18 @@
       "keywords": {
         "ar": [
           "عزم ضعيف",
-          "لا يحمل الحمل"
+          "لا يحمل الحمل",
+          "عزم المحرك ضعيف"
         ],
         "fr": [
           "couple faible",
-          "manque de couple"
+          "manque de couple",
+          "Couple moteur faible"
         ],
         "en": [
           "low torque",
-          "insufficient torque"
+          "insufficient torque",
+          "Low motor torque"
         ]
       },
       "causes": [
@@ -2888,7 +2916,8 @@
         ],
         "fr": [
           "surintensité",
-          "défaut OC"
+          "défaut OC",
+          "Défaut surintensité variateur"
         ],
         "en": [
           "overcurrent",
@@ -2986,7 +3015,8 @@
         ],
         "fr": [
           "surtension variateur",
-          "défaut OV"
+          "défaut OV",
+          "Défaut surtension variateur"
         ],
         "en": [
           "overvoltage",
@@ -3084,7 +3114,8 @@
         ],
         "fr": [
           "sous-tension variateur",
-          "défaut UV"
+          "défaut UV",
+          "Défaut sous-tension variateur"
         ],
         "en": [
           "undervoltage",
@@ -3177,15 +3208,18 @@
       "keywords": {
         "ar": [
           "حرارة VFD",
-          "سخونة المغير"
+          "سخونة المغير",
+          "ارتفاع حرارة مغير السرعة"
         ],
         "fr": [
           "surchauffe variateur",
-          "variateur chaud"
+          "variateur chaud",
+          "Surchauffe du variateur"
         ],
         "en": [
           "VFD overheating",
-          "drive temperature"
+          "drive temperature",
+          "fault"
         ]
       },
       "causes": [
@@ -3273,14 +3307,18 @@
       "keywords": {
         "ar": [
           "تسرب أرضي",
-          "ground fault"
+          "ground fault",
+          "عطل تسرب أرضي في VFD"
         ],
         "fr": [
-          "défaut terre variateur"
+          "défaut terre variateur",
+          "Défaut de terre du variateur",
+          "défaut"
         ],
         "en": [
           "ground fault",
-          "earth fault VFD"
+          "earth fault VFD",
+          "VFD ground fault"
         ]
       },
       "causes": [
@@ -3368,15 +3406,18 @@
       "keywords": {
         "ar": [
           "VFD جاهز",
-          "المحرك لا يدور"
+          "المحرك لا يدور",
+          "VFD جاهز لكن المحرك لا يعمل"
         ],
         "fr": [
           "variateur prêt",
-          "moteur à l’arrêt"
+          "moteur à l’arrêt",
+          "Variateur prêt mais moteur à l’arrêt"
         ],
         "en": [
           "VFD ready",
-          "motor not running"
+          "motor not running",
+          "VFD ready but motor not running"
         ]
       },
       "causes": [
@@ -3464,15 +3505,18 @@
       "keywords": {
         "ar": [
           "تردد متذبذب",
-          "سرعة تتغير"
+          "سرعة تتغير",
+          "تذبذب تردد خرج VFD"
         ],
         "fr": [
           "fréquence instable",
-          "vitesse variable"
+          "vitesse variable",
+          "Fréquence de sortie instable"
         ],
         "en": [
           "unstable frequency",
-          "speed fluctuates"
+          "speed fluctuates",
+          "Unstable VFD output frequency"
         ]
       },
       "causes": [
@@ -3560,15 +3604,18 @@
       "keywords": {
         "ar": [
           "فقدان الاتصال",
-          "communication fault"
+          "communication fault",
+          "فقدان اتصال VFD"
         ],
         "fr": [
           "perte communication",
-          "défaut communication"
+          "défaut communication",
+          "Perte de communication du variateur"
         ],
         "en": [
           "communication loss",
-          "fieldbus fault"
+          "fieldbus fault",
+          "VFD communication loss"
         ]
       },
       "causes": [
@@ -3656,15 +3703,18 @@
       "keywords": {
         "ar": [
           "إعدادات المحرك",
-          "بيانات اللوحة"
+          "بيانات اللوحة",
+          "إعدادات المحرك غير مطابقة في VFD"
         ],
         "fr": [
           "paramètres moteur",
-          "plaque signalétique"
+          "plaque signalétique",
+          "Paramètres moteur incorrects"
         ],
         "en": [
           "motor parameters",
-          "nameplate mismatch"
+          "nameplate mismatch",
+          "Incorrect motor parameters in VFD"
         ]
       },
       "causes": [
@@ -3757,7 +3807,8 @@
         ],
         "fr": [
           "consigne vitesse absente",
-          "entrée analogique"
+          "entrée analogique",
+          "Consigne de vitesse absente"
         ],
         "en": [
           "missing speed reference",
@@ -3850,15 +3901,18 @@
       "keywords": {
         "ar": [
           "مروحة VFD",
-          "تبريد ضعيف"
+          "تبريد ضعيف",
+          "تعطل مروحة تبريد VFD"
         ],
         "fr": [
           "ventilateur variateur",
-          "refroidissement faible"
+          "refroidissement faible",
+          "Ventilateur du variateur en panne"
         ],
         "en": [
           "VFD fan failure",
-          "poor cooling"
+          "poor cooling",
+          "VFD cooling fan failure"
         ]
       },
       "causes": [
@@ -3946,15 +4000,18 @@
       "keywords": {
         "ar": [
           "ناقل DC",
-          "تموج الجهد"
+          "تموج الجهد",
+          "اشتباه تموج مرتفع في ناقل DC"
         ],
         "fr": [
           "bus continu",
-          "ondulation tension"
+          "ondulation tension",
+          "Ondulation élevée possible du bus DC"
         ],
         "en": [
           "DC bus ripple",
-          "bus voltage fluctuation"
+          "bus voltage fluctuation",
+          "Possible excessive DC bus ripple"
         ]
       },
       "causes": [
@@ -4042,15 +4099,18 @@
       "keywords": {
         "ar": [
           "زيت منخفض",
-          "نقص الزيت"
+          "نقص الزيت",
+          "انخفاض مستوى زيت الضاغط"
         ],
         "fr": [
           "niveau huile bas",
-          "manque huile"
+          "manque huile",
+          "Niveau d’huile bas"
         ],
         "en": [
           "low oil",
-          "oil level low"
+          "oil level low",
+          "Low compressor oil level"
         ]
       },
       "causes": [
@@ -4137,13 +4197,19 @@
       },
       "keywords": {
         "ar": [
-          "ضغط الزيت منخفض"
+          "ضغط الزيت منخفض",
+          "انخفاض ضغط زيت الضاغط",
+          "عطل"
         ],
         "fr": [
-          "pression huile basse"
+          "pression huile basse",
+          "Pression d’huile basse",
+          "défaut"
         ],
         "en": [
-          "low oil pressure"
+          "low oil pressure",
+          "Low compressor oil pressure",
+          "fault"
         ]
       },
       "causes": [
@@ -4231,11 +4297,13 @@
       "keywords": {
         "ar": [
           "زيت في الهواء",
-          "استهلاك زيت"
+          "استهلاك زيت",
+          "زيادة الزيت في هواء الخروج"
         ],
         "fr": [
           "huile dans air",
-          "consommation huile"
+          "consommation huile",
+          "Entraînement d’huile excessif"
         ],
         "en": [
           "oil carryover",
@@ -4328,15 +4396,18 @@
       "keywords": {
         "ar": [
           "فلتر سحب",
-          "مدخل مسدود"
+          "مدخل مسدود",
+          "تقييد مدخل هواء الضاغط"
         ],
         "fr": [
           "filtre admission",
-          "entrée obstruée"
+          "entrée obstruée",
+          "Restriction d’admission d’air"
         ],
         "en": [
           "intake restriction",
-          "clogged air filter"
+          "clogged air filter",
+          "Compressor air intake restriction"
         ]
       },
       "causes": [
@@ -4424,11 +4495,13 @@
       "keywords": {
         "ar": [
           "تسرب هواء",
-          "هبوط الضغط"
+          "هبوط الضغط",
+          "تسرب هواء في شبكة الضغط"
         ],
         "fr": [
           "fuite air comprimé",
-          "chute pression"
+          "chute pression",
+          "Fuite d’air comprimé"
         ],
         "en": [
           "air leak",
@@ -4521,15 +4594,18 @@
       "keywords": {
         "ar": [
           "تشغيل متكرر",
-          "تحميل تفريغ"
+          "تحميل تفريغ",
+          "تشغيل وفصل متكرر للضاغط"
         ],
         "fr": [
           "cycles fréquents",
-          "charge décharge"
+          "charge décharge",
+          "Cycles marche-arrêt fréquents"
         ],
         "en": [
           "frequent cycling",
-          "load unload"
+          "load unload",
+          "Frequent compressor cycling"
         ]
       },
       "causes": [
@@ -4617,15 +4693,18 @@
       "keywords": {
         "ar": [
           "ماء في الهواء",
-          "مكثفات"
+          "مكثفات",
+          "تراكم مكثفات في الهواء المضغوط"
         ],
         "fr": [
           "eau dans air",
-          "condensats"
+          "condensats",
+          "Accumulation de condensats"
         ],
         "en": [
           "water in compressed air",
-          "condensate"
+          "condensate",
+          "Compressed-air condensate accumulation"
         ]
       },
       "causes": [
@@ -4713,15 +4792,18 @@
       "keywords": {
         "ar": [
           "فاصل الزيت",
-          "فرق ضغط"
+          "فرق ضغط",
+          "ارتفاع فرق ضغط فاصل الزيت"
         ],
         "fr": [
           "séparateur huile",
-          "perte de charge"
+          "perte de charge",
+          "Perte de charge élevée du séparateur"
         ],
         "en": [
           "oil separator",
-          "separator differential pressure"
+          "separator differential pressure",
+          "High oil separator pressure drop"
         ]
       },
       "causes": [
@@ -4809,15 +4891,18 @@
       "keywords": {
         "ar": [
           "سير مرتخٍ",
-          "انزلاق السير"
+          "انزلاق السير",
+          "انزلاق سير الضاغط"
         ],
         "fr": [
           "courroie détendue",
-          "glissement"
+          "glissement",
+          "Glissement de courroie du compresseur"
         ],
         "en": [
           "belt slip",
-          "loose belt"
+          "loose belt",
+          "Compressor belt slip"
         ]
       },
       "causes": [
@@ -4905,15 +4990,18 @@
       "keywords": {
         "ar": [
           "تصريف المكثفات",
-          "صمام التصريف"
+          "صمام التصريف",
+          "تعطل تصريف المكثفات"
         ],
         "fr": [
           "purge condensats",
-          "purgeur bloqué"
+          "purgeur bloqué",
+          "Défaillance de purge des condensats"
         ],
         "en": [
           "condensate drain failure",
-          "drain blocked"
+          "drain blocked",
+          "Condensate drain failure"
         ]
       },
       "causes": [
@@ -5001,15 +5089,18 @@
       "keywords": {
         "ar": [
           "تدفق ضعيف",
-          "débit faible"
+          "débit faible",
+          "تدفق المضخة منخفض"
         ],
         "fr": [
           "débit faible",
-          "faible débit pompe"
+          "faible débit pompe",
+          "Débit de pompe faible"
         ],
         "en": [
           "low flow",
-          "low pump flow"
+          "low pump flow",
+          "Low pump flow"
         ]
       },
       "causes": [
@@ -5097,14 +5188,18 @@
       "keywords": {
         "ar": [
           "لا يوجد ضغط",
-          "ضغط الخروج صفر"
+          "ضغط الخروج صفر",
+          "لا يوجد ضغط عند مخرج المضخة"
         ],
         "fr": [
-          "pas de pression refoulement"
+          "pas de pression refoulement",
+          "Pas de pression au refoulement",
+          "défaut"
         ],
         "en": [
           "no discharge pressure",
-          "zero discharge pressure"
+          "zero discharge pressure",
+          "No pump discharge pressure"
         ]
       },
       "causes": [
@@ -5192,14 +5287,18 @@
       "keywords": {
         "ar": [
           "تسرب ميكانيكي",
-          "تسرب المضخة"
+          "تسرب المضخة",
+          "تسرب مانع التسرب الميكانيكي"
         ],
         "fr": [
-          "fuite garniture mécanique"
+          "fuite garniture mécanique",
+          "Fuite de garniture mécanique",
+          "défaut"
         ],
         "en": [
           "mechanical seal leak",
-          "pump seal leakage"
+          "pump seal leakage",
+          "Mechanical seal leakage"
         ]
       },
       "causes": [
@@ -5287,15 +5386,18 @@
       "keywords": {
         "ar": [
           "حرارة المحمل",
-          "bearing hot"
+          "bearing hot",
+          "ارتفاع حرارة محامل المضخة"
         ],
         "fr": [
           "roulement chaud",
-          "surchauffe roulement"
+          "surchauffe roulement",
+          "Surchauffe des roulements de pompe"
         ],
         "en": [
           "bearing overheating",
-          "hot bearing"
+          "hot bearing",
+          "Pump bearing overheating"
         ]
       },
       "causes": [
@@ -5383,14 +5485,18 @@
       "keywords": {
         "ar": [
           "عدم محاذاة",
-          "اقتران"
+          "اقتران",
+          "عدم محاذاة الاقتران"
         ],
         "fr": [
-          "désalignement accouplement"
+          "désalignement accouplement",
+          "Désalignement de l’accouplement",
+          "défaut"
         ],
         "en": [
           "coupling misalignment",
-          "shaft alignment"
+          "shaft alignment",
+          "Coupling misalignment"
         ]
       },
       "causes": [
@@ -5478,14 +5584,18 @@
       "keywords": {
         "ar": [
           "مضخة بالعكس",
-          "اتجاه خاطئ"
+          "اتجاه خاطئ",
+          "دوران المضخة بالاتجاه المعاكس"
         ],
         "fr": [
-          "pompe tourne à l’envers"
+          "pompe tourne à l’envers",
+          "Rotation inverse de la pompe",
+          "défaut"
         ],
         "en": [
           "pump reverse rotation",
-          "wrong rotation"
+          "wrong rotation",
+          "Pump rotating in reverse"
         ]
       },
       "causes": [
@@ -5573,15 +5683,18 @@
       "keywords": {
         "ar": [
           "احتباس هواء",
-          "جيب هوائي"
+          "جيب هوائي",
+          "احتباس هواء في المضخة أو الخط"
         ],
         "fr": [
           "poche d’air",
-          "air dans conduite"
+          "air dans conduite",
+          "Poche d’air dans la pompe ou la conduite"
         ],
         "en": [
           "air lock",
-          "trapped air"
+          "trapped air",
+          "Air lock in pump or line"
         ]
       },
       "causes": [
@@ -5669,14 +5782,18 @@
       "keywords": {
         "ar": [
           "خط الطرد مسدود",
-          "انسداد"
+          "انسداد",
+          "انسداد محتمل في خط الطرد"
         ],
         "fr": [
-          "refoulement obstrué"
+          "refoulement obstrué",
+          "Obstruction possible au refoulement",
+          "défaut"
         ],
         "en": [
           "discharge blockage",
-          "blocked discharge"
+          "blocked discharge",
+          "Possible discharge blockage"
         ]
       },
       "causes": [
@@ -5764,15 +5881,18 @@
       "keywords": {
         "ar": [
           "دافع المضخة",
-          "ريش مكسورة"
+          "ريش مكسورة",
+          "تلف أو تآكل دافع المضخة"
         ],
         "fr": [
           "roue pompe usée",
-          "aubes endommagées"
+          "aubes endommagées",
+          "Roue de pompe endommagée ou usée"
         ],
         "en": [
           "impeller damage",
-          "worn impeller"
+          "worn impeller",
+          "Damaged or worn pump impeller"
         ]
       },
       "causes": [
@@ -5860,15 +5980,18 @@
       "keywords": {
         "ar": [
           "تدفق مرتفع",
-          "débit trop élevé"
+          "débit trop élevé",
+          "تدفق أعلى من المتوقع"
         ],
         "fr": [
           "débit excessif",
-          "débit élevé"
+          "débit élevé",
+          "Débit supérieur aux attentes"
         ],
         "en": [
           "excessive flow",
-          "high flow"
+          "high flow",
+          "Excessive pump flow"
         ]
       },
       "causes": [
@@ -5956,15 +6079,18 @@
       "keywords": {
         "ar": [
           "ضغط متذبذب",
-          "الضغط يتغير"
+          "الضغط يتغير",
+          "تذبذب ضغط المضخة"
         ],
         "fr": [
           "pression fluctuante",
-          "pression instable"
+          "pression instable",
+          "Pression de pompe fluctuante"
         ],
         "en": [
           "pressure fluctuation",
-          "unstable pressure"
+          "unstable pressure",
+          "Pump pressure fluctuation"
         ]
       },
       "causes": [
@@ -6052,11 +6178,13 @@
       "keywords": {
         "ar": [
           "تشغيل جاف",
-          "بدون ماء"
+          "بدون ماء",
+          "اشتباه تشغيل المضخة دون سائل"
         ],
         "fr": [
           "marche à sec",
-          "sans liquide"
+          "sans liquide",
+          "Fonctionnement à sec possible"
         ],
         "en": [
           "dry running",
@@ -6149,14 +6277,18 @@
       "keywords": {
         "ar": [
           "صمام مغلق",
-          "لا يفتح"
+          "لا يفتح",
+          "صمام عالق في وضع الإغلاق"
         ],
         "fr": [
-          "vanne bloquée fermée"
+          "vanne bloquée fermée",
+          "Vanne bloquée fermée",
+          "défaut"
         ],
         "en": [
           "valve stuck closed",
-          "will not open"
+          "will not open",
+          "Valve stuck closed"
         ]
       },
       "causes": [
@@ -6244,14 +6376,18 @@
       "keywords": {
         "ar": [
           "صمام مفتوح",
-          "لا يغلق"
+          "لا يغلق",
+          "صمام عالق في وضع الفتح"
         ],
         "fr": [
-          "vanne bloquée ouverte"
+          "vanne bloquée ouverte",
+          "Vanne bloquée ouverte",
+          "défaut"
         ],
         "en": [
           "valve stuck open",
-          "will not close"
+          "will not close",
+          "Valve stuck open"
         ]
       },
       "causes": [
@@ -6339,14 +6475,18 @@
       "keywords": {
         "ar": [
           "تسرب داخلي",
-          "الصمام يمرر"
+          "الصمام يمرر",
+          "تسرب داخلي عبر الصمام"
         ],
         "fr": [
-          "fuite interne vanne"
+          "fuite interne vanne",
+          "Fuite interne de vanne",
+          "défaut"
         ],
         "en": [
           "internal valve leakage",
-          "passing valve"
+          "passing valve",
+          "Internal valve leakage"
         ]
       },
       "causes": [
@@ -6434,14 +6574,18 @@
       "keywords": {
         "ar": [
           "المشغل لا يستجيب",
-          "actuator"
+          "actuator",
+          "مشغل الصمام لا يستجيب"
         ],
         "fr": [
-          "actionneur sans réponse"
+          "actionneur sans réponse",
+          "Actionneur de vanne sans réponse",
+          "défaut"
         ],
         "en": [
           "actuator no response",
-          "valve actuator"
+          "valve actuator",
+          "Valve actuator no response"
         ]
       },
       "causes": [
@@ -6529,14 +6673,18 @@
       "keywords": {
         "ar": [
           "إشارة الموضع",
-          "feedback الصمام"
+          "feedback الصمام",
+          "إشارة موضع الصمام غير صحيحة"
         ],
         "fr": [
-          "retour position vanne"
+          "retour position vanne",
+          "Retour de position de vanne incorrect",
+          "défaut"
         ],
         "en": [
           "valve position feedback",
-          "limit switch"
+          "limit switch",
+          "Incorrect valve position feedback"
         ]
       },
       "causes": [
@@ -6624,15 +6772,18 @@
       "keywords": {
         "ar": [
           "ملف لولبي",
-          "électrovanne"
+          "électrovanne",
+          "اشتباه عطل في الملف اللولبي"
         ],
         "fr": [
           "électrovanne",
-          "bobine solénoïde"
+          "bobine solénoïde",
+          "Défaut possible d’électrovanne"
         ],
         "en": [
           "solenoid valve",
-          "coil fault"
+          "coil fault",
+          "Possible solenoid valve fault"
         ]
       },
       "causes": [
@@ -6720,14 +6871,18 @@
       "keywords": {
         "ar": [
           "طرق مائي",
-          "صدمة ضغط"
+          "صدمة ضغط",
+          "طرق مائي عند تغير التدفق"
         ],
         "fr": [
-          "coup de bélier"
+          "coup de bélier",
+          "Coup de bélier lors d’un changement de débit",
+          "défaut"
         ],
         "en": [
           "water hammer",
-          "pressure surge"
+          "pressure surge",
+          "Water hammer during flow change"
         ]
       },
       "causes": [
@@ -6814,13 +6969,19 @@
       },
       "keywords": {
         "ar": [
-          "ضغط هيدروليكي منخفض"
+          "ضغط هيدروليكي منخفض",
+          "انخفاض ضغط النظام الهيدروليكي",
+          "عطل"
         ],
         "fr": [
-          "pression hydraulique basse"
+          "pression hydraulique basse",
+          "Basse pression hydraulique",
+          "défaut"
         ],
         "en": [
-          "low hydraulic pressure"
+          "low hydraulic pressure",
+          "Low hydraulic system pressure",
+          "fault"
         ]
       },
       "causes": [
@@ -6908,15 +7069,18 @@
       "keywords": {
         "ar": [
           "زيت هيدروليكي ساخن",
-          "حرارة زيت"
+          "حرارة زيت",
+          "ارتفاع حرارة الزيت الهيدروليكي"
         ],
         "fr": [
           "huile hydraulique chaude",
-          "surchauffe"
+          "surchauffe",
+          "Surchauffe de l’huile hydraulique"
         ],
         "en": [
           "hydraulic oil overheating",
-          "hot oil"
+          "hot oil",
+          "Hydraulic oil overheating"
         ]
       },
       "causes": [
@@ -7004,15 +7168,18 @@
       "keywords": {
         "ar": [
           "رغوة الزيت",
-          "هواء في الزيت"
+          "هواء في الزيت",
+          "رغوة في الزيت الهيدروليكي"
         ],
         "fr": [
           "mousse huile",
-          "air dans huile"
+          "air dans huile",
+          "Mousse dans l’huile hydraulique"
         ],
         "en": [
           "hydraulic oil foaming",
-          "aeration"
+          "aeration",
+          "Hydraulic oil foaming"
         ]
       },
       "causes": [
@@ -7100,14 +7267,18 @@
       "keywords": {
         "ar": [
           "فلتر هيدروليك",
-          "انسداد المرشح"
+          "انسداد المرشح",
+          "اشتباه انسداد مرشح هيدروليكي"
         ],
         "fr": [
-          "filtre hydraulique colmaté"
+          "filtre hydraulique colmaté",
+          "Filtre hydraulique possiblement colmaté",
+          "défaut"
         ],
         "en": [
           "hydraulic filter clogged",
-          "filter restriction"
+          "filter restriction",
+          "Possible hydraulic filter blockage"
         ]
       },
       "causes": [
@@ -7195,15 +7366,18 @@
       "keywords": {
         "ar": [
           "الأسطوانة تنزل",
-          "انجراف الحمل"
+          "انجراف الحمل",
+          "انجراف الأسطوانة الهيدروليكية"
         ],
         "fr": [
           "dérive vérin",
-          "charge descend"
+          "charge descend",
+          "Dérive du vérin hydraulique"
         ],
         "en": [
           "cylinder drift",
-          "load drifting"
+          "load drifting",
+          "Hydraulic cylinder drift"
         ]
       },
       "causes": [
@@ -7291,15 +7465,18 @@
       "keywords": {
         "ar": [
           "أسطوانة بطيئة",
-          "حركة بطيئة"
+          "حركة بطيئة",
+          "حركة الأسطوانة الهيدروليكية بطيئة"
         ],
         "fr": [
           "vérin lent",
-          "mouvement lent"
+          "mouvement lent",
+          "Mouvement lent du vérin hydraulique"
         ],
         "en": [
           "slow cylinder",
-          "slow hydraulic movement"
+          "slow hydraulic movement",
+          "Slow hydraulic cylinder movement"
         ]
       },
       "causes": [
@@ -7386,13 +7563,19 @@
       },
       "keywords": {
         "ar": [
-          "ضجيج المضخة الهيدروليكية"
+          "ضجيج المضخة الهيدروليكية",
+          "عطل",
+          "فحص المعدة"
         ],
         "fr": [
-          "bruit pompe hydraulique"
+          "bruit pompe hydraulique",
+          "Bruit de pompe hydraulique",
+          "défaut"
         ],
         "en": [
-          "hydraulic pump noise"
+          "hydraulic pump noise",
+          "Hydraulic pump noise",
+          "fault"
         ]
       },
       "causes": [
@@ -7479,13 +7662,19 @@
       },
       "keywords": {
         "ar": [
-          "تسرب داخلي هيدروليكي"
+          "تسرب داخلي هيدروليكي",
+          "اشتباه تسرب داخلي هيدروليكي",
+          "عطل"
         ],
         "fr": [
-          "fuite interne hydraulique"
+          "fuite interne hydraulique",
+          "Fuite interne hydraulique possible",
+          "défaut"
         ],
         "en": [
-          "hydraulic internal leakage"
+          "hydraulic internal leakage",
+          "Possible internal hydraulic leakage",
+          "fault"
         ]
       },
       "causes": [
@@ -7573,14 +7762,18 @@
       "keywords": {
         "ar": [
           "خرطوم هيدروليك",
-          "انتفاخ الخرطوم"
+          "انتفاخ الخرطوم",
+          "تلف أو انتفاخ خرطوم هيدروليكي"
         ],
         "fr": [
-          "flexible hydraulique endommagé"
+          "flexible hydraulique endommagé",
+          "Flexible hydraulique endommagé ou gonflé",
+          "défaut"
         ],
         "en": [
           "hydraulic hose damage",
-          "hose swelling"
+          "hose swelling",
+          "Damaged or swollen hydraulic hose"
         ]
       },
       "causes": [
@@ -7668,14 +7861,18 @@
       "keywords": {
         "ar": [
           "قفزة ضغط",
-          "ضغط مفاجئ"
+          "ضغط مفاجئ",
+          "ارتفاع مفاجئ في الضغط الهيدروليكي"
         ],
         "fr": [
-          "pic de pression hydraulique"
+          "pic de pression hydraulique",
+          "Pic de pression hydraulique",
+          "défaut"
         ],
         "en": [
           "pressure spike",
-          "hydraulic pressure surge"
+          "hydraulic pressure surge",
+          "Hydraulic pressure spike"
         ]
       },
       "causes": [
@@ -7763,14 +7960,18 @@
       "keywords": {
         "ar": [
           "صمام يعلق",
-          "spool sticking"
+          "spool sticking",
+          "صمام هيدروليكي يعلق"
         ],
         "fr": [
-          "distributeur grippé"
+          "distributeur grippé",
+          "Distributeur hydraulique grippé",
+          "défaut"
         ],
         "en": [
           "hydraulic valve sticking",
-          "spool sticking"
+          "spool sticking",
+          "Hydraulic valve sticking"
         ]
       },
       "causes": [
@@ -7857,13 +8058,19 @@
       },
       "keywords": {
         "ar": [
-          "ضغط هواء منخفض"
+          "ضغط هواء منخفض",
+          "انخفاض ضغط الهواء المضغوط",
+          "عطل"
         ],
         "fr": [
-          "pression pneumatique basse"
+          "pression pneumatique basse",
+          "Basse pression pneumatique",
+          "défaut"
         ],
         "en": [
-          "low pneumatic pressure"
+          "low pneumatic pressure",
+          "Low pneumatic pressure",
+          "fault"
         ]
       },
       "causes": [
@@ -7950,13 +8157,19 @@
       },
       "keywords": {
         "ar": [
-          "أسطوانة هوائية بطيئة"
+          "أسطوانة هوائية بطيئة",
+          "بطء الأسطوانة الهوائية",
+          "عطل"
         ],
         "fr": [
-          "vérin pneumatique lent"
+          "vérin pneumatique lent",
+          "Vérin pneumatique lent",
+          "défaut"
         ],
         "en": [
-          "slow pneumatic cylinder"
+          "slow pneumatic cylinder",
+          "Slow pneumatic cylinder",
+          "fault"
         ]
       },
       "causes": [
@@ -8043,13 +8256,19 @@
       },
       "keywords": {
         "ar": [
-          "أسطوانة هوائية عالقة"
+          "أسطوانة هوائية عالقة",
+          "عطل",
+          "فحص المعدة"
         ],
         "fr": [
-          "vérin pneumatique bloqué"
+          "vérin pneumatique bloqué",
+          "Vérin pneumatique bloqué",
+          "défaut"
         ],
         "en": [
-          "pneumatic cylinder stuck"
+          "pneumatic cylinder stuck",
+          "Pneumatic cylinder stuck",
+          "fault"
         ]
       },
       "causes": [
@@ -8136,13 +8355,19 @@
       },
       "keywords": {
         "ar": [
-          "تسرب هواء هوائي"
+          "تسرب هواء هوائي",
+          "تسرب هواء من الدائرة الهوائية",
+          "عطل"
         ],
         "fr": [
-          "fuite air pneumatique"
+          "fuite air pneumatique",
+          "Fuite d’air du circuit pneumatique",
+          "défaut"
         ],
         "en": [
-          "pneumatic air leak"
+          "pneumatic air leak",
+          "Pneumatic circuit air leak",
+          "fault"
         ]
       },
       "causes": [
@@ -8230,15 +8455,18 @@
       "keywords": {
         "ar": [
           "ماء في الهواء",
-          "رطوبة"
+          "رطوبة",
+          "رطوبة أو ماء في الهواء المضغوط"
         ],
         "fr": [
           "eau dans air comprimé",
-          "humidité"
+          "humidité",
+          "Humidité ou eau dans l’air comprimé"
         ],
         "en": [
           "moisture in compressed air",
-          "water"
+          "water",
+          "Moisture or water in compressed air"
         ]
       },
       "causes": [
@@ -8326,15 +8554,18 @@
       "keywords": {
         "ar": [
           "منظم الضغط",
-          "ضغط غير ثابت"
+          "ضغط غير ثابت",
+          "منظم ضغط هوائي لا يحافظ على الضبط"
         ],
         "fr": [
           "régulateur pression",
-          "pression instable"
+          "pression instable",
+          "Régulateur pneumatique ne maintient pas la consigne"
         ],
         "en": [
           "pressure regulator",
-          "unstable pressure"
+          "unstable pressure",
+          "Pneumatic regulator fails to hold setting"
         ]
       },
       "causes": [
@@ -8422,13 +8653,18 @@
       "keywords": {
         "ar": [
           "صمام هوائي كهربائي",
-          "لا يبدل"
+          "لا يبدل",
+          "صمام هوائي كهربائي لا يبدل"
         ],
         "fr": [
-          "électrodistributeur ne commute pas"
+          "électrodistributeur ne commute pas",
+          "Électrodistributeur pneumatique ne commute pas",
+          "défaut"
         ],
         "en": [
-          "pneumatic solenoid valve not switching"
+          "pneumatic solenoid valve not switching",
+          "Pneumatic solenoid valve not switching",
+          "fault"
         ]
       },
       "causes": [
@@ -8515,14 +8751,19 @@
       },
       "keywords": {
         "ar": [
-          "فلتر هواء مسدود"
+          "فلتر هواء مسدود",
+          "انسداد مرشح الهواء",
+          "عطل"
         ],
         "fr": [
-          "filtre à air colmaté"
+          "filtre à air colmaté",
+          "Filtre à air colmaté",
+          "défaut"
         ],
         "en": [
           "clogged air filter",
-          "air filter restriction"
+          "air filter restriction",
+          "Air filter blockage"
         ]
       },
       "causes": [
@@ -8610,14 +8851,18 @@
       "keywords": {
         "ar": [
           "PLC لا يعمل",
-          "fault CPU"
+          "fault CPU",
+          "وحدة PLC لا تعمل"
         ],
         "fr": [
-          "automate PLC en défaut"
+          "automate PLC en défaut",
+          "Automate PLC ne fonctionne pas",
+          "défaut"
         ],
         "en": [
           "PLC not running",
-          "CPU fault"
+          "CPU fault",
+          "fault"
         ]
       },
       "causes": [
@@ -8705,14 +8950,18 @@
       "keywords": {
         "ar": [
           "مدخل PLC",
-          "input لا يتغير"
+          "input لا يتغير",
+          "مدخل PLC لا يتغير"
         ],
         "fr": [
-          "entrée automate ne change pas"
+          "entrée automate ne change pas",
+          "Entrée PLC ne change pas",
+          "défaut"
         ],
         "en": [
           "PLC input not changing",
-          "digital input"
+          "digital input",
+          "fault"
         ]
       },
       "causes": [
@@ -8800,14 +9049,18 @@
       "keywords": {
         "ar": [
           "خرج PLC",
-          "output لا يعمل"
+          "output لا يعمل",
+          "خرج PLC لا يتفعل"
         ],
         "fr": [
-          "sortie automate inactive"
+          "sortie automate inactive",
+          "Sortie PLC non activée",
+          "défaut"
         ],
         "en": [
           "PLC output not energizing",
-          "output fault"
+          "output fault",
+          "fault"
         ]
       },
       "causes": [
@@ -8895,14 +9148,18 @@
       "keywords": {
         "ar": [
           "اتصال PLC",
-          "network fault"
+          "network fault",
+          "فقدان اتصال PLC"
         ],
         "fr": [
-          "perte communication automate"
+          "perte communication automate",
+          "Perte de communication PLC",
+          "défaut"
         ],
         "en": [
           "PLC communication loss",
-          "network fault"
+          "network fault",
+          "fault"
         ]
       },
       "causes": [
@@ -8990,14 +9247,18 @@
       "keywords": {
         "ar": [
           "تغير البرنامج",
-          "منطق PLC"
+          "منطق PLC",
+          "تغير غير متوقع في منطق PLC"
         ],
         "fr": [
-          "changement programme automate"
+          "changement programme automate",
+          "Changement inattendu du programme PLC",
+          "défaut"
         ],
         "en": [
           "PLC logic change",
-          "program change"
+          "program change",
+          "Unexpected PLC logic change"
         ]
       },
       "causes": [
@@ -9085,15 +9346,18 @@
       "keywords": {
         "ar": [
           "HMI متجمدة",
-          "الشاشة لا تستجيب"
+          "الشاشة لا تستجيب",
+          "واجهة HMI متجمدة"
         ],
         "fr": [
           "IHM figée",
-          "écran bloqué"
+          "écran bloqué",
+          "défaut"
         ],
         "en": [
           "HMI frozen",
-          "screen unresponsive"
+          "screen unresponsive",
+          "fault"
         ]
       },
       "causes": [
@@ -9181,15 +9445,18 @@
       "keywords": {
         "ar": [
           "قيم قديمة",
-          "قراءة غير صحيحة"
+          "قراءة غير صحيحة",
+          "قيم HMI غير صحيحة أو قديمة"
         ],
         "fr": [
           "valeurs périmées",
-          "affichage incorrect"
+          "affichage incorrect",
+          "Valeurs IHM incorrectes ou périmées"
         ],
         "en": [
           "stale values",
-          "incorrect HMI readings"
+          "incorrect HMI readings",
+          "Incorrect or stale HMI values"
         ]
       },
       "causes": [
@@ -9277,14 +9544,18 @@
       "keywords": {
         "ar": [
           "الحساس لا يعطي إشارة",
-          "signal absent"
+          "signal absent",
+          "عطل"
         ],
         "fr": [
-          "capteur sans signal"
+          "capteur sans signal",
+          "Capteur sans signal",
+          "défaut"
         ],
         "en": [
           "sensor no signal",
-          "no signal"
+          "no signal",
+          "Sensor no signal"
         ]
       },
       "causes": [
@@ -9372,15 +9643,18 @@
       "keywords": {
         "ar": [
           "إشارة متذبذبة",
-          "قراءة تقفز"
+          "قراءة تقفز",
+          "إشارة الحساس متذبذبة"
         ],
         "fr": [
           "signal instable",
-          "mesure fluctuante"
+          "mesure fluctuante",
+          "Signal capteur instable"
         ],
         "en": [
           "sensor signal fluctuating",
-          "unstable reading"
+          "unstable reading",
+          "Unstable sensor signal"
         ]
       },
       "causes": [
@@ -9468,14 +9742,18 @@
       "keywords": {
         "ar": [
           "قراءة خارج النطاق",
-          "overrange"
+          "overrange",
+          "قراءة الحساس خارج النطاق"
         ],
         "fr": [
-          "mesure hors plage"
+          "mesure hors plage",
+          "Mesure du capteur hors plage",
+          "défaut"
         ],
         "en": [
           "sensor out of range",
-          "overrange"
+          "overrange",
+          "Sensor reading out of range"
         ]
       },
       "causes": [
@@ -9563,14 +9841,18 @@
       "keywords": {
         "ar": [
           "انحراف القراءة",
-          "drift"
+          "drift",
+          "انحراف تدريجي في قراءة الحساس"
         ],
         "fr": [
-          "dérive capteur"
+          "dérive capteur",
+          "Dérive progressive du capteur",
+          "défaut"
         ],
         "en": [
           "sensor drift",
-          "reading drift"
+          "reading drift",
+          "Sensor drift"
         ]
       },
       "causes": [
@@ -9658,14 +9940,18 @@
       "keywords": {
         "ar": [
           "سلك الحساس",
-          "wiring fault"
+          "wiring fault",
+          "اشتباه عطل في توصيلات الحساس"
         ],
         "fr": [
-          "câblage capteur"
+          "câblage capteur",
+          "Défaut possible de câblage capteur",
+          "défaut"
         ],
         "en": [
           "sensor wiring fault",
-          "broken wire"
+          "broken wire",
+          "Possible sensor wiring fault"
         ]
       },
       "causes": [
@@ -9753,13 +10039,18 @@
       "keywords": {
         "ar": [
           "حساس تقارب",
-          "لا يكتشف"
+          "لا يكتشف",
+          "حساس التقارب لا يكتشف الهدف"
         ],
         "fr": [
-          "capteur proximité ne détecte pas"
+          "capteur proximité ne détecte pas",
+          "Capteur de proximité ne détecte pas",
+          "défaut"
         ],
         "en": [
-          "proximity sensor not detecting"
+          "proximity sensor not detecting",
+          "Proximity sensor fails to detect target",
+          "fault"
         ]
       },
       "causes": [
@@ -9847,13 +10138,18 @@
       "keywords": {
         "ar": [
           "حساس ضوئي",
-          "تفعيل كاذب"
+          "تفعيل كاذب",
+          "تفعيل كاذب للحساس الضوئي"
         ],
         "fr": [
-          "capteur photoélectrique déclenchement intempestif"
+          "capteur photoélectrique déclenchement intempestif",
+          "Déclenchement intempestif du capteur photoélectrique",
+          "défaut"
         ],
         "en": [
-          "photoelectric sensor false trigger"
+          "photoelectric sensor false trigger",
+          "Photoelectric sensor false triggering",
+          "fault"
         ]
       },
       "causes": [
@@ -9941,14 +10237,18 @@
       "keywords": {
         "ar": [
           "Encoder",
-          "فقدان feedback"
+          "فقدان feedback",
+          "فقدان إشارة المشفر Encoder"
         ],
         "fr": [
-          "perte retour codeur"
+          "perte retour codeur",
+          "Perte du retour codeur",
+          "défaut"
         ],
         "en": [
           "encoder feedback loss",
-          "encoder fault"
+          "encoder fault",
+          "Encoder feedback loss"
         ]
       },
       "causes": [
@@ -10036,15 +10336,18 @@
       "keywords": {
         "ar": [
           "حساس حرارة",
-          "قراءة حرارة خاطئة"
+          "قراءة حرارة خاطئة",
+          "اشتباه عطل حساس الحرارة"
         ],
         "fr": [
           "capteur température",
-          "mesure incorrecte"
+          "mesure incorrecte",
+          "Défaut possible du capteur de température"
         ],
         "en": [
           "temperature sensor fault",
-          "wrong temperature"
+          "wrong temperature",
+          "Possible temperature sensor fault"
         ]
       },
       "causes": [
@@ -10132,15 +10435,18 @@
       "keywords": {
         "ar": [
           "حساس ضغط",
-          "قراءة ضغط خاطئة"
+          "قراءة ضغط خاطئة",
+          "اشتباه عطل حساس الضغط"
         ],
         "fr": [
           "capteur pression",
-          "mesure incorrecte"
+          "mesure incorrecte",
+          "Défaut possible du capteur de pression"
         ],
         "en": [
           "pressure sensor fault",
-          "wrong pressure"
+          "wrong pressure",
+          "Possible pressure sensor fault"
         ]
       },
       "causes": [
@@ -10228,15 +10534,18 @@
       "keywords": {
         "ar": [
           "حساس مستوى",
-          "مستوى خاطئ"
+          "مستوى خاطئ",
+          "اشتباه عطل حساس المستوى"
         ],
         "fr": [
           "capteur niveau",
-          "niveau incorrect"
+          "niveau incorrect",
+          "Défaut possible du capteur de niveau"
         ],
         "en": [
           "level sensor fault",
-          "incorrect level"
+          "incorrect level",
+          "Possible level sensor fault"
         ]
       },
       "causes": [
@@ -10323,14 +10632,19 @@
       },
       "keywords": {
         "ar": [
-          "مقياس التدفق لا يقرأ"
+          "مقياس التدفق لا يقرأ",
+          "مقياس التدفق لا يعطي قراءة",
+          "عطل"
         ],
         "fr": [
-          "débitmètre sans lecture"
+          "débitmètre sans lecture",
+          "Débitmètre sans indication",
+          "défaut"
         ],
         "en": [
           "flowmeter no reading",
-          "zero flow reading"
+          "zero flow reading",
+          "Flowmeter no reading"
         ]
       },
       "causes": [
@@ -10418,13 +10732,18 @@
       "keywords": {
         "ar": [
           "مرسل الضغط",
-          "انحراف الضغط"
+          "انحراف الضغط",
+          "انحراف مرسل الضغط"
         ],
         "fr": [
-          "dérive transmetteur pression"
+          "dérive transmetteur pression",
+          "Dérive du transmetteur de pression",
+          "défaut"
         ],
         "en": [
-          "pressure transmitter drift"
+          "pressure transmitter drift",
+          "Pressure transmitter drift",
+          "fault"
         ]
       },
       "causes": [
@@ -10512,13 +10831,18 @@
       "keywords": {
         "ar": [
           "مرسل الحرارة",
-          "إشارة الحرارة"
+          "إشارة الحرارة",
+          "خلل مرسل الحرارة"
         ],
         "fr": [
-          "transmetteur température"
+          "transmetteur température",
+          "Défaut du transmetteur de température",
+          "défaut"
         ],
         "en": [
-          "temperature transmitter fault"
+          "temperature transmitter fault",
+          "Temperature transmitter fault",
+          "fault"
         ]
       },
       "causes": [
@@ -10605,14 +10929,19 @@
       },
       "keywords": {
         "ar": [
-          "مفتاح المستوى يتذبذب"
+          "مفتاح المستوى يتذبذب",
+          "تذبذب مفتاح المستوى",
+          "عطل"
         ],
         "fr": [
-          "commutation niveau instable"
+          "commutation niveau instable",
+          "Commutation instable du détecteur de niveau",
+          "défaut"
         ],
         "en": [
           "level switch chatter",
-          "bouncing"
+          "bouncing",
+          "Level switch chatter"
         ]
       },
       "causes": [
@@ -10700,15 +11029,18 @@
       "keywords": {
         "ar": [
           "كونتاكتور يطقطق",
-          "chatter"
+          "chatter",
+          "اهتزاز أو طقطقة الكونتاكتور"
         ],
         "fr": [
           "contacteur claque",
-          "vibrations"
+          "vibrations",
+          "Vibrations ou claquement du contacteur"
         ],
         "en": [
           "contactor chatter",
-          "chattering"
+          "chattering",
+          "Contactor chatter"
         ]
       },
       "causes": [
@@ -10795,13 +11127,19 @@
       },
       "keywords": {
         "ar": [
-          "الكونتاكتور لا يجذب"
+          "الكونتاكتور لا يجذب",
+          "عطل",
+          "فحص المعدة"
         ],
         "fr": [
-          "contacteur ne colle pas"
+          "contacteur ne colle pas",
+          "Le contacteur ne colle pas",
+          "défaut"
         ],
         "en": [
-          "contactor not pulling in"
+          "contactor not pulling in",
+          "Contactor fails to pull in",
+          "fault"
         ]
       },
       "causes": [
@@ -10888,13 +11226,19 @@
       },
       "keywords": {
         "ar": [
-          "نقاط الكونتاكتور ملتصقة"
+          "نقاط الكونتاكتور ملتصقة",
+          "اشتباه التصاق نقاط الكونتاكتور",
+          "عطل"
         ],
         "fr": [
-          "contacts soudés contacteur"
+          "contacts soudés contacteur",
+          "Contacts du contacteur possiblement soudés",
+          "défaut"
         ],
         "en": [
-          "welded contactor contacts"
+          "welded contactor contacts",
+          "Possible welded contactor contacts",
+          "fault"
         ]
       },
       "causes": [
@@ -10981,13 +11325,19 @@
       },
       "keywords": {
         "ar": [
-          "مرحل الحمل الزائد يفصل"
+          "مرحل الحمل الزائد يفصل",
+          "فصل مرحل الحمل الزائد",
+          "عطل"
         ],
         "fr": [
-          "relais thermique déclenche"
+          "relais thermique déclenche",
+          "Déclenchement du relais thermique",
+          "défaut"
         ],
         "en": [
-          "overload relay trips"
+          "overload relay trips",
+          "Overload relay tripping",
+          "fault"
         ]
       },
       "causes": [
@@ -11075,13 +11425,18 @@
       "keywords": {
         "ar": [
           "مصهر يحترق",
-          "فيوز يتلف"
+          "فيوز يتلف",
+          "احتراق المصهر بشكل متكرر"
         ],
         "fr": [
-          "fusible fond à répétition"
+          "fusible fond à répétition",
+          "Fusible qui fond à répétition",
+          "défaut"
         ],
         "en": [
-          "fuse repeatedly blows"
+          "fuse repeatedly blows",
+          "Repeated fuse failure",
+          "fault"
         ]
       },
       "causes": [
@@ -11168,13 +11523,19 @@
       },
       "keywords": {
         "ar": [
-          "جهد التحكم مفقود"
+          "جهد التحكم مفقود",
+          "غياب جهد دائرة التحكم",
+          "عطل"
         ],
         "fr": [
-          "tension de commande absente"
+          "tension de commande absente",
+          "Absence de tension de commande",
+          "défaut"
         ],
         "en": [
-          "control voltage missing"
+          "control voltage missing",
+          "Control voltage missing",
+          "fault"
         ]
       },
       "causes": [
@@ -11262,15 +11623,18 @@
       "keywords": {
         "ar": [
           "إيقاف الطوارئ",
-          "emergency stop"
+          "emergency stop",
+          "دائرة إيقاف الطوارئ مفتوحة"
         ],
         "fr": [
           "arrêt d’urgence",
-          "chaîne ouverte"
+          "chaîne ouverte",
+          "Chaîne d’arrêt d’urgence ouverte"
         ],
         "en": [
           "emergency stop circuit open",
-          "E-stop"
+          "E-stop",
+          "Emergency-stop circuit open"
         ]
       },
       "causes": [
@@ -11358,13 +11722,18 @@
       "keywords": {
         "ar": [
           "دائرة الأمان",
-          "interlock"
+          "interlock",
+          "شرط دائرة الأمان غير محقق"
         ],
         "fr": [
-          "interverrouillage sécurité"
+          "interverrouillage sécurité",
+          "Interverrouillage de sécurité non satisfait",
+          "défaut"
         ],
         "en": [
-          "safety interlock not satisfied"
+          "safety interlock not satisfied",
+          "Safety interlock not satisfied",
+          "fault"
         ]
       },
       "causes": [
@@ -11452,13 +11821,18 @@
       "keywords": {
         "ar": [
           "مرحل الأمان",
-          "safety relay"
+          "safety relay",
+          "اشتباه عطل مرحل الأمان"
         ],
         "fr": [
-          "relais de sécurité"
+          "relais de sécurité",
+          "Défaut possible du relais de sécurité",
+          "défaut"
         ],
         "en": [
-          "safety relay fault"
+          "safety relay fault",
+          "Possible safety relay fault",
+          "fault"
         ]
       },
       "causes": [
@@ -11546,14 +11920,18 @@
       "keywords": {
         "ar": [
           "تشحيم المحامل",
-          "نقص الشحم"
+          "نقص الشحم",
+          "قصور تشحيم المحامل"
         ],
         "fr": [
-          "lubrification roulements insuffisante"
+          "lubrification roulements insuffisante",
+          "Lubrification insuffisante des roulements",
+          "défaut"
         ],
         "en": [
           "bearing lubrication failure",
-          "low grease"
+          "low grease",
+          "Insufficient bearing lubrication"
         ]
       },
       "causes": [
@@ -11641,14 +12019,18 @@
       "keywords": {
         "ar": [
           "تآكل المحمل",
-          "bearing wear"
+          "bearing wear",
+          "عطل"
         ],
         "fr": [
-          "usure roulement"
+          "usure roulement",
+          "Usure de roulement",
+          "défaut"
         ],
         "en": [
           "bearing wear",
-          "worn bearing"
+          "worn bearing",
+          "Bearing wear"
         ]
       },
       "causes": [
@@ -11735,13 +12117,19 @@
       },
       "keywords": {
         "ar": [
-          "عدم محاذاة الأعمدة"
+          "عدم محاذاة الأعمدة",
+          "عطل",
+          "فحص المعدة"
         ],
         "fr": [
-          "désalignement arbres"
+          "désalignement arbres",
+          "Désalignement des arbres",
+          "défaut"
         ],
         "en": [
-          "shaft misalignment"
+          "shaft misalignment",
+          "Shaft misalignment",
+          "fault"
         ]
       },
       "causes": [
@@ -11829,14 +12217,18 @@
       "keywords": {
         "ar": [
           "ارتخاء",
-          "مسامير مفكوكة"
+          "مسامير مفكوكة",
+          "ارتخاء ميكانيكي"
         ],
         "fr": [
-          "desserrage mécanique"
+          "desserrage mécanique",
+          "Desserrage mécanique",
+          "défaut"
         ],
         "en": [
           "mechanical looseness",
-          "loose bolts"
+          "loose bolts",
+          "Mechanical looseness"
         ]
       },
       "causes": [
@@ -11924,14 +12316,18 @@
       "keywords": {
         "ar": [
           "شد السير",
-          "سير مرتخٍ"
+          "سير مرتخٍ",
+          "شد السير غير صحيح"
         ],
         "fr": [
-          "tension courroie incorrecte"
+          "tension courroie incorrecte",
+          "Tension de courroie incorrecte",
+          "défaut"
         ],
         "en": [
           "belt tension",
-          "loose belt"
+          "loose belt",
+          "Incorrect belt tension"
         ]
       },
       "causes": [
@@ -12018,13 +12414,19 @@
       },
       "keywords": {
         "ar": [
-          "حرارة علبة التروس"
+          "حرارة علبة التروس",
+          "ارتفاع حرارة علبة التروس",
+          "عطل"
         ],
         "fr": [
-          "surchauffe réducteur"
+          "surchauffe réducteur",
+          "Surchauffe du réducteur",
+          "défaut"
         ],
         "en": [
-          "gearbox overheating"
+          "gearbox overheating",
+          "Gearbox overheating",
+          "fault"
         ]
       },
       "causes": [
@@ -12111,13 +12513,19 @@
       },
       "keywords": {
         "ar": [
-          "زيت علبة التروس منخفض"
+          "زيت علبة التروس منخفض",
+          "انخفاض زيت علبة التروس",
+          "عطل"
         ],
         "fr": [
-          "niveau huile réducteur bas"
+          "niveau huile réducteur bas",
+          "Niveau d’huile bas du réducteur",
+          "défaut"
         ],
         "en": [
-          "gearbox low oil"
+          "gearbox low oil",
+          "Low gearbox oil level",
+          "fault"
         ]
       },
       "causes": [
@@ -12205,15 +12613,18 @@
       "keywords": {
         "ar": [
           "ضجيج علبة التروس",
-          "تروس"
+          "تروس",
+          "عطل"
         ],
         "fr": [
           "bruit réducteur",
-          "engrenages"
+          "engrenages",
+          "Bruit du réducteur"
         ],
         "en": [
           "gearbox noise",
-          "gear noise"
+          "gear noise",
+          "Gearbox noise"
         ]
       },
       "causes": [
@@ -12301,13 +12712,18 @@
       "keywords": {
         "ar": [
           "السير ينحرف",
-          "belt tracking"
+          "belt tracking",
+          "انحراف مسار السير الناقل"
         ],
         "fr": [
-          "bande transporteuse dérive"
+          "bande transporteuse dérive",
+          "Dérive de la bande transporteuse",
+          "défaut"
         ],
         "en": [
-          "conveyor belt mistracking"
+          "conveyor belt mistracking",
+          "Conveyor belt mistracking",
+          "fault"
         ]
       },
       "causes": [
@@ -12394,13 +12810,19 @@
       },
       "keywords": {
         "ar": [
-          "انزلاق السير الناقل"
+          "انزلاق السير الناقل",
+          "عطل",
+          "فحص المعدة"
         ],
         "fr": [
-          "glissement bande transporteuse"
+          "glissement bande transporteuse",
+          "Glissement de la bande transporteuse",
+          "défaut"
         ],
         "en": [
-          "conveyor belt slip"
+          "conveyor belt slip",
+          "Conveyor belt slip",
+          "fault"
         ]
       },
       "causes": [
@@ -12488,14 +12910,18 @@
       "keywords": {
         "ar": [
           "الناقل محشور",
-          "jam"
+          "jam",
+          "انحشار الناقل"
         ],
         "fr": [
-          "convoyeur bloqué"
+          "convoyeur bloqué",
+          "Blocage du convoyeur",
+          "défaut"
         ],
         "en": [
           "conveyor jam",
-          "conveyor blocked"
+          "conveyor blocked",
+          "Conveyor jam"
         ]
       },
       "causes": [
@@ -12582,13 +13008,19 @@
       },
       "keywords": {
         "ar": [
-          "سرعة الناقل غير متطابقة"
+          "سرعة الناقل غير متطابقة",
+          "عدم تطابق سرعة الناقل",
+          "عطل"
         ],
         "fr": [
-          "vitesse convoyeur incohérente"
+          "vitesse convoyeur incohérente",
+          "Incohérence de vitesse du convoyeur",
+          "défaut"
         ],
         "en": [
-          "conveyor speed mismatch"
+          "conveyor speed mismatch",
+          "Conveyor speed mismatch",
+          "fault"
         ]
       },
       "causes": [
@@ -12675,13 +13107,19 @@
       },
       "keywords": {
         "ar": [
-          "فرق ضغط المرشح مرتفع"
+          "فرق ضغط المرشح مرتفع",
+          "ارتفاع فرق الضغط عبر المرشح",
+          "عطل"
         ],
         "fr": [
-          "pression différentielle filtre élevée"
+          "pression différentielle filtre élevée",
+          "Pression différentielle élevée du filtre",
+          "défaut"
         ],
         "en": [
-          "high filter differential pressure"
+          "high filter differential pressure",
+          "High filter differential pressure",
+          "fault"
         ]
       },
       "causes": [
@@ -12769,14 +13207,18 @@
       "keywords": {
         "ar": [
           "المبادل لا يبرد",
-          "انتقال حرارة ضعيف"
+          "انتقال حرارة ضعيف",
+          "ضعف انتقال الحرارة في المبادل"
         ],
         "fr": [
           "échangeur thermique",
-          "transfert faible"
+          "transfert faible",
+          "Transfert thermique insuffisant"
         ],
         "en": [
-          "heat exchanger poor heat transfer"
+          "heat exchanger poor heat transfer",
+          "Poor heat transfer in heat exchanger",
+          "fault"
         ]
       },
       "causes": [
@@ -12863,13 +13305,19 @@
       },
       "keywords": {
         "ar": [
-          "مروحة التبريد لا تعمل"
+          "مروحة التبريد لا تعمل",
+          "تعطل مروحة التبريد",
+          "عطل"
         ],
         "fr": [
-          "ventilateur refroidissement en panne"
+          "ventilateur refroidissement en panne",
+          "Panne du ventilateur de refroidissement",
+          "défaut"
         ],
         "en": [
-          "cooling fan failure"
+          "cooling fan failure",
+          "Cooling fan failure",
+          "fault"
         ]
       },
       "causes": [
@@ -12956,13 +13404,19 @@
       },
       "keywords": {
         "ar": [
-          "تدفق تبريد منخفض"
+          "تدفق تبريد منخفض",
+          "انخفاض تدفق مياه التبريد",
+          "عطل"
         ],
         "fr": [
-          "débit eau refroidissement faible"
+          "débit eau refroidissement faible",
+          "Débit d’eau de refroidissement faible",
+          "défaut"
         ],
         "en": [
-          "low cooling water flow"
+          "low cooling water flow",
+          "Low cooling-water flow",
+          "fault"
         ]
       },
       "causes": [
@@ -13050,13 +13504,18 @@
       "keywords": {
         "ar": [
           "مصيدة بخار",
-          "steam trap"
+          "steam trap",
+          "اشتباه عطل مصيدة البخار"
         ],
         "fr": [
-          "purgeur vapeur"
+          "purgeur vapeur",
+          "Défaillance possible du purgeur vapeur",
+          "défaut"
         ],
         "en": [
-          "steam trap failure"
+          "steam trap failure",
+          "Possible steam trap failure",
+          "fault"
         ]
       },
       "causes": [
@@ -13143,13 +13602,19 @@
       },
       "keywords": {
         "ar": [
-          "مستوى ماء المرجل منخفض"
+          "مستوى ماء المرجل منخفض",
+          "إنذار انخفاض مستوى ماء المرجل",
+          "عطل"
         ],
         "fr": [
-          "niveau d’eau chaudière bas"
+          "niveau d’eau chaudière bas",
+          "Alarme niveau d’eau bas de chaudière",
+          "défaut"
         ],
         "en": [
-          "boiler low water alarm"
+          "boiler low water alarm",
+          "Boiler low-water alarm",
+          "fault"
         ]
       },
       "causes": [
@@ -13236,13 +13701,19 @@
       },
       "keywords": {
         "ar": [
-          "ضغط تبريد مرتفع"
+          "ضغط تبريد مرتفع",
+          "إنذار ضغط مرتفع في التبريد",
+          "عطل"
         ],
         "fr": [
-          "haute pression frigorifique"
+          "haute pression frigorifique",
+          "Alarme haute pression frigorifique",
+          "défaut"
         ],
         "en": [
-          "refrigeration high pressure"
+          "refrigeration high pressure",
+          "Refrigeration high-pressure alarm",
+          "fault"
         ]
       },
       "causes": [
@@ -13329,13 +13800,19 @@
       },
       "keywords": {
         "ar": [
-          "ضغط تبريد منخفض"
+          "ضغط تبريد منخفض",
+          "إنذار ضغط منخفض في التبريد",
+          "عطل"
         ],
         "fr": [
-          "basse pression frigorifique"
+          "basse pression frigorifique",
+          "Alarme basse pression frigorifique",
+          "défaut"
         ],
         "en": [
-          "refrigeration low pressure"
+          "refrigeration low pressure",
+          "Refrigeration low-pressure alarm",
+          "fault"
         ]
       },
       "causes": [
@@ -13422,13 +13899,19 @@
       },
       "keywords": {
         "ar": [
-          "إنذار بطارية UPS"
+          "إنذار بطارية UPS",
+          "عطل",
+          "فحص المعدة"
         ],
         "fr": [
-          "alarme batterie UPS"
+          "alarme batterie UPS",
+          "Alarme batterie UPS",
+          "défaut"
         ],
         "en": [
-          "UPS battery alarm"
+          "UPS battery alarm",
+          "fault",
+          "equipment check"
         ]
       },
       "causes": [
@@ -13516,15 +13999,18 @@
       "keywords": {
         "ar": [
           "جهد غير مستقر",
-          "تذبذب الجهد"
+          "تذبذب الجهد",
+          "جهد التغذية غير مستقر"
         ],
         "fr": [
           "tension instable",
-          "fluctuation tension"
+          "fluctuation tension",
+          "Tension d’alimentation instable"
         ],
         "en": [
           "unstable supply voltage",
-          "voltage fluctuation"
+          "voltage fluctuation",
+          "Unstable supply voltage"
         ]
       },
       "causes": [
@@ -13612,14 +14098,18 @@
       "keywords": {
         "ar": [
           "تسلسل الأطوار",
-          "phase sequence"
+          "phase sequence",
+          "تسلسل الأطوار غير صحيح"
         ],
         "fr": [
-          "ordre des phases incorrect"
+          "ordre des phases incorrect",
+          "Ordre des phases incorrect",
+          "défaut"
         ],
         "en": [
           "phase sequence",
-          "phase rotation"
+          "phase rotation",
+          "Incorrect phase sequence"
         ]
       },
       "causes": [
@@ -13706,14 +14196,19 @@
       },
       "keywords": {
         "ar": [
-          "حماية تسرب أرضي تفصل"
+          "حماية تسرب أرضي تفصل",
+          "فصل حماية التسرب الأرضي",
+          "عطل"
         ],
         "fr": [
-          "déclenchement différentiel"
+          "déclenchement différentiel",
+          "Déclenchement différentiel",
+          "défaut"
         ],
         "en": [
           "earth leakage trip",
-          "RCD trip"
+          "RCD trip",
+          "Earth-leakage protection trip"
         ]
       },
       "causes": [
@@ -13800,14 +14295,19 @@
       },
       "keywords": {
         "ar": [
-          "لوحة كهربائية ساخنة"
+          "لوحة كهربائية ساخنة",
+          "ارتفاع حرارة داخل لوحة كهربائية",
+          "عطل"
         ],
         "fr": [
-          "point chaud armoire électrique"
+          "point chaud armoire électrique",
+          "Point chaud dans une armoire électrique",
+          "défaut"
         ],
         "en": [
           "electrical panel hotspot",
-          "hot electrical panel"
+          "hot electrical panel",
+          "Electrical panel hotspot"
         ]
       },
       "causes": [
@@ -13894,13 +14394,19 @@
       },
       "keywords": {
         "ar": [
-          "شبكة صناعية مقطوعة"
+          "شبكة صناعية مقطوعة",
+          "انقطاع رابط شبكة صناعية",
+          "عطل"
         ],
         "fr": [
-          "lien réseau industriel coupé"
+          "lien réseau industriel coupé",
+          "Lien réseau industriel coupé",
+          "défaut"
         ],
         "en": [
-          "industrial network link down"
+          "industrial network link down",
+          "Industrial network link down",
+          "fault"
         ]
       },
       "causes": [
@@ -13987,13 +14493,19 @@
       },
       "keywords": {
         "ar": [
-          "جهاز fieldbus غير متصل"
+          "جهاز fieldbus غير متصل",
+          "جهاز Fieldbus غير متصل",
+          "عطل"
         ],
         "fr": [
-          "appareil fieldbus hors ligne"
+          "appareil fieldbus hors ligne",
+          "Équipement Fieldbus hors ligne",
+          "défaut"
         ],
         "en": [
-          "fieldbus device offline"
+          "fieldbus device offline",
+          "Fieldbus device offline",
+          "fault"
         ]
       },
       "causes": [
@@ -14081,13 +14593,18 @@
       "keywords": {
         "ar": [
           "خطأ محور روبوت",
-          "following error"
+          "following error",
+          "خطأ تتبع محور الروبوت"
         ],
         "fr": [
-          "erreur poursuite axe robot"
+          "erreur poursuite axe robot",
+          "Erreur de poursuite d’axe robot",
+          "défaut"
         ],
         "en": [
-          "robot axis following error"
+          "robot axis following error",
+          "Robot axis following error",
+          "fault"
         ]
       },
       "causes": [
@@ -14174,13 +14691,19 @@
       },
       "keywords": {
         "ar": [
-          "فشل homing الروبوت"
+          "فشل homing الروبوت",
+          "فشل مرجعة محور الروبوت",
+          "عطل"
         ],
         "fr": [
-          "échec référencement robot"
+          "échec référencement robot",
+          "Échec de référencement d’axe robot",
+          "défaut"
         ],
         "en": [
-          "robot homing failure"
+          "robot homing failure",
+          "Robot axis homing failure",
+          "fault"
         ]
       },
       "causes": [
@@ -14267,13 +14790,19 @@
       },
       "keywords": {
         "ar": [
-          "تدفق التشحيم منخفض"
+          "تدفق التشحيم منخفض",
+          "انخفاض تدفق نظام التشحيم",
+          "عطل"
         ],
         "fr": [
-          "débit lubrification faible"
+          "débit lubrification faible",
+          "Débit faible du système de lubrification",
+          "défaut"
         ],
         "en": [
-          "low lubrication flow"
+          "low lubrication flow",
+          "Low lubrication-system flow",
+          "fault"
         ]
       },
       "causes": [
@@ -14361,14 +14890,18 @@
       "keywords": {
         "ar": [
           "تفريغ ضعيف",
-          "vacuum منخفض"
+          "vacuum منخفض",
+          "مستوى التفريغ ضعيف"
         ],
         "fr": [
-          "vide insuffisant"
+          "vide insuffisant",
+          "Niveau de vide insuffisant",
+          "défaut"
         ],
         "en": [
           "low vacuum",
-          "poor vacuum"
+          "poor vacuum",
+          "Insufficient vacuum level"
         ]
       },
       "causes": [
@@ -14456,14 +14989,18 @@
       "keywords": {
         "ar": [
           "مجمع غبار",
-          "فرق ضغط مرتفع"
+          "فرق ضغط مرتفع",
+          "ارتفاع فرق الضغط في مجمع الغبار"
         ],
         "fr": [
           "dépoussiéreur",
-          "perte de charge élevée"
+          "perte de charge élevée",
+          "Perte de charge élevée du dépoussiéreur"
         ],
         "en": [
-          "dust collector high pressure drop"
+          "dust collector high pressure drop",
+          "High dust-collector pressure drop",
+          "fault"
         ]
       },
       "causes": [
@@ -14550,13 +15087,19 @@
       },
       "keywords": {
         "ar": [
-          "عطل إنذار الحريق"
+          "عطل إنذار الحريق",
+          "عطل في جهاز إنذار الحريق",
+          "عطل"
         ],
         "fr": [
-          "défaut dispositif alarme incendie"
+          "défaut dispositif alarme incendie",
+          "Défaut d’un dispositif d’alarme incendie",
+          "défaut"
         ],
         "en": [
-          "fire alarm device fault"
+          "fire alarm device fault",
+          "Fire alarm device fault",
+          "fault"
         ]
       },
       "causes": [
@@ -14644,15 +15187,18 @@
       "keywords": {
         "ar": [
           "كاشف تسرب",
-          "إنذار كاذب"
+          "إنذار كاذب",
+          "اشتباه عطل كاشف التسرب"
         ],
         "fr": [
           "détecteur fuite",
-          "fausse alarme"
+          "fausse alarme",
+          "Défaut possible du détecteur de fuite"
         ],
         "en": [
           "leak detector fault",
-          "false alarm"
+          "false alarm",
+          "Possible leak detector fault"
         ]
       },
       "causes": [
