@@ -27,7 +27,7 @@ test("diagnostic flow registry has a versioned schema and unique question/answer
 test("compressor low-pressure flow distinguishes outlet, network, and missing readings", () => {
   const flow = registry.flows["compressor|low_pressure"];
   assert.ok(flow);
-  assert.deepEqual(flow.answers.map(answer => answer.id), [
+  assert.deepEqual(Array.from(flow.answers, answer => answer.id), [
     "compressor-output-low",
     "network-pressure-drop",
     "pressure-reading-unknown"
