@@ -18,6 +18,7 @@ const deployWorkflow = readFileSync(".github/workflows/deploy-pages.yml", "utf8"
 const faults = JSON.parse(readFileSync("faults.json", "utf8"));
 const diagnosticEngineSource = readFileSync("diagnostic-engine.js", "utf8");
 const normalizationSource = readFileSync("normalization.js", "utf8");
+const speechReadoutSource = readFileSync("speech-readout.js", "utf8");
 const knowledgeReviewSource = readFileSync("knowledge-review.js", "utf8");
 const i18n = readFileSync("i18n.js", "utf8");
 const engineWindow = {};
@@ -36,6 +37,22 @@ const checks = [
     assert.match(deployWorkflow, /diagnostic-flows\.js normalization\.js diagnostic-engine\.js/);
     assert.ok(engineWindow.MaintenanceNormalization.aliasReviewCount > 0);
     assert.ok(engineWindow.MaintenanceNormalization.getReviewAliases().every(item => item.status === "review_required"));
+  }],
+  ["Speech readout is local, multilingual, accessible, and shipped in the app shell", () => {
+    assert.match(html, /src="\\.\\/speech-readout\\.js"/);
+    assert.match(html, /id="aiSpeechControls"/);
+    assert.match(html, /id="readAiAnswer"/);
+    assert.match(html, /id="stopAiReading"/);
+    assert.match(html, /id="aiSpeechStatus"[^>]*aria-live="polite"/);
+    assert.match(speechReadoutSource, /SpeechSynthesisUtterance/);
+    assert.match(speechReadoutSource, /maintenance-ai-answer-ready/);
+    assert.match(speechReadoutSource, /maintenance-language-changed/);
+    assert.doesNotMatch(speechReadoutSource, /fetch\\s*\\(/);
+    assert.match(sw, /\\.\\/speech-readout\\.js/);
+    assert.match(sw, /maintenance-ai-toolkit-v35/);
+    assert.match(deployWorkflow, /i18n\\.js speech-readout\\.js icon\\.svg/);
+    for (const key of ["readAIAnswer", "stopAIReading", "speechUnsupported", "speechReady"]) assert.match(i18n, new RegExp(key));
+    new vm.Script(speechReadoutSource, { filename: "speech-readout.js" });
   }],
   ["Arabic RTL document", () => assert.match(html, /<html lang="ar" dir="rtl">/)],
   ["Structured pump low-flow flow has stable IDs and validated answer guidance", () => {
