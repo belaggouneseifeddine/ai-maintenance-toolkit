@@ -15,7 +15,7 @@
     {
       "id": "water-pump-bearing-fault-pmc-2021",
       "title": "A Novel Feature Extraction and Fault Detection Technique for the Intelligent Fault Identification of Water Pump Bearings",
-      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8234243/",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC8234243/fullTextXML",
       "publisher": "PubMed Central",
       "license": "CC-BY-4.0",
       "license_url": "https://creativecommons.org/licenses/by/4.0/",
@@ -37,12 +37,13 @@
         "raw_tables",
         "raw_figures"
       ],
-      "status": "candidate"
+      "status": "candidate",
+      "fetch_format": "xml"
     },
     {
       "id": "centrifugal-pump-fault-pmc-2022",
       "title": "Multistage Centrifugal Pump Fault Diagnosis Using Informative Ratio Principal Component Analysis",
-      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8747656/",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC8747656/fullTextXML",
       "publisher": "PubMed Central",
       "license": "CC-BY-4.0",
       "license_url": "https://creativecommons.org/licenses/by/4.0/",
@@ -63,7 +64,8 @@
         "raw_tables",
         "raw_figures"
       ],
-      "status": "candidate"
+      "status": "candidate",
+      "fetch_format": "xml"
     }
   ],
   "reference_only_portals": [
