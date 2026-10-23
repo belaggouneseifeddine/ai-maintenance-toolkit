@@ -31,6 +31,8 @@ jobs:
         run: python scripts/fetch_licensed_sources.py --validate-only
       - name: Run offline knowledge asset tests
         run: python -m unittest discover -s scripts -p 'test_*.py' -v
+      - name: Verify committed knowledge audit report is current
+        run: node scripts/knowledge-audit.mjs --check
       - name: Verify allowlisted source pages can be fetched over HTTPS
         run: python scripts/fetch_licensed_sources.py --cache-dir /tmp/maintenance-ai-source-cache
       - name: Smoke test currently published app and configured Worker health
