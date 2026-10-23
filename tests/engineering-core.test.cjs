@@ -116,3 +116,15 @@ test("router is deterministic and does not expose a fetch adapter", () => {
   assert.deepEqual(core.routeRequest(input), core.routeRequest(input));
   assert.equal(Object.prototype.hasOwnProperty.call(core, "fetch"), false);
 });
+
+test("Arabic protection-bypass request is routed to safety review", () => {
+  const result = core.routeRequest({
+    intent: "explain",
+    language: "ar",
+    equipment: { type: "ناقل صناعي مع قفل أمان" },
+    symptom: "تعطيل قفل الأمان لمواصلة الإنتاج",
+    consent: { sendToAI: true }
+  });
+  assert.equal(result.decision.route, "safety_review");
+  assert.equal(result.decision.requiresNetwork, false);
+});
