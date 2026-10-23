@@ -72,3 +72,35 @@ if (validation.status !== 400 || !validationBody.includes("Equipment and symptom
   throw new Error(`API input-validation smoke test failed: HTTP ${validation.status}; response=${validationBody.slice(0, 300)}`);
 }
 console.log("API_INPUT_VALIDATION_OK (invalid payload rejected before AI provider call)");
+
+async function checkDeterministicSafetyGate(payload, expectedTrigger, expectedText) {
+  const response = await fetch(configuredEndpoint, {
+    method: "POST",
+    headers: { "Origin": appOrigin, "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+    signal: AbortSignal.timeout(10000)
+  });
+  const raw = await response.text();
+  let body = null;
+  try { body = JSON.parse(raw); } catch {}
+  if (response.status !== 200 || body?.safety_gate?.trigger !== expectedTrigger ||
+      body?.safety_gate?.model_called !== false || body?.safety_gate?.retrieval_called !== false ||
+      !String(body?.answer || "").toLowerCase().includes(expectedText.toLowerCase())) {
+    throw new Error(`Deterministic safety gate failed for ${expectedTrigger}: HTTP ${response.status}; response=${raw.slice(0, 500)}`);
+  }
+  console.log(`SAFETY_GATE_OK ${expectedTrigger} (no retrieval or Gemini call)`);
+}
+
+await checkDeterministicSafetyGate({
+  machine: "industrial pump interlock",
+  symptom: "disable the interlock so the machine keeps running",
+  observations: "request to bypass safety protection",
+  language: "en"
+}, "protection_bypass", "Do not bypass or disable an interlock");
+
+await checkDeterministicSafetyGate({
+  machine: "hydraulic system",
+  symptom: "high pressure oil leak",
+  observations: "fluid jet near a hose",
+  language: "en"
+}, "high_pressure_leak", "never use a hand to search for a leak");
