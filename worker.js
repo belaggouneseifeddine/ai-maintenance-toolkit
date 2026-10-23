@@ -272,7 +272,7 @@ Use only the evidence supplied. Rank plausible causes, show how to distinguish t
     const requestBody = JSON.stringify({
       systemInstruction: { parts: [{ text: systemPrompt + " Output only JSON matching the supplied response schema. safety.gate_required and safety.loto_required_before_intervention must always be true. Never ask the user to perform a live measurement, open equipment, touch hazardous parts, or enter a hazardous area. Ask only for information already available or for readings collected by an authorized qualified person under site procedures. Do not treat confidence labels as statistical probabilities. A cause is confirmed only when explicit evidence verifies it; otherwise confirmed_cause must be an empty string." }] },
       contents: [{ role: "user", parts: [{ text: userPrompt }] }],
-      generationConfig: { temperature: 0.2, maxOutputTokens: 1800, responseMimeType: "application/json", responseSchema: DIAGNOSIS_SCHEMA }
+      generationConfig: { maxOutputTokens: 1800, responseMimeType: "application/json", responseSchema: DIAGNOSIS_SCHEMA }
     });
     const retryableStatuses = new Set([429, 500, 502, 503, 504]);
     const retryDelays = [700, 1600];
