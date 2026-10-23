@@ -39,7 +39,7 @@ const checks = [
   ["Arabic RTL document", () => assert.match(html, /<html lang="ar" dir="rtl">/)],
   ["Structured pump low-flow flow has stable IDs and validated answer guidance", () => {
     const flow = diagnosticFlows.flows["pump|low_flow"];
-    assert.equal(diagnosticFlows.schemaVersion, 2);
+    assert.equal(diagnosticFlows.schemaVersion, 3);
     assert.equal(flow.id, "pump-low-flow-v1");
     assert.equal(flow.equipmentId, "pump");
     assert.equal(flow.symptomId, "low_flow");
