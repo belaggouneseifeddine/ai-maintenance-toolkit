@@ -123,7 +123,7 @@ const checks = [
     assert.match(html, /أوافق على إرسال وصف العطل والقياسات/);
   }],
   ["Cloudflare API request requires consent, uses a timeout, and preserves readable output", () => {
-    assert.match(html, /if\(!\$\('aiConsent'\)\.checked\)/);
+    assert.match(html, /if\\(!\\$\\('aiConsent'\\)\\.checked&&!cached\\)/);
     assert.match(html, /signal:AbortSignal\.timeout\(65000\)/);
     assert.match(html, /#aiResult\{white-space:pre-wrap/);
     assert.match(html, /maintenance-ai-toolkit-api-seif\.workers\.dev\/api\/chat/);
