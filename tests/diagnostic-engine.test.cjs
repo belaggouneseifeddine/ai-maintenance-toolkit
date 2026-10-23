@@ -33,6 +33,35 @@ test("pump symptom with supporting observations returns an advisory match", () =
   assert.match(result.advisory, /إرشادية/);
 });
 
+test("multilingual aliases match motors, drives and compressors without notes", () => {
+  const cases = [
+    ["moteur électrique", "ne démarre pas", "fr"],
+    ["محرك كهربائي", "لا يبدأ", "ar"],
+    ["drive", "trip", "en"],
+    ["ضاغط هواء", "ارتفاع الحرارة", "ar"],
+    ["compresseur", "surchauffe", "fr"]
+  ];
+  for (const [equipmentType, symptom, language] of cases) {
+    const result = diagnose({ equipmentType, symptom, observations: "", language }, faults);
+    assert.equal(result.matched, true, equipmentType + " / " + symptom);
+    assert.ok(result.results.length > 0);
+    assert.ok(result.results.every(item => item.equipmentMatch && item.symptomMatch));
+  }
+});
+
+test("wrong equipment and symptom do not produce an unrelated result", () => {
+  const result = diagnose({ equipmentType: "motor", symptom: "leak", observations: "air filter", language: "en" }, faults);
+  assert.equal(result.matched, false);
+  assert.equal(result.results.length, 0);
+});
+
+test("local fault library covers motors, VFDs and compressors", () => {
+  assert.ok(faults.faults.length >= 10);
+  for (const equipmentType of ["motor", "vfd", "compressor"]) {
+    assert.ok(faults.faults.some(fault => fault.equipmentType === equipmentType), "missing " + equipmentType);
+  }
+});
+
 test("insufficient evidence does not invent a fault", () => {
   const result = diagnose({
     equipmentType: "motor",
