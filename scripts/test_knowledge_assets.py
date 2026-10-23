@@ -30,6 +30,15 @@ class KnowledgeAssetsTests(unittest.TestCase):
             self.assertIn(source["license"], data["policy"]["accepted_licenses"])
             self.assertTrue(source.get("equipment"))
 
+    def test_source_fetcher_supports_documented_europe_pmc_xml_endpoints(self):
+        registry = json.loads(REGISTRY_PATH.read_text(encoding="utf-8"))
+        source_urls = {source["url"] for source in registry["sources"]}
+        self.assertIn("https://www.ebi.ac.uk/europepmc/webservices/rest/PMC8234243/fullTextXML", source_urls)
+        self.assertIn("https://www.ebi.ac.uk/europepmc/webservices/rest/PMC8747656/fullTextXML", source_urls)
+        fetcher = SCRIPT_PATH.read_text(encoding="utf-8")
+        self.assertIn('"Accept": "application/xml, text/xml, application/xhtml+xml, text/html;q=0.9, */*;q=0.1"', fetcher)
+        self.assertIn('"application/xml", "text/xml"', fetcher)
+
     def test_pump_draft_has_multilingual_terms_safety_and_attribution(self):
         text = PUMP_DRAFT.read_text(encoding="utf-8")
         for term in ("العربية", "Français", "English", "LOTO", "راجع دليل المصنع",
