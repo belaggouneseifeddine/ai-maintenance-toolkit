@@ -66,7 +66,7 @@ const checks = [
     assert.match(html, /id="aiCacheEnabled"/);
     assert.match(html, /id="speakAiAnswer"/);
     assert.match(answerToolsSource, /CACHE_TTL_MS = 24 \* 60 \* 60 \* 1000/);
-    assert.match(answerToolsSource, /status==="preliminary_assessment"/);
+    assert.match(answerToolsSource, /data\.diagnosis\.status!=="preliminary_assessment"/);
     assert.match(answerToolsSource, /escalation\.required!==false/);
     assert.match(answerToolsSource, /matchedChunks/);
     assert.match(answerToolsSource, /source_supported_hypothesis/);
