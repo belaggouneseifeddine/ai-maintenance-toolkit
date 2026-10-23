@@ -256,12 +256,43 @@
     return { ok: true, decision: { ...base, route: "clarify", reasonCodes: ["intent_unclear"] } };
   }
 
+  function executeLocalDiagnosis(input, diagnosticEngine, faultLibrary) {
+    const routed = routeRequest(input);
+    if (!routed.ok) return routed;
+    if (routed.decision.route !== "local_diagnostic") {
+      return { ok: true, decision: routed.decision, diagnosis: null, source: null };
+    }
+    if (!diagnosticEngine || typeof diagnosticEngine.diagnose !== "function") {
+      return { ok: false, errors: [{ code: "diagnostic_engine_unavailable" }] };
+    }
+    const normalized = normalizeRequest(input);
+    if (!normalized.ok) return normalized;
+    const request = normalized.value;
+    try {
+      const diagnosis = diagnosticEngine.diagnose({
+        equipmentType: request.equipment.type,
+        symptom: request.symptom,
+        observations: request.observations.join("\\n"),
+        language: request.language
+      }, faultLibrary);
+      return {
+        ok: true,
+        decision: routed.decision,
+        diagnosis,
+        source: "existing_diagnostic_engine"
+      };
+    } catch (_) {
+      return { ok: false, errors: [{ code: "diagnostic_engine_failed" }] };
+    }
+  }
+
   const api = Object.freeze({
     version: "0.1.0",
     normalizeRequest,
     inferIntent,
     hasSafetyTrigger,
-    routeRequest
+    routeRequest,
+    executeLocalDiagnosis
   });
   root.MaintenanceEngineeringCore = api;
   if (typeof module !== "undefined" && module.exports) module.exports = api;
