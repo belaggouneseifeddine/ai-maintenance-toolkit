@@ -211,3 +211,12 @@ test("Arabic interlock-bypass wording activates the same independent safety gate
   assert.match(body.answer, /لا تتجاوز أو تعطّل الإنترلوك/);
   assert.deepEqual({ upstreamCalls, knowledgeCalls }, before);
 });
+
+
+test("Worker retrieval expands confirmed aliases but does not promote review-only aliases", () => {
+  const confirmed = context.__retrievalTerms("pompe faible débit");
+  assert.ok(confirmed.includes("pump"));
+  assert.ok(confirmed.includes("low_flow"));
+  const uncertain = context.__retrievalTerms("بومبة");
+  assert.equal(uncertain.includes("pump"), false);
+});
