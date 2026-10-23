@@ -39,7 +39,7 @@ const checks = [
     assert.ok(engineWindow.MaintenanceNormalization.getReviewAliases().every(item => item.status === "review_required"));
   }],
   ["Speech readout is local, multilingual, accessible, and shipped in the app shell", () => {
-    assert.match(html, /src="\\.\\/speech-readout\\.js"/);
+    assert.ok(html.includes('src="./speech-readout.js"'));
     assert.match(html, /id="aiSpeechControls"/);
     assert.match(html, /id="readAiAnswer"/);
     assert.match(html, /id="stopAiReading"/);
@@ -47,11 +47,11 @@ const checks = [
     assert.match(speechReadoutSource, /SpeechSynthesisUtterance/);
     assert.match(speechReadoutSource, /maintenance-ai-answer-ready/);
     assert.match(speechReadoutSource, /maintenance-language-changed/);
-    assert.doesNotMatch(speechReadoutSource, /fetch\\s*\\(/);
-    assert.match(sw, /\\.\\/speech-readout\\.js/);
+    assert.ok(!speechReadoutSource.includes("fetch("), "Speech readout must not make network requests");
+    assert.ok(sw.includes('"./speech-readout.js"'));
     assert.match(sw, /maintenance-ai-toolkit-v35/);
-    assert.match(deployWorkflow, /i18n\\.js speech-readout\\.js icon\\.svg/);
-    for (const key of ["readAIAnswer", "stopAIReading", "speechUnsupported", "speechReady"]) assert.match(i18n, new RegExp(key));
+    assert.ok(deployWorkflow.includes("i18n.js speech-readout.js icon.svg"));
+    for (const key of ["readAIAnswer", "stopAIReading", "speechUnsupported", "speechReady"]) assert.ok(i18n.includes(key));
     new vm.Script(speechReadoutSource, { filename: "speech-readout.js" });
   }],
   ["Arabic RTL document", () => assert.match(html, /<html lang="ar" dir="rtl">/)],
