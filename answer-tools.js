@@ -20,8 +20,14 @@ function readStore(){
 }
 function writeStore(value){try{root.localStorage.setItem(CACHE_KEY,JSON.stringify(value));return true;}catch(_){return false;}}
 function safeToCache(data){
-  return !!data&&typeof data.answer==="string"&&!!data.diagnosis&&
-    data.diagnosis.status==="preliminary_assessment"&&!data.safety_gate;
+  if(!data||typeof data.answer!=="string"||!data.answer.trim()||!data.diagnosis||
+     data.diagnosis.status!=="preliminary_assessment"||data.safety_gate||
+     !data.diagnosis.escalation||data.diagnosis.escalation.required!==false||
+     !data.retrieval||!Number.isFinite(Number(data.retrieval.matchedChunks))||Number(data.retrieval.matchedChunks)<1) return false;
+  const causes=data.diagnosis.possible_causes;
+  return Array.isArray(causes)&&causes.some(cause=>
+    cause&&cause.evidence_class==="source_supported_hypothesis"&&
+    Array.isArray(cause.source_ids)&&cause.source_ids.length>0);
 }
 function get(payload,now){
   const store=readStore(),key=hash(payload),entry=store[key],time=Number.isFinite(now)?now:Date.now();
@@ -33,7 +39,7 @@ function get(payload,now){
 function put(payload,data,now){
   if(!safeToCache(data))return false;
   const store=readStore(),time=Number.isFinite(now)?now:Date.now();
-  store[hash(payload)]={createdAt:time,data:{answer:data.answer,citations:Array.isArray(data.citations)?data.citations:[],diagnosis:data.diagnosis}};
+  store[hash(payload)]={createdAt:time,data:{answer:data.answer,citations:Array.isArray(data.citations)?data.citations:[],diagnosis:data.diagnosis,retrieval:{status:data.retrieval.status||"retrieved",matchedChunks:Number(data.retrieval.matchedChunks)}}};
   const entries=Object.entries(store).sort((a,b)=>(Number(b[1]?.createdAt)||0)-(Number(a[1]?.createdAt)||0)).slice(0,MAX_ENTRIES);
   return writeStore(Object.fromEntries(entries));
 }
