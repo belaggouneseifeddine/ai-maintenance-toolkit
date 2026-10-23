@@ -57,6 +57,9 @@ const checks = [
   }],
   ["Answer cache is opt-in, exact-input, local-only, expiring, and excludes safety responses", () => {
     assert.ok(html.includes('id="cacheAiAnswers"'));
+    assert.match(html, /id="cacheAiAnswers" type="checkbox"/);
+    assert.doesNotMatch(html, /id="cacheAiAnswers" type="checkbox" checked/);
+    assert.ok(html.indexOf("MaintenanceAnswerCache.get") < html.indexOf("if(!$('aiConsent').checked)"), "cache lookup must occur before network-consent enforcement");
     assert.ok(html.includes('id="aiCacheHint"'));
     assert.ok(html.includes('id="clearAiAnswerCache"'));
     assert.match(html, /id="aiCacheStatus"[^>]*aria-live="polite"/);
@@ -70,7 +73,7 @@ const checks = [
     assert.ok(sw.includes('"./answer-cache.js"'));
     assert.match(sw, /maintenance-ai-toolkit-v36/);
     assert.ok(deployWorkflow.includes("speech-readout.js answer-cache.js icon.svg"));
-    for (const key of ["cacheAIAnswers", "aiCacheHint", "clearAiAnswerCache", "aiCacheCleared", "aiCacheHit"]) assert.ok(i18n.includes(key));
+    for (const key of ["cacheAIAnswers", "aiCacheHint", "clearAiAnswerCache", "aiCacheCleared", "aiCacheClearFailed", "aiCacheHit"]) assert.ok(i18n.includes(key));
     new vm.Script(answerCacheSource, { filename: "answer-cache.js" });
   }],
   ["Arabic RTL document", () => assert.match(html, /<html lang="ar" dir="rtl">/)],
