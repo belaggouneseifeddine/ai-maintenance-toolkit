@@ -54,11 +54,13 @@ try {
   await page.locator('.tab[data-tab="diagnose"]').click();
   await page.locator("#diagnosisForm").waitFor({ state: "visible" });
 
-  const panels = ["diagnose", "ai", "knowledge", "safety", "log"];
+  const panels = ["homeDashboard", "diagnose", "knowledge", "safety", "log", "v03"];
   for (const panel of panels) {
     await page.locator(`.tab[data-tab="${panel}"]`).click();
     assert.equal(await page.locator(`#${panel}`).evaluate(el => el.classList.contains("active")), true, `Navigation must open the ${panel} panel`);
   }
+  await page.locator('.tab[data-tab="diagnose"]').click();
+  await page.locator("#aiForm").waitFor({ state: "visible" });
 
   const toggle = page.locator("#themeToggle");
   for (const language of ["ar", "fr", "en"]) {
