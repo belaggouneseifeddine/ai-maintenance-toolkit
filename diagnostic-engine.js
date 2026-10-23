@@ -16,6 +16,38 @@
       .replace(/\s+/g, " ");
   }
 
+  // Canonical IDs allow common Arabic/French/English equipment and symptom wording.
+  function canonicalEquipment(value) {
+    const s = normalizeText(value);
+    const groups = {
+      pump: ["pump","pumps","pompe","pompes","مضخه","مضخة","مضخات"],
+      motor: ["motor","electric motor","moteur","moteur electrique","محرك","محرك كهربائي","موتور"],
+      vfd: ["vfd","variable frequency drive","frequency inverter","drive","inverter","variateur","variateur de frequence","مغير التردد","مغير تردد","انفرتر","إنفرتر"],
+      compressor: ["compressor","air compressor","compresseur","ضاغط","ضاغط هواء","كمبروسر"],
+      valve: ["valve","check valve","non return valve","clapet","vanne","صمام","صمام عدم الرجوع"],
+      conveyor: ["conveyor","convoyeur","ناقل","سير ناقل"]
+    };
+    for (const [id, aliases] of Object.entries(groups)) if (aliases.some(alias => normalizeText(alias) === s)) return id;
+    return s;
+  }
+
+  function canonicalSymptom(value) {
+    const s = normalizeText(value);
+    const groups = {
+      not_start: ["not start","not starting","fails to start","won't start","does not start","no start","ne demarre pas","refus de demarrer","ne demarre plus","لا يبدأ","لا يعمل","لا يقلع","لا ينطلق","فشل التشغيل"],
+      trip: ["trip","tripping","fault trip","disjonction","declenchement","se declenche","يفصل","فصل حماية","يفصل حماية","انذار فصل"],
+      overheating: ["overheating","overheat","hot","temperature high","surchauffe","temperature elevee","ارتفاع الحرارة","سخونة","حرارة مرتفعة"],
+      noise: ["noise","noisy","abnormal noise","bruit","bruit anormal","ضجيج","صوت غير طبيعي","صوت غريب"],
+      low_flow: ["low flow","no flow","reduced flow","debit faible","absence de debit","faible debit","ضعف التدفق","انعدام التدفق","تدفق ضعيف"],
+      low_pressure: ["low pressure","pressure low","pression faible","basse pression","ضغط منخفض","ضعف الضغط"],
+      leak: ["leak","leaking","leakage","fuite","تسرب","تسرّب"],
+      vibration: ["vibration","vibrating","vibrations","vibrations anormales","اهتزاز","رجة"],
+      intermittent: ["intermittent","intermittently","sporadic","intermittent","متقطع","بشكل متقطع"]
+    };
+    for (const [id, aliases] of Object.entries(groups)) if (aliases.some(alias => normalizeText(alias) === s)) return id;
+    return s;
+  }
+
   function findMatches(text, terms) {
     const normalized = normalizeText(text);
     const matches = [];
@@ -74,12 +106,12 @@
       return { matched: false, message: t.noMatch, reason: t.weakReason, results: [], advisory: t.advisory, language: lang };
     }
 
-    const equipment = normalizeText(input && input.equipmentType);
-    const symptom = normalizeText(input && input.symptom);
+    const equipment = canonicalEquipment(input && input.equipmentType);
+    const symptom = canonicalSymptom(input && input.symptom);
     const notes = normalizeText(input && input.observations);
     const results = data.faults.map(fault => {
-      const equipmentMatch = normalizeText(fault.equipmentType) === equipment;
-      const symptomMatch = (fault.symptoms || []).some(item => normalizeText(item) === symptom);
+      const equipmentMatch = canonicalEquipment(fault.equipmentType) === equipment;
+      const symptomMatch = (fault.symptoms || []).some(item => canonicalSymptom(item) === symptom);
       const allKeywords = Object.values(fault.keywords || {}).flat();
       const keywordMatches = findMatches(notes, allKeywords);
       const distinctHits = Math.min(keywordMatches.length, 3);
@@ -126,6 +158,6 @@
     return { matched: true, message: "", reason: "", results, advisory: t.advisory, language: lang };
   }
 
-  root.MaintenanceDiagnosticEngine = { normalizeText, diagnose };
+  root.MaintenanceDiagnosticEngine = { normalizeText, canonicalEquipment, canonicalSymptom, diagnose };
   root.diagnose = diagnose;
 })(typeof window !== "undefined" ? window : globalThis);
