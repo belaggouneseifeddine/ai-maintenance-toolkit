@@ -3,65 +3,17 @@
   "use strict";
 
   function normalizeText(value) {
-    return String(value == null ? "" : value)
-      .toLocaleLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f\u064B-\u065F\u0670\u06D6-\u06ED]/g, "")
-      .replace(/[أإآٱ]/g, "ا")
-      .replace(/ى/g, "ي")
-      .replace(/ة/g, "ه")
-      .replace(/[ـ]/g, "")
-      .replace(/[^\p{L}\p{N}]+/gu, " ")
-      .trim()
-      .replace(/\s+/g, " ");
+    return root.MaintenanceNormalization
+      ? root.MaintenanceNormalization.normalizeText(value)
+      : String(value == null ? "" : value).toLocaleLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim().replace(/\s+/g, " ");
   }
-
-  // Canonical IDs allow common Arabic/French/English equipment and symptom wording.
   function canonicalEquipment(value) {
-    const s = normalizeText(value);
-    const groups = {
-      pump: ["pump","pumps","pompe","pompes","مضخه","مضخة","مضخات"],
-      motor: ["motor","electric motor","electric_motor","moteur","moteur electrique","محرك","محرك كهربائي","موتور"],
-      hydraulic: ["hydraulic","hydraulic system","hydraulique","systeme hydraulique","هيدروليك","نظام هيدروليكي"],
-      pneumatic: ["pneumatic","pneumatic system","pneumatique","هوائي","نظام هوائي"],
-      gearbox: ["gearbox","gear box","reducer","reducteur","علبة تروس","جيربوكس"],
-      instrumentation: ["instrumentation","sensor","capteur","حساس","مجس","جهاز قياس"],
-      electrical_control: ["plc","control panel","armoire electrique","لوحة كهربائية","متحكم منطقي"],
-      thermal: ["heat exchanger","heat_exchanger","echangeur thermique","مبادل حراري","نظام تبريد","cooling","refrigeration","تبريد","تبريد صناعي"],
-      mechanical: ["bearing","roulement","محمل","رولمان بلي"],
-      vfd: ["vfd","variable frequency drive","frequency inverter","drive","inverter","variateur","variateur de frequence","مغير التردد","مغير تردد","انفرتر","إنفرتر"],
-      compressor: ["compressor","air compressor","compresseur","ضاغط","ضاغط هواء","كمبروسر"],
-      valve: ["valve","check valve","non return valve","clapet","vanne","صمام","صمام عدم الرجوع"],
-      conveyor: ["conveyor","convoyeur","ناقل","سير ناقل"]
-    };
-    for (const [id, aliases] of Object.entries(groups)) if (aliases.some(alias => normalizeText(alias) === s)) return id;
-    if (["motor","electric_motor"].includes(s)) return "motor";
-    if (["sensor","instrumentation"].includes(s)) return "instrumentation";
-    if (["plc","electrical_control"].includes(s)) return "electrical_control";
-    return s;
+    const result = root.MaintenanceNormalization && root.MaintenanceNormalization.canonicalize(value, "equipment");
+    return result ? (result.status === "confirmed" ? result.canonical : result.normalized) : normalizeText(value);
   }
-
   function canonicalSymptom(value) {
-    const s = normalizeText(value);
-    const groups = {
-      not_start: ["not start","not starting","fails to start","won't start","does not start","no start","ne demarre pas","refus de demarrer","ne demarre plus","لا يبدأ","لا يعمل","لا يقلع","لا ينطلق","فشل التشغيل"],
-      trip: ["trip","tripping","fault trip","disjonction","declenchement","se declenche","يفصل","فصل حماية","يفصل حماية","انذار فصل"],
-      overheat: ["overheating","overheat","hot","temperature high","surchauffe","temperature elevee","ارتفاع الحرارة","سخونة","حرارة مرتفعة"],
-      noise: ["noise","noisy","abnormal noise","bruit","bruit anormal","ضجيج","صوت غير طبيعي","صوت غريب"],
-      low_flow: ["low flow","no flow","reduced flow","debit faible","absence de debit","faible debit","ضعف التدفق","انعدام التدفق","تدفق ضعيف"],
-      low_pressure: ["low pressure","pressure low","pression faible","basse pression","ضغط منخفض","ضعف الضغط"],
-      bad_signal: ["signal loss","lost signal","incorrect reading","perte de signal","mauvaise mesure","فقدان إشارة","قراءة غير منطقية"],
-      slow_cycle: ["slow cycle","slow movement","cycle lent","mouvement lent","حركة بطيئة","دورة بطيئة"],
-      high_pressure: ["high pressure","pression elevee","ضغط مرتفع","ضغط عالي"],
-      consumption: ["high consumption","overconsumption","surconsommation","استهلاك مرتفع","استهلاك غير طبيعي"],
-      leak: ["leak","leaking","leakage","fuite","تسرب","تسرّب"],
-      vibration: ["vibration","vibrating","vibrations","vibrations anormales","اهتزاز","رجة"],
-      intermittent: ["intermittent","intermittently","sporadic","intermittent","متقطع","بشكل متقطع"]
-    };
-    for (const [id, aliases] of Object.entries(groups)) if (aliases.some(alias => normalizeText(alias) === s)) return id;
-    if (["noise","vibration"].includes(s)) return "noise_vibration";
-    if (["low_flow","low_pressure"].includes(s)) return "low_flow_pressure";
-    return s;
+    const result = root.MaintenanceNormalization && root.MaintenanceNormalization.canonicalize(value, "symptom");
+    return result ? (result.status === "confirmed" ? result.canonical : result.normalized) : normalizeText(value);
   }
 
   function findMatches(text, terms) {
