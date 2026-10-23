@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - "diagnostic-engine.js"
+      - "engineering-core.js"
       - "worker.js"
       - "normalization.js"
       - "knowledge/**"
