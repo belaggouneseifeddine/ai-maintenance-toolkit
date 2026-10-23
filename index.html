@@ -340,7 +340,18 @@ const payload={machine:$('aiMachine').value.trim(),symptom:$('aiSymptom').value.
 try{
 const response=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},signal:AbortSignal.timeout(65000),body:JSON.stringify(payload)});
 let data={};try{data=await response.json()}catch{}
-if(!response.ok){const detail=[data.error].filter(Boolean).join(' — ')||('HTTP '+response.status);throw new Error(response.status===404?'لم يتم العثور على API endpoint؛ تحقق من رابط الخادم.':response.status===503?'الخادم غير مُعدّ بعد؛ أضف AI_API_KEY إلى متغيرات بيئة الخادم ثم أعد النشر.':detail);}
+if(!response.ok){
+ const providerStatus=Number(data.provider_status||0);
+ let detail=[data.error].filter(Boolean).join(' — ')||('HTTP '+response.status);
+ if(response.status===404) detail='لم يتم العثور على مسار API. تأكد أن الرابط ينتهي بـ /api/chat وأن آخر نسخة من Worker منشورة.';
+ else if(response.status===403||/Origin not allowed/i.test(detail)) detail='رفض الخادم مصدر الطلب. افتح التطبيق المنشور على GitHub Pages وأرسل الطلب من داخله؛ لا تفتح /api/chat مباشرة.';
+ else if(response.status===503) detail='خدمة الذكاء الاصطناعي غير مُعدّة. تحقق من وجود السر AI_API_KEY داخل Cloudflare Worker ثم أعد النشر.';
+ else if(providerStatus===400||providerStatus===401||providerStatus===403) detail='رفض Gemini الطلب (HTTP '+providerStatus+'). تحقق من صحة مفتاح Gemini وصلاحياته، وتفعيل Gemini API، واسم النموذج.';
+ else if(providerStatus===429||response.status===429) detail='تم بلوغ حد الطلبات أو حصة Gemini. انتظر قليلًا ثم أعد المحاولة، وتحقق من الحصة والفوترة.';
+ else if(providerStatus>=500) detail='Gemini يواجه عطلًا مؤقتًا (HTTP '+providerStatus+'). أعد المحاولة لاحقًا.';
+ else if(response.status===502&&data.provider_message) detail+=' — '+data.provider_message;
+ throw new Error(detail);
+}
 if(typeof data.answer!=='string'||!data.answer.trim())throw new Error('استجابة الخادم لا تحتوي على إجابة صالحة.');
 const lang=window.MaintenanceI18n?window.MaintenanceI18n.getLanguage():'ar';
 const suffix=lang==='fr'?'Avis préliminaire uniquement. Vérifiez le manuel du fabricant et les procédures de sécurité.':lang==='en'?'Preliminary guidance only. Verify the manufacturer manual and site safety procedures.':'تنبيه: نتيجة أولية؛ راجع دليل المصنع وإجراءات السلامة قبل أي تدخل.';
@@ -351,7 +362,7 @@ if(data.diagnosis){
  const all=getRecords();all.unshift(record);
  if(saveRecords(all)){renderRecords();box.textContent+="\n\nتم حفظ جلسة التشخيص في سجل الصيانة على هذا الجهاز.";}
 }
-}catch(err){const message=err&&err.name==='TimeoutError'?'انتهت مهلة الاتصال بالخادم.':err&&err.message==='Failed to fetch'?'تعذر الاتصال بالخادم. تحقق من نشره وإعداد CORS ورابط HTTPS.':(err.message||'خطأ غير معروف');box.textContent='تعذر إكمال التحليل بالذكاء الاصطناعي: '+message+'\n\nالتشخيص المحلي ما زال متاحًا.';}
+}catch(err){const message=err&&err.name==='TimeoutError'?'انتهت مهلة الاتصال بالخادم بعد 65 ثانية. تحقق من اتصال الإنترنت وحالة Gemini ثم أعد المحاولة.':err&&err.message==='Failed to fetch'?'تعذر قراءة استجابة الخادم. تحقق من الإنترنت ورابط HTTPS وCORS؛ افتح التطبيق من رابط GitHub Pages الرسمي وليس من معاينة أو ملف محلي.':(err.message||'خطأ غير معروف');box.textContent='تعذر إكمال التحليل بالذكاء الاصطناعي: '+message+'\n\nلم يُحذف أي سجل. يمكنك استخدام التشخيص المحلي مؤقتًا، ثم إعادة المحاولة بعد معالجة السبب.';}
 finally{button.disabled=false;button.textContent='تحليل العطل';}
 });
 
