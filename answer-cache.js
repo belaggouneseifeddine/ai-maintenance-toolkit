@@ -94,4 +94,21 @@
 
   root.MaintenanceAnswerCache = create();
   root.MaintenanceAnswerCache.create = create;
+
+  function initClearControl() {
+    const button = root.document && root.document.getElementById("clearAiAnswerCache");
+    const status = root.document && root.document.getElementById("aiCacheStatus");
+    if (!button || !status) return;
+    button.addEventListener("click", () => {
+      const cleared = root.MaintenanceAnswerCache.clear();
+      const i18n = root.MaintenanceI18n;
+      status.textContent = cleared
+        ? (i18n && i18n.t ? i18n.t("aiCacheCleared") : "Locally saved answers cleared.")
+        : (i18n && i18n.t ? i18n.t("aiCacheClearFailed") : "Could not clear local answer cache.");
+    });
+  }
+  if (root.document) {
+    if (root.document.readyState === "loading") root.document.addEventListener("DOMContentLoaded", initClearControl);
+    else initClearControl();
+  }
 })(window);
