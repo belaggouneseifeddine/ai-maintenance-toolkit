@@ -23,3 +23,5 @@ jobs:
           node-version: 22
       - name: Validate app and backend guardrails
         run: node scripts/quality-check.mjs
+      - name: Smoke-test published app and Worker API
+        run: node scripts/smoke-test-live.mjs
