@@ -86,15 +86,7 @@ def validate_source(source: dict, accepted_licenses: set[str]) -> None:
 
 
 def fetch_page(source: dict) -> tuple[bytes, str]:
-    request = Request(
-        source["url"],
-        headers={
-            "User-Agent": USER_AGENT,
-            # Europe PMC fullTextXML is a documented machine-readable endpoint.
-            # Prefer XML but accept HTML for explicitly allowlisted HTML sources.
-            "Accept": "application/xml, text/xml, application/xhtml+xml, text/html;q=0.9, */*;q=0.1",
-        },
-    )
+    request = Request(source["url"], headers={"User-Agent": USER_AGENT, "Accept": "application/xml, text/xml, application/xhtml+xml, text/html;q=0.9"})
     with urlopen(request, timeout=TIMEOUT_SECONDS) as response:
         final_url = response.geturl()
         if urlparse(final_url).scheme != "https":
