@@ -127,6 +127,7 @@ footer{line-height:1.8}
 <div class="actions"><button class="btn" id="askAi" type="submit">تحليل العطل</button></div>
 </form>
 <div id="aiResult" class="result" aria-live="polite" hidden></div>
+<div id="aiSpeechControls" class="actions no-print" hidden><button class="btn secondary" type="button" id="readAiAnswer"></button><button class="btn secondary" type="button" id="stopAiReading" disabled></button></div><p id="aiSpeechStatus" class="hint no-print" aria-live="polite" hidden></p>
 </div>
 </section>
 <section id="knowledge" class="panel">
@@ -253,6 +254,7 @@ footer{line-height:1.8}
 <script src="./normalization.js"></script>
 <script src="./diagnostic-engine.js"></script>
 <script src="./i18n.js"></script>
+<script src="./speech-readout.js"></script>
 <script>
 const $=id=>document.getElementById(id);
 document.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b===btn));document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===btn.dataset.tab));}));
@@ -355,11 +357,12 @@ const AI_ENDPOINT_KEY='maintenance-ai-toolkit-endpoint-v1';
 const endpointInput=$('aiEndpoint');
 try{const savedEndpoint=localStorage.getItem(AI_ENDPOINT_KEY)||'';const correctEndpoint='https://maintenance-ai-toolkit-api.maintenance-ai-toolkit-api-seif.workers.dev/api/chat';if(savedEndpoint.includes('maintenance-ai-toolkit-api-seif.workers.dev')&&!savedEndpoint.includes('maintenance-ai-toolkit-api.maintenance-ai-toolkit-api-seif.workers.dev')){localStorage.setItem(AI_ENDPOINT_KEY,correctEndpoint);endpointInput.value=correctEndpoint;}else{endpointInput.value=savedEndpoint||correctEndpoint;}}catch{endpointInput.value='https://maintenance-ai-toolkit-api.maintenance-ai-toolkit-api-seif.workers.dev/api/chat';}
 endpointInput.addEventListener('change',()=>{try{localStorage.setItem(AI_ENDPOINT_KEY,endpointInput.value.trim());}catch{}});
-$('saveAiEndpoint').addEventListener('click',()=>{const value=String(endpointInput.value||'').trim().replace(/\/+$/,'');try{if(value){const parsed=new URL(value);if(parsed.protocol!=='https:'||!parsed.pathname.endsWith('/api/chat'))throw new Error();localStorage.setItem(AI_ENDPOINT_KEY,value);endpointInput.value=value;$('aiResult').hidden=false;$('aiResult').textContent='تم حفظ رابط الخادم على هذا الجهاز. لم يتم اختبار الاتصال بعد.';}else{localStorage.removeItem(AI_ENDPOINT_KEY);$('aiResult').hidden=false;$('aiResult').textContent='تم مسح رابط الخادم المحفوظ.';}}catch{$('aiResult').hidden=false;$('aiResult').textContent='رابط غير صالح. أدخل رابط HTTPS ينتهي بـ /api/chat.';}});
+$('saveAiEndpoint').addEventListener('click',()=>{document.dispatchEvent(new Event('maintenance-ai-answer-cleared'));const value=String(endpointInput.value||'').trim().replace(/\/+$/,'');try{if(value){const parsed=new URL(value);if(parsed.protocol!=='https:'||!parsed.pathname.endsWith('/api/chat'))throw new Error();localStorage.setItem(AI_ENDPOINT_KEY,value);endpointInput.value=value;$('aiResult').hidden=false;$('aiResult').textContent='تم حفظ رابط الخادم على هذا الجهاز. لم يتم اختبار الاتصال بعد.';}else{localStorage.removeItem(AI_ENDPOINT_KEY);$('aiResult').hidden=false;$('aiResult').textContent='تم مسح رابط الخادم المحفوظ.';}}catch{$('aiResult').hidden=false;$('aiResult').textContent='رابط غير صالح. أدخل رابط HTTPS ينتهي بـ /api/chat.';}});
 $('aiForm').addEventListener('submit',async e=>{
 e.preventDefault();
 const box=$('aiResult');
 box.hidden=false;box.textContent='';
+document.dispatchEvent(new Event('maintenance-ai-answer-cleared'));
 if(!$('aiConsent').checked){box.textContent='وافق على إرسال وصف العطل إلى الخادم قبل المتابعة.';return;}
 const endpoint=String(endpointInput.value||'').trim().replace(/\/+$/,'');
 if(!endpoint){box.textContent='لم يتم إعداد رابط الخادم بعد. انشر Cloudflare Worker ثم أدخل رابطه المنتهي بـ /api/chat. يبقى التشخيص المحلي متاحًا.';return;}
@@ -395,6 +398,7 @@ if(data.diagnosis){
  const all=getRecords();all.unshift(record);
  if(saveRecords(all)){renderRecords();box.textContent+="\n\nتم حفظ جلسة التشخيص في سجل الصيانة على هذا الجهاز.";}
 }
+document.dispatchEvent(new Event("maintenance-ai-answer-ready"));
 }catch(err){const message=err&&err.name==='TimeoutError'?'انتهت مهلة الاتصال بالخادم بعد 65 ثانية. تحقق من اتصال الإنترنت وحالة Gemini ثم أعد المحاولة.':err&&err.message==='Failed to fetch'?'تعذر قراءة استجابة الخادم. تحقق من الإنترنت ورابط HTTPS وCORS؛ افتح التطبيق من رابط GitHub Pages الرسمي وليس من معاينة أو ملف محلي.':(err.message||'خطأ غير معروف');box.textContent='تعذر إكمال التحليل بالذكاء الاصطناعي: '+message+'\n\nلم يُحذف أي سجل. يمكنك استخدام التشخيص المحلي مؤقتًا، ثم إعادة المحاولة بعد معالجة السبب.';}
 finally{button.disabled=false;button.textContent='تحليل العطل';}
 });
