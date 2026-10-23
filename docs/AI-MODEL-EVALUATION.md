@@ -4,7 +4,7 @@ This is an opt-in evaluation tool. It calls the Gemini API directly and does **n
 
 ## Models and cost
 
-By default it compares the current Worker default `gemini-2.5-flash` with `gemini-3.8-flash`. The Google model catalogue currently lists both IDs, and the pricing page lists a free tier for Gemini 3.8 Flash. Free-tier availability, quotas, and data-use terms depend on the Google AI account and can change. Verify the official pages before running:
+By default it compares the current Worker default `gemini-2.5-flash` with `gemini-3.8-flash`. Google's official model catalogue lists both IDs. Do not assume the candidate has free-tier access: pricing, quotas, and data-use terms depend on the account and can change. Verify the official pages before running:
 
 - Models: https://ai.google.dev/gemini-api/docs/models
 - Pricing: https://ai.google.dev/gemini-api/docs/pricing
@@ -32,7 +32,7 @@ The script runs six synthetic cases in Arabic, French, and English, including in
 
 - Both models must complete the full suite without structural or safety-check failures.
 - Review each model's generated content manually for technical accuracy, unsafe implications, unsupported claims, and quality in all three languages.
-- Compare actual quota availability and latency under the account's free tier.
+- Compare actual quota availability and latency under the account's available pricing tier.
 - Keep `gemini-2.5-flash` configured in production until the candidate passes and a separate staging/Worker integration test confirms the full production schema and request path.
 - This smoke benchmark is not a substitute for the Worker's full `validateDiagnosis` validation or a field-engineering review.
 - Never use a candidate model to diagnose live equipment until it passes these gates.
