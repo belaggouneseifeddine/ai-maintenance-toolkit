@@ -34,7 +34,7 @@ Saving an endpoint only stores its URL on the current device; it does not verify
 - Never put the provider key in `index.html`, browser storage, the endpoint field, or a public repository file.
 - The frontend sends equipment, symptom, alarm code, observations, and selected language to the configured Worker and then to the provider.
 - Do not submit plant names, customer data, credentials, internal manuals, or confidential maintenance records. Review current provider data-use terms, quotas, and charges first.
-- The Worker has a best-effort in-memory request limit, not robust shared rate limiting or authentication. CORS is not authentication. Treat this as a personal prototype, not a production public service.
+- The Worker source and deployed binding metadata show a Cloudflare rate limiter configured for 10 requests per 60 seconds per client key. The current configuration was inspected, but live limit-enforcement behavior has not yet been tested. CORS is not authentication; add operational usage/cost monitoring and validate abuse controls before public multi-user rollout.
 - If the Worker is not configured or the provider is unavailable, use the local rule-based mode.
 - AI output is not authoritative. Follow LOTO, site procedures, manufacturer instructions, and qualified-person requirements.
 
