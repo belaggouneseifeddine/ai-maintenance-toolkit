@@ -34,7 +34,7 @@
     const t = {
       ar: {
         noMatch: "لا يوجد تطابق كافٍ، صعّد للمسؤول",
-        weakReason: "لم يتحقق الحد الأدنى المطلوب من الأدلة؛ لم يتم اقتراح عطل.",
+        weakReason: "لم يُعثر على تطابق دقيق بين نوع المعدة والعَرَض. أضف الملاحظات أو نص الإنذار أو القياسات لتحسين المطابقة.",
         rankedBy: "سبب الترتيب",
         equipment: "تطابق نوع المعدة",
         symptom: "تطابق العَرَض",
@@ -46,7 +46,7 @@
       },
       fr: {
         noMatch: "Correspondance insuffisante, escaladez au responsable",
-        weakReason: "Le seuil minimal de preuves n’est pas atteint; aucune panne n’est proposée.",
+        weakReason: "Aucune combinaison exacte équipement-symptôme n’a été trouvée. Ajoutez des observations, le texte d’alarme ou des mesures pour améliorer la correspondance.",
         rankedBy: "Raison du classement",
         equipment: "Type d’équipement correspondant",
         symptom: "Symptôme correspondant",
@@ -58,7 +58,7 @@
       },
       en: {
         noMatch: "No sufficient match; escalate to the supervisor",
-        weakReason: "The minimum evidence threshold was not met; no fault was suggested.",
+        weakReason: "No exact equipment-and-symptom pair was found. Add observations, alarm text, or measurements to improve matching.",
         rankedBy: "Ranking reason",
         equipment: "Equipment type match",
         symptom: "Symptom match",
@@ -98,6 +98,11 @@
       if (equipmentMatch) reasons.push(t.equipment);
       if (symptomMatch) reasons.push(t.symptom);
       if (keywordMatches.length) reasons.push(t.keywords + ": " + keywordMatches.join(", "));
+      else if (equipmentMatch && symptomMatch) reasons.push(lang === "ar"
+        ? "مطابقة أولية فقط؛ أضف ملاحظات لتضييق الاحتمالات."
+        : lang === "fr"
+          ? "Correspondance initiale seulement; ajoutez des observations pour préciser les possibilités."
+          : "Preliminary match only; add observations to narrow the possibilities.");
       return {
         id: fault.id,
         title: (fault.title && fault.title[lang]) || fault.id,
@@ -109,7 +114,8 @@
         causes,
         safeChecks: (fault.safeChecks || []).map(item => item[lang]).filter(Boolean),
         escalation: fault.escalation && fault.escalation[lang] || "",
-        thresholdMet: equipmentMatch && symptomMatch && keywordMatches.length > 0 && score >= 9
+        // Equipment + symptom is enough to show tentative candidates. Observation keywords improve ranking but must not hide all candidates.
+      thresholdMet: equipmentMatch && symptomMatch && score >= 7
       };
     }).filter(item => item.thresholdMet)
       .sort((a, b) => b.score - a.score || b.matchedKeywords.length - a.matchedKeywords.length || a.title.localeCompare(b.title));
