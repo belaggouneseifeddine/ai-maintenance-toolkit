@@ -77,6 +77,9 @@ test("Worker structured response schema requires safety, questions, causes, step
   for (const key of ["status", "language", "safety", "clarifying_questions", "possible_causes", "inspection_steps", "escalation", "sources", "unknowns", "session_summary"]) {
     assert.ok(schema.required.includes(key), "missing required schema field " + key);
   }
+  const causeSchema = schema.properties.possible_causes.items;
+  assert.ok(causeSchema.required.includes("source_ids"));
+  assert.ok(causeSchema.required.includes("evidence_class"));
 });
 
 test("valid structured diagnosis is accepted", () => {
