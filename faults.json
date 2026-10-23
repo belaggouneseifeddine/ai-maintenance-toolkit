@@ -282,8 +282,7 @@
       "id": "pump-abnormal-vibration",
       "equipmentType": "pump",
       "symptoms": [
-        "noise",
-        "intermittent"
+        "vibration"
       ],
       "title": {
         "ar": "اهتزاز غير طبيعي",
@@ -549,8 +548,7 @@
       "id": "pump-check-valve-failure",
       "equipmentType": "pump",
       "symptoms": [
-        "low_flow",
-        "intermittent"
+        "low_flow"
       ],
       "title": {
         "ar": "خلل صمام عدم الرجوع",
@@ -1301,8 +1299,7 @@
       "id": "compressor-overheat",
       "equipmentType": "compressor",
       "symptoms": [
-        "overheat",
-        "trip"
+        "overheat"
       ],
       "title": {
         "ar": "ارتفاع حرارة الضاغط",
@@ -1410,8 +1407,7 @@
       "id": "compressor-low-output",
       "equipmentType": "compressor",
       "symptoms": [
-        "low_flow",
-        "low_pressure"
+        "trip"
       ],
       "title": {
         "ar": "ضعف خرج الضاغط أو ضغط الشبكة",
@@ -2299,7 +2295,7 @@
       "id": "motor-winding-fault",
       "equipmentType": "electric_motor",
       "symptoms": [
-        "trip"
+        "bad_signal"
       ],
       "title": {
         "ar": "اشتباه عطل في ملفات المحرك",
@@ -3844,7 +3840,7 @@
       "id": "vfd-fan-failure",
       "equipmentType": "vfd",
       "symptoms": [
-        "trip"
+        "bad_signal"
       ],
       "title": {
         "ar": "تعطل مروحة تبريد VFD",
@@ -4899,7 +4895,7 @@
       "id": "compressor-drain-failure",
       "equipmentType": "compressor",
       "symptoms": [
-        "trip"
+        "low_flow"
       ],
       "title": {
         "ar": "تعطل تصريف المكثفات",
@@ -5950,7 +5946,7 @@
       "id": "pump-pressure-fluctuation",
       "equipmentType": "pump",
       "symptoms": [
-        "low_pressure"
+        "intermittent"
       ],
       "title": {
         "ar": "تذبذب ضغط المضخة",
@@ -6618,7 +6614,7 @@
       "id": "valve-solenoid-fault",
       "equipmentType": "valve",
       "symptoms": [
-        "trip"
+        "bad_signal"
       ],
       "title": {
         "ar": "اشتباه عطل في الملف اللولبي",
@@ -7662,7 +7658,7 @@
       "id": "hydraulic-pressure-spike",
       "equipmentType": "hydraulic",
       "symptoms": [
-        "low_pressure"
+        "trip"
       ],
       "title": {
         "ar": "ارتفاع مفاجئ في الضغط الهيدروليكي",
@@ -8320,7 +8316,7 @@
       "id": "pneumatic-regulator-fault",
       "equipmentType": "pneumatic",
       "symptoms": [
-        "trip"
+        "bad_signal"
       ],
       "title": {
         "ar": "منظم ضغط هوائي لا يحافظ على الضبط",
@@ -8416,7 +8412,7 @@
       "id": "pneumatic-solenoid-fault",
       "equipmentType": "pneumatic",
       "symptoms": [
-        "trip"
+        "bad_signal"
       ],
       "title": {
         "ar": "صمام هوائي كهربائي لا يبدل",
@@ -9652,7 +9648,7 @@
       "id": "sensor-wiring-fault",
       "equipmentType": "sensor",
       "symptoms": [
-        "trip"
+        "bad_signal"
       ],
       "title": {
         "ar": "اشتباه عطل في توصيلات الحساس",
@@ -10030,7 +10026,7 @@
       "id": "temperature-sensor-fault",
       "equipmentType": "sensor",
       "symptoms": [
-        "trip"
+        "overheat"
       ],
       "title": {
         "ar": "اشتباه عطل حساس الحرارة",
@@ -10126,7 +10122,7 @@
       "id": "pressure-sensor-fault",
       "equipmentType": "sensor",
       "symptoms": [
-        "trip"
+        "bad_signal"
       ],
       "title": {
         "ar": "اشتباه عطل حساس الضغط",
@@ -10222,7 +10218,7 @@
       "id": "level-sensor-fault",
       "equipmentType": "sensor",
       "symptoms": [
-        "trip"
+        "low_pressure"
       ],
       "title": {
         "ar": "اشتباه عطل حساس المستوى",
@@ -10412,7 +10408,7 @@
       "id": "pressure-transmitter-drift",
       "equipmentType": "instrumentation",
       "symptoms": [
-        "low_pressure"
+        "bad_signal"
       ],
       "title": {
         "ar": "انحراف مرسل الضغط",
@@ -10506,7 +10502,7 @@
       "id": "temperature-transmitter-fault",
       "equipmentType": "instrumentation",
       "symptoms": [
-        "trip"
+        "overheat"
       ],
       "title": {
         "ar": "خلل مرسل الحرارة",
@@ -11540,7 +11536,7 @@
       "id": "bearing-lubrication-failure",
       "equipmentType": "mechanical",
       "symptoms": [
-        "trip"
+        "bad_signal"
       ],
       "title": {
         "ar": "قصور تشحيم المحامل",
@@ -12858,7 +12854,7 @@
       "id": "cooling-fan-failure",
       "equipmentType": "cooling",
       "symptoms": [
-        "trip"
+        "bad_signal"
       ],
       "title": {
         "ar": "تعطل مروحة التبريد",
@@ -13044,7 +13040,7 @@
       "id": "steam-trap-failure",
       "equipmentType": "steam_system",
       "symptoms": [
-        "trip"
+        "bad_signal"
       ],
       "title": {
         "ar": "اشتباه عطل مصيدة البخار",
@@ -13417,7 +13413,7 @@
       "id": "ups-battery-alarm",
       "equipmentType": "ups",
       "symptoms": [
-        "trip"
+        "bad_signal"
       ],
       "title": {
         "ar": "إنذار بطارية UPS",
@@ -14545,7 +14541,7 @@
       "id": "fire-alarm-device-fault",
       "equipmentType": "fire_safety",
       "symptoms": [
-        "trip"
+        "bad_signal"
       ],
       "title": {
         "ar": "عطل في جهاز إنذار الحريق",
@@ -14638,7 +14634,7 @@
       "id": "leak-detector-fault",
       "equipmentType": "instrumentation",
       "symptoms": [
-        "trip"
+        "leak"
       ],
       "title": {
         "ar": "اشتباه عطل كاشف التسرب",
