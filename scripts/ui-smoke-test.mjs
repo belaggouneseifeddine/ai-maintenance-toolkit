@@ -2,7 +2,6 @@ import assert from "node:assert/strict";
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
 import { extname, resolve, sep } from "node:path";
-import { pathToFileURL } from "node:url";
 import { chromium } from "playwright";
 
 const root = resolve(".");
@@ -46,11 +45,14 @@ try {
   const page = await context.newPage();
   page.on("pageerror", error => errors.push(error.message));
   await page.goto(`http://127.0.0.1:${address.port}/`, { waitUntil: "networkidle" });
-  await page.locator("#diagnosisForm").waitFor();
+  await page.locator("#themeToggle").waitFor();
 
   assert.equal(await page.locator("html").getAttribute("lang"), "ar", "Arabic must remain the default language");
   assert.equal(await page.locator("html").getAttribute("dir"), "rtl", "Arabic must remain RTL");
   assert.equal(await page.locator("#languageSwitcher option").count(), 3, "The three language choices must remain available");
+
+  await page.locator('.tab[data-tab="diagnose"]').click();
+  await page.locator("#diagnosisForm").waitFor({ state: "visible" });
 
   const panels = ["diagnose", "ai", "knowledge", "safety", "log"];
   for (const panel of panels) {
