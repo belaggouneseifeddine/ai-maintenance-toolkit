@@ -25,7 +25,7 @@ const context = {
   }
 };
 const executable = source.replace("export default {", "const workerHandler = {") +
-  "\nglobalThis.__validateDiagnosis = validateDiagnosis; globalThis.__diagnosisSchema = DIAGNOSIS_SCHEMA; globalThis.__worker = workerHandler; globalThis.__retrievalTerms = retrievalTerms; globalThis.__rankLegacy = rankKnowledgeChunks; globalThis.__rankBM25 = rankKnowledgeChunksBM25;";
+  "\nglobalThis.__validateDiagnosis = validateDiagnosis; globalThis.__diagnosisSchema = DIAGNOSIS_SCHEMA; globalThis.__worker = workerHandler; globalThis.__retrievalTerms = retrievalTerms; globalThis.__applyEvidenceTraceability = applyEvidenceTraceability; globalThis.__buildInsufficientEvidenceDiagnosis = buildInsufficientEvidenceDiagnosis; globalThis.__rankLegacy = rankKnowledgeChunks; globalThis.__rankBM25 = rankKnowledgeChunksBM25;";
 new vm.Script(executable, { filename: "worker.js" }).runInNewContext(context);
 
 function validDiagnosis() {
@@ -45,6 +45,8 @@ function validDiagnosis() {
       confidence: "low",
       evidence_for: ["العَرَض متوافق جزئيًا."],
       evidence_against: [],
+      source_ids: ["S1"],
+      evidence_class: "source_supported_hypothesis",
       next_check: "راجع البيانات المتاحة فقط."
     }],
     inspection_steps: [{
@@ -75,6 +77,9 @@ test("Worker structured response schema requires safety, questions, causes, step
   for (const key of ["status", "language", "safety", "clarifying_questions", "possible_causes", "inspection_steps", "escalation", "sources", "unknowns", "session_summary"]) {
     assert.ok(schema.required.includes(key), "missing required schema field " + key);
   }
+  const causeSchema = schema.properties.possible_causes.items;
+  assert.ok(causeSchema.required.includes("source_ids"));
+  assert.ok(causeSchema.required.includes("evidence_class"));
 });
 
 test("valid structured diagnosis is accepted", () => {
@@ -251,4 +256,53 @@ test("BM25 ranking is benchmarked against legacy lexical ranking without top-1 r
     ", cumulative overlap@4 " + overlapAt4 + "/" + (queries.length * 4));
   assert.ok(bm25Top1 >= legacyTop1, "BM25 top-1 accuracy must not regress versus legacy ranking");
   assert.equal(bm25Top1, queries.length, "BM25 must rank each expected relevant chunk first in the fixed synthetic benchmark");
+});
+
+
+test("cause traceability links only excerpts that lexically support the stated evidence", () => {
+  const diagnosis = {
+    sources: ["S1", "S2"],
+    possible_causes: [
+      { id: "supported", label: "low flow pressure", confidence: "high", evidence_for: ["Low flow pressure is compared against the recorded baseline"], evidence_against: [], source_ids: ["S1"], evidence_class: "source_supported_hypothesis", next_check: "Review recorded values." },
+      { id: "unsupported", label: "bearing damage", confidence: "high", evidence_for: ["Bearing damage explains a high bearing temperature"], evidence_against: [], source_ids: ["S1"], evidence_class: "source_supported_hypothesis", next_check: "Review existing inspection records." }
+    ]
+  };
+  const citations = [
+    { id: "S1", source: "knowledge/pump.md", section: "Pump flow", startLine: 1, endLine: 8 },
+    { id: "S2", source: "knowledge/motor.md", section: "Motor bearings", startLine: 10, endLine: 20 }
+  ];
+  const chunks = [
+    { source: "knowledge/pump.md", heading: "Pump flow", text: "Compare low flow pressure readings with the approved baseline.", startLine: 1, endLine: 8 },
+    { source: "knowledge/motor.md", heading: "Motor bearings", text: "Review alarm history and discharge pressure; no temperature details are available.", startLine: 10, endLine: 20 }
+  ];
+  const result = context.__applyEvidenceTraceability(diagnosis, citations, chunks);
+  assert.equal(result.possible_causes[0].evidence_class, "source_supported_hypothesis");
+  assert.deepEqual(result.possible_causes[0].source_ids, ["S1"]);
+  assert.equal(result.possible_causes[0].confidence, "medium");
+  assert.equal(result.possible_causes[1].evidence_class, "hypothesis_only");
+  assert.deepEqual(result.possible_causes[1].source_ids, []);
+  assert.equal(result.possible_causes[1].confidence, "low");
+  assert.equal(Array.from(result.sources).join(","), "S1");
+});
+
+test("weak evidence plus no relevant retrieval abstains before Gemini", async () => {
+  const before = upstreamCalls;
+  const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
+    method: "POST",
+    headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
+    body: JSON.stringify({
+      machine: "unknown machine",
+      symptom: "the system behaves strangely",
+      observations: "",
+      code: "",
+      language: "en"
+    })
+  }), { AI_API_KEY: "test-only-placeholder" });
+  assert.equal(response.status, 200);
+  const body = await response.json();
+  assert.equal(body.diagnosis.status, "unable_to_assess");
+  assert.equal(body.model_called, false);
+  assert.equal(body.retrieval.status, "no-match");
+  assert.equal(upstreamCalls, before);
+  assert.match(body.answer, /Evidence is insufficient/i);
 });
