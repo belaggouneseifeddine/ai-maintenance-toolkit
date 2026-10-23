@@ -199,14 +199,17 @@ const checks = [
     assert.match(sw, /maintenance-ai-toolkit-v31/);
   }]
 ,
-  ["Pump fault library has the five requested multilingual fault entries", () => {
-    assert.equal(faults.faults.length, 5);
-    assert.deepEqual(faults.faults.map(fault => fault.id), [
+  ["Multilingual fault library covers pumps, motors, VFDs and compressors", () => {
+    assert.ok(faults.faults.length >= 10);
+    const ids = faults.faults.map(fault => fault.id);
+    for (const id of [
       "pump-cavitation", "pump-loss-of-prime", "pump-abnormal-vibration",
-      "pump-mechanical-seal-leak", "pump-check-valve-failure"
-    ]);
+      "pump-mechanical-seal-leak", "pump-check-valve-failure",
+      "motor-no-start", "motor-overheating", "vfd-trip",
+      "compressor-high-temperature", "compressor-low-pressure"
+    ]) assert.ok(ids.includes(id), "missing fault " + id);
     for (const fault of faults.faults) {
-      assert.equal(fault.equipmentType, "pump");
+      assert.ok(["pump", "motor", "vfd", "compressor"].includes(fault.equipmentType), fault.id + " has unsupported equipment type");
       for (const language of ["ar", "fr", "en"]) {
         assert.ok(fault.title[language], fault.id + " missing title " + language);
         assert.ok(fault.keywords[language].length >= 3, fault.id + " missing keywords " + language);
