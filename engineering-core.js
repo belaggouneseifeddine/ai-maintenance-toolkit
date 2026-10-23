@@ -25,7 +25,7 @@
   });
 
   const HAZARD_PATTERNS = [
-    /\b(bypass|disable|defeat|override)\b/i,
+    /\b(bypass|disable|defeat|override)\b.{0,60}\b(interlock|guard|safety|protection|alarm|trip|relief valve)\b/i,
     /\b(interlock|guard|safety trip|relief valve)\b.{0,60}\b(bypass|disable|defeat|override)\b/i,
     /\b(high[- ]pressure|pressurized|pressure jet|fluid injection)\b.{0,80}\b(leak|jet|hose|fitting|oil)\b/i,
     /\b(energized|live electrical|electric shock|arc flash)\b/i,
