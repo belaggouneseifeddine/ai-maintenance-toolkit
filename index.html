@@ -249,12 +249,13 @@ const followupBank={
 "motor|not_start":{q:window.MAINTENANCE_DIAGNOSTIC_FLOWS.flows["motor|not_start"].question.text,a:window.MAINTENANCE_DIAGNOSTIC_FLOWS.flows["motor|not_start"].answers.map(item=>item.label)},
 "motor|overheat":{q:"هل الحمل أو التيار المسجل أعلى من خط الأساس/بيانات اللوحة؟",a:["نعم","لا","لا توجد بيانات موثوقة"]},
 "compressor|low_flow":{q:"هل ضغط مخرج الضاغط طبيعي بينما ضغط نقطة الاستخدام منخفض؟",a:["نعم، فرق الضغط في الشبكة محتمل","ضغط المخرج نفسه منخفض","لا توجد قراءات مقارنة"]},
+"compressor|low_pressure":{q:window.MAINTENANCE_DIAGNOSTIC_FLOWS.flows["compressor|low_pressure"].question.text,a:window.MAINTENANCE_DIAGNOSTIC_FLOWS.flows["compressor|low_pressure"].answers.map(item=>item.label)},
 "compressor|not_start":{q:"هل يوجد رمز إنذار أو حالة منع تشغيل على وحدة التحكم؟",a:["نعم، يوجد إنذار/منع","لا يظهر إنذار","لم أتحقق"]},
 "hydraulic|slow_cycle":{q:"هل الحركة البطيئة تشمل كل المشغلات أم دائرة واحدة؟",a:["كل المشغلات","مشغل/دائرة واحدة","غير معروف"]},
 "hydraulic|leak":{q:"هل التسرب مشتبه بأنه عالي الضغط أو رذاذ دقيق؟",a:["نعم أو غير متأكد","لا، تسرب منخفض الضغط مؤكد","لا أستطيع التحديد"]},
 "vfd|trip":{q:window.MAINTENANCE_DIAGNOSTIC_FLOWS.flows["vfd|trip"].question.text,a:window.MAINTENANCE_DIAGNOSTIC_FLOWS.flows["vfd|trip"].answers.map(item=>item.label)},
 "instrumentation|bad_signal":{q:"هل توجد قراءة مستقلة معتمدة للمقارنة؟",a:["نعم، تختلف عن الحساس","نعم، القراءة متقاربة","لا توجد قراءة مستقلة"]},
-"valve|not_start":{q:"هل أمر الحركة ظاهر مع تغذية المشغل وحالة السماح؟",a:["الأمر أو السماح مفقود","الأمر موجود لكن الموضع لا يتغير","غير معروف"]},
+"valve|not_start":{q:window.MAINTENANCE_DIAGNOSTIC_FLOWS.flows["valve|not_start"].question.text,a:window.MAINTENANCE_DIAGNOSTIC_FLOWS.flows["valve|not_start"].answers.map(item=>item.label)},
 "conveyor|not_start":{q:"هل تظهر حالة E-stop أو interlock أو drive fault في الواجهة؟",a:["نعم","لا","لم أتحقق"]},
 "pneumatic|slow_cycle":{q:"هل ضغط الهواء عند المصدر مستقر حسب المؤشر؟",a:["مستقر","منخفض/متذبذب","لا توجد قراءة"]},
 "gearbox|noise":{q:"هل تغيّر الصوت بعد تغير الحمل أو بدء التشغيل؟",a:["نعم","لا، مستمر","غير معروف"]},
@@ -280,6 +281,8 @@ function followupGuidance(machine,symptom,answer){
 if(!answer)return [];
 const rules={
 "pump|low_flow":Object.fromEntries(window.MAINTENANCE_DIAGNOSTIC_FLOWS.flows["pump|low_flow"].answers.map(item=>[item.label,[item.guidance]])),
+"compressor|low_pressure":Object.fromEntries(window.MAINTENANCE_DIAGNOSTIC_FLOWS.flows["compressor|low_pressure"].answers.map(item=>[item.label,[item.guidance]])),
+"valve|not_start":Object.fromEntries(window.MAINTENANCE_DIAGNOSTIC_FLOWS.flows["valve|not_start"].answers.map(item=>[item.label,[item.guidance]])),
 "motor|not_start":{
 "لا يوجد أمر تشغيل":["اتبع مخطط التحكم المعتمد للتحقق من مصدر الأمر وشروط السماح من واجهة التحكم؛ لا تجسّر دوائر أو تتجاوز interlocks."],
 "أمر موجود مع إنذار/فصل":["احفظ رمز الإنذار وسجل الأحداث، وابحث عن السبب وفق دليل الموديل قبل أي إعادة ضبط."],

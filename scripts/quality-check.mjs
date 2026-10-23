@@ -39,7 +39,7 @@ const checks = [
   ["Arabic RTL document", () => assert.match(html, /<html lang="ar" dir="rtl">/)],
   ["Structured pump low-flow flow has stable IDs and validated answer guidance", () => {
     const flow = diagnosticFlows.flows["pump|low_flow"];
-    assert.equal(diagnosticFlows.schemaVersion, 2);
+    assert.equal(diagnosticFlows.schemaVersion, 3);
     assert.equal(flow.id, "pump-low-flow-v1");
     assert.equal(flow.equipmentId, "pump");
     assert.equal(flow.symptomId, "low_flow");
@@ -47,7 +47,7 @@ const checks = [
     assert.equal(flow.answers.length, 3);
     assert.deepEqual(flow.answers.map(answer => answer.id), ["source-normal", "source-low-unstable", "source-no-reliable-reading"]);
     for (const answer of flow.answers) assert.ok(answer.id && answer.label && answer.guidance);
-    for (const key of ["motor|not_start", "vfd|trip"]) {
+    for (const key of ["motor|not_start", "vfd|trip", "compressor|low_pressure", "valve|not_start"]) {
       const structured = diagnosticFlows.flows[key];
       assert.ok(structured, "Missing structured flow: " + key);
       assert.ok(structured.id && structured.question.id && structured.question.text);
@@ -57,6 +57,8 @@ const checks = [
     }
     assert.match(html, /diagnostic-flows\.js/);
     assert.match(html, /MAINTENANCE_DIAGNOSTIC_FLOWS\.flows\["pump\|low_flow"\]/);
+    assert.match(html, /MAINTENANCE_DIAGNOSTIC_FLOWS\.flows\["compressor\|low_pressure"\]/);
+    assert.match(html, /MAINTENANCE_DIAGNOSTIC_FLOWS\.flows\["valve\|not_start"\]/);
   }],
   ["UX dashboard is wired, starts as home, and preserves existing navigation", () => {
     assert.ok(html.includes("ux-redesign.js"));
