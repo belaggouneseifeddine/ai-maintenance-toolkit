@@ -93,3 +93,43 @@ test("missing or malformed fault library fails safely", () => {
   assert.deepEqual(result.results, []);
   assert.match(result.message, /No sufficient match/);
 });
+
+
+test("equipment aliases cover electric_motor, bearing and the UI's PLC/control category", () => {
+  const cases = [
+    ["electric_motor", "not_start", "en"],
+    ["bearing", "vibration", "en"],
+    ["plc", "bad_signal", "en"],
+    ["sensor", "bad_signal", "en"]
+  ];
+  for (const [equipmentType, symptom, language] of cases) {
+    const result = diagnose({ equipmentType, symptom, observations: "", language }, faults);
+    assert.equal(result.matched, true, equipmentType + " / " + symptom);
+    assert.ok(result.results.length > 0);
+  }
+});
+
+test("combined UI symptoms match related fault-library symptom IDs", () => {
+  for (const [equipmentType, symptom] of [
+    ["pump", "noise"],
+    ["pump", "low_flow"],
+    ["motor", "overheat"]
+  ]) {
+    const result = diagnose({ equipmentType, symptom, observations: "", language: "en" }, faults);
+    assert.equal(result.matched, true, equipmentType + " / " + symptom);
+  }
+});
+
+test("local matches report low or medium advisory confidence, never confirmed diagnosis", () => {
+  const result = diagnose({ equipmentType: "pump", symptom: "noise", observations: "gravel noise and vibration", language: "en" }, faults);
+  assert.equal(result.matched, true);
+  for (const fault of result.results) {
+    assert.ok(["low", "medium"].includes(fault.confidence));
+    assert.match(fault.confidenceLabel, /Low|Medium/);
+  }
+});
+
+test("fault library has no structured OEM alarm-code index yet", () => {
+  assert.ok(faults.faults.every(fault => !Array.isArray(fault.alarmCodes) && !Array.isArray(fault.errorCodes)),
+    "Do not claim OEM alarm-code matching until sourced code fields are added");
+});
