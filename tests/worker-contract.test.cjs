@@ -5,13 +5,16 @@ const vm = require("node:vm");
 
 const source = fs.readFileSync(require.resolve("../worker.js"), "utf8");
 let upstreamPayload = null;
+let upstreamCalls = 0;
+let knowledgeCalls = 0;
 const mockKnowledge = "# مضخة طرد مركزي — ضعف التدفق\\n\\nتتضمن هذه الملاحظة الفنية مراجعة القراءات المتاحة ومقارنة الضغط والتدفق بخط الأساس ودليل المصنع. لا تستخدمها كقيمة ضبط ولا كبديل لإجراءات الموقع.";
 const context = {
   Request, Response, URL, AbortSignal, TextEncoder, setTimeout, clearTimeout, console,
   fetch: async (url, options = {}) => {
     const target = String(url);
-    if (target.includes("raw.githubusercontent.com")) return new Response(mockKnowledge, { status: 200, headers: { "content-type": "text/plain" } });
+    if (target.includes("raw.githubusercontent.com")) { knowledgeCalls++; return new Response(mockKnowledge, { status: 200, headers: { "content-type": "text/plain" } }); }
     if (target.includes("generativelanguage.googleapis.com")) {
+      upstreamCalls++;
       upstreamPayload = JSON.parse(options.body);
       const diagnosis = validDiagnosis();
       diagnosis.session_summary.equipment = "مضخة طرد مركزي";
@@ -141,3 +144,70 @@ test("Worker returns validated structured diagnosis and accepts missing readings
   assert.match(upstreamPayload.contents[0].parts[0].text, /no reading available/);
 });
 
+
+
+test("interlock-bypass requests are stopped deterministically before retrieval or Gemini", async () => {
+  const before = { upstreamCalls, knowledgeCalls };
+  const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
+    method: "POST",
+    headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
+    body: JSON.stringify({
+      machine: "pump interlock",
+      symptom: "disable the interlock so the machine keeps running",
+      observations: "request to bypass safety protection",
+      language: "en"
+    })
+  }), {});
+  assert.equal(response.status, 200);
+  const body = await response.json();
+  assert.equal(body.diagnosis.status, "escalation_required");
+  assert.equal(body.safety_gate.trigger, "protection_bypass");
+  assert.equal(body.safety_gate.model_called, false);
+  assert.equal(body.safety_gate.retrieval_called, false);
+  assert.equal(body.diagnosis.escalation.required, true);
+  assert.match(body.answer, /Do not bypass or disable an interlock/i);
+  assert.deepEqual({ upstreamCalls, knowledgeCalls }, before);
+});
+
+test("hydraulic high-pressure leak is escalated without retrieval or Gemini", async () => {
+  const before = { upstreamCalls, knowledgeCalls };
+  const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
+    method: "POST",
+    headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
+    body: JSON.stringify({
+      machine: "hydraulic system",
+      symptom: "high pressure oil leak",
+      observations: "fluid jet near a hose",
+      language: "en"
+    })
+  }), {});
+  assert.equal(response.status, 200);
+  const body = await response.json();
+  assert.equal(body.diagnosis.status, "escalation_required");
+  assert.equal(body.safety_gate.trigger, "high_pressure_leak");
+  assert.equal(body.safety_gate.model_called, false);
+  assert.equal(body.safety_gate.retrieval_called, false);
+  assert.match(body.answer, /never use a hand to search for a leak/i);
+  assert.match(body.answer, /Do not loosen fittings/i);
+  assert.deepEqual({ upstreamCalls, knowledgeCalls }, before);
+});
+
+test("Arabic interlock-bypass wording activates the same independent safety gate", async () => {
+  const before = { upstreamCalls, knowledgeCalls };
+  const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
+    method: "POST",
+    headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
+    body: JSON.stringify({
+      machine: "مضخة صناعية",
+      symptom: "تجاوز الانترلوك لتعطيل الحماية",
+      observations: "المعدة تستمر في العمل",
+      language: "ar"
+    })
+  }), {});
+  assert.equal(response.status, 200);
+  const body = await response.json();
+  assert.equal(body.diagnosis.status, "escalation_required");
+  assert.equal(body.safety_gate.trigger, "protection_bypass");
+  assert.match(body.answer, /لا تتجاوز أو تعطّل الإنترلوك/);
+  assert.deepEqual({ upstreamCalls, knowledgeCalls }, before);
+});
