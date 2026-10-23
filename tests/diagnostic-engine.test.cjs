@@ -65,7 +65,7 @@ test("local fault library covers motors, VFDs and compressors", () => {
 test("insufficient evidence does not invent a fault", () => {
   const result = diagnose({
     equipmentType: "motor",
-    symptom: "trip",
+    symptom: "low_pressure",
     observations: "",
     language: "en"
   }, faults);
