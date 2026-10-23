@@ -29,8 +29,8 @@
     /\b(interlock|guard|safety trip|relief valve)\b.{0,60}\b(bypass|disable|defeat|override)\b/i,
     /\b(high[- ]pressure|pressurized|pressure jet|fluid injection)\b.{0,80}\b(leak|jet|hose|fitting|oil)\b/i,
     /\b(energized|live electrical|electric shock|arc flash)\b/i,
-    /\b(تجاوز|تعطيل|إلغاء)\b.{0,50}\b(حماية|قفل|إنترلوك|حاجز|إنذار)\b/i,
-    /\b(تسرب|نفث)\b.{0,70}\b(ضغط عال|ضغط مرتفع|هيدروليك|زيت)\b/i,
+    /(تجاوز|تعطيل|إلغاء).{0,50}(حماية|قفل|إنترلوك|حاجز|إنذار)/i,
+    /(تسرب|نفث).{0,70}(ضغط عال|ضغط مرتفع|هيدروليك|زيت)/i,
     /\b(contourner|désactiver|neutraliser)\b.{0,60}\b(verrouillage|interverrouillage|protection|carter)\b/i,
     /\b(fuite|jet)\b.{0,70}\b(haute pression|hydraulique|huile)\b/i
   ];
