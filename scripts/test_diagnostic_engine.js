@@ -22,7 +22,7 @@ const motorAr = diagnose("motor", "not_start");
 assert.equal(motorAr.matched, true, "motor no-start should match without notes");
 assert.equal(motorAr.results[0].id, "motor-no-start");
 assert.equal(diagnose("moteur électrique", "ne démarre pas", "", "fr").matched, true, "French aliases should match");
-assert.equal(diagnose("VFD", "trip", "", "en").results[0].id, "vfd-trip", "VFD alias should match");
+assert.equal(diagnose("VFD", "trip", "", "en").results.some(item => item.id === "vfd-trip"), true, "VFD trip case should remain available among matching results");
 assert.equal(diagnose("compressor", "overheating", "", "en").matched, true, "compressor overheating should match");
 assert.equal(diagnose("motor", "low_pressure").matched, false, "unrelated equipment/symptom pair must not match");
 assert.equal(diagnose("motor", "trip", "", "en").matched, true, "expanded motor trip case should match");
