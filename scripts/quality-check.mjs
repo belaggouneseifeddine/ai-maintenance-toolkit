@@ -145,7 +145,8 @@ const checks = [
     assert.match(html, /const safe=/);
   }],
   ["AI requests require explicit user consent before sending maintenance data", () => {
-    assert.match(html, /id="aiConsent" type="checkbox" required/);
+    assert.match(html, /id="aiConsent" type="checkbox"/);
+    assert.match(html, /if\(!\$\('aiConsent'\)\.checked\)/, "network AI requests must still require explicit consent");
     assert.match(html, /أوافق على إرسال وصف العطل والقياسات/);
   }],
   ["Cloudflare API request requires consent, uses a timeout, and preserves readable output", () => {
