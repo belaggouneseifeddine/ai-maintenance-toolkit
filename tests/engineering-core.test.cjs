@@ -1,6 +1,10 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
 const core = require("../engineering-core.js");
+require("../normalization.js");
+const faults = require("../faults.json");
+global.MAINTENANCE_FAULTS = faults;
+require("../diagnostic-engine.js");
 
 test("valid request normalizes without mutating the caller object", () => {
   const input = {
@@ -139,4 +143,42 @@ test("ordinary bypass-valve explanation is not mistaken for defeating a safety d
   });
   assert.equal(result.decision.route, "ai_assist");
   assert.equal(result.decision.safetyReviewRequired, false);
+});
+
+test("engineering core adapter preserves the existing diagnostic engine result exactly", () => {
+  const request = {
+    intent: "diagnose",
+    language: "en",
+    equipment: { type: "pump" },
+    symptom: "noise",
+    observations: ["gravel noise and vibration"],
+    consent: { sendToAI: false }
+  };
+  const baseline = global.MaintenanceDiagnosticEngine.diagnose({
+    equipmentType: "pump",
+    symptom: "noise",
+    observations: "gravel noise and vibration",
+    language: "en"
+  }, faults);
+  const integrated = core.executeLocalDiagnosis(request, global.MaintenanceDiagnosticEngine, faults);
+  assert.equal(integrated.ok, true);
+  assert.equal(integrated.source, "existing_diagnostic_engine");
+  assert.equal(integrated.decision.route, "local_diagnostic");
+  assert.deepEqual(integrated.diagnosis, baseline);
+});
+
+test("engineering core adapter does not invoke diagnosis for a safety-gated request", () => {
+  let calls = 0;
+  const fakeEngine = { diagnose() { calls++; throw new Error("must not run"); } };
+  const result = core.executeLocalDiagnosis({
+    intent: "diagnose",
+    language: "en",
+    equipment: { type: "hydraulic system" },
+    symptom: "high-pressure oil leak",
+    consent: { sendToAI: true }
+  }, fakeEngine, faults);
+  assert.equal(result.ok, true);
+  assert.equal(result.decision.route, "safety_review");
+  assert.equal(result.diagnosis, null);
+  assert.equal(calls, 0);
 });
