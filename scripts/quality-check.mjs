@@ -19,6 +19,7 @@ const faults = JSON.parse(readFileSync("faults.json", "utf8"));
 const diagnosticEngineSource = readFileSync("diagnostic-engine.js", "utf8");
 const normalizationSource = readFileSync("normalization.js", "utf8");
 const knowledgeReviewSource = readFileSync("knowledge-review.js", "utf8");
+const answerToolsSource = readFileSync("answer-tools.js", "utf8");
 const i18n = readFileSync("i18n.js", "utf8");
 const engineWindow = {};
 const inlineScript = html.match(/<script>\s*([\s\S]*?)<\/script>/);
@@ -60,6 +61,15 @@ const checks = [
     assert.match(html, /MAINTENANCE_DIAGNOSTIC_FLOWS\.flows\["pump\|low_flow"\]/);
     assert.match(html, /MAINTENANCE_DIAGNOSTIC_FLOWS\.flows\["compressor\|low_pressure"\]/);
     assert.match(html, /MAINTENANCE_DIAGNOSTIC_FLOWS\.flows\["valve\|not_start"\]/);
+  }],
+  ["Optional answer cache is opt-in, expires, and excludes safety escalation; speech controls are available", () => {
+    assert.match(html, /id="aiCacheEnabled"/);
+    assert.match(html, /id="speakAiAnswer"/);
+    assert.match(answerToolsSource, /CACHE_TTL_MS = 24 \* 60 \* 60 \* 1000/);
+    assert.match(answerToolsSource, /status !== "preliminary_assessment"/);
+    assert.match(answerToolsSource, /speechSynthesis/);
+    assert.match(sw, /answer-tools\.js/);
+    assert.match(deployWorkflow, /knowledge-review\.js answer-tools\.js/);
   }],
   ["Local knowledge review requires a human review and never publishes automatically", () => {
     assert.match(html, /id="knowledgeReviewCard"/);
@@ -223,7 +233,7 @@ const checks = [
   ["Service worker caches the app shell and icon with a bumped cache version", () => {
     assert.match(sw, /APP_SHELL/);
     assert.match(sw, /\.\/icon\.svg/);
-    assert.match(sw, /maintenance-ai-toolkit-v34/);
+    assert.match(sw, /maintenance-ai-toolkit-v35/);
   }]
 ,
   ["Multilingual fault library covers pumps, motors, VFDs and compressors", () => {
@@ -315,8 +325,8 @@ const checks = [
     for (const node of Object.values(tree.nodes)) if (node.result) assert.ok(node.safe && node.escalate && node.cause);
   }],
   ["PWA caches all new offline dependencies and bumps its cache", () => {
-    assert.match(sw, /maintenance-ai-toolkit-v34/);
-    for (const asset of ["normalization.js", "knowledge-review.js", "diagnostic-engine.js", "faults.json", "i18n.js"]) assert.ok(sw.includes(asset), "Missing offline cache asset " + asset);
+    assert.match(sw, /maintenance-ai-toolkit-v35/);
+    for (const asset of ["normalization.js", "knowledge-review.js", "answer-tools.js", "diagnostic-engine.js", "faults.json", "i18n.js"]) assert.ok(sw.includes(asset), "Missing offline cache asset " + asset);
     assert.match(manifest.icons[0].src, /icon\.svg/);
   }]
 ,
