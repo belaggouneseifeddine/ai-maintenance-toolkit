@@ -2,7 +2,7 @@ name: Maintenance Toolkit Quality Checks
 
 on:
   push:
-    branches: [main, "chore/**", "fix/**", "feature/**"]
+    branches: [main, "chore/**", "fix/**", "feature/**", "feat/**"]
   pull_request:
     branches: [main]
   workflow_dispatch:
@@ -23,5 +23,11 @@ jobs:
           node-version: 22
       - name: Validate app and backend guardrails
         run: node scripts/quality-check.mjs
+      - name: Install browser test dependencies
+        run: |
+          npm install --no-save playwright
+          npx playwright install --with-deps chromium
+      - name: Test UI across languages, themes, and viewport sizes
+        run: node scripts/ui-smoke-test.mjs
       - name: Smoke-test published app and Worker API
         run: node scripts/smoke-test-live.mjs
