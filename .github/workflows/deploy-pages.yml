@@ -31,7 +31,7 @@ jobs:
       - name: Prepare static site
         run: |
           mkdir -p _site
-          cp index.html manifest.json sw.js diagnostic-flows.js normalization.js diagnostic-engine.js faults.json i18n.js speech-readout.js icon.svg maintenance-v03.js maintenance-v03.css decision-trees.json ux-redesign.js ux-redesign.css navigation-redesign.js knowledge-review.js _site/
+          cp index.html manifest.json sw.js diagnostic-flows.js normalization.js diagnostic-engine.js faults.json i18n.js icon.svg maintenance-v03.js maintenance-v03.css decision-trees.json ux-redesign.js ux-redesign.css navigation-redesign.js knowledge-review.js answer-tools.js _site/
           if [ -f cv.html ]; then cp cv.html _site/; fi
           if [ -d docs ]; then cp -R docs _site/; fi
           if [ -d knowledge ]; then cp -R knowledge _site/; fi
