@@ -22,6 +22,12 @@
     const groups = {
       pump: ["pump","pumps","pompe","pompes","مضخه","مضخة","مضخات"],
       motor: ["motor","electric motor","moteur","moteur electrique","محرك","محرك كهربائي","موتور"],
+      hydraulic: ["hydraulic","hydraulic system","hydraulique","systeme hydraulique","هيدروليك","نظام هيدروليكي"],
+      pneumatic: ["pneumatic","pneumatic system","pneumatique","هوائي","نظام هوائي"],
+      gearbox: ["gearbox","gear box","reducer","reducteur","علبة تروس","جيربوكس"],
+      instrumentation: ["instrumentation","sensor","capteur","حساس","مجس","جهاز قياس"],
+      electrical_control: ["plc","control panel","armoire electrique","لوحة كهربائية","متحكم منطقي"],
+      thermal: ["heat exchanger","echangeur thermique","مبادل حراري","نظام تبريد"],
       vfd: ["vfd","variable frequency drive","frequency inverter","drive","inverter","variateur","variateur de frequence","مغير التردد","مغير تردد","انفرتر","إنفرتر"],
       compressor: ["compressor","air compressor","compresseur","ضاغط","ضاغط هواء","كمبروسر"],
       valve: ["valve","check valve","non return valve","clapet","vanne","صمام","صمام عدم الرجوع"],
@@ -36,10 +42,14 @@
     const groups = {
       not_start: ["not start","not starting","fails to start","won't start","does not start","no start","ne demarre pas","refus de demarrer","ne demarre plus","لا يبدأ","لا يعمل","لا يقلع","لا ينطلق","فشل التشغيل"],
       trip: ["trip","tripping","fault trip","disjonction","declenchement","se declenche","يفصل","فصل حماية","يفصل حماية","انذار فصل"],
-      overheating: ["overheating","overheat","hot","temperature high","surchauffe","temperature elevee","ارتفاع الحرارة","سخونة","حرارة مرتفعة"],
+      overheat: ["overheating","overheat","hot","temperature high","surchauffe","temperature elevee","ارتفاع الحرارة","سخونة","حرارة مرتفعة"],
       noise: ["noise","noisy","abnormal noise","bruit","bruit anormal","ضجيج","صوت غير طبيعي","صوت غريب"],
       low_flow: ["low flow","no flow","reduced flow","debit faible","absence de debit","faible debit","ضعف التدفق","انعدام التدفق","تدفق ضعيف"],
       low_pressure: ["low pressure","pressure low","pression faible","basse pression","ضغط منخفض","ضعف الضغط"],
+      bad_signal: ["signal loss","lost signal","incorrect reading","perte de signal","mauvaise mesure","فقدان إشارة","قراءة غير منطقية"],
+      slow_cycle: ["slow cycle","slow movement","cycle lent","mouvement lent","حركة بطيئة","دورة بطيئة"],
+      high_pressure: ["high pressure","pression elevee","ضغط مرتفع","ضغط عالي"],
+      consumption: ["high consumption","overconsumption","surconsommation","استهلاك مرتفع","استهلاك غير طبيعي"],
       leak: ["leak","leaking","leakage","fuite","تسرب","تسرّب"],
       vibration: ["vibration","vibrating","vibrations","vibrations anormales","اهتزاز","رجة"],
       intermittent: ["intermittent","intermittently","sporadic","intermittent","متقطع","بشكل متقطع"]
