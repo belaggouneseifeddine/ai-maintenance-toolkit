@@ -1,3 +1,4 @@
+import "./normalization.js";
 const ALLOWED_ORIGIN = "https://belaggouneseifeddine.github.io";
 const MAX_BODY_BYTES = 8192;
 const LANGUAGES = new Set(["ar", "fr", "en"]);
@@ -49,10 +50,12 @@ function formatDiagnosis(v) {
 
 
 function normalizeEvidenceText(value) {
-  return String(value || "").toLocaleLowerCase().normalize("NFD")
-    .replace(/[\u0300-\u036f\u064B-\u065F\u0670\u06D6-\u06ED]/g, "")
-    .replace(/[أإآٱ]/g, "ا").replace(/ى/g, "ي").replace(/ة/g, "ه")
-    .replace(/[^\p{L}\p{N}]+/gu, " ").trim().replace(/\s+/g, " ");
+  return globalThis.MaintenanceNormalization
+    ? globalThis.MaintenanceNormalization.normalizeText(value)
+    : String(value || "").toLocaleLowerCase().normalize("NFD")
+      .replace(/[\u0300-\u036f\u064B-\u065F\u0670\u06D6-\u06ED]/g, "")
+      .replace(/[أإآٱ]/g, "ا").replace(/ى/g, "ي").replace(/ة/g, "ه").replace(/[ـ]/g, "")
+      .replace(/[^\p{L}\p{N}]+/gu, " ").trim().replace(/\s+/g, " ");
 }
 function detectSafetyGate({ machine, symptom, code, observations }) {
   const text = normalizeEvidenceText([machine, symptom, code, observations].filter(Boolean).join(" "));
@@ -202,7 +205,9 @@ function splitKnowledgeDocument(markdown, path) {
 }
 
 function retrievalTerms(value) {
-  return normalizeEvidenceText(value).split(" ").filter(t => t.length >= 2);
+  const shared = globalThis.MaintenanceNormalization;
+  const expanded = shared ? shared.expandQuery(value).tokens : normalizeEvidenceText(value).split(" ");
+  return [...new Set(expanded)].filter(t => t.length >= 2);
 }
 
 function rankKnowledgeChunks(chunks, query) {
