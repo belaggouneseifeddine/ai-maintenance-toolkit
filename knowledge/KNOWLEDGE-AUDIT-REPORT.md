@@ -5,15 +5,15 @@ Deterministic inventory of the current repository. This report adds no technical
 ## Snapshot
 
 - Worker-referenced Markdown documents: **9**
-- Markdown inventory: **1,849 lines**, **22,291 whitespace-separated words**, **188 headings**
+- Markdown inventory: **2,263 lines**, **27,484 whitespace-separated words**, **214 headings**
 - Structured fault records: **239**
 - Model-specific manual-reviewed fault records (not field-verified): **15**
 - Distinct equipment-type labels in the fault library: **34**
-- Cause entries across fault records: **721**
+- Cause entries across fault records: **722**
 - Fault records with an alarmCodes or errorCodes array: **0/239**
 - Chinese/European OEM manufacturer profiles: **28**
 - Structured OEM symptom templates: **38**
-- Official manufacturer/support portal records: **50**
+- Official manufacturer/support portal records: **51**
 - Structured OEM platform index entries: **29**; model-verified: **0**
 
 ## Document inventory
@@ -28,7 +28,7 @@ Deterministic inventory of the current repository. This report adds no technical
 | knowledge/UNIVERSAL-INDUSTRIAL-FAULT-ATLAS-AR-FR-EN.md | 120 | 1,737 | 14 |
 | knowledge/CHINESE-EUROPEAN-OEM-FAULT-MATRIX-AR-FR-EN.md | 432 | 4,549 | 45 |
 | knowledge/OEM-MANUFACTURER-INDEX-AR-FR-EN.md | 123 | 1,378 | 10 |
-| knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md | 372 | 4,287 | 24 |
+| knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md | 786 | 9,480 | 50 |
 
 ## Source registry and licensing
 
@@ -59,14 +59,3 @@ This is a conservative string-presence check only. It does not prove that a topi
 - Word counts use whitespace-separated tokens; they are inventory measures, not measures of quality.
 - This audit does not validate technical correctness, OEM applicability, or the evidentiary support of every statement.
 - No source text is fetched by this script and no new technical content is generated.
-
-
-## OEM-specific verified knowledge update (2026-10-24)
-
-- Structured evidence records: **29** in `knowledge/oem-verified-faults.json`.
-- Exact source-reviewed families: Siemens SINUMERIK 840D sl/828D, SINAMICS G120D, SINAMICS G120P; Mitsubishi MELSEC iQ-F FX5 and a narrowly scoped MR-J4 compatibility case; XINJE DS5K servo driver.
-- Official source registry entries: **51**.
-- Retrieval guide: `knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md`, included in Worker-loaded knowledge documents.
-- Every verified record includes source ID/URL, manual title/revision, section, printed page where available, multilingual meaning, safe checks, escalation and review date.
-- Other Chinese OEM families remain in the evidence-acquisition queue until exact model-specific manual passages are reviewed; a portal link alone is not model-verified evidence.
-- This update is on the feature branch; no deployment is implied.
