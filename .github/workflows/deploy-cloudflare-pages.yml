@@ -63,7 +63,7 @@ jobs:
               grep -q "maintenance" /tmp/maintenance-index.html
               grep -q "retrieveLocalKnowledge" /tmp/maintenance-engine.js
               grep -q "grundfos-hydro-en" /tmp/maintenance-sources.json
-              grep -q '"recordCount": 66' /tmp/maintenance-oem-faults.json
+              grep -q '"recordCount": 81' /tmp/maintenance-oem-faults.json
               echo "Cloudflare Pages production smoke test passed."
               exit 0
             fi
