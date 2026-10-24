@@ -203,3 +203,14 @@ test("local phrase matching tolerates punctuation and repeated whitespace withou
   assert.equal(result.matched, true);
   assert.deepEqual(result.results[0].matchedKeywords, ["low flow"]);
 });
+
+
+test("local diagnostic UI does not present match points or possible causes as probabilities or confirmed rankings", () => {
+  const html = require("node:fs").readFileSync(require.resolve("../index.html"), "utf8");
+  assert.match(html, /نقاط المطابقة \(ليست احتمالًا\)/);
+  assert.match(html, /أسباب محتملة للتحقق/);
+  assert.match(html, /Score de correspondance \(pas une probabilité\)/);
+  assert.match(html, /Causes possibles à vérifier/);
+  assert.match(html, /Match points \(not probability\)/);
+  assert.match(html, /Possible causes to check/);
+});
