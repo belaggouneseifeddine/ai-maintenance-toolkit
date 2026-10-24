@@ -1972,3 +1972,41 @@ These are manual-claim-reviewed, not field-verified. The model, frame size, firm
 - **Escalade (FR):** Faites intervenir un spécialiste Delta ou le constructeur de la machine si l’alarme persiste, réapparaît après les contrôles autorisés ou suggère un dommage interne de l’étage de puissance ou du codeur.
 - **Evidence note:** The manual identifies AL185 as abnormal DMCNET bus hardware and directs attention to communication-cable condition and communication quality.
 
+## Syntec CNC controller — communication alarms
+
+- **Official manual:** [Syntec CNC Alarm Manual](https://www.syntecclub.com/cncrel/Manual/PDF/Syntec%20CNC%20Alarm%20Manual.pdf)
+- **Version scope:** 10.118.86L, 10.120.16L, 10.120.24B, 10.120.27 and previous versions as listed by the manual; confirm the actual installed version and machine-builder integration.
+- **Evidence status:** manual-claim-reviewed, not field-verified. The source's alarm IDs are used as section locators because a stable page number was not confirmed.
+
+### syntec-mot-082-drive-response-packet-noise
+
+- **Code:** MOT-082
+- **Meaning (EN):** The Syntec alarm manual describes MOT-082 when a drive response packet is disturbed by noise for more than 10 ms. It lists poor communication-cable quality or noise interference as possible reasons.
+- **المعنى (AR):** يصف دليل إنذارات Syntec الرمز MOT-082 عندما تتعرض حزمة استجابة المشغّل للتشويش لأكثر من 10 مللي ثانية. ويذكر رداءة كابل الاتصال أو التداخل كأسباب محتملة.
+- **Sens (FR):** Le manuel d’alarmes Syntec décrit MOT-082 lorsque le bruit perturbe un paquet de réponse du variateur pendant plus de 10 ms. Une mauvaise qualité du câble ou des interférences sont citées comme causes possibles.
+- **Manual locator:** CNC Alarm Manual → MOT-082 → Description / Possible Reason / Solution
+- **Review date:** 2026-10-24
+- **Safe checks (EN):** Record the complete alarm ID, controller software version, drive model, and event time before resetting. Have qualified personnel inspect communication-cable condition, connectors, shielding/grounding, and controller-to-drive configuration under the approved isolation procedure. Compare DIP-switch and communication parameters with the machine-builder's documentation; do not change timing or communication settings arbitrarily.
+- **فحوصات آمنة (AR):** سجّل رمز الإنذار كاملًا وإصدار برنامج المتحكم وطراز المشغّل ووقت الحدث قبل إعادة الضبط. ليتحقق شخص مؤهل من كابل الاتصال والموصلات والتدريع/التأريض وإعداد الاتصال بين المتحكم والمشغّل وفق إجراء العزل المعتمد. طابق مفاتيح DIP ومعلمات الاتصال مع وثائق مصنع الماكينة؛ لا تغيّر إعدادات التوقيت أو الاتصال عشوائيًا.
+- **Contrôles sûrs (FR):** Consignez le code complet, la version logicielle du contrôleur, le modèle du variateur et l'heure de l'événement avant toute réinitialisation. Faites vérifier par une personne qualifiée le câble de communication, les connecteurs, le blindage/la terre et la configuration contrôleur-variateur selon la procédure de consignation. Comparez les commutateurs DIP et les paramètres de communication aux documents du constructeur; ne modifiez pas arbitrairement les temporisations ou réglages.
+- **Escalation (EN):** Escalate to Syntec or the machine builder if the alarm persists after approved cable/configuration checks, or if the installed version is outside the documented scope.
+- **التصعيد (AR):** صعّد إلى Syntec أو مصنع الماكينة إذا استمر الإنذار بعد فحص الكابل والإعدادات المصرح به، أو كان إصدار البرنامج خارج النطاق الموثق.
+- **Escalade (FR):** Escaladez vers Syntec ou le constructeur si l'alarme persiste après les contrôles autorisés du câble/de la configuration, ou si la version installée est hors du périmètre documenté.
+- **Evidence note:** The official Syntec alarm manual describes MOT-082 as a drive-response packet disturbed by noise for more than 10 ms and lists cable quality/noise interference among possible reasons.
+
+### syntec-mot-083-drive-response-packet-watchdog
+
+- **Code:** MOT-083
+- **Meaning (EN):** The Syntec alarm manual describes MOT-083 when the drive response-packet watchdog (M3) or EtherCAT working counter is incorrect for more than 10 ms.
+- **المعنى (AR):** يصف دليل إنذارات Syntec الرمز MOT-083 عندما تكون مراقبة حزمة استجابة المشغّل (M3) أو عدّاد العمل في EtherCAT غير صحيحة لأكثر من 10 مللي ثانية.
+- **Sens (FR):** Le manuel d’alarmes Syntec décrit MOT-083 lorsque le watchdog des paquets de réponse du variateur (M3) ou le compteur de travail EtherCAT est incorrect pendant plus de 10 ms.
+- **Manual locator:** CNC Alarm Manual → MOT-083 → Description / Possible Reason / Solution
+- **Review date:** 2026-10-24
+- **Safe checks (EN):** Record the complete alarm ID, controller software version, drive model, and event time before resetting. Have qualified personnel inspect communication-cable condition, connectors, shielding/grounding, and controller-to-drive configuration under the approved isolation procedure. Compare DIP-switch and communication parameters with the machine-builder's documentation; do not change timing or communication settings arbitrarily.
+- **فحوصات آمنة (AR):** سجّل رمز الإنذار كاملًا وإصدار برنامج المتحكم وطراز المشغّل ووقت الحدث قبل إعادة الضبط. ليتحقق شخص مؤهل من كابل الاتصال والموصلات والتدريع/التأريض وإعداد الاتصال بين المتحكم والمشغّل وفق إجراء العزل المعتمد. طابق مفاتيح DIP ومعلمات الاتصال مع وثائق مصنع الماكينة؛ لا تغيّر إعدادات التوقيت أو الاتصال عشوائيًا.
+- **Contrôles sûrs (FR):** Consignez le code complet, la version logicielle du contrôleur, le modèle du variateur et l'heure de l'événement avant toute réinitialisation. Faites vérifier par une personne qualifiée le câble de communication, les connecteurs, le blindage/la terre et la configuration contrôleur-variateur selon la procédure de consignation. Comparez les commutateurs DIP et les paramètres de communication aux documents du constructeur; ne modifiez pas arbitrairement les temporisations ou réglages.
+- **Escalation (EN):** Escalate to Syntec or the machine builder if the alarm persists after approved cable/configuration checks, or if the installed version is outside the documented scope.
+- **التصعيد (AR):** صعّد إلى Syntec أو مصنع الماكينة إذا استمر الإنذار بعد فحص الكابل والإعدادات المصرح به، أو كان إصدار البرنامج خارج النطاق الموثق.
+- **Escalade (FR):** Escaladez vers Syntec ou le constructeur si l'alarme persiste après les contrôles autorisés du câble/de la configuration, ou si la version installée est hors du périmètre documenté.
+- **Evidence note:** The official Syntec alarm manual describes MOT-083 in terms of an incorrect drive response-packet watchdog (M3) or EtherCAT working counter lasting more than 10 ms.
+
