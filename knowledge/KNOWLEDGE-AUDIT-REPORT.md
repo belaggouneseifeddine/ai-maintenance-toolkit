@@ -64,3 +64,13 @@ This is a conservative string-presence check only. It does not prove that a topi
 - Word counts use whitespace-separated tokens; they are inventory measures, not measures of quality.
 - This audit does not validate technical correctness, OEM applicability, or the evidentiary support of every statement.
 - No source text is fetched by this script and no new technical content is generated.
+
+
+## OEM-specific verified knowledge added (2026-10-24)
+
+- Structured evidence records: **20** in `knowledge/oem-verified-faults.json`.
+- Retrieval guide: `knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md`, added to the Worker-loaded knowledge documents.
+- Exact-source families: Siemens SINUMERIK 840D sl/828D, SINAMICS G120D, SINAMICS G120P; Mitsubishi MELSEC iQ-F FX5 and a narrowly scoped MR-J4 compatibility case.
+- Every verified record includes official source ID/URL, manual title/revision, section, page when available, evidence summary, multilingual meaning, safe checks, escalation and review date.
+- Chinese OEM families remain in an explicit evidence-acquisition queue until exact alarm entries are reviewed; portal links alone do not count as model-verified fault records.
+- These additions are on the feature branch; deployment is not implied by this report.
