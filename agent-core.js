@@ -58,6 +58,10 @@
     const diagnosticEngine = config.diagnosticEngine || root.MaintenanceDiagnosticEngine;
     const faultLibrary = config.faultLibrary || root.MAINTENANCE_FAULTS || {};
     const tools = config.tools || {};
+    const requestedTimeout = Number(config.toolTimeoutMs);
+    const toolTimeoutMs = Number.isFinite(requestedTimeout) && requestedTimeout > 0
+      ? Math.min(requestedTimeout, 30000)
+      : 15000;
 
     function availableTool(name) {
       return TOOL_NAMES.has(name) && typeof tools[name] === "function";
@@ -65,14 +69,29 @@
 
     async function invokeTool(name, payload, route) {
       if (!availableTool(name)) return safeError("tool_not_configured", route);
+      let timeoutId;
+      let timedOut = false;
+      const controller = typeof AbortController === "function" ? new AbortController() : null;
+      const timeout = new Promise((_, reject) => {
+        timeoutId = setTimeout(() => {
+          timedOut = true;
+          if (controller) controller.abort();
+          reject(new Error("tool_timeout"));
+        }, toolTimeoutMs);
+      });
       try {
-        const output = await tools[name](payload);
+        const output = await Promise.race([
+          Promise.resolve().then(() => tools[name](payload, { signal: controller ? controller.signal : undefined })),
+          timeout
+        ]);
         const bounded = boundedResult(output);
         if (bounded && bounded.truncated) return safeError("tool_output_too_large", route);
         return { ok: true, status: "completed", route, data: bounded };
       } catch (_) {
         // Never return provider/network exception text to the UI or logs by default.
-        return safeError("tool_failed", route);
+        return safeError(timedOut ? "tool_timeout" : "tool_failed", route);
+      } finally {
+        clearTimeout(timeoutId);
       }
     }
 
