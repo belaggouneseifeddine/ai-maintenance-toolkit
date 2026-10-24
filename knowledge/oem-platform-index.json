@@ -47,7 +47,7 @@
       ],
       "url": "https://www.inovance.com/global/support/download-documentation.html",
       "evidenceStatus": "portal-only",
-      "alarmCodeRecords": 0,
+      "alarmCodeRecords": 6,
       "notes": "Manual-reviewed records exist in the separate OEM evidence file; this manufacturer profile remains a discovery index, not proof of field verification. Match exact model, firmware and machine-builder integration.",
       "modelsCovered": [
         "MD200 series AC drive",
@@ -92,7 +92,7 @@
       ],
       "url": "https://en.xinje.com/web/downloadCenter/index",
       "evidenceStatus": "portal-only",
-      "alarmCodeRecords": 0,
+      "alarmCodeRecords": 9,
       "notes": "Manual-reviewed records exist in the separate OEM evidence file; this manufacturer profile remains a discovery index, not proof of field verification. Match exact model, firmware and machine-builder integration.",
       "modelsCovered": [
         "DS5K series servo driver",
@@ -134,7 +134,7 @@
       ],
       "url": "https://gskcnc.com/support.php",
       "evidenceStatus": "portal-only",
-      "alarmCodeRecords": 0,
+      "alarmCodeRecords": 3,
       "notes": "Three manual-reviewed GSK218M program/operation alarm summaries are included. Scope is limited to the cited controller manual and does not represent all GSK CNC models.",
       "manualReviewedRecordCount": 3,
       "modelsCovered": [
@@ -214,7 +214,7 @@
       ],
       "url": "https://www.mitsubishielectric-fa.cn/site/file-center",
       "evidenceStatus": "portal-only",
-      "alarmCodeRecords": 0,
+      "alarmCodeRecords": 6,
       "notes": "Manual-reviewed records exist in the separate OEM evidence file; this manufacturer profile remains a discovery index, not proof of field verification. Match exact model, firmware and machine-builder integration.",
       "manualReviewedRecordCount": 4,
       "modelsCovered": [
@@ -240,7 +240,7 @@
       ],
       "url": "https://support.industry.siemens.com/",
       "evidenceStatus": "portal-only",
-      "alarmCodeRecords": 0,
+      "alarmCodeRecords": 26,
       "notes": "Manual-reviewed records cover SINUMERIK/SINAMICS/SIMATIC selected scopes; all claims remain limited to the cited model and manual revision.",
       "manualReviewedRecordCount": 29,
       "modelsCovered": [
