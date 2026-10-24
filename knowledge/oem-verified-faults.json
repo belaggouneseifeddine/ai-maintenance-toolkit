@@ -4043,19 +4043,19 @@
       },
       "safeChecks": {
         "en": [
-          "Record the exact code, operating mode, load and time of occurrence; preserve the fault history before any reset.",
-          "Use the machine's approved isolation procedure before inspecting wiring or connectors. Electrical measurements inside the drive are for qualified personnel only.",
-          "Compare the observed condition with the ASDA-B2-F manual and machine-builder drawings; do not bypass protection or change limits to hide the alarm."
+          "Record the exact code and check the manual's absolute-system section for the installed ASDA-B2-F revision.",
+          "Do not replace/remove the backup battery or initialize absolute coordinates based on generic advice. Use the model-specific service procedure with qualified personnel; stop and escalate if that procedure is unavailable.",
+          "Preserve machine position/reference information and verify the machine-builder's homing/recovery procedure before returning the axis to service."
         ],
         "ar": [
-          "سجّل الرمز الدقيق ووضع التشغيل والحمل ووقت ظهور العطل، واحتفظ بسجل الأعطال قبل أي إعادة ضبط.",
-          "طبّق إجراء العزل المعتمد قبل فحص الأسلاك أو الموصلات. القياسات الكهربائية داخل المغير من اختصاص شخص مؤهل فقط.",
-          "طابق الحالة مع دليل ASDA-B2-F ومخططات مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار."
+          "سجّل الرمز بدقة وراجع قسم النظام المطلق في دليل ASDA-B2-F المطابق للإصدار المركب.",
+          "لا تستبدل أو تنزع بطارية النسخ الاحتياطي ولا تهيّئ الإحداثيات المطلقة اعتمادًا على نصيحة عامة. يجب اتباع إجراء الخدمة الخاص بالطراز بواسطة شخص مؤهل؛ أوقف العمل وصعّد إذا لم يتوفر الإجراء.",
+          "حافظ على معلومات الموضع والمرجعة، وتحقق من إجراء الإرجاع إلى المرجع لدى مصنع الماكينة قبل إعادة المحور إلى الخدمة."
         ],
         "fr": [
-          "Consignez le code exact, le mode de fonctionnement, la charge et l’heure d’apparition; conservez l’historique avant toute réinitialisation.",
-          "Appliquez la procédure de consignation approuvée avant d’inspecter câbles ou connecteurs. Les mesures électriques à l’intérieur du variateur sont réservées au personnel qualifié.",
-          "Comparez la situation au manuel ASDA-B2-F et aux schémas du constructeur; ne contournez pas les protections et ne modifiez pas les limites pour masquer l’alarme."
+          "Consignez le code exact et consultez la section système absolu de la révision ASDA-B2-F installée.",
+          "Ne remplacez/retirez pas la batterie de sauvegarde et n'initialisez pas les coordonnées absolues sur la base de conseils génériques. Appliquez la procédure de service propre au modèle avec du personnel qualifié; arrêtez et escaladez si elle n'est pas disponible.",
+          "Préservez les informations de position/référencement et vérifiez la procédure de reprise du constructeur avant de remettre l'axe en service."
         ]
       },
       "escalation": {
