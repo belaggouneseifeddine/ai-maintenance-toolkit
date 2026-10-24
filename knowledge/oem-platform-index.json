@@ -135,8 +135,11 @@
       "url": "https://gskcnc.com/support.php",
       "evidenceStatus": "portal-only",
       "alarmCodeRecords": 0,
-      "notes": "Official portal/index only; no model-specific manual-reviewed records are currently counted for this manufacturer in the structured OEM record file.",
-      "manualReviewedRecordCount": 0
+      "notes": "Three manual-reviewed GSK218M program/operation alarm summaries are included. Scope is limited to the cited controller manual and does not represent all GSK CNC models.",
+      "manualReviewedRecordCount": 3,
+      "modelsCovered": [
+        "GSK218M CNC System"
+      ]
     },
     {
       "id": "syntec",
@@ -622,7 +625,7 @@
     }
   ],
   "relatedEvidenceFile": "knowledge/oem-verified-faults.json",
-  "verifiedRecordFileCount": 63,
+  "verifiedRecordFileCount": 66,
   "verifiedRecordFile": "knowledge/oem-verified-faults.json",
   "lastEvidenceInventoryDate": "2026-10-24"
 }
