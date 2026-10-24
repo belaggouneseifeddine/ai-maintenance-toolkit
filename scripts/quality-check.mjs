@@ -20,6 +20,8 @@ const faults = JSON.parse(readFileSync("faults.json", "utf8"));
 const manufacturerSources = JSON.parse(readFileSync("knowledge/manufacturer-sources.json", "utf8"));
 const manufacturerMatrix = JSON.parse(readFileSync("knowledge/manufacturer-machine-fault-matrix.json", "utf8"));
 const manufacturerMatrixMarkdown = readFileSync("knowledge/CHINESE-EUROPEAN-OEM-FAULT-MATRIX-AR-FR-EN.md", "utf8");
+const oemPlatformIndex = JSON.parse(readFileSync("knowledge/oem-platform-index.json", "utf8"));
+const oemIndexMarkdown = readFileSync("knowledge/OEM-MANUFACTURER-INDEX-AR-FR-EN.md", "utf8");
 const diagnosticEngineSource = readFileSync("diagnostic-engine.js", "utf8");
 const normalizationSource = readFileSync("normalization.js", "utf8");
 const knowledgeReviewSource = readFileSync("knowledge-review.js", "utf8");
@@ -470,7 +472,7 @@ const checks = [
       assert.ok(/^https:\/\//.test(source.url), "Source URL must use HTTPS: " + source.id);
       assert.ok(source.scope && source.status, "Source scope/status required: " + source.id);
     }
-    for (const id of ["grundfos-troubleshooting-guides", "atlas-copco-compressor-troubleshooting", "atlas-copco-manuals", "abb-motor-manuals", "abb-drive-manuals", "danfoss-troubleshooting", "siemens-industrial-support", "festo-support-portal"]) {
+    for (const id of ["grundfos-troubleshooting-guides", "atlas-copco-compressor-troubleshooting", "atlas-copco-manuals", "abb-motor-manuals", "abb-drive-manuals", "danfoss-troubleshooting", "siemens-industrial-support", "festo-support-portal", "yizumi-machine-service", "haitian-machine-service", "bodor-laser-service", "mitsubishi-fa-china-documents", "delta-industrial-download-center", "pilz-machine-safety-support", "xinje-download-center"]) {
       assert.ok(sourceIds.has(id), "Missing OEM portal: " + id);
     }
     assert.match(manufacturerSources.purpose, /URLs do not prove/);
@@ -501,6 +503,19 @@ const checks = [
     }
     assert.ok(manufacturerMatrixMarkdown.includes("Do not infer an alarm meaning"));
     assert.ok(manufacturerMatrixMarkdown.includes("Official manufacturer documentation index"));
+    assert.ok(worker.includes("knowledge/OEM-MANUFACTURER-INDEX-AR-FR-EN.md"), "Worker must load the OEM platform index");
+    assert.ok(oemPlatformIndex.manufacturers.length >= 20, "Expected at least 20 structured OEM/platform profiles");
+    assert.ok(oemPlatformIndex.manufacturers.every(p => p.evidenceStatus === "portal-only" && p.alarmCodeRecords === 0), "Portal-only sources must not be marked model verified");
+    const platformIds = new Set();
+    for (const profile of oemPlatformIndex.manufacturers) {
+      assert.ok(!platformIds.has(profile.id), "Duplicate OEM platform index ID: " + profile.id);
+      platformIds.add(profile.id);
+      assert.ok(profile.sourceRefs.length && profile.families.length, "OEM profile requires sources and product families: " + profile.id);
+      for (const ref of profile.sourceRefs) assert.ok(knownSources.has(ref), "Unknown OEM platform source: " + ref);
+      assert.ok(/^https:\/\//.test(profile.url), "OEM platform URL must use HTTPS: " + profile.id);
+    }
+    assert.ok(oemIndexMarkdown.includes("minimumEvidenceForModelVerified") || oemIndexMarkdown.includes("Required intake fields"));
+    assert.ok(oemIndexMarkdown.includes("not an OEM alarm-code database"));
   }],
   ["Fault library exceeds 200 cases and covers electronics, electrical circuits, industrial controls, and machine families", () => {
     assert.ok(faults.faults.length > 200, "Fault library must contain more than 200 records");
