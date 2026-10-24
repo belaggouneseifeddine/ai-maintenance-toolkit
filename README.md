@@ -10,7 +10,7 @@ Mobile-first progressive web app (PWA) for preliminary industrial-maintenance tr
 
 ## Features
 
-- Rule-based fault guidance, structured fault data, and offline exploratory hypotheses with explicit evidence limits.
+- Rule-based fault guidance, structured fault data, offline exploratory hypotheses, and a compact local knowledge-excerpt index with explicit evidence limits.
 - Safety checklist and inspection-plan gate.
 - Local maintenance log, draft recovery, filters, CSV export, and printable reports.
 - Responsive interface, language switching, and PWA offline shell.
