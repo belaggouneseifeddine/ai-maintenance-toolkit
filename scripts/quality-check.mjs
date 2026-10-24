@@ -597,6 +597,13 @@ const checks = [
     assert.ok(worker.includes("knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md"), "Worker retrieval must include OEM verified knowledge");
     assert.ok(oemVerifiedMarkdown.includes("Evidence acquisition queue"), "OEM verified guide must distinguish pending evidence");
     assert.ok(oemVerifiedMarkdown.includes("XINJE") && oemVerifiedMarkdown.includes("HuazhongCNC"), "Chinese OEM evidence queue must be present");
+    for (const record of records) {
+      assert.notEqual(record.meaning.ar, record.meaning.en, record.id + " Arabic meaning must be translated");
+      assert.notEqual(record.meaning.fr, record.meaning.en, record.id + " French meaning must be translated");
+      assert.ok(record.safeChecks.ar?.length && record.safeChecks.fr?.length, record.id + " needs Arabic/French safe checks");
+    }
+    assert.ok(records.some(record => record.productFamily.includes("H5U Series") && record.source.sourceId === "inovance-h5u-plc-user-guide"), "INOVANCE H5U model-specific manual evidence must be represented");
+    assert.ok(oemVerifiedFaults.recordCount >= 47, "Expected at least 47 structured OEM evidence records");
   }]
 ];
 let failed = 0;
