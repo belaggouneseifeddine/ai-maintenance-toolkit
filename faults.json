@@ -15271,6 +15271,865 @@
         "fr": "Arrêter l’équipement et faire intervenir un technicien qualifié si le défaut persiste, en cas de chaleur, odeur de brûlé, fuite, vibration anormale ou vérification dangereuse. Ne confirmer aucune cause sans vérification.",
         "en": "Stop the equipment and escalate to a qualified technician if the fault repeats, heat/burning odor/leak/abnormal vibration appears, or safe verification is not possible. Do not treat any cause as confirmed without testing."
       }
+    },
+    {
+      "id": "fan-blower-abnormal-vibration",
+      "equipmentType": "mechanical",
+      "symptoms": [
+        "vibration",
+        "noise"
+      ],
+      "title": {
+        "ar": "اهتزاز أو ضجيج غير طبيعي في المروحة أو المنفاخ",
+        "fr": "Vibrations ou bruit anormal du ventilateur ou de la soufflante",
+        "en": "Abnormal fan or blower vibration/noise"
+      },
+      "keywords": {
+        "ar": [
+          "مروحة",
+          "منفاخ",
+          "اهتزاز",
+          "ضجيج",
+          "عدم اتزان",
+          "ريشة"
+        ],
+        "fr": [
+          "ventilateur",
+          "soufflante",
+          "vibration",
+          "bruit",
+          "déséquilibre",
+          "pale"
+        ],
+        "en": [
+          "fan",
+          "blower",
+          "vibration",
+          "noise",
+          "imbalance",
+          "blade"
+        ]
+      },
+      "causes": [
+        {
+          "id": "fan-imbalance",
+          "label": {
+            "ar": "احتمال عدم اتزان أو تراكم مواد على الدوار",
+            "fr": "Déséquilibre possible ou dépôts sur le rotor",
+            "en": "Possible rotor imbalance or buildup"
+          },
+          "keywords": [
+            "imbalance",
+            "déséquilibre",
+            "عدم اتزان",
+            "deposits"
+          ]
+        },
+        {
+          "id": "fan-bearing",
+          "label": {
+            "ar": "احتمال تدهور المحامل أو التثبيت",
+            "fr": "Dégradation possible des roulements ou de la fixation",
+            "en": "Possible bearing or mounting deterioration"
+          },
+          "keywords": [
+            "bearing",
+            "roulement",
+            "محمل",
+            "mounting"
+          ]
+        },
+        {
+          "id": "fan-flow",
+          "label": {
+            "ar": "تغير في ظروف تدفق الهواء أو مقاومة النظام",
+            "fr": "Changement du débit d’air ou de la résistance du système",
+            "en": "Changed airflow or system resistance"
+          },
+          "keywords": [
+            "airflow",
+            "débit",
+            "تدفق الهواء",
+            "filter"
+          ]
+        }
+      ],
+      "safeChecks": [
+        {
+          "ar": "سجّل مستوى الاهتزاز والصوت من نقطة آمنة وقارن بالاتجاهات السابقة.",
+          "fr": "Relever vibration et bruit depuis un point sûr et comparer aux tendances antérieures.",
+          "en": "Record vibration and noise from a safe point and compare with prior trends."
+        },
+        {
+          "ar": "راجع حالة المرشحات ومؤشرات تدفق الهواء من خارج الحواجز.",
+          "fr": "Vérifier filtres et indications de débit d’air depuis l’extérieur des protections.",
+          "en": "Review filter condition and airflow indications from outside guards."
+        },
+        {
+          "ar": "لا تفتح الحواجز ولا تلمس الدوار؛ اعزل الطاقة قبل أي فحص ميكانيكي.",
+          "fr": "Ne pas ouvrir les carters ni toucher le rotor; isoler les énergies avant inspection mécanique.",
+          "en": "Do not open guards or touch the rotor; isolate energy before mechanical inspection."
+        }
+      ],
+      "escalation": {
+        "ar": "أوقف وصعّد عند اهتزاز مفاجئ أو شديد أو ارتخاء التثبيت أو احتكاك.",
+        "fr": "Arrêter et escalader en cas de vibration soudaine/intense, fixation desserrée ou frottement.",
+        "en": "Stop and escalate for sudden/severe vibration, loose mounting, or rubbing."
+      },
+      "sourceRefs": [
+        "abb-motor-manuals",
+        "danfoss-troubleshooting"
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific"
+    },
+    {
+      "id": "chiller-high-condensing-temperature",
+      "equipmentType": "cooling",
+      "symptoms": [
+        "overheat",
+        "low_flow"
+      ],
+      "title": {
+        "ar": "ارتفاع حرارة التكثيف في المبرد الصناعي",
+        "fr": "Température de condensation élevée du refroidisseur industriel",
+        "en": "Industrial chiller high condensing temperature"
+      },
+      "keywords": {
+        "ar": [
+          "مبرد",
+          "تشيلر",
+          "تكثيف",
+          "حرارة عالية",
+          "مكثف",
+          "تدفق ماء"
+        ],
+        "fr": [
+          "refroidisseur",
+          "chiller",
+          "condensation",
+          "température élevée",
+          "condenseur",
+          "débit d’eau"
+        ],
+        "en": [
+          "chiller",
+          "condensing temperature",
+          "high temperature",
+          "condenser",
+          "water flow"
+        ]
+      },
+      "causes": [
+        {
+          "id": "chiller-condenser-transfer",
+          "label": {
+            "ar": "انخفاض محتمل في انتقال الحرارة بسبب الاتساخ أو انسداد المسار",
+            "fr": "Transfert thermique réduit possible par encrassement ou obstruction",
+            "en": "Possible reduced heat transfer from fouling or restriction"
+          },
+          "keywords": [
+            "fouling",
+            "encrassement",
+            "اتساخ",
+            "restriction"
+          ]
+        },
+        {
+          "id": "chiller-condenser-flow",
+          "label": {
+            "ar": "تدفق تبريد أو تهوية غير كافٍ بحسب تصميم الوحدة",
+            "fr": "Débit de refroidissement ou ventilation insuffisant selon la conception",
+            "en": "Insufficient cooling flow or ventilation for the unit design"
+          },
+          "keywords": [
+            "flow",
+            "débit",
+            "تدفق",
+            "ventilation"
+          ]
+        },
+        {
+          "id": "chiller-load",
+          "label": {
+            "ar": "حمل أو ظروف محيطة مختلفة عن خط الأساس",
+            "fr": "Charge ou conditions ambiantes différentes de la référence",
+            "en": "Load or ambient conditions differ from baseline"
+          },
+          "keywords": [
+            "load",
+            "charge",
+            "حمل",
+            "ambient"
+          ]
+        }
+      ],
+      "safeChecks": [
+        {
+          "ar": "اقرأ الإنذارات والاتجاهات المسجلة ودرجة حرارة الدخول والخروج إن كانت متاحة.",
+          "fr": "Lire les alarmes, tendances et températures d’entrée/sortie disponibles.",
+          "en": "Review logged alarms, trends, and available inlet/outlet temperatures."
+        },
+        {
+          "ar": "تحقق بصريًا من مؤشرات تدفق التبريد وحالة المرشحات دون فتح الدائرة.",
+          "fr": "Vérifier visuellement les indicateurs de débit et les filtres sans ouvrir le circuit.",
+          "en": "Visually review cooling-flow indicators and filters without opening the circuit."
+        },
+        {
+          "ar": "قارن النتائج بدليل الطراز؛ لا تعدّل شحنة وسيط التبريد أو الضغوط دون فني مؤهل.",
+          "fr": "Comparer au manuel du modèle; ne pas modifier la charge de fluide ni les pressions sans technicien qualifié.",
+          "en": "Compare with the model manual; do not adjust refrigerant charge or pressures without a qualified technician."
+        }
+      ],
+      "escalation": {
+        "ar": "صعّد عند إنذار ضغط/حرارة مرتفع أو توقف حماية متكرر أو تسرب وسيط التبريد.",
+        "fr": "Escalader en cas d’alarme haute pression/température, de déclenchements répétés ou de fuite de fluide.",
+        "en": "Escalate for high-pressure/temperature alarms, repeated protective trips, or refrigerant leakage."
+      },
+      "sourceRefs": [
+        "danfoss-troubleshooting"
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific"
+    },
+    {
+      "id": "servo-drive-following-error",
+      "equipmentType": "vfd",
+      "symptoms": [
+        "bad_signal",
+        "not_start"
+      ],
+      "title": {
+        "ar": "خطأ تتبع أو موضع في محرك سيرفو/نظام حركة",
+        "fr": "Erreur de poursuite ou de position d’un servovariateur",
+        "en": "Servo drive following/position error"
+      },
+      "keywords": {
+        "ar": [
+          "سيرفو",
+          "محرك مؤازر",
+          "خطأ تتبع",
+          "خطأ موضع",
+          "محور",
+          "إنذار"
+        ],
+        "fr": [
+          "servo",
+          "erreur de poursuite",
+          "erreur de position",
+          "axe",
+          "alarme"
+        ],
+        "en": [
+          "servo",
+          "following error",
+          "position error",
+          "axis",
+          "alarm"
+        ]
+      },
+      "causes": [
+        {
+          "id": "servo-command-feedback",
+          "label": {
+            "ar": "عدم تطابق محتمل بين أمر الحركة والتغذية الراجعة",
+            "fr": "Écart possible entre la consigne de mouvement et le retour",
+            "en": "Possible mismatch between motion command and feedback"
+          },
+          "keywords": [
+            "feedback",
+            "retour",
+            "تغذية راجعة",
+            "encoder"
+          ]
+        },
+        {
+          "id": "servo-mechanical-load",
+          "label": {
+            "ar": "مقاومة ميكانيكية أو حمل خارج الحالة المعتادة",
+            "fr": "Résistance mécanique ou charge inhabituelle",
+            "en": "Mechanical resistance or unusual load"
+          },
+          "keywords": [
+            "load",
+            "charge",
+            "حمل",
+            "jam"
+          ]
+        },
+        {
+          "id": "servo-configuration",
+          "label": {
+            "ar": "إعداد أو اتصال أو مرجع حركة يحتاج إلى مراجعة",
+            "fr": "Paramétrage, communication ou référence de mouvement à vérifier",
+            "en": "Configuration, communication, or motion reference needs review"
+          },
+          "keywords": [
+            "parameter",
+            "paramètre",
+            "إعداد",
+            "communication"
+          ]
+        }
+      ],
+      "safeChecks": [
+        {
+          "ar": "سجّل رمز الخطأ كاملًا وسياقه وآخر تغيير في الإعدادات من واجهة معتمدة.",
+          "fr": "Relever le code complet, son contexte et tout changement récent via l’interface autorisée.",
+          "en": "Record the full fault code, context, and recent parameter changes through an authorized interface."
+        },
+        {
+          "ar": "راجع حالة الاتصال والتغذية الراجعة والإنذارات السابقة دون إجبار المحور على الحركة.",
+          "fr": "Vérifier communication, retour et historique des alarmes sans forcer le mouvement de l’axe.",
+          "en": "Review communication, feedback, and alarm history without forcing axis movement."
+        },
+        {
+          "ar": "لا تعطل interlocks أو الحواجز؛ أي فحص للمحرك/المشفّر يتطلب عزلًا وإجراء المصنع.",
+          "fr": "Ne pas neutraliser interverrouillages ni protections; isoler selon la procédure fabricant avant intervention.",
+          "en": "Do not bypass interlocks or guards; isolate under the manufacturer procedure before intervention."
+        }
+      ],
+      "escalation": {
+        "ar": "صعّد إذا تحرك المحور بصورة غير متوقعة أو فشل نظام السلامة أو تكرر الخطأ.",
+        "fr": "Escalader si l’axe bouge de façon inattendue, si la sécurité échoue ou si l’erreur se répète.",
+        "en": "Escalate for unexpected axis motion, safety-system failure, or recurring error."
+      },
+      "sourceRefs": [
+        "danfoss-troubleshooting",
+        "abb-drive-manuals"
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific"
+    },
+    {
+      "id": "transformer-abnormal-temperature",
+      "equipmentType": "electrical_panel",
+      "symptoms": [
+        "overheat",
+        "noise"
+      ],
+      "title": {
+        "ar": "ارتفاع غير معتاد في حرارة المحول أو صوت طنين",
+        "fr": "Température anormale ou bourdonnement du transformateur",
+        "en": "Abnormal transformer temperature or humming"
+      },
+      "keywords": {
+        "ar": [
+          "محول",
+          "ترانسفورمر",
+          "حرارة",
+          "طنين",
+          "رائحة احتراق"
+        ],
+        "fr": [
+          "transformateur",
+          "température",
+          "bourdonnement",
+          "odeur de brûlé"
+        ],
+        "en": [
+          "transformer",
+          "temperature",
+          "humming",
+          "burning smell"
+        ]
+      },
+      "causes": [
+        {
+          "id": "transformer-load",
+          "label": {
+            "ar": "حمل أو عدم اتزان قد يحتاج إلى مراجعة",
+            "fr": "Charge ou déséquilibre à examiner",
+            "en": "Load or imbalance may require review"
+          },
+          "keywords": [
+            "load",
+            "charge",
+            "حمل",
+            "imbalance"
+          ]
+        },
+        {
+          "id": "transformer-cooling",
+          "label": {
+            "ar": "تبريد أو تهوية غير كافيين بحسب التصميم",
+            "fr": "Refroidissement ou ventilation insuffisants selon la conception",
+            "en": "Cooling or ventilation insufficient for the design"
+          },
+          "keywords": [
+            "cooling",
+            "refroidissement",
+            "تبريد",
+            "ventilation"
+          ]
+        },
+        {
+          "id": "transformer-connection",
+          "label": {
+            "ar": "احتمال مشكلة داخلية أو في التوصيلات تستلزم مختصًا",
+            "fr": "Problème interne ou de connexion possible nécessitant un spécialiste",
+            "en": "Possible internal or connection issue requiring a specialist"
+          },
+          "keywords": [
+            "connection",
+            "connexion",
+            "توصيل",
+            "internal"
+          ]
+        }
+      ],
+      "safeChecks": [
+        {
+          "ar": "راقب المؤشرات والإنذارات من مسافة آمنة ولا تفتح اللوحة.",
+          "fr": "Observer les indicateurs et alarmes à distance sûre sans ouvrir l’armoire.",
+          "en": "Review indicators and alarms from a safe distance; do not open the cabinet."
+        },
+        {
+          "ar": "سجّل الحمل ودرجات الحرارة المعروضة ومقارنتها بخط الأساس المعتمد.",
+          "fr": "Noter la charge et les températures affichées et les comparer à la référence approuvée.",
+          "en": "Record displayed load and temperatures and compare with the approved baseline."
+        },
+        {
+          "ar": "لا تقترب من أجزاء مكشوفة أو تجري قياسات حية؛ يلزم كهربائي مؤهل وإجراء عزل.",
+          "fr": "Ne pas approcher de parties exposées ni effectuer de mesures sous tension; intervention par électricien qualifié.",
+          "en": "Do not approach exposed parts or perform live measurements; qualified electrician and isolation required."
+        }
+      ],
+      "escalation": {
+        "ar": "أوقف وصعّد فورًا عند دخان أو رائحة احتراق أو شرر أو ارتفاع سريع في الحرارة.",
+        "fr": "Arrêter et escalader immédiatement en cas de fumée, odeur de brûlé, étincelles ou hausse rapide de température.",
+        "en": "Stop and escalate immediately for smoke, burning smell, arcing, or rapid temperature rise."
+      },
+      "sourceRefs": [
+        "abb-motor-manuals",
+        "siemens-industrial-support"
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific"
+    },
+    {
+      "id": "hydraulic-filter-differential-pressure",
+      "equipmentType": "hydraulic",
+      "symptoms": [
+        "low_pressure",
+        "slow_cycle"
+      ],
+      "title": {
+        "ar": "تقييد محتمل في مرشح النظام الهيدروليكي",
+        "fr": "Restriction possible du filtre hydraulique",
+        "en": "Possible hydraulic filter restriction"
+      },
+      "keywords": {
+        "ar": [
+          "هيدروليك",
+          "مرشح",
+          "فلتر",
+          "فرق ضغط",
+          "بطء الحركة",
+          "انسداد"
+        ],
+        "fr": [
+          "hydraulique",
+          "filtre",
+          "pression différentielle",
+          "mouvement lent",
+          "obstruction"
+        ],
+        "en": [
+          "hydraulic",
+          "filter",
+          "differential pressure",
+          "slow movement",
+          "restriction"
+        ]
+      },
+      "causes": [
+        {
+          "id": "hyd-filter-loading",
+          "label": {
+            "ar": "تحميل المرشح أو انسداده المحتمل",
+            "fr": "Filtre possiblement chargé ou obstrué",
+            "en": "Possible loaded or blocked filter"
+          },
+          "keywords": [
+            "filter",
+            "filtre",
+            "مرشح",
+            "clog"
+          ]
+        },
+        {
+          "id": "hyd-oil-viscosity",
+          "label": {
+            "ar": "تغير خواص الزيت أو درجة الحرارة عن النطاق المعتمد",
+            "fr": "Propriétés d’huile ou température hors plage approuvée",
+            "en": "Oil properties or temperature outside approved range"
+          },
+          "keywords": [
+            "oil",
+            "huile",
+            "زيت",
+            "temperature"
+          ]
+        },
+        {
+          "id": "hyd-system-flow",
+          "label": {
+            "ar": "مشكلة أخرى في التدفق أو التحكم لا يثبتها العرض وحده",
+            "fr": "Autre problème de débit ou de commande non prouvé par le symptôme seul",
+            "en": "Another flow or control issue not established by the symptom alone"
+          },
+          "keywords": [
+            "flow",
+            "débit",
+            "تدفق",
+            "control"
+          ]
+        }
+      ],
+      "safeChecks": [
+        {
+          "ar": "اقرأ مؤشر فرق الضغط أو الإنذار المسجل إذا كان موجودًا؛ لا تفترض حدًا رقميًا.",
+          "fr": "Lire l’indicateur ou l’alarme de pression différentielle s’il existe; ne pas supposer de seuil.",
+          "en": "Read the differential-pressure indicator or logged alarm if fitted; do not assume a numeric limit."
+        },
+        {
+          "ar": "راجع نوع الزيت وبيانات المرشح وسجل الاستبدال من الوثائق المعتمدة.",
+          "fr": "Vérifier le type d’huile, la référence du filtre et l’historique dans la documentation approuvée.",
+          "en": "Review oil type, filter specification, and replacement history in approved documentation."
+        },
+        {
+          "ar": "لا تفك المرشح أو الخطوط قبل إيقاف النظام وتفريغ الضغط والطاقة المخزنة وفق الإجراء.",
+          "fr": "Ne pas démonter filtre ou conduites avant arrêt, dépressurisation et maîtrise de l’énergie stockée.",
+          "en": "Do not open the filter or lines before shutdown, depressurization, and control of stored energy."
+        }
+      ],
+      "escalation": {
+        "ar": "صعّد عند حركة غير مسيطر عليها أو تدهور سريع أو تسرب عالي الضغط.",
+        "fr": "Escalader en cas de mouvement incontrôlé, dégradation rapide ou fuite haute pression.",
+        "en": "Escalate for uncontrolled motion, rapid degradation, or high-pressure leakage."
+      },
+      "sourceRefs": [
+        "danfoss-troubleshooting"
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific"
+    },
+    {
+      "id": "steam-trap-suspected-failure",
+      "equipmentType": "steam_system",
+      "symptoms": [
+        "low_flow",
+        "overheat"
+      ],
+      "title": {
+        "ar": "اشتباه خلل في مصيدة البخار أو تصريف المكثفات",
+        "fr": "Défaillance suspectée du purgeur de vapeur ou du condensat",
+        "en": "Suspected steam-trap or condensate-drain fault"
+      },
+      "keywords": {
+        "ar": [
+          "مصيدة بخار",
+          "ستيم تراب",
+          "مكثفات",
+          "طرق",
+          "تسرب بخار",
+          "فقد حرارة"
+        ],
+        "fr": [
+          "purgeur vapeur",
+          "condensat",
+          "claquement",
+          "fuite vapeur",
+          "perte thermique"
+        ],
+        "en": [
+          "steam trap",
+          "condensate",
+          "hammering",
+          "steam leak",
+          "heat loss"
+        ]
+      },
+      "causes": [
+        {
+          "id": "trap-blocked",
+          "label": {
+            "ar": "احتمال انسداد أو ضعف تصريف المكثفات",
+            "fr": "Obstruction ou évacuation insuffisante possible",
+            "en": "Possible blockage or poor condensate discharge"
+          },
+          "keywords": [
+            "blocked",
+            "obstruction",
+            "انسداد",
+            "condensate"
+          ]
+        },
+        {
+          "id": "trap-blowthrough",
+          "label": {
+            "ar": "احتمال مرور بخار حي أو تآكل داخلي",
+            "fr": "Passage de vapeur vive ou usure interne possible",
+            "en": "Possible live-steam blow-through or internal wear"
+          },
+          "keywords": [
+            "steam",
+            "vapeur",
+            "بخار",
+            "wear"
+          ]
+        },
+        {
+          "id": "trap-system",
+          "label": {
+            "ar": "قد يكون السبب في ظروف التشغيل أو خط المكثفات",
+            "fr": "La cause peut venir des conditions de fonctionnement ou du retour condensat",
+            "en": "Operating conditions or condensate return may be involved"
+          },
+          "keywords": [
+            "return",
+            "retour",
+            "راجع",
+            "operating"
+          ]
+        }
+      ],
+      "safeChecks": [
+        {
+          "ar": "سجّل فرق درجات الحرارة والإنذارات من أجهزة قياس ثابتة دون لمس الأنابيب.",
+          "fr": "Relever températures et alarmes via les instruments installés sans toucher les conduites.",
+          "en": "Record temperatures and alarms from installed instruments without touching piping."
+        },
+        {
+          "ar": "راجع مخطط النظام ودليل المصيدة المحددة ومؤشرات رجوع المكثفات.",
+          "fr": "Consulter le schéma, le manuel du purgeur exact et les indicateurs de retour condensat.",
+          "en": "Review the system drawing, exact trap manual, and condensate-return indicators."
+        },
+        {
+          "ar": "لا تلمس خطوط البخار ولا تفك الوصلات؛ قد تسبب الحرارة والضغط حروقًا خطيرة.",
+          "fr": "Ne pas toucher les conduites vapeur ni démonter les raccords; chaleur et pression peuvent causer des brûlures graves.",
+          "en": "Do not touch steam lines or disconnect fittings; heat and pressure can cause severe burns."
+        }
+      ],
+      "escalation": {
+        "ar": "صعّد عند تسرب بخار أو طرق مائي أو فشل تصريف يهدد التشغيل الآمن.",
+        "fr": "Escalader en cas de fuite vapeur, coup de bélier ou drainage compromettant la sécurité.",
+        "en": "Escalate for steam leakage, water hammer, or drainage failure affecting safe operation."
+      },
+      "sourceRefs": [
+        "siemens-industrial-support"
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific"
+    },
+    {
+      "id": "dust-collector-pulse-cleaning-fault",
+      "equipmentType": "dust_collector",
+      "symptoms": [
+        "low_flow",
+        "trip"
+      ],
+      "title": {
+        "ar": "ضعف تنظيف المرشحات النبضي في مجمّع الغبار",
+        "fr": "Défaut de nettoyage par impulsions du dépoussiéreur",
+        "en": "Dust collector pulse-cleaning fault"
+      },
+      "keywords": {
+        "ar": [
+          "مجمّع غبار",
+          "فلتر أكياس",
+          "تنظيف نبضي",
+          "هواء مضغوط",
+          "فرق ضغط"
+        ],
+        "fr": [
+          "dépoussiéreur",
+          "filtre à manches",
+          "nettoyage par impulsions",
+          "air comprimé",
+          "pression différentielle"
+        ],
+        "en": [
+          "dust collector",
+          "bag filter",
+          "pulse cleaning",
+          "compressed air",
+          "differential pressure"
+        ]
+      },
+      "causes": [
+        {
+          "id": "dust-pulse-air",
+          "label": {
+            "ar": "إمداد هواء التنظيف أو ضغطه غير متاح حسب المؤشرات",
+            "fr": "Alimentation en air de nettoyage indisponible selon les indicateurs",
+            "en": "Cleaning-air supply may be unavailable per indicators"
+          },
+          "keywords": [
+            "air",
+            "air comprimé",
+            "هواء",
+            "pressure"
+          ]
+        },
+        {
+          "id": "dust-valve-control",
+          "label": {
+            "ar": "احتمال خلل في صمام النبض أو تسلسل التحكم",
+            "fr": "Défaut possible de vanne d’impulsion ou de séquence de commande",
+            "en": "Possible pulse-valve or control-sequence fault"
+          },
+          "keywords": [
+            "valve",
+            "vanne",
+            "صمام",
+            "control"
+          ]
+        },
+        {
+          "id": "dust-filter-loading",
+          "label": {
+            "ar": "تحميل أو تلف المرشح أو ظروف تدفق غير مناسبة",
+            "fr": "Filtre chargé/endommagé ou conditions de débit inadaptées",
+            "en": "Loaded/damaged filter or unsuitable flow conditions"
+          },
+          "keywords": [
+            "filter",
+            "filtre",
+            "مرشح",
+            "flow"
+          ]
+        }
+      ],
+      "safeChecks": [
+        {
+          "ar": "سجّل فرق الضغط وحالة الإنذارات ومؤشرات هواء التنظيف من الواجهة.",
+          "fr": "Relever pression différentielle, alarmes et indicateurs d’air de nettoyage via l’interface.",
+          "en": "Record differential pressure, alarms, and cleaning-air indicators from the interface."
+        },
+        {
+          "ar": "راجع سجل دورة التنظيف ودليل المجمّع ونوع عناصر الترشيح.",
+          "fr": "Consulter l’historique du cycle de nettoyage, le manuel du dépoussiéreur et les éléments filtrants.",
+          "en": "Review cleaning-cycle history, collector manual, and filter-element specification."
+        },
+        {
+          "ar": "لا تفتح المجمّع أو تدخل القادوس قبل العزل وتقييم الغبار والطاقة المخزنة وإجراءات الموقع.",
+          "fr": "Ne pas ouvrir le dépoussiéreur ni entrer dans la trémie avant consignation et évaluation des poussières/énergies.",
+          "en": "Do not open the collector or enter the hopper before isolation and assessment of dust/stored energy under site procedures."
+        }
+      ],
+      "escalation": {
+        "ar": "صعّد عند انتشار الغبار أو إنذار حريق/انفجار أو فقد احتواء أو فرق ضغط خارج الحدود المعتمدة.",
+        "fr": "Escalader en cas d’émission de poussières, alarme incendie/explosion, perte de confinement ou pression différentielle hors limites approuvées.",
+        "en": "Escalate for dust release, fire/explosion alarm, loss of containment, or differential pressure outside approved limits."
+      },
+      "sourceRefs": [
+        "siemens-industrial-support"
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific"
+    },
+    {
+      "id": "instrument-four-to-twenty-ma-drift",
+      "equipmentType": "instrumentation",
+      "symptoms": [
+        "bad_signal"
+      ],
+      "title": {
+        "ar": "انحراف أو عدم استقرار إشارة جهاز القياس",
+        "fr": "Dérive ou instabilité du signal d’instrumentation",
+        "en": "Instrumentation signal drift or instability"
+      },
+      "keywords": {
+        "ar": [
+          "4-20 mA",
+          "إشارة",
+          "انحراف",
+          "قراءة متذبذبة",
+          "ترانسمتر",
+          "حساس"
+        ],
+        "fr": [
+          "4-20 mA",
+          "signal",
+          "dérive",
+          "lecture instable",
+          "transmetteur",
+          "capteur"
+        ],
+        "en": [
+          "4-20 mA",
+          "signal",
+          "drift",
+          "unstable reading",
+          "transmitter",
+          "sensor"
+        ]
+      },
+      "causes": [
+        {
+          "id": "instrument-process",
+          "label": {
+            "ar": "تغير فعلي في العملية أو ظروف القياس",
+            "fr": "Changement réel du procédé ou des conditions de mesure",
+            "en": "Actual process or measurement-condition change"
+          },
+          "keywords": [
+            "process",
+            "procédé",
+            "عملية",
+            "measurement"
+          ]
+        },
+        {
+          "id": "instrument-connection",
+          "label": {
+            "ar": "مشكلة محتملة في التوصيل أو التداخل أو التأريض",
+            "fr": "Problème possible de connexion, interférence ou mise à la terre",
+            "en": "Possible connection, interference, or grounding issue"
+          },
+          "keywords": [
+            "connection",
+            "connexion",
+            "توصيل",
+            "interference"
+          ]
+        },
+        {
+          "id": "instrument-calibration",
+          "label": {
+            "ar": "انحراف أو إعداد يحتاج إلى تحقق وفق إجراء المعايرة",
+            "fr": "Dérive ou configuration à vérifier selon la procédure d’étalonnage",
+            "en": "Drift or configuration to verify under calibration procedure"
+          },
+          "keywords": [
+            "calibration",
+            "étalonnage",
+            "معايرة",
+            "range"
+          ]
+        }
+      ],
+      "safeChecks": [
+        {
+          "ar": "قارن القراءة بمؤشر مستقل معتمد وسجل وقتها ووحدتها وحالة العملية.",
+          "fr": "Comparer à un indicateur indépendant approuvé et noter heure, unité et état du procédé.",
+          "en": "Compare with an approved independent indicator and record time, units, and process state."
+        },
+        {
+          "ar": "راجع سجل الإنذارات وحالة الاتصال والتغذية من واجهة معتمدة دون فصل الأسلاك.",
+          "fr": "Consulter alarmes, communication et alimentation via l’interface autorisée sans débrancher les fils.",
+          "en": "Review alarms, communications, and supply through an authorized interface without disconnecting wiring."
+        },
+        {
+          "ar": "لا تغيّر مدى القياس أو المعايرة ولا تتجاوز interlocks دون إجراء معتمد ومختص.",
+          "fr": "Ne pas modifier l’échelle ou l’étalonnage ni contourner les interverrouillages sans procédure approuvée.",
+          "en": "Do not change range/calibration or bypass interlocks without an approved procedure and qualified personnel."
+        }
+      ],
+      "escalation": {
+        "ar": "صعّد إذا كانت الإشارة تتحكم في وظيفة حماية أو لا يمكن التحقق من سلامة العملية.",
+        "fr": "Escalader si le signal commande une fonction de protection ou si la sûreté du procédé est incertaine.",
+        "en": "Escalate if the signal affects a protective function or process safety cannot be confirmed."
+      },
+      "sourceRefs": [
+        "siemens-industrial-support"
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific"
     }
   ]
 }
