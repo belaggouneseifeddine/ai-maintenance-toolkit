@@ -134,3 +134,119 @@ test("fault library has no structured OEM alarm-code index yet", () => {
   assert.ok(faults.faults.every(fault => !Array.isArray(fault.alarmCodes) && !Array.isArray(fault.errorCodes)),
     "Do not claim OEM alarm-code matching until sourced code fields are added");
 });
+
+
+test("local keyword matching respects whole-word and phrase boundaries", () => {
+  const customLibrary = {
+    faults: [{
+      id: "motor-oil-leak",
+      equipmentType: "motor",
+      symptoms: ["trip"],
+      title: { ar: "تسرب زيت", fr: "Fuite d'huile", en: "Oil leak" },
+      keywords: { ar: ["زيت"], fr: ["huile"], en: ["oil"] },
+      causes: [{
+        id: "oil-related",
+        label: { ar: "سبب مرتبط بالزيت", fr: "Cause liée à l'huile", en: "Oil-related cause" },
+        keywords: ["oil", "huile", "زيت"]
+      }],
+      safeChecks: [{ ar: "فحص آمن", fr: "Contrôle sûr", en: "Safe check" }],
+      escalation: { ar: "صعّد عند الحاجة", fr: "Escalader si nécessaire", en: "Escalate if needed" }
+    }]
+  };
+
+  const unrelated = diagnose({
+    equipmentType: "motor",
+    symptom: "trip",
+    observations: "The motor is boiling",
+    language: "en"
+  }, customLibrary);
+  assert.equal(unrelated.matched, true);
+  assert.deepEqual(unrelated.results[0].matchedKeywords, []);
+  assert.deepEqual(unrelated.results[0].causes[0].matchedKeywords, []);
+  assert.equal(unrelated.results[0].score, 7);
+
+  const related = diagnose({
+    equipmentType: "motor",
+    symptom: "trip",
+    observations: "Oil leak near the motor",
+    language: "en"
+  }, customLibrary);
+  assert.equal(related.matched, true);
+  assert.deepEqual(related.results[0].matchedKeywords, ["oil"]);
+  assert.deepEqual(related.results[0].causes[0].matchedKeywords, ["oil"]);
+  assert.equal(related.results[0].score, 9);
+});
+
+test("local phrase matching tolerates punctuation and repeated whitespace without partial-word matches", () => {
+  const customLibrary = {
+    faults: [{
+      id: "pump-low-flow",
+      equipmentType: "pump",
+      symptoms: ["low_flow"],
+      title: { ar: "تدفق منخفض", fr: "Débit faible", en: "Low flow" },
+      keywords: { ar: ["ضعف التدفق"], fr: ["debit faible"], en: ["low flow"] },
+      causes: [{
+        id: "restricted-flow",
+        label: { ar: "تقييد محتمل", fr: "Restriction possible", en: "Possible restriction" },
+        keywords: ["low flow"]
+      }],
+      safeChecks: [{ ar: "فحص آمن", fr: "Contrôle sûr", en: "Safe check" }],
+      escalation: { ar: "صعّد عند الحاجة", fr: "Escalader si nécessaire", en: "Escalate if needed" }
+    }]
+  };
+  const result = diagnose({
+    equipmentType: "pump",
+    symptom: "low_flow",
+    observations: "Observed: very   low, flow is reduced.",
+    language: "en"
+  }, customLibrary);
+  assert.equal(result.matched, true);
+  assert.deepEqual(result.results[0].matchedKeywords, ["low flow"]);
+});
+
+
+test("local diagnostic UI does not present match points or possible causes as probabilities or confirmed rankings", () => {
+  const html = require("node:fs").readFileSync(require.resolve("../index.html"), "utf8");
+  assert.match(html, /نقاط المطابقة \(ليست احتمالًا\)/);
+  assert.match(html, /أسباب محتملة للتحقق/);
+  assert.match(html, /Score de correspondance \(pas une probabilité\)/);
+  assert.match(html, /Causes possibles à vérifier/);
+  assert.match(html, /Match points \(not probability\)/);
+  assert.match(html, /Possible causes to check/);
+});
+
+test("review-only Algerian Arabic aliases are not auto-mapped and explain how to recover", () => {
+  const result = diagnose({ equipmentType: "pompa", symptom: "low_flow", observations: "", language: "ar" }, faults);
+  assert.equal(result.matched, false);
+  assert.equal(result.results.length, 0);
+  assert.ok(Array.isArray(result.normalizationReview));
+  assert.equal(result.normalizationReview.length, 1);
+  assert.match(result.reason, /لم يُحوَّل تلقائيًا/);
+  assert.match(result.reason, /pump/);
+});
+
+test("review-only French/dialect aliases explain the unconfirmed mapping without inventing a match", () => {
+  const result = diagnose({ equipmentType: "motor", symptom: "ma yhabch ydemarri", observations: "", language: "fr" }, faults);
+  assert.equal(result.matched, false);
+  assert.equal(result.results.length, 0);
+  assert.match(result.reason, /alias à vérifier/);
+  assert.match(result.reason, /not_start/);
+});
+
+test("local fault records have unique IDs and complete multilingual matching data", () => {
+  const ids = faults.faults.map(fault => fault.id);
+  assert.equal(new Set(ids).size, ids.length, "fault IDs must be unique");
+  for (const fault of faults.faults) {
+    assert.ok(typeof fault.equipmentType === "string" && fault.equipmentType.trim(), fault.id + ": equipment type missing");
+    assert.ok(Array.isArray(fault.symptoms) && fault.symptoms.length > 0, fault.id + ": symptoms missing");
+    assert.ok(Array.isArray(fault.causes) && fault.causes.length > 0, fault.id + ": causes missing");
+    for (const language of ["ar", "fr", "en"]) {
+      assert.ok(Array.isArray(fault.keywords?.[language]) && fault.keywords[language].length > 0, fault.id + ": matching keywords missing for " + language);
+      assert.ok(fault.keywords[language].every(term => typeof term === "string" && term.trim()), fault.id + ": invalid keyword in " + language);
+      for (const cause of fault.causes) {
+        assert.ok(typeof cause.label?.[language] === "string" && cause.label[language].trim(), fault.id + "/" + cause.id + ": cause label missing for " + language);
+        assert.ok(Array.isArray(cause.keywords) && cause.keywords.length > 0, fault.id + "/" + cause.id + ": cause keywords missing");
+      }
+    }
+  }
+});
