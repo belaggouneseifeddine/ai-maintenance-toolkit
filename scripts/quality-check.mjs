@@ -24,6 +24,7 @@ const oemPlatformIndex = JSON.parse(readFileSync("knowledge/oem-platform-index.j
 const oemIndexMarkdown = readFileSync("knowledge/OEM-MANUFACTURER-INDEX-AR-FR-EN.md", "utf8");
 const oemVerifiedFaults = JSON.parse(readFileSync("knowledge/oem-verified-faults.json", "utf8"));
 const oemVerifiedMarkdown = readFileSync("knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md", "utf8");
+const oemLookupSource = readFileSync("oem-lookup.js", "utf8");
 const diagnosticEngineSource = readFileSync("diagnostic-engine.js", "utf8");
 const normalizationSource = readFileSync("normalization.js", "utf8");
 const knowledgeReviewSource = readFileSync("knowledge-review.js", "utf8");
@@ -615,6 +616,13 @@ const checks = [
       if (record.alarmCode) assert.ok(record.source.printedPage || record.source.section, record.id + " needs page or section");
     }
     assert.ok(worker.includes("knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md"), "Worker retrieval must include OEM verified knowledge");
+    assert.ok(html.includes('id="oemLookupCard"') && html.includes('id="oemLookupSearch"'), "Knowledge tab must expose the OEM evidence lookup");
+    assert.ok(html.includes('<script src="./oem-lookup.js"></script>'), "OEM lookup script must be loaded by the UI");
+    assert.ok(oemLookupSource.includes("./knowledge/oem-verified-faults.json"), "OEM lookup must load the structured evidence database");
+    assert.ok(oemLookupSource.includes("record.source.manualUrl") && oemLookupSource.includes("record.source.section"), "OEM lookup must display source links and manual sections");
+    assert.ok(sw.includes('"./oem-lookup.js"'), "OEM lookup script must be available offline");
+    assert.ok(sw.includes('"./knowledge/oem-verified-faults.json"'), "Structured OEM evidence must be available in the offline cache");
+    assert.ok(sw.includes('"./knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md"'), "OEM evidence guide must be available in the offline cache");
     assert.ok(sw.includes('"./knowledge/oem-verified-faults.json"'), "Structured OEM evidence must be available in the offline cache");
     assert.ok(sw.includes('"./knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md"'), "OEM evidence guide must be available in the offline cache");
     assert.equal(oemPlatformIndex.verifiedRecordFileCount, records.length, "OEM index inventory count must match the verified-record file");
