@@ -2,6 +2,10 @@
 (function(root){
   "use strict";
   const SOURCE_URL="https://api.grundfos.com/literature/Grundfosliterature-6819528.pdf";
+  let SOURCE_REGISTRY=null;
+  const sourceRegistryReady=typeof root.fetch==="function"
+    ? root.fetch("./knowledge/manufacturer-sources.json").then(response=>{if(!response.ok)throw new Error("source registry unavailable");return response.json();}).then(data=>{SOURCE_REGISTRY=data;return data;}).catch(()=>null)
+    : Promise.resolve(null);
   const HYPOTHESES={
     "pump|noise":[
       {id:"suction-condition",label:{ar:"ظروف السحب أو احتمال التكهف",en:"Suction conditions or possible cavitation",fr:"Conditions d’aspiration ou cavitation possible"},why:{ar:"الضجيج/الاهتزاز مع تغيّر التدفق قد يتوافق مع اضطراب جهة السحب، لكنه لا يثبت التكهف.",en:"Noise/vibration with changing flow can fit disturbed suction conditions, but does not prove cavitation.",fr:"Le bruit/vibration avec un débit variable peut correspondre à une aspiration perturbée, sans prouver la cavitation."},check:{ar:"قارن قراءة ضغط السحب ومستوى المصدر والتدفق بخط الأساس ومنحنى المضخة.",en:"Compare suction pressure, source level and flow with baseline and the pump curve.",fr:"Comparer la pression d’aspiration, le niveau de la source et le débit aux valeurs de référence et à la courbe."},basis:"symptom-pattern; not manufacturer-confirmed"},
@@ -44,11 +48,19 @@
     if(flow.length){followup=flow[0]; if(answer && flow.length>1)followup=flow[1];}
     const context=norm([input.manualRef,input.observations,input.assetId].join(" "));
     const hydroMatch=machine==="pump" && /(hydro\s*en|fire.?fight|sprinkler|fire pump|مكافحة الحريق|شبكة رشاشات)/i.test(context);
+    const sourceEntry=SOURCE_REGISTRY&&Array.isArray(SOURCE_REGISTRY.sources)
+      ? SOURCE_REGISTRY.sources.find(item=>item.id==="grundfos-hydro-en-installation-operating-instructions")
+      : null;
+    const sourceIndex=SOURCE_REGISTRY&&Array.isArray(SOURCE_REGISTRY.hydroEnFaultFindingIndex)
+      ? SOURCE_REGISTRY.hydroEnFaultFindingIndex
+      : [];
     const source=hydroMatch?{
-      title:"Grundfos Hydro EN — Installation and operating instructions",
-      url:SOURCE_URL,section:"13 Fault finding",page:32,
-      issues:["13.1 Electric pump does not start","13.2 Diesel pump does not start","13.3 Thermal relay trips (jockey pump only)","13.4 System flow rate not as desired","13.5 Water hammer","13.6 Mechanical-seal leaks"],
-      status:"manufacturer-manual-heading-index-only",
+      title:sourceEntry?sourceEntry.title:"Grundfos Hydro EN — Installation and operating instructions",
+      url:sourceEntry?sourceEntry.url:SOURCE_URL,
+      section:sourceEntry&&sourceEntry.reference?sourceEntry.reference.section:"13 Fault finding",
+      page:sourceEntry&&sourceEntry.reference?sourceEntry.reference.printedPage:32,
+      issues:sourceIndex.length?sourceIndex.map(item=>item.section+" "+item.issue):["13.1 Electric pump does not start","13.2 Diesel pump does not start","13.3 Thermal relay trips (jockey pump only)","13.4 System flow rate not as desired","13.5 Water hammer","13.6 Mechanical-seal leaks"],
+      status:sourceEntry?sourceEntry.verificationStatus:"manufacturer-manual-heading-index-only",
       note:lang==="ar"?"تم العثور على فهرس دليل مطابق مبدئيًا. لم تُتحقق بعد تفاصيل جدول الأسباب والإجراءات؛ لا تعرض هذه الإحالات كحل مؤكد.":"A potentially matching manual index was found. The detailed cause/action table has not yet been verified; do not treat these headings as confirmed solutions."
     }:null;
     const missing=[];
@@ -69,6 +81,6 @@
     html+='<p class="hint">'+(l==="ar"?"لا تُفسّر ترتيب الفرضيات على أنه احتمال إحصائي. قبل التدخل، اتبع العزل وإجراءات الموقع ودليل الموديل.":"Hypothesis order is not a statistical probability. Follow isolation, site procedures and the model-specific manual before intervention.")+'</p></section>';
     return html;
   }
-  root.MaintenanceLocalReasoning={analyse,renderHTML};
+  root.MaintenanceLocalReasoning={analyse,renderHTML,sourceRegistryReady};
   if(typeof module!=="undefined"&&module.exports)module.exports={analyse,renderHTML};
 })(typeof window!=="undefined"?window:globalThis);
