@@ -1044,7 +1044,8 @@
         "section": "Part 7 Common Reference Material → 4. HC-FS/HA-FS MOTOR DRIVE → 4.1 Parameter setting",
         "printedPage": null,
         "manualUrl": "https://dl.mitsubishielectric.com/dl/fa/document/catalog/servo/l03093/l03093e.pdf",
-        "evidenceSummary": "The source explicitly links PC22 encoder compatibility setting with AL.16/AL.20 in the stated migration scenario."
+        "evidenceSummary": "The source explicitly links PC22 encoder compatibility setting with AL.16/AL.20 in the stated migration scenario.",
+        "pageNotProvidedReason": "A page number was not independently confirmed during this review; the cited official manual section is provided as the traceable locator. Do not infer a page number."
       },
       "safeChecks": {
         "en": [
@@ -2231,7 +2232,8 @@
         "revision": "June 2023; A00; document code 19012251A00",
         "section": "5 Operation and Maintenance → 5.3 Indicators",
         "manualUrl": "https://portal-file.inovance.com/owfile/ProdDoc/SC/19012251-SC/A00/19012251-SC_A00%E3%80%8AH5U%20Series%20Programmable%20Logic%20Control%20User%20Guide%20%E3%80%8BWithout%20CAN%2C%20ECAM%2C%20Electronic%20Gear-EN.pdf",
-        "evidenceSummary": "The official H5U guide identifies the RUN, ERR, BAT and BF indicators and defines ERR as system failure, BAT as battery error, and BF as EtherCAT bus error. These records describe indicator meaning only, not a specific root cause."
+        "evidenceSummary": "The official H5U guide identifies the RUN, ERR, BAT and BF indicators and defines ERR as system failure, BAT as battery error, and BF as EtherCAT bus error. These records describe indicator meaning only, not a specific root cause.",
+        "pageNotProvidedReason": "A page number was not independently confirmed during this review; the cited official manual section is provided as the traceable locator. Do not infer a page number."
       },
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
@@ -2284,7 +2286,8 @@
         "revision": "June 2023; A00; document code 19012251A00",
         "section": "5 Operation and Maintenance → 5.3 Indicators",
         "manualUrl": "https://portal-file.inovance.com/owfile/ProdDoc/SC/19012251-SC/A00/19012251-SC_A00%E3%80%8AH5U%20Series%20Programmable%20Logic%20Control%20User%20Guide%20%E3%80%8BWithout%20CAN%2C%20ECAM%2C%20Electronic%20Gear-EN.pdf",
-        "evidenceSummary": "The official H5U guide identifies the RUN, ERR, BAT and BF indicators and defines ERR as system failure, BAT as battery error, and BF as EtherCAT bus error. These records describe indicator meaning only, not a specific root cause."
+        "evidenceSummary": "The official H5U guide identifies the RUN, ERR, BAT and BF indicators and defines ERR as system failure, BAT as battery error, and BF as EtherCAT bus error. These records describe indicator meaning only, not a specific root cause.",
+        "pageNotProvidedReason": "A page number was not independently confirmed during this review; the cited official manual section is provided as the traceable locator. Do not infer a page number."
       },
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
@@ -2337,7 +2340,8 @@
         "revision": "June 2023; A00; document code 19012251A00",
         "section": "5 Operation and Maintenance → 5.3 Indicators",
         "manualUrl": "https://portal-file.inovance.com/owfile/ProdDoc/SC/19012251-SC/A00/19012251-SC_A00%E3%80%8AH5U%20Series%20Programmable%20Logic%20Control%20User%20Guide%20%E3%80%8BWithout%20CAN%2C%20ECAM%2C%20Electronic%20Gear-EN.pdf",
-        "evidenceSummary": "The official H5U guide identifies the RUN, ERR, BAT and BF indicators and defines ERR as system failure, BAT as battery error, and BF as EtherCAT bus error. These records describe indicator meaning only, not a specific root cause."
+        "evidenceSummary": "The official H5U guide identifies the RUN, ERR, BAT and BF indicators and defines ERR as system failure, BAT as battery error, and BF as EtherCAT bus error. These records describe indicator meaning only, not a specific root cause.",
+        "pageNotProvidedReason": "A page number was not independently confirmed during this review; the cited official manual section is provided as the traceable locator. Do not infer a page number."
       },
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
@@ -2390,7 +2394,8 @@
         "revision": "Data No. PD06 20151009 3.2",
         "section": "2. Search the device ID → Report error message when building the remote connection",
         "manualUrl": "https://cdn-en.xinje.com/XNET%20manual.pdf",
-        "evidenceSummary": "The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced."
+        "evidenceSummary": "The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced.",
+        "pageNotProvidedReason": "A page number was not independently confirmed during this review; the cited official manual section is provided as the traceable locator. Do not infer a page number."
       },
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
@@ -2443,7 +2448,8 @@
         "revision": "Data No. PD06 20151009 3.2",
         "section": "2. Search the device ID → Report error message when building the remote connection",
         "manualUrl": "https://cdn-en.xinje.com/XNET%20manual.pdf",
-        "evidenceSummary": "The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced."
+        "evidenceSummary": "The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced.",
+        "pageNotProvidedReason": "A page number was not independently confirmed during this review; the cited official manual section is provided as the traceable locator. Do not infer a page number."
       },
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
@@ -2496,7 +2502,8 @@
         "revision": "Data No. PD06 20151009 3.2",
         "section": "2. Search the device ID → Report error message when building the remote connection",
         "manualUrl": "https://cdn-en.xinje.com/XNET%20manual.pdf",
-        "evidenceSummary": "The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced."
+        "evidenceSummary": "The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced.",
+        "pageNotProvidedReason": "A page number was not independently confirmed during this review; the cited official manual section is provided as the traceable locator. Do not infer a page number."
       },
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
@@ -2549,7 +2556,8 @@
         "revision": "Data No. PD06 20151009 3.2",
         "section": "2. Search the device ID → Report error message when building the remote connection",
         "manualUrl": "https://cdn-en.xinje.com/XNET%20manual.pdf",
-        "evidenceSummary": "The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced."
+        "evidenceSummary": "The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced.",
+        "pageNotProvidedReason": "A page number was not independently confirmed during this review; the cited official manual section is provided as the traceable locator. Do not infer a page number."
       },
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
@@ -2602,7 +2610,8 @@
         "revision": "Data No. PD06 20151009 3.2",
         "section": "2. Search the device ID → Report error message when building the remote connection",
         "manualUrl": "https://cdn-en.xinje.com/XNET%20manual.pdf",
-        "evidenceSummary": "The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced."
+        "evidenceSummary": "The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced.",
+        "pageNotProvidedReason": "A page number was not independently confirmed during this review; the cited official manual section is provided as the traceable locator. Do not infer a page number."
       },
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
@@ -2655,7 +2664,8 @@
         "revision": "Data No. PD06 20151009 3.2",
         "section": "2. Search the device ID → Report error message when building the remote connection",
         "manualUrl": "https://cdn-en.xinje.com/XNET%20manual.pdf",
-        "evidenceSummary": "The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced."
+        "evidenceSummary": "The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced.",
+        "pageNotProvidedReason": "A page number was not independently confirmed during this review; the cited official manual section is provided as the traceable locator. Do not infer a page number."
       },
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
