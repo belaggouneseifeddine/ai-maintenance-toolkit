@@ -158,13 +158,17 @@
         "Motion control and machine-tool integration"
       ],
       "sourceRefs": [
-        "syntec-download-library"
+        "syntec-download-library",
+        "syntec-cnc-alarm-manual"
       ],
       "url": "https://syntecclub.com/",
       "evidenceStatus": "portal-only",
       "alarmCodeRecords": 0,
-      "notes": "Official portal/index only; no model-specific manual-reviewed records are currently counted for this manufacturer in the structured OEM record file.",
-      "manualReviewedRecordCount": 0
+      "notes": "Two Syntec CNC communication alarm summaries reviewed against the official CNC Alarm Manual; manual-claim-reviewed, not field-verified, and limited to the versions listed in the source.",
+      "manualReviewedRecordCount": 2,
+      "modelsCovered": [
+        "Syntec CNC software versions 10.118.86L / 10.120.16L / 10.120.24B / 10.120.27 and previous versions"
+      ]
     },
     {
       "id": "lnc",
@@ -635,7 +639,7 @@
     }
   ],
   "relatedEvidenceFile": "knowledge/oem-verified-faults.json",
-  "verifiedRecordFileCount": 79,
+  "verifiedRecordFileCount": 81,
   "verifiedRecordFile": "knowledge/oem-verified-faults.json",
   "lastEvidenceInventoryDate": "2026-10-24"
 }
