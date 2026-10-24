@@ -16,6 +16,8 @@ on:
       - "sw.js"
       - "faults.json"
       - "tests/**"
+      - "agent-skills/**"
+      - "docs/GOOGLE-SKILLS-INVENTORY-2026-10-24.md"
       - ".github/workflows/diagnostic-tests.yml"
   pull_request:
     paths:
