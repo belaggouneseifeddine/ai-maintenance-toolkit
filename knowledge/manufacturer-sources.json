@@ -558,6 +558,36 @@
       "scope": "Model-specific manual cited by a source-reviewed fault record; applicability is limited to the named family and revision.",
       "status": "manual-reference-registered-exact-model-review-required",
       "redistribution": "link-only; follow publisher terms"
+    },
+    {
+      "id": "inovance-h5u-plc-user-guide",
+      "publisher": "INOVANCE",
+      "title": "H5U Series Programmable Logic Controller User Guide (Without CAN, Electronic CAM, Electronic Gear)",
+      "url": "https://portal-file.inovance.com/owfile/ProdDoc/SC/19012251-SC/A00/19012251-SC_A00%E3%80%8AH5U%20Series%20Programmable%20Logic%20Control%20User%20Guide%20%E3%80%8BWithout%20CAN%2C%20ECAM%2C%20Electronic%20Gear-EN.pdf",
+      "type": "manufacturer-manual",
+      "scope": "INOVANCE H5U PLC; hardware indicators and operating/maintenance; revision A00 June 2023",
+      "status": "manual-reviewed-limited-claims",
+      "redistribution": "link-only; concise paraphrase; verify latest revision before use"
+    },
+    {
+      "id": "inovance-fault-code-query",
+      "publisher": "INOVANCE",
+      "title": "INOVANCE official function-code and fault-code query",
+      "url": "https://www.inovance.com/global/support/code-search.html",
+      "type": "manufacturer-diagnostic-tool",
+      "scope": "Requires exact model number and correctly formatted function/fault code; use as an OEM lookup tool, not a standalone technical conclusion",
+      "status": "official-diagnostic-tool-model-required",
+      "redistribution": "link-only; follow portal terms"
+    },
+    {
+      "id": "xinje-xnet-fieldbus-manual",
+      "publisher": "Wuxi XINJE Electric Co., Ltd.",
+      "title": "X-NET fieldbus User Manual",
+      "url": "https://cdn-en.xinje.com/XNET%20manual.pdf",
+      "type": "manufacturer-manual",
+      "scope": "X-NET fieldbus and motion fieldbus communication; document Data No. PD06 20151009 3.2",
+      "status": "manual-reviewed-limited-claims",
+      "redistribution": "link-only; concise paraphrase; verify applicability to installed X-NET version"
     }
   ]
 }
