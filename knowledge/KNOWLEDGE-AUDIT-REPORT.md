@@ -7,7 +7,7 @@ Deterministic inventory of the current repository. This report adds no technical
 - Worker-referenced Markdown documents: **9**
 - Markdown inventory: **3,506 lines**, **48,890 whitespace-separated words**, **256 headings**
 - Structured fault records: **284**
-- Model-specific manual-reviewed entries embedded in the general diagnostic library (not field-verified): **60**
+- Model-specific manual-reviewed fault records (not field-verified): **60**
 - Distinct equipment-type labels in the fault library: **36**
 - Cause entries across fault records: **767**
 - Fault records with an alarmCodes or errorCodes array: **31/284**
@@ -59,7 +59,7 @@ This is a conservative string-presence check only. It does not prove that a topi
 - The OEM matrix maps 28 manufacturer/controller families to official documentation routes and contains 38 structured symptom templates.
 - The OEM platform index lists 29 machine builders and component OEMs; 0 are model-verified. These entries are discovery routes only until exact model/manual evidence is reviewed.
 - These templates are not verified alarm-code definitions. A verified case requires exact model, controller/drive, firmware, manual revision, page/section, supported claim, and human review.
-- The 61-entry OEM source-discovery registry is separate from the 2 license-tracked research sources above. Its URLs do not prove that a particular fault cause applies.
+- The 63-entry OEM source-discovery registry is separate from the 2 license-tracked research sources above. Its URLs do not prove that a particular fault cause applies.
 - OEM record registry references are checked against the manufacturer-source registry; missing references: none. The source link alone is not evidence unless the recorded manual section supports the claim.
 
 ## Recent model-specific evidence tranche
