@@ -1,0 +1,1074 @@
+{
+  "schemaVersion": 1,
+  "title": "OEM-verified fault and diagnostic records",
+  "languageSupport": [
+    "ar",
+    "fr",
+    "en"
+  ],
+  "generatedAt": "2026-10-24",
+  "recordCount": 20,
+  "evidencePolicy": {
+    "verifiedMeans": "The cited official manual explicitly supports the stated alarm meaning or diagnostic procedure within the recorded scope.",
+    "notEquivalentTo": "This does not mean every machine built around the same brand/controller behaves identically; machine builder integration, firmware and options can change alarm behavior.",
+    "requiredForFutureModelSpecificRecord": [
+      "machineBuilder",
+      "machineModel",
+      "serialOrVariantWhenRelevant",
+      "controllerModel",
+      "driveOrServoModel",
+      "firmwareVersion",
+      "exactAlarmCodeAndText",
+      "manualTitleAndRevision",
+      "sectionOrChapter",
+      "printedPageOrPDFPage",
+      "evidenceSummary",
+      "reviewDate"
+    ],
+    "neverInfer": [
+      "Do not infer a code meaning from another product family or a portal landing page.",
+      "Do not advise safety bypasses, forced outputs, or live electrical work as generic first steps.",
+      "Store concise original summaries and links, not copied manual chapters."
+    ]
+  },
+  "records": [
+    {
+      "id": "sinumerik-25000",
+      "recordType": "alarm-code",
+      "manufacturer": "Siemens",
+      "productFamily": "SINUMERIK 840D sl / 828D",
+      "modelScope": "SINUMERIK 840D sl and 828D; axis measuring-system monitoring",
+      "firmwareScope": "Function Manual 08/2018; behavior depends on $MA_ENC_ZERO_MONITORING configuration",
+      "alarmCode": "25000",
+      "title": {
+        "en": "Active encoder hardware fault",
+        "ar": "عطل عتادي في المشفّر الفعّال",
+        "fr": "Défaut matériel du codeur actif"
+      },
+      "meaning": {
+        "en": "The active measuring system reported a hardware fault; the affected axis stops using the configured braking ramp and referencing/synchronization status is reset.",
+        "ar": "يذكر الدليل أن نظام القياس الفعّال أبلغ عن عطل عتادي؛ يُوقف المحور بمنحدر الكبح المضبوط وتُصفّر حالة المرجعة/المزامنة.",
+        "fr": "Le manuel indique un défaut matériel du système de mesure actif; l’axe s’arrête selon la rampe configurée et l’état de référencement/synchronisation est réinitialisé."
+      },
+      "source": {
+        "sourceId": "siemens-sinumerik-840dsl-828d-basic-functions-2018",
+        "manualTitle": "SINUMERIK 840D sl / 828D Basic Functions Function Manual",
+        "revision": "08/2018; 6FC5397-0BP40-6BA2",
+        "section": "A3 Axis monitoring functions → 3.5 Measuring system monitoring; MD36310 $MA_ENC_ZERO_MONITORING",
+        "printedPage": 105,
+        "manualUrl": "https://support.industry.siemens.com/cs/attachments/download/109760797/840Dsl_828D_basic_fct_man_0818_en-US.pdf",
+        "evidenceSummary": "The official manual explicitly lists these alarm numbers and active/passive encoder response."
+      },
+      "safeChecks": {
+        "en": [
+          "Record full alarm text, axis name, active/passive measuring-system context, and encoder-monitoring parameter.",
+          "Preserve diagnostic history before acknowledging or power-cycling.",
+          "Have qualified CNC personnel verify encoder type, connections, and machine-builder wiring documentation under the site isolation procedure."
+        ],
+        "ar": [
+          "سجّل نص الإنذار واسم المحور ونوع نظام القياس الفعّال/السلبي وإعداد مراقبة المشفّر.",
+          "احتفظ بسجل التشخيص قبل الإقرار بالإنذار أو إعادة التشغيل.",
+          "ليتحقق فني CNC مؤهل من نوع المشفّر وتوصيلاته ومخطط مصنع الماكينة بعد العزل حسب الإجراء."
+        ],
+        "fr": [
+          "Consigner le texte, l’axe, le système actif/passif et le paramètre de surveillance.",
+          "Sauvegarder l’historique avant acquittement ou redémarrage.",
+          "Faire vérifier le codeur et le schéma par un spécialiste CNC selon la procédure de consignation."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate recurring alarms, loss of axis reference, or unverified encoder wiring; never bypass encoder monitoring.",
+        "ar": "صعّد عند تكرار الإنذار أو فقد مرجعة المحور أو تعذر التحقق من توصيلات المشفّر؛ لا تتجاوز المراقبة.",
+        "fr": "Escalader en cas de récidive, de perte de référencement ou de câblage non vérifié; ne pas contourner la surveillance."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Apply only to the stated model/software scope. Confirm installed manual revision and exact alarm text before action."
+    },
+    {
+      "id": "sinumerik-25001",
+      "recordType": "alarm-code",
+      "manufacturer": "Siemens",
+      "productFamily": "SINUMERIK 840D sl / 828D",
+      "modelScope": "SINUMERIK 840D sl and 828D; axis measuring-system monitoring",
+      "firmwareScope": "Function Manual 08/2018; behavior depends on $MA_ENC_ZERO_MONITORING configuration",
+      "alarmCode": "25001",
+      "title": {
+        "en": "Passive encoder hardware fault",
+        "ar": "عطل عتادي في المشفّر السلبي",
+        "fr": "Défaut matériel du codeur passif"
+      },
+      "meaning": {
+        "en": "A hardware fault was detected in the passive measuring system; this function-manual section specifies no further alarm response.",
+        "ar": "اكتُشف عطل عتادي في نظام القياس السلبي؛ لا يحدد هذا القسم استجابة إنذار إضافية.",
+        "fr": "Un défaut matériel est détecté sur le système de mesure passif; cette section ne précise pas d’autre réaction."
+      },
+      "source": {
+        "sourceId": "siemens-sinumerik-840dsl-828d-basic-functions-2018",
+        "manualTitle": "SINUMERIK 840D sl / 828D Basic Functions Function Manual",
+        "revision": "08/2018; 6FC5397-0BP40-6BA2",
+        "section": "A3 Axis monitoring functions → 3.5 Measuring system monitoring; MD36310 $MA_ENC_ZERO_MONITORING",
+        "printedPage": 105,
+        "manualUrl": "https://support.industry.siemens.com/cs/attachments/download/109760797/840Dsl_828D_basic_fct_man_0818_en-US.pdf",
+        "evidenceSummary": "The official manual explicitly lists these alarm numbers and active/passive encoder response."
+      },
+      "safeChecks": {
+        "en": [
+          "Record full alarm text, axis name, active/passive measuring-system context, and encoder-monitoring parameter.",
+          "Preserve diagnostic history before acknowledging or power-cycling.",
+          "Have qualified CNC personnel verify encoder type, connections, and machine-builder wiring documentation under the site isolation procedure."
+        ],
+        "ar": [
+          "سجّل نص الإنذار واسم المحور ونوع نظام القياس الفعّال/السلبي وإعداد مراقبة المشفّر.",
+          "احتفظ بسجل التشخيص قبل الإقرار بالإنذار أو إعادة التشغيل.",
+          "ليتحقق فني CNC مؤهل من نوع المشفّر وتوصيلاته ومخطط مصنع الماكينة بعد العزل حسب الإجراء."
+        ],
+        "fr": [
+          "Consigner le texte, l’axe, le système actif/passif et le paramètre de surveillance.",
+          "Sauvegarder l’historique avant acquittement ou redémarrage.",
+          "Faire vérifier le codeur et le schéma par un spécialiste CNC selon la procédure de consignation."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate recurring alarms, loss of axis reference, or unverified encoder wiring; never bypass encoder monitoring.",
+        "ar": "صعّد عند تكرار الإنذار أو فقد مرجعة المحور أو تعذر التحقق من توصيلات المشفّر؛ لا تتجاوز المراقبة.",
+        "fr": "Escalader en cas de récidive, de perte de référencement ou de câblage non vérifié; ne pas contourner la surveillance."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Apply only to the stated model/software scope. Confirm installed manual revision and exact alarm text before action."
+    },
+    {
+      "id": "sinumerik-25020",
+      "recordType": "alarm-code",
+      "manufacturer": "Siemens",
+      "productFamily": "SINUMERIK 840D sl / 828D",
+      "modelScope": "SINUMERIK 840D sl and 828D; axis measuring-system monitoring",
+      "firmwareScope": "Function Manual 08/2018; behavior depends on $MA_ENC_ZERO_MONITORING configuration",
+      "alarmCode": "25020",
+      "title": {
+        "en": "Active encoder zero-mark monitoring",
+        "ar": "إنذار مراقبة علامة الصفر للمشفّر الفعّال",
+        "fr": "Surveillance du repère zéro du codeur actif"
+      },
+      "meaning": {
+        "en": "Zero-mark monitoring was triggered on the active measuring system; the affected axis stops using the configured braking ramp.",
+        "ar": "تم تفعيل مراقبة علامة الصفر في نظام القياس الفعّال؛ يُوقف المحور بمنحدر الكبح المضبوط.",
+        "fr": "La surveillance du repère zéro est déclenchée sur le système actif; l’axe s’arrête selon la rampe configurée."
+      },
+      "source": {
+        "sourceId": "siemens-sinumerik-840dsl-828d-basic-functions-2018",
+        "manualTitle": "SINUMERIK 840D sl / 828D Basic Functions Function Manual",
+        "revision": "08/2018; 6FC5397-0BP40-6BA2",
+        "section": "A3 Axis monitoring functions → 3.5 Measuring system monitoring; MD36310 $MA_ENC_ZERO_MONITORING",
+        "printedPage": 105,
+        "manualUrl": "https://support.industry.siemens.com/cs/attachments/download/109760797/840Dsl_828D_basic_fct_man_0818_en-US.pdf",
+        "evidenceSummary": "The official manual explicitly lists these alarm numbers and active/passive encoder response."
+      },
+      "safeChecks": {
+        "en": [
+          "Record full alarm text, axis name, active/passive measuring-system context, and encoder-monitoring parameter.",
+          "Preserve diagnostic history before acknowledging or power-cycling.",
+          "Have qualified CNC personnel verify encoder type, connections, and machine-builder wiring documentation under the site isolation procedure."
+        ],
+        "ar": [
+          "سجّل نص الإنذار واسم المحور ونوع نظام القياس الفعّال/السلبي وإعداد مراقبة المشفّر.",
+          "احتفظ بسجل التشخيص قبل الإقرار بالإنذار أو إعادة التشغيل.",
+          "ليتحقق فني CNC مؤهل من نوع المشفّر وتوصيلاته ومخطط مصنع الماكينة بعد العزل حسب الإجراء."
+        ],
+        "fr": [
+          "Consigner le texte, l’axe, le système actif/passif et le paramètre de surveillance.",
+          "Sauvegarder l’historique avant acquittement ou redémarrage.",
+          "Faire vérifier le codeur et le schéma par un spécialiste CNC selon la procédure de consignation."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate recurring alarms, loss of axis reference, or unverified encoder wiring; never bypass encoder monitoring.",
+        "ar": "صعّد عند تكرار الإنذار أو فقد مرجعة المحور أو تعذر التحقق من توصيلات المشفّر؛ لا تتجاوز المراقبة.",
+        "fr": "Escalader en cas de récidive, de perte de référencement ou de câblage non vérifié; ne pas contourner la surveillance."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Apply only to the stated model/software scope. Confirm installed manual revision and exact alarm text before action."
+    },
+    {
+      "id": "sinumerik-25021",
+      "recordType": "alarm-code",
+      "manufacturer": "Siemens",
+      "productFamily": "SINUMERIK 840D sl / 828D",
+      "modelScope": "SINUMERIK 840D sl and 828D; axis measuring-system monitoring",
+      "firmwareScope": "Function Manual 08/2018; behavior depends on $MA_ENC_ZERO_MONITORING configuration",
+      "alarmCode": "25021",
+      "title": {
+        "en": "Passive encoder zero-mark monitoring",
+        "ar": "إنذار مراقبة علامة الصفر للمشفّر السلبي",
+        "fr": "Surveillance du repère zéro du codeur passif"
+      },
+      "meaning": {
+        "en": "Zero-mark monitoring was triggered on the passive measuring system; this section specifies no further alarm response.",
+        "ar": "تم تفعيل مراقبة علامة الصفر في نظام القياس السلبي؛ لا يحدد هذا القسم استجابة إنذار إضافية.",
+        "fr": "La surveillance du repère zéro est déclenchée sur le système passif; cette section ne précise pas d’autre réaction."
+      },
+      "source": {
+        "sourceId": "siemens-sinumerik-840dsl-828d-basic-functions-2018",
+        "manualTitle": "SINUMERIK 840D sl / 828D Basic Functions Function Manual",
+        "revision": "08/2018; 6FC5397-0BP40-6BA2",
+        "section": "A3 Axis monitoring functions → 3.5 Measuring system monitoring; MD36310 $MA_ENC_ZERO_MONITORING",
+        "printedPage": 105,
+        "manualUrl": "https://support.industry.siemens.com/cs/attachments/download/109760797/840Dsl_828D_basic_fct_man_0818_en-US.pdf",
+        "evidenceSummary": "The official manual explicitly lists these alarm numbers and active/passive encoder response."
+      },
+      "safeChecks": {
+        "en": [
+          "Record full alarm text, axis name, active/passive measuring-system context, and encoder-monitoring parameter.",
+          "Preserve diagnostic history before acknowledging or power-cycling.",
+          "Have qualified CNC personnel verify encoder type, connections, and machine-builder wiring documentation under the site isolation procedure."
+        ],
+        "ar": [
+          "سجّل نص الإنذار واسم المحور ونوع نظام القياس الفعّال/السلبي وإعداد مراقبة المشفّر.",
+          "احتفظ بسجل التشخيص قبل الإقرار بالإنذار أو إعادة التشغيل.",
+          "ليتحقق فني CNC مؤهل من نوع المشفّر وتوصيلاته ومخطط مصنع الماكينة بعد العزل حسب الإجراء."
+        ],
+        "fr": [
+          "Consigner le texte, l’axe, le système actif/passif et le paramètre de surveillance.",
+          "Sauvegarder l’historique avant acquittement ou redémarrage.",
+          "Faire vérifier le codeur et le schéma par un spécialiste CNC selon la procédure de consignation."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate recurring alarms, loss of axis reference, or unverified encoder wiring; never bypass encoder monitoring.",
+        "ar": "صعّد عند تكرار الإنذار أو فقد مرجعة المحور أو تعذر التحقق من توصيلات المشفّر؛ لا تتجاوز المراقبة.",
+        "fr": "Escalader en cas de récidive, de perte de référencement ou de câblage non vérifié; ne pas contourner la surveillance."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Apply only to the stated model/software scope. Confirm installed manual revision and exact alarm text before action."
+    },
+    {
+      "id": "sinamics-g120d-f31100",
+      "recordType": "alarm-code",
+      "manufacturer": "Siemens",
+      "productFamily": "SINAMICS G120D",
+      "modelScope": "SINAMICS G120D converter; do not generalize to other SINAMICS families",
+      "firmwareScope": "Getting Started 04/2018; firmware V4.7 SP10",
+      "alarmCode": "F31100",
+      "title": {
+        "en": "Zero-mark distance error",
+        "ar": "خطأ في مسافة علامة الصفر",
+        "fr": "Erreur de distance du repère zéro"
+      },
+      "meaning": {
+        "en": "Measured zero-mark distance does not match the parameterized distance.",
+        "ar": "Measured zero-mark distance does not match the parameterized distance.",
+        "fr": "Measured zero-mark distance does not match the parameterized distance."
+      },
+      "source": {
+        "sourceId": "siemens-sinamics-g120d-getting-started-v47sp10",
+        "manualTitle": "SINAMICS G120D Getting Started",
+        "revision": "04/2018; firmware V4.7 SP10",
+        "section": "6.4 List of alarms and faults",
+        "printedPage": 88,
+        "manualUrl": "https://support.industry.siemens.com/cs/attachments/109757509/G120D_getting_started_0418_en-US.pdf",
+        "evidenceSummary": "The official manual section 6.4 lists the exact code and description; summaries are paraphrased."
+      },
+      "safeChecks": {
+        "en": [
+          "Check encoder cable routing for EMC, connectors, encoder type, and configured zero-mark distance parameters.",
+          "Record full code, fault value, encoder/drive model and firmware before reset."
+        ],
+        "ar": [
+          "Check encoder cable routing for EMC, connectors, encoder type, and configured zero-mark distance parameters.",
+          "سجّل الرمز وقيمة العطل وطراز المشفّر والمغير وإصدار البرنامج قبل إعادة الضبط."
+        ],
+        "fr": [
+          "Check encoder cable routing for EMC, connectors, encoder type, and configured zero-mark distance parameters.",
+          "Consigner le code, la valeur du défaut, le modèle codeur/variateur et le firmware avant réinitialisation."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate recurring encoder faults, unexplained motion, or any need for live electrical access.",
+        "ar": "صعّد عند تكرار أعطال المشفّر أو الحركة غير المتوقعة أو الحاجة إلى تدخل كهربائي تحت الجهد.",
+        "fr": "Escalader en cas de défaut codeur récurrent, mouvement inattendu ou intervention sous tension."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Applies to the cited G120D documentation and firmware context. Check the current List Manual for the installed version."
+    },
+    {
+      "id": "sinamics-g120d-f31101",
+      "recordType": "alarm-code",
+      "manufacturer": "Siemens",
+      "productFamily": "SINAMICS G120D",
+      "modelScope": "SINAMICS G120D converter; do not generalize to other SINAMICS families",
+      "firmwareScope": "Getting Started 04/2018; firmware V4.7 SP10",
+      "alarmCode": "F31101",
+      "title": {
+        "en": "Zero mark failed",
+        "ar": "فشل علامة الصفر",
+        "fr": "Repère zéro manquant"
+      },
+      "meaning": {
+        "en": "The manual lists a zero-mark failure for the encoder system.",
+        "ar": "The manual lists a zero-mark failure for the encoder system.",
+        "fr": "The manual lists a zero-mark failure for the encoder system."
+      },
+      "source": {
+        "sourceId": "siemens-sinamics-g120d-getting-started-v47sp10",
+        "manualTitle": "SINAMICS G120D Getting Started",
+        "revision": "04/2018; firmware V4.7 SP10",
+        "section": "6.4 List of alarms and faults",
+        "printedPage": 88,
+        "manualUrl": "https://support.industry.siemens.com/cs/attachments/109757509/G120D_getting_started_0418_en-US.pdf",
+        "evidenceSummary": "The official manual section 6.4 lists the exact code and description; summaries are paraphrased."
+      },
+      "safeChecks": {
+        "en": [
+          "Capture the fault value and encoder diagnostics; inspect cabling/connectors only under the approved isolation procedure; consult the full List Manual for the configured encoder.",
+          "Record full code, fault value, encoder/drive model and firmware before reset."
+        ],
+        "ar": [
+          "Capture the fault value and encoder diagnostics; inspect cabling/connectors only under the approved isolation procedure; consult the full List Manual for the configured encoder.",
+          "سجّل الرمز وقيمة العطل وطراز المشفّر والمغير وإصدار البرنامج قبل إعادة الضبط."
+        ],
+        "fr": [
+          "Capture the fault value and encoder diagnostics; inspect cabling/connectors only under the approved isolation procedure; consult the full List Manual for the configured encoder.",
+          "Consigner le code, la valeur du défaut, le modèle codeur/variateur et le firmware avant réinitialisation."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate recurring encoder faults, unexplained motion, or any need for live electrical access.",
+        "ar": "صعّد عند تكرار أعطال المشفّر أو الحركة غير المتوقعة أو الحاجة إلى تدخل كهربائي تحت الجهد.",
+        "fr": "Escalader en cas de défaut codeur récurrent, mouvement inattendu ou intervention sous tension."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Applies to the cited G120D documentation and firmware context. Check the current List Manual for the installed version."
+    },
+    {
+      "id": "sinamics-g120d-f31118",
+      "recordType": "alarm-code",
+      "manufacturer": "Siemens",
+      "productFamily": "SINAMICS G120D",
+      "modelScope": "SINAMICS G120D converter; do not generalize to other SINAMICS families",
+      "firmwareScope": "Getting Started 04/2018; firmware V4.7 SP10",
+      "alarmCode": "F31118",
+      "title": {
+        "en": "Speed difference outside tolerance",
+        "ar": "فرق السرعة خارج حدود السماح",
+        "fr": "Écart de vitesse hors tolérance"
+      },
+      "meaning": {
+        "en": "For an HTL/TTL encoder, speed difference exceeded configured tolerance over several sampling cycles.",
+        "ar": "For an HTL/TTL encoder, speed difference exceeded configured tolerance over several sampling cycles.",
+        "fr": "For an HTL/TTL encoder, speed difference exceeded configured tolerance over several sampling cycles."
+      },
+      "source": {
+        "sourceId": "siemens-sinamics-g120d-getting-started-v47sp10",
+        "manualTitle": "SINAMICS G120D Getting Started",
+        "revision": "04/2018; firmware V4.7 SP10",
+        "section": "6.4 List of alarms and faults",
+        "printedPage": 88,
+        "manualUrl": "https://support.industry.siemens.com/cs/attachments/109757509/G120D_getting_started_0418_en-US.pdf",
+        "evidenceSummary": "The official manual section 6.4 lists the exact code and description; summaries are paraphrased."
+      },
+      "safeChecks": {
+        "en": [
+          "Check encoder cable continuity and shield grounding; confirm encoder type and configured tolerance in the exact drive project.",
+          "Record full code, fault value, encoder/drive model and firmware before reset."
+        ],
+        "ar": [
+          "Check encoder cable continuity and shield grounding; confirm encoder type and configured tolerance in the exact drive project.",
+          "سجّل الرمز وقيمة العطل وطراز المشفّر والمغير وإصدار البرنامج قبل إعادة الضبط."
+        ],
+        "fr": [
+          "Check encoder cable continuity and shield grounding; confirm encoder type and configured tolerance in the exact drive project.",
+          "Consigner le code, la valeur du défaut, le modèle codeur/variateur et le firmware avant réinitialisation."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate recurring encoder faults, unexplained motion, or any need for live electrical access.",
+        "ar": "صعّد عند تكرار أعطال المشفّر أو الحركة غير المتوقعة أو الحاجة إلى تدخل كهربائي تحت الجهد.",
+        "fr": "Escalader en cas de défaut codeur récurrent, mouvement inattendu ou intervention sous tension."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Applies to the cited G120D documentation and firmware context. Check the current List Manual for the installed version."
+    },
+    {
+      "id": "sinamics-g120d-f32110",
+      "recordType": "alarm-code",
+      "manufacturer": "Siemens",
+      "productFamily": "SINAMICS G120D",
+      "modelScope": "SINAMICS G120D converter; do not generalize to other SINAMICS families",
+      "firmwareScope": "Getting Started 04/2018; firmware V4.7 SP10",
+      "alarmCode": "F32110",
+      "title": {
+        "en": "Serial communication error",
+        "ar": "خطأ اتصال تسلسلي",
+        "fr": "Erreur de communication série"
+      },
+      "meaning": {
+        "en": "Serial protocol transfer between encoder and inverter is faulty.",
+        "ar": "Serial protocol transfer between encoder and inverter is faulty.",
+        "fr": "Serial protocol transfer between encoder and inverter is faulty."
+      },
+      "source": {
+        "sourceId": "siemens-sinamics-g120d-getting-started-v47sp10",
+        "manualTitle": "SINAMICS G120D Getting Started",
+        "revision": "04/2018; firmware V4.7 SP10",
+        "section": "6.4 List of alarms and faults",
+        "printedPage": 88,
+        "manualUrl": "https://support.industry.siemens.com/cs/attachments/109757509/G120D_getting_started_0418_en-US.pdf",
+        "evidenceSummary": "The official manual section 6.4 lists the exact code and description; summaries are paraphrased."
+      },
+      "safeChecks": {
+        "en": [
+          "Check encoder compatibility, cable/connectors, EMC routing and associated drive settings.",
+          "Record full code, fault value, encoder/drive model and firmware before reset."
+        ],
+        "ar": [
+          "Check encoder compatibility, cable/connectors, EMC routing and associated drive settings.",
+          "سجّل الرمز وقيمة العطل وطراز المشفّر والمغير وإصدار البرنامج قبل إعادة الضبط."
+        ],
+        "fr": [
+          "Check encoder compatibility, cable/connectors, EMC routing and associated drive settings.",
+          "Consigner le code, la valeur du défaut, le modèle codeur/variateur et le firmware avant réinitialisation."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate recurring encoder faults, unexplained motion, or any need for live electrical access.",
+        "ar": "صعّد عند تكرار أعطال المشفّر أو الحركة غير المتوقعة أو الحاجة إلى تدخل كهربائي تحت الجهد.",
+        "fr": "Escalader en cas de défaut codeur récurrent, mouvement inattendu ou intervention sous tension."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Applies to the cited G120D documentation and firmware context. Check the current List Manual for the installed version."
+    },
+    {
+      "id": "sinamics-g120d-f32111",
+      "recordType": "alarm-code",
+      "manufacturer": "Siemens",
+      "productFamily": "SINAMICS G120D",
+      "modelScope": "SINAMICS G120D converter; do not generalize to other SINAMICS families",
+      "firmwareScope": "Getting Started 04/2018; firmware V4.7 SP10",
+      "alarmCode": "F32111",
+      "title": {
+        "en": "Absolute encoder internal error",
+        "ar": "خطأ داخلي في المشفّر المطلق",
+        "fr": "Erreur interne du codeur absolu"
+      },
+      "meaning": {
+        "en": "The manual groups this code with absolute-encoder internal error.",
+        "ar": "The manual groups this code with absolute-encoder internal error.",
+        "fr": "The manual groups this code with absolute-encoder internal error."
+      },
+      "source": {
+        "sourceId": "siemens-sinamics-g120d-getting-started-v47sp10",
+        "manualTitle": "SINAMICS G120D Getting Started",
+        "revision": "04/2018; firmware V4.7 SP10",
+        "section": "6.4 List of alarms and faults",
+        "printedPage": 88,
+        "manualUrl": "https://support.industry.siemens.com/cs/attachments/109757509/G120D_getting_started_0418_en-US.pdf",
+        "evidenceSummary": "The official manual section 6.4 lists the exact code and description; summaries are paraphrased."
+      },
+      "safeChecks": {
+        "en": [
+          "Record encoder model and fault value; verify encoder supply and follow the manufacturer procedure if internal failure is confirmed.",
+          "Record full code, fault value, encoder/drive model and firmware before reset."
+        ],
+        "ar": [
+          "Record encoder model and fault value; verify encoder supply and follow the manufacturer procedure if internal failure is confirmed.",
+          "سجّل الرمز وقيمة العطل وطراز المشفّر والمغير وإصدار البرنامج قبل إعادة الضبط."
+        ],
+        "fr": [
+          "Record encoder model and fault value; verify encoder supply and follow the manufacturer procedure if internal failure is confirmed.",
+          "Consigner le code, la valeur du défaut, le modèle codeur/variateur et le firmware avant réinitialisation."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate recurring encoder faults, unexplained motion, or any need for live electrical access.",
+        "ar": "صعّد عند تكرار أعطال المشفّر أو الحركة غير المتوقعة أو الحاجة إلى تدخل كهربائي تحت الجهد.",
+        "fr": "Escalader en cas de défaut codeur récurrent, mouvement inattendu ou intervention sous tension."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Applies to the cited G120D documentation and firmware context. Check the current List Manual for the installed version."
+    },
+    {
+      "id": "sinamics-g120d-f32112",
+      "recordType": "alarm-code",
+      "manufacturer": "Siemens",
+      "productFamily": "SINAMICS G120D",
+      "modelScope": "SINAMICS G120D converter; do not generalize to other SINAMICS families",
+      "firmwareScope": "Getting Started 04/2018; firmware V4.7 SP10",
+      "alarmCode": "F32112",
+      "title": {
+        "en": "Absolute encoder internal error",
+        "ar": "خطأ داخلي في المشفّر المطلق",
+        "fr": "Erreur interne du codeur absolu"
+      },
+      "meaning": {
+        "en": "The manual groups this code with absolute-encoder internal error.",
+        "ar": "The manual groups this code with absolute-encoder internal error.",
+        "fr": "The manual groups this code with absolute-encoder internal error."
+      },
+      "source": {
+        "sourceId": "siemens-sinamics-g120d-getting-started-v47sp10",
+        "manualTitle": "SINAMICS G120D Getting Started",
+        "revision": "04/2018; firmware V4.7 SP10",
+        "section": "6.4 List of alarms and faults",
+        "printedPage": 88,
+        "manualUrl": "https://support.industry.siemens.com/cs/attachments/109757509/G120D_getting_started_0418_en-US.pdf",
+        "evidenceSummary": "The official manual section 6.4 lists the exact code and description; summaries are paraphrased."
+      },
+      "safeChecks": {
+        "en": [
+          "Record encoder model and fault value; verify encoder supply and follow the manufacturer procedure if internal failure is confirmed.",
+          "Record full code, fault value, encoder/drive model and firmware before reset."
+        ],
+        "ar": [
+          "Record encoder model and fault value; verify encoder supply and follow the manufacturer procedure if internal failure is confirmed.",
+          "سجّل الرمز وقيمة العطل وطراز المشفّر والمغير وإصدار البرنامج قبل إعادة الضبط."
+        ],
+        "fr": [
+          "Record encoder model and fault value; verify encoder supply and follow the manufacturer procedure if internal failure is confirmed.",
+          "Consigner le code, la valeur du défaut, le modèle codeur/variateur et le firmware avant réinitialisation."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate recurring encoder faults, unexplained motion, or any need for live electrical access.",
+        "ar": "صعّد عند تكرار أعطال المشفّر أو الحركة غير المتوقعة أو الحاجة إلى تدخل كهربائي تحت الجهد.",
+        "fr": "Escalader en cas de défaut codeur récurrent, mouvement inattendu ou intervention sous tension."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Applies to the cited G120D documentation and firmware context. Check the current List Manual for the installed version."
+    },
+    {
+      "id": "sinamics-g120d-a32442",
+      "recordType": "alarm-code",
+      "manufacturer": "Siemens",
+      "productFamily": "SINAMICS G120D",
+      "modelScope": "SINAMICS G120D converter; do not generalize to other SINAMICS families",
+      "firmwareScope": "Getting Started 04/2018; firmware V4.7 SP10",
+      "alarmCode": "A32442",
+      "title": {
+        "en": "Battery voltage pre-alarm",
+        "ar": "إنذار مبكر لانخفاض جهد البطارية",
+        "fr": "Préalarme de tension de batterie"
+      },
+      "meaning": {
+        "en": "Encoder battery voltage pre-alarm.",
+        "ar": "Encoder battery voltage pre-alarm.",
+        "fr": "Encoder battery voltage pre-alarm."
+      },
+      "source": {
+        "sourceId": "siemens-sinamics-g120d-getting-started-v47sp10",
+        "manualTitle": "SINAMICS G120D Getting Started",
+        "revision": "04/2018; firmware V4.7 SP10",
+        "section": "6.4 List of alarms and faults",
+        "printedPage": 89,
+        "manualUrl": "https://support.industry.siemens.com/cs/attachments/109757509/G120D_getting_started_0418_en-US.pdf",
+        "evidenceSummary": "The official manual section 6.4 lists the exact code and description; summaries are paraphrased."
+      },
+      "safeChecks": {
+        "en": [
+          "Confirm exact encoder and specified battery type from its manual; arrange replacement using the specified part/procedure.",
+          "Record full code, fault value, encoder/drive model and firmware before reset."
+        ],
+        "ar": [
+          "Confirm exact encoder and specified battery type from its manual; arrange replacement using the specified part/procedure.",
+          "سجّل الرمز وقيمة العطل وطراز المشفّر والمغير وإصدار البرنامج قبل إعادة الضبط."
+        ],
+        "fr": [
+          "Confirm exact encoder and specified battery type from its manual; arrange replacement using the specified part/procedure.",
+          "Consigner le code, la valeur du défaut, le modèle codeur/variateur et le firmware avant réinitialisation."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate recurring encoder faults, unexplained motion, or any need for live electrical access.",
+        "ar": "صعّد عند تكرار أعطال المشفّر أو الحركة غير المتوقعة أو الحاجة إلى تدخل كهربائي تحت الجهد.",
+        "fr": "Escalader en cas de défaut codeur récurrent, mouvement inattendu ou intervention sous tension."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Applies to the cited G120D documentation and firmware context. Check the current List Manual for the installed version."
+    },
+    {
+      "id": "sinamics-g120p-f30001",
+      "recordType": "alarm-code",
+      "manufacturer": "Siemens",
+      "productFamily": "SINAMICS G120P Cabinet Units",
+      "modelScope": "SINAMICS G120P cabinet units only; not a universal SINAMICS code mapping",
+      "firmwareScope": "Operating Instructions 04/2016",
+      "alarmCode": "F30001",
+      "title": {
+        "en": "Power unit overcurrent",
+        "ar": "زيادة تيار وحدة القدرة",
+        "fr": "Surintensité de l’unité de puissance"
+      },
+      "meaning": {
+        "en": "The power unit detects overcurrent; listed causes include motor/cable short or ground fault, incorrect motor data/connection, supply issues, or a defective power unit.",
+        "ar": "The power unit detects overcurrent; listed causes include motor/cable short or ground fault, incorrect motor data/connection, supply issues, or a defective power unit.",
+        "fr": "The power unit detects overcurrent; listed causes include motor/cable short or ground fault, incorrect motor data/connection, supply issues, or a defective power unit."
+      },
+      "source": {
+        "sourceId": "siemens-sinamics-g120p-operating-instructions-2016",
+        "manualTitle": "SINAMICS G120P Cabinet Units Operating Instructions",
+        "revision": "04/2016; A5E32923362A",
+        "section": "9.5 List of alarms and faults",
+        "printedPage": 473,
+        "manualUrl": "https://support.industry.siemens.com/cs/attachments/109739200/SINAMICS_G120P_Cabinet_en-US.pdf",
+        "evidenceSummary": "The official operating instructions list the exact fault code, cause and checks in section 9.5."
+      },
+      "safeChecks": {
+        "en": [
+          "Under qualified isolation, inspect motor/power cables, verify nameplate data and star/delta connection, and check supply phases; do not increase limits blindly.",
+          "Capture drive status, fault history, motor nameplate and unit order number before parameter changes."
+        ],
+        "ar": [
+          "Under qualified isolation, inspect motor/power cables, verify nameplate data and star/delta connection, and check supply phases; do not increase limits blindly.",
+          "احتفظ بحالة المغير وسجل الأعطال ولوحة بيانات المحرك ورقم الوحدة قبل تغيير المعلمات."
+        ],
+        "fr": [
+          "Under qualified isolation, inspect motor/power cables, verify nameplate data and star/delta connection, and check supply phases; do not increase limits blindly.",
+          "Enregistrer l’état du variateur, l’historique, la plaque moteur et la référence avant toute modification."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate suspected short/ground fault, damaged power module, repeated trip, or any measurement requiring energized access.",
+        "ar": "صعّد عند الاشتباه بقصر أو تماس أرضي أو تلف وحدة القدرة أو تكرر الفصل أو الحاجة إلى قياس تحت الجهد.",
+        "fr": "Escalader en cas de court-circuit, défaut terre, module endommagé, déclenchements répétés ou mesure sous tension."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Applies only to SINAMICS G120P cabinet units and the cited 04/2016 manual."
+    },
+    {
+      "id": "sinamics-g120p-f30002",
+      "recordType": "alarm-code",
+      "manufacturer": "Siemens",
+      "productFamily": "SINAMICS G120P Cabinet Units",
+      "modelScope": "SINAMICS G120P cabinet units only; not a universal SINAMICS code mapping",
+      "firmwareScope": "Operating Instructions 04/2016",
+      "alarmCode": "F30002",
+      "title": {
+        "en": "DC-link overvoltage",
+        "ar": "ارتفاع جهد وصلة التيار المستمر",
+        "fr": "Surtension du circuit intermédiaire CC"
+      },
+      "meaning": {
+        "en": "DC-link voltage overvoltage.",
+        "ar": "DC-link voltage overvoltage.",
+        "fr": "DC-link voltage overvoltage."
+      },
+      "source": {
+        "sourceId": "siemens-sinamics-g120p-operating-instructions-2016",
+        "manualTitle": "SINAMICS G120P Cabinet Units Operating Instructions",
+        "revision": "04/2016; A5E32923362A",
+        "section": "9.5 List of alarms and faults",
+        "printedPage": 473,
+        "manualUrl": "https://support.industry.siemens.com/cs/attachments/109739200/SINAMICS_G120P_Cabinet_en-US.pdf",
+        "evidenceSummary": "The official operating instructions list the exact fault code, cause and checks in section 9.5."
+      },
+      "safeChecks": {
+        "en": [
+          "Review deceleration ramp, line voltage and line phases against the exact application and manual.",
+          "Capture drive status, fault history, motor nameplate and unit order number before parameter changes."
+        ],
+        "ar": [
+          "Review deceleration ramp, line voltage and line phases against the exact application and manual.",
+          "احتفظ بحالة المغير وسجل الأعطال ولوحة بيانات المحرك ورقم الوحدة قبل تغيير المعلمات."
+        ],
+        "fr": [
+          "Review deceleration ramp, line voltage and line phases against the exact application and manual.",
+          "Enregistrer l’état du variateur, l’historique, la plaque moteur et la référence avant toute modification."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate suspected short/ground fault, damaged power module, repeated trip, or any measurement requiring energized access.",
+        "ar": "صعّد عند الاشتباه بقصر أو تماس أرضي أو تلف وحدة القدرة أو تكرر الفصل أو الحاجة إلى قياس تحت الجهد.",
+        "fr": "Escalader en cas de court-circuit, défaut terre, module endommagé, déclenchements répétés ou mesure sous tension."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Applies only to SINAMICS G120P cabinet units and the cited 04/2016 manual."
+    },
+    {
+      "id": "sinamics-g120p-f30003",
+      "recordType": "alarm-code",
+      "manufacturer": "Siemens",
+      "productFamily": "SINAMICS G120P Cabinet Units",
+      "modelScope": "SINAMICS G120P cabinet units only; not a universal SINAMICS code mapping",
+      "firmwareScope": "Operating Instructions 04/2016",
+      "alarmCode": "F30003",
+      "title": {
+        "en": "DC-link undervoltage",
+        "ar": "انخفاض جهد وصلة التيار المستمر",
+        "fr": "Sous-tension du circuit intermédiaire CC"
+      },
+      "meaning": {
+        "en": "DC-link voltage undervoltage.",
+        "ar": "DC-link voltage undervoltage.",
+        "fr": "DC-link voltage undervoltage."
+      },
+      "source": {
+        "sourceId": "siemens-sinamics-g120p-operating-instructions-2016",
+        "manualTitle": "SINAMICS G120P Cabinet Units Operating Instructions",
+        "revision": "04/2016; A5E32923362A",
+        "section": "9.5 List of alarms and faults",
+        "printedPage": 473,
+        "manualUrl": "https://support.industry.siemens.com/cs/attachments/109739200/SINAMICS_G120P_Cabinet_en-US.pdf",
+        "evidenceSummary": "The official operating instructions list the exact fault code, cause and checks in section 9.5."
+      },
+      "safeChecks": {
+        "en": [
+          "Check supply voltage and line phases using an approved safe measurement procedure; capture event timing and load state.",
+          "Capture drive status, fault history, motor nameplate and unit order number before parameter changes."
+        ],
+        "ar": [
+          "Check supply voltage and line phases using an approved safe measurement procedure; capture event timing and load state.",
+          "احتفظ بحالة المغير وسجل الأعطال ولوحة بيانات المحرك ورقم الوحدة قبل تغيير المعلمات."
+        ],
+        "fr": [
+          "Check supply voltage and line phases using an approved safe measurement procedure; capture event timing and load state.",
+          "Enregistrer l’état du variateur, l’historique, la plaque moteur et la référence avant toute modification."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate suspected short/ground fault, damaged power module, repeated trip, or any measurement requiring energized access.",
+        "ar": "صعّد عند الاشتباه بقصر أو تماس أرضي أو تلف وحدة القدرة أو تكرر الفصل أو الحاجة إلى قياس تحت الجهد.",
+        "fr": "Escalader en cas de court-circuit, défaut terre, module endommagé, déclenchements répétés ou mesure sous tension."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Applies only to SINAMICS G120P cabinet units and the cited 04/2016 manual."
+    },
+    {
+      "id": "sinamics-g120p-f30004",
+      "recordType": "alarm-code",
+      "manufacturer": "Siemens",
+      "productFamily": "SINAMICS G120P Cabinet Units",
+      "modelScope": "SINAMICS G120P cabinet units only; not a universal SINAMICS code mapping",
+      "firmwareScope": "Operating Instructions 04/2016",
+      "alarmCode": "F30004",
+      "title": {
+        "en": "Inverter overtemperature",
+        "ar": "ارتفاع حرارة المغير",
+        "fr": "Surchauffe du variateur"
+      },
+      "meaning": {
+        "en": "Inverter overtemperature.",
+        "ar": "Inverter overtemperature.",
+        "fr": "Inverter overtemperature."
+      },
+      "source": {
+        "sourceId": "siemens-sinamics-g120p-operating-instructions-2016",
+        "manualTitle": "SINAMICS G120P Cabinet Units Operating Instructions",
+        "revision": "04/2016; A5E32923362A",
+        "section": "9.5 List of alarms and faults",
+        "printedPage": 473,
+        "manualUrl": "https://support.industry.siemens.com/cs/attachments/109739200/SINAMICS_G120P_Cabinet_en-US.pdf",
+        "evidenceSummary": "The official operating instructions list the exact fault code, cause and checks in section 9.5."
+      },
+      "safeChecks": {
+        "en": [
+          "Check fan operation, permitted ambient conditions and possible motor/load overload; inspect cooling passages after safe isolation.",
+          "Capture drive status, fault history, motor nameplate and unit order number before parameter changes."
+        ],
+        "ar": [
+          "Check fan operation, permitted ambient conditions and possible motor/load overload; inspect cooling passages after safe isolation.",
+          "احتفظ بحالة المغير وسجل الأعطال ولوحة بيانات المحرك ورقم الوحدة قبل تغيير المعلمات."
+        ],
+        "fr": [
+          "Check fan operation, permitted ambient conditions and possible motor/load overload; inspect cooling passages after safe isolation.",
+          "Enregistrer l’état du variateur, l’historique, la plaque moteur et la référence avant toute modification."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate suspected short/ground fault, damaged power module, repeated trip, or any measurement requiring energized access.",
+        "ar": "صعّد عند الاشتباه بقصر أو تماس أرضي أو تلف وحدة القدرة أو تكرر الفصل أو الحاجة إلى قياس تحت الجهد.",
+        "fr": "Escalader en cas de court-circuit, défaut terre, module endommagé, déclenchements répétés ou mesure sous tension."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Applies only to SINAMICS G120P cabinet units and the cited 04/2016 manual."
+    },
+    {
+      "id": "sinamics-g120p-f30011",
+      "recordType": "alarm-code",
+      "manufacturer": "Siemens",
+      "productFamily": "SINAMICS G120P Cabinet Units",
+      "modelScope": "SINAMICS G120P cabinet units only; not a universal SINAMICS code mapping",
+      "firmwareScope": "Operating Instructions 04/2016",
+      "alarmCode": "F30011",
+      "title": {
+        "en": "Line phase failure",
+        "ar": "فقدان طور التغذية",
+        "fr": "Défaut de phase réseau"
+      },
+      "meaning": {
+        "en": "Line phase failure.",
+        "ar": "Line phase failure.",
+        "fr": "Line phase failure."
+      },
+      "source": {
+        "sourceId": "siemens-sinamics-g120p-operating-instructions-2016",
+        "manualTitle": "SINAMICS G120P Cabinet Units Operating Instructions",
+        "revision": "04/2016; A5E32923362A",
+        "section": "9.5 List of alarms and faults",
+        "printedPage": 473,
+        "manualUrl": "https://support.industry.siemens.com/cs/attachments/109739200/SINAMICS_G120P_Cabinet_en-US.pdf",
+        "evidenceSummary": "The official operating instructions list the exact fault code, cause and checks in section 9.5."
+      },
+      "safeChecks": {
+        "en": [
+          "Check input fuses and feeder cables under approved electrical safety procedures; verify supply phases with suitable instruments and qualified personnel.",
+          "Capture drive status, fault history, motor nameplate and unit order number before parameter changes."
+        ],
+        "ar": [
+          "Check input fuses and feeder cables under approved electrical safety procedures; verify supply phases with suitable instruments and qualified personnel.",
+          "احتفظ بحالة المغير وسجل الأعطال ولوحة بيانات المحرك ورقم الوحدة قبل تغيير المعلمات."
+        ],
+        "fr": [
+          "Check input fuses and feeder cables under approved electrical safety procedures; verify supply phases with suitable instruments and qualified personnel.",
+          "Enregistrer l’état du variateur, l’historique, la plaque moteur et la référence avant toute modification."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate suspected short/ground fault, damaged power module, repeated trip, or any measurement requiring energized access.",
+        "ar": "صعّد عند الاشتباه بقصر أو تماس أرضي أو تلف وحدة القدرة أو تكرر الفصل أو الحاجة إلى قياس تحت الجهد.",
+        "fr": "Escalader en cas de court-circuit, défaut terre, module endommagé, déclenchements répétés ou mesure sous tension."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Applies only to SINAMICS G120P cabinet units and the cited 04/2016 manual."
+    },
+    {
+      "id": "melsec-fx5-module-diagnostics",
+      "recordType": "diagnostic-procedure",
+      "manufacturer": "Mitsubishi Electric",
+      "productFamily": "MELSEC iQ-F FX5S / FX5UJ / FX5U / FX5UC",
+      "modelScope": "FX5S, FX5UJ, FX5U and FX5UC CPU/module diagnostics",
+      "firmwareScope": "Not stated in cited source; verify on device.",
+      "alarmCode": null,
+      "title": {
+        "en": "Use module diagnostics before clearing an FX5 PLC error",
+        "ar": "استخدم تشخيص الوحدة قبل مسح عطل PLC من عائلة FX5",
+        "fr": "Utiliser le diagnostic de module avant d’effacer un défaut PLC FX5"
+      },
+      "meaning": {
+        "en": "Module diagnostics shows the current error, details, cause and recommended action; it can identify incorrect parameter settings or program error location.",
+        "ar": "يعرض تشخيص الوحدة العطل الحالي وتفاصيله وسببه والإجراء المقترح؛ وقد يحدد إعداد معلمة غير صحيح أو موضع خطأ في البرنامج.",
+        "fr": "Le diagnostic de module affiche l’erreur courante, ses détails, sa cause et l’action recommandée; il peut repérer un paramètre incorrect ou l’emplacement d’une erreur de programme."
+      },
+      "source": {
+        "sourceId": "mitsubishi-melsec-iqf-fx5-hardware-manual",
+        "manualTitle": "MELSEC iQ-F FX5S/FX5UJ/FX5U/FX5UC User’s Manual (Hardware)",
+        "revision": "Official PDF reviewed 2026-10-24",
+        "section": "17.3 Troubleshooting Using the Engineering Tool → Module diagnostics / Event history",
+        "printedPage": 277,
+        "manualUrl": "https://dl.mitsubishielectric.com/dl/fa/document/manual/plcf/sh082452eng/sh082452engm.pdf",
+        "evidenceSummary": "The official manual documents module diagnostics on printed page 277 and event history on page 278."
+      },
+      "safeChecks": {
+        "en": [
+          "Read current error and details in the engineering tool; save event history before reset or power cycling.",
+          "Back up PLC program, parameters and device memory before changes.",
+          "Do not force outputs or edit a live program without site safety/change-control procedures."
+        ],
+        "ar": [
+          "اقرأ العطل وتفاصيله بأداة البرمجة واحفظ سجل الأحداث قبل إعادة الضبط أو فصل التغذية.",
+          "انسخ البرنامج والمعلمات وذاكرة الأجهزة قبل التغيير.",
+          "لا تفرض مخارج أو تعدّل برنامجًا أثناء التشغيل دون إجراء السلامة وإدارة التغيير."
+        ],
+        "fr": [
+          "Lire l’erreur dans l’outil et sauvegarder l’historique avant réinitialisation.",
+          "Sauvegarder programme, paramètres et mémoire avant modification.",
+          "Ne pas forcer les sorties ni modifier un programme en marche sans procédure de sécurité."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate persistent hardware errors, unexplained output states, safety circuit faults, or recurring errors.",
+        "ar": "صعّد عند استمرار أخطاء العتاد أو حالات مخارج غير مفسرة أو أعطال السلامة أو تكرار الخطأ.",
+        "fr": "Escalader les erreurs matérielles persistantes, sorties inexpliquées, défauts de sécurité ou récidives."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Apply only to the stated model/software scope. Confirm installed manual revision and exact alarm text before action."
+    },
+    {
+      "id": "melsec-fx5-error-severity",
+      "recordType": "diagnostic-rule",
+      "manufacturer": "Mitsubishi Electric",
+      "productFamily": "MELSEC iQ-F FX5S / FX5UJ / FX5U / FX5UC",
+      "modelScope": "FX5S, FX5UJ, FX5U and FX5UC",
+      "firmwareScope": "Not stated in cited source; verify on device.",
+      "alarmCode": null,
+      "title": {
+        "en": "FX5 PLC error severity determines stop or continue behavior",
+        "ar": "تصنيف خطأ PLC من عائلة FX5 يحدد التوقف أو استمرار التنفيذ",
+        "fr": "La gravité d’une erreur FX5 détermine l’arrêt ou la poursuite"
+      },
+      "meaning": {
+        "en": "The hardware manual distinguishes major errors (stop; hardware issue), moderate errors (stop; possible program/parameter setting or temporary noise issue), and minor errors (execution continues).",
+        "ar": "يميّز الدليل بين خطأ كبير يوقف التنفيذ ويرتبط بمشكلة عتادية، وخطأ متوسط يوقف التنفيذ وقد يرتبط بالبرنامج أو المعلمات أو التشويش المؤقت، وخطأ بسيط يستمر معه التنفيذ.",
+        "fr": "Le manuel distingue les erreurs majeures (arrêt, matériel), modérées (arrêt, programme/paramètres ou bruit temporaire) et mineures (l’exécution continue)."
+      },
+      "source": {
+        "sourceId": "mitsubishi-melsec-iqf-fx5-hardware-manual",
+        "manualTitle": "MELSEC iQ-F FX5S/FX5UJ/FX5U/FX5UC User’s Manual (Hardware)",
+        "revision": "Official PDF reviewed 2026-10-24",
+        "section": "17.4 Error Status and Operations on Occurrence of an Error",
+        "printedPage": 279,
+        "manualUrl": "https://dl.mitsubishielectric.com/dl/fa/document/manual/plcf/sh082452eng/sh082452engm.pdf",
+        "evidenceSummary": "The error status table specifies stop/continue behavior and required action for major, moderate and minor errors."
+      },
+      "safeChecks": {
+        "en": [
+          "Record exact error number and severity in the engineering tool.",
+          "For stop errors, identify and correct the cause before recovery; clear only documented continuation errors.",
+          "Preserve event history and backup before program/parameter edits."
+        ],
+        "ar": [
+          "سجّل رقم الخطأ ودرجة الخطورة في أداة البرمجة.",
+          "في أخطاء التوقف، حدّد السبب وصححه قبل الاستعادة؛ لا تمسح إلا أخطاء الاستمرار المسموح بها.",
+          "احتفظ بسجل الأحداث ونسخة احتياطية قبل التعديل."
+        ],
+        "fr": [
+          "Consigner le numéro et la gravité dans l’outil.",
+          "Pour une erreur d’arrêt, corriger la cause avant reprise; n’effacer que les erreurs de continuation documentées.",
+          "Sauvegarder l’historique et le projet avant modification."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate hardware-related stop errors or faults affecting safety interlocks or machine outputs.",
+        "ar": "صعّد أخطاء التوقف المرتبطة بالعتاد أو التي تؤثر في تعشيقات السلامة ومخارج الماكينة.",
+        "fr": "Escalader les arrêts liés au matériel ou touchant les interverrouillages de sécurité/sorties."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Apply only to the stated model/software scope. Confirm installed manual revision and exact alarm text before action."
+    },
+    {
+      "id": "melsec-fx5-preserve-error-history",
+      "recordType": "diagnostic-procedure",
+      "manufacturer": "Mitsubishi Electric",
+      "productFamily": "MELSEC iQ-F FX5S / FX5UJ / FX5U / FX5UC",
+      "modelScope": "FX5 CPU, expansion, intelligent function modules and network-related event history",
+      "firmwareScope": "Not stated in cited source; verify on device.",
+      "alarmCode": null,
+      "title": {
+        "en": "Preserve FX5 event history before reset or power cycle",
+        "ar": "احفظ سجل أحداث FX5 قبل إعادة الضبط أو فصل التغذية",
+        "fr": "Sauvegarder l’historique FX5 avant réinitialisation ou coupure"
+      },
+      "meaning": {
+        "en": "Event history can include CPU, expansion, intelligent module and network errors; events recorded before power-off/reset help identify causes and can be exported as CSV.",
+        "ar": "قد يشمل سجل الأحداث أخطاء CPU والوحدات التوسعية والذكية والشبكة؛ وتساعد الأحداث السابقة لفصل التغذية أو إعادة الضبط على تحديد السبب ويمكن تصديرها إلى CSV.",
+        "fr": "L’historique peut inclure les erreurs CPU, extensions, modules intelligents et réseau; les événements antérieurs à une coupure/réinitialisation aident au diagnostic et peuvent être exportés en CSV."
+      },
+      "source": {
+        "sourceId": "mitsubishi-melsec-iqf-fx5-hardware-manual",
+        "manualTitle": "MELSEC iQ-F FX5S/FX5UJ/FX5U/FX5UC User’s Manual (Hardware)",
+        "revision": "Official PDF reviewed 2026-10-24",
+        "section": "17.3 Troubleshooting Using the Engineering Tool → Event history",
+        "printedPage": 278,
+        "manualUrl": "https://dl.mitsubishielectric.com/dl/fa/document/manual/plcf/sh082452eng/sh082452engm.pdf",
+        "evidenceSummary": "The manual describes event-history scope and CSV export."
+      },
+      "safeChecks": {
+        "en": [
+          "Export event history before acknowledging or clearing errors.",
+          "Record timestamps, CPU/module model, firmware and machine state."
+        ],
+        "ar": [
+          "صدّر سجل الأحداث قبل الإقرار بالأخطاء أو مسحها.",
+          "سجّل الوقت وطراز CPU والوحدات وإصدار البرنامج وحالة الماكينة."
+        ],
+        "fr": [
+          "Exporter l’historique avant acquittement ou effacement.",
+          "Noter l’heure, les modèles CPU/modules, le firmware et l’état machine."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate if history points to network/hardware faults or intermittent errors that cannot be safely reproduced.",
+        "ar": "صعّد إذا أشار السجل إلى أعطال شبكة أو عتاد أو أخطاء متقطعة لا يمكن إعادة إنتاجها بأمان.",
+        "fr": "Escalader si l’historique indique des défauts réseau/matériels ou des erreurs intermittentes."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Apply only to the stated model/software scope. Confirm installed manual revision and exact alarm text before action."
+    },
+    {
+      "id": "mitsubishi-mrj4-al16-al20-encoder-compatibility",
+      "recordType": "compatibility-specific-alarm-note",
+      "manufacturer": "Mitsubishi Electric",
+      "productFamily": "MELSERVO-J4 MR-J4-A",
+      "modelScope": "Only the handbook’s stated transition case: HC-FS/HA-FS motors driven by MR-J4-A with MR-J2S-compatible encoder setting",
+      "firmwareScope": "Not stated in cited source; verify on device.",
+      "alarmCode": null,
+      "title": {
+        "en": "MR-J4 AL.16 / AL.20 may indicate encoder compatibility-setting mismatch in a specific transition setup",
+        "ar": "قد يشير AL.16 أو AL.20 في MR-J4 إلى عدم توافق إعداد المشفّر ضمن حالة انتقال محددة",
+        "fr": "AL.16 / AL.20 sur MR-J4 peuvent signaler un réglage codeur incompatible dans un cas précis"
+      },
+      "meaning": {
+        "en": "The transition handbook states that in the specified HC-FS/HA-FS motor and MR-J4-A setup, an incorrect PC22 encoder setting can cause AL.16 (encoder initial communication error 1) or AL.20 (encoder normal communication error 1).",
+        "ar": "يذكر دليل الانتقال أن إعداد PC22 غير الصحيح في حالة محرك HC-FS/HA-FS مع MR-J4-A قد يؤدي إلى AL.16 (خطأ اتصال أولي للمشفّر) أو AL.20 (خطأ اتصال عادي للمشفّر).",
+        "fr": "Le guide de transition indique qu’un réglage PC22 incorrect, dans le cas moteur HC-FS/HA-FS avec MR-J4-A, peut provoquer AL.16 ou AL.20."
+      },
+      "source": {
+        "sourceId": "mitsubishi-mrj4-transition-handbook",
+        "manualTitle": "Transition from MELSERVO-J2-Super/J2M Series to J4 Series Handbook",
+        "revision": "Official transition handbook reviewed 2026-10-24",
+        "section": "Part 7 Common Reference Material → 4. HC-FS/HA-FS MOTOR DRIVE → 4.1 Parameter setting",
+        "printedPage": null,
+        "manualUrl": "https://dl.mitsubishielectric.com/dl/fa/document/catalog/servo/l03093/l03093e.pdf",
+        "evidenceSummary": "The source explicitly links PC22 encoder compatibility setting with AL.16/AL.20 in the stated migration scenario."
+      },
+      "safeChecks": {
+        "en": [
+          "Confirm exact amplifier suffix, motor and encoder models, and that the machine matches the documented transition case.",
+          "Compare PC22 against exact motor/encoder instructions; do not change parameters based on the alarm alone."
+        ],
+        "ar": [
+          "تحقق من لاحقة المضخم وطرازي المحرك والمشفّر ومطابقة الحالة لسيناريو الانتقال المذكور.",
+          "قارن PC22 بتعليمات المحرك والمشفّر؛ لا تغيّر المعلمات اعتمادًا على الإنذار وحده."
+        ],
+        "fr": [
+          "Confirmer la référence du variateur, du moteur et du codeur et le scénario de transition.",
+          "Comparer PC22 aux instructions exactes; ne pas modifier les paramètres sur la seule base de l’alarme."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate if installed components fall outside the documented case or the alarm persists after the approved setting is verified.",
+        "ar": "صعّد إذا كانت المكونات خارج حالة التوافق الموثقة أو استمر الإنذار بعد التحقق من الإعداد المعتمد.",
+        "fr": "Escalader si les composants sortent du cas documenté ou si l’alarme persiste."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Narrow compatibility note, not a universal diagnostic for AL.16 or AL.20."
+    }
+  ]
+}
