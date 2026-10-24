@@ -2,10 +2,12 @@
 
 Mobile-first progressive web app (PWA) for preliminary industrial-maintenance troubleshooting.
 
-- **Live frontend:** https://belaggouneseifeddine.github.io/ai-maintenance-toolkit/
+- **Live frontend (Cloudflare Pages):** https://maintenance-ai-toolkit.pages.dev/
+- **Fallback frontend (GitHub Pages):** https://belaggouneseifeddine.github.io/ai-maintenance-toolkit/
 - **Repository:** https://github.com/belaggouneseifeddine/ai-maintenance-toolkit
 - **Default branch:** `main`
 - **Languages:** Arabic, French, English
+- **Frontend hosting:** Cloudflare Pages, deployed from `main` by `.github/workflows/deploy-cloudflare-pages.yml`
 - **Backend target:** Cloudflare Workers only
 
 ## Features
