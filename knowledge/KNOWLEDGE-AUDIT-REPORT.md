@@ -59,3 +59,14 @@ This is a conservative string-presence check only. It does not prove that a topi
 - Word counts use whitespace-separated tokens; they are inventory measures, not measures of quality.
 - This audit does not validate technical correctness, OEM applicability, or the evidentiary support of every statement.
 - No source text is fetched by this script and no new technical content is generated.
+
+
+## OEM-specific verified knowledge update (2026-10-24)
+
+- Structured evidence records: **29** in `knowledge/oem-verified-faults.json`.
+- Exact source-reviewed families: Siemens SINUMERIK 840D sl/828D, SINAMICS G120D, SINAMICS G120P; Mitsubishi MELSEC iQ-F FX5 and a narrowly scoped MR-J4 compatibility case; XINJE DS5K servo driver.
+- Official source registry entries: **51**.
+- Retrieval guide: `knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md`, included in Worker-loaded knowledge documents.
+- Every verified record includes source ID/URL, manual title/revision, section, printed page where available, multilingual meaning, safe checks, escalation and review date.
+- Other Chinese OEM families remain in the evidence-acquisition queue until exact model-specific manual passages are reviewed; a portal link alone is not model-verified evidence.
+- This update is on the feature branch; no deployment is implied.
