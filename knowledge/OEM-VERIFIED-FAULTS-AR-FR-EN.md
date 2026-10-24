@@ -3,7 +3,7 @@
 > Verified means the cited official source supports the specific statement below. It does not mean every installation using the same brand behaves identically. Match machine builder, controller/drive model, firmware and manual revision before applying a record.
 
 - Review date: 2026-10-24
-- Existing model-scoped records with official manual evidence: 20
+- Existing model-scoped records with official manual evidence: 29
 - Additional model-specific manual-reviewed structured records: 15 (these are source-verified claims, not field-verified machine diagnoses)
 - Families represented: Siemens SINUMERIK 840D sl/828D, SINAMICS G120D and G120P; Mitsubishi MELSEC iQ-F FX5 and one narrowly scoped MR-J4 encoder-compatibility case.
 - Chinese OEMs are in the evidence acquisition queue until exact code/manual passages are reviewed; portal presence is not a verified fault record.
