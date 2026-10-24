@@ -619,7 +619,7 @@ const checks = [
     assert.ok(html.includes('id="oemLookupCard"') && html.includes('id="oemLookupSearch"'), "Knowledge tab must expose the OEM evidence lookup");
     assert.ok(html.includes('<script src="./oem-lookup.js"></script>'), "OEM lookup script must be loaded by the UI");
     assert.ok(oemLookupSource.includes("./knowledge/oem-verified-faults.json"), "OEM lookup must load the structured evidence database");
-    assert.ok(oemLookupSource.includes("record.source.manualUrl") && oemLookupSource.includes("record.source.section"), "OEM lookup must display source links and manual sections");
+    assert.ok(oemLookupSource.includes("src.manualUrl") && oemLookupSource.includes("src.section"), "OEM lookup must display source links and manual sections");
     assert.ok(cloudflareDeployWorkflow.includes("oem-lookup.js"), "Cloudflare Pages deploy must copy the OEM lookup script");
     assert.ok(cloudflareDeployWorkflow.includes("oem-verified-faults.json"), "Cloudflare Pages smoke test must verify the structured OEM evidence database");
     assert.ok(sw.includes('"./oem-lookup.js"'), "OEM lookup script must be available offline");
