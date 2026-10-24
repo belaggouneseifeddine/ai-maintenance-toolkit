@@ -2,7 +2,7 @@
 
 **Purpose:** a practical index from manufacturer/model families to official documentation portals and structured symptom templates.
 
-**Evidence status:** the case templates are not yet manufacturer-verified fault-code definitions. They intentionally contain no invented alarm numbers, parameter values, or universal reset procedures.
+**Evidence status:** the case templates are not yet manufacturer-verified fault-code definitions. They intentionally contain no invented alarm numbers, parameter values, or universal reset procedures. Do not infer an alarm meaning from a support portal or product-family name.
 
 ## How to turn a template into a verified case
 1. Read the manufacturer and machine nameplate; capture exact model, serial range, control/drive model and firmware.
