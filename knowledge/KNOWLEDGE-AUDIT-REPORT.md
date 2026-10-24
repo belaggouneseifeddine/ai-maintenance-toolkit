@@ -42,7 +42,7 @@ Deterministic inventory of the current repository. This report adds no technical
 
 ## Literal equipment-name coverage proxy
 
-- Equipment-type labels literally present in the concatenated Worker-loaded Markdown: **28/36**.
+- Equipment-type labels literally present in the concatenated Worker-loaded Markdown: **27/36**.
 - Labels with no literal match: boiler, electrical_control, electrical_panel, fan-blower, filtration, fire_safety, industrial_network, refrigeration.
 
 This is a conservative string-presence check only. It does not prove that a topic is technically covered when a label is present, or absent when a synonym or different wording is used.
