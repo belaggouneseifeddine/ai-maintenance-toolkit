@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "title": "OEM and machine-platform index",
-  "purpose": "Discovery index for finding official documents and structuring future model-specific fault records. This is not an alarm-code database.",
+  "purpose": "Discovery index only; official portals help locate manuals but do not prove fault claims. All manufacturer profiles remain portal-only with zero verified alarm-code records. Source-reviewed records are stored separately in knowledge/oem-verified-faults.json.",
   "evidenceStates": [
     "portal-only",
     "manual-found",
@@ -570,5 +570,6 @@
       "notes": "Alarm records reference C80 Series Alarm/Parameter Manual IB-1501560-F; exact machine-tool builder manuals still take precedence. The index remains portal-only; selected manual-reviewed claims are tracked per fault record and are not field-verified.",
       "manualReviewedFaultCount": 6
     }
-  ]
+  ],
+  "relatedEvidenceFile": "knowledge/oem-verified-faults.json"
 }
