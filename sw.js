@@ -1,4 +1,4 @@
-const CACHE_NAME = "maintenance-ai-toolkit-v37";
+const CACHE_NAME = "maintenance-ai-toolkit-v38";
 const APP_SHELL = [
   "./",
   "./index.html",
