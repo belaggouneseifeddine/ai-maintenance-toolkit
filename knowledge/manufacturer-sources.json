@@ -518,6 +518,16 @@
       "scope": "CNC alarm/parameter manuals, PLC interface/programming, maintenance and setup manuals. Select the exact controller series and manual revision.",
       "status": "official-manual-library-exact-series-required",
       "redistribution": "link-only; follow publisher terms"
+    },
+    {
+      "id": "xinje-ds5k-servo-driver-user-manual",
+      "publisher": "Wuxi XINJE Electric Co., Ltd.",
+      "title": "DS5K Series Servo Driver User Manual",
+      "url": "https://cdn-en.xinje.com/DS5K%20servo%20manual.pdf",
+      "type": "exact-servo-family-manual",
+      "scope": "DS5K series; Data No. SC5 03 20230427EN; alarm sections 7.1–7.2, printed pages 172–181",
+      "status": "manual-content-reviewed-for-listed-records",
+      "redistribution": "link-and-original-summary-only"
     }
   ]
 }
