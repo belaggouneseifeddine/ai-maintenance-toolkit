@@ -214,3 +214,21 @@ test("local diagnostic UI does not present match points or possible causes as pr
   assert.match(html, /Match points \(not probability\)/);
   assert.match(html, /Possible causes to check/);
 });
+
+test("review-only Algerian Arabic aliases are not auto-mapped and explain how to recover", () => {
+  const result = diagnose({ equipmentType: "pompa", symptom: "low_flow", observations: "", language: "ar" }, faults);
+  assert.equal(result.matched, false);
+  assert.equal(result.results.length, 0);
+  assert.ok(Array.isArray(result.normalizationReview));
+  assert.equal(result.normalizationReview.length, 1);
+  assert.match(result.reason, /لم يُحوَّل تلقائيًا/);
+  assert.match(result.reason, /pump/);
+});
+
+test("review-only French/dialect aliases explain the unconfirmed mapping without inventing a match", () => {
+  const result = diagnose({ equipmentType: "motor", symptom: "ma yhabch ydemarri", observations: "", language: "fr" }, faults);
+  assert.equal(result.matched, false);
+  assert.equal(result.results.length, 0);
+  assert.match(result.reason, /alias à vérifier/);
+  assert.match(result.reason, /not_start/);
+});
