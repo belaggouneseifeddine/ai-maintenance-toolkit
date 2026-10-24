@@ -94,7 +94,8 @@ The branch catalogue is larger than the active PR set. The comparisons above pri
 
 - No secrets were read or included.
 - No branch was merged; no deployment workflow was manually invoked.
-- Automated results must be taken from the new branch's Actions run after the commit. Until such a run is observed, tests are **added but not yet confirmed passing**.
+- A lightweight JavaScript harness executed the seven local-reasoning test callbacks and twelve existing diagnostic-engine test callbacks against the branch files: **19/19 passed**. JavaScript syntax checks and JSON parsing also passed in that harness. This is not the native Node `node --test` runner and is not a GitHub Actions result.
+- The latest commit status exposed only external Vercel build-rate-limit failures; Vercel was not used for deployment. No GitHub Actions run was available to verify the workflow on this branch. Native CI therefore remains **unverified**.
 - The new UI path still requires manual testing on an Android browser and field review by qualified maintenance personnel.
 - No fault cause is claimed as OEM-verified by this increment.
 
