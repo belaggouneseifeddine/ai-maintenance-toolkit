@@ -264,7 +264,7 @@ const checks = [
       "compressor-high-temperature", "compressor-low-pressure"
     ]) assert.ok(ids.includes(id), "missing fault " + id);
     for (const fault of faults.faults) {
-      assert.ok(["pump", "motor", "vfd", "compressor", "electric_motor", "valve", "hydraulic", "pneumatic", "plc", "hmi", "sensor", "instrumentation", "electrical_control", "safety_circuit", "mechanical", "gearbox", "conveyor", "filtration", "heat_exchanger", "cooling", "steam_system", "boiler", "refrigeration", "ups", "power_supply", "electrical_panel", "industrial_network", "robotics", "lubrication", "vacuum", "dust_collector", "fire_safety", "electronics"].includes(fault.equipmentType), fault.id + " has unsupported equipment type");
+      assert.ok(["pump", "motor", "vfd", "compressor", "electric_motor", "valve", "hydraulic", "pneumatic", "plc", "hmi", "sensor", "instrumentation", "electrical_control", "safety_circuit", "mechanical", "gearbox", "conveyor", "filtration", "heat_exchanger", "cooling", "steam_system", "boiler", "refrigeration", "ups", "power_supply", "electrical_panel", "industrial_network", "robotics", "lubrication", "vacuum", "dust_collector", "fire_safety", "electronics", "fan-blower"].includes(fault.equipmentType), fault.id + " has unsupported equipment type");
       for (const language of ["ar", "fr", "en"]) {
         assert.ok(fault.title[language], fault.id + " missing title " + language);
         assert.ok(fault.keywords[language].length >= 3, fault.id + " missing keywords " + language);
