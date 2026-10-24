@@ -274,3 +274,22 @@ Country of manufacture alone does not identify the control platform or fault mea
 - Promote a record to model-verified only after recording the exact model, inspected manual revision, relevant section/page, the supported claim, and review date.
 - Alarm-code databases, electrical values, torque values, and parameter numbers must not be invented to make the catalogue appear more complete.
 
+
+
+## Expanded multilingual fault atlas — October 2026
+
+The structured registry currently targets **more than 200 distinct fault records** across Arabic, French, and English. The expansion covers:
+
+- **Electronics:** 24 V DC supplies, DC ripple, capacitors, analogue I/O, ADC/DAC, optocouplers, relay drivers, MOSFET/IGBT, encoder feedback, watchdog resets, memory integrity, PCB contamination, and electromagnetic interference.
+- **Electrical circuits and protection:** breakers, fuses, contactors, auxiliary feedback, overload relays, phase-loss/sequence checks, earth-leakage protection, control transformers, open control circuits, suspected short circuits, terminal connections, busbars, braking resistors, safety relays, emergency-stop loops, and interlocks.
+- **Industrial operating systems:** PLC CPU/scan time, retentive memory, I/O modules, HMI tag quality, stale SCADA values, time synchronization, PROFINET, Modbus, Fieldbus, servo homing, robot safety stops, industrial PCs, software-version mismatch, and parameter backup.
+- **Machine applications:** CNC axes and tool changers, laser-cutter cooling, injection moulding, extrusion, packaging, textile and printing lines, industrial ovens, compressors, and central lubrication.
+- **Chinese- and European-origin equipment:** records describe common symptom patterns that may occur on machines from either region. They are **not** brand-specific alarm-code databases. For Chinese machines, capture the exact OEM, model, controller/drive make, alarm code, firmware, and translated manual. Apply the same rule to European equipment.
+
+### Record quality and evidence limits
+
+Each new record is a structured troubleshooting hypothesis, not a confirmed diagnosis. Its safe checks prioritize reading logs and labels through approved interfaces, avoiding energized electrical exposure, and requiring qualified isolation before intrusive checks. The generic entries intentionally do not invent voltage/current thresholds, alarm-code meanings, torque values, pressure limits, or replacement part numbers.
+
+Manufacturer portals in `manufacturer-sources.json` are source-discovery routes only. An entry can be promoted to **OEM-verified** only after a reviewer records the exact equipment model, document title and revision, relevant section/page, claim supported by the document, and review date. A general support page does not establish that a suspected cause applies to a particular machine.
+
+**Important implementation note:** the library count alone does not prove that every record is reachable through the current UI's equipment selectors or diagnostic ranking. UI discoverability and representative matching tests must be checked before release.
