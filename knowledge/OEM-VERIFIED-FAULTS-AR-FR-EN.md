@@ -1431,3 +1431,27 @@ Prioritize the next batch by actual installed equipment and available official m
 3. Machine builders: injection moulding, laser cutting, woodworking, packaging, textile and machine-tool OEMs; always capture machine builder and component OEM separately.
 
 Do not mark a case verified until the exact manual and section/page have been checked and the code's meaning is supported in that source. Keep unsupported codes in a separate unverified intake queue.
+
+
+## Added model-specific tranche — Siemens SINAMICS G120C FSD–FSF
+
+**Official document:** [SINAMICS G120C FSD…FSF Compact Operating Instructions](https://support.industry.siemens.com/cs/attachments/109744756/G120C_FSD_F_cmpct_op_instr_1116_en-US.pdf), firmware V4.7 SP6, document A5E39339884B AA, November 2016. See section **5.1, “List of alarms and faults,” printed page 82**.
+
+The following structured entries were added to `faults.json`. The descriptions below are short paraphrases of the manual's table; they apply only to the stated G120C frame range and manual/firmware context, not to every SINAMICS model.
+
+| Fault | Manual description | Manual-listed diagnostic direction |
+|---|---|---|
+| F07860 | External fault 1 | Identify and remove the external cause that triggered the fault. |
+| F07900 | Motor blocked | Check that the motor/load can rotate freely and review the documented positive/negative torque limits. |
+| F07901 | Motor overspeed | The manual points to speed-controller precontrol; any parameter change requires authorized engineering review. |
+| F07902 | Motor stalled | Check motor-data parameterization/identification, documented current-limit parameters, and possible motor-cable disconnection during operation. |
+| F08501 | Setpoint timeout | Check PROFINET connection and controller RUN state; review the documented monitoring-time parameter if repeated. |
+| F08502 | Sign-of-life monitoring time expired | Check the PROFINET connection. |
+| F08526 | No cyclic connection | Check cyclic operation and the documented station-name/IP parameters. |
+
+### Safe-use boundary
+
+- These are **manual-claim-reviewed**, not field-verified cases. A matching code alone does not prove the root cause.
+- Capture the full code, exact drive model, frame size, firmware, connected controller, and machine state before troubleshooting.
+- Do not change speed, torque, current, or network monitoring parameters merely to suppress a fault. Apply the machine's risk assessment, OEM instructions, and authorized change process.
+- Isolate hazardous energy before inspecting wiring or mechanical load. Never touch the DC link unless qualified and the OEM discharge/verification procedure has been completed.
