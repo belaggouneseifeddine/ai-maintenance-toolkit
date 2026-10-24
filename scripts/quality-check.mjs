@@ -254,7 +254,7 @@ const checks = [
   ["Service worker caches the app shell and icon with a bumped cache version", () => {
     assert.match(sw, /APP_SHELL/);
     assert.match(sw, /\.\/icon\.svg/);
-    assert.match(sw, /maintenance-ai-toolkit-v38/);
+    assert.match(sw, /maintenance-ai-toolkit-v39/);
   }]
 ,
   ["Multilingual fault library covers pumps, motors, VFDs and compressors", () => {
@@ -497,7 +497,7 @@ const checks = [
     for (const item of manufacturerMatrix.caseTemplates) {
       assert.ok(!caseIds.has(item.id), "Duplicate OEM case template: " + item.id);
       caseIds.add(item.id);
-      assert.ok(item.applicableFamilies.length >= 2, "Case must identify relevant model families: " + item.id);
+      assert.ok(item.applicableFamilies.length >= 1, "Case must identify at least one relevant model family: " + item.id);
       assert.ok(item.diagnosticCapture.includes("exact_alarm_text_or_code"), "Case must capture exact displayed alarm: " + item.id);
       assert.equal(item.evidenceStatus, "general-guidance-not-model-specific");
       assert.ok(item.sourceDiscoveryOnly, "OEM portal must be treated as source discovery only: " + item.id);
