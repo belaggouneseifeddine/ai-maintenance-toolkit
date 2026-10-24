@@ -1,5 +1,11 @@
 import "./normalization.js";
-const ALLOWED_ORIGIN = "https://belaggouneseifeddine.github.io";
+const ALLOWED_ORIGINS = new Set([
+  "https://maintenance-ai-toolkit.pages.dev",
+  "https://belaggouneseifeddine.github.io"
+]);
+function isAllowedOrigin(origin) {
+  return ALLOWED_ORIGINS.has(origin);
+}
 const MAX_BODY_BYTES = 8192;
 const LANGUAGES = new Set(["ar", "fr", "en"]);
 
@@ -412,7 +418,7 @@ function json(data, status, origin) {
       "content-type": "application/json; charset=utf-8",
       "cache-control": "no-store",
       "vary": "Origin",
-      "access-control-allow-origin": origin === ALLOWED_ORIGIN ? ALLOWED_ORIGIN : "null",
+      "access-control-allow-origin": isAllowedOrigin(origin) ? origin : "null",
       "access-control-allow-methods": "POST, OPTIONS",
       "access-control-allow-headers": "Content-Type"
     }
@@ -430,7 +436,7 @@ export default {
     if (url.pathname !== "/api/chat") return json({ error: "Not found." }, 404, origin);
     if (request.method === "OPTIONS") {
       return new Response(null, { status: 204, headers: {
-        "access-control-allow-origin": origin === ALLOWED_ORIGIN ? ALLOWED_ORIGIN : "null",
+        "access-control-allow-origin": isAllowedOrigin(origin) ? origin : "null",
         "access-control-allow-methods": "POST, OPTIONS",
         "access-control-allow-headers": "Content-Type",
         "access-control-max-age": "86400",
@@ -438,9 +444,9 @@ export default {
       }});
     }
     // Return a clear method error for direct browser navigation (GET) before checking Origin.
-    // Actual diagnosis requests must still be POSTs from the allowlisted GitHub Pages origin.
+    // Actual diagnosis requests must still be POSTs from an explicitly allowlisted published app origin.
     if (request.method !== "POST") return json({ error: "Use POST." }, 405, origin);
-    if (origin !== ALLOWED_ORIGIN) return json({ error: "Origin not allowed. Open the published Maintenance AI Toolkit app and submit the diagnosis form; /api/chat is not a browser page and requires a POST request from the allowed app origin." }, 403, origin);
+    if (!isAllowedOrigin(origin)) return json({ error: "Origin not allowed. Open the published Maintenance AI Toolkit app and submit the diagnosis form; /api/chat is not a browser page and requires a POST request from the allowed app origin." }, 403, origin);
     const apiKey = env.GEMINI_API_KEY || env.AI_API_KEY; // Prefer the requested secret; legacy fallback prevents an unplanned outage.
     if (!(request.headers.get("content-type") || "").toLowerCase().includes("application/json")) {
       return json({ error: "Content-Type must be application/json." }, 415, origin);
