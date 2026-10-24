@@ -508,6 +508,16 @@
       "scope": "SINUMERIK 828D CNC software 4.95 and SINAMICS S120 version 5.2 SP3; 07/2021 edition; manual contains NC, SINAMICS, I/O and PLC alarm chapters",
       "status": "official-manual-discovered-pending-code-level-review",
       "redistribution": "link-only-until-reviewed"
+    },
+    {
+      "id": "mitsubishi-cnc-manuals",
+      "publisher": "Mitsubishi Electric CNC",
+      "title": "Official CNC manuals — C80 and M800/M80/E80 families",
+      "url": "https://www.mitsubishielectric-cnc.com/manuals/",
+      "type": "manufacturer-manual-library",
+      "scope": "CNC alarm/parameter manuals, PLC interface/programming, maintenance and setup manuals. Select the exact controller series and manual revision.",
+      "status": "official-manual-library-exact-series-required",
+      "redistribution": "link-only; follow publisher terms"
     }
   ]
 }
