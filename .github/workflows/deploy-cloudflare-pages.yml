@@ -59,11 +59,11 @@ jobs:
       - name: Smoke-test Cloudflare Pages production URL
         run: |
           for attempt in 1 2 3 4 5 6; do
-            if curl --fail --silent --show-error https://maintenance-ai-toolkit.pages.dev/ -o /tmp/maintenance-index.html               && curl --fail --silent --show-error https://maintenance-ai-toolkit.pages.dev/diagnostic-engine.js -o /tmp/maintenance-engine.js               && curl --fail --silent --show-error https://maintenance-ai-toolkit.pages.dev/knowledge/manufacturer-sources.json -o /tmp/maintenance-sources.json \\
-              && curl --fail --silent --show-error https://maintenance-ai-toolkit.pages.dev/knowledge/oem-verified-faults.json -o /tmp/maintenance-oem-faults.json; then
+            if curl --fail --silent --show-error https://maintenance-ai-toolkit.pages.dev/ -o /tmp/maintenance-index.html && curl --fail --silent --show-error https://maintenance-ai-toolkit.pages.dev/diagnostic-engine.js -o /tmp/maintenance-engine.js && curl --fail --silent --show-error https://maintenance-ai-toolkit.pages.dev/knowledge/manufacturer-sources.json -o /tmp/maintenance-sources.json && curl --fail --silent --show-error https://maintenance-ai-toolkit.pages.dev/knowledge/oem-verified-faults.json -o /tmp/maintenance-oem-faults.json; then
               grep -q "maintenance" /tmp/maintenance-index.html
               grep -q "retrieveLocalKnowledge" /tmp/maintenance-engine.js
-              grep -q "grundfos-hydro-en" /tmp/maintenance-sources.json\n              grep -q '"recordCount": 66' /tmp/maintenance-oem-faults.json
+              grep -q "grundfos-hydro-en" /tmp/maintenance-sources.json
+              grep -q '"recordCount": 66' /tmp/maintenance-oem-faults.json
               echo "Cloudflare Pages production smoke test passed."
               exit 0
             fi
