@@ -32,14 +32,14 @@ vm.runInNewContext(diagnosticEngineSource, engineContext);
 
 const checks = [
   ["Local agent core is explicitly loaded and offers a non-network diagnosis action", () => {
-    assert.match(html, /<script src="\\.\\/engineering-core\\.js"><\\/script>/);
-    assert.match(html, /<script src="\\.\\/agent-core\\.js"><\\/script>/);
-    assert.match(html, /<script src="\\.\\/agent-ui\\.js"><\\/script>/);
-    assert.match(html, /id="runLocalAgent"/);
-    assert.match(deployWorkflow, /engineering-core\\.js agent-core\\.js agent-ui\\.js/);
-    assert.match(sw, /"\\.\\/engineering-core\\.js"/);
-    assert.match(sw, /"\\.\\/agent-core\\.js"/);
-    assert.match(sw, /"\\.\\/agent-ui\\.js"/);
+    assert.ok(html.includes('<script src="./engineering-core.js"></script>'));
+    assert.ok(html.includes('<script src="./agent-core.js"></script>'));
+    assert.ok(html.includes('<script src="./agent-ui.js"></script>'));
+    assert.ok(html.includes('id="runLocalAgent"'));
+    assert.ok(deployWorkflow.includes("engineering-core.js agent-core.js agent-ui.js"));
+    assert.ok(sw.includes('"./engineering-core.js"'));
+    assert.ok(sw.includes('"./agent-core.js"'));
+    assert.ok(sw.includes('"./agent-ui.js"'));
   }],
   ["Shared normalization is loaded by the UI, Worker and Pages deployment", () => {
     assert.match(html, /<script src="\.\/normalization\.js"><\/script>/);
