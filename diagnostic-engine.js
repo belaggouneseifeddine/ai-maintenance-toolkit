@@ -170,6 +170,33 @@
     safety: [{id:"osha-loto",title:"OSHA 29 CFR 1910.147 — hazardous-energy control (safety context only)",url:"https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910.147",status:"safety-reference-not-fault-cause"}]
   };
 
+  /* Compact local excerpt index paraphrased from the repository knowledge base.
+   * It is intentionally not presented as an OEM manual or claim-verified evidence. */
+  const LOCAL_KNOWLEDGE_INDEX = [
+    {id:"kb-pump-noise",equipment:"pump",symptom:"noise",heading:"Pump noise / vibration",excerpt:"Noise can fit several patterns including suction conditions, mounting/alignment, bearing condition, or a process change. The symptom alone does not identify the failed part; compare safe trend data and the exact model manual.",sourceId:"repo-industrial-knowledge",sourceTitle:"Industrial fault knowledge base (general guidance)",sourceUrl:"https://github.com/belaggouneseifeddine/ai-maintenance-toolkit/blob/main/knowledge/INDUSTRIAL-FAULT-KNOWLEDGE-BASE.md",sourceStatus:"repository-general-guidance-not-OEM-verified",keywords:["noise","bruit","ضجيج","vibration","اهتزاز","bearing","محمل","suction","سحب"]},
+    {id:"kb-pump-low-flow",equipment:"pump",symptom:"low_flow",heading:"Pump low flow",excerpt:"Compare source level, suction and discharge indicators, and flow with the approved baseline and exact pump curve. Consider supply, flow-path restriction, valve position, or operating conditions; do not invent pressure or flow limits.",sourceId:"doe-pump-sourcebook",sourceTitle:"DOE / Hydraulic Institute pump-system sourcebook (general reference)",sourceUrl:"https://www.energy.gov/sites/prod/files/2014/05/f16/pump.pdf",sourceStatus:"general-reference-not-model-specific",keywords:["flow","débit","تدفق","pressure","pression","ضغط","suction","aspiration","سحب","valve","صمام","filter","مرشح"]},
+    {id:"kb-pump-leak",equipment:"pump",symptom:"leak",heading:"Pump leak",excerpt:"Identify the fluid and leak location from a safe distance. A leak does not by itself identify a seal or connection failure. Isolate and depressurize according to the equipment/site procedure before intervention.",sourceId:"repo-industrial-knowledge",sourceTitle:"Industrial fault knowledge base (general guidance)",sourceUrl:"https://github.com/belaggouneseifeddine/ai-maintenance-toolkit/blob/main/knowledge/INDUSTRIAL-FAULT-KNOWLEDGE-BASE.md",sourceStatus:"repository-general-guidance-not-OEM-verified",keywords:["seal","garniture","مانع","joint","وصلة","leak","fuite","تسرب"]},
+    {id:"kb-motor-overheat",equipment:"motor",symptom:"overheat",heading:"Electric motor overheating",excerpt:"Review recorded temperature/load trends and externally visible cooling conditions; compare with the nameplate and exact motor manual. Electrical measurements and cabinet work require qualified personnel and the site's isolation procedure.",sourceId:"abb-motor-troubleshooting",sourceTitle:"ABB motor maintenance/troubleshooting reference (check applicability)",sourceUrl:"https://library.e.abb.com/public/c553f9f2138646fbbe2321456a02de51/MN404.pdf",sourceStatus:"manufacturer-reference-scope-needs-model-check",keywords:["temperature","température","حرارة","load","charge","حمل","cooling","refroidissement","تبريد","ventilation","تهوية"]},
+    {id:"kb-motor-noise",equipment:"motor",symptom:"noise",heading:"Motor noise / vibration",excerpt:"Noise or vibration can arise from multiple mechanical or electrical conditions. Record when it began, load context and available trend data; stop for sudden/severe changes and inspect rotating components only after isolation.",sourceId:"repo-industrial-knowledge",sourceTitle:"Industrial fault knowledge base (general guidance)",sourceUrl:"https://github.com/belaggouneseifeddine/ai-maintenance-toolkit/blob/main/knowledge/INDUSTRIAL-FAULT-KNOWLEDGE-BASE.md",sourceStatus:"repository-general-guidance-not-OEM-verified",keywords:["bearing","roulement","محمل","alignment","alignement","محاذاة","vibration","اهتزاز"]},
+    {id:"kb-compressor-low-pressure",equipment:"compressor",symptom:"low_pressure",heading:"Compressed-air low pressure",excerpt:"Compare compressor outlet and point-of-use pressure under similar demand conditions. A pressure drop can involve distribution, leaks, filters, dryers, controls or demand; do not assume the compressor itself is the cause or change setpoints without the exact manual.",sourceId:"doe-compressed-air-sourcebook",sourceTitle:"DOE compressed-air sourcebook (general reference)",sourceUrl:"https://www1.eere.energy.gov/manufacturing/tech_assistance/pdfs/compressed_air_sourcebook.pdf",sourceStatus:"general-reference-not-model-specific",keywords:["pressure","pression","ضغط","filter","filtre","مرشح","leak","fuite","تسرب","demand","demande","طلب"]},
+    {id:"kb-compressor-overheat",equipment:"compressor",symptom:"overheat",heading:"Compressor high temperature",excerpt:"Record the exact alarm, model, operating context and available temperature trends. Review cooling, load and maintenance history against the model-specific manual; do not select a troubleshooting table from a general document portal by guess.",sourceId:"ingersoll-rand-reciprocating-compressor-documents",sourceTitle:"Ingersoll Rand compressor document portal (select exact model manual)",sourceUrl:"https://www.ingersollrand.com/en-us/resources/knowledge-hub/reciprocating-compressor-documents/",sourceStatus:"portal-only-exact-manual-not-selected",keywords:["temperature","température","حرارة","cooling","refroidissement","تبريد","oil","huile","زيت","load","charge","حمل"]},
+    {id:"kb-valve-no-start",equipment:"valve",symptom:"not_start",heading:"Actuated valve does not move",excerpt:"Review command, permissives, alarm history, position feedback and available actuator-supply indicators from an authorized interface. Do not force movement or bypass interlocks; follow the exact actuator/valve manual.",sourceId:"repo-industrial-knowledge",sourceTitle:"Industrial fault knowledge base (general guidance)",sourceUrl:"https://github.com/belaggouneseifeddine/ai-maintenance-toolkit/blob/main/knowledge/INDUSTRIAL-FAULT-KNOWLEDGE-BASE.md",sourceStatus:"repository-general-guidance-not-OEM-verified",keywords:["command","commande","أمر","position","position","موضع","interlock","permissive","سماح","supply","alimentation","تغذية"]},
+    {id:"kb-conveyor-noise",equipment:"conveyor",symptom:"noise",heading:"Conveyor noise",excerpt:"Record the noise location and when it occurs. Possible areas include bearings, rollers, alignment or loading, but noise alone is not a diagnosis. Stop, isolate and secure movement before inspection; keep clear of nip points.",sourceId:"repo-industrial-knowledge",sourceTitle:"Industrial fault knowledge base (general guidance)",sourceUrl:"https://github.com/belaggouneseifeddine/ai-maintenance-toolkit/blob/main/knowledge/INDUSTRIAL-FAULT-KNOWLEDGE-BASE.md",sourceStatus:"repository-general-guidance-not-OEM-verified",keywords:["bearing","roulement","محمل","roller","rouleau","بكرة","alignment","محاذاة","load","charge","حمل"]}
+  ];
+
+  function retrieveLocalKnowledge(equipment, catalogSymptom, observations) {
+    return LOCAL_KNOWLEDGE_INDEX.map(item => {
+      const equipmentMatch = item.equipment === equipment;
+      const symptomMatch = item.symptom === catalogSymptom ||
+        (item.symptom === "noise" && catalogSymptom === "vibration");
+      const matchedKeywords = findMatches(observations, item.keywords);
+      const score = (equipmentMatch ? 4 : 0) + (symptomMatch ? 3 : 0) + Math.min(matchedKeywords.length, 2);
+      return { ...item, matchedKeywords, score, equipmentMatch, symptomMatch, evidenceClass:"general-knowledge-note-not-OEM-verified" };
+    }).filter(item => item.equipmentMatch && (item.symptomMatch || item.matchedKeywords.length > 0) && item.score >= 4)
+      .sort((a,b) => b.score - a.score || a.heading.localeCompare(b.heading))
+      .slice(0,3);
+  }
+
   function analyse(input, library) {
     const value = input || {};
     const language = ["ar","fr","en"].includes(value.language) ? value.language : "ar";
@@ -226,6 +253,7 @@
     if (!value.machine && !value.equipmentType) missing.push(language==="ar" ? "حدّد نوع المعدة بدقة." : language==="fr" ? "Précisez le type d’équipement." : "Identify the equipment type.");
     if (!value.symptom || symptom === "other") missing.push(language==="ar" ? "صف العَرَض بصورة قابلة للملاحظة." : language==="fr" ? "Décrivez le symptôme observable." : "Describe the observable symptom.");
     if (!observations.trim()) missing.push(language==="ar" ? "أضف ملاحظات أو قياسات مسجلة مع الوحدات إن توفرت." : language==="fr" ? "Ajoutez des observations ou mesures enregistrées avec unités si disponibles." : "Add recorded observations or measurements with units if available.");
+    const retrievedKnowledge = retrieveLocalKnowledge(equipment, catalogSymptom, observations);
     const references = (GENERAL_REFERENCES[equipment] || []).slice();
     if (equipment === "pump" && /grundfos/i.test(String(value.manufacturer||"") + " " + String(value.manualRef||"")) && /hydro\s*en/i.test(String(value.model||"") + " " + String(value.manualRef||"")) && /(firefighting|fire protection|sprinkler|مكافحة الحريق|إطفاء)/i.test(String(value.application||"") + " " + String(value.manualRef||""))) {
       references.push({id:"grundfos-hydro-en",title:"Grundfos Hydro EN — section 13 fault-finding headings only; detailed cause table not verified",url:"https://api.grundfos.com/literature/Grundfosliterature-6819528.pdf",status:"scope-gated-heading-only-not-evidence-for-cause"});
@@ -240,6 +268,7 @@
       symptom,
       matched: local.matched,
       hypotheses: hypotheses.slice(0,3),
+      retrievedKnowledge,
       mode: usedExploratory ? "exploratory" : local.matched ? "local-pattern" : "insufficient",
       confirmedCause: "",
       missing,
@@ -286,6 +315,21 @@
       }
       const check = doc.createElement("p"); check.textContent = (lang==="ar" ? "الخطوة التالية الآمنة: " : lang==="fr" ? "Prochaine vérification sûre : " : "Next safe check: ") + hypothesis.nextCheck; block.appendChild(check);
       card.appendChild(block);
+    }
+    if (result.retrievedKnowledge && result.retrievedKnowledge.length) {
+      const knowledgeTitle = doc.createElement("h4");
+      knowledgeTitle.textContent = lang==="ar" ? "مقتطفات معرفة محلية ذات صلة" : lang==="fr" ? "Extraits locaux pertinents" : "Relevant local knowledge excerpts";
+      card.appendChild(knowledgeTitle);
+      for (const chunk of result.retrievedKnowledge) {
+        const block = doc.createElement("article"); block.className = "record";
+        const heading = doc.createElement("h4"); heading.textContent = chunk.heading; block.appendChild(heading);
+        const excerpt = doc.createElement("p"); excerpt.textContent = chunk.excerpt; block.appendChild(excerpt);
+        const source = doc.createElement("p");
+        const link = doc.createElement("a"); link.href = chunk.sourceUrl; link.target = "_blank"; link.rel = "noopener noreferrer"; link.textContent = chunk.sourceTitle;
+        source.appendChild(link);
+        const status = doc.createElement("small"); status.textContent = " — " + chunk.sourceStatus; source.appendChild(status);
+        block.appendChild(source); card.appendChild(block);
+      }
     }
     for (const ref of result.references) {
       const p = doc.createElement("p");
@@ -336,7 +380,7 @@
     });
   }
 
-  const api = { normalizeText, canonicalEquipment, canonicalSymptom, diagnose, analyse, renderLocalReasoning, GENERAL_REFERENCES };
+  const api = { normalizeText, canonicalEquipment, canonicalSymptom, diagnose, analyse, renderLocalReasoning, retrieveLocalKnowledge, LOCAL_KNOWLEDGE_INDEX, GENERAL_REFERENCES };
   root.MaintenanceDiagnosticEngine = api;
   root.diagnose = diagnose;
   if (root.document) {
