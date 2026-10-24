@@ -3,9 +3,9 @@
 > Verified means the cited official source supports the specific statement below. It does not mean every installation using the same brand behaves identically. Match machine builder, controller/drive model, firmware and manual revision before applying a record.
 
 - Review date: 2026-10-24
-- Model-scoped records with official manual evidence: 47
+- Model-scoped records with official manual evidence: 53
 - Languages: Arabic, French and English; summaries are paraphrased rather than copied from manuals.
-- Chinese OEM coverage currently includes XINJE DS5K servo drivers and INOVANCE MD200 drives plus H5U PLC indicator diagnostics; this is not yet broad coverage of all Chinese CNC/PLC families.
+- Chinese OEM coverage includes XINJE DS5K servo drivers, XINJE X-NET remote-connection diagnostics, and INOVANCE MD200 drives/H5U PLC indicators; this is not yet broad coverage of all Chinese CNC/PLC families.
 - Other represented families include Siemens SINUMERIK/SINAMICS and Mitsubishi Electric CNC/PLC/servo records.
 - Evidence acquisition queue: INOVANCE H5U fault events and other PLC series, Delta ASDA/PLC, XINJE PLC families, GSK/HuazhongCNC/Syntec/LNC CNC controls, Siemens PLC/CNC, Beckhoff, Bosch Rexroth, Schneider Electric and machine-builder-specific alarm tables.
 - Store concise original summaries and links, not copied manual chapters.
@@ -1241,6 +1241,186 @@ Records describe what the cited manual supports. They do not establish that a pa
 - **التصعيد (AR):** صعّد عند تكرار أخطاء الناقل أو حركة محور غير متوقعة أو فقد اتصال السلامة أو تعذر تحديد الوحدة التابعة إلى مهندس أتمتة مؤهل.
 - **Escalade (FR):** Faire intervenir un automaticien qualifié en cas de défauts bus récurrents, de mouvement inattendu, de perte de communication de sécurité ou d’esclave non identifié.
 - **Limit:** Indicator meaning only; not an EtherCAT fault-code mapping. Exact root cause must come from the installed topology and diagnostic log.
+
+### xinje-xnet-error-1-remote-device-connection
+
+- **Manufacturer / family:** Wuxi XINJE Electric Co., Ltd. — X-NET fieldbus / XINJEConfig remote-connection diagnostics
+- **Scope:** XINJE X-NET fieldbus user manual; remote-connection diagnostic table; Manual Data No. PD06 20151009 3.2; confirm installed XINJEConfig and X-NET versions
+- **Code / event:** 1
+- **Meaning (EN):** The X-NET manual associates code 1 with failure to connect to a remote device and notes that an unstable network environment may contribute.
+- **المعنى (AR):** يربط دليل X-NET الرمز 1 بفشل الاتصال بجهاز بعيد، ويذكر أن عدم استقرار الشبكة قد يساهم في ذلك.
+- **Sens (FR):** Le manuel X-NET associe le code 1 à l’échec de connexion à un appareil distant et indique qu’un réseau instable peut y contribuer.
+- **Official evidence:** X-NET fieldbus User Manual; Data No. PD06 20151009 3.2; 2. Search the device ID → Report error message when building the remote connection.
+- **Source:** https://cdn-en.xinje.com/XNET%20manual.pdf
+- **Evidence note:** The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced.
+- **Review date:** 2026-10-24
+- **Status:** verified-source-exact-scope
+- **Safe checks (EN):**
+- Record the exact error code, software version, remote device ID and time of failure.
+- Check network reachability and the documented remote parameters on both endpoints; compare them with the approved configuration.
+- Do not share passwords in logs or bypass corporate security controls. If the fault persists, preserve logs and escalate to controls/network support.
+- **الفحوص الآمنة (AR):**
+- سجّل رمز الخطأ وإصدار البرنامج ومعرّف الجهاز البعيد ووقت حدوث العطل.
+- تحقق من إمكانية الوصول عبر الشبكة ومن المعلمات البعيدة على الطرفين، وقارنها بالإعداد المعتمد.
+- لا تضع كلمات المرور في السجلات ولا تتجاوز ضوابط أمن الشبكة. إذا استمر العطل، احفظ السجلات وصعّد إلى دعم التحكم/الشبكات.
+- **Contrôles sûrs (FR):**
+- Consigner le code exact, la version logicielle, l’identifiant distant et l’heure de l’incident.
+- Vérifier l’accessibilité réseau et les paramètres distants aux deux extrémités, puis les comparer à la configuration approuvée.
+- Ne pas inclure de mots de passe dans les journaux ni contourner les contrôles de sécurité. En cas de persistance, conserver les journaux et solliciter le support automatismes/réseau.
+- **Escalation (EN):** Escalate persistent errors, unexplained remote sessions or suspected credential/security issues to the automation and IT/network owners.
+- **التصعيد (AR):** صعّد الأخطاء المستمرة أو جلسات الاتصال البعيد غير المفسرة أو الاشتباه في مشكلة بيانات دخول/أمن إلى مسؤولي الأتمتة وتقنية المعلومات/الشبكة.
+- **Escalade (FR):** Faire intervenir les responsables automatismes et informatique/réseau en cas d’erreurs persistantes, de sessions distantes inexpliquées ou de suspicion de problème d’identifiants/sécurité.
+- **Limit:** Applies only to the X-NET/XINJEConfig remote-connection diagnostic table in the cited manual. These are not PLC ladder, servo-drive or machine-builder alarm codes. No printed page number was available in the reviewed extracted text.
+
+### xinje-xnet-error-16-sponsor-not-logged-in
+
+- **Manufacturer / family:** Wuxi XINJE Electric Co., Ltd. — X-NET fieldbus / XINJEConfig remote-connection diagnostics
+- **Scope:** XINJE X-NET fieldbus user manual; remote-connection diagnostic table; Manual Data No. PD06 20151009 3.2; confirm installed XINJEConfig and X-NET versions
+- **Code / event:** 16
+- **Meaning (EN):** The manual labels code 16 as the initiating party not logged in; its note mentions network instability as a possible contributing condition.
+- **المعنى (AR):** يسمّي الدليل الرمز 16 عدم تسجيل الطرف البادئ الدخول، ويذكر أن عدم استقرار الشبكة قد يكون عاملًا مساهمًا.
+- **Sens (FR):** Le manuel décrit le code 16 comme l’absence de connexion de la partie initiatrice; il mentionne une instabilité réseau possible.
+- **Official evidence:** X-NET fieldbus User Manual; Data No. PD06 20151009 3.2; 2. Search the device ID → Report error message when building the remote connection.
+- **Source:** https://cdn-en.xinje.com/XNET%20manual.pdf
+- **Evidence note:** The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced.
+- **Review date:** 2026-10-24
+- **Status:** verified-source-exact-scope
+- **Safe checks (EN):**
+- Record the exact error code, software version, remote device ID and time of failure.
+- Check network reachability and the documented remote parameters on both endpoints; compare them with the approved configuration.
+- Do not share passwords in logs or bypass corporate security controls. If the fault persists, preserve logs and escalate to controls/network support.
+- **الفحوص الآمنة (AR):**
+- سجّل رمز الخطأ وإصدار البرنامج ومعرّف الجهاز البعيد ووقت حدوث العطل.
+- تحقق من إمكانية الوصول عبر الشبكة ومن المعلمات البعيدة على الطرفين، وقارنها بالإعداد المعتمد.
+- لا تضع كلمات المرور في السجلات ولا تتجاوز ضوابط أمن الشبكة. إذا استمر العطل، احفظ السجلات وصعّد إلى دعم التحكم/الشبكات.
+- **Contrôles sûrs (FR):**
+- Consigner le code exact, la version logicielle, l’identifiant distant et l’heure de l’incident.
+- Vérifier l’accessibilité réseau et les paramètres distants aux deux extrémités, puis les comparer à la configuration approuvée.
+- Ne pas inclure de mots de passe dans les journaux ni contourner les contrôles de sécurité. En cas de persistance, conserver les journaux et solliciter le support automatismes/réseau.
+- **Escalation (EN):** Escalate persistent errors, unexplained remote sessions or suspected credential/security issues to the automation and IT/network owners.
+- **التصعيد (AR):** صعّد الأخطاء المستمرة أو جلسات الاتصال البعيد غير المفسرة أو الاشتباه في مشكلة بيانات دخول/أمن إلى مسؤولي الأتمتة وتقنية المعلومات/الشبكة.
+- **Escalade (FR):** Faire intervenir les responsables automatismes et informatique/réseau en cas d’erreurs persistantes, de sessions distantes inexpliquées ou de suspicion de problème d’identifiants/sécurité.
+- **Limit:** Applies only to the X-NET/XINJEConfig remote-connection diagnostic table in the cited manual. These are not PLC ladder, servo-drive or machine-builder alarm codes. No printed page number was available in the reviewed extracted text.
+
+### xinje-xnet-error-17-recipient-not-logged-in
+
+- **Manufacturer / family:** Wuxi XINJE Electric Co., Ltd. — X-NET fieldbus / XINJEConfig remote-connection diagnostics
+- **Scope:** XINJE X-NET fieldbus user manual; remote-connection diagnostic table; Manual Data No. PD06 20151009 3.2; confirm installed XINJEConfig and X-NET versions
+- **Code / event:** 17
+- **Meaning (EN):** The manual labels code 17 as recipient not logged in and directs checking the device ID, BOX/XDE login state, remote parameters and network.
+- **المعنى (AR):** يسمّي الدليل الرمز 17 عدم تسجيل الطرف المستقبِل الدخول، ويوجّه إلى فحص معرّف الجهاز وحالة دخول BOX/XDE والمعلمات البعيدة والشبكة.
+- **Sens (FR):** Le manuel décrit le code 17 comme l’absence de connexion du destinataire et recommande de vérifier l’identifiant, l’état de connexion BOX/XDE, les paramètres distants et le réseau.
+- **Official evidence:** X-NET fieldbus User Manual; Data No. PD06 20151009 3.2; 2. Search the device ID → Report error message when building the remote connection.
+- **Source:** https://cdn-en.xinje.com/XNET%20manual.pdf
+- **Evidence note:** The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced.
+- **Review date:** 2026-10-24
+- **Status:** verified-source-exact-scope
+- **Safe checks (EN):**
+- Record the exact error code, software version, remote device ID and time of failure.
+- Check network reachability and the documented remote parameters on both endpoints; compare them with the approved configuration.
+- Do not share passwords in logs or bypass corporate security controls. If the fault persists, preserve logs and escalate to controls/network support.
+- **الفحوص الآمنة (AR):**
+- سجّل رمز الخطأ وإصدار البرنامج ومعرّف الجهاز البعيد ووقت حدوث العطل.
+- تحقق من إمكانية الوصول عبر الشبكة ومن المعلمات البعيدة على الطرفين، وقارنها بالإعداد المعتمد.
+- لا تضع كلمات المرور في السجلات ولا تتجاوز ضوابط أمن الشبكة. إذا استمر العطل، احفظ السجلات وصعّد إلى دعم التحكم/الشبكات.
+- **Contrôles sûrs (FR):**
+- Consigner le code exact, la version logicielle, l’identifiant distant et l’heure de l’incident.
+- Vérifier l’accessibilité réseau et les paramètres distants aux deux extrémités, puis les comparer à la configuration approuvée.
+- Ne pas inclure de mots de passe dans les journaux ni contourner les contrôles de sécurité. En cas de persistance, conserver les journaux et solliciter le support automatismes/réseau.
+- **Escalation (EN):** Escalate persistent errors, unexplained remote sessions or suspected credential/security issues to the automation and IT/network owners.
+- **التصعيد (AR):** صعّد الأخطاء المستمرة أو جلسات الاتصال البعيد غير المفسرة أو الاشتباه في مشكلة بيانات دخول/أمن إلى مسؤولي الأتمتة وتقنية المعلومات/الشبكة.
+- **Escalade (FR):** Faire intervenir les responsables automatismes et informatique/réseau en cas d’erreurs persistantes, de sessions distantes inexpliquées ou de suspicion de problème d’identifiants/sécurité.
+- **Limit:** Applies only to the X-NET/XINJEConfig remote-connection diagnostic table in the cited manual. These are not PLC ladder, servo-drive or machine-builder alarm codes. No printed page number was available in the reviewed extracted text.
+
+### xinje-xnet-error-18-safe-mode-mismatch
+
+- **Manufacturer / family:** Wuxi XINJE Electric Co., Ltd. — X-NET fieldbus / XINJEConfig remote-connection diagnostics
+- **Scope:** XINJE X-NET fieldbus user manual; remote-connection diagnostic table; Manual Data No. PD06 20151009 3.2; confirm installed XINJEConfig and X-NET versions
+- **Code / event:** 18
+- **Meaning (EN):** The manual states that code 18 means remote parameters on the device and PC are not correct or consistent.
+- **المعنى (AR):** يذكر الدليل أن الرمز 18 يعني أن المعلمات البعيدة على الجهاز والحاسوب غير صحيحة أو غير متطابقة.
+- **Sens (FR):** Le manuel indique que le code 18 signifie que les paramètres distants du périphérique et du PC sont incorrects ou incohérents.
+- **Official evidence:** X-NET fieldbus User Manual; Data No. PD06 20151009 3.2; 2. Search the device ID → Report error message when building the remote connection.
+- **Source:** https://cdn-en.xinje.com/XNET%20manual.pdf
+- **Evidence note:** The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced.
+- **Review date:** 2026-10-24
+- **Status:** verified-source-exact-scope
+- **Safe checks (EN):**
+- Record the exact error code, software version, remote device ID and time of failure.
+- Check network reachability and the documented remote parameters on both endpoints; compare them with the approved configuration.
+- Do not share passwords in logs or bypass corporate security controls. If the fault persists, preserve logs and escalate to controls/network support.
+- **الفحوص الآمنة (AR):**
+- سجّل رمز الخطأ وإصدار البرنامج ومعرّف الجهاز البعيد ووقت حدوث العطل.
+- تحقق من إمكانية الوصول عبر الشبكة ومن المعلمات البعيدة على الطرفين، وقارنها بالإعداد المعتمد.
+- لا تضع كلمات المرور في السجلات ولا تتجاوز ضوابط أمن الشبكة. إذا استمر العطل، احفظ السجلات وصعّد إلى دعم التحكم/الشبكات.
+- **Contrôles sûrs (FR):**
+- Consigner le code exact, la version logicielle, l’identifiant distant et l’heure de l’incident.
+- Vérifier l’accessibilité réseau et les paramètres distants aux deux extrémités, puis les comparer à la configuration approuvée.
+- Ne pas inclure de mots de passe dans les journaux ni contourner les contrôles de sécurité. En cas de persistance, conserver les journaux et solliciter le support automatismes/réseau.
+- **Escalation (EN):** Escalate persistent errors, unexplained remote sessions or suspected credential/security issues to the automation and IT/network owners.
+- **التصعيد (AR):** صعّد الأخطاء المستمرة أو جلسات الاتصال البعيد غير المفسرة أو الاشتباه في مشكلة بيانات دخول/أمن إلى مسؤولي الأتمتة وتقنية المعلومات/الشبكة.
+- **Escalade (FR):** Faire intervenir les responsables automatismes et informatique/réseau en cas d’erreurs persistantes, de sessions distantes inexpliquées ou de suspicion de problème d’identifiants/sécurité.
+- **Limit:** Applies only to the X-NET/XINJEConfig remote-connection diagnostic table in the cited manual. These are not PLC ladder, servo-drive or machine-builder alarm codes. No printed page number was available in the reviewed extracted text.
+
+### xinje-xnet-error-19-password-error
+
+- **Manufacturer / family:** Wuxi XINJE Electric Co., Ltd. — X-NET fieldbus / XINJEConfig remote-connection diagnostics
+- **Scope:** XINJE X-NET fieldbus user manual; remote-connection diagnostic table; Manual Data No. PD06 20151009 3.2; confirm installed XINJEConfig and X-NET versions
+- **Code / event:** 19
+- **Meaning (EN):** The manual labels code 19 as a password error; do not store or request credentials in the fault record.
+- **المعنى (AR):** يسمّي الدليل الرمز 19 خطأ في كلمة المرور؛ لا تخزّن بيانات الدخول ولا تطلبها داخل سجل العطل.
+- **Sens (FR):** Le manuel nomme le code 19 « erreur de mot de passe »; ne pas enregistrer ni demander les identifiants dans le dossier d’incident.
+- **Official evidence:** X-NET fieldbus User Manual; Data No. PD06 20151009 3.2; 2. Search the device ID → Report error message when building the remote connection.
+- **Source:** https://cdn-en.xinje.com/XNET%20manual.pdf
+- **Evidence note:** The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced.
+- **Review date:** 2026-10-24
+- **Status:** verified-source-exact-scope
+- **Safe checks (EN):**
+- Record the exact error code, software version, remote device ID and time of failure.
+- Check network reachability and the documented remote parameters on both endpoints; compare them with the approved configuration.
+- Do not share passwords in logs or bypass corporate security controls. If the fault persists, preserve logs and escalate to controls/network support.
+- **الفحوص الآمنة (AR):**
+- سجّل رمز الخطأ وإصدار البرنامج ومعرّف الجهاز البعيد ووقت حدوث العطل.
+- تحقق من إمكانية الوصول عبر الشبكة ومن المعلمات البعيدة على الطرفين، وقارنها بالإعداد المعتمد.
+- لا تضع كلمات المرور في السجلات ولا تتجاوز ضوابط أمن الشبكة. إذا استمر العطل، احفظ السجلات وصعّد إلى دعم التحكم/الشبكات.
+- **Contrôles sûrs (FR):**
+- Consigner le code exact, la version logicielle, l’identifiant distant et l’heure de l’incident.
+- Vérifier l’accessibilité réseau et les paramètres distants aux deux extrémités, puis les comparer à la configuration approuvée.
+- Ne pas inclure de mots de passe dans les journaux ni contourner les contrôles de sécurité. En cas de persistance, conserver les journaux et solliciter le support automatismes/réseau.
+- **Escalation (EN):** Escalate persistent errors, unexplained remote sessions or suspected credential/security issues to the automation and IT/network owners.
+- **التصعيد (AR):** صعّد الأخطاء المستمرة أو جلسات الاتصال البعيد غير المفسرة أو الاشتباه في مشكلة بيانات دخول/أمن إلى مسؤولي الأتمتة وتقنية المعلومات/الشبكة.
+- **Escalade (FR):** Faire intervenir les responsables automatismes et informatique/réseau en cas d’erreurs persistantes, de sessions distantes inexpliquées ou de suspicion de problème d’identifiants/sécurité.
+- **Limit:** Applies only to the X-NET/XINJEConfig remote-connection diagnostic table in the cited manual. These are not PLC ladder, servo-drive or machine-builder alarm codes. No printed page number was available in the reviewed extracted text.
+
+### xinje-xnet-error-255-login-failed
+
+- **Manufacturer / family:** Wuxi XINJE Electric Co., Ltd. — X-NET fieldbus / XINJEConfig remote-connection diagnostics
+- **Scope:** XINJE X-NET fieldbus user manual; remote-connection diagnostic table; Manual Data No. PD06 20151009 3.2; confirm installed XINJEConfig and X-NET versions
+- **Code / event:** 255
+- **Meaning (EN):** The manual labels code 255 as login failed and recommends checking remote parameters, network environment and firewall settings. The antivirus-uninstallation suggestion is excluded as an unsafe generic step.
+- **المعنى (AR):** يسمّي الدليل الرمز 255 فشل تسجيل الدخول، ويوصي بفحص المعلمات البعيدة والشبكة وإعدادات جدار الحماية. تم استبعاد اقتراح إزالة مضاد الفيروسات كخطوة عامة غير آمنة.
+- **Sens (FR):** Le manuel nomme le code 255 « échec de connexion » et recommande de vérifier les paramètres distants, le réseau et le pare-feu. La suggestion de désinstaller l’antivirus est exclue des consignes génériques.
+- **Official evidence:** X-NET fieldbus User Manual; Data No. PD06 20151009 3.2; 2. Search the device ID → Report error message when building the remote connection.
+- **Source:** https://cdn-en.xinje.com/XNET%20manual.pdf
+- **Evidence note:** The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced.
+- **Review date:** 2026-10-24
+- **Status:** verified-source-exact-scope
+- **Safe checks (EN):**
+- Record the exact error code, software version, remote device ID and time of failure.
+- Check network reachability and the documented remote parameters on both endpoints; compare them with the approved configuration.
+- Do not share passwords in logs or bypass corporate security controls. If the fault persists, preserve logs and escalate to controls/network support.
+- **الفحوص الآمنة (AR):**
+- سجّل رمز الخطأ وإصدار البرنامج ومعرّف الجهاز البعيد ووقت حدوث العطل.
+- تحقق من إمكانية الوصول عبر الشبكة ومن المعلمات البعيدة على الطرفين، وقارنها بالإعداد المعتمد.
+- لا تضع كلمات المرور في السجلات ولا تتجاوز ضوابط أمن الشبكة. إذا استمر العطل، احفظ السجلات وصعّد إلى دعم التحكم/الشبكات.
+- **Contrôles sûrs (FR):**
+- Consigner le code exact, la version logicielle, l’identifiant distant et l’heure de l’incident.
+- Vérifier l’accessibilité réseau et les paramètres distants aux deux extrémités, puis les comparer à la configuration approuvée.
+- Ne pas inclure de mots de passe dans les journaux ni contourner les contrôles de sécurité. En cas de persistance, conserver les journaux et solliciter le support automatismes/réseau.
+- **Escalation (EN):** Escalate persistent errors, unexplained remote sessions or suspected credential/security issues to the automation and IT/network owners.
+- **التصعيد (AR):** صعّد الأخطاء المستمرة أو جلسات الاتصال البعيد غير المفسرة أو الاشتباه في مشكلة بيانات دخول/أمن إلى مسؤولي الأتمتة وتقنية المعلومات/الشبكة.
+- **Escalade (FR):** Faire intervenir les responsables automatismes et informatique/réseau en cas d’erreurs persistantes, de sessions distantes inexpliquées ou de suspicion de problème d’identifiants/sécurité.
+- **Limit:** Applies only to the X-NET/XINJEConfig remote-connection diagnostic table in the cited manual. These are not PLC ladder, servo-drive or machine-builder alarm codes. No printed page number was available in the reviewed extracted text.
 
 ## Evidence acquisition queue
 
