@@ -41,3 +41,26 @@ test("valve no-response flow uses safe interface observations and rejects bypass
   assert.ok(flow.answers.some(answer => /لا تتجاوز interlocks/.test(answer.guidance)));
   assert.ok(flow.answers.every(answer => !/جسّر|bypass interlock|disable interlock/i.test(answer.guidance)));
 });
+
+
+test("equipment workflow expansion includes conservative branches for pneumatic, gearbox, bearing, PLC, conveyor, and thermal faults", () => {
+  const expected = [
+    "pneumatic|low_flow", "gearbox|overheat", "bearing|vibration",
+    "plc|not_start", "conveyor|tracking", "thermal|overheat"
+  ];
+  for (const key of expected) {
+    const flow = registry.flows[key];
+    assert.ok(flow, "missing flow " + key);
+    assert.ok(flow.answers.length >= 3, key + " should distinguish at least three evidence states");
+    assert.ok(flow.answers.every(answer => answer.id && answer.guidance), key + " has incomplete answer");
+  }
+});
+
+test("expanded flows preserve isolation and protection safeguards", () => {
+  const safeText = ["pneumatic|low_flow", "gearbox|overheat", "bearing|vibration", "plc|not_start", "conveyor|tracking", "thermal|overheat"]
+    .flatMap(key => registry.flows[key].answers.map(answer => answer.guidance)).join(" ");
+  assert.match(safeText, /لا تفك الوصلات تحت الضغط/);
+  assert.match(safeText, /لا تتجاوز interlocks|لا تجسّر/);
+  assert.match(safeText, /العزل/);
+  assert.match(safeText, /لا تقترب من الأجزاء الدوارة/);
+});
