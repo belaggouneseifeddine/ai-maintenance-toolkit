@@ -448,6 +448,66 @@
       "scope": "CNC, industrial robots, ROBODRILL, technical documents and alarm lookup; access and regional applicability may vary",
       "status": "official-support-portal-access-may-be-required",
       "redistribution": "link-only; follow portal terms"
+    },
+    {
+      "id": "siemens-sinamics-g120d-getting-started-v47sp10",
+      "publisher": "Siemens",
+      "title": "SINAMICS G120D Getting Started, firmware V4.7 SP10",
+      "url": "https://support.industry.siemens.com/cs/attachments/109757509/G120D_getting_started_0418_en-US.pdf",
+      "type": "exact-model-family-manual",
+      "scope": "SINAMICS G120D converter; firmware V4.7 SP10; fault list in section 6.4, printed pages 88–89",
+      "status": "manual-content-reviewed-for-listed-records",
+      "redistribution": "link-and-original-summary-only"
+    },
+    {
+      "id": "siemens-sinamics-g120p-operating-instructions-2016",
+      "publisher": "Siemens",
+      "title": "SINAMICS G120P Cabinet Units Operating Instructions",
+      "url": "https://support.industry.siemens.com/cs/attachments/109739200/SINAMICS_G120P_Cabinet_en-US.pdf",
+      "type": "exact-model-family-manual",
+      "scope": "SINAMICS G120P cabinet units; section 9.5, alarms and faults, printed page 473; 04/2016 edition",
+      "status": "manual-content-reviewed-for-listed-records",
+      "redistribution": "link-and-original-summary-only"
+    },
+    {
+      "id": "siemens-sinumerik-840dsl-828d-basic-functions-2018",
+      "publisher": "Siemens",
+      "title": "SINUMERIK 840D sl / 828D Basic Functions Function Manual",
+      "url": "https://support.industry.siemens.com/cs/attachments/download/109760797/840Dsl_828D_basic_fct_man_0818_en-US.pdf",
+      "type": "exact-control-family-manual",
+      "scope": "SINUMERIK 840D sl and 828D; axis measuring-system monitoring, section A3.5, printed page 105; 08/2018 edition",
+      "status": "manual-content-reviewed-for-listed-records",
+      "redistribution": "link-and-original-summary-only"
+    },
+    {
+      "id": "mitsubishi-melsec-iqf-fx5-hardware-manual",
+      "publisher": "Mitsubishi Electric",
+      "title": "MELSEC iQ-F FX5S/FX5UJ/FX5U/FX5UC User’s Manual (Hardware)",
+      "url": "https://dl.mitsubishielectric.com/dl/fa/document/manual/plcf/sh082452eng/sh082452engm.pdf",
+      "type": "exact-plc-family-manual",
+      "scope": "FX5S, FX5UJ, FX5U and FX5UC; troubleshooting sections 17.3–17.7, printed pages 276–281; current PDF inspected 2026-10-24",
+      "status": "manual-content-reviewed-for-listed-records",
+      "redistribution": "link-and-original-summary-only"
+    },
+    {
+      "id": "mitsubishi-mrj4-transition-handbook",
+      "publisher": "Mitsubishi Electric",
+      "title": "Transition from MELSERVO-J2-Super/J2M Series to J4 Series Handbook",
+      "url": "https://dl.mitsubishielectric.com/dl/fa/document/catalog/servo/l03093/l03093e.pdf",
+      "type": "exact-servo-family-handbook",
+      "scope": "MR-J4-A encoder compatibility setting example; Part 7, section 4.1; only the stated HC-FS/HA-FS compatibility context",
+      "status": "manual-content-reviewed-for-listed-records",
+      "redistribution": "link-and-original-summary-only"
+    },
+    {
+      "id": "siemens-sinumerik-828d-diagnostics-manual-495-2021",
+      "publisher": "Siemens",
+      "title": "SINUMERIK 828D, SINAMICS S120 Diagnostics Manual",
+      "url": "https://support.industry.siemens.com/cs/attachments/109802874/828D_alarms_diagnostics_man_0721_en-US.pdf",
+      "type": "exact-control-family-manual",
+      "scope": "SINUMERIK 828D CNC software 4.95 and SINAMICS S120 version 5.2 SP3; 07/2021 edition; manual contains NC, SINAMICS, I/O and PLC alarm chapters",
+      "status": "official-manual-discovered-pending-code-level-review",
+      "redistribution": "link-only-until-reviewed"
     }
   ]
 }
