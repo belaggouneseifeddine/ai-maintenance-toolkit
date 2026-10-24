@@ -183,3 +183,22 @@ test("oversized adapter output is rejected without forwarding the payload", asyn
   assert.equal(result.ok, false);
   assert.equal(result.error.code, "tool_output_too_large");
 });
+
+test("timed-out AI adapter preserves the local result and returns a stable error code", async () => {
+  const result = await agentModule.createAgentCore({
+    engineeringCore,
+    diagnosticEngine: global.MaintenanceDiagnosticEngine,
+    faultLibrary: faults,
+    toolTimeoutMs: 10,
+    tools: { aiAssist: () => new Promise(() => {}) }
+  }).run({
+    intent: "diagnose",
+    language: "en",
+    equipment: { type: "pump" },
+    symptom: "low flow",
+    consent: { sendToAI: true }
+  });
+  assert.equal(result.ok, true);
+  assert.equal(result.data.modelEnhanced, false);
+  assert.equal(result.data.aiFallback, "tool_timeout");
+});
