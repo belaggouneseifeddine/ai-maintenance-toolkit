@@ -66,6 +66,7 @@ const report = [
   "- Worker-referenced Markdown documents: **" + documents.length + "**",
   "- Markdown inventory: **" + fmt(documents.reduce((sum, doc) => sum + doc.lines, 0)) + " lines**, **" + fmt(documents.reduce((sum, doc) => sum + doc.words, 0)) + " whitespace-separated words**, **" + documents.reduce((sum, doc) => sum + doc.headings, 0) + " headings**",
   "- Structured fault records: **" + faults.length + "**",
+  "- Model-specific manual-reviewed fault records (not field-verified): **" + modelReviewedFaultCount + "**",
   "- Distinct equipment-type labels in the fault library: **" + equipmentTypes.length + "**",
   "- Cause entries across fault records: **" + causeCount + "**",
   "- Fault records with an alarmCodes or errorCodes array: **" + structuredAlarmIndexCount + "/" + faults.length + "**",
