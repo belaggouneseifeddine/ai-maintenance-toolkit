@@ -221,7 +221,7 @@
     if (!value.symptom || symptom === "other") missing.push(language==="ar" ? "صف العَرَض بصورة قابلة للملاحظة." : language==="fr" ? "Décrivez le symptôme observable." : "Describe the observable symptom.");
     if (!observations.trim()) missing.push(language==="ar" ? "أضف ملاحظات أو قياسات مسجلة مع الوحدات إن توفرت." : language==="fr" ? "Ajoutez des observations ou mesures enregistrées avec unités si disponibles." : "Add recorded observations or measurements with units if available.");
     const references = (GENERAL_REFERENCES[equipment] || []).slice();
-    if (equipment === "pump" && /grundfos/i.test(String(value.manufacturer||"") + " " + String(value.manualRef||"")) && /hydro\s*en/i.test(String(value.model||"") + " " + String(value.manualRef||""))) {
+    if (equipment === "pump" && /grundfos/i.test(String(value.manufacturer||"") + " " + String(value.manualRef||"")) && /hydro\s*en/i.test(String(value.model||"") + " " + String(value.manualRef||"")) && /(firefighting|fire protection|sprinkler|مكافحة الحريق|إطفاء)/i.test(String(value.application||"") + " " + String(value.manualRef||""))) {
       references.push({id:"grundfos-hydro-en",title:"Grundfos Hydro EN — section 13 fault-finding headings only; detailed cause table not verified",url:"https://api.grundfos.com/literature/Grundfosliterature-6819528.pdf",status:"scope-gated-heading-only-not-evidence-for-cause"});
     }
     if (equipment === "compressor" && /ingersoll\s*rand/i.test(String(value.manufacturer||"")) && String(value.model||"").trim()) {
