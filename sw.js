@@ -7,6 +7,7 @@ const APP_SHELL = [
   "./diagnostic-engine.js",
   "./local-reasoning.js",
   "./knowledge/manufacturer-sources.json",
+  "./knowledge/open-knowledge-source-register.json",
   "./faults.json",
   "./i18n.js",
   "./manifest.json",
