@@ -47,13 +47,14 @@
       ],
       "url": "https://www.inovance.com/global/support/download-documentation.html",
       "evidenceStatus": "portal-only",
-      "alarmCodeRecords": 6,
+      "alarmCodeRecords": 0,
       "notes": "Manual-reviewed records exist in the separate OEM evidence file; this manufacturer profile remains a discovery index, not proof of field verification. Match exact model, firmware and machine-builder integration.",
       "modelsCovered": [
         "MD200 series AC drive",
         "H5U Series Programmable Logic Controller"
       ],
-      "manualReviewedRecordCount": 9
+      "manualReviewedRecordCount": 9,
+      "manualReviewedAlarmCodeRecords": 6
     },
     {
       "id": "delta",
@@ -92,13 +93,14 @@
       ],
       "url": "https://en.xinje.com/web/downloadCenter/index",
       "evidenceStatus": "portal-only",
-      "alarmCodeRecords": 9,
+      "alarmCodeRecords": 0,
       "notes": "Manual-reviewed records exist in the separate OEM evidence file; this manufacturer profile remains a discovery index, not proof of field verification. Match exact model, firmware and machine-builder integration.",
       "modelsCovered": [
         "DS5K series servo driver",
         "X-NET fieldbus / XINJEConfig remote-connection diagnostics"
       ],
-      "manualReviewedRecordCount": 15
+      "manualReviewedRecordCount": 15,
+      "manualReviewedAlarmCodeRecords": 9
     },
     {
       "id": "huazhongcnc",
@@ -134,12 +136,13 @@
       ],
       "url": "https://gskcnc.com/support.php",
       "evidenceStatus": "portal-only",
-      "alarmCodeRecords": 3,
+      "alarmCodeRecords": 0,
       "notes": "Three manual-reviewed GSK218M program/operation alarm summaries are included. Scope is limited to the cited controller manual and does not represent all GSK CNC models.",
       "manualReviewedRecordCount": 3,
       "modelsCovered": [
         "GSK218M CNC System"
-      ]
+      ],
+      "manualReviewedAlarmCodeRecords": 3
     },
     {
       "id": "syntec",
@@ -220,7 +223,8 @@
       "modelsCovered": [
         "MELSEC iQ-F FX5S / FX5UJ / FX5U / FX5UC",
         "MELSERVO-J4 MR-J4-A"
-      ]
+      ],
+      "manualReviewedAlarmCodeRecords": 0
     },
     {
       "id": "siemens",
@@ -240,7 +244,7 @@
       ],
       "url": "https://support.industry.siemens.com/",
       "evidenceStatus": "portal-only",
-      "alarmCodeRecords": 26,
+      "alarmCodeRecords": 0,
       "notes": "Manual-reviewed records cover SINUMERIK/SINAMICS/SIMATIC selected scopes; all claims remain limited to the cited model and manual revision.",
       "manualReviewedRecordCount": 29,
       "modelsCovered": [
@@ -251,7 +255,8 @@
         "SINAMICS G120C FSD–FSF",
         "SIMATIC S7-1200 system diagnostics",
         "S7-1200 SM 1226 F-DQ fail-safe outputs"
-      ]
+      ],
+      "manualReviewedAlarmCodeRecords": 26
     },
     {
       "id": "bosch-rexroth",
@@ -614,14 +619,15 @@
       ],
       "url": "https://www.mitsubishielectric-cnc.com/manuals/",
       "evidenceStatus": "portal-only",
-      "alarmCodeRecords": 6,
+      "alarmCodeRecords": 0,
       "modelsCovered": [
         "C80 Series CNC; servo/spindle alarm table",
         "C80 Series CNC; emergency-stop alarm section"
       ],
       "notes": "Manual-reviewed records exist in the separate OEM evidence file; this manufacturer profile remains a discovery index, not proof of field verification. Match exact model, firmware and machine-builder integration.",
       "manualReviewedFaultCount": 6,
-      "manualReviewedRecordCount": 6
+      "manualReviewedRecordCount": 6,
+      "manualReviewedAlarmCodeRecords": 6
     }
   ],
   "relatedEvidenceFile": "knowledge/oem-verified-faults.json",
