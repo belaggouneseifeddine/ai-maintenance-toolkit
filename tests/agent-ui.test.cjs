@@ -40,3 +40,62 @@ test("failed or invalid agent results render a bounded generic message", () => {
   assert.match(result, /تعذّر إجراء التقييم المحلي/);
   assert.doesNotMatch(result, /token|secret|https?:/i);
 });
+
+
+test("local diagnosis loads the bundled fault library without sending form data", async () => {
+  const previous = {
+    document: global.document,
+    fetch: global.fetch,
+    MaintenanceI18n: global.MaintenanceI18n,
+    MaintenanceAIAgentCore: global.MaintenanceAIAgentCore,
+    MaintenanceEngineeringCore: global.MaintenanceEngineeringCore,
+    MaintenanceDiagnosticEngine: global.MaintenanceDiagnosticEngine,
+    MAINTENANCE_FAULTS: global.MAINTENANCE_FAULTS
+  };
+  const elements = {
+    aiResult: { hidden: true, textContent: "" },
+    runLocalAgent: { disabled: false, textContent: "", addEventListener() {} },
+    aiMachine: { value: "pump" },
+    aiSymptom: { value: "low_flow" },
+    aiCode: { value: "" },
+    aiObservations: { value: "" }
+  };
+  let requestedUrl = "";
+  let requestedOptions;
+  let receivedLibrary;
+  try {
+    global.document = {
+      documentElement: { lang: "en" },
+      getElementById: id => elements[id] || null
+    };
+    global.MaintenanceI18n = { getLanguage: () => "en" };
+    global.MaintenanceEngineeringCore = {};
+    global.MaintenanceDiagnosticEngine = {};
+    global.MAINTENANCE_FAULTS = undefined;
+    global.fetch = async (url, options) => {
+      requestedUrl = url;
+      requestedOptions = options;
+      return { ok: true, json: async () => ({ faults: [] }) };
+    };
+    global.MaintenanceAIAgentCore = {
+      createAgentCore: options => {
+        receivedLibrary = options.faultLibrary;
+        return { run: async () => ({
+          ok: true, status: "preliminary_assessment", route: "local_diagnostic",
+          data: { diagnosis: { matched: false, message: "No sufficient match", results: [] } }
+        }) };
+      }
+    };
+    await ui.runLocal();
+    assert.equal(requestedUrl, "./faults.json");
+    assert.equal(requestedOptions.method, "GET");
+    assert.equal(requestedOptions.credentials, "same-origin");
+    assert.deepEqual(receivedLibrary, { faults: [] });
+    assert.match(elements.aiResult.textContent, /no data was sent to an external server/i);
+  } finally {
+    for (const [key, value] of Object.entries(previous)) {
+      if (value === undefined) delete global[key];
+      else global[key] = value;
+    }
+  }
+});

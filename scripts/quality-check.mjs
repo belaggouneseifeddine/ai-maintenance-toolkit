@@ -152,7 +152,9 @@ const checks = [
   }],
   ["AI backend only accepts POST and validates origin", () => {
     assert.match(worker, /request\.method !== "POST"/);
-    assert.match(worker, /function isAllowedOrigin\(origin\)/);\n    assert.match(worker, /if \(!isAllowedOrigin\(origin\)\)/);\n    assert.match(worker, /ALLOWED_ORIGINS = new Set\(/);
+    assert.match(worker, /function isAllowedOrigin\(origin\)/);
+    assert.match(worker, /if \(!isAllowedOrigin\(origin\)\)/);
+    assert.match(worker, /ALLOWED_ORIGINS = new Set\(/);
   }],
   ["AI credentials come from server environment secrets", () => assert.match(worker, /env\.AI_API_KEY/)],
   ["AI backend validates and bounds input lengths", () => {
