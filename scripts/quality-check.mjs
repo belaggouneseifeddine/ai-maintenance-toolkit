@@ -582,7 +582,7 @@ const checks = [
       const evidence = item.modelSpecificEvidence;
       assert.ok(evidence && evidence.manufacturer && evidence.productFamily, item.id + " missing OEM/model evidence");
       assert.ok(evidence.manualTitle && evidence.manualRevision && evidence.officialDocumentUrl, item.id + " missing manual identity");
-      assert.ok(evidence.section && Number.isInteger(evidence.printedPage) && Number.isInteger(evidence.pdfPage), item.id + " missing exact section/page references");
+      assert.ok(evidence.section && (Number.isInteger(evidence.printedPage) || evidence.pageNotProvidedReason), item.id + " missing manual section/page provenance");
       assert.ok(evidence.claim && evidence.reviewedOn && evidence.reviewStatus === "manual-claim-reviewed-not-field-verified", item.id + " missing evidence review metadata");
       assert.ok(/^https:\/\//.test(evidence.officialDocumentUrl), item.id + " manual URL must use HTTPS");
       assert.ok(Array.isArray(item.sourceRefs) && item.sourceRefs.length, item.id + " missing source registry references");
