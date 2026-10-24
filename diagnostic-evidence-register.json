@@ -1522,6 +1522,670 @@
           "verificationLimit": "Manual-claim-reviewed, not field-verified. Confirm exact installed converter and machine integration; never bypass external, network, or safety monitoring."
         }
       ]
+    },
+    "oem-sinumerik-25000": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://support.industry.siemens.com/cs/attachments/download/109760797/840Dsl_828D_basic_fct_man_0818_en-US.pdf",
+          "title": "SINUMERIK 840D sl / 828D Basic Functions Function Manual",
+          "revision": "08/2018; 6FC5397-0BP40-6BA2",
+          "section": "A3 Axis monitoring functions → 3.5 Measuring system monitoring; MD36310 $MA_ENC_ZERO_MONITORING",
+          "printedPage": 105,
+          "pdfPage": 105,
+          "claim": "The official manual explicitly lists these alarm numbers and active/passive encoder response.",
+          "reviewedOn": "2026-10-24",
+          "scope": "SINUMERIK 840D sl and 828D; axis measuring-system monitoring",
+          "verificationLimit": "Apply only to the stated model/software scope. Confirm installed manual revision and exact alarm text before action."
+        }
+      ]
+    },
+    "oem-sinumerik-25001": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://support.industry.siemens.com/cs/attachments/download/109760797/840Dsl_828D_basic_fct_man_0818_en-US.pdf",
+          "title": "SINUMERIK 840D sl / 828D Basic Functions Function Manual",
+          "revision": "08/2018; 6FC5397-0BP40-6BA2",
+          "section": "A3 Axis monitoring functions → 3.5 Measuring system monitoring; MD36310 $MA_ENC_ZERO_MONITORING",
+          "printedPage": 105,
+          "pdfPage": 105,
+          "claim": "The official manual explicitly lists these alarm numbers and active/passive encoder response.",
+          "reviewedOn": "2026-10-24",
+          "scope": "SINUMERIK 840D sl and 828D; axis measuring-system monitoring",
+          "verificationLimit": "Apply only to the stated model/software scope. Confirm installed manual revision and exact alarm text before action."
+        }
+      ]
+    },
+    "oem-sinumerik-25020": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://support.industry.siemens.com/cs/attachments/download/109760797/840Dsl_828D_basic_fct_man_0818_en-US.pdf",
+          "title": "SINUMERIK 840D sl / 828D Basic Functions Function Manual",
+          "revision": "08/2018; 6FC5397-0BP40-6BA2",
+          "section": "A3 Axis monitoring functions → 3.5 Measuring system monitoring; MD36310 $MA_ENC_ZERO_MONITORING",
+          "printedPage": 105,
+          "pdfPage": 105,
+          "claim": "The official manual explicitly lists these alarm numbers and active/passive encoder response.",
+          "reviewedOn": "2026-10-24",
+          "scope": "SINUMERIK 840D sl and 828D; axis measuring-system monitoring",
+          "verificationLimit": "Apply only to the stated model/software scope. Confirm installed manual revision and exact alarm text before action."
+        }
+      ]
+    },
+    "oem-sinumerik-25021": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://support.industry.siemens.com/cs/attachments/download/109760797/840Dsl_828D_basic_fct_man_0818_en-US.pdf",
+          "title": "SINUMERIK 840D sl / 828D Basic Functions Function Manual",
+          "revision": "08/2018; 6FC5397-0BP40-6BA2",
+          "section": "A3 Axis monitoring functions → 3.5 Measuring system monitoring; MD36310 $MA_ENC_ZERO_MONITORING",
+          "printedPage": 105,
+          "pdfPage": 105,
+          "claim": "The official manual explicitly lists these alarm numbers and active/passive encoder response.",
+          "reviewedOn": "2026-10-24",
+          "scope": "SINUMERIK 840D sl and 828D; axis measuring-system monitoring",
+          "verificationLimit": "Apply only to the stated model/software scope. Confirm installed manual revision and exact alarm text before action."
+        }
+      ]
+    },
+    "oem-sinamics-g120d-f31100": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://support.industry.siemens.com/cs/attachments/109757509/G120D_getting_started_0418_en-US.pdf",
+          "title": "SINAMICS G120D Getting Started",
+          "revision": "04/2018; firmware V4.7 SP10",
+          "section": "6.4 List of alarms and faults",
+          "printedPage": 88,
+          "pdfPage": 88,
+          "claim": "The official manual section 6.4 lists the exact code and description; summaries are paraphrased.",
+          "reviewedOn": "2026-10-24",
+          "scope": "SINAMICS G120D converter; do not generalize to other SINAMICS families",
+          "verificationLimit": "Applies to the cited G120D documentation and firmware context. Check the current List Manual for the installed version."
+        }
+      ]
+    },
+    "oem-sinamics-g120d-f31101": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://support.industry.siemens.com/cs/attachments/109757509/G120D_getting_started_0418_en-US.pdf",
+          "title": "SINAMICS G120D Getting Started",
+          "revision": "04/2018; firmware V4.7 SP10",
+          "section": "6.4 List of alarms and faults",
+          "printedPage": 88,
+          "pdfPage": 88,
+          "claim": "The official manual section 6.4 lists the exact code and description; summaries are paraphrased.",
+          "reviewedOn": "2026-10-24",
+          "scope": "SINAMICS G120D converter; do not generalize to other SINAMICS families",
+          "verificationLimit": "Applies to the cited G120D documentation and firmware context. Check the current List Manual for the installed version."
+        }
+      ]
+    },
+    "oem-sinamics-g120d-f31118": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://support.industry.siemens.com/cs/attachments/109757509/G120D_getting_started_0418_en-US.pdf",
+          "title": "SINAMICS G120D Getting Started",
+          "revision": "04/2018; firmware V4.7 SP10",
+          "section": "6.4 List of alarms and faults",
+          "printedPage": 88,
+          "pdfPage": 88,
+          "claim": "The official manual section 6.4 lists the exact code and description; summaries are paraphrased.",
+          "reviewedOn": "2026-10-24",
+          "scope": "SINAMICS G120D converter; do not generalize to other SINAMICS families",
+          "verificationLimit": "Applies to the cited G120D documentation and firmware context. Check the current List Manual for the installed version."
+        }
+      ]
+    },
+    "oem-sinamics-g120d-f32110": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://support.industry.siemens.com/cs/attachments/109757509/G120D_getting_started_0418_en-US.pdf",
+          "title": "SINAMICS G120D Getting Started",
+          "revision": "04/2018; firmware V4.7 SP10",
+          "section": "6.4 List of alarms and faults",
+          "printedPage": 88,
+          "pdfPage": 88,
+          "claim": "The official manual section 6.4 lists the exact code and description; summaries are paraphrased.",
+          "reviewedOn": "2026-10-24",
+          "scope": "SINAMICS G120D converter; do not generalize to other SINAMICS families",
+          "verificationLimit": "Applies to the cited G120D documentation and firmware context. Check the current List Manual for the installed version."
+        }
+      ]
+    },
+    "oem-sinamics-g120d-f32111": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://support.industry.siemens.com/cs/attachments/109757509/G120D_getting_started_0418_en-US.pdf",
+          "title": "SINAMICS G120D Getting Started",
+          "revision": "04/2018; firmware V4.7 SP10",
+          "section": "6.4 List of alarms and faults",
+          "printedPage": 88,
+          "pdfPage": 88,
+          "claim": "The official manual section 6.4 lists the exact code and description; summaries are paraphrased.",
+          "reviewedOn": "2026-10-24",
+          "scope": "SINAMICS G120D converter; do not generalize to other SINAMICS families",
+          "verificationLimit": "Applies to the cited G120D documentation and firmware context. Check the current List Manual for the installed version."
+        }
+      ]
+    },
+    "oem-sinamics-g120d-f32112": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://support.industry.siemens.com/cs/attachments/109757509/G120D_getting_started_0418_en-US.pdf",
+          "title": "SINAMICS G120D Getting Started",
+          "revision": "04/2018; firmware V4.7 SP10",
+          "section": "6.4 List of alarms and faults",
+          "printedPage": 88,
+          "pdfPage": 88,
+          "claim": "The official manual section 6.4 lists the exact code and description; summaries are paraphrased.",
+          "reviewedOn": "2026-10-24",
+          "scope": "SINAMICS G120D converter; do not generalize to other SINAMICS families",
+          "verificationLimit": "Applies to the cited G120D documentation and firmware context. Check the current List Manual for the installed version."
+        }
+      ]
+    },
+    "oem-sinamics-g120d-a32442": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://support.industry.siemens.com/cs/attachments/109757509/G120D_getting_started_0418_en-US.pdf",
+          "title": "SINAMICS G120D Getting Started",
+          "revision": "04/2018; firmware V4.7 SP10",
+          "section": "6.4 List of alarms and faults",
+          "printedPage": 89,
+          "pdfPage": 89,
+          "claim": "The official manual section 6.4 lists the exact code and description; summaries are paraphrased.",
+          "reviewedOn": "2026-10-24",
+          "scope": "SINAMICS G120D converter; do not generalize to other SINAMICS families",
+          "verificationLimit": "Applies to the cited G120D documentation and firmware context. Check the current List Manual for the installed version."
+        }
+      ]
+    },
+    "oem-sinamics-g120p-f30001": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://support.industry.siemens.com/cs/attachments/109739200/SINAMICS_G120P_Cabinet_en-US.pdf",
+          "title": "SINAMICS G120P Cabinet Units Operating Instructions",
+          "revision": "04/2016; A5E32923362A",
+          "section": "9.5 List of alarms and faults",
+          "printedPage": 473,
+          "pdfPage": 473,
+          "claim": "The official operating instructions list the exact fault code, cause and checks in section 9.5.",
+          "reviewedOn": "2026-10-24",
+          "scope": "SINAMICS G120P cabinet units only; not a universal SINAMICS code mapping",
+          "verificationLimit": "Applies only to SINAMICS G120P cabinet units and the cited 04/2016 manual."
+        }
+      ]
+    },
+    "oem-sinamics-g120p-f30002": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://support.industry.siemens.com/cs/attachments/109739200/SINAMICS_G120P_Cabinet_en-US.pdf",
+          "title": "SINAMICS G120P Cabinet Units Operating Instructions",
+          "revision": "04/2016; A5E32923362A",
+          "section": "9.5 List of alarms and faults",
+          "printedPage": 473,
+          "pdfPage": 473,
+          "claim": "The official operating instructions list the exact fault code, cause and checks in section 9.5.",
+          "reviewedOn": "2026-10-24",
+          "scope": "SINAMICS G120P cabinet units only; not a universal SINAMICS code mapping",
+          "verificationLimit": "Applies only to SINAMICS G120P cabinet units and the cited 04/2016 manual."
+        }
+      ]
+    },
+    "oem-sinamics-g120p-f30003": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://support.industry.siemens.com/cs/attachments/109739200/SINAMICS_G120P_Cabinet_en-US.pdf",
+          "title": "SINAMICS G120P Cabinet Units Operating Instructions",
+          "revision": "04/2016; A5E32923362A",
+          "section": "9.5 List of alarms and faults",
+          "printedPage": 473,
+          "pdfPage": 473,
+          "claim": "The official operating instructions list the exact fault code, cause and checks in section 9.5.",
+          "reviewedOn": "2026-10-24",
+          "scope": "SINAMICS G120P cabinet units only; not a universal SINAMICS code mapping",
+          "verificationLimit": "Applies only to SINAMICS G120P cabinet units and the cited 04/2016 manual."
+        }
+      ]
+    },
+    "oem-sinamics-g120p-f30004": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://support.industry.siemens.com/cs/attachments/109739200/SINAMICS_G120P_Cabinet_en-US.pdf",
+          "title": "SINAMICS G120P Cabinet Units Operating Instructions",
+          "revision": "04/2016; A5E32923362A",
+          "section": "9.5 List of alarms and faults",
+          "printedPage": 473,
+          "pdfPage": 473,
+          "claim": "The official operating instructions list the exact fault code, cause and checks in section 9.5.",
+          "reviewedOn": "2026-10-24",
+          "scope": "SINAMICS G120P cabinet units only; not a universal SINAMICS code mapping",
+          "verificationLimit": "Applies only to SINAMICS G120P cabinet units and the cited 04/2016 manual."
+        }
+      ]
+    },
+    "oem-sinamics-g120p-f30011": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://support.industry.siemens.com/cs/attachments/109739200/SINAMICS_G120P_Cabinet_en-US.pdf",
+          "title": "SINAMICS G120P Cabinet Units Operating Instructions",
+          "revision": "04/2016; A5E32923362A",
+          "section": "9.5 List of alarms and faults",
+          "printedPage": 473,
+          "pdfPage": 473,
+          "claim": "The official operating instructions list the exact fault code, cause and checks in section 9.5.",
+          "reviewedOn": "2026-10-24",
+          "scope": "SINAMICS G120P cabinet units only; not a universal SINAMICS code mapping",
+          "verificationLimit": "Applies only to SINAMICS G120P cabinet units and the cited 04/2016 manual."
+        }
+      ]
+    },
+    "oem-melsec-fx5-module-diagnostics": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://dl.mitsubishielectric.com/dl/fa/document/manual/plcf/sh082452eng/sh082452engm.pdf",
+          "title": "MELSEC iQ-F FX5S/FX5UJ/FX5U/FX5UC User’s Manual (Hardware)",
+          "revision": "Official PDF reviewed 2026-10-24",
+          "section": "17.3 Troubleshooting Using the Engineering Tool → Module diagnostics / Event history",
+          "printedPage": 277,
+          "pdfPage": 277,
+          "claim": "The official manual documents module diagnostics on printed page 277 and event history on page 278.",
+          "reviewedOn": "2026-10-24",
+          "scope": "FX5S, FX5UJ, FX5U and FX5UC CPU/module diagnostics",
+          "verificationLimit": "Apply only to the stated model/software scope. Confirm installed manual revision and exact alarm text before action."
+        }
+      ]
+    },
+    "oem-melsec-fx5-error-severity": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://dl.mitsubishielectric.com/dl/fa/document/manual/plcf/sh082452eng/sh082452engm.pdf",
+          "title": "MELSEC iQ-F FX5S/FX5UJ/FX5U/FX5UC User’s Manual (Hardware)",
+          "revision": "Official PDF reviewed 2026-10-24",
+          "section": "17.4 Error Status and Operations on Occurrence of an Error",
+          "printedPage": 279,
+          "pdfPage": 279,
+          "claim": "The error status table specifies stop/continue behavior and required action for major, moderate and minor errors.",
+          "reviewedOn": "2026-10-24",
+          "scope": "FX5S, FX5UJ, FX5U and FX5UC",
+          "verificationLimit": "Apply only to the stated model/software scope. Confirm installed manual revision and exact alarm text before action."
+        }
+      ]
+    },
+    "oem-melsec-fx5-preserve-error-history": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://dl.mitsubishielectric.com/dl/fa/document/manual/plcf/sh082452eng/sh082452engm.pdf",
+          "title": "MELSEC iQ-F FX5S/FX5UJ/FX5U/FX5UC User’s Manual (Hardware)",
+          "revision": "Official PDF reviewed 2026-10-24",
+          "section": "17.3 Troubleshooting Using the Engineering Tool → Event history",
+          "printedPage": 278,
+          "pdfPage": 278,
+          "claim": "The manual describes event-history scope and CSV export.",
+          "reviewedOn": "2026-10-24",
+          "scope": "FX5 CPU, expansion, intelligent function modules and network-related event history",
+          "verificationLimit": "Apply only to the stated model/software scope. Confirm installed manual revision and exact alarm text before action."
+        }
+      ]
+    },
+    "oem-mitsubishi-mrj4-al16-al20-encoder-compatibility": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://dl.mitsubishielectric.com/dl/fa/document/catalog/servo/l03093/l03093e.pdf",
+          "title": "Transition from MELSERVO-J2-Super/J2M Series to J4 Series Handbook",
+          "revision": "Official transition handbook reviewed 2026-10-24",
+          "section": "Part 7 Common Reference Material → 4. HC-FS/HA-FS MOTOR DRIVE → 4.1 Parameter setting",
+          "claim": "The source explicitly links PC22 encoder compatibility setting with AL.16/AL.20 in the stated migration scenario.",
+          "reviewedOn": "2026-10-24",
+          "scope": "Only the handbook’s stated transition case: HC-FS/HA-FS motors driven by MR-J4-A with MR-J2S-compatible encoder setting",
+          "verificationLimit": "Narrow compatibility note, not a universal diagnostic for AL.16 or AL.20."
+        }
+      ]
+    },
+    "oem-xinje-ds5k-e-010": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://cdn-en.xinje.com/DS5K%20servo%20manual.pdf",
+          "title": "DS5K series servo driver User Manual",
+          "revision": "Data No. SC5 03 20230427EN, revision 1.3.1",
+          "section": "7.1 Alarm code list / 7.2 Analysis of alarm types",
+          "printedPage": 173,
+          "pdfPage": 173,
+          "claim": "Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased.",
+          "reviewedOn": "2026-10-24",
+          "scope": "XINJE DS5K servo driver family covered by Data No. SC5 03 20230427EN",
+          "verificationLimit": "Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure."
+        }
+      ]
+    },
+    "oem-xinje-ds5k-e-021": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://cdn-en.xinje.com/DS5K%20servo%20manual.pdf",
+          "title": "DS5K series servo driver User Manual",
+          "revision": "Data No. SC5 03 20230427EN, revision 1.3.1",
+          "section": "7.1 Alarm code list / 7.2 Analysis of alarm types",
+          "printedPage": 173,
+          "pdfPage": 173,
+          "claim": "Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased.",
+          "reviewedOn": "2026-10-24",
+          "scope": "XINJE DS5K servo driver family covered by Data No. SC5 03 20230427EN",
+          "verificationLimit": "Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure."
+        }
+      ]
+    },
+    "oem-xinje-ds5k-e-030": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://cdn-en.xinje.com/DS5K%20servo%20manual.pdf",
+          "title": "DS5K series servo driver User Manual",
+          "revision": "Data No. SC5 03 20230427EN, revision 1.3.1",
+          "section": "7.1 Alarm code list / 7.2 Analysis of alarm types",
+          "printedPage": 175,
+          "pdfPage": 175,
+          "claim": "Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased.",
+          "reviewedOn": "2026-10-24",
+          "scope": "XINJE DS5K servo driver family covered by Data No. SC5 03 20230427EN",
+          "verificationLimit": "Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure."
+        }
+      ]
+    },
+    "oem-xinje-ds5k-e-040": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://cdn-en.xinje.com/DS5K%20servo%20manual.pdf",
+          "title": "DS5K series servo driver User Manual",
+          "revision": "Data No. SC5 03 20230427EN, revision 1.3.1",
+          "section": "7.1 Alarm code list / 7.2 Analysis of alarm types",
+          "printedPage": 175,
+          "pdfPage": 175,
+          "claim": "Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased.",
+          "reviewedOn": "2026-10-24",
+          "scope": "XINJE DS5K servo driver family covered by Data No. SC5 03 20230427EN",
+          "verificationLimit": "Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure."
+        }
+      ]
+    },
+    "oem-xinje-ds5k-e-221": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://cdn-en.xinje.com/DS5K%20servo%20manual.pdf",
+          "title": "DS5K series servo driver User Manual",
+          "revision": "Data No. SC5 03 20230427EN, revision 1.3.1",
+          "section": "7.1 Alarm code list / 7.2 Analysis of alarm types",
+          "printedPage": 180,
+          "pdfPage": 180,
+          "claim": "Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased.",
+          "reviewedOn": "2026-10-24",
+          "scope": "XINJE DS5K servo driver family covered by Data No. SC5 03 20230427EN",
+          "verificationLimit": "Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure."
+        }
+      ]
+    },
+    "oem-xinje-ds5k-e-222": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://cdn-en.xinje.com/DS5K%20servo%20manual.pdf",
+          "title": "DS5K series servo driver User Manual",
+          "revision": "Data No. SC5 03 20230427EN, revision 1.3.1",
+          "section": "7.1 Alarm code list / 7.2 Analysis of alarm types",
+          "printedPage": 180,
+          "pdfPage": 180,
+          "claim": "Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased.",
+          "reviewedOn": "2026-10-24",
+          "scope": "XINJE DS5K servo driver family covered by Data No. SC5 03 20230427EN",
+          "verificationLimit": "Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure."
+        }
+      ]
+    },
+    "oem-xinje-ds5k-e-236": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://cdn-en.xinje.com/DS5K%20servo%20manual.pdf",
+          "title": "DS5K series servo driver User Manual",
+          "revision": "Data No. SC5 03 20230427EN, revision 1.3.1",
+          "section": "7.1 Alarm code list / 7.2 Analysis of alarm types",
+          "printedPage": 181,
+          "pdfPage": 181,
+          "claim": "Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased.",
+          "reviewedOn": "2026-10-24",
+          "scope": "XINJE DS5K servo driver family covered by Data No. SC5 03 20230427EN",
+          "verificationLimit": "Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure."
+        }
+      ]
+    },
+    "oem-xinje-ds5k-e-237": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://cdn-en.xinje.com/DS5K%20servo%20manual.pdf",
+          "title": "DS5K series servo driver User Manual",
+          "revision": "Data No. SC5 03 20230427EN, revision 1.3.1",
+          "section": "7.1 Alarm code list / 7.2 Analysis of alarm types",
+          "printedPage": 181,
+          "pdfPage": 181,
+          "claim": "Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased.",
+          "reviewedOn": "2026-10-24",
+          "scope": "XINJE DS5K servo driver family covered by Data No. SC5 03 20230427EN",
+          "verificationLimit": "Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure."
+        }
+      ]
+    },
+    "oem-xinje-ds5k-e-238": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://cdn-en.xinje.com/DS5K%20servo%20manual.pdf",
+          "title": "DS5K series servo driver User Manual",
+          "revision": "Data No. SC5 03 20230427EN, revision 1.3.1",
+          "section": "7.1 Alarm code list / 7.2 Analysis of alarm types",
+          "printedPage": 181,
+          "pdfPage": 181,
+          "claim": "Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased.",
+          "reviewedOn": "2026-10-24",
+          "scope": "XINJE DS5K servo driver family covered by Data No. SC5 03 20230427EN",
+          "verificationLimit": "Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure."
+        }
+      ]
+    },
+    "oem-inovance-h5u-err-system-indicator": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://portal-file.inovance.com/owfile/ProdDoc/SC/19012251-SC/A00/19012251-SC_A00%E3%80%8AH5U%20Series%20Programmable%20Logic%20Control%20User%20Guide%20%E3%80%8BWithout%20CAN%2C%20ECAM%2C%20Electronic%20Gear-EN.pdf",
+          "title": "H5U Series Programmable Logic Controller User Guide (Without CAN, Electronic CAM, Electronic Gear)",
+          "revision": "June 2023; A00; document code 19012251A00",
+          "section": "5 Operation and Maintenance → 5.3 Indicators",
+          "claim": "The official H5U guide identifies the RUN, ERR, BAT and BF indicators and defines ERR as system failure, BAT as battery error, and BF as EtherCAT bus error. These records describe indicator meaning only, not a specific root cause.",
+          "reviewedOn": "2026-10-24",
+          "scope": "INOVANCE H5U series PLC; hardware status indicators",
+          "verificationLimit": "Indicator meaning only; no exact H5U alarm code or root cause is asserted. Confirm the installed manual revision and retrieve the actual diagnostic event."
+        }
+      ]
+    },
+    "oem-inovance-h5u-bat-battery-indicator": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://portal-file.inovance.com/owfile/ProdDoc/SC/19012251-SC/A00/19012251-SC_A00%E3%80%8AH5U%20Series%20Programmable%20Logic%20Control%20User%20Guide%20%E3%80%8BWithout%20CAN%2C%20ECAM%2C%20Electronic%20Gear-EN.pdf",
+          "title": "H5U Series Programmable Logic Controller User Guide (Without CAN, Electronic CAM, Electronic Gear)",
+          "revision": "June 2023; A00; document code 19012251A00",
+          "section": "5 Operation and Maintenance → 5.3 Indicators",
+          "claim": "The official H5U guide identifies the RUN, ERR, BAT and BF indicators and defines ERR as system failure, BAT as battery error, and BF as EtherCAT bus error. These records describe indicator meaning only, not a specific root cause.",
+          "reviewedOn": "2026-10-24",
+          "scope": "INOVANCE H5U series PLC; BAT indicator",
+          "verificationLimit": "Indicator meaning only; does not specify a battery part number, replacement interval or data-retention duration."
+        }
+      ]
+    },
+    "oem-inovance-h5u-bf-ethercat-indicator": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://portal-file.inovance.com/owfile/ProdDoc/SC/19012251-SC/A00/19012251-SC_A00%E3%80%8AH5U%20Series%20Programmable%20Logic%20Control%20User%20Guide%20%E3%80%8BWithout%20CAN%2C%20ECAM%2C%20Electronic%20Gear-EN.pdf",
+          "title": "H5U Series Programmable Logic Controller User Guide (Without CAN, Electronic CAM, Electronic Gear)",
+          "revision": "June 2023; A00; document code 19012251A00",
+          "section": "5 Operation and Maintenance → 5.3 Indicators",
+          "claim": "The official H5U guide identifies the RUN, ERR, BAT and BF indicators and defines ERR as system failure, BAT as battery error, and BF as EtherCAT bus error. These records describe indicator meaning only, not a specific root cause.",
+          "reviewedOn": "2026-10-24",
+          "scope": "INOVANCE H5U series PLC; EtherCAT bus indicator",
+          "verificationLimit": "Indicator meaning only; not an EtherCAT fault-code mapping. Exact root cause must come from the installed topology and diagnostic log."
+        }
+      ]
+    },
+    "oem-xinje-xnet-error-1-remote-device-connection": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://cdn-en.xinje.com/XNET%20manual.pdf",
+          "title": "X-NET fieldbus User Manual",
+          "revision": "Data No. PD06 20151009 3.2",
+          "section": "2. Search the device ID → Report error message when building the remote connection",
+          "claim": "The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced.",
+          "reviewedOn": "2026-10-24",
+          "scope": "XINJE X-NET fieldbus user manual; remote-connection diagnostic table",
+          "verificationLimit": "Applies only to the X-NET/XINJEConfig remote-connection diagnostic table in the cited manual. These are not PLC ladder, servo-drive or machine-builder alarm codes. No printed page number was available in the reviewed extracted text."
+        }
+      ]
+    },
+    "oem-xinje-xnet-error-16-sponsor-not-logged-in": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://cdn-en.xinje.com/XNET%20manual.pdf",
+          "title": "X-NET fieldbus User Manual",
+          "revision": "Data No. PD06 20151009 3.2",
+          "section": "2. Search the device ID → Report error message when building the remote connection",
+          "claim": "The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced.",
+          "reviewedOn": "2026-10-24",
+          "scope": "XINJE X-NET fieldbus user manual; remote-connection diagnostic table",
+          "verificationLimit": "Applies only to the X-NET/XINJEConfig remote-connection diagnostic table in the cited manual. These are not PLC ladder, servo-drive or machine-builder alarm codes. No printed page number was available in the reviewed extracted text."
+        }
+      ]
+    },
+    "oem-xinje-xnet-error-17-recipient-not-logged-in": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://cdn-en.xinje.com/XNET%20manual.pdf",
+          "title": "X-NET fieldbus User Manual",
+          "revision": "Data No. PD06 20151009 3.2",
+          "section": "2. Search the device ID → Report error message when building the remote connection",
+          "claim": "The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced.",
+          "reviewedOn": "2026-10-24",
+          "scope": "XINJE X-NET fieldbus user manual; remote-connection diagnostic table",
+          "verificationLimit": "Applies only to the X-NET/XINJEConfig remote-connection diagnostic table in the cited manual. These are not PLC ladder, servo-drive or machine-builder alarm codes. No printed page number was available in the reviewed extracted text."
+        }
+      ]
+    },
+    "oem-xinje-xnet-error-18-safe-mode-mismatch": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://cdn-en.xinje.com/XNET%20manual.pdf",
+          "title": "X-NET fieldbus User Manual",
+          "revision": "Data No. PD06 20151009 3.2",
+          "section": "2. Search the device ID → Report error message when building the remote connection",
+          "claim": "The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced.",
+          "reviewedOn": "2026-10-24",
+          "scope": "XINJE X-NET fieldbus user manual; remote-connection diagnostic table",
+          "verificationLimit": "Applies only to the X-NET/XINJEConfig remote-connection diagnostic table in the cited manual. These are not PLC ladder, servo-drive or machine-builder alarm codes. No printed page number was available in the reviewed extracted text."
+        }
+      ]
+    },
+    "oem-xinje-xnet-error-19-password-error": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://cdn-en.xinje.com/XNET%20manual.pdf",
+          "title": "X-NET fieldbus User Manual",
+          "revision": "Data No. PD06 20151009 3.2",
+          "section": "2. Search the device ID → Report error message when building the remote connection",
+          "claim": "The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced.",
+          "reviewedOn": "2026-10-24",
+          "scope": "XINJE X-NET fieldbus user manual; remote-connection diagnostic table",
+          "verificationLimit": "Applies only to the X-NET/XINJEConfig remote-connection diagnostic table in the cited manual. These are not PLC ladder, servo-drive or machine-builder alarm codes. No printed page number was available in the reviewed extracted text."
+        }
+      ]
+    },
+    "oem-xinje-xnet-error-255-login-failed": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://cdn-en.xinje.com/XNET%20manual.pdf",
+          "title": "X-NET fieldbus User Manual",
+          "revision": "Data No. PD06 20151009 3.2",
+          "section": "2. Search the device ID → Report error message when building the remote connection",
+          "claim": "The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced.",
+          "reviewedOn": "2026-10-24",
+          "scope": "XINJE X-NET fieldbus user manual; remote-connection diagnostic table",
+          "verificationLimit": "Applies only to the X-NET/XINJEConfig remote-connection diagnostic table in the cited manual. These are not PLC ladder, servo-drive or machine-builder alarm codes. No printed page number was available in the reviewed extracted text."
+        }
+      ]
     }
   },
   "generalSafetyReferences": [
