@@ -43,7 +43,7 @@ All adapter outputs are untrusted data and must be validated before being render
 |---|---|
 | `index.html` | Wire the user-facing assistant flow to the shared request contract without breaking the existing offline form; retain explicit consent and accessible error/fallback states. |
 | `engineering-core.js` | Extend the route contract only where tests demonstrate a missing intent or field; keep safety routing deterministic. |
-| `agent-core.js` | Add bounded adapter timeouts and stable error codes; avoid hidden retries. |
+| `agent-core.js` | Review cancellation behavior of real provider adapters; preserve stable error codes and avoid hidden retries. |
 | `worker.js` | Adapt the current Gemini and knowledge-retrieval functions behind allowlisted server-side adapters; preserve source traceability, response schema validation, CORS/input checks, and safety gates. |
 | `sw.js` | Cache new browser-loaded modules only when they are actually referenced by the UI; bump cache version for the UI integration. |
 | `tests/agent-core.test.cjs` | Add timeouts, contradictory evidence, no-match retrieval, and consent-regression cases. |
