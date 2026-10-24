@@ -2,8 +2,19 @@
   "schemaVersion": 1,
   "purpose": "Source-discovery metadata for review and future local retrieval. The runtime currently uses a small curated reference list; URLs do not prove that a source supports a specific hypothesis.",
   "policy": {
-    "manufacturerEvidenceRequires": ["exact equipment family/model match", "the relevant manual section and page inspected", "a specific claim matched to the inspected source"],
-    "doNot": ["copy manual text or PDF without checking redistribution rights", "infer fault causes from document titles or section headings", "apply one model's guidance to all equipment", "invent alarm meanings, setpoints, torque values, pressure limits, or parts"],
+    "manufacturerEvidenceRequires": [
+      "exact equipment family/model match",
+      "relevant manual section and page inspected",
+      "specific claim matched to inspected source",
+      "record document revision/date where available"
+    ],
+    "doNot": [
+      "copy manual text or PDF without checking redistribution rights",
+      "infer fault causes from document titles or section headings",
+      "apply one model's guidance to all equipment",
+      "invent alarm meanings, setpoints, torque values, pressure limits, or parts",
+      "treat an OEM support portal or general troubleshooting article as proof that a particular cause applies to a specific machine"
+    ],
     "safetyReferencesAreNotFaultEvidence": true
   },
   "sources": [
@@ -67,6 +78,86 @@
       "scope": "General hazardous-energy safety context; not evidence for a mechanical/electrical root cause and not a substitute for local/site rules",
       "status": "official-regulatory-reference",
       "redistribution": "public regulatory text; identify jurisdiction"
+    },
+    {
+      "id": "grundfos-troubleshooting-guides",
+      "publisher": "Grundfos",
+      "title": "How to find pump troubleshooting guides",
+      "url": "https://www.grundfos.com/solutions/support/how-to-guides/how-to-find-troubleshooting-guides",
+      "type": "manufacturer-support-guide",
+      "scope": "Guide to locating the exact pump manual/troubleshooting section in Product Center or GO Remote; not itself proof for a specific fault cause",
+      "status": "official-source-discovery-portal",
+      "redistribution": "link-only; exact product manual must be selected"
+    },
+    {
+      "id": "atlas-copco-compressor-troubleshooting",
+      "publisher": "Atlas Copco",
+      "title": "How to troubleshoot an air compressor",
+      "url": "https://www.atlascopco.com/en-sa/compressors/air-compressor-blog/air-compressor-troubleshooting",
+      "type": "manufacturer-troubleshooting-guide",
+      "scope": "General Atlas Copco compressor troubleshooting examples; model/controller applicability must be checked",
+      "status": "official-general-guide-model-match-required",
+      "redistribution": "link-only; check terms before copying"
+    },
+    {
+      "id": "atlas-copco-manuals",
+      "publisher": "Atlas Copco",
+      "title": "Compressor manuals and technical documentation",
+      "url": "https://www.atlascopco.com/en-uk/compressors/manuals",
+      "type": "manufacturer-document-portal",
+      "scope": "Locate documentation using exact product and serial number; access to some manuals may require registration/service support",
+      "status": "official-document-portal-exact-model-required",
+      "redistribution": "link-only; follow portal terms"
+    },
+    {
+      "id": "abb-motor-manuals",
+      "publisher": "ABB",
+      "title": "IEC low-voltage motor manuals",
+      "url": "https://www.abb.com/global/en/areas/motion/motors-generators/low-voltage-motors/iec-low-voltage-motors/iec-lv-manuals",
+      "type": "manufacturer-manual-portal",
+      "scope": "Installation, operation, maintenance and safety manuals for the exact ABB motor family",
+      "status": "official-document-portal-exact-model-required",
+      "redistribution": "link-only; follow document terms"
+    },
+    {
+      "id": "abb-drive-manuals",
+      "publisher": "ABB",
+      "title": "ABB drive document library",
+      "url": "https://www.abbnow.com/PublicSite/home/LiteratureResources/Document-Library.htm",
+      "type": "manufacturer-document-portal",
+      "scope": "Drive manuals and fault-tracing resources; exact drive model and firmware/manual revision must match",
+      "status": "official-document-portal-exact-model-required",
+      "redistribution": "link-only; follow document terms"
+    },
+    {
+      "id": "danfoss-troubleshooting",
+      "publisher": "Danfoss",
+      "title": "Fix and troubleshooting support",
+      "url": "https://www.danfoss.com/en/service-and-support/fix-and-troubleshooting/",
+      "type": "manufacturer-support-portal",
+      "scope": "Support links for drives, climate solutions, high-pressure pumps and sensing; exact product/partner guidance may be required",
+      "status": "official-support-portal-exact-product-required",
+      "redistribution": "link-only; follow portal terms"
+    },
+    {
+      "id": "siemens-industrial-support",
+      "publisher": "Siemens",
+      "title": "Siemens Industry Online Support",
+      "url": "https://support.industry.siemens.com/",
+      "type": "manufacturer-support-portal",
+      "scope": "Find exact product manuals, diagnostics and technical notes by product number/version; a portal link alone does not verify a fault claim",
+      "status": "official-support-portal-exact-product-required",
+      "redistribution": "link-only; follow portal terms"
+    },
+    {
+      "id": "festo-support-portal",
+      "publisher": "Festo",
+      "title": "Festo Support Portal",
+      "url": "https://www.festo.com/",
+      "type": "manufacturer-support-portal",
+      "scope": "Use the official site search for the exact pneumatic component/valve terminal type and its operating instructions",
+      "status": "official-portal-exact-product-required",
+      "redistribution": "link-only; follow portal terms"
     }
   ]
 }
