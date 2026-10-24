@@ -1558,3 +1558,200 @@ These are manual-claim-reviewed, not field-verified. The model, frame size, firm
 - **Official manual:** https://gskcnc.com/Support/218M01.pdf
 - **Safe checks:** Record the field/value and active operation. Verify format and allowed range from the GSK218M manual before editing; preserve original program and parameters.
 - **Review date:** 2026-10-24. **Evidence status:** manual-claim-reviewed, not field-verified.
+
+### sinamics-g120c-f07860
+- **Manufacturer / family:** Siemens — SINAMICS G120C FSD–FSF
+- **Scope:** SINAMICS G120C frame sizes FSD through FSF only; confirm installed model and machine integration
+- **Firmware/software scope:** Compact Operating Instructions, firmware V4.7 SP6; A5E39339884B AA, 11/2016
+- **Alarm code:** F07860
+- **Meaning (EN):** The drive reports an external fault input.
+- **المعنى (AR):** يشير محرك القيادة إلى تفعيل إشارة عطل خارجي.
+- **Sens (FR):** Le variateur signale une entrée de défaut externe.
+- **Source:** SINAMICS G120C FSD … FSF Compact Operating Instructions; revision FW V4.7 SP6; A5E39339884B AA; 11/2016; section 5.1 List of alarms and faults; printed page 82.
+- **Official manual:** https://support.industry.siemens.com/cs/attachments/109744756/G120C_FSD_F_cmpct_op_instr_1116_en-US.pdf
+- **Evidence summary:** Official manual table 5.1 explicitly lists F07860 as “External fault 1” and provides the summarized corrective direction. The summary is paraphrased and limited to this model/frame/firmware context.
+- **Safe checks (EN):**
+- Record the full code and the machine/controller state that preceded it.
+- Use the machine-builder electrical drawings and PLC diagnostics to identify which external signal asserted the fault.
+- Remove the external cause only after it is identified; do not bridge or force the fault input.
+- **الفحوصات الآمنة (AR):**
+- سجّل الرمز الكامل وحالة الماكينة ووحدة التحكم قبل ظهور العطل.
+- استخدم المخططات الكهربائية وتشخيص PLC لتحديد الإشارة الخارجية التي فعّلت العطل.
+- عالج السبب بعد تحديده؛ لا تجسر إشارة العطل ولا تفرضها برمجيًا.
+- **Vérifications sûres (FR):**
+- Relever le code complet et l’état machine/automate avant le défaut.
+- Utiliser les schémas électriques et le diagnostic API pour identifier le signal externe activé.
+- Supprimer la cause uniquement après identification; ne pas ponter ni forcer l’entrée de défaut.
+- **Escalation (EN):** Escalate recurring faults or any case requiring drive-parameter, safety, or network changes to authorized controls/drive engineering. Never bypass safety or communication monitoring.
+- **التصعيد (AR):** صعّد الأعطال المتكررة أو الحالات التي تتطلب تعديل معلمات القيادة أو السلامة أو الشبكة إلى مهندس مخوّل. لا تتجاوز مراقبة السلامة أو الاتصال.
+- **Escalade (FR):** Escalader les défauts récurrents et toute modification de paramètres variateur, sécurité ou réseau vers un ingénieur habilité. Ne jamais contourner les surveillances de sécurité/communication.
+- **Review date:** 2026-10-24. **Evidence status:** manual-claim-reviewed, not field-verified.
+- **Limits:** Manual-claim reviewed, not field-verified. Applies only to the stated SINAMICS G120C frame range and cited manual revision. Verify the exact installed drive, firmware, PLC project and machine-builder instructions before action.
+### sinamics-g120c-f07900
+- **Manufacturer / family:** Siemens — SINAMICS G120C FSD–FSF
+- **Scope:** SINAMICS G120C frame sizes FSD through FSF only; confirm installed model and machine integration
+- **Firmware/software scope:** Compact Operating Instructions, firmware V4.7 SP6; A5E39339884B AA, 11/2016
+- **Alarm code:** F07900
+- **Meaning (EN):** The manual identifies this fault as motor blocked and directs the reader to verify free rotation and the documented positive/negative torque limits.
+- **المعنى (AR):** يعرّف الدليل الحالة بأنها حجب المحرك ويوجه إلى التحقق من حرية الدوران وحدود العزم الموجبة والسالبة المحددة.
+- **Sens (FR):** Le manuel identifie un moteur bloqué et demande de vérifier la liberté de rotation ainsi que les limites de couple positives et négatives documentées.
+- **Source:** SINAMICS G120C FSD … FSF Compact Operating Instructions; revision FW V4.7 SP6; A5E39339884B AA; 11/2016; section 5.1 List of alarms and faults; printed page 82.
+- **Official manual:** https://support.industry.siemens.com/cs/attachments/109744756/G120C_FSD_F_cmpct_op_instr_1116_en-US.pdf
+- **Evidence summary:** Official manual table 5.1 explicitly lists F07900 as “Motor blocked” and provides the summarized corrective direction. The summary is paraphrased and limited to this model/frame/firmware context.
+- **Safe checks (EN):**
+- Under lockout and the machine's approved procedure, verify whether the load or mechanism is mechanically obstructed.
+- Review the exact drive's r1538/r1539 torque-limit values against the approved commissioning record; do not change them just to clear the fault.
+- Record motor, load, drive model, firmware and fault history before resetting.
+- **الفحوصات الآمنة (AR):**
+- بعد عزل الطاقة ووفق إجراء الماكينة، تحقق مما إذا كان الحمل أو الآلية محجوبًا ميكانيكيًا.
+- قارن قيم حدود العزم r1538 وr1539 بسجل التشغيل المعتمد؛ لا تغيّرها لمجرد مسح العطل.
+- سجّل بيانات المحرك والحمل وطراز القيادة وإصدار البرنامج وسجل العطل قبل إعادة الضبط.
+- **Vérifications sûres (FR):**
+- Après consignation et selon la procédure machine, vérifier si la charge ou le mécanisme est bloqué mécaniquement.
+- Comparer r1538/r1539 aux valeurs de mise en service approuvées; ne pas les modifier uniquement pour effacer le défaut.
+- Consigner moteur, charge, modèle de variateur, firmware et historique avant réarmement.
+- **Escalation (EN):** Escalate recurring faults or any case requiring drive-parameter, safety, or network changes to authorized controls/drive engineering. Never bypass safety or communication monitoring.
+- **التصعيد (AR):** صعّد الأعطال المتكررة أو الحالات التي تتطلب تعديل معلمات القيادة أو السلامة أو الشبكة إلى مهندس مخوّل. لا تتجاوز مراقبة السلامة أو الاتصال.
+- **Escalade (FR):** Escalader les défauts récurrents et toute modification de paramètres variateur, sécurité ou réseau vers un ingénieur habilité. Ne jamais contourner les surveillances de sécurité/communication.
+- **Review date:** 2026-10-24. **Evidence status:** manual-claim-reviewed, not field-verified.
+- **Limits:** Manual-claim reviewed, not field-verified. Applies only to the stated SINAMICS G120C frame range and cited manual revision. Verify the exact installed drive, firmware, PLC project and machine-builder instructions before action.
+### sinamics-g120c-f07901
+- **Manufacturer / family:** Siemens — SINAMICS G120C FSD–FSF
+- **Scope:** SINAMICS G120C frame sizes FSD through FSF only; confirm installed model and machine integration
+- **Firmware/software scope:** Compact Operating Instructions, firmware V4.7 SP6; A5E39339884B AA, 11/2016
+- **Alarm code:** F07901
+- **Meaning (EN):** The manual lists motor overspeed and identifies speed-controller precontrol as a documented remedy direction.
+- **المعنى (AR):** يسرد الدليل زيادة سرعة المحرك ويشير إلى الاستباق في منظم السرعة كاتجاه معالجة موثق.
+- **Sens (FR):** Le manuel répertorie une survitesse moteur et mentionne l’anticipation du régulateur de vitesse comme piste documentée.
+- **Source:** SINAMICS G120C FSD … FSF Compact Operating Instructions; revision FW V4.7 SP6; A5E39339884B AA; 11/2016; section 5.1 List of alarms and faults; printed page 82.
+- **Official manual:** https://support.industry.siemens.com/cs/attachments/109744756/G120C_FSD_F_cmpct_op_instr_1116_en-US.pdf
+- **Evidence summary:** Official manual table 5.1 explicitly lists F07901 as “Motor overspeed” and provides the summarized corrective direction. The summary is paraphrased and limited to this model/frame/firmware context.
+- **Safe checks (EN):**
+- Record actual speed, commanded speed, machine state and the full fault history from safe diagnostics.
+- Have an authorized drive engineer check the application and documented precontrol setting p1401 bit 7; do not change it without validation.
+- Inspect the load and feedback system only under the approved isolation procedure.
+- **الفحوصات الآمنة (AR):**
+- سجّل السرعة الفعلية والمرجعية وحالة الماكينة وسجل العطل من التشخيص الآمن.
+- اطلب من مهندس قيادة مخوّل مراجعة التطبيق وإعداد الاستباق p1401 bit 7؛ لا تغيّره دون تحقق هندسي.
+- افحص الحمل ونظام التغذية الراجعة وفق إجراء العزل المعتمد فقط.
+- **Vérifications sûres (FR):**
+- Relever la vitesse réelle, la consigne, l’état machine et l’historique depuis le diagnostic sécurisé.
+- Faire vérifier l’application et p1401 bit 7 par un ingénieur habilité; ne pas modifier sans validation.
+- Examiner charge et retour de mesure uniquement selon la procédure de consignation.
+- **Escalation (EN):** Escalate recurring faults or any case requiring drive-parameter, safety, or network changes to authorized controls/drive engineering. Never bypass safety or communication monitoring.
+- **التصعيد (AR):** صعّد الأعطال المتكررة أو الحالات التي تتطلب تعديل معلمات القيادة أو السلامة أو الشبكة إلى مهندس مخوّل. لا تتجاوز مراقبة السلامة أو الاتصال.
+- **Escalade (FR):** Escalader les défauts récurrents et toute modification de paramètres variateur, sécurité ou réseau vers un ingénieur habilité. Ne jamais contourner les surveillances de sécurité/communication.
+- **Review date:** 2026-10-24. **Evidence status:** manual-claim-reviewed, not field-verified.
+- **Limits:** Manual-claim reviewed, not field-verified. Applies only to the stated SINAMICS G120C frame range and cited manual revision. Verify the exact installed drive, firmware, PLC project and machine-builder instructions before action.
+### sinamics-g120c-f07902
+- **Manufacturer / family:** Siemens — SINAMICS G120C FSD–FSF
+- **Scope:** SINAMICS G120C frame sizes FSD through FSF only; confirm installed model and machine integration
+- **Firmware/software scope:** Compact Operating Instructions, firmware V4.7 SP6; A5E39339884B AA, 11/2016
+- **Alarm code:** F07902
+- **Meaning (EN):** The manual directs checks of motor-data parameterization/identification, current-limit values and possible motor-cable disconnection during operation.
+- **المعنى (AR):** يوجه الدليل إلى فحص إعداد/تحديد بيانات المحرك وحدود التيار واحتمال انفصال كابلات المحرك أثناء التشغيل.
+- **Sens (FR):** Le manuel demande de contrôler le paramétrage/identification moteur, les limites de courant et une éventuelle déconnexion des câbles en fonctionnement.
+- **Source:** SINAMICS G120C FSD … FSF Compact Operating Instructions; revision FW V4.7 SP6; A5E39339884B AA; 11/2016; section 5.1 List of alarms and faults; printed page 82.
+- **Official manual:** https://support.industry.siemens.com/cs/attachments/109744756/G120C_FSD_F_cmpct_op_instr_1116_en-US.pdf
+- **Evidence summary:** Official manual table 5.1 explicitly lists F07902 as “Motor stalled” and provides the summarized corrective direction. The summary is paraphrased and limited to this model/frame/firmware context.
+- **Safe checks (EN):**
+- Compare motor nameplate data with the approved drive configuration and identification record.
+- Review p0640, r0067 and r0289 against the exact application and manual; do not raise current limits as a blind fix.
+- Inspect motor-cable integrity only after isolation and prove-dead steps.
+- **الفحوصات الآمنة (AR):**
+- قارن بيانات لوحة المحرك بإعداد القيادة المعتمد وسجل تحديد بيانات المحرك.
+- راجع p0640 وr0067 وr0289 وفق التطبيق والدليل؛ لا ترفع حدود التيار عشوائيًا.
+- افحص كابلات المحرك بعد العزل والتحقق من انعدام الجهد فقط.
+- **Vérifications sûres (FR):**
+- Comparer la plaque moteur à la configuration approuvée et au relevé d’identification.
+- Examiner p0640, r0067 et r0289 selon l’application et le manuel; ne pas augmenter les limites à l’aveugle.
+- Inspecter les câbles moteur après consignation et vérification d’absence de tension.
+- **Escalation (EN):** Escalate recurring faults or any case requiring drive-parameter, safety, or network changes to authorized controls/drive engineering. Never bypass safety or communication monitoring.
+- **التصعيد (AR):** صعّد الأعطال المتكررة أو الحالات التي تتطلب تعديل معلمات القيادة أو السلامة أو الشبكة إلى مهندس مخوّل. لا تتجاوز مراقبة السلامة أو الاتصال.
+- **Escalade (FR):** Escalader les défauts récurrents et toute modification de paramètres variateur, sécurité ou réseau vers un ingénieur habilité. Ne jamais contourner les surveillances de sécurité/communication.
+- **Review date:** 2026-10-24. **Evidence status:** manual-claim-reviewed, not field-verified.
+- **Limits:** Manual-claim reviewed, not field-verified. Applies only to the stated SINAMICS G120C frame range and cited manual revision. Verify the exact installed drive, firmware, PLC project and machine-builder instructions before action.
+### sinamics-g120c-f08501
+- **Manufacturer / family:** Siemens — SINAMICS G120C FSD–FSF
+- **Scope:** SINAMICS G120C frame sizes FSD through FSF only; confirm installed model and machine integration
+- **Firmware/software scope:** Compact Operating Instructions, firmware V4.7 SP6; A5E39339884B AA, 11/2016
+- **Alarm code:** F08501
+- **Meaning (EN):** The manual directs the user to check PROFINET connectivity and controller RUN state; repeated faults warrant review of monitoring time p2044.
+- **المعنى (AR):** يوجه الدليل إلى فحص اتصال PROFINET وحالة RUN لوحدة التحكم؛ وعند التكرار تُراجع مهلة المراقبة p2044.
+- **Sens (FR):** Le manuel demande de vérifier PROFINET et l’état RUN du contrôleur; en cas de répétition, examiner le temps de surveillance p2044.
+- **Source:** SINAMICS G120C FSD … FSF Compact Operating Instructions; revision FW V4.7 SP6; A5E39339884B AA; 11/2016; section 5.1 List of alarms and faults; printed page 82.
+- **Official manual:** https://support.industry.siemens.com/cs/attachments/109744756/G120C_FSD_F_cmpct_op_instr_1116_en-US.pdf
+- **Evidence summary:** Official manual table 5.1 explicitly lists F08501 as “Setpoint timeout” and provides the summarized corrective direction. The summary is paraphrased and limited to this model/frame/firmware context.
+- **Safe checks (EN):**
+- Record controller RUN/STOP state, network diagnostics and the time of the fault.
+- Check PROFINET link and the approved PLC/drive configuration before changing any timing parameter.
+- Any p2044 change requires application review and authorized approval; do not use it to mask intermittent communication.
+- **الفحوصات الآمنة (AR):**
+- سجّل حالة RUN/STOP لوحدة التحكم وتشخيص الشبكة ووقت العطل.
+- افحص وصلة PROFINET وإعداد PLC/القيادة المعتمد قبل تعديل أي مهلة.
+- أي تعديل لـ p2044 يتطلب مراجعة التطبيق وموافقة مخوّلة؛ لا تستخدمه لإخفاء الاتصال المتقطع.
+- **Vérifications sûres (FR):**
+- Consigner RUN/STOP, les diagnostics réseau et l’heure du défaut.
+- Vérifier la liaison PROFINET et la configuration approuvée API/variateur avant toute modification de temporisation.
+- Toute modification de p2044 exige une validation autorisée; ne pas masquer une communication intermittente.
+- **Escalation (EN):** Escalate recurring faults or any case requiring drive-parameter, safety, or network changes to authorized controls/drive engineering. Never bypass safety or communication monitoring.
+- **التصعيد (AR):** صعّد الأعطال المتكررة أو الحالات التي تتطلب تعديل معلمات القيادة أو السلامة أو الشبكة إلى مهندس مخوّل. لا تتجاوز مراقبة السلامة أو الاتصال.
+- **Escalade (FR):** Escalader les défauts récurrents et toute modification de paramètres variateur, sécurité ou réseau vers un ingénieur habilité. Ne jamais contourner les surveillances de sécurité/communication.
+- **Review date:** 2026-10-24. **Evidence status:** manual-claim-reviewed, not field-verified.
+- **Limits:** Manual-claim reviewed, not field-verified. Applies only to the stated SINAMICS G120C frame range and cited manual revision. Verify the exact installed drive, firmware, PLC project and machine-builder instructions before action.
+### sinamics-g120c-f08502
+- **Manufacturer / family:** Siemens — SINAMICS G120C FSD–FSF
+- **Scope:** SINAMICS G120C frame sizes FSD through FSF only; confirm installed model and machine integration
+- **Firmware/software scope:** Compact Operating Instructions, firmware V4.7 SP6; A5E39339884B AA, 11/2016
+- **Alarm code:** F08502
+- **Meaning (EN):** The manual identifies expiration of the sign-of-life monitoring time and directs the user to check the PROFINET connection.
+- **المعنى (AR):** يحدد الدليل انتهاء زمن مراقبة إشارة الحيوية ويوجه إلى فحص اتصال PROFINET.
+- **Sens (FR):** Le manuel indique l’expiration du temps de surveillance du signal de vie et demande de vérifier PROFINET.
+- **Source:** SINAMICS G120C FSD … FSF Compact Operating Instructions; revision FW V4.7 SP6; A5E39339884B AA; 11/2016; section 5.1 List of alarms and faults; printed page 82.
+- **Official manual:** https://support.industry.siemens.com/cs/attachments/109744756/G120C_FSD_F_cmpct_op_instr_1116_en-US.pdf
+- **Evidence summary:** Official manual table 5.1 explicitly lists F08502 as “Monitoring time, sign-of-life expired” and provides the summarized corrective direction. The summary is paraphrased and limited to this model/frame/firmware context.
+- **Safe checks (EN):**
+- Capture the full fault text, timestamp and controller/drive communication diagnostics.
+- Inspect the PROFINET connection and approved network configuration; compare with known-good configuration records.
+- Escalate repeated events to controls/network engineering; do not bypass watchdog monitoring.
+- **الفحوصات الآمنة (AR):**
+- احفظ نص العطل الكامل ووقته وتشخيص الاتصال بين وحدة التحكم والقيادة.
+- افحص اتصال PROFINET وإعداد الشبكة المعتمد وقارنه بسجل إعداد صحيح معروف.
+- صعّد الأحداث المتكررة إلى مهندس التحكم/الشبكات؛ لا تتجاوز مراقبة الاتصال.
+- **Vérifications sûres (FR):**
+- Enregistrer le texte complet, l’heure et les diagnostics de communication automate/variateur.
+- Vérifier PROFINET et la configuration réseau approuvée en la comparant aux dossiers de référence.
+- Escalader les récidives; ne pas contourner la surveillance de communication.
+- **Escalation (EN):** Escalate recurring faults or any case requiring drive-parameter, safety, or network changes to authorized controls/drive engineering. Never bypass safety or communication monitoring.
+- **التصعيد (AR):** صعّد الأعطال المتكررة أو الحالات التي تتطلب تعديل معلمات القيادة أو السلامة أو الشبكة إلى مهندس مخوّل. لا تتجاوز مراقبة السلامة أو الاتصال.
+- **Escalade (FR):** Escalader les défauts récurrents et toute modification de paramètres variateur, sécurité ou réseau vers un ingénieur habilité. Ne jamais contourner les surveillances de sécurité/communication.
+- **Review date:** 2026-10-24. **Evidence status:** manual-claim-reviewed, not field-verified.
+- **Limits:** Manual-claim reviewed, not field-verified. Applies only to the stated SINAMICS G120C frame range and cited manual revision. Verify the exact installed drive, firmware, PLC project and machine-builder instructions before action.
+### sinamics-g120c-f08526
+- **Manufacturer / family:** Siemens — SINAMICS G120C FSD–FSF
+- **Scope:** SINAMICS G120C frame sizes FSD through FSF only; confirm installed model and machine integration
+- **Firmware/software scope:** Compact Operating Instructions, firmware V4.7 SP6; A5E39339884B AA, 11/2016
+- **Alarm code:** F08526
+- **Meaning (EN):** The manual directs the user to enable cyclic operation and check the station name and station IP parameters r61000/r61001.
+- **المعنى (AR):** يوجه الدليل إلى تفعيل التشغيل الدوري وفحص معلمتي اسم المحطة وعنوان IP ‏r61000/r61001.
+- **Sens (FR):** Le manuel demande d’activer le fonctionnement cyclique et de vérifier le nom et l’adresse IP de station r61000/r61001.
+- **Source:** SINAMICS G120C FSD … FSF Compact Operating Instructions; revision FW V4.7 SP6; A5E39339884B AA; 11/2016; section 5.1 List of alarms and faults; printed page 82.
+- **Official manual:** https://support.industry.siemens.com/cs/attachments/109744756/G120C_FSD_F_cmpct_op_instr_1116_en-US.pdf
+- **Evidence summary:** Official manual table 5.1 explicitly lists F08526 as “No cyclic connection” and provides the summarized corrective direction. The summary is paraphrased and limited to this model/frame/firmware context.
+- **Safe checks (EN):**
+- Record PLC/drive device names, IP addresses and the configured cyclic data exchange before edits.
+- Verify cyclic operation is configured and compare station name/IP with the approved PROFINET project.
+- Coordinate network identity changes with the controls engineer; avoid duplicate IP/name assignments.
+- **الفحوصات الآمنة (AR):**
+- سجّل أسماء أجهزة PLC والقيادة وعناوين IP وإعداد تبادل البيانات الدوري قبل التعديل.
+- تحقق من تهيئة التشغيل الدوري وقارن اسم المحطة وعنوان IP بمشروع PROFINET المعتمد.
+- نسّق أي تغيير لهوية الشبكة مع مهندس التحكم وتجنب تكرار عنوان IP أو اسم المحطة.
+- **Vérifications sûres (FR):**
+- Consigner les noms d’appareils, adresses IP et l’échange cyclique configuré avant modification.
+- Vérifier le fonctionnement cyclique et comparer nom/IP au projet PROFINET approuvé.
+- Coordonner tout changement d’identité réseau avec l’ingénieur; éviter les doublons IP/noms.
+- **Escalation (EN):** Escalate recurring faults or any case requiring drive-parameter, safety, or network changes to authorized controls/drive engineering. Never bypass safety or communication monitoring.
+- **التصعيد (AR):** صعّد الأعطال المتكررة أو الحالات التي تتطلب تعديل معلمات القيادة أو السلامة أو الشبكة إلى مهندس مخوّل. لا تتجاوز مراقبة السلامة أو الاتصال.
+- **Escalade (FR):** Escalader les défauts récurrents et toute modification de paramètres variateur, sécurité ou réseau vers un ingénieur habilité. Ne jamais contourner les surveillances de sécurité/communication.
+- **Review date:** 2026-10-24. **Evidence status:** manual-claim-reviewed, not field-verified.
+- **Limits:** Manual-claim reviewed, not field-verified. Applies only to the stated SINAMICS G120C frame range and cited manual revision. Verify the exact installed drive, firmware, PLC project and machine-builder instructions before action.
