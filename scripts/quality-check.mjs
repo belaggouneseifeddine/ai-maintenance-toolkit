@@ -490,6 +490,9 @@ const checks = [
       "european-packaging-safety-door-fault"
     ];
     for (const id of requiredIds) assert.ok(ids.includes(id), "Missing coverage case: " + id);
+    for (const type of ["electronics", "electrical_panel", "plc", "hmi", "industrial_network", "robotics", "safety_circuit", "fan-blower", "steam_system", "dust_collector", "cooling"]) {
+      assert.ok(html.includes('<option value="' + type + '">'), "Machine selector missing category: " + type);
+    }
     const sourceIds = new Set(manufacturerSources.sources.map(source => source.id));
     for (const fault of faults.faults) {
       if (fault.evidenceStatus === "general-guidance-not-model-specific") {
