@@ -33,5 +33,5 @@ test("follow-up advances after an answer is supplied", () => {
 test("rendered output escapes user-supplied text", () => {
   const result=require("../local-reasoning.js").renderHTML({machine:"pump",symptom:"noise",observations:"<script>alert(1)</script>",language:"ar"});
   assert.equal(result.includes("<script>alert(1)</script>"),false);
-  assert.match(result,/exploratory/i);
+  assert.match(result,/فرضيات استكشافية/);
 });
