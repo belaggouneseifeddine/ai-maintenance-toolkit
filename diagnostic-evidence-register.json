@@ -767,15 +767,10 @@
       "references": [],
       "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
     },
-    "electronics-plc-24v-supply-drop": {
-      "status": "review-needed",
+    "electronics-24v-supply-drop": {
+      "status": "source-not-recorded",
       "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
-    },
-    "electronics-power-supply-overtemperature": {
-      "status": "review-needed",
-      "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
+      "reviewNote": "New structured fault entry; its sourceRefs are discovery portals only and do not verify the technical claim. Record an inspected source before changing evidence status."
     },
     "electronics-dc-ripple-high": {
       "status": "review-needed",
@@ -807,10 +802,10 @@
       "references": [],
       "note": "General guidance only; exact model-specific evidence has not been reviewed."
     },
-    "electronics-opto-isolator-failure": {
-      "status": "review-needed",
+    "electronics-opto-isolator-fault": {
+      "status": "source-not-recorded",
       "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
+      "reviewNote": "New structured fault entry; its sourceRefs are discovery portals only and do not verify the technical claim. Record an inspected source before changing evidence status."
     },
     "electronics-relay-driver-fault": {
       "status": "review-needed",
@@ -822,22 +817,12 @@
       "references": [],
       "note": "General guidance only; exact model-specific evidence has not been reviewed."
     },
-    "electronics-igbt-desaturation-alarm": {
-      "status": "review-needed",
+    "electronics-igbt-desaturation": {
+      "status": "source-not-recorded",
       "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
+      "reviewNote": "New structured fault entry; its sourceRefs are discovery portals only and do not verify the technical claim. Record an inspected source before changing evidence status."
     },
     "electronics-encoder-signal-loss": {
-      "status": "review-needed",
-      "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
-    },
-    "electronics-encoder-count-mismatch": {
-      "status": "review-needed",
-      "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
-    },
-    "electronics-communication-isolator-fault": {
       "status": "review-needed",
       "references": [],
       "note": "General guidance only; exact model-specific evidence has not been reviewed."
@@ -852,11 +837,6 @@
       "references": [],
       "note": "General guidance only; exact model-specific evidence has not been reviewed."
     },
-    "electronics-clock-drift": {
-      "status": "review-needed",
-      "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
-    },
     "electronics-pcb-corrosion": {
       "status": "review-needed",
       "references": [],
@@ -867,10 +847,10 @@
       "references": [],
       "note": "General guidance only; exact model-specific evidence has not been reviewed."
     },
-    "circuit-breaker-unexpected-trip": {
-      "status": "review-needed",
+    "breaker-unexpected-trip": {
+      "status": "source-not-recorded",
       "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
+      "reviewNote": "New structured fault entry; its sourceRefs are discovery portals only and do not verify the technical claim. Record an inspected source before changing evidence status."
     },
     "fuse-repeated-blowing": {
       "status": "review-needed",
@@ -897,20 +877,20 @@
       "references": [],
       "note": "General guidance only; exact model-specific evidence has not been reviewed."
     },
-    "phase-loss-detection": {
-      "status": "review-needed",
+    "phase-loss-suspected": {
+      "status": "source-not-recorded",
       "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
+      "reviewNote": "New structured fault entry; its sourceRefs are discovery portals only and do not verify the technical claim. Record an inspected source before changing evidence status."
     },
-    "phase-sequence-wrong": {
-      "status": "review-needed",
+    "phase-sequence-incorrect": {
+      "status": "source-not-recorded",
       "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
+      "reviewNote": "New structured fault entry; its sourceRefs are discovery portals only and do not verify the technical claim. Record an inspected source before changing evidence status."
     },
-    "protective-earth-continuity-suspect": {
-      "status": "review-needed",
+    "earth-leakage-protection-trip": {
+      "status": "source-not-recorded",
       "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
+      "reviewNote": "New structured fault entry; its sourceRefs are discovery portals only and do not verify the technical claim. Record an inspected source before changing evidence status."
     },
     "control-transformer-secondary-low": {
       "status": "review-needed",
@@ -922,25 +902,25 @@
       "references": [],
       "note": "General guidance only; exact model-specific evidence has not been reviewed."
     },
-    "short-circuit-indication": {
-      "status": "review-needed",
+    "short-circuit-suspected": {
+      "status": "source-not-recorded",
       "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
+      "reviewNote": "New structured fault entry; its sourceRefs are discovery portals only and do not verify the technical claim. Record an inspected source before changing evidence status."
     },
-    "terminal-loose-connection": {
-      "status": "review-needed",
+    "loose-terminal-connection": {
+      "status": "source-not-recorded",
       "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
+      "reviewNote": "New structured fault entry; its sourceRefs are discovery portals only and do not verify the technical claim. Record an inspected source before changing evidence status."
     },
-    "overheated-busbar": {
-      "status": "review-needed",
+    "busbar-overheating": {
+      "status": "source-not-recorded",
       "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
+      "reviewNote": "New structured fault entry; its sourceRefs are discovery portals only and do not verify the technical claim. Record an inspected source before changing evidence status."
     },
-    "motor-braking-resistor-overheat": {
-      "status": "review-needed",
+    "braking-resistor-overheat": {
+      "status": "source-not-recorded",
       "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
+      "reviewNote": "New structured fault entry; its sourceRefs are discovery portals only and do not verify the technical claim. Record an inspected source before changing evidence status."
     },
     "safety-relay-reset-failure": {
       "status": "review-needed",
@@ -952,15 +932,10 @@
       "references": [],
       "note": "General guidance only; exact model-specific evidence has not been reviewed."
     },
-    "interlock-chain-not-satisfied": {
-      "status": "review-needed",
+    "interlock-chain-unsatisfied": {
+      "status": "source-not-recorded",
       "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
-    },
-    "electrical-panel-condensation": {
-      "status": "review-needed",
-      "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
+      "reviewNote": "New structured fault entry; its sourceRefs are discovery portals only and do not verify the technical claim. Record an inspected source before changing evidence status."
     },
     "plc-cpu-stop-mode": {
       "status": "review-needed",
@@ -987,11 +962,6 @@
       "references": [],
       "note": "General guidance only; exact model-specific evidence has not been reviewed."
     },
-    "plc-input-point-stuck": {
-      "status": "review-needed",
-      "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
-    },
     "plc-output-point-not-switching": {
       "status": "review-needed",
       "references": [],
@@ -1007,15 +977,10 @@
       "references": [],
       "note": "General guidance only; exact model-specific evidence has not been reviewed."
     },
-    "plc-time-sync-mismatch": {
-      "status": "review-needed",
+    "industrial-ip-address-conflict": {
+      "status": "source-not-recorded",
       "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
-    },
-    "industrial-ethernet-ip-conflict": {
-      "status": "review-needed",
-      "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
+      "reviewNote": "New structured fault entry; its sourceRefs are discovery portals only and do not verify the technical claim. Record an inspected source before changing evidence status."
     },
     "profinet-device-name-mismatch": {
       "status": "review-needed",
@@ -1032,32 +997,12 @@
       "references": [],
       "note": "General guidance only; exact model-specific evidence has not been reviewed."
     },
-    "servo-homing-not-complete": {
-      "status": "review-needed",
+    "servo-homing-incomplete": {
+      "status": "source-not-recorded",
       "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
-    },
-    "robot-controller-safety-stop": {
-      "status": "review-needed",
-      "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
-    },
-    "industrial-pc-storage-full": {
-      "status": "review-needed",
-      "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
+      "reviewNote": "New structured fault entry; its sourceRefs are discovery portals only and do not verify the technical claim. Record an inspected source before changing evidence status."
     },
     "industrial-software-version-mismatch": {
-      "status": "review-needed",
-      "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
-    },
-    "parameter-backup-missing": {
-      "status": "review-needed",
-      "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
-    },
-    "industrial-network-intermittent-loss": {
       "status": "review-needed",
       "references": [],
       "note": "General guidance only; exact model-specific evidence has not been reviewed."
@@ -1067,37 +1012,12 @@
       "references": [],
       "note": "General guidance only; exact model-specific evidence has not been reviewed."
     },
-    "cnc-spindle-orientation-failure": {
-      "status": "review-needed",
-      "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
-    },
     "cnc-tool-changer-timeout": {
       "status": "review-needed",
       "references": [],
       "note": "General guidance only; exact model-specific evidence has not been reviewed."
     },
-    "cnc-servo-following-error": {
-      "status": "review-needed",
-      "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
-    },
-    "cnc-lubrication-low-level": {
-      "status": "review-needed",
-      "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
-    },
     "laser-cutter-chiller-alarm": {
-      "status": "review-needed",
-      "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
-    },
-    "laser-cutter-optical-path-contamination": {
-      "status": "review-needed",
-      "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
-    },
-    "injection-molding-barrel-temperature-deviation": {
       "status": "review-needed",
       "references": [],
       "note": "General guidance only; exact model-specific evidence has not been reviewed."
@@ -1117,55 +1037,35 @@
       "references": [],
       "note": "General guidance only; exact model-specific evidence has not been reviewed."
     },
-    "textile-machine-thread-break-detection": {
-      "status": "review-needed",
+    "textile-thread-break-detection": {
+      "status": "source-not-recorded",
       "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
+      "reviewNote": "New structured fault entry; its sourceRefs are discovery portals only and do not verify the technical claim. Record an inspected source before changing evidence status."
     },
-    "printing-machine-web-tension-unstable": {
-      "status": "review-needed",
+    "compressor-oil-separator-pressure-drop": {
+      "status": "source-not-recorded",
       "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
+      "reviewNote": "New structured fault entry; its sourceRefs are discovery portals only and do not verify the technical claim. Record an inspected source before changing evidence status."
     },
-    "food-mixer-gearbox-overtemperature": {
-      "status": "review-needed",
+    "chinese-cnc-controller-unknown-alarm": {
+      "status": "source-not-recorded",
       "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
-    },
-    "industrial-oven-zone-temperature-imbalance": {
-      "status": "review-needed",
-      "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
-    },
-    "air-compressor-oil-separator-pressure-drop": {
-      "status": "review-needed",
-      "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
-    },
-    "chinese-cnc-controller-alarm-unknown": {
-      "status": "review-needed",
-      "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
+      "reviewNote": "New structured fault entry; its sourceRefs are discovery portals only and do not verify the technical claim. Record an inspected source before changing evidence status."
     },
     "chinese-vfd-parameter-loss": {
       "status": "review-needed",
       "references": [],
       "note": "General guidance only; exact model-specific evidence has not been reviewed."
     },
-    "chinese-servo-alarm-encoder": {
-      "status": "review-needed",
+    "chinese-servo-encoder-alarm": {
+      "status": "source-not-recorded",
       "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
+      "reviewNote": "New structured fault entry; its sourceRefs are discovery portals only and do not verify the technical claim. Record an inspected source before changing evidence status."
     },
-    "chinese-injection-machine-ejector-fault": {
-      "status": "review-needed",
+    "chinese-packaging-photoeye-fault": {
+      "status": "source-not-recorded",
       "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
-    },
-    "chinese-packaging-machine-photoeye-fault": {
-      "status": "review-needed",
-      "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
+      "reviewNote": "New structured fault entry; its sourceRefs are discovery portals only and do not verify the technical claim. Record an inspected source before changing evidence status."
     },
     "european-cnc-tool-magazine-fault": {
       "status": "review-needed",
@@ -1183,46 +1083,6 @@
       "note": "General guidance only; exact model-specific evidence has not been reviewed."
     },
     "european-conveyor-synchronization-error": {
-      "status": "review-needed",
-      "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
-    },
-    "european-press-two-hand-control-fault": {
-      "status": "review-needed",
-      "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
-    },
-    "european-compressor-drive-communication-fault": {
-      "status": "review-needed",
-      "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
-    },
-    "european-palletizer-gripper-feedback-fault": {
-      "status": "review-needed",
-      "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
-    },
-    "machine-recipe-parameter-mismatch": {
-      "status": "review-needed",
-      "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
-    },
-    "machine-axis-brake-release-fault": {
-      "status": "review-needed",
-      "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
-    },
-    "machine-cooling-flow-low": {
-      "status": "review-needed",
-      "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
-    },
-    "machine-central-lubrication-alarm": {
-      "status": "review-needed",
-      "references": [],
-      "note": "General guidance only; exact model-specific evidence has not been reviewed."
-    },
-    "machine-vacuum-pickup-low": {
       "status": "review-needed",
       "references": [],
       "note": "General guidance only; exact model-specific evidence has not been reviewed."
