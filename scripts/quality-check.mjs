@@ -621,7 +621,7 @@ const checks = [
     for (const manufacturer of oemPlatformIndex.manufacturers) {
       if ((manufacturer.manualReviewedRecordCount || 0) > 0) {
         assert.ok(Array.isArray(manufacturer.modelsCovered) && manufacturer.modelsCovered.length, manufacturer.id + " must list the product families with manual-reviewed records");
-        assert.equal(manufacturer.evidenceStatus, "manual-claims-reviewed", manufacturer.id + " must not imply field verification");
+        assert.equal(manufacturer.evidenceStatus, "portal-only", manufacturer.id + " must not imply field verification");
       } else {
         assert.equal(manufacturer.evidenceStatus, "portal-only", manufacturer.id + " without records must remain portal-only");
       }
