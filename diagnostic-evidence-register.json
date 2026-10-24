@@ -767,5 +767,23 @@
       "references": [],
       "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
     }
-  }
+  },
+  "generalSafetyReferences": [
+    {
+      "id": "osha-29-cfr-1910-147",
+      "status": "verified-general-safety-reference",
+      "title": "The control of hazardous energy (lockout/tagout)",
+      "publisher": "Occupational Safety and Health Administration (OSHA), U.S. Department of Labor",
+      "documentNumber": "29 CFR 1910.147",
+      "revisionOrDate": "Current online regulation checked 2026-10-24",
+      "url": "https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910.147",
+      "relevantSections": [
+        "1910.147(a) scope and purpose",
+        "1910.147(c)(4) energy-control procedure",
+        "1910.147(d)(5)-(6) stored energy and verification of isolation"
+      ],
+      "scope": "General hazardous-energy control for covered servicing/maintenance work. This is not an OEM fault-diagnosis manual and does not verify any fault cause in faults.json.",
+      "limitation": "Applicable workplace law and site procedures must be checked. Do not treat this U.S. regulation as a substitute for Algerian/local legal requirements or machine-specific instructions."
+    }
+  ]
 }
