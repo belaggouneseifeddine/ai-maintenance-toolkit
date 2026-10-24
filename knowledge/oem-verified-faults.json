@@ -912,7 +912,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Apply only to the stated model/software scope. Confirm installed manual revision and exact alarm text before action."
+      "limitations": "Apply only to the stated model/software scope. Confirm installed manual revision and exact alarm text before action.",
+      "controllerModel": "MELSEC iQ-F FX5S / FX5UJ / FX5U / FX5UC PLC"
     },
     {
       "id": "melsec-fx5-error-severity",
@@ -966,7 +967,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Apply only to the stated model/software scope. Confirm installed manual revision and exact alarm text before action."
+      "limitations": "Apply only to the stated model/software scope. Confirm installed manual revision and exact alarm text before action.",
+      "controllerModel": "MELSEC iQ-F FX5S / FX5UJ / FX5U / FX5UC PLC"
     },
     {
       "id": "melsec-fx5-preserve-error-history",
@@ -1017,7 +1019,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Apply only to the stated model/software scope. Confirm installed manual revision and exact alarm text before action."
+      "limitations": "Apply only to the stated model/software scope. Confirm installed manual revision and exact alarm text before action.",
+      "controllerModel": "MELSEC iQ-F FX5S / FX5UJ / FX5U / FX5UC PLC"
     },
     {
       "id": "mitsubishi-mrj4-al16-al20-encoder-compatibility",
@@ -2260,7 +2263,8 @@
         "ar": "صعّد إلى مختص تحكم ومصنّع الماكينة عند استمرار ERR أو حدوث حركة غير مفسرة أو خطأ متعلق بالسلامة أو فقد مشروع PLC.",
         "fr": "Faire intervenir un spécialiste automatismes et le constructeur si ERR persiste, si un mouvement est inexpliqué, si la sécurité est concernée ou si le projet PLC est perdu."
       },
-      "limitations": "Indicator meaning only; no exact H5U alarm code or root cause is asserted. Confirm the installed manual revision and retrieve the actual diagnostic event."
+      "limitations": "Indicator meaning only; no exact H5U alarm code or root cause is asserted. Confirm the installed manual revision and retrieve the actual diagnostic event.",
+      "controllerModel": "INOVANCE H5U Series PLC"
     },
     {
       "id": "oem-inovance-h5u-bat-battery-indicator",
@@ -2314,7 +2318,8 @@
         "ar": "صعّد إذا استمر تحذير البطارية أو كان حفظ البيانات مهددًا أو لم يتضح إجراء الاستبدال الخاص بنسخة CPU.",
         "fr": "Faire intervenir le support si l’avertissement persiste, si les données rémanentes sont menacées ou si la procédure propre au CPU n’est pas claire."
       },
-      "limitations": "Indicator meaning only; does not specify a battery part number, replacement interval or data-retention duration."
+      "limitations": "Indicator meaning only; does not specify a battery part number, replacement interval or data-retention duration.",
+      "controllerModel": "INOVANCE H5U Series PLC"
     },
     {
       "id": "oem-inovance-h5u-bf-ethercat-indicator",
@@ -2368,7 +2373,8 @@
         "ar": "صعّد عند تكرار أخطاء الناقل أو حركة محور غير متوقعة أو فقد اتصال السلامة أو تعذر تحديد الوحدة التابعة إلى مهندس أتمتة مؤهل.",
         "fr": "Faire intervenir un automaticien qualifié en cas de défauts bus récurrents, de mouvement inattendu, de perte de communication de sécurité ou d’esclave non identifié."
       },
-      "limitations": "Indicator meaning only; not an EtherCAT fault-code mapping. Exact root cause must come from the installed topology and diagnostic log."
+      "limitations": "Indicator meaning only; not an EtherCAT fault-code mapping. Exact root cause must come from the installed topology and diagnostic log.",
+      "controllerModel": "INOVANCE H5U Series PLC"
     },
     {
       "id": "xinje-xnet-error-1-remote-device-connection",
@@ -2422,7 +2428,8 @@
         "ar": "صعّد الأخطاء المستمرة أو جلسات الاتصال البعيد غير المفسرة أو الاشتباه في مشكلة بيانات دخول/أمن إلى مسؤولي الأتمتة وتقنية المعلومات/الشبكة.",
         "fr": "Faire intervenir les responsables automatismes et informatique/réseau en cas d’erreurs persistantes, de sessions distantes inexpliquées ou de suspicion de problème d’identifiants/sécurité."
       },
-      "limitations": "Applies only to the X-NET/XINJEConfig remote-connection diagnostic table in the cited manual. These are not PLC ladder, servo-drive or machine-builder alarm codes. No printed page number was available in the reviewed extracted text."
+      "limitations": "Applies only to the X-NET/XINJEConfig remote-connection diagnostic table in the cited manual. These are not PLC ladder, servo-drive or machine-builder alarm codes. No printed page number was available in the reviewed extracted text.",
+      "controllerModel": "XINJE X-NET fieldbus / XINJEConfig remote-connection diagnostics"
     },
     {
       "id": "xinje-xnet-error-16-sponsor-not-logged-in",
@@ -2476,7 +2483,8 @@
         "ar": "صعّد الأخطاء المستمرة أو جلسات الاتصال البعيد غير المفسرة أو الاشتباه في مشكلة بيانات دخول/أمن إلى مسؤولي الأتمتة وتقنية المعلومات/الشبكة.",
         "fr": "Faire intervenir les responsables automatismes et informatique/réseau en cas d’erreurs persistantes, de sessions distantes inexpliquées ou de suspicion de problème d’identifiants/sécurité."
       },
-      "limitations": "Applies only to the X-NET/XINJEConfig remote-connection diagnostic table in the cited manual. These are not PLC ladder, servo-drive or machine-builder alarm codes. No printed page number was available in the reviewed extracted text."
+      "limitations": "Applies only to the X-NET/XINJEConfig remote-connection diagnostic table in the cited manual. These are not PLC ladder, servo-drive or machine-builder alarm codes. No printed page number was available in the reviewed extracted text.",
+      "controllerModel": "XINJE X-NET fieldbus / XINJEConfig remote-connection diagnostics"
     },
     {
       "id": "xinje-xnet-error-17-recipient-not-logged-in",
@@ -2530,7 +2538,8 @@
         "ar": "صعّد الأخطاء المستمرة أو جلسات الاتصال البعيد غير المفسرة أو الاشتباه في مشكلة بيانات دخول/أمن إلى مسؤولي الأتمتة وتقنية المعلومات/الشبكة.",
         "fr": "Faire intervenir les responsables automatismes et informatique/réseau en cas d’erreurs persistantes, de sessions distantes inexpliquées ou de suspicion de problème d’identifiants/sécurité."
       },
-      "limitations": "Applies only to the X-NET/XINJEConfig remote-connection diagnostic table in the cited manual. These are not PLC ladder, servo-drive or machine-builder alarm codes. No printed page number was available in the reviewed extracted text."
+      "limitations": "Applies only to the X-NET/XINJEConfig remote-connection diagnostic table in the cited manual. These are not PLC ladder, servo-drive or machine-builder alarm codes. No printed page number was available in the reviewed extracted text.",
+      "controllerModel": "XINJE X-NET fieldbus / XINJEConfig remote-connection diagnostics"
     },
     {
       "id": "xinje-xnet-error-18-safe-mode-mismatch",
@@ -2584,7 +2593,8 @@
         "ar": "صعّد الأخطاء المستمرة أو جلسات الاتصال البعيد غير المفسرة أو الاشتباه في مشكلة بيانات دخول/أمن إلى مسؤولي الأتمتة وتقنية المعلومات/الشبكة.",
         "fr": "Faire intervenir les responsables automatismes et informatique/réseau en cas d’erreurs persistantes, de sessions distantes inexpliquées ou de suspicion de problème d’identifiants/sécurité."
       },
-      "limitations": "Applies only to the X-NET/XINJEConfig remote-connection diagnostic table in the cited manual. These are not PLC ladder, servo-drive or machine-builder alarm codes. No printed page number was available in the reviewed extracted text."
+      "limitations": "Applies only to the X-NET/XINJEConfig remote-connection diagnostic table in the cited manual. These are not PLC ladder, servo-drive or machine-builder alarm codes. No printed page number was available in the reviewed extracted text.",
+      "controllerModel": "XINJE X-NET fieldbus / XINJEConfig remote-connection diagnostics"
     },
     {
       "id": "xinje-xnet-error-19-password-error",
@@ -2638,7 +2648,8 @@
         "ar": "صعّد الأخطاء المستمرة أو جلسات الاتصال البعيد غير المفسرة أو الاشتباه في مشكلة بيانات دخول/أمن إلى مسؤولي الأتمتة وتقنية المعلومات/الشبكة.",
         "fr": "Faire intervenir les responsables automatismes et informatique/réseau en cas d’erreurs persistantes, de sessions distantes inexpliquées ou de suspicion de problème d’identifiants/sécurité."
       },
-      "limitations": "Applies only to the X-NET/XINJEConfig remote-connection diagnostic table in the cited manual. These are not PLC ladder, servo-drive or machine-builder alarm codes. No printed page number was available in the reviewed extracted text."
+      "limitations": "Applies only to the X-NET/XINJEConfig remote-connection diagnostic table in the cited manual. These are not PLC ladder, servo-drive or machine-builder alarm codes. No printed page number was available in the reviewed extracted text.",
+      "controllerModel": "XINJE X-NET fieldbus / XINJEConfig remote-connection diagnostics"
     },
     {
       "id": "xinje-xnet-error-255-login-failed",
@@ -2692,7 +2703,8 @@
         "ar": "صعّد الأخطاء المستمرة أو جلسات الاتصال البعيد غير المفسرة أو الاشتباه في مشكلة بيانات دخول/أمن إلى مسؤولي الأتمتة وتقنية المعلومات/الشبكة.",
         "fr": "Faire intervenir les responsables automatismes et informatique/réseau en cas d’erreurs persistantes, de sessions distantes inexpliquées ou de suspicion de problème d’identifiants/sécurité."
       },
-      "limitations": "Applies only to the X-NET/XINJEConfig remote-connection diagnostic table in the cited manual. These are not PLC ladder, servo-drive or machine-builder alarm codes. No printed page number was available in the reviewed extracted text."
+      "limitations": "Applies only to the X-NET/XINJEConfig remote-connection diagnostic table in the cited manual. These are not PLC ladder, servo-drive or machine-builder alarm codes. No printed page number was available in the reviewed extracted text.",
+      "controllerModel": "XINJE X-NET fieldbus / XINJEConfig remote-connection diagnostics"
     },
     {
       "id": "sinamics-g120c-f07860",
