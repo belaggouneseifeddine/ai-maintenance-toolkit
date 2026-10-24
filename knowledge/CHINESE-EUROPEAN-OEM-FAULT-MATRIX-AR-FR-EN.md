@@ -19,6 +19,12 @@
 | China | GSK CNC — 980TD / 928 / 218M CNC controls and DA98 servo drives | [Official portal](https://gskcnc.com/support.php) | cnc, servo, machine-tool |
 | China | Inovance — MD-series AC drives; IS620 / IS810N / SV660 servo; H5U PLC and HMI | [Official portal](https://www.inovance.com/global/support/download-documentation.html)<br>[Official portal](https://www.inovance.eu/downloads) | vfd, servo, plc, hmi, motion |
 | China | Leadshine — EL7 servo drives, stepper/closed-loop drives and motion controllers | [Official portal](https://www.leadshine.com/downloads.html) | servo, motion, cnc |
+| China | XINJE — XD/XG/XL PLC, DS servo, HMI and VFD families | [Official portal](https://en.xinje.com/web/downloadCenter/index) | plc, servo, vfd, hmi, motion |
+| China | Delta Electronics — AS/DVP PLC, ASDA servo, VFD and HMI | [Official portal](https://downloadcenter.delta-china.com.cn/en-US/DownloadCenter) | plc, servo, vfd, hmi, cnc |
+| China | YIZUMI — injection moulding, die casting and automation | [Official service portal](https://www.yizumi.com/en/service) | injection-moulding, hydraulic, servo |
+| China | Haitian International — servo-hydraulic and all-electric injection moulding | [Official service portal](https://haitianinter.com/service/) | injection-moulding, hydraulic, servo |
+| China | Bodor Laser — laser cutting/welding machinery and cooling interlocks | [Official service portal](https://www.bodor.com/en/service/) | laser, cooling, cnc, safety |
+| Japan / China support | Mitsubishi Electric FA China — MELSEC PLC, MELSERVO, FREQROL, CNC, GOT HMI, MELFA robots | [Official file center](https://www.mitsubishielectric-fa.cn/site/file-center) | plc, servo, vfd, cnc, hmi, robotics |
 | Taiwan | LNC / Lynuc — N3 / N5 / U-series CNC controls and D-series drives | [Official portal](https://www.lynuc.cn/download.aspx) | cnc, servo, motion |
 | Taiwan | Syntec — Syntec CNC controller and servo systems; confirm series on official portal | [Official portal](https://www.syntecamerica.com/download/) | cnc, servo, motion |
 | Europe / Germany | Siemens — SINUMERIK CNC; SIMATIC PLC/HMI; SINAMICS drives | [Official portal](https://support.industry.siemens.com/) | cnc, plc, hmi, vfd, industrial-network |
@@ -32,6 +38,7 @@
 | Europe / Germany | TRUMPF — Laser cutting, punching and sheet-metal machines; machine type required | [Official portal](https://www.trumpf.com/en_INT/service/) | laser, cnc, machine-tool, cooling |
 | Europe / Germany | HOMAG — Woodworking CNC, edge banding and panel processing machinery | [Official portal](https://www.homag.com/en/service) | cnc, conveyor, machine-tool, safety |
 | Europe / Germany | KUKA — KR robots and KRC controller generations; controller generation required | [Official portal](https://www.kuka.com/en-us/services/downloads) | robotics, servo, safety, industrial-network |
+| Europe / Germany | Pilz — safety relays, safety PLC, sensors and machine safety | [Official support portal](https://www.pilz.com/en-INT/support) | safety, safety-circuit, sensors, plc |
 
 ## Structured case templates
 
@@ -274,6 +281,70 @@
 - **Capture before diagnosis:** exact_alarm_text_or_code, machine_model_and_serial_range, controller_or_drive_model, firmware_or_software_version, operating_mode_and_recent_change, approved_event_log
 - **Safe checks:** Capture the displayed alarm and event log before reset. Use the exact OEM manual and site-approved procedure. Do not bypass interlocks or change parameters without authorization.
 - **Status:** `general-guidance-not-model-specific`; documentation links are discovery routes only.
+
+
+### 25. VFD parameters missing after replacement or power event
+- **Template ID:** `chinese-vfd-parameter-backup-check`
+- **Arabic:** فقدان معلمات مغير التردد بعد الاستبدال أو انقطاع الطاقة
+- **Français :** Paramètres du variateur manquants après remplacement ou coupure
+- **Relevant families:** INOVANCE MD, Delta VFD, XINJE VFD; exact installed drive decides
+- **Sources:** [INOVANCE](https://www.inovance.com/global/support/download-documentation.html), [Delta](https://downloadcenter.delta-china.com.cn/en-US/DownloadCenter), [XINJE](https://en.xinje.com/web/downloadCenter/index)
+- **Safe checks:** Preserve the current state and backup evidence. Do not load a parameter set from another model or machine.
+- **Status:** `general-guidance-not-model-specific`; no alarm code or recovery parameter is inferred.
+
+### 26. Unknown CNC alarm on a Chinese-built machine
+- **Template ID:** `chinese-cnc-alarm-identity-check`
+- **Arabic:** إنذار CNC غير معروف في ماكينة مصنّعة في الصين
+- **Français :** Alarme CNC inconnue sur une machine fabriquée en Chine
+- **Relevant families:** HuazhongCNC/HNC, GSK, LNC and Syntec; machine origin does not identify the controller.
+- **Sources:** [HuazhongCNC](https://en.huazhongcnc.com/download-center-of-huazhongcnc/), [GSK CNC](https://gskcnc.com/support.php), [LNC](https://www.lynuc.cn/download.aspx), [Syntec](https://syntecclub.com/)
+- **Safe checks:** Record the original alarm text/code, exact CNC model, firmware and machine builder before searching the manual.
+- **Status:** `general-guidance-not-model-specific`; never translate an unknown code into a guessed cause.
+
+### 27. Injection moulding hydraulic pressure low
+- **Template ID:** `chinese-injection-hydraulic-pressure-low`
+- **Arabic:** انخفاض الضغط الهيدروليكي في آلة الحقن
+- **Français :** Pression hydraulique basse sur presse à injecter
+- **Relevant families:** YIZUMI or Haitian only when the machine nameplate confirms that builder and exact model.
+- **Sources:** [YIZUMI service](https://www.yizumi.com/en/service), [Haitian service](https://haitianinter.com/service/)
+- **Safe checks:** Read the pressure and alarm history through approved interfaces; do not loosen hydraulic fittings or adjust pressure settings without the exact manual and qualified authorization.
+- **Status:** `general-guidance-not-model-specific`; hydraulic circuit options vary by machine.
+
+### 28. Laser machine cooling/interlock alarm
+- **Template ID:** `chinese-laser-cooling-interlock`
+- **Arabic:** إنذار التبريد أو التعشيق في آلة ليزر
+- **Français :** Alarme de refroidissement ou d’interverrouillage sur machine laser
+- **Relevant families:** Bodor laser systems only if the machine brand is confirmed; other laser builders need their own manuals.
+- **Source:** [Bodor service](https://www.bodor.com/en/service/)
+- **Safe checks:** Capture the exact alarm and cooling-unit model. Never bypass laser, door, coolant-flow or temperature interlocks.
+- **Status:** `general-guidance-not-model-specific`; no generic reset sequence is recommended.
+
+### 29. Servo feedback or encoder alarm on a Chinese machine
+- **Template ID:** `chinese-servo-feedback-alarm`
+- **Arabic:** إنذار تغذية راجعة أو مشفر سيرفو في ماكينة صينية
+- **Français :** Alarme de retour ou de codeur servo sur machine chinoise
+- **Relevant families:** INOVANCE, Leadshine, XINJE or Huazhong HSV; exact drive family required.
+- **Sources:** [INOVANCE](https://www.inovance.com/global/support/download-documentation.html), [Leadshine](https://www.leadshine.com/downloads.html), [XINJE](https://en.xinje.com/web/downloadCenter/index), [HuazhongCNC servo manuals](https://www.huazhongcnc.com/portal/list/index/cid/74.html)
+- **Safe checks:** Record drive and motor model, encoder type, exact alarm and recent cable/motor changes. Intrusive inspection requires approved isolation.
+- **Status:** `general-guidance-not-model-specific`; encoder alarm meanings differ by drive series.
+
+### 30. Safety door/interlock chain not satisfied
+- **Template ID:** `european-safety-door-loop`
+- **Arabic:** شروط دائرة باب السلامة أو التعشيق غير مستوفاة
+- **Français :** Chaîne de porte de sécurité ou d’interverrouillage non satisfaite
+- **Relevant families:** Pilz safety components and Siemens PLC/safety architecture; identify the installed safety device and wiring.
+- **Sources:** [Pilz support](https://www.pilz.com/en-INT/support), [Siemens Industry Support](https://support.industry.siemens.com/)
+- **Safe checks:** Read safety diagnostics and status indicators using approved procedures. Never bypass a guard, safety relay or interlock to resume production.
+- **Status:** `general-guidance-not-model-specific`; safety functions require competent review.
+
+### 31. Conveyor synchronization or drive communication fault
+- **Template ID:** `european-conveyor-drive-sync`
+- **Arabic:** خلل مزامنة الناقل أو اتصال مغيرات التردد
+- **Français :** Défaut de synchronisation du convoyeur ou de communication des variateurs
+- **Relevant families:** Beckhoff TwinCAT/EtherCAT, Siemens SIMATIC/SINAMICS and SEW-EURODRIVE; exact topology required.
+- **Sources:** [Beckhoff](https://www.beckhoff.com/en-us/support/download-finder/), [Siemens](https://support.industry.siemens.com/), [SEW-EURODRIVE](https://download.sew-eurodrive.com/)
+- **Safe checks:** Capture PLC/network/drive diagnostics and topology before changing node names, addresses or parameters.
+- **Status:** `general-guidance-not-model-specific`; identify whether the issue originates in control, network or drive before assigning a cause.
 
 ## Safety and verification boundary
 
