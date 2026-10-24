@@ -4,16 +4,17 @@ Deterministic inventory of the current repository. This report adds no technical
 
 ## Snapshot
 
-- Worker-referenced Markdown documents: **8**
-- Markdown inventory: **1,477 lines**, **18,004 whitespace-separated words**, **164 headings**
-- Structured fault records: **224**
+- Worker-referenced Markdown documents: **9**
+- Markdown inventory: **1,849 lines**, **22,291 whitespace-separated words**, **188 headings**
+- Structured fault records: **239**
+- Model-specific manual-reviewed fault records (not field-verified): **15**
 - Distinct equipment-type labels in the fault library: **34**
-- Cause entries across fault records: **677**
-- Fault records with an alarmCodes or errorCodes array: **0/224**
+- Cause entries across fault records: **721**
+- Fault records with an alarmCodes or errorCodes array: **0/239**
 - Chinese/European OEM manufacturer profiles: **28**
 - Structured OEM symptom templates: **38**
-- Official manufacturer/support portal records: **43**
-- Structured OEM platform index entries: **28**; model-verified: **0**
+- Official manufacturer/support portal records: **50**
+- Structured OEM platform index entries: **29**; model-verified: **0**
 
 ## Document inventory
 
@@ -27,6 +28,7 @@ Deterministic inventory of the current repository. This report adds no technical
 | knowledge/UNIVERSAL-INDUSTRIAL-FAULT-ATLAS-AR-FR-EN.md | 120 | 1,737 | 14 |
 | knowledge/CHINESE-EUROPEAN-OEM-FAULT-MATRIX-AR-FR-EN.md | 432 | 4,549 | 45 |
 | knowledge/OEM-MANUFACTURER-INDEX-AR-FR-EN.md | 123 | 1,378 | 10 |
+| knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md | 372 | 4,287 | 24 |
 
 ## Source registry and licensing
 
@@ -46,17 +48,10 @@ This is a conservative string-presence check only. It does not prove that a topi
 
 ## Gaps and required review
 
-1. No structured OEM alarm-code index is present in the fault library. Do not claim manufacturer-specific code matching until code records are sourced and reviewed.
+1. Model-specific manual-reviewed records summarize selected manual claims but are not field-verified; confirm the exact machine-builder configuration and applicable manual before using them operationally.
 2. 2 source-registry entries are not marked approved (approved count: 0). Candidate sources must not be treated as approved technical authority.
 3. 9 equipment labels lack a literal name match in the Worker-loaded documents. Review this list with a subject-matter expert; do not automatically fill the gaps with generated technical content.
 4. 5 reference-only portals are not allowlisted for automated fetching. Keep this restriction until reuse permissions are documented in the registry.
-
-## Manufacturer-specific case coverage and limits
-
-- The OEM matrix maps 28 manufacturer/controller families to official documentation routes and contains 38 structured symptom templates.
-- The OEM platform index lists 28 machine builders and component OEMs; 0 are model-verified. These entries are discovery routes only until exact model/manual evidence is reviewed.
-- These templates are not verified alarm-code definitions. A verified case requires exact model, controller/drive, firmware, manual revision, page/section, supported claim, and human review.
-- The 43-entry OEM source-discovery registry is separate from the 2 license-tracked research sources above. Its URLs do not prove that a particular fault cause applies.
 
 ## Method and limits
 
@@ -64,13 +59,3 @@ This is a conservative string-presence check only. It does not prove that a topi
 - Word counts use whitespace-separated tokens; they are inventory measures, not measures of quality.
 - This audit does not validate technical correctness, OEM applicability, or the evidentiary support of every statement.
 - No source text is fetched by this script and no new technical content is generated.
-
-
-## OEM-specific verified knowledge added (2026-10-24)
-
-- Structured evidence records: **20** in `knowledge/oem-verified-faults.json`.
-- Retrieval guide: `knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md`, added to the Worker-loaded knowledge documents.
-- Exact-source families: Siemens SINUMERIK 840D sl/828D, SINAMICS G120D, SINAMICS G120P; Mitsubishi MELSEC iQ-F FX5 and a narrowly scoped MR-J4 compatibility case.
-- Every verified record includes official source ID/URL, manual title/revision, section, page when available, evidence summary, multilingual meaning, safe checks, escalation and review date.
-- Chinese OEM families remain in an explicit evidence-acquisition queue until exact alarm entries are reviewed; portal links alone do not count as model-verified fault records.
-- These additions are on the feature branch; deployment is not implied by this report.
