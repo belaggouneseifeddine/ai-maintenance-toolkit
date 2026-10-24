@@ -4,15 +4,16 @@ Deterministic inventory of the current repository. This report adds no technical
 
 ## Snapshot
 
-- Worker-referenced Markdown documents: **7**
-- Markdown inventory: **1,217 lines**, **15,166 whitespace-separated words**, **139 headings**
+- Worker-referenced Markdown documents: **8**
+- Markdown inventory: **1,402 lines**, **17,225 whitespace-separated words**, **155 headings**
 - Structured fault records: **224**
 - Distinct equipment-type labels in the fault library: **34**
 - Cause entries across fault records: **677**
 - Fault records with an alarmCodes or errorCodes array: **0/224**
-- Chinese/European OEM manufacturer profiles: **17**
-- Structured OEM symptom templates: **24**
+- Chinese/European OEM manufacturer profiles: **24**
+- Structured OEM symptom templates: **31**
 - Official manufacturer/support portal records: **39**
+- Structured OEM platform index entries: **24**; model-verified: **0**
 
 ## Document inventory
 
@@ -24,7 +25,8 @@ Deterministic inventory of the current repository. This report adds no technical
 | knowledge/CENTRIFUGAL-PUMP-TROUBLESHOOTING-DRAFT.md | 114 | 1,024 | 9 |
 | knowledge/EQUIPMENT-TROUBLESHOOTING-AR-FR-EN.md | 156 | 1,946 | 21 |
 | knowledge/UNIVERSAL-INDUSTRIAL-FAULT-ATLAS-AR-FR-EN.md | 120 | 1,737 | 14 |
-| knowledge/CHINESE-EUROPEAN-OEM-FAULT-MATRIX-AR-FR-EN.md | 295 | 3,089 | 30 |
+| knowledge/CHINESE-EUROPEAN-OEM-FAULT-MATRIX-AR-FR-EN.md | 366 | 3,861 | 37 |
+| knowledge/OEM-MANUFACTURER-INDEX-AR-FR-EN.md | 114 | 1,287 | 9 |
 
 ## Source registry and licensing
 
@@ -46,14 +48,15 @@ This is a conservative string-presence check only. It does not prove that a topi
 
 1. No structured OEM alarm-code index is present in the fault library. Do not claim manufacturer-specific code matching until code records are sourced and reviewed.
 2. 2 source-registry entries are not marked approved (approved count: 0). Candidate sources must not be treated as approved technical authority.
-3. 10 equipment labels lack a literal name match in the Worker-loaded documents. Review this list with a subject-matter expert; do not automatically fill the gaps with generated technical content.
+3. 9 equipment labels lack a literal name match in the Worker-loaded documents. Review this list with a subject-matter expert; do not automatically fill the gaps with generated technical content.
 4. 5 reference-only portals are not allowlisted for automated fetching. Keep this restriction until reuse permissions are documented in the registry.
 
 ## Manufacturer-specific case coverage and limits
 
-- The OEM matrix maps 17 manufacturer/controller families to official documentation routes and contains 24 structured symptom templates.
-- These templates are not verified alarm-code definitions. The matrix requires exact model, controller/drive, firmware, manual revision, page/section, and human review before evidence status can be upgraded.
-- The 39-entry OEM source-discovery registry is separate from the two license-tracked research sources above. Its URLs are discovery links, not evidence that a particular fault cause applies.
+- The OEM matrix maps 24 manufacturer/controller families to official documentation routes and contains 31 structured symptom templates.
+- The OEM platform index lists 24 machine builders and component OEMs; 0 are model-verified. These entries are discovery routes only until exact model/manual evidence is reviewed.
+- These templates are not verified alarm-code definitions. A verified case requires exact model, controller/drive, firmware, manual revision, page/section, supported claim, and human review.
+- The 39-entry OEM source-discovery registry is separate from the 2 license-tracked research sources above. Its URLs do not prove that a particular fault cause applies.
 
 ## Method and limits
 
