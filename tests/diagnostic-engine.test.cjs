@@ -134,3 +134,72 @@ test("fault library has no structured OEM alarm-code index yet", () => {
   assert.ok(faults.faults.every(fault => !Array.isArray(fault.alarmCodes) && !Array.isArray(fault.errorCodes)),
     "Do not claim OEM alarm-code matching until sourced code fields are added");
 });
+
+
+test("local keyword matching respects whole-word and phrase boundaries", () => {
+  const customLibrary = {
+    faults: [{
+      id: "motor-oil-leak",
+      equipmentType: "motor",
+      symptoms: ["trip"],
+      title: { ar: "تسرب زيت", fr: "Fuite d'huile", en: "Oil leak" },
+      keywords: { ar: ["زيت"], fr: ["huile"], en: ["oil"] },
+      causes: [{
+        id: "oil-related",
+        label: { ar: "سبب مرتبط بالزيت", fr: "Cause liée à l'huile", en: "Oil-related cause" },
+        keywords: ["oil", "huile", "زيت"]
+      }],
+      safeChecks: [{ ar: "فحص آمن", fr: "Contrôle sûr", en: "Safe check" }],
+      escalation: { ar: "صعّد عند الحاجة", fr: "Escalader si nécessaire", en: "Escalate if needed" }
+    }]
+  };
+
+  const unrelated = diagnose({
+    equipmentType: "motor",
+    symptom: "trip",
+    observations: "The motor is boiling",
+    language: "en"
+  }, customLibrary);
+  assert.equal(unrelated.matched, true);
+  assert.deepEqual(unrelated.results[0].matchedKeywords, []);
+  assert.deepEqual(unrelated.results[0].causes[0].matchedKeywords, []);
+  assert.equal(unrelated.results[0].score, 7);
+
+  const related = diagnose({
+    equipmentType: "motor",
+    symptom: "trip",
+    observations: "Oil leak near the motor",
+    language: "en"
+  }, customLibrary);
+  assert.equal(related.matched, true);
+  assert.deepEqual(related.results[0].matchedKeywords, ["oil"]);
+  assert.deepEqual(related.results[0].causes[0].matchedKeywords, ["oil"]);
+  assert.equal(related.results[0].score, 9);
+});
+
+test("local phrase matching tolerates punctuation and repeated whitespace without partial-word matches", () => {
+  const customLibrary = {
+    faults: [{
+      id: "pump-low-flow",
+      equipmentType: "pump",
+      symptoms: ["low_flow"],
+      title: { ar: "تدفق منخفض", fr: "Débit faible", en: "Low flow" },
+      keywords: { ar: ["ضعف التدفق"], fr: ["debit faible"], en: ["low flow"] },
+      causes: [{
+        id: "restricted-flow",
+        label: { ar: "تقييد محتمل", fr: "Restriction possible", en: "Possible restriction" },
+        keywords: ["low flow"]
+      }],
+      safeChecks: [{ ar: "فحص آمن", fr: "Contrôle sûr", en: "Safe check" }],
+      escalation: { ar: "صعّد عند الحاجة", fr: "Escalader si nécessaire", en: "Escalate if needed" }
+    }]
+  };
+  const result = diagnose({
+    equipmentType: "pump",
+    symptom: "low_flow",
+    observations: "Observed: very   low, flow is reduced.",
+    language: "en"
+  }, customLibrary);
+  assert.equal(result.matched, true);
+  assert.deepEqual(result.results[0].matchedKeywords, ["low flow"]);
+});
