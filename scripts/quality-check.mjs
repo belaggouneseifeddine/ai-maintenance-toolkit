@@ -18,6 +18,8 @@ const deployWorkflow = readFileSync(".github/workflows/deploy-pages.yml", "utf8"
 const cloudflareDeployWorkflow = readFileSync(".github/workflows/deploy-cloudflare-pages.yml", "utf8");
 const faults = JSON.parse(readFileSync("faults.json", "utf8"));
 const manufacturerSources = JSON.parse(readFileSync("knowledge/manufacturer-sources.json", "utf8"));
+const manufacturerMatrix = JSON.parse(readFileSync("knowledge/manufacturer-machine-fault-matrix.json", "utf8"));
+const manufacturerMatrixMarkdown = readFileSync("knowledge/CHINESE-EUROPEAN-OEM-FAULT-MATRIX-AR-FR-EN.md", "utf8");
 const diagnosticEngineSource = readFileSync("diagnostic-engine.js", "utf8");
 const normalizationSource = readFileSync("normalization.js", "utf8");
 const knowledgeReviewSource = readFileSync("knowledge-review.js", "utf8");
@@ -472,6 +474,33 @@ const checks = [
       assert.ok(sourceIds.has(id), "Missing OEM portal: " + id);
     }
     assert.match(manufacturerSources.purpose, /URLs do not prove/);
+  }],
+  ["Chinese and European OEM matrix is structured, linked, and explicitly unverified until model evidence is reviewed", () => {
+    assert.ok(worker.includes("knowledge/CHINESE-EUROPEAN-OEM-FAULT-MATRIX-AR-FR-EN.md"), "Worker must load the OEM matrix");
+    assert.ok(manufacturerMatrix.manufacturerProfiles.length >= 15, "Expected at least 15 manufacturer profiles");
+    assert.ok(manufacturerMatrix.caseTemplates.length >= 20, "Expected at least 20 structured OEM case templates");
+    assert.ok(manufacturerMatrix.policy.noInventedAlarmCodes, "Policy must prohibit invented alarm codes");
+    const profileIds = new Set();
+    const knownSources = new Set(manufacturerSources.sources.map(source => source.id));
+    for (const profile of manufacturerMatrix.manufacturerProfiles) {
+      assert.ok(!profileIds.has(profile.id), "Duplicate manufacturer profile: " + profile.id);
+      profileIds.add(profile.id);
+      assert.ok(profile.manufacturer && profile.family && profile.region, "Profile identity fields required: " + profile.id);
+      assert.ok(profile.sourceUrls.length, "Official documentation links required: " + profile.id);
+      for (const url of profile.sourceUrls) assert.ok(/^https:\/\//.test(url), "Profile link must use HTTPS: " + profile.id);
+      for (const ref of profile.docs) assert.ok(knownSources.has(ref), "Unknown source registry ref: " + ref);
+    }
+    const caseIds = new Set();
+    for (const item of manufacturerMatrix.caseTemplates) {
+      assert.ok(!caseIds.has(item.id), "Duplicate OEM case template: " + item.id);
+      caseIds.add(item.id);
+      assert.ok(item.applicableFamilies.length >= 2, "Case must identify relevant model families: " + item.id);
+      assert.ok(item.diagnosticCapture.includes("exact_alarm_text_or_code"), "Case must capture exact displayed alarm: " + item.id);
+      assert.equal(item.evidenceStatus, "general-guidance-not-model-specific");
+      assert.ok(item.sourceDiscoveryOnly, "OEM portal must be treated as source discovery only: " + item.id);
+    }
+    assert.ok(manufacturerMatrixMarkdown.includes("Do not infer an alarm meaning"));
+    assert.ok(manufacturerMatrixMarkdown.includes("Official manufacturer documentation index"));
   }],
   ["Fault library exceeds 200 cases and covers electronics, electrical circuits, industrial controls, and machine families", () => {
     assert.ok(faults.faults.length > 200, "Fault library must contain more than 200 records");
