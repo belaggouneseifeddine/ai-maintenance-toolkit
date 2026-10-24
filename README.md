@@ -16,6 +16,15 @@ Mobile-first progressive web app (PWA) for preliminary industrial-maintenance tr
 - Responsive interface, language switching, and PWA offline shell.
 - Optional Gemini assistant through a separately deployed Cloudflare Worker.
 
+## Evidence-aware local reasoning (work in progress)
+
+- `local-reasoning.js` generates symptom-based exploratory hypotheses, explains why each is worth checking, suggests the next follow-up question, and lists missing context. These are hypotheses, not confirmed faults or statistical probabilities.
+- `knowledge/manufacturer-sources.json` records manufacturer manuals/portals with model scope, section/page locators, verification state, and redistribution cautions.
+- `knowledge/open-knowledge-source-register.json` tracks research datasets and RAG/agent examples without copying code/data before license and provenance checks.
+- The Grundfos Hydro EN index is for **Hydro EN firefighting/sprinkler systems only**. Section 13 is indexed at printed page 32, but the detailed cause/action table is not yet verified. The UI must not present these headings as confirmed solutions.
+- The reasoning path is local and deterministic; it does not call an external LLM or fetch live sources during diagnosis. “Guessing” means transparently ranked exploratory hypotheses with rationale and safe checks, not fabricated manufacturer evidence.
+- Work is confined to `feature/local-evidence-quality-gates` and PR #54. No merge or deployment is intended.
+
 ## Current limitations
 
 - Local diagnosis is heuristic guidance, not a confirmed root cause.
