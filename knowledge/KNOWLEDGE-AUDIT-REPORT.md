@@ -5,7 +5,7 @@ Deterministic inventory of the current repository. This report adds no technical
 ## Snapshot
 
 - Worker-referenced Markdown documents: **9**
-- Markdown inventory: **2,999 lines**, **39,223 whitespace-separated words**, **227 headings**
+- Markdown inventory: **3,038 lines**, **39,781 whitespace-separated words**, **230 headings**
 - Structured fault records: **284**
 - Model-specific manual-reviewed fault records (not field-verified): **60**
 - Distinct equipment-type labels in the fault library: **36**
@@ -13,9 +13,9 @@ Deterministic inventory of the current repository. This report adds no technical
 - Fault records with an alarmCodes or errorCodes array: **31/284**
 - Chinese/European OEM manufacturer profiles: **28**
 - Structured OEM symptom templates: **38**
-- Official manufacturer/support portal records: **60**
+- Official manufacturer/support portal records: **61**
 - Structured OEM platform index entries: **29**; model-verified: **0**
-- Structured source-linked OEM diagnostic records: **63**; records with a missing manufacturer-source registry entry: **0**
+- Structured source-linked OEM diagnostic records: **66**; records with a missing manufacturer-source registry entry: **0**
 
 ## Document inventory
 
@@ -29,7 +29,7 @@ Deterministic inventory of the current repository. This report adds no technical
 | knowledge/UNIVERSAL-INDUSTRIAL-FAULT-ATLAS-AR-FR-EN.md | 120 | 1,737 | 14 |
 | knowledge/CHINESE-EUROPEAN-OEM-FAULT-MATRIX-AR-FR-EN.md | 432 | 4,549 | 45 |
 | knowledge/OEM-MANUFACTURER-INDEX-AR-FR-EN.md | 123 | 1,378 | 10 |
-| knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md | 1522 | 21,219 | 63 |
+| knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md | 1561 | 21,777 | 66 |
 
 ## Source registry and licensing
 
@@ -59,14 +59,14 @@ This is a conservative string-presence check only. It does not prove that a topi
 - The OEM matrix maps 28 manufacturer/controller families to official documentation routes and contains 38 structured symptom templates.
 - The OEM platform index lists 29 machine builders and component OEMs; 0 are model-verified. These entries are discovery routes only until exact model/manual evidence is reviewed.
 - These templates are not verified alarm-code definitions. A verified case requires exact model, controller/drive, firmware, manual revision, page/section, supported claim, and human review.
-- The 60-entry OEM source-discovery registry is separate from the 2 license-tracked research sources above. Its URLs do not prove that a particular fault cause applies.
+- The 61-entry OEM source-discovery registry is separate from the 2 license-tracked research sources above. Its URLs do not prove that a particular fault cause applies.
 - OEM record registry references are checked against the manufacturer-source registry; missing references: none. The source link alone is not evidence unless the recorded manual section supports the claim.
 
 ## Recent model-specific evidence tranche
 
-- The latest reviewed tranche adds three SIMATIC S7-1200 diagnostic records: OB80/time-error conditions (System Manual V4.6, printed page 90) and fail-safe output events 0x031E/0x0320 (Functional Safety Manual V4.6, printed page 125).
-- The structured OEM evidence file now contains 63 manual-claim-reviewed records; these are not field-verified.
-- Additional source-backed SINUMERIK, SINAMICS G120D/G120P/G120C, MELSEC FX5, MR-J4, Mitsubishi C80 CNC, XINJE DS5K/X-NET, INOVANCE MD200/H5U and SIMATIC S7-1200 records are available to the app's local diagnostic library.
+- The latest tranche adds three SIMATIC S7-1200 diagnostic records (OB80/time-error conditions, plus fail-safe output events 0x031E and 0x0320) and three GSK218M CNC alarm records (0000, 0001 and 0002).
+- The structured OEM evidence file now contains 66 manual-claim-reviewed records; these are not field-verified.
+- Source-backed families include SINUMERIK, SINAMICS G120D/G120P/G120C, MELSEC FX5, MR-J4, Mitsubishi C80 CNC, XINJE DS5K/X-NET, INOVANCE MD200/H5U, SIMATIC S7-1200 and GSK218M.
 
 ## Method and limits
 
