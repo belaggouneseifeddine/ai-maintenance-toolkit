@@ -183,7 +183,7 @@
         : symptom;
     const observations = String(value.observations || "");
     const key = equipment + "|" + catalogSymptom;
-    const local = diagnose({ equipmentType: equipment, symptom, observations, language }, library);
+    const local = diagnose({ equipmentType: value.machine || value.equipmentType, symptom: value.symptom, observations, language }, library);
     const hypotheses = [];
     if (local.matched) {
       for (const result of local.results.slice(0, 3)) {
