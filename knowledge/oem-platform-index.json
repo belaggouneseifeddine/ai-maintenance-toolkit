@@ -44,9 +44,12 @@
         "inovance-eu-downloads"
       ],
       "url": "https://www.inovance.com/global/support/download-documentation.html",
-      "evidenceStatus": "portal-only",
-      "alarmCodeRecords": 0,
-      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+      "evidenceStatus": "manual-claims-reviewed",
+      "alarmCodeRecords": 6,
+      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified.",
+      "modelsCovered": [
+        "MD200 series AC drive"
+      ]
     },
     {
       "id": "delta",
@@ -193,7 +196,7 @@
       "url": "https://www.mitsubishielectric-fa.cn/site/file-center",
       "evidenceStatus": "portal-only",
       "alarmCodeRecords": 0,
-      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+      "notes": "FA portal only; C80 CNC alarm records are tracked under the dedicated Mitsubishi Electric CNC entry."
     },
     {
       "id": "siemens",
@@ -543,6 +546,27 @@
       "evidenceStatus": "portal-only",
       "alarmCodeRecords": 0,
       "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+    },
+    {
+      "id": "mitsubishi-cnc",
+      "name": "Mitsubishi Electric CNC",
+      "region": "Japan / global CNC support",
+      "kind": "cnc_control_oem",
+      "families": [
+        "C80 CNC",
+        "M800/M80/E80 CNC",
+        "servo/spindle alarm systems"
+      ],
+      "sourceRefs": [
+        "mitsubishi-cnc-manuals"
+      ],
+      "url": "https://www.mitsubishielectric-cnc.com/manuals/",
+      "evidenceStatus": "manual-claims-reviewed",
+      "alarmCodeRecords": 6,
+      "modelsCovered": [
+        "C80 Series CNC"
+      ],
+      "notes": "Alarm records reference C80 Series Alarm/Parameter Manual IB-1501560-F; exact machine-tool builder manuals still take precedence."
     }
   ]
 }
