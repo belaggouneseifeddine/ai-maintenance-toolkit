@@ -48,6 +48,7 @@ const referencePortals = registry.reference_only_portals || [];
 const fetchablePortals = referencePortals.filter(portal => portal.fetch_allowed === true).length;
 const approvedCount = statusCounts.approved || 0;
 const nonApprovedCount = (registry.sources || []).length - approvedCount;
+const modelReviewedFaultCount = faults.filter(fault => fault.evidenceStatus === "model-specific-manual-reviewed").length;
 const manufacturerPortalCount = (manufacturerSources.sources || []).length;
 const manufacturerProfileCount = (manufacturerMatrix.manufacturerProfiles || []).length;
 const manufacturerTemplateCount = (manufacturerMatrix.caseTemplates || []).length;
@@ -97,7 +98,7 @@ const report = [
   "",
   "## Gaps and required review",
   "",
-  "1. No structured OEM alarm-code index is present in the fault library. Do not claim manufacturer-specific code matching until code records are sourced and reviewed.",
+  "1. Model-specific manual-reviewed records summarize selected manual claims but are not field-verified; confirm the exact machine-builder configuration and applicable manual before using them operationally.",
   "2. " + nonApprovedCount + " source-registry entries are not marked approved (approved count: " + approvedCount + "). Candidate sources must not be treated as approved technical authority.",
   "3. " + literalMissing.length + " equipment labels lack a literal name match in the Worker-loaded documents. Review this list with a subject-matter expert; do not automatically fill the gaps with generated technical content.",
   "4. " + (referencePortals.length - fetchablePortals) + " reference-only portals are not allowlisted for automated fetching. Keep this restriction until reuse permissions are documented in the registry.",
