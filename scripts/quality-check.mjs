@@ -296,7 +296,8 @@ const checks = [
         assert.ok(fault.safeChecks.filter(item => item[language]).length >= 3, fault.id + " missing safe checks " + language);
         assert.ok(fault.escalation[language], fault.id + " missing escalation " + language);
       }
-      assert.ok(fault.causes.length >= 3 && fault.causes.length <= 5);
+      if (fault.modelSpecificEvidence) assert.ok(fault.causes.length >= 1 && fault.causes.length <= 5, fault.id + " needs 1–5 scoped candidate causes");
+      else assert.ok(fault.causes.length >= 3 && fault.causes.length <= 5, fault.id + " needs 3–5 general candidate causes");
       assert.ok(fault.safeChecks.length >= 3 && fault.safeChecks.length <= 5);
       for (const cause of fault.causes) assert.ok(cause.id && cause.keywords.length && cause.label.ar && cause.label.fr && cause.label.en);
     }
