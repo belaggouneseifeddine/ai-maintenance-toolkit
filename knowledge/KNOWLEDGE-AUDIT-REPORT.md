@@ -5,15 +5,15 @@ Deterministic inventory of the current repository. This report adds no technical
 ## Snapshot
 
 - Worker-referenced Markdown documents: **8**
-- Markdown inventory: **1,402 lines**, **17,225 whitespace-separated words**, **155 headings**
+- Markdown inventory: **1,477 lines**, **17,991 whitespace-separated words**, **164 headings**
 - Structured fault records: **224**
 - Distinct equipment-type labels in the fault library: **34**
 - Cause entries across fault records: **677**
 - Fault records with an alarmCodes or errorCodes array: **0/224**
-- Chinese/European OEM manufacturer profiles: **24**
-- Structured OEM symptom templates: **31**
-- Official manufacturer/support portal records: **39**
-- Structured OEM platform index entries: **24**; model-verified: **0**
+- Chinese/European OEM manufacturer profiles: **28**
+- Structured OEM symptom templates: **38**
+- Official manufacturer/support portal records: **43**
+- Structured OEM platform index entries: **28**; model-verified: **0**
 
 ## Document inventory
 
@@ -25,8 +25,8 @@ Deterministic inventory of the current repository. This report adds no technical
 | knowledge/CENTRIFUGAL-PUMP-TROUBLESHOOTING-DRAFT.md | 114 | 1,024 | 9 |
 | knowledge/EQUIPMENT-TROUBLESHOOTING-AR-FR-EN.md | 156 | 1,946 | 21 |
 | knowledge/UNIVERSAL-INDUSTRIAL-FAULT-ATLAS-AR-FR-EN.md | 120 | 1,737 | 14 |
-| knowledge/CHINESE-EUROPEAN-OEM-FAULT-MATRIX-AR-FR-EN.md | 366 | 3,861 | 37 |
-| knowledge/OEM-MANUFACTURER-INDEX-AR-FR-EN.md | 114 | 1,287 | 9 |
+| knowledge/CHINESE-EUROPEAN-OEM-FAULT-MATRIX-AR-FR-EN.md | 432 | 4,536 | 45 |
+| knowledge/OEM-MANUFACTURER-INDEX-AR-FR-EN.md | 123 | 1,378 | 10 |
 
 ## Source registry and licensing
 
@@ -53,10 +53,10 @@ This is a conservative string-presence check only. It does not prove that a topi
 
 ## Manufacturer-specific case coverage and limits
 
-- The OEM matrix maps 24 manufacturer/controller families to official documentation routes and contains 31 structured symptom templates.
-- The OEM platform index lists 24 machine builders and component OEMs; 0 are model-verified. These entries are discovery routes only until exact model/manual evidence is reviewed.
+- The OEM matrix maps 28 manufacturer/controller families to official documentation routes and contains 38 structured symptom templates.
+- The OEM platform index lists 28 machine builders and component OEMs; 0 are model-verified. These entries are discovery routes only until exact model/manual evidence is reviewed.
 - These templates are not verified alarm-code definitions. A verified case requires exact model, controller/drive, firmware, manual revision, page/section, supported claim, and human review.
-- The 39-entry OEM source-discovery registry is separate from the 2 license-tracked research sources above. Its URLs do not prove that a particular fault cause applies.
+- The 43-entry OEM source-discovery registry is separate from the 2 license-tracked research sources above. Its URLs do not prove that a particular fault cause applies.
 
 ## Method and limits
 
