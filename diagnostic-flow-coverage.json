@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Explicit inventory of structured diagnostic flows versus the current fault library. A documented gap is not treated as covered.",
+  "matchingRule": "A flow is covered only when at least one fault has the same equipmentType and includes the same symptom ID, or a reviewed explicit mapping is added here. No implicit aliases.",
+  "flows": {
+    "pump|low_flow": {
+      "status": "covered-exact",
+      "matchingFaultIds": [
+        "pump-cavitation"
+      ]
+    },
+    "motor|not_start": {
+      "status": "covered-exact",
+      "matchingFaultIds": [
+        "motor-no-start"
+      ]
+    },
+    "vfd|trip": {
+      "status": "covered-exact",
+      "matchingFaultIds": [
+        "vfd-trip"
+      ]
+    },
+    "compressor|low_pressure": {
+      "status": "covered-exact",
+      "matchingFaultIds": [
+        "compressor-low-pressure"
+      ]
+    },
+    "valve|not_start": {
+      "status": "covered-exact",
+      "matchingFaultIds": [
+        "valve-stuck-closed"
+      ]
+    },
+    "pneumatic|low_flow": {
+      "status": "covered-exact",
+      "matchingFaultIds": [
+        "pneumatic-filter-clogged"
+      ]
+    },
+    "gearbox|overheat": {
+      "status": "covered-exact",
+      "matchingFaultIds": [
+        "gearbox-overheating"
+      ]
+    },
+    "bearing|vibration": {
+      "status": "gap-needs-review",
+      "matchingFaultIds": [],
+      "note": "No exact equipmentType=bearing record found. Do not assume mechanical is equivalent without an explicit reviewed mapping."
+    },
+    "plc|not_start": {
+      "status": "covered-exact",
+      "matchingFaultIds": [
+        "plc-not-running"
+      ]
+    },
+    "conveyor|tracking": {
+      "status": "gap-needs-review",
+      "matchingFaultIds": [],
+      "note": "The tracking symptom ID is not present in the current fault library. Do not add it as covered until symptom schema/content is reviewed."
+    },
+    "thermal|overheat": {
+      "status": "gap-needs-review",
+      "matchingFaultIds": [],
+      "note": "No exact equipmentType=thermal record found. Review whether this is intended as an equipment type or a diagnostic domain."
+    }
+  }
+}
