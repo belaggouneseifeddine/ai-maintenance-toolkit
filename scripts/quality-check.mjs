@@ -647,16 +647,22 @@ const checks = [
     }
     assert.ok(records.some(record => record.productFamily.includes("H5U Series") && record.source.sourceId === "inovance-h5u-plc-user-guide"), "INOVANCE H5U model-specific manual evidence must be represented");
     const deltaB2F = records.filter(record => record.manufacturer === "Delta Electronics" && record.productFamily === "ASDA-B2-F series servo drive");
-    assert.equal(deltaB2F.length, 13, "Delta ASDA-B2-F manual-reviewed record tranche must be present");
+    assert.equal(deltaB2F.length, 31, "Delta ASDA-B2-F manual-reviewed record tranche must be present");
     assert.ok(deltaB2F.every(record => record.source.sourceId === "delta-asda-b2-f-user-manual" && record.source.manualUrl.includes("DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf")), "Delta records must use the exact official ASDA-B2-F manual");
     assert.ok(deltaB2F.every(record => record.source.section && record.source.printedPageLabel && record.reviewDate === "2026-10-24"), "Delta records must include manual locator and review date");
-    assert.equal(oemPlatformIndex.manufacturers.find(manufacturer => manufacturer.id === "delta")?.manualReviewedRecordCount, 13, "Delta platform count must match the evidence tranche");
-    assert.ok(records.length >= 79, "Expected the Delta ASDA-B2-F source-reviewed tranche in the OEM database");
+    for (const code of ["AL004", "AL005", "AL012", "AL013", "AL014", "AL015", "AL017", "AL018", "AL019", "AL020", "AL023", "AL025", "AL026", "AL027", "AL028", "AL029", "AL034", "AL035"]) {
+      const record = deltaB2F.find(item => item.alarmCode === code);
+      assert.ok(record, "Missing added Delta ASDA-B2-F alarm record: " + code);
+      assert.ok(record.source.section.includes(code) && record.source.printedPageLabel && record.source.pdfPage, code + " must retain its exact manual locator");
+      assert.ok(record.meaning.ar && record.meaning.fr && record.safeChecks.ar?.length && record.safeChecks.fr?.length, code + " must remain multilingual");
+    }
+    assert.equal(oemPlatformIndex.manufacturers.find(manufacturer => manufacturer.id === "delta")?.manualReviewedRecordCount, 31, "Delta platform count must match the evidence tranche");
+    assert.ok(records.length >= 97, "Expected the expanded Delta ASDA-B2-F source-reviewed tranche in the OEM database");
     const syntecRecords = records.filter(record => record.manufacturer === "Syntec" && record.source.sourceId === "syntec-cnc-alarm-manual");
     assert.equal(syntecRecords.length, 2, "Syntec CNC communication alarm records must be present");
     assert.ok(syntecRecords.every(record => record.source.manualUrl === "https://www.syntecclub.com/cncrel/Manual/PDF/Syntec%20CNC%20Alarm%20Manual.pdf" && record.source.section.includes(record.alarmCode)), "Syntec records must retain the exact official manual and alarm locator");
     assert.equal(oemPlatformIndex.manufacturers.find(manufacturer => manufacturer.id === "syntec")?.manualReviewedRecordCount, 2, "Syntec platform count must match its evidence tranche");
-    assert.ok(records.length >= 81, "Expected the Syntec source-reviewed tranche in the OEM database");
+    assert.ok(records.length >= 99, "Expected the expanded OEM evidence database after the Delta tranche");
     assert.ok(oemVerifiedFaults.recordCount >= 47, "Expected at least 47 structured OEM evidence records");
   }]
 ];
