@@ -63,7 +63,7 @@ jobs:
               grep -q "maintenance" /tmp/maintenance-index.html
               grep -q "retrieveLocalKnowledge" /tmp/maintenance-engine.js
               grep -q "grundfos-hydro-en" /tmp/maintenance-sources.json
-              grep -q '"recordCount": 81' /tmp/maintenance-oem-faults.json
+              node -e 'const d=JSON.parse(require("node:fs").readFileSync("/tmp/maintenance-oem-faults.json","utf8")); if(d.recordCount!==d.records.length || new Set(d.records.map(r=>r.id)).size!==d.records.length || d.records.length<80) process.exit(1)'
               echo "Cloudflare Pages production smoke test passed."
               exit 0
             fi
