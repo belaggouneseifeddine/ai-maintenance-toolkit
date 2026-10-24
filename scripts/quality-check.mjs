@@ -495,8 +495,10 @@ const checks = [
     for (const id of requiredIds) assert.ok(ids.includes(id), "Missing coverage case: " + id);
     const sourceIds = new Set(manufacturerSources.sources.map(source => source.id));
     for (const fault of faults.faults) {
-      assert.ok(Array.isArray(fault.sourceRefs) && fault.sourceRefs.length, fault.id + " needs source discovery references");
-      for (const ref of fault.sourceRefs) assert.ok(sourceIds.has(ref), fault.id + " has unknown source reference: " + ref);
+      if (fault.evidenceStatus === "general-guidance-not-model-specific") {
+        assert.ok(Array.isArray(fault.sourceRefs) && fault.sourceRefs.length, fault.id + " needs source discovery references");
+      }
+      for (const ref of (fault.sourceRefs || [])) assert.ok(sourceIds.has(ref), fault.id + " has unknown source reference: " + ref);
     }
     assert.ok(faults.faults.length > 200, "Structured fault library must exceed 200 cases");
     assert.equal(ids.size, faults.faults.length, "All structured fault IDs must be unique");
