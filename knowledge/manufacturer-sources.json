@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "purpose": "Local source-discovery metadata for the offline reasoning path. URLs are references; they do not prove that a source supports a specific hypothesis.",
+  "purpose": "Source-discovery metadata for review and future local retrieval. The runtime currently uses a small curated reference list; URLs do not prove that a source supports a specific hypothesis.",
   "policy": {
     "manufacturerEvidenceRequires": ["exact equipment family/model match", "the relevant manual section and page inspected", "a specific claim matched to the inspected source"],
     "doNot": ["copy manual text or PDF without checking redistribution rights", "infer fault causes from document titles or section headings", "apply one model's guidance to all equipment", "invent alarm meanings, setpoints, torque values, pressure limits, or parts"],
