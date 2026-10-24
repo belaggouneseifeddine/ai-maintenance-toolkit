@@ -398,6 +398,16 @@
       "scope": "Machine safety controllers, safety relays, sensors and safety automation; exact product and safety configuration required",
       "status": "official-document-portal-exact-product-required",
       "redistribution": "link-only; follow portal terms"
+    },
+    {
+      "id": "xinje-download-center",
+      "publisher": "XINJE",
+      "title": "XINJE — official download center",
+      "url": "https://en.xinje.com/web/downloadCenter/index",
+      "type": "manufacturer-document-portal",
+      "scope": "PLC, HMI, servo, VFD, motion control and industrial robot documentation; exact series and firmware required",
+      "status": "official-document-portal-exact-product-required",
+      "redistribution": "link-only; follow portal terms"
     }
   ]
 }
