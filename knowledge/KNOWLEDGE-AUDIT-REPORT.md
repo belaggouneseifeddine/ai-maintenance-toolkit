@@ -5,7 +5,7 @@ Deterministic inventory of the current repository. This report adds no technical
 ## Snapshot
 
 - Worker-referenced Markdown documents: **8**
-- Markdown inventory: **1,477 lines**, **17,991 whitespace-separated words**, **164 headings**
+- Markdown inventory: **1,477 lines**, **18,004 whitespace-separated words**, **164 headings**
 - Structured fault records: **224**
 - Distinct equipment-type labels in the fault library: **34**
 - Cause entries across fault records: **677**
