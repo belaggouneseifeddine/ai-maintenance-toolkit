@@ -57,6 +57,7 @@
     const engineeringCore = config.engineeringCore || root.MaintenanceEngineeringCore;
     const diagnosticEngine = config.diagnosticEngine || root.MaintenanceDiagnosticEngine;
     const faultLibrary = config.faultLibrary || root.MAINTENANCE_FAULTS || {};
+    const evidenceLibrary = config.evidenceLibrary || root.MaintenanceEvidenceLibrary;
     const tools = config.tools || {};
     const requestedTimeout = Number(config.toolTimeoutMs);
     const toolTimeoutMs = Number.isFinite(requestedTimeout) && requestedTimeout > 0
@@ -173,7 +174,20 @@
       }
 
       if (decision.route === "knowledge_lookup") {
-        return invokeTool("searchKnowledge", { request, requireProvenance: true }, "knowledge_lookup");
+        if (availableTool("searchKnowledge")) {
+          return invokeTool("searchKnowledge", { request, requireProvenance: true }, "knowledge_lookup");
+        }
+        if (evidenceLibrary && typeof evidenceLibrary.searchSources === "function") {
+          const evidence = evidenceLibrary.searchSources(request);
+          return {
+            ok: evidence.ok === true,
+            status: evidence.status || "unavailable",
+            route: "knowledge_lookup",
+            decision,
+            data: evidence
+          };
+        }
+        return safeError("knowledge_adapter_unavailable", "knowledge_lookup");
       }
 
       if (decision.route === "engineering_tool_pending") {
