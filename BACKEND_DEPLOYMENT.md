@@ -1,6 +1,6 @@
 # Maintenance AI Toolkit API (Cloudflare Workers)
 
-This backend serves the GitHub Pages frontend using Cloudflare Workers.
+This backend serves the published frontend using Cloudflare Workers. The source allowlist includes the primary Cloudflare Pages site (`https://maintenance-ai-toolkit.pages.dev`) and the GitHub Pages fallback (`https://belaggouneseifeddine.github.io`).
 
 ## Fast deployment through GitHub Actions
 
@@ -25,7 +25,7 @@ Choose **Run workflow**. The workflow validates the Cloudflare credentials, depl
 
 After a successful run, open the Worker URL shown in the workflow logs or Cloudflare dashboard. Check `https://YOUR-WORKER.workers.dev/health`, then open:
 
-https://belaggouneseifeddine.github.io/ai-maintenance-toolkit/
+https://maintenance-ai-toolkit.pages.dev/ (primary) or https://belaggouneseifeddine.github.io/ai-maintenance-toolkit/ (fallback)
 
 Use the Worker URL ending in `/api/chat` in the AI endpoint field, for example `https://YOUR-WORKER.workers.dev/api/chat`. The frontend stores that endpoint in this browser.
 
@@ -35,6 +35,6 @@ Use the Worker URL ending in `/api/chat` in the AI endpoint field, for example `
 - `POST /api/chat`: JSON body `{ "machine": "...", "symptom": "...", "code": "", "observations": "", "language": "ar" }`.
 - Supported languages: `ar`, `fr`, `en`.
 
-The Worker restricts browser requests to the GitHub Pages origin, validates payloads, limits request size, and keeps provider errors/credentials out of responses. Provider calls may incur Gemini usage charges; check provider quota and any billing settings before enabling usage.
+The Worker restricts browser requests to the two explicitly allowlisted published app origins, validates payloads, limits request size, and keeps provider errors/credentials out of responses. CORS is not authentication. Provider calls may incur Gemini usage charges; check provider quota and any billing settings before enabling usage.
 
 **Important:** committing source code does not deploy the backend. A successful workflow run, a configured provider secret, and a valid Worker URL are required before live AI diagnosis can be considered ready.
