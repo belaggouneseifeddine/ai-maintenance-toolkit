@@ -214,7 +214,7 @@
       ],
       "url": "https://www.mitsubishielectric-fa.cn/site/file-center",
       "evidenceStatus": "portal-only",
-      "alarmCodeRecords": 6,
+      "alarmCodeRecords": 0,
       "notes": "Manual-reviewed records exist in the separate OEM evidence file; this manufacturer profile remains a discovery index, not proof of field verification. Match exact model, firmware and machine-builder integration.",
       "manualReviewedRecordCount": 4,
       "modelsCovered": [
@@ -614,7 +614,7 @@
       ],
       "url": "https://www.mitsubishielectric-cnc.com/manuals/",
       "evidenceStatus": "portal-only",
-      "alarmCodeRecords": 0,
+      "alarmCodeRecords": 6,
       "modelsCovered": [
         "C80 Series CNC; servo/spindle alarm table",
         "C80 Series CNC; emergency-stop alarm section"
