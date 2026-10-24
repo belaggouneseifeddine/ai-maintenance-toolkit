@@ -7,8 +7,9 @@ Introduce a small, testable orchestration layer for the existing Maintenance AI 
 ## Current implementation in this branch
 
 - `engineering-core.js`: existing request normalization, conservative intent routing, hazard detection, and local diagnostic adapter.
-- `agent-core.js`: new orchestration contract that calls only allowlisted injected adapters.
-- `tests/agent-core.test.cjs`: behavior tests for safety precedence, consent, local fallback, tool errors, report provenance, and bounded outputs.
+- `agent-core.js`: orchestration contract that calls allowlisted injected adapters and uses the built-in evidence registry as a fallback for knowledge lookup.
+- `evidence-library.js`: offline-first starter registry with stable source IDs, lexical retrieval, source scope, jurisdiction, and limitations.
+- `tests/agent-core.test.cjs` and `tests/evidence-library.test.cjs`: behavior tests for safety precedence, consent, local fallback, source provenance, no-match behavior, tool errors, report provenance, and bounded outputs.
 - No production UI or Worker behavior is changed in this first slice. The new core is not yet loaded by the live app and is not a claim of end-to-end AI operation.
 
 ## Agent contract
@@ -21,7 +22,7 @@ Supported orchestration behavior:
 2. Give deterministic safety routing absolute precedence. Safety-gated requests invoke no AI or other adapters.
 3. Run the existing local diagnostic engine first for diagnosis requests.
 4. Only ask an injected AI adapter to explain local findings when the request explicitly includes `consent.sendToAI === true`. If AI fails, retain the local preliminary assessment.
-5. Require an injected, source-aware adapter for knowledge lookup; do not fabricate sources when no matches are found.
+5. Prefer an injected, source-aware adapter for knowledge lookup; when none is configured, use the small built-in evidence registry. Return only registered citation IDs, include source scope and limitations, and do not fabricate sources when no matches are found.
 6. Send calculation requests to an injected calculation adapter with explicit unit and missing-input constraints; the core itself does not invent a result.
 7. Treat attachment metadata as metadata only. Document analysis remains pending until a real, bounded file-content adapter is implemented.
 8. Generate draft reports only from supplied data. Leave confirmed cause blank and source references empty unless later validated evidence is provided.
@@ -32,7 +33,7 @@ Supported orchestration behavior:
 Adapters are injected at core creation time:
 
 - `aiAssist({ task, request, localDiagnosis?, policy? })`
-- `searchKnowledge({ request, requireProvenance: true })`
+- `searchKnowledge({ request, requireProvenance: true })` (optional remote adapter; otherwise the local registry is used)
 - `calculate({ request, requireUnits: true, doNotInventInputs: true })`
 
 All adapter outputs are untrusted data and must be validated before being rendered. This core does not discover tools dynamically, access the network, read secrets, or upload attachments.
@@ -51,7 +52,7 @@ All adapter outputs are untrusted data and must be validated before being render
 | `scripts/ui-smoke-test.mjs` and quality workflow | Verify mobile layout, consent, language switching, offline fallback, and new script syntax. |
 | `docs/AI-SETUP.md` and `README.md` | Document setup, data boundaries, limitations, and what has or has not been verified. |
 
-The integration list is a plan, not a claim that those files have already changed.
+The UI/Worker integration list remains a plan. The evidence registry is available to the isolated agent core but is not yet connected to the live production UI or Worker.
 
 ## Acceptance gates before merge
 
