@@ -39,7 +39,7 @@ jobs:
             engineering-core.js \
             agent-core.js \
             agent-ui.js \
-            worker.js \
             sw.js; do
             node --check "$file"
           done
+          node --input-type=module --check < worker.js
