@@ -6,11 +6,11 @@ Deterministic inventory of the current repository. This report adds no technical
 
 - Worker-referenced Markdown documents: **9**
 - Markdown inventory: **2,954 lines**, **38,479 whitespace-separated words**, **224 headings**
-- Structured fault records: **246**
-- Model-specific manual-reviewed fault records (not field-verified): **22**
-- Distinct equipment-type labels in the fault library: **34**
-- Cause entries across fault records: **729**
-- Fault records with an alarmCodes or errorCodes array: **0/246**
+- Structured fault records: **284**
+- Model-specific manual-reviewed fault records (not field-verified): **60**
+- Distinct equipment-type labels in the fault library: **36**
+- Cause entries across fault records: **767**
+- Fault records with an alarmCodes or errorCodes array: **31/284**
 - Chinese/European OEM manufacturer profiles: **28**
 - Structured OEM symptom templates: **38**
 - Official manufacturer/support portal records: **58**
@@ -57,14 +57,14 @@ This is a conservative string-presence check only. It does not prove that a topi
 ## Manufacturer-specific case coverage and limits
 
 - The OEM matrix maps 28 manufacturer/controller families to official documentation routes and contains 38 structured symptom templates.
-- The OEM platform index lists 29 machine builders and component OEMs; 0 are model-verified. These entries are discovery routes only until exact model/manual evidence is reviewed.
+- The OEM platform index lists 29 machine builders and component OEMs; 0 are model-verified. Separately, the structured fault library exposes 60 manual-claim-reviewed records from specific model/manual scopes; these are not field-verified.
 - These templates are not verified alarm-code definitions. A verified case requires exact model, controller/drive, firmware, manual revision, page/section, supported claim, and human review.
 - The 58-entry OEM source-discovery registry is separate from the 2 license-tracked research sources above. Its URLs do not prove that a particular fault cause applies.
 - OEM record registry references are checked against the manufacturer-source registry; missing references: none. The source link alone is not evidence unless the recorded manual section supports the claim.
 
 ## Latest model-specific evidence tranche
 
-- Added seven SINAMICS G120C FSD–FSF fault records: F07860, F07900, F07901, F07902, F08501, F08502, and F08526.
+- Added seven SINAMICS G120C FSD–FSF fault records: F07860, F07900, F07901, F07902, F08501, F08502, and F08526. Also imported 38 additional source-backed SINUMERIK, SINAMICS G120D/G120P, MELSEC FX5, MR-J4, XINJE DS5K/X-NET, and INOVANCE H5U records into the app's structured fault library.
 - Each record cites the official Compact Operating Instructions, firmware V4.7 SP6, document A5E39339884B AA, section 5.1, printed page 82.
 - Evidence state: manual-claim-reviewed, not field-verified. These records are not generalized to other SINAMICS families or firmware versions.
 - The seven records are represented in both the structured diagnostic library and the structured OEM evidence index.
