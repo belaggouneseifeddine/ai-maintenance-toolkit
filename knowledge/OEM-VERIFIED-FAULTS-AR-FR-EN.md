@@ -1474,3 +1474,48 @@ Seven additional records were added to the structured source-backed index:
 | F08526 | No cyclic connection | Check cyclic operation, station name and station IP settings. |
 
 These are manual-claim-reviewed, not field-verified. The model, frame size, firmware and machine integration must match. Parameter changes require authorized engineering review; do not suppress faults or bypass safety/network monitoring.
+
+### siemens-s7-1200-ob80-time-error
+
+- **Manufacturer / family:** Siemens — SIMATIC S7-1200
+- **Scope:** S7-1200 CPU system diagnostics; OB80/time-error event handling; exact CPU and firmware revision must be checked
+- **Event:** OB80 / time error event
+- **Meaning (EN):** The manual describes time-error conditions including exceeding the configured maximum scan-cycle time, an interrupt OB being requested before the previous interrupt finishes, and event-queue overflow.
+- **المعنى (AR):** يصف الدليل حالات الخطأ الزمني، ومنها تجاوز زمن المسح الأقصى المضبوط، وطلب كتلة مقاطعة قبل انتهاء السابقة، وامتلاء طابور الأحداث.
+- **Sens (FR):** Le manuel décrit les erreurs temporelles : dépassement du temps de cycle maximal configuré, nouvelle demande d’OB d’interruption avant la fin de la précédente, ou débordement de file d’événements.
+- **Source:** SIMATIC S7-1200 Programmable controller — System Manual, V4.6; document A5E02486680; section “Time error interrupt events; monitoring and configuring the cycle time”; printed page 90.
+- **Official manual:** https://support.industry.siemens.com/cs/attachments/download/109772940/s71200_system_manual_en-US_en-US.pdf
+- **Evidence summary:** The official Siemens system manual lists the time-error conditions on printed page 90; the summary paraphrases those listed conditions.
+- **Safe checks:** Record CPU order number, firmware, diagnostic buffer entry, cycle-time configuration and exact event text. Review program execution time, interrupt OB overlap and event bursts. Do not increase cycle-time limits or disable diagnostics without validating timing and process safety.
+- **Review date:** 2026-10-24. **Evidence status:** manual-claim-reviewed, not field-verified.
+- **Limits:** Confirm CPU type, firmware, cycle configuration and current manual revision.
+
+### siemens-s7-1200-fs-031e-readback-failure
+
+- **Manufacturer / family:** Siemens — SIMATIC S7-1200 fail-safe signal module SM 1226 F-DQ
+- **Scope:** SM 1226 F-DQ 4 x 24 V DC and SM 1226 F-DQ 2 x Relay as described in the cited manual
+- **Event ID:** 0x031E
+- **Meaning (EN):** The manual describes a read-back failure when expected terminal voltage is not reached on the 24 V DC module, or when relay state differs from the commanded state on the relay module. It lists a too-short configured read-back time or a failed output switch/relay among possible causes.
+- **المعنى (AR):** يصف الدليل فشل القراءة الراجعة عندما لا يتحقق جهد الطرف المتوقع في وحدة 24V DC، أو عندما تختلف حالة المرحل عن الحالة المطلوبة في وحدة المرحلات. ومن الأسباب المذكورة قصر زمن القراءة الراجعة المضبوط أو تعطل مفتاح الخرج/المرحل.
+- **Sens (FR):** Le manuel décrit un échec de lecture de retour si la tension attendue n’est pas atteinte sur le module 24 V CC ou si l’état du relais diffère de la commande. Les causes indiquées incluent un temps de lecture trop court ou une sortie/un relais défectueux.
+- **Source:** S7-1200 Functional Safety Manual, Equipment Manual V4.6, 11/2022; A5E03470344-AC; “Fail-safe signal module diagnostics → Fault diagnostics”; printed page 125.
+- **Official manual:** https://support.industry.siemens.com/dl/files/552/104547552/att_896075/v1/s71200_f_user_manual_en-US_en-US.pdf
+- **Evidence summary:** The official Siemens safety manual lists event ID 0x031E, the affected module variants, descriptions and possible causes on printed page 125.
+- **Safe checks:** Preserve the complete diagnostic entry, module and channel identifiers, commanded output state and measured terminal state. Under approved isolation, qualified personnel should inspect wiring, load supply and channel diagnostics. Never bypass the safety channel or extend monitoring time merely to suppress the event.
+- **Review date:** 2026-10-24. **Evidence status:** manual-claim-reviewed, not field-verified.
+- **Limits:** Applies only to the listed SM 1226 F-DQ variants and cited manual edition.
+
+### siemens-s7-1200-fs-0320-output-overload
+
+- **Manufacturer / family:** Siemens — SIMATIC S7-1200 fail-safe signal module SM 1226 F-DQ
+- **Scope:** SM 1226 F-DQ 4 x 24 V DC output module as described in the cited manual
+- **Event ID:** 0x0320
+- **Meaning (EN):** The manual defines event 0x0320 as an overload condition at the output driver that causes the channel to be passivated.
+- **المعنى (AR):** يعرّف الدليل الحدث 0x0320 بأنه حالة حمل زائد في مشغل الخرج تؤدي إلى عزل القناة آمنًا (passivation).
+- **Sens (FR):** Le manuel définit l’événement 0x0320 comme une surcharge du pilote de sortie entraînant la passivation du canal.
+- **Source:** S7-1200 Functional Safety Manual, Equipment Manual V4.6, 11/2022; A5E03470344-AC; “Fail-safe signal module diagnostics → Fault diagnostics”; printed page 125.
+- **Official manual:** https://support.industry.siemens.com/dl/files/552/104547552/att_896075/v1/s71200_f_user_manual_en-US_en-US.pdf
+- **Evidence summary:** The official Siemens safety manual lists event ID 0x0320 as output-driver overload and describes channel passivation on printed page 125.
+- **Safe checks:** Record module/channel, full diagnostic text and output load. After isolation, qualified personnel should inspect wiring and load for a short, excessive current or unsuitable load. Do not force the output on or defeat passivation.
+- **Review date:** 2026-10-24. **Evidence status:** manual-claim-reviewed, not field-verified.
+- **Limits:** Specific to the module and manual edition cited; confirm installed hardware and safety configuration.
