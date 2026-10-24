@@ -52,3 +52,10 @@ test("exploratory library does not claim a source supports the cause", () => {
   assert.ok(result.hypotheses.length > 0);
   assert.ok(result.hypotheses.every(item => item.basis === "symptom-pattern-not-source-verified"));
 });
+
+test("local knowledge retrieval returns relevant excerpts with source scope metadata", () => {
+  const result = engine.analyse({ machine: "pump", symptom: "low_flow", observations: "suction pressure low", language: "en" }, { faults: [] });
+  assert.ok(result.retrievedKnowledge.some(item => item.id === "kb-pump-low-flow"));
+  assert.ok(result.retrievedKnowledge.every(item => item.sourceTitle && item.sourceUrl && item.sourceStatus));
+  assert.ok(result.retrievedKnowledge.every(item => item.evidenceClass === "general-knowledge-note-not-OEM-verified"));
+});
