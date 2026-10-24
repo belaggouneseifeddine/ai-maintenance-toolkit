@@ -646,6 +646,12 @@ const checks = [
       assert.ok(record.safeChecks.ar?.length && record.safeChecks.fr?.length, record.id + " needs Arabic/French safe checks");
     }
     assert.ok(records.some(record => record.productFamily.includes("H5U Series") && record.source.sourceId === "inovance-h5u-plc-user-guide"), "INOVANCE H5U model-specific manual evidence must be represented");
+    const deltaB2F = records.filter(record => record.manufacturer === "Delta Electronics" && record.productFamily === "ASDA-B2-F series servo drive");
+    assert.equal(deltaB2F.length, 13, "Delta ASDA-B2-F manual-reviewed record tranche must be present");
+    assert.ok(deltaB2F.every(record => record.source.sourceId === "delta-asda-b2-f-user-manual" && record.source.manualUrl.includes("DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf")), "Delta records must use the exact official ASDA-B2-F manual");
+    assert.ok(deltaB2F.every(record => record.source.section && record.source.printedPageLabel && record.reviewDate === "2026-10-24"), "Delta records must include manual locator and review date");
+    assert.equal(oemPlatformIndex.manufacturers.find(manufacturer => manufacturer.id === "delta")?.manualReviewedRecordCount, 13, "Delta platform count must match the evidence tranche");
+    assert.ok(records.length >= 79, "Expected the Delta ASDA-B2-F source-reviewed tranche in the OEM database");
     assert.ok(oemVerifiedFaults.recordCount >= 47, "Expected at least 47 structured OEM evidence records");
   }]
 ];
