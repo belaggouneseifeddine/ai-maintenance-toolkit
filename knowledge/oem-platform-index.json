@@ -74,10 +74,10 @@
       "url": "https://downloadcenter.delta-china.com.cn/en-US/DownloadCenter",
       "evidenceStatus": "portal-only",
       "alarmCodeRecords": 0,
-      "notes": "Official Delta ASDA-B2-F User Manual V1.0 (September 2015) reviewed for 13 alarm summaries in section 9.1 and relevant section 9.4 pages. Manual-claim-reviewed, not field-verified; do not generalize to other ASDA series.",
-      "manualReviewedRecordCount": 13,
+      "notes": "Official Delta ASDA-B2-F User Manual V1.0 (September 2015) reviewed for 31 alarm summaries in section 9.1 and relevant section 9.4 pages. Manual-claim-reviewed, not field-verified; do not generalize to other ASDA series.",
+      "manualReviewedRecordCount": 31,
       "modelsCovered": [
-        "ASDA-B2-F series servo drive (13 manual-reviewed alarm records)"
+        "ASDA-B2-F series servo drive (31 manual-reviewed alarm records)"
       ]
     },
     {
@@ -639,7 +639,7 @@
     }
   ],
   "relatedEvidenceFile": "knowledge/oem-verified-faults.json",
-  "verifiedRecordFileCount": 81,
+  "verifiedRecordFileCount": 99,
   "verifiedRecordFile": "knowledge/oem-verified-faults.json",
   "lastEvidenceInventoryDate": "2026-10-24"
 }
