@@ -9,7 +9,7 @@ Introduce a small, testable orchestration layer for the existing Maintenance AI 
 - `engineering-core.js`: existing request normalization, conservative intent routing, hazard detection, and local diagnostic adapter.
 - `agent-core.js`: new orchestration contract that calls only allowlisted injected adapters.
 - `tests/agent-core.test.cjs`: behavior tests for safety precedence, consent, local fallback, tool errors, report provenance, and bounded outputs.
-- No production UI or Worker behavior is changed in this first slice. The new core is not yet loaded by the live app and is not a claim of end-to-end AI operation.
+- The current `index.html` loads `agent-core.js` and `agent-ui.js`; the UI wiring is present in repository source. This is not proof that the deployed site has the same revision, that the browser flow works end-to-end, or that a live AI provider is configured. Worker behavior remains a separate API path and requires live verification.
 
 ## Agent contract
 
@@ -37,11 +37,11 @@ Adapters are injected at core creation time:
 
 All adapter outputs are untrusted data and must be validated before being rendered. This core does not discover tools dynamically, access the network, read secrets, or upload attachments.
 
-## Files planned for the next integration slice
+## Remaining verification and next integration work
 
 | File | Planned change |
 |---|---|
-| `index.html` | Wire the user-facing assistant flow to the shared request contract without breaking the existing offline form; retain explicit consent and accessible error/fallback states. |
+| `index.html` and `agent-ui.js` | Verify the existing user-facing assistant flow on desktop and Android, including explicit consent and accessible error/fallback states; only change the wiring if tests identify a defect. |
 | `engineering-core.js` | Extend the route contract only where tests demonstrate a missing intent or field; keep safety routing deterministic. |
 | `agent-core.js` | Review cancellation behavior of real provider adapters; preserve stable error codes and avoid hidden retries. |
 | `worker.js` | Adapt the current Gemini and knowledge-retrieval functions behind allowlisted server-side adapters; preserve source traceability, response schema validation, CORS/input checks, and safety gates. |
