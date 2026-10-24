@@ -1,0 +1,471 @@
+{
+  "schemaVersion": 1,
+  "title": "OEM and machine-platform index",
+  "purpose": "Discovery index for finding official documents and structuring future model-specific fault records. This is not an alarm-code database.",
+  "evidenceStates": [
+    "portal-only",
+    "manual-found",
+    "claim-reviewed",
+    "model-verified"
+  ],
+  "minimumEvidenceForModelVerified": [
+    "machine_builder",
+    "machine_model",
+    "serial_or_variant_when_relevant",
+    "controller_and_drive_models",
+    "alarm_code_and_exact_text",
+    "manual_title_and_revision",
+    "section_and_page",
+    "claim_supported",
+    "reviewer",
+    "review_date"
+  ],
+  "rules": [
+    "Do not infer alarm meanings from a portal title, family name, or another model's manual.",
+    "Machine builder and component OEM may differ; record both.",
+    "Region labels describe company origin or support context, not the actual origin of every machine.",
+    "Use official portals as links only. Do not scrape or republish manuals unless rights permit.",
+    "If exact model evidence is unavailable, retain general-guidance-not-model-specific status."
+  ],
+  "manufacturers": [
+    {
+      "id": "inovance",
+      "name": "INOVANCE",
+      "region": "China",
+      "kind": "component_oem",
+      "families": [
+        "MD-series VFDs",
+        "IS/SV servo",
+        "H5U/AC-series PLC",
+        "HMI and motion control"
+      ],
+      "sourceRefs": [
+        "inovance-global-downloads",
+        "inovance-eu-downloads"
+      ],
+      "url": "https://www.inovance.com/global/support/download-documentation.html",
+      "evidenceStatus": "portal-only",
+      "alarmCodeRecords": 0,
+      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+    },
+    {
+      "id": "delta",
+      "name": "Delta Electronics",
+      "region": "Taiwan/Asia",
+      "kind": "component_oem",
+      "families": [
+        "AS/DVP PLC",
+        "MS300 and other VFD families",
+        "ASDA servo",
+        "HMI/CNC/motion"
+      ],
+      "sourceRefs": [
+        "delta-industrial-download-center"
+      ],
+      "url": "https://downloadcenter.delta-china.com.cn/en-US/DownloadCenter",
+      "evidenceStatus": "portal-only",
+      "alarmCodeRecords": 0,
+      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+    },
+    {
+      "id": "xinje",
+      "name": "XINJE",
+      "region": "China",
+      "kind": "component_oem",
+      "families": [
+        "XD/XG/XL PLC",
+        "DS servo",
+        "HMI",
+        "VFD and motion control"
+      ],
+      "sourceRefs": [
+        "xinje-download-center"
+      ],
+      "url": "https://en.xinje.com/web/downloadCenter/index",
+      "evidenceStatus": "portal-only",
+      "alarmCodeRecords": 0,
+      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+    },
+    {
+      "id": "huazhongcnc",
+      "name": "HuazhongCNC (HNC)",
+      "region": "China",
+      "kind": "cnc_control_oem",
+      "families": [
+        "HNC8 CNC",
+        "HSV servo drives",
+        "CNC PLC and machine parameters"
+      ],
+      "sourceRefs": [
+        "huazhongcnc-download-center",
+        "huazhongcnc-servo-manuals"
+      ],
+      "url": "https://en.huazhongcnc.com/download-center-of-huazhongcnc/",
+      "evidenceStatus": "portal-only",
+      "alarmCodeRecords": 0,
+      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+    },
+    {
+      "id": "gsk",
+      "name": "GSK CNC",
+      "region": "China",
+      "kind": "cnc_control_oem",
+      "families": [
+        "CNC controllers",
+        "Servo drives and motors"
+      ],
+      "sourceRefs": [
+        "gsk-cnc-support"
+      ],
+      "url": "https://gskcnc.com/support.php",
+      "evidenceStatus": "portal-only",
+      "alarmCodeRecords": 0,
+      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+    },
+    {
+      "id": "syntec",
+      "name": "Syntec",
+      "region": "Taiwan/Asia",
+      "kind": "cnc_control_oem",
+      "families": [
+        "CNC controllers",
+        "Motion control and machine-tool integration"
+      ],
+      "sourceRefs": [
+        "syntec-download-library"
+      ],
+      "url": "https://syntecclub.com/",
+      "evidenceStatus": "portal-only",
+      "alarmCodeRecords": 0,
+      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+    },
+    {
+      "id": "lnc",
+      "name": "LNC / Lynuc",
+      "region": "Taiwan/Asia",
+      "kind": "cnc_control_oem",
+      "families": [
+        "CNC controllers",
+        "Drive, I/O and parameter documentation"
+      ],
+      "sourceRefs": [
+        "lynuc-download-center"
+      ],
+      "url": "https://www.lynuc.cn/download.aspx",
+      "evidenceStatus": "portal-only",
+      "alarmCodeRecords": 0,
+      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+    },
+    {
+      "id": "leadshine",
+      "name": "Leadshine",
+      "region": "China",
+      "kind": "motion_component_oem",
+      "families": [
+        "Servo and stepper drives",
+        "Motion controllers",
+        "Robot motion components"
+      ],
+      "sourceRefs": [
+        "leadshine-downloads"
+      ],
+      "url": "https://www.leadshine.com/downloads.html",
+      "evidenceStatus": "portal-only",
+      "alarmCodeRecords": 0,
+      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+    },
+    {
+      "id": "mitsubishi-fa",
+      "name": "Mitsubishi Electric FA China",
+      "region": "Japan / China support portal",
+      "kind": "component_oem",
+      "families": [
+        "MELSEC PLC",
+        "MELSERVO",
+        "FREQROL inverters",
+        "CNC",
+        "GOT HMI",
+        "MELFA robots"
+      ],
+      "sourceRefs": [
+        "mitsubishi-fa-china-documents"
+      ],
+      "url": "https://www.mitsubishielectric-fa.cn/site/file-center",
+      "evidenceStatus": "portal-only",
+      "alarmCodeRecords": 0,
+      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+    },
+    {
+      "id": "siemens",
+      "name": "Siemens",
+      "region": "Europe / Germany",
+      "kind": "component_oem",
+      "families": [
+        "SIMATIC PLC",
+        "SINUMERIK CNC",
+        "SINAMICS drives",
+        "WinCC HMI/SCADA",
+        "PROFINET"
+      ],
+      "sourceRefs": [
+        "siemens-industrial-support",
+        "siemens-industry-support"
+      ],
+      "url": "https://support.industry.siemens.com/",
+      "evidenceStatus": "portal-only",
+      "alarmCodeRecords": 0,
+      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+    },
+    {
+      "id": "bosch-rexroth",
+      "name": "Bosch Rexroth",
+      "region": "Europe / Germany",
+      "kind": "component_oem",
+      "families": [
+        "IndraDrive",
+        "ctrlX AUTOMATION",
+        "MTX CNC",
+        "hydraulic control"
+      ],
+      "sourceRefs": [
+        "bosch-rexroth-documentation"
+      ],
+      "url": "https://docs.automation.boschrexroth.com/",
+      "evidenceStatus": "portal-only",
+      "alarmCodeRecords": 0,
+      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+    },
+    {
+      "id": "beckhoff",
+      "name": "Beckhoff",
+      "region": "Europe / Germany",
+      "kind": "component_oem",
+      "families": [
+        "TwinCAT",
+        "EtherCAT",
+        "IPC",
+        "I/O and motion control"
+      ],
+      "sourceRefs": [
+        "beckhoff-downloads"
+      ],
+      "url": "https://www.beckhoff.com/en-us/support/download-finder/",
+      "evidenceStatus": "portal-only",
+      "alarmCodeRecords": 0,
+      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+    },
+    {
+      "id": "heidenhain",
+      "name": "HEIDENHAIN",
+      "region": "Europe / Germany",
+      "kind": "cnc_control_oem",
+      "families": [
+        "TNC CNC controls",
+        "Encoders",
+        "Machine-tool feedback systems"
+      ],
+      "sourceRefs": [
+        "heidenhain-technical-support"
+      ],
+      "url": "https://www.heidenhain.com/service/technical-support",
+      "evidenceStatus": "portal-only",
+      "alarmCodeRecords": 0,
+      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+    },
+    {
+      "id": "schneider",
+      "name": "Schneider Electric",
+      "region": "Europe / France",
+      "kind": "component_oem",
+      "families": [
+        "Modicon PLC",
+        "Altivar drives",
+        "HMI",
+        "electrical protection"
+      ],
+      "sourceRefs": [
+        "schneider-downloads"
+      ],
+      "url": "https://www.se.com/ww/en/download/",
+      "evidenceStatus": "portal-only",
+      "alarmCodeRecords": 0,
+      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+    },
+    {
+      "id": "abb",
+      "name": "ABB",
+      "region": "Europe / Switzerland-Sweden",
+      "kind": "component_oem",
+      "families": [
+        "ACS drives",
+        "low-voltage motors",
+        "robotics",
+        "motion control"
+      ],
+      "sourceRefs": [
+        "abb-drive-manuals",
+        "abb-motor-manuals"
+      ],
+      "url": "https://www.abb.com/",
+      "evidenceStatus": "portal-only",
+      "alarmCodeRecords": 0,
+      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+    },
+    {
+      "id": "sew",
+      "name": "SEW-EURODRIVE",
+      "region": "Europe / Germany",
+      "kind": "component_oem",
+      "families": [
+        "Gearmotors",
+        "drive inverters",
+        "motion control"
+      ],
+      "sourceRefs": [
+        "sew-eurodrive-documentation"
+      ],
+      "url": "https://download.sew-eurodrive.com/",
+      "evidenceStatus": "portal-only",
+      "alarmCodeRecords": 0,
+      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+    },
+    {
+      "id": "lenze",
+      "name": "Lenze",
+      "region": "Europe / Germany",
+      "kind": "component_oem",
+      "families": [
+        "Drives",
+        "controllers",
+        "motion and automation"
+      ],
+      "sourceRefs": [
+        "lenze-downloads"
+      ],
+      "url": "https://www.lenze.com/en-de/services/downloads",
+      "evidenceStatus": "portal-only",
+      "alarmCodeRecords": 0,
+      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+    },
+    {
+      "id": "kuka",
+      "name": "KUKA",
+      "region": "Europe / Germany",
+      "kind": "machine_oem",
+      "families": [
+        "KR industrial robots",
+        "KRC controllers"
+      ],
+      "sourceRefs": [
+        "kuka-downloads"
+      ],
+      "url": "https://www.kuka.com/en-us/services/downloads",
+      "evidenceStatus": "portal-only",
+      "alarmCodeRecords": 0,
+      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+    },
+    {
+      "id": "trumpf",
+      "name": "TRUMPF",
+      "region": "Europe / Germany",
+      "kind": "machine_oem",
+      "families": [
+        "Laser cutting",
+        "punching",
+        "machine tools"
+      ],
+      "sourceRefs": [
+        "trumpf-service"
+      ],
+      "url": "https://www.trumpf.com/en_INT/service/",
+      "evidenceStatus": "portal-only",
+      "alarmCodeRecords": 0,
+      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+    },
+    {
+      "id": "homag",
+      "name": "HOMAG",
+      "region": "Europe / Germany",
+      "kind": "machine_oem",
+      "families": [
+        "Woodworking and panel processing machinery"
+      ],
+      "sourceRefs": [
+        "homag-service"
+      ],
+      "url": "https://www.homag.com/en/services",
+      "evidenceStatus": "portal-only",
+      "alarmCodeRecords": 0,
+      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+    },
+    {
+      "id": "yizumi",
+      "name": "YIZUMI",
+      "region": "China",
+      "kind": "machine_oem",
+      "families": [
+        "Injection moulding",
+        "die casting",
+        "rubber machinery",
+        "automation"
+      ],
+      "sourceRefs": [
+        "yizumi-machine-service"
+      ],
+      "url": "https://www.yizumi.com/en/service",
+      "evidenceStatus": "portal-only",
+      "alarmCodeRecords": 0,
+      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+    },
+    {
+      "id": "haitian",
+      "name": "Haitian International",
+      "region": "China",
+      "kind": "machine_oem",
+      "families": [
+        "Servo-hydraulic and all-electric injection moulding machines"
+      ],
+      "sourceRefs": [
+        "haitian-machine-service"
+      ],
+      "url": "https://haitianinter.com/service/",
+      "evidenceStatus": "portal-only",
+      "alarmCodeRecords": 0,
+      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+    },
+    {
+      "id": "bodor",
+      "name": "Bodor Laser",
+      "region": "China",
+      "kind": "machine_oem",
+      "families": [
+        "Laser cutting and welding machines"
+      ],
+      "sourceRefs": [
+        "bodor-laser-service"
+      ],
+      "url": "https://www.bodor.com/en/service/",
+      "evidenceStatus": "portal-only",
+      "alarmCodeRecords": 0,
+      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+    },
+    {
+      "id": "pilz",
+      "name": "Pilz",
+      "region": "Europe / Germany",
+      "kind": "safety_component_oem",
+      "families": [
+        "Safety relays",
+        "safety PLC",
+        "sensors and machine safety"
+      ],
+      "sourceRefs": [
+        "pilz-machine-safety-support"
+      ],
+      "url": "https://www.pilz.com/en-INT/support",
+      "evidenceStatus": "portal-only",
+      "alarmCodeRecords": 0,
+      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+    }
+  ]
+}
