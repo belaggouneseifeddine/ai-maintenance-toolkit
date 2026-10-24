@@ -240,3 +240,37 @@ The cases below broaden coverage beyond the original pump/motor/compressor set. 
 - [Festo official site](https://www.festo.com/) — find the exact pneumatic valve/component operating instructions.
 
 **Evidence rule:** A manufacturer link is not proof of a cause. Before promoting any entry to OEM-verified status, record the exact model, manual title/revision, section/page, inspected claim, and review date. Never invent alarm meanings, thresholds, torque values, pressure limits, or part numbers.
+
+## Expanded structured coverage: 200+ fault cases
+
+The structured catalogue now contains **252 records** across 33 equipment-type labels. This is a breadth-first troubleshooting library, not a claim that every case has been validated against a specific machine model. Each newly generated general-guidance record is marked `general-guidance-not-model-specific`.
+
+### Electronics and electronic control boards
+
+Coverage includes DC supply instability, output ripple, capacitor deterioration, analog/digital I/O mismatch, ADC/DAC symptoms, optocouplers, relay drivers, MOSFET/IGBT alarms, encoder feedback, watchdog resets, memory/checksum issues, clock drift, PCB contamination, and electromagnetic interference. These symptoms are hypotheses for triage; confirm with the correct circuit diagram, component datasheet, board revision, and qualified test procedure before replacing components.
+
+### Electrical circuits and protection
+
+Coverage includes unexpected breaker or fuse operation, contactor coil/pickup and chatter, auxiliary-contact feedback mismatch, motor overload trips, suspected phase loss or phase-sequence problems, earth-leakage protection, protective-earth continuity, control-transformer secondary voltage, open control circuits, suspected short circuits, loose terminals, busbar overheating, braking resistors, safety-relay reset, emergency-stop loops, interlocks, and cabinet condensation.
+
+**Safety boundary:** Never troubleshoot by touching exposed live conductors, bypassing protective devices, defeating an interlock, or repeatedly resetting a breaker. Isolate, lock out/tag out, verify absence of voltage, and use a qualified person and approved procedure. Safety circuits must not be bridged to keep production running.
+
+### Industrial operating systems and communications
+
+Coverage includes PLC STOP mode, scan-time overrun, retentive-memory loss, module configuration mismatch, remote I/O dropout, stuck input/output points, HMI tag quality, stale SCADA values, time synchronisation, IP conflicts, PROFINET naming, Modbus mapping, Fieldbus timeouts, servo homing, robot safety stops, industrial PC storage, software/firmware incompatibility, missing parameter backups, and intermittent network loss.
+
+Before downloading a project, restoring a backup, changing addresses, or updating firmware, record the exact controller, hardware order number, firmware/software version, topology, current alarms, and backup status. Use vendor documentation for the installed version; never assume that a generic reset sequence applies.
+
+### Industrial machines: Chinese and European equipment
+
+The catalogue includes general fault patterns for CNC controllers, VFDs and servos on Chinese-built machines, injection-moulding and packaging equipment, photoeyes, ejectors, tool magazines, robot axis references, safety doors, two-hand controls, conveyor synchronisation, compressor-drive communications, palletiser grippers, machine recipes, axis brakes, cooling flow, central lubrication, and vacuum pick-up.
+
+Country of manufacture alone does not identify the control platform or fault meaning. Chinese and European machines may use third-party PLCs, drives, CNCs, servos, HMIs, and safety components. For every model-specific diagnosis, collect the machine builder, exact model/serial number, controller and drive manufacturer/model, alarm text/code, software version, and relevant manual revision. Translate alarm text carefully; do not map an unfamiliar code to a guessed cause.
+
+### Evidence and maturity labels
+
+- `general-guidance-not-model-specific`: safe triage hypotheses only; not an OEM-confirmed diagnosis.
+- An official manufacturer support portal is a discovery route, not evidence that a particular cause applies.
+- Promote a record to model-verified only after recording the exact model, inspected manual revision, relevant section/page, the supported claim, and review date.
+- Alarm-code databases, electrical values, torque values, and parameter numbers must not be invented to make the catalogue appear more complete.
+
