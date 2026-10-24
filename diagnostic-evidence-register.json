@@ -1226,6 +1226,46 @@
       "status": "review-needed",
       "references": [],
       "note": "General guidance only; exact model-specific evidence has not been reviewed."
+    },
+    "fan-blower-abnormal-vibration": {
+      "status": "review-needed",
+      "references": [],
+      "note": "General guidance only; exact model-specific evidence has not been reviewed."
+    },
+    "chiller-high-condensing-temperature": {
+      "status": "review-needed",
+      "references": [],
+      "note": "General guidance only; exact model-specific evidence has not been reviewed."
+    },
+    "servo-drive-following-error": {
+      "status": "review-needed",
+      "references": [],
+      "note": "General guidance only; exact model-specific evidence has not been reviewed."
+    },
+    "transformer-abnormal-temperature": {
+      "status": "review-needed",
+      "references": [],
+      "note": "General guidance only; exact model-specific evidence has not been reviewed."
+    },
+    "hydraulic-filter-differential-pressure": {
+      "status": "review-needed",
+      "references": [],
+      "note": "General guidance only; exact model-specific evidence has not been reviewed."
+    },
+    "steam-trap-suspected-failure": {
+      "status": "review-needed",
+      "references": [],
+      "note": "General guidance only; exact model-specific evidence has not been reviewed."
+    },
+    "dust-collector-pulse-cleaning-fault": {
+      "status": "review-needed",
+      "references": [],
+      "note": "General guidance only; exact model-specific evidence has not been reviewed."
+    },
+    "instrument-four-to-twenty-ma-drift": {
+      "status": "review-needed",
+      "references": [],
+      "note": "General guidance only; exact model-specific evidence has not been reviewed."
     }
   },
   "generalSafetyReferences": [
