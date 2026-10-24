@@ -82,6 +82,7 @@ The branch catalogue is larger than the active PR set. The comparisons above pri
 ## Implemented on this branch
 
 - Extend the offline diagnostic engine with `analyse()`, which can return up to three localized hypotheses for selected common equipment/symptom pairs even when the exact rule library has no match.
+- Add a compact in-code index of paraphrased excerpts from the repository's industrial knowledge base. It retrieves by equipment/symptom and matching observation terms, and returns the source title, URL, and scope status; it does not fetch the network or claim OEM verification.
 - Every candidate remains `hypothesis_only`; output includes why it was suggested, matching input terms if any, missing/contrary evidence, and a safe next check. No probability percentages or invented OEM limits are generated.
 - The browser UI renders the local reasoning panel after the existing diagnosis submission, using DOM text nodes rather than inserting user text as HTML.
 - The UI suppresses hypotheses if the priority is urgent or the safety checklist is missing/incomplete.
