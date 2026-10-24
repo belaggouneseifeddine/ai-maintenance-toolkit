@@ -4,12 +4,15 @@ Deterministic inventory of the current repository. This report adds no technical
 
 ## Snapshot
 
-- Worker-referenced Markdown documents: **6**
-- Markdown inventory: **922 lines**, **12,077 whitespace-separated words**, **109 headings**
+- Worker-referenced Markdown documents: **7**
+- Markdown inventory: **1,217 lines**, **15,166 whitespace-separated words**, **139 headings**
 - Structured fault records: **224**
 - Distinct equipment-type labels in the fault library: **34**
 - Cause entries across fault records: **677**
 - Fault records with an alarmCodes or errorCodes array: **0/224**
+- Chinese/European OEM manufacturer profiles: **17**
+- Structured OEM symptom templates: **24**
+- Official manufacturer/support portal records: **39**
 
 ## Document inventory
 
@@ -21,6 +24,7 @@ Deterministic inventory of the current repository. This report adds no technical
 | knowledge/CENTRIFUGAL-PUMP-TROUBLESHOOTING-DRAFT.md | 114 | 1,024 | 9 |
 | knowledge/EQUIPMENT-TROUBLESHOOTING-AR-FR-EN.md | 156 | 1,946 | 21 |
 | knowledge/UNIVERSAL-INDUSTRIAL-FAULT-ATLAS-AR-FR-EN.md | 120 | 1,737 | 14 |
+| knowledge/CHINESE-EUROPEAN-OEM-FAULT-MATRIX-AR-FR-EN.md | 295 | 3,089 | 30 |
 
 ## Source registry and licensing
 
@@ -33,8 +37,8 @@ Deterministic inventory of the current repository. This report adds no technical
 
 ## Literal equipment-name coverage proxy
 
-- Equipment-type labels literally present in the concatenated Worker-loaded Markdown: **24/34**.
-- Labels with no literal match: boiler, electrical_control, electrical_panel, fan-blower, filtration, fire_safety, industrial_network, power_supply, refrigeration, robotics.
+- Equipment-type labels literally present in the concatenated Worker-loaded Markdown: **25/34**.
+- Labels with no literal match: boiler, electrical_control, electrical_panel, fan-blower, filtration, fire_safety, industrial_network, power_supply, refrigeration.
 
 This is a conservative string-presence check only. It does not prove that a topic is technically covered when a label is present, or absent when a synonym or different wording is used.
 
@@ -44,6 +48,12 @@ This is a conservative string-presence check only. It does not prove that a topi
 2. 2 source-registry entries are not marked approved (approved count: 0). Candidate sources must not be treated as approved technical authority.
 3. 10 equipment labels lack a literal name match in the Worker-loaded documents. Review this list with a subject-matter expert; do not automatically fill the gaps with generated technical content.
 4. 5 reference-only portals are not allowlisted for automated fetching. Keep this restriction until reuse permissions are documented in the registry.
+
+## Manufacturer-specific case coverage and limits
+
+- The OEM matrix maps 17 manufacturer/controller families to official documentation routes and contains 24 structured symptom templates.
+- These templates are not verified alarm-code definitions. The matrix requires exact model, controller/drive, firmware, manual revision, page/section, and human review before evidence status can be upgraded.
+- The 39-entry OEM source-discovery registry is separate from the two license-tracked research sources above. Its URLs are discovery links, not evidence that a particular fault cause applies.
 
 ## Method and limits
 
