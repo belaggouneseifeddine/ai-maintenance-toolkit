@@ -31,8 +31,10 @@
     for (const record of filtered) {
       const card = textNode("article", "", "card");
       card.appendChild(textNode("h4", localized(record.title, lang) || record.id));
-      const code = record.alarmCode || record.errorCode || record.eventCode || record.diagnosticCode || record.eventId;\n      if (code !== undefined && code !== null && code !== "") addMeta(card, t.code, code);
-      addMeta(card, t.model, record.manufacturer + " — " + record.productFamily + (record.modelScope ? " / " + record.modelScope : ""));\n      addMeta(card, t.controller, record.controllerModel || "");
+      const code = record.alarmCode || record.errorCode || record.eventCode || record.diagnosticCode || record.eventId;
+      if (code !== undefined && code !== null && code !== "") addMeta(card, t.code, code);
+      addMeta(card, t.model, record.manufacturer + " — " + record.productFamily + (record.modelScope ? " / " + record.modelScope : ""));
+      addMeta(card, t.controller, record.controllerModel || "");
       card.appendChild(textNode("p", localized(record.meaning, lang), ""));
       const src = record.source || {};
       addMeta(card, t.source, src.manualTitle);
