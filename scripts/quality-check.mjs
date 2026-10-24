@@ -31,6 +31,16 @@ vm.runInNewContext(normalizationSource, engineContext);
 vm.runInNewContext(diagnosticEngineSource, engineContext);
 
 const checks = [
+  ["Local agent core is explicitly loaded and offers a non-network diagnosis action", () => {
+    assert.match(html, /<script src="\\.\\/engineering-core\\.js"><\\/script>/);
+    assert.match(html, /<script src="\\.\\/agent-core\\.js"><\\/script>/);
+    assert.match(html, /<script src="\\.\\/agent-ui\\.js"><\\/script>/);
+    assert.match(html, /id="runLocalAgent"/);
+    assert.match(deployWorkflow, /engineering-core\\.js agent-core\\.js agent-ui\\.js/);
+    assert.match(sw, /"\\.\\/engineering-core\\.js"/);
+    assert.match(sw, /"\\.\\/agent-core\\.js"/);
+    assert.match(sw, /"\\.\\/agent-ui\\.js"/);
+  }],
   ["Shared normalization is loaded by the UI, Worker and Pages deployment", () => {
     assert.match(html, /<script src="\.\/normalization\.js"><\/script>/);
     assert.match(worker, /import "\.\/normalization\.js";/);
@@ -236,7 +246,7 @@ const checks = [
   ["Service worker caches the app shell and icon with a bumped cache version", () => {
     assert.match(sw, /APP_SHELL/);
     assert.match(sw, /\.\/icon\.svg/);
-    assert.match(sw, /maintenance-ai-toolkit-v36/);
+    assert.match(sw, /maintenance-ai-toolkit-v37/);
   }]
 ,
   ["Multilingual fault library covers pumps, motors, VFDs and compressors", () => {
@@ -328,8 +338,8 @@ const checks = [
     for (const node of Object.values(tree.nodes)) if (node.result) assert.ok(node.safe && node.escalate && node.cause);
   }],
   ["PWA caches all new offline dependencies and bumps its cache", () => {
-    assert.match(sw, /maintenance-ai-toolkit-v36/);
-    for (const asset of ["normalization.js", "knowledge-review.js", "answer-tools.js", "diagnostic-engine.js", "faults.json", "i18n.js"]) assert.ok(sw.includes(asset), "Missing offline cache asset " + asset);
+    assert.match(sw, /maintenance-ai-toolkit-v37/);
+    for (const asset of ["normalization.js", "knowledge-review.js", "answer-tools.js", "diagnostic-engine.js", "engineering-core.js", "agent-core.js", "agent-ui.js", "faults.json", "i18n.js"]) assert.ok(sw.includes(asset), "Missing offline cache asset " + asset);
     assert.match(manifest.icons[0].src, /icon\.svg/);
   }]
 ,
