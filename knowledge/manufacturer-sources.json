@@ -598,6 +598,26 @@
       "scope": "Specific alarm/fault table for SINAMICS G120C FSD through FSF; firmware V4.7 SP6; troubleshooting table 5.1, printed page 82",
       "status": "official-manual-reviewed-for-listed-claims",
       "redistribution": "metadata-and-link only; do not republish manual content beyond short factual descriptions"
+    },
+    {
+      "id": "siemens-s7-1200-system-manual-v46",
+      "publisher": "Siemens",
+      "title": "SIMATIC S7-1200 Programmable controller — System Manual V4.6",
+      "url": "https://support.industry.siemens.com/cs/attachments/download/109772940/s71200_system_manual_en-US_en-US.pdf",
+      "type": "exact-model-family-manual",
+      "scope": "SIMATIC S7-1200 system diagnostics and time-error events; revision/CPU firmware must be matched to installed device",
+      "status": "manual-content-reviewed-for-listed-records",
+      "redistribution": "link-and-original-summary-only"
+    },
+    {
+      "id": "siemens-s7-1200-failsafe-manual-v46",
+      "publisher": "Siemens",
+      "title": "S7-1200 Functional Safety Manual V4.6",
+      "url": "https://support.industry.siemens.com/dl/files/552/104547552/att_896075/v1/s71200_f_user_manual_en-US_en-US.pdf",
+      "type": "exact-model-family-manual",
+      "scope": "S7-1200 fail-safe signal modules; diagnostic events including read-back failure and output overload; equipment manual 11/2022",
+      "status": "manual-content-reviewed-for-listed-records",
+      "redistribution": "link-and-original-summary-only"
     }
   ]
 }
