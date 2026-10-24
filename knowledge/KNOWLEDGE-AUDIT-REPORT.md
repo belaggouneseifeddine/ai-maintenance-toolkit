@@ -5,7 +5,7 @@ Deterministic inventory of the current repository. This report adds no technical
 ## Snapshot
 
 - Worker-referenced Markdown documents: **6**
-- Markdown inventory: **869 lines**, **11,233 whitespace-separated words**, **101 headings**
+- Markdown inventory: **922 lines**, **12,077 whitespace-separated words**, **109 headings**
 - Structured fault records: **252**
 - Distinct equipment-type labels in the fault library: **33**
 - Cause entries across fault records: **761**
@@ -15,7 +15,7 @@ Deterministic inventory of the current repository. This report adds no technical
 
 | Worker-loaded document | Lines | Words | Headings |
 |---|---:|---:|---:|
-| knowledge/INDUSTRIAL-FAULT-KNOWLEDGE-BASE.md | 243 | 3,894 | 32 |
+| knowledge/INDUSTRIAL-FAULT-KNOWLEDGE-BASE.md | 296 | 4,738 | 40 |
 | knowledge/ELECTRIC-MOTOR-AND-VFD-CASEBOOK.md | 129 | 1,429 | 11 |
 | knowledge/INGERSOLL-RAND-COMPRESSOR-CASEBOOK.md | 107 | 1,203 | 14 |
 | knowledge/CENTRIFUGAL-PUMP-TROUBLESHOOTING-DRAFT.md | 114 | 1,024 | 9 |
@@ -33,8 +33,8 @@ Deterministic inventory of the current repository. This report adds no technical
 
 ## Literal equipment-name coverage proxy
 
-- Equipment-type labels literally present in the concatenated Worker-loaded Markdown: **23/33**.
-- Labels with no literal match: boiler, electrical_control, electrical_panel, filtration, fire_safety, industrial_network, power_supply, refrigeration, robotics, vacuum.
+- Equipment-type labels literally present in the concatenated Worker-loaded Markdown: **24/33**.
+- Labels with no literal match: boiler, electrical_control, electrical_panel, filtration, fire_safety, industrial_network, power_supply, refrigeration, robotics.
 
 This is a conservative string-presence check only. It does not prove that a topic is technically covered when a label is present, or absent when a synonym or different wording is used.
 
@@ -42,7 +42,7 @@ This is a conservative string-presence check only. It does not prove that a topi
 
 1. No structured OEM alarm-code index is present in the fault library. Do not claim manufacturer-specific code matching until code records are sourced and reviewed.
 2. 2 source-registry entries are not marked approved (approved count: 0). Candidate sources must not be treated as approved technical authority.
-3. 10 equipment labels lack a literal name match in the Worker-loaded documents. Review this list with a subject-matter expert; do not automatically fill the gaps with generated technical content.
+3. 9 equipment labels lack a literal name match in the Worker-loaded documents. Review this list with a subject-matter expert; do not automatically fill the gaps with generated technical content.
 4. 5 reference-only portals are not allowlisted for automated fetching. Keep this restriction until reuse permissions are documented in the registry.
 
 ## Method and limits
