@@ -178,6 +178,13 @@ footer{line-height:1.8}
 <li><b>انحراف السير أو انزلاقه:</b> أوقف المعدة واعزلها قبل فحص المحاذاة أو الشد أو البكرات؛ استخدم إجراء المصنع ولا تقترب من نقاط السحب.</li>
 <li><b>ضجيج أو سخونة محمل:</b> أوقف المعدة عند الضجيج المفاجئ أو الشديد. افحص التثبيت والمحامل فقط بعد العزل وتأمين الحركة والطاقة المخزنة.</li>
 </ul>
+<div class="card" id="oemLookupCard">
+<h3 id="oemLookupTitle">بحث موثّق في أكواد وأعطال المصنّعين</h3>
+<p id="oemLookupHint" class="hint">66 سجلًا مرتبطًا بأدلة رسمية لعائلات محددة. هذه السجلات راجعت نصوص الأدلة، لكنها ليست تحققًا ميدانيًا ولا تنطبق تلقائيًا على كل آلة من العلامة نفسها.</p>
+<label for="oemLookupSearch">ابحث برمز الإنذار أو الشركة أو الطراز أو وحدة التحكم</label>
+<input id="oemLookupSearch" type="search" autocomplete="off" placeholder="مثال: F07900، SINAMICS G120C، XINJE DS5K">
+<div id="oemLookupResults" aria-live="polite"><p class="hint">جارٍ تحميل السجلات…</p></div>
+</div>
 <h3>طريقة استخدام المعرفة</h3>
 <ol>
 <li>سجّل العَرَض والرمز والوقت والقياسات والوحدات كما ظهرت، ولا تخمّن القيم المفقودة.</li>
@@ -257,6 +264,7 @@ footer{line-height:1.8}
 <script src="./engineering-core.js"></script>
 <script src="./agent-core.js"></script>
 <script src="./i18n.js"></script>
+<script src="./oem-lookup.js"></script>
 <script>
 const $=id=>document.getElementById(id);
 document.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b===btn));document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===btn.dataset.tab));}));
