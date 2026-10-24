@@ -11,7 +11,7 @@
 | `claim-reviewed` | Reviewer checked a specific claim against a passage in the source | Only for the exact claim and applicable product family |
 | `model-verified` | Exact model/variant and controller match, manual revision and passage recorded | Yes, within the recorded scope only |
 
-All 29 entries in the structured platform index remain `portal-only`, with zero field-verified alarm-code records. Separately, 79 model-scoped records have been reviewed against cited manuals, but are manual-claim-reviewed—not field-verified, including 13 Delta ASDA-B2-F servo alarm summaries. A manufacturer's support page is not evidence for the meaning of a particular alarm.
+All 29 entries in the structured platform index remain `portal-only`, with zero field-verified alarm-code records. Separately, 81 model-scoped records have been reviewed against cited manuals, but are manual-claim-reviewed—not field-verified, including 13 Delta ASDA-B2-F servo alarm summaries and two Syntec CNC communication alarms. A manufacturer's support page is not evidence for the meaning of a particular alarm.
 
 ## China and Asia — machine builders and control platforms
 
@@ -37,6 +37,14 @@ All 29 entries in the structured platform index remain `portal-only`, with zero 
 - **Locator:** section 9.1 “Alarm of Servo Drive”; relevant detailed corrective-action entries are in section 9.4, printed pages recorded per entry.
 - **Scope limit:** ASDA-B2-F only. Do not generalize these meanings or checks to ASDA-B2, ASDA-A3, ASDA-B3 or other series without matching manual evidence.
 - **Evidence status:** manual-claim-reviewed, not field-verified.
+
+### Syntec CNC communication alarms
+
+- **Manual:** [Syntec CNC Alarm Manual](https://www.syntecclub.com/cncrel/Manual/PDF/Syntec%20CNC%20Alarm%20Manual.pdf)
+- **Reviewed records:** MOT-082 (drive-response packet disturbed by noise) and MOT-083 (drive software misses communication packet).
+- **Version scope:** 10.118.86L, 10.120.16L, 10.120.24B, 10.120.27 and previous versions as listed in the manual.
+- **Locator:** exact alarm ID and its Description / Possible Reason / Solution subsections; printed page was not independently confirmed.
+- **Evidence status:** manual-claim-reviewed, not field-verified; confirm the installed software version and machine/drive integration.
 
 ## Europe — machine builders and control platforms
 
