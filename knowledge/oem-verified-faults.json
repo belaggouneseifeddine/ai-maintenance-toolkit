@@ -7,7 +7,7 @@
     "en"
   ],
   "generatedAt": "2026-10-24",
-  "recordCount": 60,
+  "recordCount": 63,
   "evidencePolicy": {
     "verifiedMeans": "The cited official manual explicitly supports the stated alarm meaning or diagnostic procedure within the recorded scope.",
     "notEquivalentTo": "This does not mean every machine built around the same brand/controller behaves identically; machine builder integration, firmware and options can change alarm behavior.",
@@ -3061,6 +3061,168 @@
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Manual-claim reviewed, not field-verified. Applies only to the stated SINAMICS G120C frame range and cited manual revision. Verify the exact installed drive, firmware, PLC project and machine-builder instructions before action."
+    },
+    {
+      "id": "siemens-s7-1200-ob80-time-error",
+      "recordType": "diagnostic-event",
+      "manufacturer": "Siemens",
+      "productFamily": "SIMATIC S7-1200",
+      "modelScope": "S7-1200 CPU system diagnostics; OB80/time-error event handling; exact CPU and firmware revision must be checked",
+      "firmwareScope": "System Manual V4.6; use the matching installed firmware/manual revision",
+      "eventCode": "OB80 / time error event",
+      "title": {
+        "en": "Time-error event: cycle-time or interrupt processing limit exceeded",
+        "ar": "حدث خطأ زمني: تجاوز زمن الدورة أو حدود معالجة المقاطعات",
+        "fr": "Événement d’erreur temporelle : limite de cycle ou de traitement d’interruptions dépassée"
+      },
+      "meaning": {
+        "en": "The manual describes time-error conditions including exceeding the configured maximum scan-cycle time, an interrupt OB being requested before the previous interrupt finishes, and event-queue overflow.",
+        "ar": "يصف الدليل حالات الخطأ الزمني، ومنها تجاوز زمن المسح الأقصى المضبوط، وطلب كتلة مقاطعة قبل انتهاء السابقة، وامتلاء طابور الأحداث.",
+        "fr": "Le manuel décrit les erreurs temporelles : dépassement du temps de cycle maximal configuré, nouvelle demande d’OB d’interruption avant la fin de la précédente, ou débordement de file d’événements."
+      },
+      "source": {
+        "sourceId": "siemens-s7-1200-system-manual-v46",
+        "manualTitle": "SIMATIC S7-1200 Programmable controller — System Manual",
+        "revision": "V4.6; document A5E02486680 (match exact CPU/manual edition)",
+        "section": "Time error interrupt events; monitoring and configuring the cycle time",
+        "printedPage": 90,
+        "manualUrl": "https://support.industry.siemens.com/cs/attachments/download/109772940/s71200_system_manual_en-US_en-US.pdf",
+        "evidenceSummary": "The official Siemens system manual lists the time-error conditions on printed page 90; the summary paraphrases those listed conditions."
+      },
+      "safeChecks": {
+        "en": [
+          "Record CPU order number, firmware, diagnostic buffer entry, cycle-time configuration and the exact event text.",
+          "Check whether program execution time grew, an interrupt OB overlaps, or event bursts exceed configured processing capacity; review program changes and device diagnostics.",
+          "Do not increase cycle-time limits or disable diagnostics without validating machine timing and process-safety implications."
+        ],
+        "ar": [
+          "سجّل رقم طراز CPU وإصدار البرنامج وسجل التشخيص وإعداد زمن الدورة والنص الكامل للحدث.",
+          "تحقق مما إذا زاد زمن تنفيذ البرنامج أو تداخلت كتل المقاطعة أو تجاوزت الأحداث قدرة المعالجة؛ راجع تغييرات البرنامج وتشخيص الأجهزة.",
+          "لا ترفع حد زمن الدورة أو تعطل التشخيص قبل التحقق من توقيت الماكينة ومتطلبات السلامة."
+        ],
+        "fr": [
+          "Relever la référence CPU, le firmware, le tampon de diagnostic, le réglage du temps de cycle et le texte exact de l’événement.",
+          "Vérifier l’allongement du temps d’exécution, le chevauchement d’OB d’interruption et les rafales d’événements; examiner les changements de programme et diagnostics.",
+          "Ne pas augmenter la limite de cycle ni désactiver le diagnostic sans valider le timing machine et la sécurité du procédé."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate repeated time errors, missed control deadlines, uncontrolled process timing, or uncertainty about safety-related program behavior.",
+        "ar": "صعّد عند تكرار الأخطاء الزمنية أو تفويت مواعيد التحكم أو اضطراب توقيت العملية أو الشك في سلوك برنامج متعلق بالسلامة.",
+        "fr": "Escalader en cas d’erreurs temporelles répétées, d’échéances de commande manquées ou de doute sur le comportement d’un programme de sécurité."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "This is a diagnostic event explanation, not a universal root-cause diagnosis. Confirm CPU type, firmware, cycle configuration and current manual revision."
+    },
+    {
+      "id": "siemens-s7-1200-fs-031e-readback-failure",
+      "recordType": "diagnostic-event",
+      "manufacturer": "Siemens",
+      "productFamily": "SIMATIC S7-1200 fail-safe signal module SM 1226 F-DQ",
+      "modelScope": "SM 1226 F-DQ 4 x 24 V DC and SM 1226 F-DQ 2 x Relay as described in the cited manual",
+      "firmwareScope": "S7-1200 Functional Safety Manual V4.6; Equipment Manual 11/2022",
+      "eventCode": "0x031E",
+      "title": {
+        "en": "Read-back failure on fail-safe output module",
+        "ar": "فشل قراءة حالة الخرج الراجعة في وحدة خرج آمنة",
+        "fr": "Échec de lecture de retour sur un module de sortie de sécurité"
+      },
+      "meaning": {
+        "en": "The manual describes a read-back failure when expected terminal voltage is not reached on the 24 V DC module, or when relay state differs from the commanded state on the relay module. It lists a too-short configured read-back time or a failed output switch/relay among possible causes.",
+        "ar": "يصف الدليل فشل القراءة الراجعة عندما لا يتحقق جهد الطرف المتوقع في وحدة 24V DC، أو عندما تختلف حالة المرحل عن الحالة المطلوبة في وحدة المرحلات. ويذكر من الأسباب المحتملة قصر زمن القراءة الراجعة المضبوط أو تعطل مفتاح الخرج/المرحل.",
+        "fr": "Le manuel décrit un échec de lecture de retour si la tension attendue n’est pas atteinte sur le module 24 V CC ou si l’état du relais diffère de la commande. Les causes indiquées incluent un temps de lecture trop court ou une sortie/un relais défectueux."
+      },
+      "source": {
+        "sourceId": "siemens-s7-1200-failsafe-manual-v46",
+        "manualTitle": "S7-1200 Functional Safety Manual",
+        "revision": "Equipment Manual V4.6, 11/2022; A5E03470344-AC",
+        "section": "Fail-safe signal module diagnostics → Fault diagnostics",
+        "printedPage": 125,
+        "manualUrl": "https://support.industry.siemens.com/dl/files/552/104547552/att_896075/v1/s71200_f_user_manual_en-US_en-US.pdf",
+        "evidenceSummary": "The official Siemens safety manual lists event ID 0x031E, the affected module variants, descriptions and possible causes on printed page 125."
+      },
+      "safeChecks": {
+        "en": [
+          "Capture the complete diagnostic entry, module order number, channel, commanded output state and measured terminal state from the diagnostic system.",
+          "Under approved isolation procedures, have qualified personnel inspect field wiring, load supply and the relevant module/channel diagnostics; compare the installed manual and parameterized read-back time.",
+          "Do not bypass the safety channel or extend monitoring time merely to suppress the event; validate the risk assessment and safety configuration."
+        ],
+        "ar": [
+          "احفظ سجل التشخيص الكامل ورقم الوحدة والقناة وحالة الخرج المطلوبة والحالة المقاسة للطرف.",
+          "بعد العزل وفق الإجراءات المعتمدة، يفحص فني مؤهل التوصيلات وتغذية الحمل وتشخيص القناة؛ ويقارن زمن القراءة الراجعة بالنسخة المضبوطة في الدليل.",
+          "لا تتجاوز قناة السلامة ولا تمدد زمن المراقبة لمجرد إخفاء الحدث؛ يجب التحقق من تقييم المخاطر وإعداد السلامة."
+        ],
+        "fr": [
+          "Conserver le diagnostic complet, la référence du module, le canal, l’état commandé et l’état mesuré à la borne.",
+          "Après consignation autorisée, faire vérifier le câblage, l’alimentation de charge et les diagnostics du canal; comparer le temps de lecture à la configuration documentée.",
+          "Ne pas contourner le canal de sécurité ni prolonger la surveillance uniquement pour masquer l’événement; valider l’analyse de risques et la configuration."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate any repeated fail-safe output discrepancy, unexpected actuator state, or suspected safety-function impairment; keep the machine in its safe state.",
+        "ar": "صعّد عند تكرار اختلاف خرج السلامة أو الحالة غير المتوقعة للمشغل أو الاشتباه بتأثر وظيفة السلامة؛ أبقِ الماكينة في الحالة الآمنة.",
+        "fr": "Escalader tout écart répété de sortie de sécurité, état d’actionneur inattendu ou soupçon d’altération de la fonction de sécurité; maintenir l’état sûr."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Applies only to the listed SM 1226 F-DQ variants and cited manual edition; use the installed hardware and current safety documentation."
+    },
+    {
+      "id": "siemens-s7-1200-fs-0320-output-overload",
+      "recordType": "diagnostic-event",
+      "manufacturer": "Siemens",
+      "productFamily": "SIMATIC S7-1200 fail-safe signal module SM 1226 F-DQ",
+      "modelScope": "SM 1226 F-DQ 4 x 24 V DC output module as described in the cited manual",
+      "firmwareScope": "S7-1200 Functional Safety Manual V4.6; Equipment Manual 11/2022",
+      "eventCode": "0x0320",
+      "title": {
+        "en": "Overload diagnostic on fail-safe output",
+        "ar": "تشخيص حمل زائد في خرج آمن",
+        "fr": "Diagnostic de surcharge sur une sortie de sécurité"
+      },
+      "meaning": {
+        "en": "The manual defines event 0x0320 as an overload condition at the output driver that causes the channel to be passivated.",
+        "ar": "يعرّف الدليل الحدث 0x0320 بأنه حالة حمل زائد في مشغل الخرج تؤدي إلى تحويل القناة إلى حالة العزل الآمن (passivation).",
+        "fr": "Le manuel définit l’événement 0x0320 comme une surcharge du pilote de sortie entraînant la passivation du canal."
+      },
+      "source": {
+        "sourceId": "siemens-s7-1200-failsafe-manual-v46",
+        "manualTitle": "S7-1200 Functional Safety Manual",
+        "revision": "Equipment Manual V4.6, 11/2022; A5E03470344-AC",
+        "section": "Fail-safe signal module diagnostics → Fault diagnostics",
+        "printedPage": 125,
+        "manualUrl": "https://support.industry.siemens.com/dl/files/552/104547552/att_896075/v1/s71200_f_user_manual_en-US_en-US.pdf",
+        "evidenceSummary": "The official Siemens safety manual lists event ID 0x0320 as output-driver overload and describes channel passivation on printed page 125."
+      },
+      "safeChecks": {
+        "en": [
+          "Record module and channel identifiers, full diagnostic text, output load, and any correlated short-circuit/overload indications.",
+          "After isolation, qualified personnel should inspect wiring and load for a short, excessive current or an unsuitable load, following the exact module manual.",
+          "Do not force the output on or defeat passivation; restore operation only through the documented safety recovery process."
+        ],
+        "ar": [
+          "سجّل الوحدة والقناة ونص التشخيص الكامل والحمل وأي مؤشرات مرتبطة بقصر أو حمل زائد.",
+          "بعد العزل، يفحص فني مؤهل التوصيلات والحمل بحثًا عن قصر أو تيار زائد أو حمل غير مناسب وفق دليل الوحدة المحدد.",
+          "لا تفرض تشغيل الخرج ولا تتجاوز حالة العزل الآمن؛ استعد التشغيل فقط وفق إجراء الاستعادة الموثق."
+        ],
+        "fr": [
+          "Relever la référence du module/canal, le diagnostic complet, la charge et les indications associées de court-circuit/surcharge.",
+          "Après consignation, faire vérifier le câblage et la charge par un technicien qualifié selon le manuel exact du module.",
+          "Ne pas forcer la sortie ni neutraliser la passivation; reprendre uniquement selon la procédure de récupération de sécurité documentée."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate recurring overloads, damage to wiring/load, or any safety output that does not recover as documented.",
+        "ar": "صعّد عند تكرار الحمل الزائد أو تلف التوصيلات/الحمل أو عدم استعادة خرج السلامة وفق الإجراء الموثق.",
+        "fr": "Escalader les surcharges répétées, les dommages au câblage/à la charge ou toute sortie de sécurité qui ne récupère pas selon la procédure."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Specific to the module and manual edition cited. Confirm installed hardware, wiring and safety configuration before action."
     }
   ]
 }
