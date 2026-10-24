@@ -5,7 +5,7 @@ Deterministic inventory of the current repository. This report adds no technical
 ## Snapshot
 
 - Worker-referenced Markdown documents: **9**
-- Markdown inventory: **3,460 lines**, **47,923 whitespace-separated words**, **252 headings**
+- Markdown inventory: **3,506 lines**, **48,890 whitespace-separated words**, **256 headings**
 - Structured fault records: **284**
 - Model-specific manual-reviewed entries embedded in the general diagnostic library (not field-verified): **60**
 - Distinct equipment-type labels in the fault library: **36**
@@ -13,9 +13,9 @@ Deterministic inventory of the current repository. This report adds no technical
 - Fault records with an alarmCodes or errorCodes array: **31/284**
 - Chinese/European OEM manufacturer profiles: **28**
 - Structured OEM symptom templates: **38**
-- Official manufacturer/support portal records: **62**
+- Official manufacturer/support portal records: **63**
 - Structured OEM platform index entries: **29**; model-verified: **0**
-- Structured source-linked OEM diagnostic records: **79**; records with a missing manufacturer-source registry entry: **0**
+- Structured source-linked OEM diagnostic records: **81**; records with a missing manufacturer-source registry entry: **0**
 
 ## Document inventory
 
@@ -28,8 +28,8 @@ Deterministic inventory of the current repository. This report adds no technical
 | knowledge/EQUIPMENT-TROUBLESHOOTING-AR-FR-EN.md | 156 | 1,946 | 21 |
 | knowledge/UNIVERSAL-INDUSTRIAL-FAULT-ATLAS-AR-FR-EN.md | 120 | 1,737 | 14 |
 | knowledge/CHINESE-EUROPEAN-OEM-FAULT-MATRIX-AR-FR-EN.md | 432 | 4,549 | 45 |
-| knowledge/OEM-MANUFACTURER-INDEX-AR-FR-EN.md | 131 | 1,520 | 11 |
-| knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md | 1975 | 29,777 | 87 |
+| knowledge/OEM-MANUFACTURER-INDEX-AR-FR-EN.md | 139 | 1,602 | 12 |
+| knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md | 2013 | 30,662 | 90 |
 
 ## Source registry and licensing
 
@@ -64,9 +64,9 @@ This is a conservative string-presence check only. It does not prove that a topi
 
 ## Recent model-specific evidence tranche
 
-- The reviewed OEM tranche includes seven SINAMICS G120C FSD–FSF alarm records scoped to the official Compact Operating Instructions, firmware V4.7 SP6, section 5.1, printed page 82, plus 13 Delta ASDA-B2-F servo alarm records scoped to the official September 2015 manual, section 9.1 and relevant section 9.4 pages.
+- The reviewed OEM tranche includes seven SINAMICS G120C FSD–FSF alarm records scoped to the official Compact Operating Instructions, firmware V4.7 SP6, section 5.1, printed page 82, plus 13 Delta ASDA-B2-F servo alarm records scoped to the official September 2015 manual, section 9.1 and relevant section 9.4 pages, and two Syntec CNC communication alarms scoped to the versions listed in the official CNC Alarm Manual.
 - The structured fault library includes 60 model/manual-scoped records; these are manual-claim-reviewed, not field-verified.
-- Additional source-backed SINUMERIK, SINAMICS G120D/G120P/G120C, MELSEC FX5, MR-J4, XINJE DS5K/X-NET, INOVANCE H5U, GSK218M, and Delta ASDA-B2-F records are available in the structured OEM evidence lookup. The separate general diagnostic library currently has 60 model/manual-scoped entries.
+- Additional source-backed SINUMERIK, SINAMICS G120D/G120P/G120C, MELSEC FX5, MR-J4, XINJE DS5K/X-NET, INOVANCE H5U, GSK218M, Delta ASDA-B2-F, and Syntec MOT-082/MOT-083 records are available in the structured OEM evidence lookup. The separate general diagnostic library currently has 60 model/manual-scoped entries.
 
 ## Method and limits
 
