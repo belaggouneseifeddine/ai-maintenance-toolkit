@@ -40,6 +40,11 @@
 | Europe / Germany | KUKA — KR robots and KRC controller generations; controller generation required | [Official portal](https://www.kuka.com/en-us/services/downloads) | robotics, servo, safety, industrial-network |
 | Europe / Germany | Pilz — safety relays, safety PLC, sensors and machine safety | [Official support portal](https://www.pilz.com/en-INT/support) | safety, safety-circuit, sensors, plc |
 
+| Europe / Japan | OMRON — NX/NJ/CJ/CP PLC, 1S/G5 servo, MX2/RX2 drives | [Official downloads](https://industrial.omron.eu/en/services-support/support/downloads) | plc, hmi, servo, vfd, sensors, safety |
+| Japan / Europe support | Yaskawa — GA/FP/HV drives, Sigma servo, MOTOMAN robots | [Official drive manuals](https://www.yaskawa.com/products/drives/drive-manuals) | vfd, servo, robotics, motion |
+| Europe / Spain | Fagor Automation — CNC 8055/8060/8065/8070/CNCelite, DDS/QC drives | [Official manuals](https://www.fagorautomation.com/en/categoria_descargas/manuals-en/) | cnc, servo, feedback, machine-tool |
+| Japan / global regional support | FANUC — Series 0i/30i CNC, servo amplifiers, ROBODRILL, robots/R-30i | [Official support portal](https://www.fanucamerica.com/support/myportal) | cnc, servo, robotics; portal access may be required |
+
 ## Structured case templates
 
 ### 1. CNC axis reference/homing lost
@@ -363,3 +368,64 @@
 - Bosch Rexroth provides product documentation for ctrlX automation and drives: https://docs.automation.boschrexroth.com/
 - Schneider Electric provides product documentation and software downloads: https://www.se.com/ww/en/download/
 - Leadshine provides manuals and downloads for servo, stepper, controls and robot components: https://www.leadshine.com/downloads.html
+
+
+## Additional model-family investigation templates (not verified alarm definitions)
+
+The following are structured starting points for capturing evidence. Their manufacturer names identify likely documentation routes only; they do **not** assert that a symptom is a known fault for every model in the family.
+
+### OMRON — PLC I/O or fieldbus device missing
+- **Template ID:** `omron-plc-io-or-fieldbus-loss`
+- **Arabic:** فقدان وحدة دخل/خرج PLC أو جهاز على الشبكة الصناعية
+- **French:** Module E/S API ou équipement de bus de terrain absent
+- **Capture:** exact CPU, I/O/network module, network topology, displayed diagnostic, firmware, event log, manual revision/page.
+- **Safe triage:** record the diagnostic and module/network status; check only approved indicators and connectors under site electrical safety rules; do not force outputs or bypass interlocks.
+- **Evidence:** `general-guidance-not-model-specific`.
+
+### OMRON — Servo not ready or position following error
+- **Template ID:** `omron-servo-ready-or-following-error`
+- **Arabic:** السيرفو غير جاهز أو خطأ تتبع الموضع
+- **French:** Servo non prêt ou erreur de poursuite de position
+- **Capture:** servo drive/motor model, controller, exact code/text, operating mode, recent mechanical changes, manual revision/page.
+- **Safe triage:** retain alarm history; inspect only approved status indications and mechanical obstruction after safe isolation; no parameter edits or repeated resets without procedure.
+- **Evidence:** `general-guidance-not-model-specific`.
+
+### Yaskawa — Drive overcurrent or motor overload trip
+- **Template ID:** `yaskawa-drive-overcurrent-or-overload`
+- **Arabic:** فصل مغير التردد بسبب زيادة التيار أو حمل المحرك
+- **French:** Déclenchement du variateur par surintensité ou surcharge moteur
+- **Capture:** exact drive family/model, displayed code, motor nameplate, load condition, trip timing, manual revision/page.
+- **Safe triage:** record the fault before reset; inspect load/mechanical binding only under approved isolation; do not change current limits or protection settings by guesswork.
+- **Evidence:** `general-guidance-not-model-specific`.
+
+### Yaskawa MOTOMAN — Robot servo alarm or safety stop
+- **Template ID:** `yaskawa-motoman-servo-or-safety-stop`
+- **Arabic:** إنذار سيرفو الروبوت أو توقف دائرة السلامة
+- **French:** Alarme servo robot ou arrêt de sécurité
+- **Capture:** robot/controller generation, exact alarm, axis, mode, safety-device state and event log.
+- **Safe triage:** keep personnel outside the safeguarded space; do not defeat safety circuits or jog the robot until the OEM procedure and cell safety state are confirmed.
+- **Evidence:** `general-guidance-not-model-specific`.
+
+### Fagor Automation — CNC axis feedback/reference alarm
+- **Template ID:** `fagor-cnc-axis-feedback-or-reference`
+- **Arabic:** إنذار مرجع محور CNC أو تغذية راجعة
+- **French:** Alarme de référence ou de retour d’axe CNC
+- **Capture:** exact CNC model, drive and feedback device, exact alarm, axis, firmware, manual revision/page.
+- **Safe triage:** preserve alarm history; use the matching Fagor error-solving/installation manual; do not alter axis parameters or reference offsets without authorization.
+- **Evidence:** `general-guidance-not-model-specific`.
+
+### FANUC — CNC servo amplifier alarm
+- **Template ID:** `fanuc-servo-amplifier-alarm`
+- **Arabic:** إنذار مضخم السيرفو في CNC
+- **French:** Alarme d’amplificateur servo CNC
+- **Capture:** CNC series, amplifier model, exact alarm number and text, axis, LEDs/status, software generation and manual revision/page.
+- **Safe triage:** record the complete alarm and status before reset; follow the exact FANUC control/amplifier manual; board-level checks and replacement require qualified personnel and ESD/electrical procedures.
+- **Evidence:** `general-guidance-not-model-specific`.
+
+### FANUC — Robot controller alarm or axis unavailable
+- **Template ID:** `fanuc-robot-controller-alarm`
+- **Arabic:** إنذار متحكم الروبوت أو تعذر حركة أحد المحاور
+- **French:** Alarme du contrôleur robot ou axe indisponible
+- **Capture:** robot model, R-30i controller generation, exact alarm, axis, operation mode, safety state, software version and manual revision/page.
+- **Safe triage:** preserve the alarm history; keep the robot cell safe and guarded; never bypass interlocks or reset safety faults without the approved procedure.
+- **Evidence:** `general-guidance-not-model-specific`.
