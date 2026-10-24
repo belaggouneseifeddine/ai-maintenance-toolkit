@@ -5,10 +5,9 @@ Deterministic inventory of the current repository. This report adds no technical
 ## Snapshot
 
 - Worker-referenced Markdown documents: **9**
-- Markdown inventory: **2,731 lines**, **35,144 whitespace-separated words**, **215 headings**
+- Markdown inventory: **2,911 lines**, **37,983 whitespace-separated words**, **221 headings**
 - Structured fault records: **239**
 - Model-specific manual-reviewed fault records (not field-verified): **15**
-- Source-linked OEM diagnostic records with exact manual scope: **47**
 - Distinct equipment-type labels in the fault library: **34**
 - Cause entries across fault records: **722**
 - Fault records with an alarmCodes or errorCodes array: **0/239**
@@ -16,7 +15,7 @@ Deterministic inventory of the current repository. This report adds no technical
 - Structured OEM symptom templates: **38**
 - Official manufacturer/support portal records: **57**
 - Structured OEM platform index entries: **29**; model-verified: **0**
-- OEM evidence records with missing source-registry references: **0**
+- Structured source-linked OEM diagnostic records: **53**; records with a missing manufacturer-source registry entry: **0**
 
 ## Document inventory
 
@@ -30,7 +29,7 @@ Deterministic inventory of the current repository. This report adds no technical
 | knowledge/UNIVERSAL-INDUSTRIAL-FAULT-ATLAS-AR-FR-EN.md | 120 | 1,737 | 14 |
 | knowledge/CHINESE-EUROPEAN-OEM-FAULT-MATRIX-AR-FR-EN.md | 432 | 4,549 | 45 |
 | knowledge/OEM-MANUFACTURER-INDEX-AR-FR-EN.md | 123 | 1,378 | 10 |
-| knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md | 1254 | 17,140 | 51 |
+| knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md | 1434 | 19,979 | 57 |
 
 ## Source registry and licensing
 
@@ -51,7 +50,7 @@ This is a conservative string-presence check only. It does not prove that a topi
 ## Gaps and required review
 
 1. Model-specific manual-reviewed records summarize selected manual claims but are not field-verified; confirm the exact machine-builder configuration and applicable manual before using them operationally.
-2. 2 license-tracked source-registry entries are not marked approved (approved count: 0). Candidate sources must not be treated as approved technical authority.
+2. 2 source-registry entries are not marked approved (approved count: 0). Candidate sources must not be treated as approved technical authority.
 3. 9 equipment labels lack a literal name match in the Worker-loaded documents. Review this list with a subject-matter expert; do not automatically fill the gaps with generated technical content.
 4. 5 reference-only portals are not allowlisted for automated fetching. Keep this restriction until reuse permissions are documented in the registry.
 
@@ -59,7 +58,7 @@ This is a conservative string-presence check only. It does not prove that a topi
 
 - The OEM matrix maps 28 manufacturer/controller families to official documentation routes and contains 38 structured symptom templates.
 - The OEM platform index lists 29 machine builders and component OEMs; 0 are model-verified. These entries are discovery routes only until exact model/manual evidence is reviewed.
-- The 47 OEM evidence records describe only the claim supported by their cited manual and scope; they are not field-verified machine diagnoses.
+- These templates are not verified alarm-code definitions. A verified case requires exact model, controller/drive, firmware, manual revision, page/section, supported claim, and human review.
 - The 57-entry OEM source-discovery registry is separate from the 2 license-tracked research sources above. Its URLs do not prove that a particular fault cause applies.
 - OEM record registry references are checked against the manufacturer-source registry; missing references: none. The source link alone is not evidence unless the recorded manual section supports the claim.
 
