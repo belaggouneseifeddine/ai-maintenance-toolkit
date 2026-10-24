@@ -638,6 +638,16 @@
       "scope": "ASDA-B2-F series servo drive; Version 1.0, September 2015; alarm definitions in section 9.1 and corrective-action tables in section 9.4. Do not apply to ASDA-B2, ASDA-A3, ASDA-B3 or other series without their own manual.",
       "status": "manual-content-reviewed-for-listed-records",
       "redistribution": "link-and-concise-original-summaries-only"
+    },
+    {
+      "id": "syntec-cnc-alarm-manual",
+      "publisher": "Syntec",
+      "title": "Syntec CNC Alarm Manual",
+      "url": "https://www.syntecclub.com/cncrel/Manual/PDF/Syntec%20CNC%20Alarm%20Manual.pdf",
+      "type": "official-product-alarm-manual",
+      "scope": "Syntec CNC alarm manual; supported software versions listed in the manual include 10.118.86L, 10.120.16L, 10.120.24B, 10.120.27 and previous versions. Exact CNC/drive integration and machine-builder settings must be matched.",
+      "status": "manual-content-reviewed-for-listed-records",
+      "redistribution": "link-and-concise-original-summaries-only"
     }
   ]
 }
