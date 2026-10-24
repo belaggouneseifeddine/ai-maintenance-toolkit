@@ -7,7 +7,7 @@
     "en"
   ],
   "generatedAt": "2026-10-24",
-  "recordCount": 81,
+  "recordCount": 89,
   "evidencePolicy": {
     "verifiedMeans": "The cited official manual explicitly supports the stated alarm meaning or diagnostic procedure within the recorded scope.",
     "notEquivalentTo": "This does not mean every machine built around the same brand/controller behaves identically; machine builder integration, firmware and options can change alarm behavior.",
@@ -4230,6 +4230,446 @@
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Manual-claim-reviewed, not field-verified. Alarm IDs and timing thresholds apply only within the Syntec manual's listed software-version scope and the actual controller/drive integration."
+    },
+    {
+      "id": "delta-asda-b2-f-al004-motor-combination-error",
+      "recordType": "alarm-code",
+      "manufacturer": "Delta Electronics",
+      "productFamily": "ASDA-B2-F series servo drive",
+      "modelScope": "Delta ASDA-B2-F servo drive; User Manual V1.0, September 2015. Do not generalize to ASDA-B2, ASDA-A3, ASDA-B3 or other series.",
+      "controllerModel": "Delta ASDA-B2-F servo drive with DMCNET communication",
+      "alarmCode": "AL004",
+      "title": {
+        "en": "Delta ASDA-B2-F AL004 — Motor/drive combination mismatch",
+        "ar": "Delta ASDA-B2-F AL004 — عدم تطابق المحرك والمغير",
+        "fr": "Delta ASDA-B2-F AL004 — Incompatibilité moteur-variateur"
+      },
+      "meaning": {
+        "en": "The manual identifies AL004 when the drive is paired with the wrong motor.",
+        "ar": "يعرّف الدليل AL004 عند اقتران المغير بمحرك غير مناسب.",
+        "fr": "Le manuel identifie AL004 lorsque le variateur est associé au mauvais moteur."
+      },
+      "source": {
+        "sourceId": "delta-asda-b2-f-user-manual",
+        "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
+        "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
+        "section": "9.4 Causes and Corrective Actions → AL004",
+        "printedPageLabel": "9-5",
+        "pdfPage": 206,
+        "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
+        "evidenceSummary": "The manual identifies AL004 when the drive is paired with the wrong motor."
+      },
+      "safeChecks": {
+        "en": [
+          "Confirm complete drive/motor model codes against the manual pairing table; inspect encoder connectors only after isolation.",
+          "Use the approved isolation procedure before inspecting wiring/connectors; electrical work inside the drive is for qualified personnel.",
+          "Confirm the installed drive/motor and machine-builder configuration; do not bypass protection or change limits to suppress an alarm."
+        ],
+        "ar": [
+          "طابق رموز طراز المغير والمحرك مع جدول التوافق؛ افحص موصلات المشفّر بعد العزل فقط.",
+          "طبّق إجراء العزل المعتمد قبل فحص الأسلاك والموصلات؛ الأعمال الكهربائية داخل المغير من اختصاص شخص مؤهل.",
+          "تحقق من طراز المغير/المحرك وإعداد مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار."
+        ],
+        "fr": [
+          "Comparez les références variateur/moteur au tableau du manuel; inspectez les connecteurs codeur après consignation uniquement.",
+          "Appliquez la consignation avant d’inspecter câbles/connecteurs; les interventions électriques internes sont réservées au personnel qualifié.",
+          "Confirmez les modèles installés et l’intégration constructeur; ne contournez pas les protections et ne modifiez pas les limites pour masquer l’alarme."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate to qualified Delta or machine-builder personnel if the alarm persists, recurs after approved checks, or suggests internal drive/encoder damage.",
+        "ar": "صعّد إلى مختص مؤهل من Delta أو مصنع الماكينة إذا استمر الإنذار أو تكرر بعد الفحوصات المصرح بها أو أشار إلى تلف داخلي بالمغير/المشفّر.",
+        "fr": "Faites intervenir un spécialiste Delta ou le constructeur si l’alarme persiste, revient après les contrôles autorisés ou indique un dommage interne du variateur/codeur."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm. Confirm installed configuration and current manual before action."
+    },
+    {
+      "id": "delta-asda-b2-f-al005-regeneration-error",
+      "recordType": "alarm-code",
+      "manufacturer": "Delta Electronics",
+      "productFamily": "ASDA-B2-F series servo drive",
+      "modelScope": "Delta ASDA-B2-F servo drive; User Manual V1.0, September 2015. Do not generalize to ASDA-B2, ASDA-A3, ASDA-B3 or other series.",
+      "controllerModel": "Delta ASDA-B2-F servo drive with DMCNET communication",
+      "alarmCode": "AL005",
+      "title": {
+        "en": "Delta ASDA-B2-F AL005 — Regeneration error",
+        "ar": "Delta ASDA-B2-F AL005 — خطأ في استرجاع الطاقة",
+        "fr": "Delta ASDA-B2-F AL005 — Défaut de régénération"
+      },
+      "meaning": {
+        "en": "The manual identifies AL005 as a regeneration error and directs checks to the regenerative-resistor circuit/configuration.",
+        "ar": "يعرّف الدليل AL005 بأنه خطأ في استرجاع الطاقة ويوجه إلى فحص دائرة مقاومة الكبح وإعدادها.",
+        "fr": "Le manuel identifie AL005 comme un défaut de régénération et renvoie au circuit/configuration de la résistance."
+      },
+      "source": {
+        "sourceId": "delta-asda-b2-f-user-manual",
+        "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
+        "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
+        "section": "9.4 Causes and Corrective Actions → AL005",
+        "printedPageLabel": "9-6",
+        "pdfPage": 207,
+        "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
+        "evidenceSummary": "The manual identifies AL005 as a regeneration error and directs checks to the regenerative-resistor circuit/configuration."
+      },
+      "safeChecks": {
+        "en": [
+          "Under isolation and after cooling, check the model-specific regenerative-resistor wiring and connection; do not guess resistor values or change parameters without the sizing procedure.",
+          "Use the approved isolation procedure before inspecting wiring/connectors; electrical work inside the drive is for qualified personnel.",
+          "Confirm the installed drive/motor and machine-builder configuration; do not bypass protection or change limits to suppress an alarm."
+        ],
+        "ar": [
+          "بعد العزل والتبريد، افحص توصيل مقاومة الكبح وفق الطراز؛ لا تخمّن قيمة المقاومة ولا تغيّر المعلمات دون إجراء تحديد القيمة.",
+          "طبّق إجراء العزل المعتمد قبل فحص الأسلاك والموصلات؛ الأعمال الكهربائية داخل المغير من اختصاص شخص مؤهل.",
+          "تحقق من طراز المغير/المحرك وإعداد مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار."
+        ],
+        "fr": [
+          "Après consignation et refroidissement, vérifiez le câblage de la résistance selon le modèle; ne devinez pas sa valeur et ne modifiez pas les paramètres sans procédure.",
+          "Appliquez la consignation avant d’inspecter câbles/connecteurs; les interventions électriques internes sont réservées au personnel qualifié.",
+          "Confirmez les modèles installés et l’intégration constructeur; ne contournez pas les protections et ne modifiez pas les limites pour masquer l’alarme."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate to qualified Delta or machine-builder personnel if the alarm persists, recurs after approved checks, or suggests internal drive/encoder damage.",
+        "ar": "صعّد إلى مختص مؤهل من Delta أو مصنع الماكينة إذا استمر الإنذار أو تكرر بعد الفحوصات المصرح بها أو أشار إلى تلف داخلي بالمغير/المشفّر.",
+        "fr": "Faites intervenir un spécialiste Delta ou le constructeur si l’alarme persiste, revient après les contrôles autorisés ou indique un dommage interne du variateur/codeur."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm. Confirm installed configuration and current manual before action."
+    },
+    {
+      "id": "delta-asda-b2-f-al012-adjustment-error",
+      "recordType": "alarm-code",
+      "manufacturer": "Delta Electronics",
+      "productFamily": "ASDA-B2-F series servo drive",
+      "modelScope": "Delta ASDA-B2-F servo drive; User Manual V1.0, September 2015. Do not generalize to ASDA-B2, ASDA-A3, ASDA-B3 or other series.",
+      "controllerModel": "Delta ASDA-B2-F servo drive with DMCNET communication",
+      "alarmCode": "AL012",
+      "title": {
+        "en": "Delta ASDA-B2-F AL012 — Electrical adjustment error",
+        "ar": "Delta ASDA-B2-F AL012 — خطأ في الضبط الكهربائي",
+        "fr": "Delta ASDA-B2-F AL012 — Erreur de réglage électrique"
+      },
+      "meaning": {
+        "en": "The manual describes AL012 when electrical adjustment exceeds the allowable value; abnormal current adjustment is listed as a cause.",
+        "ar": "يصف الدليل AL012 عند تجاوز قيمة الضبط الكهربائي الحد المسموح، ويذكر خلل ضبط التيار سببًا محتملًا.",
+        "fr": "Le manuel décrit AL012 lorsque le réglage électrique dépasse la valeur autorisée; un réglage anormal du courant est cité."
+      },
+      "source": {
+        "sourceId": "delta-asda-b2-f-user-manual",
+        "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
+        "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
+        "section": "9.4 Causes and Corrective Actions → AL012",
+        "printedPageLabel": "9-7",
+        "pdfPage": 208,
+        "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
+        "evidenceSummary": "The manual describes AL012 when electrical adjustment exceeds the allowable value; abnormal current adjustment is listed as a cause."
+      },
+      "safeChecks": {
+        "en": [
+          "Record the commissioning step and displayed diagnostics; do not repeat auto-adjustment blindly; escalate if the documented reset procedure does not clear the alarm.",
+          "Use the approved isolation procedure before inspecting wiring/connectors; electrical work inside the drive is for qualified personnel.",
+          "Confirm the installed drive/motor and machine-builder configuration; do not bypass protection or change limits to suppress an alarm."
+        ],
+        "ar": [
+          "سجّل خطوة التشغيل الأولي والتشخيص المعروض؛ لا تكرر الضبط الآلي عشوائيًا، وصعّد إذا لم يزل الإنذار بعد الإجراء الموثق.",
+          "طبّق إجراء العزل المعتمد قبل فحص الأسلاك والموصلات؛ الأعمال الكهربائية داخل المغير من اختصاص شخص مؤهل.",
+          "تحقق من طراز المغير/المحرك وإعداد مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار."
+        ],
+        "fr": [
+          "Consignez l’étape de mise en service et les diagnostics; ne répétez pas l’auto-réglage à l’aveugle; escaladez si la procédure documentée échoue.",
+          "Appliquez la consignation avant d’inspecter câbles/connecteurs; les interventions électriques internes sont réservées au personnel qualifié.",
+          "Confirmez les modèles installés et l’intégration constructeur; ne contournez pas les protections et ne modifiez pas les limites pour masquer l’alarme."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate to qualified Delta or machine-builder personnel if the alarm persists, recurs after approved checks, or suggests internal drive/encoder damage.",
+        "ar": "صعّد إلى مختص مؤهل من Delta أو مصنع الماكينة إذا استمر الإنذار أو تكرر بعد الفحوصات المصرح بها أو أشار إلى تلف داخلي بالمغير/المشفّر.",
+        "fr": "Faites intervenir un spécialiste Delta ou le constructeur si l’alarme persiste, revient après les contrôles autorisés ou indique un dommage interne du variateur/codeur."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm. Confirm installed configuration and current manual before action."
+    },
+    {
+      "id": "delta-asda-b2-f-al013-emergency-stop-active",
+      "recordType": "alarm-code",
+      "manufacturer": "Delta Electronics",
+      "productFamily": "ASDA-B2-F series servo drive",
+      "modelScope": "Delta ASDA-B2-F servo drive; User Manual V1.0, September 2015. Do not generalize to ASDA-B2, ASDA-A3, ASDA-B3 or other series.",
+      "controllerModel": "Delta ASDA-B2-F servo drive with DMCNET communication",
+      "alarmCode": "AL013",
+      "title": {
+        "en": "Delta ASDA-B2-F AL013 — Emergency stop active",
+        "ar": "Delta ASDA-B2-F AL013 — تفعيل إيقاف الطوارئ",
+        "fr": "Delta ASDA-B2-F AL013 — Arrêt d’urgence actif"
+      },
+      "meaning": {
+        "en": "The manual identifies AL013 when DI.EMGS is active; it clears automatically after the input is OFF.",
+        "ar": "يعرّف الدليل AL013 عند تفعيل DI.EMGS، ويذكر أن الإنذار يزول تلقائيًا بعد إيقاف الدخل.",
+        "fr": "Le manuel identifie AL013 lorsque DI.EMGS est actif; l’alarme disparaît lorsque l’entrée est désactivée."
+      },
+      "source": {
+        "sourceId": "delta-asda-b2-f-user-manual",
+        "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
+        "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
+        "section": "9.4 Causes and Corrective Actions → AL013",
+        "printedPageLabel": "9-7",
+        "pdfPage": 208,
+        "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
+        "evidenceSummary": "The manual identifies AL013 when DI.EMGS is active; it clears automatically after the input is OFF."
+      },
+      "safeChecks": {
+        "en": [
+          "Treat as a safety state; identify why the emergency-stop circuit is active. Never bridge or defeat the circuit; restart only after the hazard is cleared and the approved procedure is followed.",
+          "Use the approved isolation procedure before inspecting wiring/connectors; electrical work inside the drive is for qualified personnel.",
+          "Confirm the installed drive/motor and machine-builder configuration; do not bypass protection or change limits to suppress an alarm."
+        ],
+        "ar": [
+          "تعامل معها كحالة سلامة وحدد سبب تفعيل دائرة الطوارئ. لا تجسّر الدائرة؛ لا تستأنف التشغيل قبل إزالة الخطر واتباع الإجراء المعتمد.",
+          "طبّق إجراء العزل المعتمد قبل فحص الأسلاك والموصلات؛ الأعمال الكهربائية داخل المغير من اختصاص شخص مؤهل.",
+          "تحقق من طراز المغير/المحرك وإعداد مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار."
+        ],
+        "fr": [
+          "Traitez-le comme un état de sécurité; recherchez la cause d’activation. Ne shuntez jamais le circuit; ne redémarrez qu’après élimination du danger.",
+          "Appliquez la consignation avant d’inspecter câbles/connecteurs; les interventions électriques internes sont réservées au personnel qualifié.",
+          "Confirmez les modèles installés et l’intégration constructeur; ne contournez pas les protections et ne modifiez pas les limites pour masquer l’alarme."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate to qualified Delta or machine-builder personnel if the alarm persists, recurs after approved checks, or suggests internal drive/encoder damage.",
+        "ar": "صعّد إلى مختص مؤهل من Delta أو مصنع الماكينة إذا استمر الإنذار أو تكرر بعد الفحوصات المصرح بها أو أشار إلى تلف داخلي بالمغير/المشفّر.",
+        "fr": "Faites intervenir un spécialiste Delta ou le constructeur si l’alarme persiste, revient après les contrôles autorisés ou indique un dommage interne du variateur/codeur."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm. Confirm installed configuration and current manual before action."
+    },
+    {
+      "id": "delta-asda-b2-f-al014-reverse-limit-active",
+      "recordType": "alarm-code",
+      "manufacturer": "Delta Electronics",
+      "productFamily": "ASDA-B2-F series servo drive",
+      "modelScope": "Delta ASDA-B2-F servo drive; User Manual V1.0, September 2015. Do not generalize to ASDA-B2, ASDA-A3, ASDA-B3 or other series.",
+      "controllerModel": "Delta ASDA-B2-F servo drive with DMCNET communication",
+      "alarmCode": "AL014",
+      "title": {
+        "en": "Delta ASDA-B2-F AL014 — Reverse travel limit active",
+        "ar": "Delta ASDA-B2-F AL014 — تفعيل حد الحركة العكسي",
+        "fr": "Delta ASDA-B2-F AL014 — Limite arrière activée"
+      },
+      "meaning": {
+        "en": "The manual identifies AL014 when the reverse-limit switch is activated.",
+        "ar": "يعرّف الدليل AL014 عند تفعيل مفتاح حد الحركة العكسي.",
+        "fr": "Le manuel identifie AL014 lorsque le fin de course arrière est activé."
+      },
+      "source": {
+        "sourceId": "delta-asda-b2-f-user-manual",
+        "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
+        "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
+        "section": "9.4 Causes and Corrective Actions → AL014",
+        "printedPageLabel": "9-7",
+        "pdfPage": 208,
+        "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
+        "evidenceSummary": "The manual identifies AL014 when the reverse-limit switch is activated."
+      },
+      "safeChecks": {
+        "en": [
+          "Record axis direction/position; verify limit-switch state against machine-builder limits after isolation; never force movement past the limit.",
+          "Use the approved isolation procedure before inspecting wiring/connectors; electrical work inside the drive is for qualified personnel.",
+          "Confirm the installed drive/motor and machine-builder configuration; do not bypass protection or change limits to suppress an alarm."
+        ],
+        "ar": [
+          "سجّل اتجاه المحور وموضعه؛ تحقق من مفتاح الحد مقارنة بحدود المصنع بعد العزل؛ لا تفرض الحركة لتجاوز الحد.",
+          "طبّق إجراء العزل المعتمد قبل فحص الأسلاك والموصلات؛ الأعمال الكهربائية داخل المغير من اختصاص شخص مؤهل.",
+          "تحقق من طراز المغير/المحرك وإعداد مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار."
+        ],
+        "fr": [
+          "Consignez direction/position; vérifiez le fin de course par rapport aux limites constructeur après consignation; ne forcez pas le dépassement.",
+          "Appliquez la consignation avant d’inspecter câbles/connecteurs; les interventions électriques internes sont réservées au personnel qualifié.",
+          "Confirmez les modèles installés et l’intégration constructeur; ne contournez pas les protections et ne modifiez pas les limites pour masquer l’alarme."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate to qualified Delta or machine-builder personnel if the alarm persists, recurs after approved checks, or suggests internal drive/encoder damage.",
+        "ar": "صعّد إلى مختص مؤهل من Delta أو مصنع الماكينة إذا استمر الإنذار أو تكرر بعد الفحوصات المصرح بها أو أشار إلى تلف داخلي بالمغير/المشفّر.",
+        "fr": "Faites intervenir un spécialiste Delta ou le constructeur si l’alarme persiste, revient après les contrôles autorisés ou indique un dommage interne du variateur/codeur."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm. Confirm installed configuration and current manual before action."
+    },
+    {
+      "id": "delta-asda-b2-f-al015-forward-limit-active",
+      "recordType": "alarm-code",
+      "manufacturer": "Delta Electronics",
+      "productFamily": "ASDA-B2-F series servo drive",
+      "modelScope": "Delta ASDA-B2-F servo drive; User Manual V1.0, September 2015. Do not generalize to ASDA-B2, ASDA-A3, ASDA-B3 or other series.",
+      "controllerModel": "Delta ASDA-B2-F servo drive with DMCNET communication",
+      "alarmCode": "AL015",
+      "title": {
+        "en": "Delta ASDA-B2-F AL015 — Forward travel limit active",
+        "ar": "Delta ASDA-B2-F AL015 — تفعيل حد الحركة الأمامي",
+        "fr": "Delta ASDA-B2-F AL015 — Limite avant activée"
+      },
+      "meaning": {
+        "en": "The manual identifies AL015 when the forward-limit switch is activated.",
+        "ar": "يعرّف الدليل AL015 عند تفعيل مفتاح حد الحركة الأمامي.",
+        "fr": "Le manuel identifie AL015 lorsque le fin de course avant est activé."
+      },
+      "source": {
+        "sourceId": "delta-asda-b2-f-user-manual",
+        "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
+        "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
+        "section": "9.4 Causes and Corrective Actions → AL015",
+        "printedPageLabel": "9-7",
+        "pdfPage": 208,
+        "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
+        "evidenceSummary": "The manual identifies AL015 when the forward-limit switch is activated."
+      },
+      "safeChecks": {
+        "en": [
+          "Record axis direction/position; verify limit-switch state against machine-builder limits after isolation; use only the approved recovery/jog procedure.",
+          "Use the approved isolation procedure before inspecting wiring/connectors; electrical work inside the drive is for qualified personnel.",
+          "Confirm the installed drive/motor and machine-builder configuration; do not bypass protection or change limits to suppress an alarm."
+        ],
+        "ar": [
+          "سجّل اتجاه المحور وموضعه؛ تحقق من مفتاح الحد مقارنة بحدود المصنع بعد العزل؛ استخدم إجراء الاستعادة المعتمد فقط.",
+          "طبّق إجراء العزل المعتمد قبل فحص الأسلاك والموصلات؛ الأعمال الكهربائية داخل المغير من اختصاص شخص مؤهل.",
+          "تحقق من طراز المغير/المحرك وإعداد مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار."
+        ],
+        "fr": [
+          "Consignez direction/position; vérifiez le fin de course par rapport aux limites constructeur après consignation; utilisez uniquement la procédure de récupération autorisée.",
+          "Appliquez la consignation avant d’inspecter câbles/connecteurs; les interventions électriques internes sont réservées au personnel qualifié.",
+          "Confirmez les modèles installés et l’intégration constructeur; ne contournez pas les protections et ne modifiez pas les limites pour masquer l’alarme."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate to qualified Delta or machine-builder personnel if the alarm persists, recurs after approved checks, or suggests internal drive/encoder damage.",
+        "ar": "صعّد إلى مختص مؤهل من Delta أو مصنع الماكينة إذا استمر الإنذار أو تكرر بعد الفحوصات المصرح بها أو أشار إلى تلف داخلي بالمغير/المشفّر.",
+        "fr": "Faites intervenir un spécialiste Delta ou le constructeur si l’alarme persiste, revient après les contrôles autorisés ou indique un dommage interne du variateur/codeur."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm. Confirm installed configuration and current manual before action."
+    },
+    {
+      "id": "delta-asda-b2-f-al017-eeprom-access-error",
+      "recordType": "alarm-code",
+      "manufacturer": "Delta Electronics",
+      "productFamily": "ASDA-B2-F series servo drive",
+      "modelScope": "Delta ASDA-B2-F servo drive; User Manual V1.0, September 2015. Do not generalize to ASDA-B2, ASDA-A3, ASDA-B3 or other series.",
+      "controllerModel": "Delta ASDA-B2-F servo drive with DMCNET communication",
+      "alarmCode": "AL017",
+      "title": {
+        "en": "Delta ASDA-B2-F AL017 — EEPROM access/write error",
+        "ar": "Delta ASDA-B2-F AL017 — خطأ وصول أو كتابة في EEPROM",
+        "fr": "Delta ASDA-B2-F AL017 — Erreur d’accès/écriture EEPROM"
+      },
+      "meaning": {
+        "en": "The manual identifies AL017 as an error when the drive DSP accesses EEPROM and discusses parameter-write/ROM issues.",
+        "ar": "يعرّف الدليل AL017 بأنه خطأ عند وصول DSP إلى EEPROM ويناقش مشكلات كتابة المعلمات وROM.",
+        "fr": "Le manuel identifie AL017 comme une erreur d’accès EEPROM par le DSP et décrit des problèmes d’écriture/ROM."
+      },
+      "source": {
+        "sourceId": "delta-asda-b2-f-user-manual",
+        "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
+        "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
+        "section": "9.4 Causes and Corrective Actions → AL017",
+        "printedPageLabel": "9-8",
+        "pdfPage": 209,
+        "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
+        "evidenceSummary": "The manual identifies AL017 as an error when the drive DSP accesses EEPROM and discusses parameter-write/ROM issues."
+      },
+      "safeChecks": {
+        "en": [
+          "Capture when the alarm occurs and any EXGAB/E100X/E0001 display; do not reset all parameters without approved backup/recovery; refer persistent ROM faults to Delta.",
+          "Use the approved isolation procedure before inspecting wiring/connectors; electrical work inside the drive is for qualified personnel.",
+          "Confirm the installed drive/motor and machine-builder configuration; do not bypass protection or change limits to suppress an alarm."
+        ],
+        "ar": [
+          "سجّل توقيت الإنذار وأي رمز EXGAB/E100X/E0001؛ لا تصفّر جميع المعلمات دون نسخة احتياطية وإجراء استعادة معتمد؛ صعّد أعطال ROM المستمرة إلى Delta.",
+          "طبّق إجراء العزل المعتمد قبل فحص الأسلاك والموصلات؛ الأعمال الكهربائية داخل المغير من اختصاص شخص مؤهل.",
+          "تحقق من طراز المغير/المحرك وإعداد مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار."
+        ],
+        "fr": [
+          "Notez le moment d’apparition et tout code EXGAB/E100X/E0001; ne réinitialisez pas tous les paramètres sans sauvegarde/procédure approuvée; escaladez les défauts ROM persistants.",
+          "Appliquez la consignation avant d’inspecter câbles/connecteurs; les interventions électriques internes sont réservées au personnel qualifié.",
+          "Confirmez les modèles installés et l’intégration constructeur; ne contournez pas les protections et ne modifiez pas les limites pour masquer l’alarme."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate to qualified Delta or machine-builder personnel if the alarm persists, recurs after approved checks, or suggests internal drive/encoder damage.",
+        "ar": "صعّد إلى مختص مؤهل من Delta أو مصنع الماكينة إذا استمر الإنذار أو تكرر بعد الفحوصات المصرح بها أو أشار إلى تلف داخلي بالمغير/المشفّر.",
+        "fr": "Faites intervenir un spécialiste Delta ou le constructeur si l’alarme persiste, revient après les contrôles autorisés ou indique un dommage interne du variateur/codeur."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm. Confirm installed configuration and current manual before action."
+    },
+    {
+      "id": "delta-asda-b2-f-al018-abnormal-encoder-output",
+      "recordType": "alarm-code",
+      "manufacturer": "Delta Electronics",
+      "productFamily": "ASDA-B2-F series servo drive",
+      "modelScope": "Delta ASDA-B2-F servo drive; User Manual V1.0, September 2015. Do not generalize to ASDA-B2, ASDA-A3, ASDA-B3 or other series.",
+      "controllerModel": "Delta ASDA-B2-F servo drive with DMCNET communication",
+      "alarmCode": "AL018",
+      "title": {
+        "en": "Delta ASDA-B2-F AL018 — Abnormal encoder signal output",
+        "ar": "Delta ASDA-B2-F AL018 — خرج إشارة المشفّر غير طبيعي",
+        "fr": "Delta ASDA-B2-F AL018 — Sortie anormale du signal codeur"
+      },
+      "meaning": {
+        "en": "The manual links AL018 to encoder faults or output pulses exceeding the hardware range, and points to related encoder alarms and P1-76/P1-46.",
+        "ar": "يربط الدليل AL018 بأعطال المشفّر أو تجاوز نبضات الخرج النطاق العتادي، ويوجه إلى إنذارات المشفّر والمعلمتين P1-76/P1-46.",
+        "fr": "Le manuel relie AL018 aux défauts codeur ou au dépassement de la plage matérielle des impulsions et renvoie aux alarmes associées et à P1-76/P1-46."
+      },
+      "source": {
+        "sourceId": "delta-asda-b2-f-user-manual",
+        "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
+        "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
+        "section": "9.4 Causes and Corrective Actions → AL018",
+        "printedPageLabel": "9-8",
+        "pdfPage": 209,
+        "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
+        "evidenceSummary": "The manual links AL018 to encoder faults or output pulses exceeding the hardware range, and points to related encoder alarms and P1-76/P1-46."
+      },
+      "safeChecks": {
+        "en": [
+          "Preserve P4-00 to P4-05 fault history; check for AL011/AL024/AL025/AL026; verify encoder rating and parameter definitions before changing P1-76/P1-46.",
+          "Use the approved isolation procedure before inspecting wiring/connectors; electrical work inside the drive is for qualified personnel.",
+          "Confirm the installed drive/motor and machine-builder configuration; do not bypass protection or change limits to suppress an alarm."
+        ],
+        "ar": [
+          "احتفظ بسجل P4-00 إلى P4-05؛ تحقق من AL011/AL024/AL025/AL026؛ راجع مواصفات المشفّر وتعريف المعلمات قبل تغيير P1-76/P1-46.",
+          "طبّق إجراء العزل المعتمد قبل فحص الأسلاك والموصلات؛ الأعمال الكهربائية داخل المغير من اختصاص شخص مؤهل.",
+          "تحقق من طراز المغير/المحرك وإعداد مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار."
+        ],
+        "fr": [
+          "Conservez l’historique P4-00 à P4-05; vérifiez AL011/AL024/AL025/AL026; contrôlez les spécifications codeur et paramètres avant toute modification.",
+          "Appliquez la consignation avant d’inspecter câbles/connecteurs; les interventions électriques internes sont réservées au personnel qualifié.",
+          "Confirmez les modèles installés et l’intégration constructeur; ne contournez pas les protections et ne modifiez pas les limites pour masquer l’alarme."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate to qualified Delta or machine-builder personnel if the alarm persists, recurs after approved checks, or suggests internal drive/encoder damage.",
+        "ar": "صعّد إلى مختص مؤهل من Delta أو مصنع الماكينة إذا استمر الإنذار أو تكرر بعد الفحوصات المصرح بها أو أشار إلى تلف داخلي بالمغير/المشفّر.",
+        "fr": "Faites intervenir un spécialiste Delta ou le constructeur si l’alarme persiste, revient après les contrôles autorisés ou indique un dommage interne du variateur/codeur."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm. Confirm installed configuration and current manual before action."
     }
   ]
 }
