@@ -588,6 +588,16 @@
       "scope": "X-NET fieldbus and motion fieldbus communication; document Data No. PD06 20151009 3.2",
       "status": "manual-reviewed-limited-claims",
       "redistribution": "link-only; concise paraphrase; verify applicability to installed X-NET version"
+    },
+    {
+      "id": "siemens-g120c-fsd-fsf-compact-instructions-2016",
+      "publisher": "Siemens",
+      "title": "SINAMICS G120C FSD…FSF Compact Operating Instructions, FW V4.7 SP6",
+      "url": "https://support.industry.siemens.com/cs/attachments/109744756/G120C_FSD_F_cmpct_op_instr_1116_en-US.pdf",
+      "type": "manufacturer-manual",
+      "scope": "Specific alarm/fault table for SINAMICS G120C FSD through FSF; firmware V4.7 SP6; troubleshooting table 5.1, printed page 82",
+      "status": "official-manual-reviewed-for-listed-claims",
+      "redistribution": "metadata-and-link only; do not republish manual content beyond short factual descriptions"
     }
   ]
 }
