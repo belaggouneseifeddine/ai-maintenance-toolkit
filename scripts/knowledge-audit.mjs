@@ -9,6 +9,7 @@ const faultLibrary = JSON.parse(readFileSync("faults.json", "utf8"));
 const manufacturerSources = JSON.parse(readFileSync("knowledge/manufacturer-sources.json", "utf8"));
 const manufacturerMatrix = JSON.parse(readFileSync("knowledge/manufacturer-machine-fault-matrix.json", "utf8"));
 const oemPlatformIndex = JSON.parse(readFileSync("knowledge/oem-platform-index.json", "utf8"));
+const oemVerifiedFaults = JSON.parse(readFileSync("knowledge/oem-verified-faults.json", "utf8"));
 const knowledgeMatch = worker.match(/const KNOWLEDGE_FILES = \[([\s\S]*?)\];/);
 if (!knowledgeMatch) throw new Error("Could not find Worker KNOWLEDGE_FILES registry.");
 const documentPaths = [...knowledgeMatch[1].matchAll(/"([^"]+\.md)"/g)].map(match => match[1]);
@@ -54,6 +55,9 @@ const manufacturerProfileCount = (manufacturerMatrix.manufacturerProfiles || [])
 const manufacturerTemplateCount = (manufacturerMatrix.caseTemplates || []).length;
 const oemPlatformCount = (oemPlatformIndex.manufacturers || []).length;
 const modelVerifiedPlatformCount = (oemPlatformIndex.manufacturers || []).filter(item => item.evidenceStatus === "model-verified").length;
+const oemVerifiedRecordCount = Array.isArray(oemVerifiedFaults.records) ? oemVerifiedFaults.records.length : 0;
+const oemVerifiedSourceIds = new Set((oemVerifiedFaults.records || []).map(record => record.source && record.source.sourceId).filter(Boolean));
+const missingOemSources = [...oemVerifiedSourceIds].filter(id => !(manufacturerSources.sources || []).some(source => source.id === id));
 const fmt = value => Number(value).toLocaleString("en-US");
 
 const report = [
@@ -74,6 +78,7 @@ const report = [
   "- Structured OEM symptom templates: **" + manufacturerTemplateCount + "**",
   "- Official manufacturer/support portal records: **" + manufacturerPortalCount + "**",
   "- Structured OEM platform index entries: **" + oemPlatformCount + "**; model-verified: **" + modelVerifiedPlatformCount + "**",
+  "- Structured source-linked OEM diagnostic records: **" + oemVerifiedRecordCount + "**; records with a missing manufacturer-source registry entry: **" + missingOemSources.length + "**",
   "",
   "## Document inventory",
   "",
@@ -110,6 +115,7 @@ const report = [
   "- The OEM platform index lists " + oemPlatformCount + " machine builders and component OEMs; " + modelVerifiedPlatformCount + " are model-verified. These entries are discovery routes only until exact model/manual evidence is reviewed.",
   "- These templates are not verified alarm-code definitions. A verified case requires exact model, controller/drive, firmware, manual revision, page/section, supported claim, and human review.",
   "- The " + manufacturerPortalCount + "-entry OEM source-discovery registry is separate from the " + (registry.sources || []).length + " license-tracked research sources above. Its URLs do not prove that a particular fault cause applies.",
+  "- OEM record registry references are checked against the manufacturer-source registry; missing references: " + (missingOemSources.join(", ") || "none") + ". The source link alone is not evidence unless the recorded manual section supports the claim.",
   "",
   "## Method and limits",
   "",
