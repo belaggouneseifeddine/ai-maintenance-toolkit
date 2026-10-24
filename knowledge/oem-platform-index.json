@@ -44,12 +44,13 @@
         "inovance-eu-downloads"
       ],
       "url": "https://www.inovance.com/global/support/download-documentation.html",
-      "evidenceStatus": "manual-claims-reviewed",
+      "evidenceStatus": "portal-only",
       "alarmCodeRecords": 6,
-      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified.",
+      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified. The index remains portal-only; selected manual-reviewed claims are tracked per fault record and are not field-verified.",
       "modelsCovered": [
         "MD200 series AC drive"
-      ]
+      ],
+      "manualReviewedFaultCount": 6
     },
     {
       "id": "delta",
@@ -561,12 +562,13 @@
         "mitsubishi-cnc-manuals"
       ],
       "url": "https://www.mitsubishielectric-cnc.com/manuals/",
-      "evidenceStatus": "manual-claims-reviewed",
+      "evidenceStatus": "portal-only",
       "alarmCodeRecords": 6,
       "modelsCovered": [
         "C80 Series CNC"
       ],
-      "notes": "Alarm records reference C80 Series Alarm/Parameter Manual IB-1501560-F; exact machine-tool builder manuals still take precedence."
+      "notes": "Alarm records reference C80 Series Alarm/Parameter Manual IB-1501560-F; exact machine-tool builder manuals still take precedence. The index remains portal-only; selected manual-reviewed claims are tracked per fault record and are not field-verified.",
+      "manualReviewedFaultCount": 6
     }
   ]
 }
