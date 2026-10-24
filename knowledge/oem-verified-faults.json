@@ -263,8 +263,8 @@
       },
       "meaning": {
         "en": "Measured zero-mark distance does not match the parameterized distance.",
-        "ar": "Measured zero-mark distance does not match the parameterized distance.",
-        "fr": "Measured zero-mark distance does not match the parameterized distance."
+        "ar": "المسافة المقاسة بين علامات الصفر لا تطابق المسافة المضبوطة في المعلمات.",
+        "fr": "La distance mesurée entre repères zéro ne correspond pas à la distance paramétrée."
       },
       "source": {
         "sourceId": "siemens-sinamics-g120d-getting-started-v47sp10",
@@ -314,8 +314,8 @@
       },
       "meaning": {
         "en": "The manual lists a zero-mark failure for the encoder system.",
-        "ar": "The manual lists a zero-mark failure for the encoder system.",
-        "fr": "The manual lists a zero-mark failure for the encoder system."
+        "ar": "يُظهر الدليل وجود خلل في علامة الصفر ضمن نظام المشفّر.",
+        "fr": "Le manuel signale un défaut du repère zéro dans le système codeur."
       },
       "source": {
         "sourceId": "siemens-sinamics-g120d-getting-started-v47sp10",
@@ -365,8 +365,8 @@
       },
       "meaning": {
         "en": "For an HTL/TTL encoder, speed difference exceeded configured tolerance over several sampling cycles.",
-        "ar": "For an HTL/TTL encoder, speed difference exceeded configured tolerance over several sampling cycles.",
-        "fr": "For an HTL/TTL encoder, speed difference exceeded configured tolerance over several sampling cycles."
+        "ar": "في مشفّر HTL/TTL، تجاوز فرق السرعة حدّ السماح المضبوط خلال عدة دورات أخذ عينات.",
+        "fr": "Pour un codeur HTL/TTL, l’écart de vitesse a dépassé la tolérance configurée pendant plusieurs cycles d’échantillonnage."
       },
       "source": {
         "sourceId": "siemens-sinamics-g120d-getting-started-v47sp10",
@@ -416,8 +416,8 @@
       },
       "meaning": {
         "en": "Serial protocol transfer between encoder and inverter is faulty.",
-        "ar": "Serial protocol transfer between encoder and inverter is faulty.",
-        "fr": "Serial protocol transfer between encoder and inverter is faulty."
+        "ar": "يوجد خلل في نقل البيانات عبر البروتوكول التسلسلي بين المشفّر ومغير التردد.",
+        "fr": "Le transfert du protocole série entre le codeur et le variateur est défectueux."
       },
       "source": {
         "sourceId": "siemens-sinamics-g120d-getting-started-v47sp10",
@@ -467,8 +467,8 @@
       },
       "meaning": {
         "en": "The manual groups this code with absolute-encoder internal error.",
-        "ar": "The manual groups this code with absolute-encoder internal error.",
-        "fr": "The manual groups this code with absolute-encoder internal error."
+        "ar": "يصنّف الدليل هذا الرمز ضمن الأخطاء الداخلية للمشفّر المطلق.",
+        "fr": "Le manuel classe ce code parmi les erreurs internes du codeur absolu."
       },
       "source": {
         "sourceId": "siemens-sinamics-g120d-getting-started-v47sp10",
@@ -518,8 +518,8 @@
       },
       "meaning": {
         "en": "The manual groups this code with absolute-encoder internal error.",
-        "ar": "The manual groups this code with absolute-encoder internal error.",
-        "fr": "The manual groups this code with absolute-encoder internal error."
+        "ar": "يصنّف الدليل هذا الرمز ضمن الأخطاء الداخلية للمشفّر المطلق.",
+        "fr": "Le manuel classe ce code parmi les erreurs internes du codeur absolu."
       },
       "source": {
         "sourceId": "siemens-sinamics-g120d-getting-started-v47sp10",
@@ -569,8 +569,8 @@
       },
       "meaning": {
         "en": "Encoder battery voltage pre-alarm.",
-        "ar": "Encoder battery voltage pre-alarm.",
-        "fr": "Encoder battery voltage pre-alarm."
+        "ar": "إنذار مسبق بشأن جهد بطارية المشفّر.",
+        "fr": "Préalarme de tension de la batterie du codeur."
       },
       "source": {
         "sourceId": "siemens-sinamics-g120d-getting-started-v47sp10",
@@ -620,8 +620,8 @@
       },
       "meaning": {
         "en": "The power unit detects overcurrent; listed causes include motor/cable short or ground fault, incorrect motor data/connection, supply issues, or a defective power unit.",
-        "ar": "The power unit detects overcurrent; listed causes include motor/cable short or ground fault, incorrect motor data/connection, supply issues, or a defective power unit.",
-        "fr": "The power unit detects overcurrent; listed causes include motor/cable short or ground fault, incorrect motor data/connection, supply issues, or a defective power unit."
+        "ar": "اكتشفت وحدة القدرة تيارًا زائدًا. تشمل الأسباب المذكورة قصرًا أو تماسًا أرضيًا في المحرك أو الكابل، أو بيانات/توصيل محرك غير صحيح، أو مشكلة في التغذية، أو عطلًا في وحدة القدرة.",
+        "fr": "L’unité de puissance détecte une surintensité. Les causes citées comprennent un court-circuit ou un défaut à la terre du moteur/câble, des données ou raccordements moteur incorrects, un problème d’alimentation ou une unité de puissance défectueuse."
       },
       "source": {
         "sourceId": "siemens-sinamics-g120p-operating-instructions-2016",
@@ -671,8 +671,8 @@
       },
       "meaning": {
         "en": "DC-link voltage overvoltage.",
-        "ar": "DC-link voltage overvoltage.",
-        "fr": "DC-link voltage overvoltage."
+        "ar": "ارتفاع مفرط في جهد ناقل التيار المستمر (DC link).",
+        "fr": "Surtension du bus continu (DC link)."
       },
       "source": {
         "sourceId": "siemens-sinamics-g120p-operating-instructions-2016",
@@ -722,8 +722,8 @@
       },
       "meaning": {
         "en": "DC-link voltage undervoltage.",
-        "ar": "DC-link voltage undervoltage.",
-        "fr": "DC-link voltage undervoltage."
+        "ar": "انخفاض جهد ناقل التيار المستمر (DC link).",
+        "fr": "Sous-tension du bus continu (DC link)."
       },
       "source": {
         "sourceId": "siemens-sinamics-g120p-operating-instructions-2016",
@@ -773,8 +773,8 @@
       },
       "meaning": {
         "en": "Inverter overtemperature.",
-        "ar": "Inverter overtemperature.",
-        "fr": "Inverter overtemperature."
+        "ar": "ارتفاع درجة حرارة مغير التردد.",
+        "fr": "Surchauffe du variateur."
       },
       "source": {
         "sourceId": "siemens-sinamics-g120p-operating-instructions-2016",
@@ -824,8 +824,8 @@
       },
       "meaning": {
         "en": "Line phase failure.",
-        "ar": "Line phase failure.",
-        "fr": "Line phase failure."
+        "ar": "فقدان أحد أطوار التغذية الكهربائية.",
+        "fr": "Perte d’une phase du réseau d’alimentation."
       },
       "source": {
         "sourceId": "siemens-sinamics-g120p-operating-instructions-2016",
@@ -1102,10 +1102,10 @@
           "Record the drive model and installed firmware; do not flash an unverified file. Confirm compatibility with the exact drive/motor before updates."
         ],
         "ar": [
-          "Record the drive model and installed firmware; do not flash an unverified file. Confirm compatibility with the exact drive/motor before updates."
+          "سجّل طراز السيرفو وإصدار البرنامج الثابت. لا تثبّت ملفًا غير متحقق منه؛ تأكد من توافقه مع السيرفو والمحرك المحددين قبل التحديث."
         ],
         "fr": [
-          "Record the drive model and installed firmware; do not flash an unverified file. Confirm compatibility with the exact drive/motor before updates."
+          "Consigner le modèle du servo et la version du firmware. Ne pas flasher un fichier non vérifié; confirmer la compatibilité avec le servo et le moteur exacts avant toute mise à jour."
         ]
       },
       "escalation": {
@@ -1150,10 +1150,10 @@
           "Capture parameter number/value and source of write. Compare with the exact manual and commissioned settings; do not restore defaults without an approved backup."
         ],
         "ar": [
-          "Capture parameter number/value and source of write. Compare with the exact manual and commissioned settings; do not restore defaults without an approved backup."
+          "تحقق من كود الإنذار الكامل وحالة التشغيل، واحفظ سجل الأعطال قبل إعادة الضبط. افحص التوصيلات بعد العزل وفق إجراء الموقع."
         ],
         "fr": [
-          "Capture parameter number/value and source of write. Compare with the exact manual and commissioned settings; do not restore defaults without an approved backup."
+          "Vérifier le code complet et les conditions de fonctionnement, sauvegarder l’historique avant réinitialisation et contrôler les raccordements après consignation."
         ]
       },
       "escalation": {
@@ -1198,10 +1198,10 @@
           "Record U0-05 and when the fault occurs. Have qualified personnel inspect supply and regenerative resistor; do not change ramps before backup and engineering review."
         ],
         "ar": [
-          "Record U0-05 and when the fault occurs. Have qualified personnel inspect supply and regenerative resistor; do not change ramps before backup and engineering review."
+          "سجّل الكود وحالة المحور والحمل. افحص الكابلات والموصلات بعد العزل، ولا تغيّر معلمات التحكم دون مقارنة الدليل بالطراز الفعلي."
         ],
         "fr": [
-          "Record U0-05 and when the fault occurs. Have qualified personnel inspect supply and regenerative resistor; do not change ramps before backup and engineering review."
+          "Consigner le code, l’état de l’axe et la charge. Contrôler câbles et connecteurs après consignation; ne pas modifier les paramètres sans vérifier le manuel du modèle exact."
         ]
       },
       "escalation": {
@@ -1246,10 +1246,10 @@
           "Record supply behavior and event timing; have a qualified electrician verify phases/connections and avoid repeated resets before capturing the cause."
         ],
         "ar": [
-          "Record supply behavior and event timing; have a qualified electrician verify phases/connections and avoid repeated resets before capturing the cause."
+          "تحقق من سجل الإنذارات وتوصيلات المحرك والمشفّر بعد العزل. لا تفصل أو تعِد توصيل الموصلات تحت الجهد."
         ],
         "fr": [
-          "Record supply behavior and event timing; have a qualified electrician verify phases/connections and avoid repeated resets before capturing the cause."
+          "Consulter l’historique et vérifier les connexions moteur/codeur après consignation. Ne jamais débrancher ou rebrancher sous tension."
         ]
       },
       "escalation": {
@@ -1294,10 +1294,10 @@
           "Review U0-79/U0-54 counters as directed by the manual and inspect cable routing/shielding after isolation. Do not change parameters without an EMC review."
         ],
         "ar": [
-          "Review U0-79/U0-54 counters as directed by the manual and inspect cable routing/shielding after isolation. Do not change parameters without an EMC review."
+          "تحقق من حالة البطارية ومعلومات الإنذار في الدليل المطابق. قبل استبدال البطارية أو إعادة المرجعة، اتبع إجراء الشركة المصنّعة للحفاظ على بيانات الموضع المطلق."
         ],
         "fr": [
-          "Review U0-79/U0-54 counters as directed by the manual and inspect cable routing/shielding after isolation. Do not change parameters without an EMC review."
+          "Vérifier l’état de la batterie et l’alarme dans le manuel exact. Avant remplacement ou référencement, suivre la procédure constructeur pour préserver les données de position absolue."
         ]
       },
       "escalation": {
@@ -1342,10 +1342,10 @@
           "Confirm the exact encoder/battery assembly and approved OEM replacement procedure. Do not perform live battery replacement based only on this summary; use qualified personnel and site safety rules."
         ],
         "ar": [
-          "Confirm the exact encoder/battery assembly and approved OEM replacement procedure. Do not perform live battery replacement based only on this summary; use qualified personnel and site safety rules."
+          "لا تستبدل البطارية أو تعِد تشغيل النظام عشوائيًا. احفظ بيانات الحالة واتبع إجراء XINJE المحدد للحفاظ على الموضع المطلق."
         ],
         "fr": [
-          "Confirm the exact encoder/battery assembly and approved OEM replacement procedure. Do not perform live battery replacement based only on this summary; use qualified personnel and site safety rules."
+          "Ne pas remplacer la batterie ni redémarrer au hasard. Sauvegarder l’état et suivre la procédure XINJE de conservation de la position absolue."
         ]
       },
       "escalation": {
@@ -1390,10 +1390,10 @@
           "Record P9-02 and feedback values; inspect mechanical transmission and scale alignment before changing parameters; back up settings and seek machine-builder review."
         ],
         "ar": [
-          "Record P9-02 and feedback values; inspect mechanical transmission and scale alignment before changing parameters; back up settings and seek machine-builder review."
+          "سجّل رمز الإنذار الكامل وإصدار السيرفو، ثم راجع قسم الرمز في دليل DS5K قبل تغيير أي إعداد."
         ],
         "fr": [
-          "Record P9-02 and feedback values; inspect mechanical transmission and scale alignment before changing parameters; back up settings and seek machine-builder review."
+          "Consigner le code complet et la version du servo, puis consulter la section correspondante du manuel DS5K avant toute modification."
         ]
       },
       "escalation": {
@@ -1438,10 +1438,10 @@
           "Confirm P9-02 and compare direction with machine drawings; inspect scale cable/connector and mounting under isolation. Do not alter direction parameters without authorization."
         ],
         "ar": [
-          "Confirm P9-02 and compare direction with machine drawings; inspect scale cable/connector and mounting under isolation. Do not alter direction parameters without authorization."
+          "تحقق من التوصيلات والتهيئة وفق مخطط الماكينة ودليل DS5K، بعد تطبيق العزل الكهربائي."
         ],
         "fr": [
-          "Confirm P9-02 and compare direction with machine drawings; inspect scale cable/connector and mounting under isolation. Do not alter direction parameters without authorization."
+          "Vérifier les raccordements et la configuration selon le schéma de la machine et le manuel DS5K, après consignation électrique."
         ]
       },
       "escalation": {
@@ -1486,10 +1486,10 @@
           "Capture both feedback values, P9-04 and mechanism configuration; verify scale/coupling and P9-05–P9-08 settings with qualified motion-control personnel before tuning."
         ],
         "ar": [
-          "Capture both feedback values, P9-04 and mechanism configuration; verify scale/coupling and P9-05–P9-08 settings with qualified motion-control personnel before tuning."
+          "احتفظ بسجل الإنذار وإعدادات المحور، وتحقق من توافق المحرك والمشفّر والبرنامج الثابت مع الطراز. صعّد إلى الدعم عند استمرار الإنذار."
         ],
         "fr": [
-          "Capture both feedback values, P9-04 and mechanism configuration; verify scale/coupling and P9-05–P9-08 settings with qualified motion-control personnel before tuning."
+          "Conserver l’historique et les paramètres de l’axe; vérifier la compatibilité moteur/codeur/firmware avec le modèle. Contacter le support si l’alarme persiste."
         ]
       },
       "escalation": {
@@ -1516,8 +1516,8 @@
       },
       "meaning": {
         "en": "The manual labels Err02 as overcurrent during acceleration and lists output short/ground fault, short acceleration time, unsuitable torque boost/V/f, low voltage, restarting a rotating motor, sudden load, undersized drive, braking resistor fault, and motor ground fault among possible causes.",
-        "ar": "The manual labels Err02 as overcurrent during acceleration and lists output short/ground fault, short acceleration time, unsuitable torque boost/V/f, low voltage, restarting a rotating motor, sudden load, undersized drive, braking resistor fault, and motor ground fault among possible causes.",
-        "fr": "The manual labels Err02 as overcurrent during acceleration and lists output short/ground fault, short acceleration time, unsuitable torque boost/V/f, low voltage, restarting a rotating motor, sudden load, undersized drive, braking resistor fault, and motor ground fault among possible causes."
+        "ar": "يصنّف الدليل Err02 على أنه زيادة تيار أثناء التسارع. تشمل الأسباب المحتملة قصرًا أو تماسًا أرضيًا في الخرج، وزمن تسارع قصيرًا، وإعدادًا غير مناسب لتعزيز العزم أو V/f، وانخفاض الجهد، وإعادة تشغيل محرك يدور، وحملًا مفاجئًا، ومغيرًا أصغر من المطلوب، وخلل مقاومة الكبح أو تأريض المحرك.",
+        "fr": "Le guide classe Err02 comme une surintensité pendant l’accélération. Les causes possibles comprennent un court-circuit ou défaut à la terre en sortie, une rampe d’accélération trop courte, un réglage inadapté du couple ou du rapport V/f, une sous-tension, le redémarrage d’un moteur en rotation, une charge soudaine, un variateur sous-dimensionné, un défaut de résistance de freinage ou la mise à la terre du moteur."
       },
       "source": {
         "sourceId": "oem-inovance-md200-err02-overcurrent-acceleration-manual",
@@ -1563,8 +1563,8 @@
       },
       "meaning": {
         "en": "The manual identifies Err03 as overcurrent during deceleration and lists short/ground faults, short deceleration time, low voltage, sudden load, missing/unsuitable braking resistor, and motor ground fault as possible causes.",
-        "ar": "The manual identifies Err03 as overcurrent during deceleration and lists short/ground faults, short deceleration time, low voltage, sudden load, missing/unsuitable braking resistor, and motor ground fault as possible causes.",
-        "fr": "The manual identifies Err03 as overcurrent during deceleration and lists short/ground faults, short deceleration time, low voltage, sudden load, missing/unsuitable braking resistor, and motor ground fault as possible causes."
+        "ar": "يصنّف الدليل Err03 على أنه زيادة تيار أثناء التباطؤ. تشمل الأسباب المحتملة قصرًا أو تماسًا أرضيًا، وزمن تباطؤ قصيرًا، وانخفاض الجهد، وحملًا مفاجئًا، أو غياب مقاومة الكبح أو عدم ملاءمتها، أو تأريض المحرك.",
+        "fr": "Le guide classe Err03 comme une surintensité pendant la décélération. Les causes possibles comprennent un court-circuit ou défaut à la terre, une rampe de décélération trop courte, une sous-tension, une charge soudaine, une résistance de freinage absente/inadaptée ou la mise à la terre du moteur."
       },
       "source": {
         "sourceId": "oem-inovance-md200-err02-overcurrent-acceleration-manual",
@@ -1610,8 +1610,8 @@
       },
       "meaning": {
         "en": "The manual labels Err05 as overvoltage during acceleration and lists excessive input voltage, external force driving the motor, short acceleration time, and absent braking resistor as possible causes.",
-        "ar": "The manual labels Err05 as overvoltage during acceleration and lists excessive input voltage, external force driving the motor, short acceleration time, and absent braking resistor as possible causes.",
-        "fr": "The manual labels Err05 as overvoltage during acceleration and lists excessive input voltage, external force driving the motor, short acceleration time, and absent braking resistor as possible causes."
+        "ar": "يصنّف الدليل Err05 على أنه ارتفاع جهد أثناء التسارع. تشمل الأسباب المحتملة ارتفاع جهد الدخل، أو دفع المحرك بقوة خارجية، أو قصر زمن التسارع، أو غياب مقاومة الكبح.",
+        "fr": "Le guide classe Err05 comme une surtension pendant l’accélération. Les causes possibles comprennent une tension d’entrée excessive, l’entraînement du moteur par une force externe, une rampe d’accélération trop courte ou l’absence de résistance de freinage."
       },
       "source": {
         "sourceId": "oem-inovance-md200-err02-overcurrent-acceleration-manual",
@@ -1657,8 +1657,8 @@
       },
       "meaning": {
         "en": "The manual labels Err09 as undervoltage and lists momentary power failure, input voltage outside the permitted range, abnormal bus voltage, and possible rectifier/pre-charge/drive/control-board faults.",
-        "ar": "The manual labels Err09 as undervoltage and lists momentary power failure, input voltage outside the permitted range, abnormal bus voltage, and possible rectifier/pre-charge/drive/control-board faults.",
-        "fr": "The manual labels Err09 as undervoltage and lists momentary power failure, input voltage outside the permitted range, abnormal bus voltage, and possible rectifier/pre-charge/drive/control-board faults."
+        "ar": "يصنّف الدليل Err09 على أنه انخفاض جهد. تشمل الأسباب انقطاعًا لحظيًا للطاقة، أو جهد دخل خارج النطاق المسموح، أو خللًا في جهد الناقل، أو عطلًا محتملًا في المقوم أو دائرة الشحن المسبق أو لوحة القيادة/التحكم.",
+        "fr": "Le guide classe Err09 comme une sous-tension. Les causes possibles comprennent une coupure momentanée, une tension d’entrée hors plage, une anomalie du bus ou un défaut du redresseur, du préchargement ou des cartes de commande/puissance."
       },
       "source": {
         "sourceId": "oem-inovance-md200-err02-overcurrent-acceleration-manual",
@@ -1704,8 +1704,8 @@
       },
       "meaning": {
         "en": "The fault table names Err12 as input phase loss and lists abnormal three-phase input supply or internal drive/protection/control components as possible causes. The parameter note says the F9-12 input phase-loss protection applies only to single-phase MD200TXX models; do not generalize this parameter applicability to all MD200 variants.",
-        "ar": "The fault table names Err12 as input phase loss and lists abnormal three-phase input supply or internal drive/protection/control components as possible causes. The parameter note says the F9-12 input phase-loss protection applies only to single-phase MD200TXX models; do not generalize this parameter applicability to all MD200 variants.",
-        "fr": "The fault table names Err12 as input phase loss and lists abnormal three-phase input supply or internal drive/protection/control components as possible causes. The parameter note says the F9-12 input phase-loss protection applies only to single-phase MD200TXX models; do not generalize this parameter applicability to all MD200 variants."
+        "ar": "يسمّي جدول الأعطال Err12 فقدان طور الدخل، ويذكر خلل التغذية ثلاثية الطور أو مكونات داخلية للقيادة/الحماية/التحكم. تنطبق ملاحظة المعلمة F9-12 الخاصة بحماية فقدان الطور على طرازات MD200TXX أحادية الطور فقط، ولا يجوز تعميمها على جميع نسخ MD200.",
+        "fr": "Le tableau des défauts nomme Err12 « perte de phase d’entrée » et cite une alimentation triphasée anormale ou des composants internes de commande/protection/contrôle. La note sur le paramètre F9-12 ne s’applique qu’aux modèles MD200TXX monophasés et ne doit pas être généralisée à toutes les variantes MD200."
       },
       "source": {
         "sourceId": "oem-inovance-md200-err02-overcurrent-acceleration-manual",
@@ -1751,8 +1751,8 @@
       },
       "meaning": {
         "en": "The manual labels Err14 as drive overtemperature and lists high ambient temperature, blocked air filter, damaged fan, damaged module thermistor, or a faulty drive unit as possible causes.",
-        "ar": "The manual labels Err14 as drive overtemperature and lists high ambient temperature, blocked air filter, damaged fan, damaged module thermistor, or a faulty drive unit as possible causes.",
-        "fr": "The manual labels Err14 as drive overtemperature and lists high ambient temperature, blocked air filter, damaged fan, damaged module thermistor, or a faulty drive unit as possible causes."
+        "ar": "يصنّف الدليل Err14 على أنه ارتفاع حرارة المغير. تشمل الأسباب المحتملة ارتفاع حرارة المحيط، أو انسداد مرشح الهواء، أو تلف المروحة أو حساس حرارة الوحدة، أو عطل وحدة القيادة.",
+        "fr": "Le guide classe Err14 comme une surchauffe du variateur. Les causes possibles comprennent une température ambiante élevée, un filtre d’air obstrué, un ventilateur ou thermistor de module endommagé, ou une unité de variateur défectueuse."
       },
       "source": {
         "sourceId": "oem-inovance-md200-err02-overcurrent-acceleration-manual",
@@ -1798,8 +1798,8 @@
       },
       "meaning": {
         "en": "Alarm No. 10 is named Insufficient voltage; the manual says a drop of bus voltage was detected in the main circuit. It gives reset class PR, but detailed troubleshooting is delegated to the exact drive-unit instruction manual.",
-        "ar": "Alarm No. 10 is named Insufficient voltage; the manual says a drop of bus voltage was detected in the main circuit. It gives reset class PR, but detailed troubleshooting is delegated to the exact drive-unit instruction manual.",
-        "fr": "Alarm No. 10 is named Insufficient voltage; the manual says a drop of bus voltage was detected in the main circuit. It gives reset class PR, but detailed troubleshooting is delegated to the exact drive-unit instruction manual."
+        "ar": "يسمّي الدليل الإنذار 10 «جهد غير كافٍ» ويذكر اكتشاف انخفاض جهد الناقل في الدائرة الرئيسية. فئة إعادة الضبط PR؛ أما استكشاف الأعطال التفصيلي فيتطلب دليل وحدة القيادة المطابقة.",
+        "fr": "Le manuel nomme l’alarme 10 « tension insuffisante » et indique une baisse de tension du bus dans le circuit principal. La classe de réinitialisation est PR; le diagnostic détaillé nécessite le manuel de l’unité d’entraînement exacte."
       },
       "source": {
         "sourceId": "oem-mitsubishi-c80-servo-alarm-10-insufficient-voltage-manual",
@@ -1845,8 +1845,8 @@
       },
       "meaning": {
         "en": "Alarm No. 18 is named Main side encoder: Initial communication error; the details say initial communication with the motor-side encoder failed. Troubleshooting is not specified in this table and requires the exact drive-unit manual.",
-        "ar": "Alarm No. 18 is named Main side encoder: Initial communication error; the details say initial communication with the motor-side encoder failed. Troubleshooting is not specified in this table and requires the exact drive-unit manual.",
-        "fr": "Alarm No. 18 is named Main side encoder: Initial communication error; the details say initial communication with the motor-side encoder failed. Troubleshooting is not specified in this table and requires the exact drive-unit manual."
+        "ar": "يسمّي الدليل الإنذار 18 خطأ اتصال أولي بمشفّر جهة المحرك؛ فشل الاتصال الأولي بالمشفّر. لا يحدد هذا الجدول خطوات إصلاح، ويجب الرجوع إلى دليل وحدة القيادة المطابقة.",
+        "fr": "Le manuel nomme l’alarme 18 « erreur de communication initiale du codeur côté moteur ». Le tableau ne précise pas le dépannage; consulter le manuel exact de l’unité d’entraînement."
       },
       "source": {
         "sourceId": "oem-mitsubishi-c80-servo-alarm-10-insufficient-voltage-manual",
@@ -1892,8 +1892,8 @@
       },
       "meaning": {
         "en": "Alarm No. 23 is Excessive speed error; the manual defines it as the difference between actual and commanded speed persisting longer than the configured excessive-speed-deviation timer. Reset class is NR.",
-        "ar": "Alarm No. 23 is Excessive speed error; the manual defines it as the difference between actual and commanded speed persisting longer than the configured excessive-speed-deviation timer. Reset class is NR.",
-        "fr": "Alarm No. 23 is Excessive speed error; the manual defines it as the difference between actual and commanded speed persisting longer than the configured excessive-speed-deviation timer. Reset class is NR."
+        "ar": "الإنذار 23 هو خطأ تجاوز فرق السرعة؛ يعرّف الدليل ذلك باستمرار الفرق بين السرعة الفعلية والمطلوبة مدة أطول من المؤقت المضبوط. فئة إعادة الضبط NR.",
+        "fr": "L’alarme 23 correspond à un écart de vitesse excessif; le manuel le définit comme un écart entre vitesse réelle et commandée persistant au-delà de la temporisation réglée. Classe de réinitialisation NR."
       },
       "source": {
         "sourceId": "oem-mitsubishi-c80-servo-alarm-10-insufficient-voltage-manual",
@@ -1939,8 +1939,8 @@
       },
       "meaning": {
         "en": "Alarm No. 24 is named Grounding; the manual states the motor power cable is in contact with FG (frame ground). Reset class is PR.",
-        "ar": "Alarm No. 24 is named Grounding; the manual states the motor power cable is in contact with FG (frame ground). Reset class is PR.",
-        "fr": "Alarm No. 24 is named Grounding; the manual states the motor power cable is in contact with FG (frame ground). Reset class is PR."
+        "ar": "يسمّي الدليل الإنذار 24 تأريضًا، ويذكر أن كابل قدرة المحرك يلامس FG (أرضي الهيكل). فئة إعادة الضبط PR.",
+        "fr": "Le manuel nomme l’alarme 24 « mise à la terre » et indique que le câble de puissance moteur touche FG (terre du châssis). Classe de réinitialisation PR."
       },
       "source": {
         "sourceId": "oem-mitsubishi-c80-servo-alarm-10-insufficient-voltage-manual",
@@ -1986,8 +1986,8 @@
       },
       "meaning": {
         "en": "Alarm No. 25 is named Absolute position data lost; the manual states absolute-position data was lost in the encoder. Reset class is AR. Recovery must follow the exact machine-builder and encoder procedure.",
-        "ar": "Alarm No. 25 is named Absolute position data lost; the manual states absolute-position data was lost in the encoder. Reset class is AR. Recovery must follow the exact machine-builder and encoder procedure.",
-        "fr": "Alarm No. 25 is named Absolute position data lost; the manual states absolute-position data was lost in the encoder. Reset class is AR. Recovery must follow the exact machine-builder and encoder procedure."
+        "ar": "الإنذار 25 يعني فقدان بيانات الموضع المطلق في المشفّر. فئة إعادة الضبط AR. يجب اتباع إجراء الاستعادة الخاص بمصنّع الماكينة والمشفّر المطابقين.",
+        "fr": "L’alarme 25 signifie que les données de position absolue du codeur sont perdues. Classe de réinitialisation AR. Suivre la procédure de récupération propre au constructeur de la machine et au codeur."
       },
       "source": {
         "sourceId": "oem-mitsubishi-c80-servo-alarm-10-insufficient-voltage-manual",
@@ -2033,8 +2033,8 @@
       },
       "meaning": {
         "en": "The manual states that the PLC emergency-stop signal is turned ON during user-PLC sequence processing and instructs checking the conditions that turn the signal ON and removing the cause. Other EMG labels in the same section have distinct causes and must not be conflated.",
-        "ar": "The manual states that the PLC emergency-stop signal is turned ON during user-PLC sequence processing and instructs checking the conditions that turn the signal ON and removing the cause. Other EMG labels in the same section have distinct causes and must not be conflated.",
-        "fr": "The manual states that the PLC emergency-stop signal is turned ON during user-PLC sequence processing and instructs checking the conditions that turn the signal ON and removing the cause. Other EMG labels in the same section have distinct causes and must not be conflated."
+        "ar": "يوضح الدليل أن إشارة إيقاف الطوارئ القادمة من PLC المستخدم أصبحت مفعّلة أثناء تنفيذ تسلسل PLC. افحص شروط تفعيل الإشارة وأزل السبب؛ لا تخلط بينها وبين رسائل EMG الأخرى ذات الأسباب المختلفة.",
+        "fr": "Le manuel indique que le signal d’arrêt d’urgence du PLC utilisateur est activé pendant l’exécution de sa séquence. Vérifier les conditions d’activation et supprimer la cause; ne pas confondre avec d’autres messages EMG."
       },
       "source": {
         "sourceId": "oem-mitsubishi-c80-servo-alarm-10-insufficient-voltage-manual",
@@ -2080,8 +2080,8 @@
       },
       "meaning": {
         "en": "The manual labels event 0x0005 Overtemperature for all listed fail-safe signal modules and states the module-case high-temperature limit has been exceeded; it directs checking ambient temperature and power cycling after the fault is eliminated.",
-        "ar": "The manual labels event 0x0005 Overtemperature for all listed fail-safe signal modules and states the module-case high-temperature limit has been exceeded; it directs checking ambient temperature and power cycling after the fault is eliminated.",
-        "fr": "The manual labels event 0x0005 Overtemperature for all listed fail-safe signal modules and states the module-case high-temperature limit has been exceeded; it directs checking ambient temperature and power cycling after the fault is eliminated."
+        "ar": "يسمّي الدليل الحدث 0x0005 ارتفاع حرارة، ويذكر تجاوز حد حرارة هيكل الوحدة لوحدات الإشارة الآمنة المحددة. يوجّه إلى فحص حرارة المحيط ثم إعادة التغذية بعد إزالة السبب.",
+        "fr": "Le manuel nomme l’événement 0x0005 « surchauffe » et indique que la limite de température du boîtier des modules de sécurité concernés est dépassée. Vérifier la température ambiante puis remettre sous tension après élimination de la cause."
       },
       "source": {
         "sourceId": "oem-siemens-s7-1200-fs-event-0005-overtemperature-manual",
@@ -2127,8 +2127,8 @@
       },
       "meaning": {
         "en": "The manual describes event 0x004D as PROFIsafe communication error (CRC), indicating inconsistent data frames; possible cause is communication interference between fail-safe CPU and F-module, including excessive electromagnetic interference or sign-of-life monitoring error. Corrective measures include checking the communication connection and eliminating interference.",
-        "ar": "The manual describes event 0x004D as PROFIsafe communication error (CRC), indicating inconsistent data frames; possible cause is communication interference between fail-safe CPU and F-module, including excessive electromagnetic interference or sign-of-life monitoring error. Corrective measures include checking the communication connection and eliminating interference.",
-        "fr": "The manual describes event 0x004D as PROFIsafe communication error (CRC), indicating inconsistent data frames; possible cause is communication interference between fail-safe CPU and F-module, including excessive electromagnetic interference or sign-of-life monitoring error. Corrective measures include checking the communication connection and eliminating interference."
+        "ar": "يصف الدليل الحدث 0x004D بأنه خطأ اتصال PROFIsafe (CRC) مع إطارات بيانات غير متسقة. قد يرتبط بتداخل الاتصال بين CPU الآمن ووحدة F، أو بتداخل كهرومغناطيسي أو مراقبة إشارة الحياة. يوصي بفحص الاتصال وإزالة مصادر التداخل.",
+        "fr": "Le manuel décrit l’événement 0x004D comme une erreur de communication PROFIsafe (CRC) avec des trames incohérentes. Une interférence entre la CPU de sécurité et le module F, des perturbations électromagnétiques ou la surveillance de signe de vie peuvent être en cause. Vérifier la liaison et éliminer les perturbations."
       },
       "source": {
         "sourceId": "oem-siemens-s7-1200-fs-event-0005-overtemperature-manual",
@@ -2174,8 +2174,8 @@
       },
       "meaning": {
         "en": "The manual labels event 0x004E PROFIsafe communication failure (timeout) and states that the F-monitoring time was exceeded. It recommends checking the F-monitoring time and examining the safety program and other CPU activities such as interrupts, Ethernet communication, OB scheduling, and long program paths.",
-        "ar": "The manual labels event 0x004E PROFIsafe communication failure (timeout) and states that the F-monitoring time was exceeded. It recommends checking the F-monitoring time and examining the safety program and other CPU activities such as interrupts, Ethernet communication, OB scheduling, and long program paths.",
-        "fr": "The manual labels event 0x004E PROFIsafe communication failure (timeout) and states that the F-monitoring time was exceeded. It recommends checking the F-monitoring time and examining the safety program and other CPU activities such as interrupts, Ethernet communication, OB scheduling, and long program paths."
+        "ar": "يسمّي الدليل الحدث 0x004E فشل اتصال PROFIsafe بسبب انتهاء المهلة، لأن زمن مراقبة F قد تم تجاوزه. يوصي بفحص زمن المراقبة وبرنامج السلامة ونشاطات CPU مثل المقاطعات واتصال Ethernet وجدولة OB ومسارات البرنامج الطويلة.",
+        "fr": "Le manuel nomme l’événement 0x004E « défaut de communication PROFIsafe par dépassement de délai » car le temps de surveillance F est dépassé. Vérifier ce délai, le programme de sécurité et les activités CPU : interruptions, Ethernet, planification des OB et chemins de programme longs."
       },
       "source": {
         "sourceId": "oem-siemens-s7-1200-fs-event-0005-overtemperature-manual",
