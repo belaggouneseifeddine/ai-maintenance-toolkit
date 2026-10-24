@@ -6,7 +6,7 @@ This backend serves the GitHub Pages frontend using Cloudflare Workers.
 
 The repository includes a manual workflow at **Actions → Deploy Maintenance AI Toolkit API**. Configure these three repository Actions secrets first:
 
-1. `CLOUDFLARE_API_TOKEN`: a Cloudflare API token with permission to edit Workers Scripts for the target account.
+1. `CLOUDFLARE_API_TOKEN`: a Cloudflare API token with permission to edit Workers Scripts and manage Worker secrets for the target account.
 2. `CLOUDFLARE_ACCOUNT_ID`: the Cloudflare account ID.
 3. `GEMINI_API_KEY`: your valid Google Gemini API key. Do not paste it into chat or commit it to the repository.
 
@@ -16,7 +16,7 @@ https://github.com/belaggouneseifeddine/ai-maintenance-toolkit/settings/secrets/
 Then open:
 https://github.com/belaggouneseifeddine/ai-maintenance-toolkit/actions/workflows/deploy-worker.yml
 
-Choose **Run workflow**. The workflow uploads `GEMINI_API_KEY` to the Worker as the `AI_API_KEY` secret and deploys `worker.js` using `wrangler.toml`. It does not print the secret. Check the workflow run for the actual result.
+Choose **Run workflow**. The workflow validates the three secrets, deploys `worker.js`, and then uploads `GEMINI_API_KEY` to the Worker using Wrangler's secret command. The key is passed through standard input and is not written into source files or printed by the workflow. The Cloudflare token must have permissions to deploy Workers and manage Worker secrets. Check the workflow run for the actual result.
 
 ## Connect the frontend
 
@@ -24,7 +24,7 @@ After a successful run, open the Worker URL shown in the workflow logs or Cloudf
 
 https://belaggouneseifeddine.github.io/ai-maintenance-toolkit/
 
-Paste the Worker URL ending in `/api/chat` into the AI endpoint field, for example `https://YOUR-WORKER.workers.dev/api/chat`. The frontend stores that endpoint in this browser.
+Use the Worker URL ending in `/api/chat` in the AI endpoint field, for example `https://YOUR-WORKER.workers.dev/api/chat`. The frontend stores that endpoint in this browser.
 
 ## API
 
@@ -34,4 +34,4 @@ Paste the Worker URL ending in `/api/chat` into the AI endpoint field, for examp
 
 The Worker restricts browser requests to the GitHub Pages origin, validates payloads, limits request size, and keeps provider errors/credentials out of responses. Provider calls may incur Gemini usage charges; configure provider usage limits before public release.
 
-**Important:** committing source code does not deploy the backend. A successful workflow run and a valid Worker URL are required before live AI diagnosis can work.
+**Important:** committing source code does not deploy the backend. A successful workflow run, successful Worker-secret update, and a valid Worker URL are required before live AI diagnosis can be considered ready.
