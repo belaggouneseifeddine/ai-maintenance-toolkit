@@ -6,14 +6,7 @@
     "pump|low_flow": {
       "status": "covered-exact",
       "matchingFaultIds": [
-        "pump-cavitation",
-        "pump-loss-of-prime",
-        "pump-check-valve-failure",
-        "pump-low-flow",
-        "pump-air-lock",
-        "pump-discharge-blockage",
-        "pump-excessive-flow",
-        "pump-dry-running"
+        "pump-cavitation"
       ]
     },
     "motor|not_start": {
@@ -25,27 +18,19 @@
     "vfd|trip": {
       "status": "covered-exact",
       "matchingFaultIds": [
-        "vfd-trip",
-        "vfd-overcurrent",
-        "vfd-overvoltage",
-        "vfd-undervoltage",
-        "vfd-ground-fault"
+        "vfd-trip"
       ]
     },
     "compressor|low_pressure": {
       "status": "covered-exact",
       "matchingFaultIds": [
-        "compressor-low-pressure",
-        "compressor-oil-low",
-        "compressor-oil-pressure-low"
+        "compressor-low-pressure"
       ]
     },
     "valve|not_start": {
       "status": "covered-exact",
       "matchingFaultIds": [
-        "valve-stuck-closed",
-        "valve-stuck-open",
-        "valve-actuator-no-response"
+        "valve-stuck-closed"
       ]
     },
     "pneumatic|low_flow": {
@@ -68,8 +53,7 @@
     "plc|not_start": {
       "status": "covered-exact",
       "matchingFaultIds": [
-        "plc-not-running",
-        "plc-communication-loss"
+        "plc-not-running"
       ]
     },
     "conveyor|tracking": {
