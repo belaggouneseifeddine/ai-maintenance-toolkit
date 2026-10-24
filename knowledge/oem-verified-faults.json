@@ -7,7 +7,7 @@
     "en"
   ],
   "generatedAt": "2026-10-24",
-  "recordCount": 79,
+  "recordCount": 81,
   "evidencePolicy": {
     "verifiedMeans": "The cited official manual explicitly supports the stated alarm meaning or diagnostic procedure within the recorded scope.",
     "notEquivalentTo": "This does not mean every machine built around the same brand/controller behaves identically; machine builder integration, firmware and options can change alarm behavior.",
@@ -4122,6 +4122,114 @@
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope."
+    },
+    {
+      "id": "syntec-mot-082-drive-response-packet-noise",
+      "recordType": "software-network-error-code",
+      "manufacturer": "Syntec",
+      "productFamily": "Syntec CNC controller software 10.118.86L / 10.120.16L / 10.120.24B / 10.120.27 and previous versions",
+      "modelScope": "Syntec CNC Alarm Manual supported versions as listed by the manual; confirm the installed software version and exact machine/drive integration before applying.",
+      "controllerModel": "Syntec CNC controller with integrated drive/servo communication",
+      "alarmCode": "MOT-082",
+      "title": {
+        "en": "Drive response packet disturbed by noise",
+        "ar": "تشويش الضوضاء على حزمة استجابة المشغّل",
+        "fr": "Paquet de réponse du variateur perturbé par le bruit"
+      },
+      "meaning": {
+        "en": "The Syntec alarm manual describes MOT-082 when a drive response packet is disturbed by noise for more than 10 ms. It lists poor communication-cable quality or noise interference as possible reasons.",
+        "ar": "يصف دليل إنذارات Syntec الرمز MOT-082 عندما تتعرض حزمة استجابة المشغّل للتشويش لأكثر من 10 مللي ثانية. ويذكر رداءة كابل الاتصال أو التداخل كأسباب محتملة.",
+        "fr": "Le manuel d’alarmes Syntec décrit MOT-082 lorsque le bruit perturbe un paquet de réponse du variateur pendant plus de 10 ms. Une mauvaise qualité du câble ou des interférences sont citées comme causes possibles."
+      },
+      "source": {
+        "sourceId": "syntec-cnc-alarm-manual",
+        "manualTitle": "Syntec CNC Alarm Manual",
+        "revision": "Supported versions listed: 10.118.86L, 10.120.16L, 10.120.24B, 10.120.27 and previous versions",
+        "section": "CNC Alarm Manual → MOT-082 → Description / Possible Reason / Solution",
+        "pageNotProvidedReason": "A stable printed/PDF page number was not confirmed in this review; the exact alarm ID and manual subsection are supplied as the locator.",
+        "manualUrl": "https://www.syntecclub.com/cncrel/Manual/PDF/Syntec%20CNC%20Alarm%20Manual.pdf",
+        "evidenceSummary": "The official Syntec alarm manual describes MOT-082 as a drive-response packet disturbed by noise for more than 10 ms and lists cable quality/noise interference among possible reasons."
+      },
+      "safeChecks": {
+        "en": [
+          "Record the complete alarm ID, controller software version, drive model, and event time before resetting.",
+          "Have qualified personnel inspect communication-cable condition, connectors, shielding/grounding, and controller-to-drive configuration under the approved isolation procedure.",
+          "Compare DIP-switch and communication parameters with the machine-builder's documentation; do not change timing or communication settings arbitrarily."
+        ],
+        "ar": [
+          "سجّل رمز الإنذار كاملًا وإصدار برنامج المتحكم وطراز المشغّل ووقت الحدث قبل إعادة الضبط.",
+          "ليتحقق شخص مؤهل من كابل الاتصال والموصلات والتدريع/التأريض وإعداد الاتصال بين المتحكم والمشغّل وفق إجراء العزل المعتمد.",
+          "طابق مفاتيح DIP ومعلمات الاتصال مع وثائق مصنع الماكينة؛ لا تغيّر إعدادات التوقيت أو الاتصال عشوائيًا."
+        ],
+        "fr": [
+          "Consignez le code complet, la version logicielle du contrôleur, le modèle du variateur et l'heure de l'événement avant toute réinitialisation.",
+          "Faites vérifier par une personne qualifiée le câble de communication, les connecteurs, le blindage/la terre et la configuration contrôleur-variateur selon la procédure de consignation.",
+          "Comparez les commutateurs DIP et les paramètres de communication aux documents du constructeur; ne modifiez pas arbitrairement les temporisations ou réglages."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate to Syntec or the machine builder if the alarm persists after approved cable/configuration checks, or if the installed version is outside the documented scope.",
+        "ar": "صعّد إلى Syntec أو مصنع الماكينة إذا استمر الإنذار بعد فحص الكابل والإعدادات المصرح به، أو كان إصدار البرنامج خارج النطاق الموثق.",
+        "fr": "Escaladez vers Syntec ou le constructeur si l'alarme persiste après les contrôles autorisés du câble/de la configuration, ou si la version installée est hors du périmètre documenté."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Manual-claim-reviewed, not field-verified. Alarm IDs and timing thresholds apply only within the Syntec manual's listed software-version scope and the actual controller/drive integration."
+    },
+    {
+      "id": "syntec-mot-083-drive-response-packet-watchdog",
+      "recordType": "software-network-error-code",
+      "manufacturer": "Syntec",
+      "productFamily": "Syntec CNC controller software 10.118.86L / 10.120.16L / 10.120.24B / 10.120.27 and previous versions",
+      "modelScope": "Syntec CNC Alarm Manual supported versions as listed by the manual; confirm the installed software version and exact machine/drive integration before applying.",
+      "controllerModel": "Syntec CNC controller with integrated drive/servo communication",
+      "alarmCode": "MOT-083",
+      "title": {
+        "en": "Driver software misses communication packet",
+        "ar": "برنامج المشغّل يفقد حزمة اتصال",
+        "fr": "Le logiciel du variateur manque un paquet de communication"
+      },
+      "meaning": {
+        "en": "The Syntec alarm manual describes MOT-083 when the drive response-packet watchdog (M3) or EtherCAT working counter is incorrect for more than 10 ms.",
+        "ar": "يصف دليل إنذارات Syntec الرمز MOT-083 عندما تكون مراقبة حزمة استجابة المشغّل (M3) أو عدّاد العمل في EtherCAT غير صحيحة لأكثر من 10 مللي ثانية.",
+        "fr": "Le manuel d’alarmes Syntec décrit MOT-083 lorsque le watchdog des paquets de réponse du variateur (M3) ou le compteur de travail EtherCAT est incorrect pendant plus de 10 ms."
+      },
+      "source": {
+        "sourceId": "syntec-cnc-alarm-manual",
+        "manualTitle": "Syntec CNC Alarm Manual",
+        "revision": "Supported versions listed: 10.118.86L, 10.120.16L, 10.120.24B, 10.120.27 and previous versions",
+        "section": "CNC Alarm Manual → MOT-083 → Description / Possible Reason / Solution",
+        "pageNotProvidedReason": "A stable printed/PDF page number was not confirmed in this review; the exact alarm ID and manual subsection are supplied as the locator.",
+        "manualUrl": "https://www.syntecclub.com/cncrel/Manual/PDF/Syntec%20CNC%20Alarm%20Manual.pdf",
+        "evidenceSummary": "The official Syntec alarm manual describes MOT-083 in terms of an incorrect drive response-packet watchdog (M3) or EtherCAT working counter lasting more than 10 ms."
+      },
+      "safeChecks": {
+        "en": [
+          "Record the complete alarm ID, controller software version, drive model, and event time before resetting.",
+          "Have qualified personnel inspect communication-cable condition, connectors, shielding/grounding, and controller-to-drive configuration under the approved isolation procedure.",
+          "Compare DIP-switch and communication parameters with the machine-builder's documentation; do not change timing or communication settings arbitrarily."
+        ],
+        "ar": [
+          "سجّل رمز الإنذار كاملًا وإصدار برنامج المتحكم وطراز المشغّل ووقت الحدث قبل إعادة الضبط.",
+          "ليتحقق شخص مؤهل من كابل الاتصال والموصلات والتدريع/التأريض وإعداد الاتصال بين المتحكم والمشغّل وفق إجراء العزل المعتمد.",
+          "طابق مفاتيح DIP ومعلمات الاتصال مع وثائق مصنع الماكينة؛ لا تغيّر إعدادات التوقيت أو الاتصال عشوائيًا."
+        ],
+        "fr": [
+          "Consignez le code complet, la version logicielle du contrôleur, le modèle du variateur et l'heure de l'événement avant toute réinitialisation.",
+          "Faites vérifier par une personne qualifiée le câble de communication, les connecteurs, le blindage/la terre et la configuration contrôleur-variateur selon la procédure de consignation.",
+          "Comparez les commutateurs DIP et les paramètres de communication aux documents du constructeur; ne modifiez pas arbitrairement les temporisations ou réglages."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate to Syntec or the machine builder if the alarm persists after approved cable/configuration checks, or if the installed version is outside the documented scope.",
+        "ar": "صعّد إلى Syntec أو مصنع الماكينة إذا استمر الإنذار بعد فحص الكابل والإعدادات المصرح به، أو كان إصدار البرنامج خارج النطاق الموثق.",
+        "fr": "Escaladez vers Syntec ou le constructeur si l'alarme persiste après les contrôles autorisés du câble/de la configuration, ou si la version installée est hors du périmètre documenté."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Manual-claim-reviewed, not field-verified. Alarm IDs and timing thresholds apply only within the Syntec manual's listed software-version scope and the actual controller/drive integration."
     }
   ]
 }
