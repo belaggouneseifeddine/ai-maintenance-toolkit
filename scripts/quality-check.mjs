@@ -45,7 +45,7 @@ const checks = [
     assert.ok(html.includes('<script src="./agent-core.js"></script>'));
     assert.ok(html.includes('<script src="./agent-ui.js"></script>'));
     assert.ok(html.includes('id="runLocalAgent"'));
-    for (const asset of ["engineering-core.js", "agent-core.js", "agent-ui.js"]) assert.ok(cloudflareDeployWorkflow.includes(asset), `Cloudflare Pages deploy omits ${asset}`);
+    for (const asset of ["engineering-core.js", "agent-core.js", "agent-ui.js", "oem-lookup.js"]) assert.ok(cloudflareDeployWorkflow.includes(asset), `Cloudflare Pages deploy omits ${asset}`);
     assert.ok(sw.includes('"./engineering-core.js"'));
     assert.ok(sw.includes('"./agent-core.js"'));
     assert.ok(sw.includes('"./agent-ui.js"'));
@@ -620,6 +620,8 @@ const checks = [
     assert.ok(html.includes('<script src="./oem-lookup.js"></script>'), "OEM lookup script must be loaded by the UI");
     assert.ok(oemLookupSource.includes("./knowledge/oem-verified-faults.json"), "OEM lookup must load the structured evidence database");
     assert.ok(oemLookupSource.includes("record.source.manualUrl") && oemLookupSource.includes("record.source.section"), "OEM lookup must display source links and manual sections");
+    assert.ok(cloudflareDeployWorkflow.includes("oem-lookup.js"), "Cloudflare Pages deploy must copy the OEM lookup script");
+    assert.ok(cloudflareDeployWorkflow.includes("oem-verified-faults.json"), "Cloudflare Pages smoke test must verify the structured OEM evidence database");
     assert.ok(sw.includes('"./oem-lookup.js"'), "OEM lookup script must be available offline");
     assert.ok(sw.includes('"./knowledge/oem-verified-faults.json"'), "Structured OEM evidence must be available in the offline cache");
     assert.ok(sw.includes('"./knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md"'), "OEM evidence guide must be available in the offline cache");
