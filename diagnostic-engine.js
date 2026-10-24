@@ -16,6 +16,19 @@
     return result ? (result.status === "confirmed" ? result.canonical : result.normalized) : normalizeText(value);
   }
 
+  function reviewAliasHint(value, domain, language) {
+    if (!root.MaintenanceNormalization || typeof root.MaintenanceNormalization.canonicalize !== "function") return "";
+    const result = root.MaintenanceNormalization.canonicalize(value, domain);
+    if (!result || result.status !== "review_required") return "";
+    const term = result.normalized || String(value == null ? "" : value);
+    const suggestion = result.suggestedCanonical || "";
+    const templates = {
+      ar: "المدخل «" + term + "» مرادف يحتاج إلى مراجعة، ولم يُحوَّل تلقائيًا. اختر نوع المعدة أو العَرَض القياسي من القائمة لتجنب مطابقة خاطئة." + (suggestion ? " المعرّف القياسي المقترح: " + suggestion + "." : ""),
+      fr: "Le terme «" + term + "» est un alias à vérifier et n’a pas été converti automatiquement. Choisissez l’équipement ou le symptôme standard dans la liste pour éviter une correspondance erronée." + (suggestion ? " Identifiant standard suggéré : " + suggestion + "." : ""),
+      en: "The term '" + term + "' is an alias awaiting review and was not mapped automatically. Choose the standard equipment or symptom from the list to avoid a false match." + (suggestion ? " Suggested standard ID: " + suggestion + "." : "")
+    };
+    return templates[language] || templates.ar;
+  }
   function findMatches(text, terms) {
     const normalized = normalizeText(text);
     const matches = [];
@@ -124,7 +137,19 @@
       .sort((a, b) => b.score - a.score || b.matchedKeywords.length - a.matchedKeywords.length || a.title.localeCompare(b.title));
 
     if (!results.length) {
-      return { matched: false, message: t.noMatch, reason: t.weakReason, results: [], advisory: t.advisory, language: lang };
+      const aliasHints = [
+        reviewAliasHint(input && input.equipmentType, "equipment", lang),
+        reviewAliasHint(input && input.symptom, "symptom", lang)
+      ].filter(Boolean);
+      return {
+        matched: false,
+        message: t.noMatch,
+        reason: [t.weakReason, ...aliasHints].join(" "),
+        normalizationReview: aliasHints,
+        results: [],
+        advisory: t.advisory,
+        language: lang
+      };
     }
     return { matched: true, message: "", reason: "", results, advisory: t.advisory, language: lang };
   }
