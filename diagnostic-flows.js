@@ -72,6 +72,72 @@ window.MAINTENANCE_DIAGNOSTIC_FLOWS = {
           { "id": "valve-command-no-movement", "label": "الأمر ظاهر لكن الموضع لا يتغير", "guidance": "وثّق مؤشر الموضع والإنذار المتاح؛ اطلب فحص المشغل والتغذية بواسطة شخص مؤهل وفق إجراء العزل." },
           { "id": "valve-state-unknown", "label": "الحالة غير معروفة", "guidance": "احفظ حالة واجهة التحكم والإنذار قبل أي إعادة ضبط؛ لا تفتح اللوحة أو تفك الوصلات." }
         ]
+      },
+      "pneumatic|low_flow": {
+        "id": "pneumatic-low-flow-v1",
+        "equipmentId": "pneumatic",
+        "symptomId": "low_flow",
+        "question": { "id": "pneumatic-low-flow-pressure-status", "text": "ما حالة قراءة ضغط التغذية المتاحة مقارنة بخط الأساس المعتمد؟" },
+        "answers": [
+          { "id": "pneumatic-pressure-low", "label": "الضغط منخفض أو غير مستقر", "guidance": "وثّق القراءة والوحدة ونقطة القياس؛ افحص مؤشرات التسرب من الخارج فقط، واعزل الطاقة والضغط قبل أي تدخل وفق إجراء الموقع." },
+          { "id": "pneumatic-pressure-normal", "label": "الضغط طبيعي حسب المؤشر", "guidance": "قارن زمن الدورة وحالة المشغل مع خط الأساس؛ لا تفترض أن الصمام أو الأسطوانة معطوبان دون دليل." },
+          { "id": "pneumatic-pressure-unknown", "label": "لا توجد قراءة موثوقة", "guidance": "لا تستنتج السبب من الحركة وحدها؛ اطلب قراءة معتمدة قبل أي تدخل، ولا تفك الوصلات تحت الضغط." }
+        ]
+      },
+      "gearbox|overheat": {
+        "id": "gearbox-overheat-v1",
+        "equipmentId": "gearbox",
+        "symptomId": "overheat",
+        "question": { "id": "gearbox-overheat-evidence", "text": "ما الأدلة المتاحة دون فتح المعدة أو لمس أسطح ساخنة؟" },
+        "answers": [
+          { "id": "gearbox-temp-trend-high", "label": "اتجاه الحرارة أعلى من خط الأساس", "guidance": "سجّل القراءة والوحدة ومكان القياس والحمل؛ قارنها بحدود دليل الطراز. أوقف وصعّد وفق إجراء الموقع إذا ظهرت علامات خطر." },
+          { "id": "gearbox-leak-or-level-alert", "label": "يوجد تسرب ظاهر أو إنذار مستوى", "guidance": "وثّق التسرب والإنذار من موضع آمن؛ لا تفتح غطاء الزيت أو تضف زيتًا قبل العزل والتحقق من نوع الزيت وإجراء المصنع." },
+          { "id": "gearbox-no-reliable-reading", "label": "لا توجد قراءة موثوقة", "guidance": "لا تحكم على درجة الحرارة باللمس؛ استخدم وسيلة قياس معتمدة بواسطة شخص مؤهل وقارنها بدليل الطراز." }
+        ]
+      },
+      "bearing|vibration": {
+        "id": "bearing-vibration-v1",
+        "equipmentId": "bearing",
+        "symptomId": "vibration",
+        "question": { "id": "bearing-vibration-trend", "text": "هل توجد قراءة اهتزاز مسجلة يمكن مقارنتها بخط الأساس؟" },
+        "answers": [
+          { "id": "bearing-vibration-rising", "label": "الاهتزاز أعلى من خط الأساس", "guidance": "وثّق القيمة والوحدة وموقع واتجاه القياس وظروف الحمل؛ صعّد وفق حدود المصنع ولا تقترب من الأجزاء الدوارة." },
+          { "id": "bearing-vibration-stable", "label": "القراءة مستقرة ضمن السجل المتاح", "guidance": "قارن الضوضاء ودرجة الحرارة وسجل التشحيم دون لمس الأجزاء؛ لا تعتبر الاستقرار وحده دليلًا على سلامة المحمل." },
+          { "id": "bearing-vibration-unknown", "label": "لا توجد قراءة قابلة للمقارنة", "guidance": "لا تصنّف شدة الاهتزاز بالانطباع فقط؛ اطلب قياسًا موحدًا بواسطة شخص مؤهل وفق إجراء الموقع." }
+        ]
+      },
+      "plc|not_start": {
+        "id": "plc-no-start-v1",
+        "equipmentId": "plc",
+        "symptomId": "not_start",
+        "question": { "id": "plc-no-start-status", "text": "ما الحالة الظاهرة للأمر وشروط السماح والإنذارات في HMI؟" },
+        "answers": [
+          { "id": "plc-command-not-present", "label": "أمر التشغيل غير ظاهر", "guidance": "سجّل حالة الأمر والإنذارات الظاهرة واتبع مخطط التحكم المعتمد؛ لا تجسّر المداخل أو تتجاوز interlocks." },
+          { "id": "plc-interlock-or-trip", "label": "شرط سماح غير متحقق أو فصل ظاهر", "guidance": "احفظ رمز الإنذار وتسلسل الأحداث وراجع منطق التشغيل المعتمد؛ لا تفرض خرجًا ولا تعطّل حماية." },
+          { "id": "plc-state-unknown", "label": "الحالة غير واضحة", "guidance": "التقط وصف الحالة الظاهر فقط وصعّد إلى شخص مؤهل؛ لا تغيّر البرنامج أو القيم أثناء التشخيص." }
+        ]
+      },
+      "conveyor|tracking": {
+        "id": "conveyor-tracking-v1",
+        "equipmentId": "conveyor",
+        "symptomId": "tracking",
+        "question": { "id": "conveyor-tracking-observation", "text": "ما الذي يمكن ملاحظته من خارج منطقة الخطر أثناء التشغيل أو بعد التوقف الآمن؟" },
+        "answers": [
+          { "id": "conveyor-belt-offset", "label": "السير منحرف عن المسار", "guidance": "لا تقترب من السير المتحرك أو تحاول ضبطه أثناء التشغيل؛ أوقف وصعّد وفق إجراء العزل قبل الفحص." },
+          { "id": "conveyor-material-build-up", "label": "تراكم مادة ظاهر من موضع آمن", "guidance": "وثّق الموقع والصورة إن كان ذلك آمنًا؛ لا تنظف قرب الأجزاء المتحركة، وطبّق العزل والتحقق من الطاقة قبل الإزالة." },
+          { "id": "conveyor-tracking-unknown", "label": "لا يمكن تحديد الحالة بأمان", "guidance": "لا تدخل منطقة السير ولا تزل الحواجز؛ أوقف وصعّد للمسؤول إذا تعذر الفحص من موضع آمن." }
+        ]
+      },
+      "thermal|overheat": {
+        "id": "thermal-overheat-v1",
+        "equipmentId": "thermal",
+        "symptomId": "overheat",
+        "question": { "id": "thermal-overheat-reading", "text": "هل توجد قراءة حرارة موثوقة مع وحدة ومكان قياس محددين؟" },
+        "answers": [
+          { "id": "thermal-reading-above-baseline", "label": "القراءة أعلى من خط الأساس", "guidance": "سجّل القراءة والوحدة والحمل وقارنها بحدود دليل الطراز؛ صعّد عند تجاوز الحدود أو ظهور إنذار، ولا تغيّر نقاط الضبط." },
+          { "id": "thermal-flow-or-fan-alert", "label": "يوجد إنذار تدفق أو مروحة", "guidance": "وثّق الإنذار من الواجهة؛ لا تفتح أغطية ولا تلمس أسطحًا ساخنة، واطلب الفحص بعد العزل والتبريد وفق إجراء الموقع." },
+          { "id": "thermal-reading-unknown", "label": "لا توجد قراءة موثوقة", "guidance": "لا تعتمد على اللمس أو التخمين؛ اطلب قياسًا معتمدًا بواسطة شخص مؤهل قبل استنتاج السبب." }
+        ]
       }
     }
 };
