@@ -36,7 +36,7 @@ const checks = [
     assert.ok(html.includes('<script src="./agent-core.js"></script>'));
     assert.ok(html.includes('<script src="./agent-ui.js"></script>'));
     assert.ok(html.includes('id="runLocalAgent"'));
-    assert.ok(deployWorkflow.includes("engineering-core.js agent-core.js agent-ui.js"));
+    for (const asset of ["engineering-core.js", "agent-core.js", "agent-ui.js"]) assert.ok(deployWorkflow.includes(asset), `Pages deploy omits ${asset}`);
     assert.ok(sw.includes('"./engineering-core.js"'));
     assert.ok(sw.includes('"./agent-core.js"'));
     assert.ok(sw.includes('"./agent-ui.js"'));
