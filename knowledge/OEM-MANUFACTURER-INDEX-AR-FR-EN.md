@@ -11,7 +11,7 @@
 | `claim-reviewed` | Reviewer checked a specific claim against a passage in the source | Only for the exact claim and applicable product family |
 | `model-verified` | Exact model/variant and controller match, manual revision and passage recorded | Yes, within the recorded scope only |
 
-All 29 entries in the structured platform index remain `portal-only`, with zero field-verified alarm-code records. Separately, 66 model-scoped records have been reviewed against cited manuals, but are manual-claim-reviewed—not field-verified. A manufacturer's support page is not evidence for the meaning of a particular alarm.
+All 29 entries in the structured platform index remain `portal-only`, with zero field-verified alarm-code records. Separately, 79 model-scoped records have been reviewed against cited manuals, but are manual-claim-reviewed—not field-verified, including 13 Delta ASDA-B2-F servo alarm summaries. A manufacturer's support page is not evidence for the meaning of a particular alarm.
 
 ## China and Asia — machine builders and control platforms
 
@@ -29,6 +29,14 @@ All 29 entries in the structured platform index remain `portal-only`, with zero 
 | YIZUMI | Injection moulding; die casting; rubber machinery; automation | [Open official portal](https://www.yizumi.com/en/service) |
 | Haitian International | Servo-hydraulic and all-electric injection moulding machines | [Open official portal](https://haitianinter.com/service/) |
 | Bodor Laser | Laser cutting and welding machines | [Open official portal](https://www.bodor.com/en/service/) |
+
+### Delta ASDA-B2-F — model-specific evidence now available
+
+- **Manual:** [Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual, V1.0, September 2015](https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf)
+- **Reviewed records:** 13 alarm summaries (AL001, AL002, AL003, AL006, AL007, AL009, AL011, AL016, AL022, AL024, AL031, AL060 and AL185).
+- **Locator:** section 9.1 “Alarm of Servo Drive”; relevant detailed corrective-action entries are in section 9.4, printed pages recorded per entry.
+- **Scope limit:** ASDA-B2-F only. Do not generalize these meanings or checks to ASDA-B2, ASDA-A3, ASDA-B3 or other series without matching manual evidence.
+- **Evidence status:** manual-claim-reviewed, not field-verified.
 
 ## Europe — machine builders and control platforms
 
