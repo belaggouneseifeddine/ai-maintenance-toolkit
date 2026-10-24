@@ -210,10 +210,14 @@
         "mitsubishi-fa-china-documents"
       ],
       "url": "https://www.mitsubishielectric-fa.cn/site/file-center",
-      "evidenceStatus": "portal-only",
+      "evidenceStatus": "manual-claims-reviewed",
       "alarmCodeRecords": 0,
-      "notes": "Official portal/index only; no model-specific alarm records are currently claim-reviewed for this manufacturer in the structured OEM record file.",
-      "manualReviewedRecordCount": 0
+      "notes": "Count reflects records in knowledge/oem-verified-faults.json. These are manual-claim-reviewed only; field validation and machine-builder integration checks remain outstanding.",
+      "manualReviewedRecordCount": 4,
+      "modelsCovered": [
+        "MELSEC iQ-F FX5S / FX5UJ / FX5U / FX5UC",
+        "MELSERVO-J4 MR-J4-A"
+      ]
     },
     {
       "id": "siemens",
