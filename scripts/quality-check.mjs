@@ -476,6 +476,32 @@ const checks = [
     }
     assert.match(manufacturerSources.purpose, /URLs do not prove/);
   }],
+  ["Fault library exceeds 200 cases and covers electronics, electrical circuits, industrial controls, and machine families", () => {
+    assert.ok(faults.faults.length > 200, "Fault library must contain more than 200 records");
+    const ids = faults.faults.map(item => item.id);
+    assert.equal(new Set(ids).size, ids.length, "Fault IDs must be unique");
+    const requiredIds = [
+      "electronics-igbt-desaturation-alarm",
+      "electronics-encoder-signal-loss",
+      "circuit-breaker-unexpected-trip",
+      "earth-leakage-trip",
+      "plc-cpu-stop-mode",
+      "industrial-ethernet-ip-conflict",
+      "chinese-cnc-controller-alarm-unknown",
+      "chinese-vfd-parameter-loss",
+      "european-cnc-tool-magazine-fault",
+      "european-press-two-hand-control-fault"
+    ];
+    for (const id of requiredIds) assert.ok(ids.includes(id), "Missing coverage case: " + id);
+    const sourceIds = new Set(manufacturerSources.sources.map(source => source.id));
+    for (const fault of faults.faults) {
+      assert.ok(Array.isArray(fault.sourceRefs) && fault.sourceRefs.length, fault.id + " needs source discovery references");
+      for (const ref of fault.sourceRefs) assert.ok(sourceIds.has(ref), fault.id + " has unknown source reference: " + ref);
+    }
+    assert.ok(faults.faults.some(item => item.equipmentType === "electronics"), "Electronics category must be represented");
+    assert.ok(faults.faults.some(item => item.id.startsWith("chinese-")), "Chinese machine cases must be represented");
+    assert.ok(faults.faults.some(item => item.id.startsWith("european-")), "European machine cases must be represented");
+  }],
 let failed = 0;
 for (const [name, run] of checks) {
   try {
