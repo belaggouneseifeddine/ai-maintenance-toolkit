@@ -10,7 +10,7 @@ Mobile-first progressive web app (PWA) for preliminary industrial-maintenance tr
 
 ## Features
 
-- Rule-based fault guidance and structured fault data.
+- Rule-based fault guidance, structured fault data, offline exploratory hypotheses, and a compact local knowledge-excerpt index with explicit evidence limits.
 - Safety checklist and inspection-plan gate.
 - Local maintenance log, draft recovery, filters, CSV export, and printable reports.
 - Responsive interface, language switching, and PWA offline shell.
@@ -18,7 +18,8 @@ Mobile-first progressive web app (PWA) for preliminary industrial-maintenance tr
 
 ## Current limitations
 
-- Local diagnosis is heuristic guidance, not a confirmed root cause.
+- Local diagnosis is heuristic guidance, not a confirmed root cause. Exploratory hypotheses are labelled as hypotheses and do not carry calibrated probabilities.
+- Manufacturer links are source-discovery aids; model scope and the exact claim/page must be verified before describing a cause as OEM-supported.
 - Maintenance records are stored in the current browser/device and are not automatically synchronized or backed up.
 - The app is a PWA, not a native Android APK.
 - The AI assistant is **not confirmed live** until the Worker is deployed and a real generic request returns a valid answer.
@@ -42,7 +43,8 @@ Never commit API keys or put them in browser code, local storage, or the public 
 ## Core files
 
 - `index.html` — main interface and local diagnostic logic
-- `diagnostic-engine.js`, `faults.json`, `diagnostic-flows.js` — rule-based diagnostics
+- `diagnostic-engine.js`, `faults.json`, `diagnostic-flows.js` — rule-based diagnostics plus local exploratory reasoning
+- `knowledge/manufacturer-sources.json` — scoped source references; entries are not automatically treated as verified fault evidence
 - `i18n.js` — translations
 - `maintenance-v03.js`, `ux-redesign.js` — maintenance workflow and home dashboard
 - `manifest.json`, `sw.js` — PWA metadata and cache
