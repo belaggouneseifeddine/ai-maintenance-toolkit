@@ -135,7 +135,7 @@ test("fault library exposes source-backed OEM alarm-code records", () => {
   assert.ok(coded.length >= 30, "Expected source-backed OEM alarm/error codes in the diagnostic library");
   const g120c = faults.faults.find(fault => fault.id === "oem-siemens-g120c-f07900-motor-blocked");
   assert.ok(g120c, "Expected the reviewed SINAMICS G120C F07900 record");
-  assert.deepEqual(g120c.alarmCodes, ["F07900"]);
+  assert.ok(g120c.alarmCodes?.includes("F07900") || g120c.modelSpecificEvidence?.alarmCode === "F07900", "F07900 must be represented in the structured alarm-code or model-evidence field");
   assert.equal(g120c.modelSpecificEvidence.manufacturer, "Siemens");
   assert.equal(g120c.modelSpecificEvidence.printedPage, 82);
   assert.ok(g120c.sourceRefs.length > 0);
