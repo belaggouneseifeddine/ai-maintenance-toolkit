@@ -11,7 +11,7 @@
 | `claim-reviewed` | Reviewer checked a specific claim against a passage in the source | Only for the exact claim and applicable product family |
 | `model-verified` | Exact model/variant and controller match, manual revision and passage recorded | Yes, within the recorded scope only |
 
-All 28 entries currently remain `portal-only`, with zero verified alarm-code records. This is deliberate: a manufacturer's support page is not evidence for the meaning of a particular alarm.
+All 29 entries in the structured platform index remain `portal-only`, with zero field-verified alarm-code records. Separately, 66 model-scoped records have been reviewed against cited manuals, but are manual-claim-reviewed—not field-verified. A manufacturer's support page is not evidence for the meaning of a particular alarm.
 
 ## China and Asia — machine builders and control platforms
 
@@ -95,7 +95,7 @@ Capture the following before adding a fault-code entry:
 }
 ```
 
-This is a proposed intake schema; it does not imply that the runtime already performs exact OEM alarm-code matching. The current app must continue to label the existing records `general-guidance-not-model-specific` until this evidence is collected and the matching logic is implemented and tested.
+This schema supports future additions. The runtime retrieves the 66 source-linked summaries from the Worker-loaded markdown knowledge file, but exact OEM alarm-code matching by installed machine/controller/firmware is not yet implemented. Do not present general fault records as manufacturer-confirmed, and do not treat manual-claim-reviewed summaries as field-verified.
 
 ## Safety and licensing
 
@@ -120,4 +120,4 @@ External portal pages: [INOVANCE](https://www.inovance.com/global/support/downlo
 - **Fagor Automation** — [official manuals](https://www.fagorautomation.com/en/categoria_descargas/manuals-en/): CNC, drives and feedback systems; the library includes installation and error-solving manuals.
 - **FANUC** — [official MyPortal support](https://www.fanucamerica.com/support/myportal): CNC and robotics documentation/alarm lookup; access and regional availability may differ.
 
-All four entries remain `portal-only`; no model-specific alarm has been marked verified.
+These four entries in this supplemental portal list remain `portal-only`; no field-verified alarm has been recorded for these four profiles. The separate structured evidence file contains selected manual-claim-reviewed records for other listed product families.
