@@ -528,6 +528,36 @@
       "scope": "DS5K series; Data No. SC5 03 20230427EN; alarm sections 7.1–7.2, printed pages 172–181",
       "status": "manual-content-reviewed-for-listed-records",
       "redistribution": "link-and-original-summary-only"
+    },
+    {
+      "id": "oem-inovance-md200-err02-overcurrent-acceleration-manual",
+      "publisher": "INOVANCE",
+      "title": "MD200 User Guide; C02; document identifier MD200_User_Guide_EN_C02_19012113",
+      "url": "https://www.inovance.eu/fileadmin/downloads/Manuals/EN/MD200/MD200_User_Guide_EN_C02_19012113.PDF",
+      "type": "official-manual-direct-link",
+      "scope": "Model-specific manual cited by a source-reviewed fault record; applicability is limited to the named family and revision.",
+      "status": "manual-reference-registered-exact-model-review-required",
+      "redistribution": "link-only; follow publisher terms"
+    },
+    {
+      "id": "oem-mitsubishi-c80-servo-alarm-10-insufficient-voltage-manual",
+      "publisher": "Mitsubishi Electric CNC",
+      "title": "C80 Series Alarm/Parameter Manual; IB-1501560-F",
+      "url": "https://www.mitsubishielectric-cnc.com/wp-content/uploads/2025/02/C80-Series-Alarm-Parameter-Manual.pdf",
+      "type": "official-manual-direct-link",
+      "scope": "Model-specific manual cited by a source-reviewed fault record; applicability is limited to the named family and revision.",
+      "status": "manual-reference-registered-exact-model-review-required",
+      "redistribution": "link-only; follow publisher terms"
+    },
+    {
+      "id": "oem-siemens-s7-1200-fs-event-0005-overtemperature-manual",
+      "publisher": "Siemens",
+      "title": "S7-1200 Functional Safety Manual; V4.6, 11/2022; A5E03470344-AC",
+      "url": "https://support.industry.siemens.com/dl/files/552/104547552/att_896075/v1/s71200_f_user_manual_en-US_en-US.pdf",
+      "type": "official-manual-direct-link",
+      "scope": "Model-specific manual cited by a source-reviewed fault record; applicability is limited to the named family and revision.",
+      "status": "manual-reference-registered-exact-model-review-required",
+      "redistribution": "link-only; follow publisher terms"
     }
   ]
 }
