@@ -5,17 +5,17 @@ Deterministic inventory of the current repository. This report adds no technical
 ## Snapshot
 
 - Worker-referenced Markdown documents: **9**
-- Markdown inventory: **3,234 lines**, **42,747 whitespace-separated words**, **237 headings**
+- Markdown inventory: **3,452 lines**, **47,810 whitespace-separated words**, **251 headings**
 - Structured fault records: **284**
-- Model-specific manual-reviewed fault records (not field-verified): **60**
+- Model-specific manual-reviewed entries embedded in the general diagnostic library (not field-verified): **60**
 - Distinct equipment-type labels in the fault library: **36**
 - Cause entries across fault records: **767**
 - Fault records with an alarmCodes or errorCodes array: **31/284**
 - Chinese/European OEM manufacturer profiles: **28**
 - Structured OEM symptom templates: **38**
-- Official manufacturer/support portal records: **61**
+- Official manufacturer/support portal records: **62**
 - Structured OEM platform index entries: **29**; model-verified: **0**
-- Structured source-linked OEM diagnostic records: **66**; records with a missing manufacturer-source registry entry: **0**
+- Structured source-linked OEM diagnostic records: **79**; records with a missing manufacturer-source registry entry: **0**
 
 ## Document inventory
 
@@ -29,7 +29,7 @@ Deterministic inventory of the current repository. This report adds no technical
 | knowledge/UNIVERSAL-INDUSTRIAL-FAULT-ATLAS-AR-FR-EN.md | 120 | 1,737 | 14 |
 | knowledge/CHINESE-EUROPEAN-OEM-FAULT-MATRIX-AR-FR-EN.md | 432 | 4,549 | 45 |
 | knowledge/OEM-MANUFACTURER-INDEX-AR-FR-EN.md | 123 | 1,418 | 10 |
-| knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md | 1757 | 24,703 | 73 |
+| knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md | 1975 | 29,766 | 87 |
 
 ## Source registry and licensing
 
@@ -64,9 +64,9 @@ This is a conservative string-presence check only. It does not prove that a topi
 
 ## Recent model-specific evidence tranche
 
-- The latest reviewed tranche adds seven SINAMICS G120C FSD–FSF alarm records scoped to the official Compact Operating Instructions, firmware V4.7 SP6, section 5.1, printed page 82.
+- The reviewed OEM tranche includes seven SINAMICS G120C FSD–FSF alarm records scoped to the official Compact Operating Instructions, firmware V4.7 SP6, section 5.1, printed page 82, plus 13 Delta ASDA-B2-F servo alarm records scoped to the official September 2015 manual, section 9.1 and relevant section 9.4 pages.
 - The structured fault library includes 60 model/manual-scoped records; these are manual-claim-reviewed, not field-verified.
-- Additional source-backed SINUMERIK, SINAMICS G120D/G120P, MELSEC FX5, MR-J4, XINJE DS5K/X-NET, and INOVANCE H5U records are now available to the app's local diagnostic library.
+- Additional source-backed SINUMERIK, SINAMICS G120D/G120P/G120C, MELSEC FX5, MR-J4, XINJE DS5K/X-NET, INOVANCE H5U, GSK218M, and Delta ASDA-B2-F records are available in the structured OEM evidence lookup. The separate general diagnostic library currently has 60 model/manual-scoped entries.
 
 ## Method and limits
 
