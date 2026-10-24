@@ -1,0 +1,45 @@
+name: Maintenance Toolkit Quality Checks
+
+on:
+  pull_request:
+    branches: ["main"]
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: maintenance-toolkit-quality-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Run diagnostic and agent tests
+        run: node --test tests/*.test.cjs
+
+      - name: Check JavaScript syntax
+        run: |
+          for file in \
+            normalization.js \
+            diagnostic-engine.js \
+            diagnostic-flows.js \
+            engineering-core.js \
+            agent-core.js \
+            agent-ui.js \
+            worker.js \
+            sw.js; do
+            node --check "$file"
+          done
