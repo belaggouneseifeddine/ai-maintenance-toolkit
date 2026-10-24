@@ -7,7 +7,7 @@
     "en"
   ],
   "generatedAt": "2026-10-24",
-  "recordCount": 47,
+  "recordCount": 53,
   "evidencePolicy": {
     "verifiedMeans": "The cited official manual explicitly supports the stated alarm meaning or diagnostic procedure within the recorded scope.",
     "notEquivalentTo": "This does not mean every machine built around the same brand/controller behaves identically; machine builder integration, firmware and options can change alarm behavior.",
@@ -2365,6 +2365,324 @@
         "fr": "Faire intervenir un automaticien qualifié en cas de défauts bus récurrents, de mouvement inattendu, de perte de communication de sécurité ou d’esclave non identifié."
       },
       "limitations": "Indicator meaning only; not an EtherCAT fault-code mapping. Exact root cause must come from the installed topology and diagnostic log."
+    },
+    {
+      "id": "xinje-xnet-error-1-remote-device-connection",
+      "recordType": "software-network-error-code",
+      "manufacturer": "Wuxi XINJE Electric Co., Ltd.",
+      "productFamily": "X-NET fieldbus / XINJEConfig remote-connection diagnostics",
+      "modelScope": "XINJE X-NET fieldbus user manual; remote-connection diagnostic table",
+      "firmwareScope": "Manual Data No. PD06 20151009 3.2; confirm installed XINJEConfig and X-NET versions",
+      "alarmCode": "1",
+      "title": {
+        "en": "Remote device connection failed",
+        "ar": "فشل الاتصال بالجهاز البعيد",
+        "fr": "Échec de connexion à l’appareil distant"
+      },
+      "meaning": {
+        "en": "The X-NET manual associates code 1 with failure to connect to a remote device and notes that an unstable network environment may contribute.",
+        "ar": "يربط دليل X-NET الرمز 1 بفشل الاتصال بجهاز بعيد، ويذكر أن عدم استقرار الشبكة قد يساهم في ذلك.",
+        "fr": "Le manuel X-NET associe le code 1 à l’échec de connexion à un appareil distant et indique qu’un réseau instable peut y contribuer."
+      },
+      "source": {
+        "sourceId": "xinje-xnet-fieldbus-manual",
+        "manualTitle": "X-NET fieldbus User Manual",
+        "revision": "Data No. PD06 20151009 3.2",
+        "section": "2. Search the device ID → Report error message when building the remote connection",
+        "manualUrl": "https://cdn-en.xinje.com/XNET%20manual.pdf",
+        "evidenceSummary": "The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "safeChecks": {
+        "en": [
+          "Record the exact error code, software version, remote device ID and time of failure.",
+          "Check network reachability and the documented remote parameters on both endpoints; compare them with the approved configuration.",
+          "Do not share passwords in logs or bypass corporate security controls. If the fault persists, preserve logs and escalate to controls/network support."
+        ],
+        "ar": [
+          "سجّل رمز الخطأ وإصدار البرنامج ومعرّف الجهاز البعيد ووقت حدوث العطل.",
+          "تحقق من إمكانية الوصول عبر الشبكة ومن المعلمات البعيدة على الطرفين، وقارنها بالإعداد المعتمد.",
+          "لا تضع كلمات المرور في السجلات ولا تتجاوز ضوابط أمن الشبكة. إذا استمر العطل، احفظ السجلات وصعّد إلى دعم التحكم/الشبكات."
+        ],
+        "fr": [
+          "Consigner le code exact, la version logicielle, l’identifiant distant et l’heure de l’incident.",
+          "Vérifier l’accessibilité réseau et les paramètres distants aux deux extrémités, puis les comparer à la configuration approuvée.",
+          "Ne pas inclure de mots de passe dans les journaux ni contourner les contrôles de sécurité. En cas de persistance, conserver les journaux et solliciter le support automatismes/réseau."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate persistent errors, unexplained remote sessions or suspected credential/security issues to the automation and IT/network owners.",
+        "ar": "صعّد الأخطاء المستمرة أو جلسات الاتصال البعيد غير المفسرة أو الاشتباه في مشكلة بيانات دخول/أمن إلى مسؤولي الأتمتة وتقنية المعلومات/الشبكة.",
+        "fr": "Faire intervenir les responsables automatismes et informatique/réseau en cas d’erreurs persistantes, de sessions distantes inexpliquées ou de suspicion de problème d’identifiants/sécurité."
+      },
+      "limitations": "Applies only to the X-NET/XINJEConfig remote-connection diagnostic table in the cited manual. These are not PLC ladder, servo-drive or machine-builder alarm codes. No printed page number was available in the reviewed extracted text."
+    },
+    {
+      "id": "xinje-xnet-error-16-sponsor-not-logged-in",
+      "recordType": "software-network-error-code",
+      "manufacturer": "Wuxi XINJE Electric Co., Ltd.",
+      "productFamily": "X-NET fieldbus / XINJEConfig remote-connection diagnostics",
+      "modelScope": "XINJE X-NET fieldbus user manual; remote-connection diagnostic table",
+      "firmwareScope": "Manual Data No. PD06 20151009 3.2; confirm installed XINJEConfig and X-NET versions",
+      "alarmCode": "16",
+      "title": {
+        "en": "Initiating device/user is not logged in",
+        "ar": "الجهاز أو المستخدم البادئ غير مسجل الدخول",
+        "fr": "L’appareil ou l’utilisateur initiateur n’est pas connecté"
+      },
+      "meaning": {
+        "en": "The manual labels code 16 as the initiating party not logged in; its note mentions network instability as a possible contributing condition.",
+        "ar": "يسمّي الدليل الرمز 16 عدم تسجيل الطرف البادئ الدخول، ويذكر أن عدم استقرار الشبكة قد يكون عاملًا مساهمًا.",
+        "fr": "Le manuel décrit le code 16 comme l’absence de connexion de la partie initiatrice; il mentionne une instabilité réseau possible."
+      },
+      "source": {
+        "sourceId": "xinje-xnet-fieldbus-manual",
+        "manualTitle": "X-NET fieldbus User Manual",
+        "revision": "Data No. PD06 20151009 3.2",
+        "section": "2. Search the device ID → Report error message when building the remote connection",
+        "manualUrl": "https://cdn-en.xinje.com/XNET%20manual.pdf",
+        "evidenceSummary": "The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "safeChecks": {
+        "en": [
+          "Record the exact error code, software version, remote device ID and time of failure.",
+          "Check network reachability and the documented remote parameters on both endpoints; compare them with the approved configuration.",
+          "Do not share passwords in logs or bypass corporate security controls. If the fault persists, preserve logs and escalate to controls/network support."
+        ],
+        "ar": [
+          "سجّل رمز الخطأ وإصدار البرنامج ومعرّف الجهاز البعيد ووقت حدوث العطل.",
+          "تحقق من إمكانية الوصول عبر الشبكة ومن المعلمات البعيدة على الطرفين، وقارنها بالإعداد المعتمد.",
+          "لا تضع كلمات المرور في السجلات ولا تتجاوز ضوابط أمن الشبكة. إذا استمر العطل، احفظ السجلات وصعّد إلى دعم التحكم/الشبكات."
+        ],
+        "fr": [
+          "Consigner le code exact, la version logicielle, l’identifiant distant et l’heure de l’incident.",
+          "Vérifier l’accessibilité réseau et les paramètres distants aux deux extrémités, puis les comparer à la configuration approuvée.",
+          "Ne pas inclure de mots de passe dans les journaux ni contourner les contrôles de sécurité. En cas de persistance, conserver les journaux et solliciter le support automatismes/réseau."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate persistent errors, unexplained remote sessions or suspected credential/security issues to the automation and IT/network owners.",
+        "ar": "صعّد الأخطاء المستمرة أو جلسات الاتصال البعيد غير المفسرة أو الاشتباه في مشكلة بيانات دخول/أمن إلى مسؤولي الأتمتة وتقنية المعلومات/الشبكة.",
+        "fr": "Faire intervenir les responsables automatismes et informatique/réseau en cas d’erreurs persistantes, de sessions distantes inexpliquées ou de suspicion de problème d’identifiants/sécurité."
+      },
+      "limitations": "Applies only to the X-NET/XINJEConfig remote-connection diagnostic table in the cited manual. These are not PLC ladder, servo-drive or machine-builder alarm codes. No printed page number was available in the reviewed extracted text."
+    },
+    {
+      "id": "xinje-xnet-error-17-recipient-not-logged-in",
+      "recordType": "software-network-error-code",
+      "manufacturer": "Wuxi XINJE Electric Co., Ltd.",
+      "productFamily": "X-NET fieldbus / XINJEConfig remote-connection diagnostics",
+      "modelScope": "XINJE X-NET fieldbus user manual; remote-connection diagnostic table",
+      "firmwareScope": "Manual Data No. PD06 20151009 3.2; confirm installed XINJEConfig and X-NET versions",
+      "alarmCode": "17",
+      "title": {
+        "en": "Recipient device is not logged in",
+        "ar": "الجهاز المستقبِل غير مسجل الدخول",
+        "fr": "L’appareil destinataire n’est pas connecté"
+      },
+      "meaning": {
+        "en": "The manual labels code 17 as recipient not logged in and directs checking the device ID, BOX/XDE login state, remote parameters and network.",
+        "ar": "يسمّي الدليل الرمز 17 عدم تسجيل الطرف المستقبِل الدخول، ويوجّه إلى فحص معرّف الجهاز وحالة دخول BOX/XDE والمعلمات البعيدة والشبكة.",
+        "fr": "Le manuel décrit le code 17 comme l’absence de connexion du destinataire et recommande de vérifier l’identifiant, l’état de connexion BOX/XDE, les paramètres distants et le réseau."
+      },
+      "source": {
+        "sourceId": "xinje-xnet-fieldbus-manual",
+        "manualTitle": "X-NET fieldbus User Manual",
+        "revision": "Data No. PD06 20151009 3.2",
+        "section": "2. Search the device ID → Report error message when building the remote connection",
+        "manualUrl": "https://cdn-en.xinje.com/XNET%20manual.pdf",
+        "evidenceSummary": "The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "safeChecks": {
+        "en": [
+          "Record the exact error code, software version, remote device ID and time of failure.",
+          "Check network reachability and the documented remote parameters on both endpoints; compare them with the approved configuration.",
+          "Do not share passwords in logs or bypass corporate security controls. If the fault persists, preserve logs and escalate to controls/network support."
+        ],
+        "ar": [
+          "سجّل رمز الخطأ وإصدار البرنامج ومعرّف الجهاز البعيد ووقت حدوث العطل.",
+          "تحقق من إمكانية الوصول عبر الشبكة ومن المعلمات البعيدة على الطرفين، وقارنها بالإعداد المعتمد.",
+          "لا تضع كلمات المرور في السجلات ولا تتجاوز ضوابط أمن الشبكة. إذا استمر العطل، احفظ السجلات وصعّد إلى دعم التحكم/الشبكات."
+        ],
+        "fr": [
+          "Consigner le code exact, la version logicielle, l’identifiant distant et l’heure de l’incident.",
+          "Vérifier l’accessibilité réseau et les paramètres distants aux deux extrémités, puis les comparer à la configuration approuvée.",
+          "Ne pas inclure de mots de passe dans les journaux ni contourner les contrôles de sécurité. En cas de persistance, conserver les journaux et solliciter le support automatismes/réseau."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate persistent errors, unexplained remote sessions or suspected credential/security issues to the automation and IT/network owners.",
+        "ar": "صعّد الأخطاء المستمرة أو جلسات الاتصال البعيد غير المفسرة أو الاشتباه في مشكلة بيانات دخول/أمن إلى مسؤولي الأتمتة وتقنية المعلومات/الشبكة.",
+        "fr": "Faire intervenir les responsables automatismes et informatique/réseau en cas d’erreurs persistantes, de sessions distantes inexpliquées ou de suspicion de problème d’identifiants/sécurité."
+      },
+      "limitations": "Applies only to the X-NET/XINJEConfig remote-connection diagnostic table in the cited manual. These are not PLC ladder, servo-drive or machine-builder alarm codes. No printed page number was available in the reviewed extracted text."
+    },
+    {
+      "id": "xinje-xnet-error-18-safe-mode-mismatch",
+      "recordType": "software-network-error-code",
+      "manufacturer": "Wuxi XINJE Electric Co., Ltd.",
+      "productFamily": "X-NET fieldbus / XINJEConfig remote-connection diagnostics",
+      "modelScope": "XINJE X-NET fieldbus user manual; remote-connection diagnostic table",
+      "firmwareScope": "Manual Data No. PD06 20151009 3.2; confirm installed XINJEConfig and X-NET versions",
+      "alarmCode": "18",
+      "title": {
+        "en": "Safe-mode settings are inconsistent",
+        "ar": "إعدادات الوضع الآمن غير متطابقة",
+        "fr": "Paramètres du mode sécurisé incohérents"
+      },
+      "meaning": {
+        "en": "The manual states that code 18 means remote parameters on the device and PC are not correct or consistent.",
+        "ar": "يذكر الدليل أن الرمز 18 يعني أن المعلمات البعيدة على الجهاز والحاسوب غير صحيحة أو غير متطابقة.",
+        "fr": "Le manuel indique que le code 18 signifie que les paramètres distants du périphérique et du PC sont incorrects ou incohérents."
+      },
+      "source": {
+        "sourceId": "xinje-xnet-fieldbus-manual",
+        "manualTitle": "X-NET fieldbus User Manual",
+        "revision": "Data No. PD06 20151009 3.2",
+        "section": "2. Search the device ID → Report error message when building the remote connection",
+        "manualUrl": "https://cdn-en.xinje.com/XNET%20manual.pdf",
+        "evidenceSummary": "The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "safeChecks": {
+        "en": [
+          "Record the exact error code, software version, remote device ID and time of failure.",
+          "Check network reachability and the documented remote parameters on both endpoints; compare them with the approved configuration.",
+          "Do not share passwords in logs or bypass corporate security controls. If the fault persists, preserve logs and escalate to controls/network support."
+        ],
+        "ar": [
+          "سجّل رمز الخطأ وإصدار البرنامج ومعرّف الجهاز البعيد ووقت حدوث العطل.",
+          "تحقق من إمكانية الوصول عبر الشبكة ومن المعلمات البعيدة على الطرفين، وقارنها بالإعداد المعتمد.",
+          "لا تضع كلمات المرور في السجلات ولا تتجاوز ضوابط أمن الشبكة. إذا استمر العطل، احفظ السجلات وصعّد إلى دعم التحكم/الشبكات."
+        ],
+        "fr": [
+          "Consigner le code exact, la version logicielle, l’identifiant distant et l’heure de l’incident.",
+          "Vérifier l’accessibilité réseau et les paramètres distants aux deux extrémités, puis les comparer à la configuration approuvée.",
+          "Ne pas inclure de mots de passe dans les journaux ni contourner les contrôles de sécurité. En cas de persistance, conserver les journaux et solliciter le support automatismes/réseau."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate persistent errors, unexplained remote sessions or suspected credential/security issues to the automation and IT/network owners.",
+        "ar": "صعّد الأخطاء المستمرة أو جلسات الاتصال البعيد غير المفسرة أو الاشتباه في مشكلة بيانات دخول/أمن إلى مسؤولي الأتمتة وتقنية المعلومات/الشبكة.",
+        "fr": "Faire intervenir les responsables automatismes et informatique/réseau en cas d’erreurs persistantes, de sessions distantes inexpliquées ou de suspicion de problème d’identifiants/sécurité."
+      },
+      "limitations": "Applies only to the X-NET/XINJEConfig remote-connection diagnostic table in the cited manual. These are not PLC ladder, servo-drive or machine-builder alarm codes. No printed page number was available in the reviewed extracted text."
+    },
+    {
+      "id": "xinje-xnet-error-19-password-error",
+      "recordType": "software-network-error-code",
+      "manufacturer": "Wuxi XINJE Electric Co., Ltd.",
+      "productFamily": "X-NET fieldbus / XINJEConfig remote-connection diagnostics",
+      "modelScope": "XINJE X-NET fieldbus user manual; remote-connection diagnostic table",
+      "firmwareScope": "Manual Data No. PD06 20151009 3.2; confirm installed XINJEConfig and X-NET versions",
+      "alarmCode": "19",
+      "title": {
+        "en": "Password error",
+        "ar": "خطأ في كلمة المرور",
+        "fr": "Erreur de mot de passe"
+      },
+      "meaning": {
+        "en": "The manual labels code 19 as a password error; do not store or request credentials in the fault record.",
+        "ar": "يسمّي الدليل الرمز 19 خطأ في كلمة المرور؛ لا تخزّن بيانات الدخول ولا تطلبها داخل سجل العطل.",
+        "fr": "Le manuel nomme le code 19 « erreur de mot de passe »; ne pas enregistrer ni demander les identifiants dans le dossier d’incident."
+      },
+      "source": {
+        "sourceId": "xinje-xnet-fieldbus-manual",
+        "manualTitle": "X-NET fieldbus User Manual",
+        "revision": "Data No. PD06 20151009 3.2",
+        "section": "2. Search the device ID → Report error message when building the remote connection",
+        "manualUrl": "https://cdn-en.xinje.com/XNET%20manual.pdf",
+        "evidenceSummary": "The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "safeChecks": {
+        "en": [
+          "Record the exact error code, software version, remote device ID and time of failure.",
+          "Check network reachability and the documented remote parameters on both endpoints; compare them with the approved configuration.",
+          "Do not share passwords in logs or bypass corporate security controls. If the fault persists, preserve logs and escalate to controls/network support."
+        ],
+        "ar": [
+          "سجّل رمز الخطأ وإصدار البرنامج ومعرّف الجهاز البعيد ووقت حدوث العطل.",
+          "تحقق من إمكانية الوصول عبر الشبكة ومن المعلمات البعيدة على الطرفين، وقارنها بالإعداد المعتمد.",
+          "لا تضع كلمات المرور في السجلات ولا تتجاوز ضوابط أمن الشبكة. إذا استمر العطل، احفظ السجلات وصعّد إلى دعم التحكم/الشبكات."
+        ],
+        "fr": [
+          "Consigner le code exact, la version logicielle, l’identifiant distant et l’heure de l’incident.",
+          "Vérifier l’accessibilité réseau et les paramètres distants aux deux extrémités, puis les comparer à la configuration approuvée.",
+          "Ne pas inclure de mots de passe dans les journaux ni contourner les contrôles de sécurité. En cas de persistance, conserver les journaux et solliciter le support automatismes/réseau."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate persistent errors, unexplained remote sessions or suspected credential/security issues to the automation and IT/network owners.",
+        "ar": "صعّد الأخطاء المستمرة أو جلسات الاتصال البعيد غير المفسرة أو الاشتباه في مشكلة بيانات دخول/أمن إلى مسؤولي الأتمتة وتقنية المعلومات/الشبكة.",
+        "fr": "Faire intervenir les responsables automatismes et informatique/réseau en cas d’erreurs persistantes, de sessions distantes inexpliquées ou de suspicion de problème d’identifiants/sécurité."
+      },
+      "limitations": "Applies only to the X-NET/XINJEConfig remote-connection diagnostic table in the cited manual. These are not PLC ladder, servo-drive or machine-builder alarm codes. No printed page number was available in the reviewed extracted text."
+    },
+    {
+      "id": "xinje-xnet-error-255-login-failed",
+      "recordType": "software-network-error-code",
+      "manufacturer": "Wuxi XINJE Electric Co., Ltd.",
+      "productFamily": "X-NET fieldbus / XINJEConfig remote-connection diagnostics",
+      "modelScope": "XINJE X-NET fieldbus user manual; remote-connection diagnostic table",
+      "firmwareScope": "Manual Data No. PD06 20151009 3.2; confirm installed XINJEConfig and X-NET versions",
+      "alarmCode": "255",
+      "title": {
+        "en": "Login failed",
+        "ar": "فشل تسجيل الدخول",
+        "fr": "Échec de connexion"
+      },
+      "meaning": {
+        "en": "The manual labels code 255 as login failed and recommends checking remote parameters, network environment and firewall settings. The antivirus-uninstallation suggestion is excluded as an unsafe generic step.",
+        "ar": "يسمّي الدليل الرمز 255 فشل تسجيل الدخول، ويوصي بفحص المعلمات البعيدة والشبكة وإعدادات جدار الحماية. تم استبعاد اقتراح إزالة مضاد الفيروسات كخطوة عامة غير آمنة.",
+        "fr": "Le manuel nomme le code 255 « échec de connexion » et recommande de vérifier les paramètres distants, le réseau et le pare-feu. La suggestion de désinstaller l’antivirus est exclue des consignes génériques."
+      },
+      "source": {
+        "sourceId": "xinje-xnet-fieldbus-manual",
+        "manualTitle": "X-NET fieldbus User Manual",
+        "revision": "Data No. PD06 20151009 3.2",
+        "section": "2. Search the device ID → Report error message when building the remote connection",
+        "manualUrl": "https://cdn-en.xinje.com/XNET%20manual.pdf",
+        "evidenceSummary": "The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "safeChecks": {
+        "en": [
+          "Record the exact error code, software version, remote device ID and time of failure.",
+          "Check network reachability and the documented remote parameters on both endpoints; compare them with the approved configuration.",
+          "Do not share passwords in logs or bypass corporate security controls. If the fault persists, preserve logs and escalate to controls/network support."
+        ],
+        "ar": [
+          "سجّل رمز الخطأ وإصدار البرنامج ومعرّف الجهاز البعيد ووقت حدوث العطل.",
+          "تحقق من إمكانية الوصول عبر الشبكة ومن المعلمات البعيدة على الطرفين، وقارنها بالإعداد المعتمد.",
+          "لا تضع كلمات المرور في السجلات ولا تتجاوز ضوابط أمن الشبكة. إذا استمر العطل، احفظ السجلات وصعّد إلى دعم التحكم/الشبكات."
+        ],
+        "fr": [
+          "Consigner le code exact, la version logicielle, l’identifiant distant et l’heure de l’incident.",
+          "Vérifier l’accessibilité réseau et les paramètres distants aux deux extrémités, puis les comparer à la configuration approuvée.",
+          "Ne pas inclure de mots de passe dans les journaux ni contourner les contrôles de sécurité. En cas de persistance, conserver les journaux et solliciter le support automatismes/réseau."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate persistent errors, unexplained remote sessions or suspected credential/security issues to the automation and IT/network owners.",
+        "ar": "صعّد الأخطاء المستمرة أو جلسات الاتصال البعيد غير المفسرة أو الاشتباه في مشكلة بيانات دخول/أمن إلى مسؤولي الأتمتة وتقنية المعلومات/الشبكة.",
+        "fr": "Faire intervenir les responsables automatismes et informatique/réseau en cas d’erreurs persistantes, de sessions distantes inexpliquées ou de suspicion de problème d’identifiants/sécurité."
+      },
+      "limitations": "Applies only to the X-NET/XINJEConfig remote-connection diagnostic table in the cited manual. These are not PLC ladder, servo-drive or machine-builder alarm codes. No printed page number was available in the reviewed extracted text."
     }
   ]
 }
