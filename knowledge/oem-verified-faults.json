@@ -7,7 +7,7 @@
     "en"
   ],
   "generatedAt": "2026-10-24",
-  "recordCount": 29,
+  "recordCount": 44,
   "evidencePolicy": {
     "verifiedMeans": "The cited official manual explicitly supports the stated alarm meaning or diagnostic procedure within the recorded scope.",
     "notEquivalentTo": "This does not mean every machine built around the same brand/controller behaves identically; machine builder integration, firmware and options can change alarm behavior.",
@@ -1501,6 +1501,711 @@
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure."
+    },
+    {
+      "id": "oem-inovance-md200-err02-overcurrent-acceleration",
+      "recordType": "alarm-code",
+      "manufacturer": "INOVANCE",
+      "productFamily": "MD200 series AC drive",
+      "modelScope": "INOVANCE — MD200 series AC drive",
+      "alarmCode": "Err02",
+      "title": {
+        "en": "INOVANCE MD200 Err02 — overcurrent during acceleration",
+        "ar": "INOVANCE MD200 Err02 — زيادة التيار أثناء التسارع",
+        "fr": "INOVANCE MD200 Err02 — surintensité pendant l’accélération"
+      },
+      "meaning": {
+        "en": "The manual labels Err02 as overcurrent during acceleration and lists output short/ground fault, short acceleration time, unsuitable torque boost/V/f, low voltage, restarting a rotating motor, sudden load, undersized drive, braking resistor fault, and motor ground fault among possible causes.",
+        "ar": "The manual labels Err02 as overcurrent during acceleration and lists output short/ground fault, short acceleration time, unsuitable torque boost/V/f, low voltage, restarting a rotating motor, sudden load, undersized drive, braking resistor fault, and motor ground fault among possible causes.",
+        "fr": "The manual labels Err02 as overcurrent during acceleration and lists output short/ground fault, short acceleration time, unsuitable torque boost/V/f, low voltage, restarting a rotating motor, sudden load, undersized drive, braking resistor fault, and motor ground fault among possible causes."
+      },
+      "source": {
+        "sourceId": "oem-inovance-md200-err02-overcurrent-acceleration-manual",
+        "manualTitle": "MD200 User Guide",
+        "revision": "MD200 User Guide; C02; document identifier MD200_User_Guide_EN_C02_19012113",
+        "section": "3 Fault > 3.1 Fault List",
+        "printedPage": 32,
+        "manualUrl": "https://www.inovance.eu/fileadmin/downloads/Manuals/EN/MD200/MD200_User_Guide_EN_C02_19012113.PDF",
+        "evidenceSummary": "The manual labels Err02 as overcurrent during acceleration and lists output short/ground fault, short acceleration time, unsuitable torque boost/V/f, low voltage, restarting a rotating motor, sudden load, undersized drive, braking resistor fault, and motor ground fault among possible causes."
+      },
+      "safeChecks": {
+        "en": [
+          "Record the code and operating conditions; inspect fault history before repeated resets. After site-approved isolation and absence-of-voltage verification, have a qualified technician inspect motor cable and insulation. Compare acceleration ramp, load, and V/f settings with the MD200 manual and application; do not alter protection settings arbitrarily."
+        ],
+        "ar": [
+          "سجّل رمز الإنذار والطراز والإصدار. اتبع تعليمات الدليل وإجراءات العزل والتحقق من انعدام الجهد؛ لا تتجاوز وسائل الحماية."
+        ],
+        "fr": [
+          "Consigner le code, le modèle et la révision. Suivre le manuel et la procédure de consignation; ne jamais contourner les protections."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate to a drive specialist if the fault persists or internal damage is suspected; do not replace components without approved measurements.",
+        "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
+        "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
+    },
+    {
+      "id": "oem-inovance-md200-err03-overcurrent-deceleration",
+      "recordType": "alarm-code",
+      "manufacturer": "INOVANCE",
+      "productFamily": "MD200 series AC drive",
+      "modelScope": "INOVANCE — MD200 series AC drive",
+      "alarmCode": "Err03",
+      "title": {
+        "en": "INOVANCE MD200 Err03 — overcurrent during deceleration",
+        "ar": "INOVANCE MD200 Err03 — زيادة التيار أثناء التباطؤ",
+        "fr": "INOVANCE MD200 Err03 — surintensité pendant la décélération"
+      },
+      "meaning": {
+        "en": "The manual identifies Err03 as overcurrent during deceleration and lists short/ground faults, short deceleration time, low voltage, sudden load, missing/unsuitable braking resistor, and motor ground fault as possible causes.",
+        "ar": "The manual identifies Err03 as overcurrent during deceleration and lists short/ground faults, short deceleration time, low voltage, sudden load, missing/unsuitable braking resistor, and motor ground fault as possible causes.",
+        "fr": "The manual identifies Err03 as overcurrent during deceleration and lists short/ground faults, short deceleration time, low voltage, sudden load, missing/unsuitable braking resistor, and motor ground fault as possible causes."
+      },
+      "source": {
+        "sourceId": "oem-inovance-md200-err02-overcurrent-acceleration-manual",
+        "manualTitle": "MD200 User Guide",
+        "revision": "MD200 User Guide; C02; document identifier MD200_User_Guide_EN_C02_19012113",
+        "section": "3 Fault > 3.1 Fault List",
+        "printedPage": 32,
+        "manualUrl": "https://www.inovance.eu/fileadmin/downloads/Manuals/EN/MD200/MD200_User_Guide_EN_C02_19012113.PDF",
+        "evidenceSummary": "The manual identifies Err03 as overcurrent during deceleration and lists short/ground faults, short deceleration time, low voltage, sudden load, missing/unsuitable braking resistor, and motor ground fault as possible causes."
+      },
+      "safeChecks": {
+        "en": [
+          "Record whether the fault occurs only on stopping or with a specific load; do not repeat test starts without risk assessment. Review fault history and compare deceleration time with the application requirements and MD200 manual. Inspect braking resistor and power cables only after isolation and DC-bus discharge by a qualified technician."
+        ],
+        "ar": [
+          "سجّل رمز الإنذار والطراز والإصدار. اتبع تعليمات الدليل وإجراءات العزل والتحقق من انعدام الجهد؛ لا تتجاوز وسائل الحماية."
+        ],
+        "fr": [
+          "Consigner le code, le modèle et la révision. Suivre le manuel et la procédure de consignation; ne jamais contourner les protections."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate if Err03 recurs after ramp review or braking resistor/motor cable damage is suspected.",
+        "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
+        "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
+    },
+    {
+      "id": "oem-inovance-md200-err05-overvoltage-acceleration",
+      "recordType": "alarm-code",
+      "manufacturer": "INOVANCE",
+      "productFamily": "MD200 series AC drive",
+      "modelScope": "INOVANCE — MD200 series AC drive",
+      "alarmCode": "Err05",
+      "title": {
+        "en": "INOVANCE MD200 Err05 — overvoltage during acceleration",
+        "ar": "INOVANCE MD200 Err05 — زيادة الجهد أثناء التسارع",
+        "fr": "INOVANCE MD200 Err05 — surtension pendant l’accélération"
+      },
+      "meaning": {
+        "en": "The manual labels Err05 as overvoltage during acceleration and lists excessive input voltage, external force driving the motor, short acceleration time, and absent braking resistor as possible causes.",
+        "ar": "The manual labels Err05 as overvoltage during acceleration and lists excessive input voltage, external force driving the motor, short acceleration time, and absent braking resistor as possible causes.",
+        "fr": "The manual labels Err05 as overvoltage during acceleration and lists excessive input voltage, external force driving the motor, short acceleration time, and absent braking resistor as possible causes."
+      },
+      "source": {
+        "sourceId": "oem-inovance-md200-err02-overcurrent-acceleration-manual",
+        "manualTitle": "MD200 User Guide",
+        "revision": "MD200 User Guide; C02; document identifier MD200_User_Guide_EN_C02_19012113",
+        "section": "3 Fault > 3.1 Fault List",
+        "printedPage": 33,
+        "manualUrl": "https://www.inovance.eu/fileadmin/downloads/Manuals/EN/MD200/MD200_User_Guide_EN_C02_19012113.PDF",
+        "evidenceSummary": "The manual labels Err05 as overvoltage during acceleration and lists excessive input voltage, external force driving the motor, short acceleration time, and absent braking resistor as possible causes."
+      },
+      "safeChecks": {
+        "en": [
+          "Compare supply readings and fault timing with the drive nameplate and model manual limits. Review the ramp and any load that may drive the motor; do not change braking settings without engineering approval. A qualified technician must perform power-cabinet measurements or braking-resistor checks after isolation and energy discharge."
+        ],
+        "ar": [
+          "سجّل رمز الإنذار والطراز والإصدار. اتبع تعليمات الدليل وإجراءات العزل والتحقق من انعدام الجهد؛ لا تتجاوز وسائل الحماية."
+        ],
+        "fr": [
+          "Consigner le code, le modèle et la révision. Suivre le manuel et la procédure de consignation; ne jamais contourner les protections."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate if voltage is outside the permitted range or the fault persists after acceleration/braking checks.",
+        "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
+        "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
+    },
+    {
+      "id": "oem-inovance-md200-err09-undervoltage",
+      "recordType": "alarm-code",
+      "manufacturer": "INOVANCE",
+      "productFamily": "MD200 series AC drive",
+      "modelScope": "INOVANCE — MD200 series AC drive",
+      "alarmCode": "Err09",
+      "title": {
+        "en": "INOVANCE MD200 Err09 — undervoltage",
+        "ar": "INOVANCE MD200 Err09 — انخفاض الجهد",
+        "fr": "INOVANCE MD200 Err09 — sous-tension"
+      },
+      "meaning": {
+        "en": "The manual labels Err09 as undervoltage and lists momentary power failure, input voltage outside the permitted range, abnormal bus voltage, and possible rectifier/pre-charge/drive/control-board faults.",
+        "ar": "The manual labels Err09 as undervoltage and lists momentary power failure, input voltage outside the permitted range, abnormal bus voltage, and possible rectifier/pre-charge/drive/control-board faults.",
+        "fr": "The manual labels Err09 as undervoltage and lists momentary power failure, input voltage outside the permitted range, abnormal bus voltage, and possible rectifier/pre-charge/drive/control-board faults."
+      },
+      "source": {
+        "sourceId": "oem-inovance-md200-err02-overcurrent-acceleration-manual",
+        "manualTitle": "MD200 User Guide",
+        "revision": "MD200 User Guide; C02; document identifier MD200_User_Guide_EN_C02_19012113",
+        "section": "3 Fault > 3.1 Fault List",
+        "printedPage": 34,
+        "manualUrl": "https://www.inovance.eu/fileadmin/downloads/Manuals/EN/MD200/MD200_User_Guide_EN_C02_19012113.PDF",
+        "evidenceSummary": "The manual labels Err09 as undervoltage and lists momentary power failure, input voltage outside the permitted range, abnormal bus voltage, and possible rectifier/pre-charge/drive/control-board faults."
+      },
+      "safeChecks": {
+        "en": [
+          "Check supply interruption history and approved voltage monitoring without opening an energized cabinet. If the fault recurs with a sound supply, preserve the fault log and contact INOVANCE support instead of attempting board-level repair. Avoid repeated resets before identifying the voltage dip; follow site energy-isolation procedures."
+        ],
+        "ar": [
+          "سجّل رمز الإنذار والطراز والإصدار. اتبع تعليمات الدليل وإجراءات العزل والتحقق من انعدام الجهد؛ لا تتجاوز وسائل الحماية."
+        ],
+        "fr": [
+          "Consigner le code, le modèle et la révision. Suivre le manuel et la procédure de consignation; ne jamais contourner les protections."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate to a specialist if the fault recurs or internal power components are suspected.",
+        "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
+        "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
+    },
+    {
+      "id": "oem-inovance-md200-err12-input-phase-loss",
+      "recordType": "alarm-code",
+      "manufacturer": "INOVANCE",
+      "productFamily": "MD200 series AC drive",
+      "modelScope": "INOVANCE — MD200 series AC drive",
+      "alarmCode": "Err12",
+      "title": {
+        "en": "INOVANCE MD200 Err12 — input phase loss",
+        "ar": "INOVANCE MD200 Err12 — فقدان طور الدخل",
+        "fr": "INOVANCE MD200 Err12 — perte de phase d’entrée"
+      },
+      "meaning": {
+        "en": "The fault table names Err12 as input phase loss and lists abnormal three-phase input supply or internal drive/protection/control components as possible causes. The parameter note says the F9-12 input phase-loss protection applies only to single-phase MD200TXX models; do not generalize this parameter applicability to all MD200 variants.",
+        "ar": "The fault table names Err12 as input phase loss and lists abnormal three-phase input supply or internal drive/protection/control components as possible causes. The parameter note says the F9-12 input phase-loss protection applies only to single-phase MD200TXX models; do not generalize this parameter applicability to all MD200 variants.",
+        "fr": "The fault table names Err12 as input phase loss and lists abnormal three-phase input supply or internal drive/protection/control components as possible causes. The parameter note says the F9-12 input phase-loss protection applies only to single-phase MD200TXX models; do not generalize this parameter applicability to all MD200 variants."
+      },
+      "source": {
+        "sourceId": "oem-inovance-md200-err02-overcurrent-acceleration-manual",
+        "manualTitle": "MD200 User Guide",
+        "revision": "MD200 User Guide; C02; document identifier MD200_User_Guide_EN_C02_19012113",
+        "section": "3 Fault > 3.1 Fault List; parameter F9-12 note",
+        "printedPage": 34,
+        "manualUrl": "https://www.inovance.eu/fileadmin/downloads/Manuals/EN/MD200/MD200_User_Guide_EN_C02_19012113.PDF",
+        "evidenceSummary": "The fault table names Err12 as input phase loss and lists abnormal three-phase input supply or internal drive/protection/control components as possible causes. The parameter note says the F9-12 input phase-loss protection applies only to single-phase MD200TXX models; do not generalize this parameter applicability to all MD200 variants."
+      },
+      "safeChecks": {
+        "en": [
+          "Review breaker, supply status, and fault history from a safe point; the code alone does not prove drive failure. Inter-phase voltage measurements or cabinet wiring inspections must be performed by a qualified electrician under an approved isolation procedure. If the supply is sound and the fault persists, send the exact drive model and fault log to INOVANCE support."
+        ],
+        "ar": [
+          "سجّل رمز الإنذار والطراز والإصدار. اتبع تعليمات الدليل وإجراءات العزل والتحقق من انعدام الجهد؛ لا تتجاوز وسائل الحماية."
+        ],
+        "fr": [
+          "Consigner le code, le modèle et la révision. Suivre le manuel et la procédure de consignation; ne jamais contourner les protections."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate to a qualified electrician or OEM support; do not bypass phase-loss protection.",
+        "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
+        "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
+    },
+    {
+      "id": "oem-inovance-md200-err14-drive-overtemperature",
+      "recordType": "alarm-code",
+      "manufacturer": "INOVANCE",
+      "productFamily": "MD200 series AC drive",
+      "modelScope": "INOVANCE — MD200 series AC drive",
+      "alarmCode": "Err14",
+      "title": {
+        "en": "INOVANCE MD200 Err14 — drive overtemperature",
+        "ar": "INOVANCE MD200 Err14 — ارتفاع حرارة الدرايف",
+        "fr": "INOVANCE MD200 Err14 — surchauffe du variateur"
+      },
+      "meaning": {
+        "en": "The manual labels Err14 as drive overtemperature and lists high ambient temperature, blocked air filter, damaged fan, damaged module thermistor, or a faulty drive unit as possible causes.",
+        "ar": "The manual labels Err14 as drive overtemperature and lists high ambient temperature, blocked air filter, damaged fan, damaged module thermistor, or a faulty drive unit as possible causes.",
+        "fr": "The manual labels Err14 as drive overtemperature and lists high ambient temperature, blocked air filter, damaged fan, damaged module thermistor, or a faulty drive unit as possible causes."
+      },
+      "source": {
+        "sourceId": "oem-inovance-md200-err02-overcurrent-acceleration-manual",
+        "manualTitle": "MD200 User Guide",
+        "revision": "MD200 User Guide; C02; document identifier MD200_User_Guide_EN_C02_19012113",
+        "section": "3 Fault > 3.1 Fault List",
+        "printedPage": 35,
+        "manualUrl": "https://www.inovance.eu/fileadmin/downloads/Manuals/EN/MD200/MD200_User_Guide_EN_C02_19012113.PDF",
+        "evidenceSummary": "The manual labels Err14 as drive overtemperature and lists high ambient temperature, blocked air filter, damaged fan, damaged module thermistor, or a faulty drive unit as possible causes."
+      },
+      "safeChecks": {
+        "en": [
+          "Check ambient temperature, cabinet ventilation, and fan indications externally. Do not clean the filter or approach the fan until the equipment is stopped and isolated under the approved procedure. If Err14 persists after correcting external ventilation conditions, request OEM diagnosis rather than opening the power module."
+        ],
+        "ar": [
+          "سجّل رمز الإنذار والطراز والإصدار. اتبع تعليمات الدليل وإجراءات العزل والتحقق من انعدام الجهد؛ لا تتجاوز وسائل الحماية."
+        ],
+        "fr": [
+          "Consigner le code, le modèle et la révision. Suivre le manuel et la procédure de consignation; ne jamais contourner les protections."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate if overheating persists, the fan is faulty, or an internal sensor is suspected; do not continue running with recurring thermal alarms.",
+        "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
+        "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
+    },
+    {
+      "id": "oem-mitsubishi-c80-servo-alarm-10-insufficient-voltage",
+      "recordType": "alarm-code",
+      "manufacturer": "Mitsubishi Electric CNC",
+      "productFamily": "C80 Series CNC; servo/spindle alarm table",
+      "modelScope": "Mitsubishi Electric CNC — C80 Series CNC; servo/spindle alarm table",
+      "alarmCode": "servo alarm 10",
+      "title": {
+        "en": "Mitsubishi Electric C80 — servo alarm 10: insufficient voltage",
+        "ar": "Mitsubishi Electric C80 — إنذار السيرفو رقم 10: جهد غير كافٍ",
+        "fr": "Mitsubishi Electric C80 — alarme servo 10 : tension insuffisante"
+      },
+      "meaning": {
+        "en": "Alarm No. 10 is named Insufficient voltage; the manual says a drop of bus voltage was detected in the main circuit. It gives reset class PR, but detailed troubleshooting is delegated to the exact drive-unit instruction manual.",
+        "ar": "Alarm No. 10 is named Insufficient voltage; the manual says a drop of bus voltage was detected in the main circuit. It gives reset class PR, but detailed troubleshooting is delegated to the exact drive-unit instruction manual.",
+        "fr": "Alarm No. 10 is named Insufficient voltage; the manual says a drop of bus voltage was detected in the main circuit. It gives reset class PR, but detailed troubleshooting is delegated to the exact drive-unit instruction manual."
+      },
+      "source": {
+        "sourceId": "oem-mitsubishi-c80-servo-alarm-10-insufficient-voltage-manual",
+        "manualTitle": "C80 Series Alarm/Parameter Manual",
+        "revision": "C80 Series Alarm/Parameter Manual; IB-1501560-F",
+        "section": "3.1 Servo Errors (S01/S03/S04), drive unit alarm table",
+        "printedPage": 51,
+        "manualUrl": "https://www.mitsubishielectric-cnc.com/wp-content/uploads/2025/02/C80-Series-Alarm-Parameter-Manual.pdf",
+        "evidenceSummary": "Alarm No. 10 is named Insufficient voltage; the manual says a drop of bus voltage was detected in the main circuit. It gives reset class PR, but detailed troubleshooting is delegated to the exact drive-unit instruction manual."
+      },
+      "safeChecks": {
+        "en": [
+          "Record the full C80 alarm, affected axis, drive model, and time of occurrence. Review alarm history and supply measurements available through an approved monitoring system. Use the manual for the actual drive unit before measurements or power cycling; the CNC manual alone is insufficient."
+        ],
+        "ar": [
+          "سجّل رمز الإنذار والطراز والإصدار. اتبع تعليمات الدليل وإجراءات العزل والتحقق من انعدام الجهد؛ لا تتجاوز وسائل الحماية."
+        ],
+        "fr": [
+          "Consigner le code, le modèle et la révision. Suivre le manuel et la procédure de consignation; ne jamais contourner les protections."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate if the alarm recurs or requires internal power-unit inspection; stop work under site procedure.",
+        "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
+        "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
+    },
+    {
+      "id": "oem-mitsubishi-c80-servo-alarm-18-encoder-initial-communication",
+      "recordType": "alarm-code",
+      "manufacturer": "Mitsubishi Electric CNC",
+      "productFamily": "C80 Series CNC; servo/spindle alarm table",
+      "modelScope": "Mitsubishi Electric CNC — C80 Series CNC; servo/spindle alarm table",
+      "alarmCode": "servo alarm 18",
+      "title": {
+        "en": "Mitsubishi Electric C80 — servo alarm 18: encoder initial communication",
+        "ar": "Mitsubishi Electric C80 — إنذار السيرفو 18: اتصال المشفر عند البدء",
+        "fr": "Mitsubishi Electric C80 — alarme servo 18 : communication initiale de l’encodeur"
+      },
+      "meaning": {
+        "en": "Alarm No. 18 is named Main side encoder: Initial communication error; the details say initial communication with the motor-side encoder failed. Troubleshooting is not specified in this table and requires the exact drive-unit manual.",
+        "ar": "Alarm No. 18 is named Main side encoder: Initial communication error; the details say initial communication with the motor-side encoder failed. Troubleshooting is not specified in this table and requires the exact drive-unit manual.",
+        "fr": "Alarm No. 18 is named Main side encoder: Initial communication error; the details say initial communication with the motor-side encoder failed. Troubleshooting is not specified in this table and requires the exact drive-unit manual."
+      },
+      "source": {
+        "sourceId": "oem-mitsubishi-c80-servo-alarm-10-insufficient-voltage-manual",
+        "manualTitle": "C80 Series Alarm/Parameter Manual",
+        "revision": "C80 Series Alarm/Parameter Manual; IB-1501560-F",
+        "section": "3.1 Servo Errors (S01/S03/S04), drive unit alarm table",
+        "printedPage": 51,
+        "manualUrl": "https://www.mitsubishielectric-cnc.com/wp-content/uploads/2025/02/C80-Series-Alarm-Parameter-Manual.pdf",
+        "evidenceSummary": "Alarm No. 18 is named Main side encoder: Initial communication error; the details say initial communication with the motor-side encoder failed. Troubleshooting is not specified in this table and requires the exact drive-unit manual."
+      },
+      "safeChecks": {
+        "en": [
+          "Record axis, full alarm code, encoder type, and drive model. Review alarm history and prior encoder-cable work without disconnecting connectors while running. Inspect connections only after stopping and isolating per the drive manual; do not replace the encoder without diagnosis."
+        ],
+        "ar": [
+          "سجّل رمز الإنذار والطراز والإصدار. اتبع تعليمات الدليل وإجراءات العزل والتحقق من انعدام الجهد؛ لا تتجاوز وسائل الحماية."
+        ],
+        "fr": [
+          "Consigner le code, le modèle et la révision. Suivre le manuel et la procédure de consignation; ne jamais contourner les protections."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate to a servo specialist if communication errors persist or electrical encoder testing is required.",
+        "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
+        "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
+    },
+    {
+      "id": "oem-mitsubishi-c80-servo-alarm-23-excessive-speed-error",
+      "recordType": "alarm-code",
+      "manufacturer": "Mitsubishi Electric CNC",
+      "productFamily": "C80 Series CNC; servo/spindle alarm table",
+      "modelScope": "Mitsubishi Electric CNC — C80 Series CNC; servo/spindle alarm table",
+      "alarmCode": "servo alarm 23",
+      "title": {
+        "en": "Mitsubishi Electric C80 — servo alarm 23: excessive speed error",
+        "ar": "Mitsubishi Electric C80 — إنذار السيرفو 23: انحراف سرعة مفرط",
+        "fr": "Mitsubishi Electric C80 — alarme servo 23 : erreur excessive de vitesse"
+      },
+      "meaning": {
+        "en": "Alarm No. 23 is Excessive speed error; the manual defines it as the difference between actual and commanded speed persisting longer than the configured excessive-speed-deviation timer. Reset class is NR.",
+        "ar": "Alarm No. 23 is Excessive speed error; the manual defines it as the difference between actual and commanded speed persisting longer than the configured excessive-speed-deviation timer. Reset class is NR.",
+        "fr": "Alarm No. 23 is Excessive speed error; the manual defines it as the difference between actual and commanded speed persisting longer than the configured excessive-speed-deviation timer. Reset class is NR."
+      },
+      "source": {
+        "sourceId": "oem-mitsubishi-c80-servo-alarm-10-insufficient-voltage-manual",
+        "manualTitle": "C80 Series Alarm/Parameter Manual",
+        "revision": "C80 Series Alarm/Parameter Manual; IB-1501560-F",
+        "section": "3.1 Servo Errors (S01/S03/S04), drive unit alarm table",
+        "printedPage": 52,
+        "manualUrl": "https://www.mitsubishielectric-cnc.com/wp-content/uploads/2025/02/C80-Series-Alarm-Parameter-Manual.pdf",
+        "evidenceSummary": "Alarm No. 23 is Excessive speed error; the manual defines it as the difference between actual and commanded speed persisting longer than the configured excessive-speed-deviation timer. Reset class is NR."
+      },
+      "safeChecks": {
+        "en": [
+          "Capture the alarm, axis, commanded/actual speed, and available load changes. Visually check for an obstruction from a safe point; do not enter the motion zone or bypass guards. Review the configured deviation timer and exact servo manual; do not change alarm thresholds or control parameters without approval."
+        ],
+        "ar": [
+          "سجّل رمز الإنذار والطراز والإصدار. اتبع تعليمات الدليل وإجراءات العزل والتحقق من انعدام الجهد؛ لا تتجاوز وسائل الحماية."
+        ],
+        "fr": [
+          "Consigner le code, le modèle et la révision. Suivre le manuel et la procédure de consignation; ne jamais contourner les protections."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate if deviation recurs or accompanies unexpected motion; keep the area secured.",
+        "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
+        "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
+    },
+    {
+      "id": "oem-mitsubishi-c80-servo-alarm-24-grounding",
+      "recordType": "alarm-code",
+      "manufacturer": "Mitsubishi Electric CNC",
+      "productFamily": "C80 Series CNC; servo/spindle alarm table",
+      "modelScope": "Mitsubishi Electric CNC — C80 Series CNC; servo/spindle alarm table",
+      "alarmCode": "servo alarm 24",
+      "title": {
+        "en": "Mitsubishi Electric C80 — servo alarm 24: motor cable grounding",
+        "ar": "Mitsubishi Electric C80 — إنذار السيرفو 24: تأريض كابل المحرك",
+        "fr": "Mitsubishi Electric C80 — alarme servo 24 : mise à la terre du câble moteur"
+      },
+      "meaning": {
+        "en": "Alarm No. 24 is named Grounding; the manual states the motor power cable is in contact with FG (frame ground). Reset class is PR.",
+        "ar": "Alarm No. 24 is named Grounding; the manual states the motor power cable is in contact with FG (frame ground). Reset class is PR.",
+        "fr": "Alarm No. 24 is named Grounding; the manual states the motor power cable is in contact with FG (frame ground). Reset class is PR."
+      },
+      "source": {
+        "sourceId": "oem-mitsubishi-c80-servo-alarm-10-insufficient-voltage-manual",
+        "manualTitle": "C80 Series Alarm/Parameter Manual",
+        "revision": "C80 Series Alarm/Parameter Manual; IB-1501560-F",
+        "section": "3.1 Servo Errors (S01/S03/S04), drive unit alarm table",
+        "printedPage": 52,
+        "manualUrl": "https://www.mitsubishielectric-cnc.com/wp-content/uploads/2025/02/C80-Series-Alarm-Parameter-Manual.pdf",
+        "evidenceSummary": "Alarm No. 24 is named Grounding; the manual states the motor power cable is in contact with FG (frame ground). Reset class is PR."
+      },
+      "safeChecks": {
+        "en": [
+          "Stop the machine and apply isolation plus absence-of-voltage verification before inspecting the power cable. Visually inspect chafing points and external damage without touching conductors or taking live measurements. Insulation testing must be performed by a qualified technician per the drive manual; do not megger connected electronics."
+        ],
+        "ar": [
+          "سجّل رمز الإنذار والطراز والإصدار. اتبع تعليمات الدليل وإجراءات العزل والتحقق من انعدام الجهد؛ لا تتجاوز وسائل الحماية."
+        ],
+        "fr": [
+          "Consigner le code, le modèle et la révision. Suivre le manuel et la procédure de consignation; ne jamais contourner les protections."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate to a qualified industrial electrician before restart; do not bypass grounding protection.",
+        "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
+        "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
+    },
+    {
+      "id": "oem-mitsubishi-c80-servo-alarm-25-absolute-position-lost",
+      "recordType": "alarm-code",
+      "manufacturer": "Mitsubishi Electric CNC",
+      "productFamily": "C80 Series CNC; servo/spindle alarm table",
+      "modelScope": "Mitsubishi Electric CNC — C80 Series CNC; servo/spindle alarm table",
+      "alarmCode": "servo alarm 25",
+      "title": {
+        "en": "Mitsubishi Electric C80 — servo alarm 25: absolute position data lost",
+        "ar": "Mitsubishi Electric C80 — إنذار السيرفو 25: فقدان بيانات الموضع المطلق",
+        "fr": "Mitsubishi Electric C80 — alarme servo 25 : perte des données de position absolue"
+      },
+      "meaning": {
+        "en": "Alarm No. 25 is named Absolute position data lost; the manual states absolute-position data was lost in the encoder. Reset class is AR. Recovery must follow the exact machine-builder and encoder procedure.",
+        "ar": "Alarm No. 25 is named Absolute position data lost; the manual states absolute-position data was lost in the encoder. Reset class is AR. Recovery must follow the exact machine-builder and encoder procedure.",
+        "fr": "Alarm No. 25 is named Absolute position data lost; the manual states absolute-position data was lost in the encoder. Reset class is AR. Recovery must follow the exact machine-builder and encoder procedure."
+      },
+      "source": {
+        "sourceId": "oem-mitsubishi-c80-servo-alarm-10-insufficient-voltage-manual",
+        "manualTitle": "C80 Series Alarm/Parameter Manual",
+        "revision": "C80 Series Alarm/Parameter Manual; IB-1501560-F",
+        "section": "3.1 Servo Errors (S01/S03/S04), drive unit alarm table",
+        "printedPage": 52,
+        "manualUrl": "https://www.mitsubishielectric-cnc.com/wp-content/uploads/2025/02/C80-Series-Alarm-Parameter-Manual.pdf",
+        "evidenceSummary": "Alarm No. 25 is named Absolute position data lost; the manual states absolute-position data was lost in the encoder. Reset class is AR. Recovery must follow the exact machine-builder and encoder procedure."
+      },
+      "safeChecks": {
+        "en": [
+          "Do not move the axis or perform arbitrary homing before confirming reference state and OEM procedure. Record the alarm, battery/encoder status, and any recent power loss or maintenance. Use the drive, encoder, and machine-builder manuals to determine safe position recovery."
+        ],
+        "ar": [
+          "سجّل رمز الإنذار والطراز والإصدار. اتبع تعليمات الدليل وإجراءات العزل والتحقق من انعدام الجهد؛ لا تتجاوز وسائل الحماية."
+        ],
+        "fr": [
+          "Consigner le code, le modèle et la révision. Suivre le manuel et la procédure de consignation; ne jamais contourner les protections."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate to a CNC specialist before homing or resuming production; recovery may require axis-position verification.",
+        "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
+        "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
+    },
+    {
+      "id": "oem-mitsubishi-c80-emg-plc-emergency-stop",
+      "recordType": "alarm-code",
+      "manufacturer": "Mitsubishi Electric CNC",
+      "productFamily": "C80 Series CNC; emergency-stop alarm section",
+      "modelScope": "Mitsubishi Electric CNC — C80 Series CNC; emergency-stop alarm section",
+      "alarmCode": "Mitsubishi Electric C80 — EMG: user PLC emergency stop",
+      "title": {
+        "en": "Mitsubishi Electric C80 — EMG: user PLC emergency stop",
+        "ar": "Mitsubishi Electric C80 — EMG: إيقاف طوارئ من PLC المستخدم",
+        "fr": "Mitsubishi Electric C80 — EMG : arrêt d’urgence du PLC utilisateur"
+      },
+      "meaning": {
+        "en": "The manual states that the PLC emergency-stop signal is turned ON during user-PLC sequence processing and instructs checking the conditions that turn the signal ON and removing the cause. Other EMG labels in the same section have distinct causes and must not be conflated.",
+        "ar": "The manual states that the PLC emergency-stop signal is turned ON during user-PLC sequence processing and instructs checking the conditions that turn the signal ON and removing the cause. Other EMG labels in the same section have distinct causes and must not be conflated.",
+        "fr": "The manual states that the PLC emergency-stop signal is turned ON during user-PLC sequence processing and instructs checking the conditions that turn the signal ON and removing the cause. Other EMG labels in the same section have distinct causes and must not be conflated."
+      },
+      "source": {
+        "sourceId": "oem-mitsubishi-c80-servo-alarm-10-insufficient-voltage-manual",
+        "manualTitle": "C80 Series Alarm/Parameter Manual",
+        "revision": "C80 Series Alarm/Parameter Manual; IB-1501560-F",
+        "section": "8 Emergency Stop Alarms (EMG)",
+        "printedPage": 106,
+        "manualUrl": "https://www.mitsubishielectric-cnc.com/wp-content/uploads/2025/02/C80-Series-Alarm-Parameter-Manual.pdf",
+        "evidenceSummary": "The manual states that the PLC emergency-stop signal is turned ON during user-PLC sequence processing and instructs checking the conditions that turn the signal ON and removing the cause. Other EMG labels in the same section have distinct causes and must not be conflated."
+      },
+      "safeChecks": {
+        "en": [
+          "Check the stop-signal state on the diagnostic screen without bypassing the circuit or forcing outputs. Have an authorized person review signal conditions in the PLC program and approved safety schematic. Restart only after identifying the cause, removing the hazard, and verifying the stop system."
+        ],
+        "ar": [
+          "سجّل رمز الإنذار والطراز والإصدار. اتبع تعليمات الدليل وإجراءات العزل والتحقق من انعدام الجهد؛ لا تتجاوز وسائل الحماية."
+        ],
+        "fr": [
+          "Consigner le code, le modèle et la révision. Suivre le manuel et la procédure de consignation; ne jamais contourner les protections."
+        ]
+      },
+      "escalation": {
+        "en": "If the stop cause is unclear, keep the machine stopped and escalate to a controls/safety engineer; never bypass the safety circuit.",
+        "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
+        "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
+    },
+    {
+      "id": "oem-siemens-s7-1200-fs-event-0005-overtemperature",
+      "recordType": "alarm-code",
+      "manufacturer": "Siemens",
+      "productFamily": "SIMATIC S7-1200 fail-safe signal modules (F-modules)",
+      "modelScope": "Siemens — SIMATIC S7-1200 fail-safe signal modules (F-modules)",
+      "alarmCode": "0x0005",
+      "title": {
+        "en": "Siemens S7-1200 F-module Event 0x0005 — overtemperature",
+        "ar": "Siemens S7-1200 F-module Event 0x0005 — ارتفاع الحرارة",
+        "fr": "Siemens S7-1200 F-module Event 0x0005 — surtempérature"
+      },
+      "meaning": {
+        "en": "The manual labels event 0x0005 Overtemperature for all listed fail-safe signal modules and states the module-case high-temperature limit has been exceeded; it directs checking ambient temperature and power cycling after the fault is eliminated.",
+        "ar": "The manual labels event 0x0005 Overtemperature for all listed fail-safe signal modules and states the module-case high-temperature limit has been exceeded; it directs checking ambient temperature and power cycling after the fault is eliminated.",
+        "fr": "The manual labels event 0x0005 Overtemperature for all listed fail-safe signal modules and states the module-case high-temperature limit has been exceeded; it directs checking ambient temperature and power cycling after the fault is eliminated."
+      },
+      "source": {
+        "sourceId": "oem-siemens-s7-1200-fs-event-0005-overtemperature-manual",
+        "manualTitle": "S7-1200 Functional Safety Manual",
+        "revision": "S7-1200 Functional Safety Manual; V4.6, 11/2022; A5E03470344-AC",
+        "section": "6.2 Fault diagnostics; Event ID 0x0005",
+        "printedPage": 122,
+        "manualUrl": "https://support.industry.siemens.com/dl/files/552/104547552/att_896075/v1/s71200_f_user_manual_en-US_en-US.pdf",
+        "evidenceSummary": "The manual labels event 0x0005 Overtemperature for all listed fail-safe signal modules and states the module-case high-temperature limit has been exceeded; it directs checking ambient temperature and power cycling after the fault is eliminated."
+      },
+      "safeChecks": {
+        "en": [
+          "Record the Event ID, module part number, and timestamp from the diagnostics buffer. Check cabinet temperature and ventilation externally; do not open an energized cabinet. After correcting the cause, follow the OEM power-cycle procedure; do not bypass the safety function."
+        ],
+        "ar": [
+          "سجّل رمز الإنذار والطراز والإصدار. اتبع تعليمات الدليل وإجراءات العزل والتحقق من انعدام الجهد؛ لا تتجاوز وسائل الحماية."
+        ],
+        "fr": [
+          "Consigner le code, le modèle et la révision. Suivre le manuel et la procédure de consignation; ne jamais contourner les protections."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate to a safety/controls engineer if the event recurs or the module does not return to normal.",
+        "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
+        "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
+    },
+    {
+      "id": "oem-siemens-s7-1200-fs-event-004d-profisafe-crc",
+      "recordType": "alarm-code",
+      "manufacturer": "Siemens",
+      "productFamily": "SIMATIC S7-1200 fail-safe signal modules (F-modules)",
+      "modelScope": "Siemens — SIMATIC S7-1200 fail-safe signal modules (F-modules)",
+      "alarmCode": "0x004D",
+      "title": {
+        "en": "Siemens S7-1200 F-module Event 0x004D — PROFIsafe CRC communication error",
+        "ar": "Siemens S7-1200 F-module Event 0x004D — خطأ CRC في PROFIsafe",
+        "fr": "Siemens S7-1200 F-module Event 0x004D — erreur CRC PROFIsafe"
+      },
+      "meaning": {
+        "en": "The manual describes event 0x004D as PROFIsafe communication error (CRC), indicating inconsistent data frames; possible cause is communication interference between fail-safe CPU and F-module, including excessive electromagnetic interference or sign-of-life monitoring error. Corrective measures include checking the communication connection and eliminating interference.",
+        "ar": "The manual describes event 0x004D as PROFIsafe communication error (CRC), indicating inconsistent data frames; possible cause is communication interference between fail-safe CPU and F-module, including excessive electromagnetic interference or sign-of-life monitoring error. Corrective measures include checking the communication connection and eliminating interference.",
+        "fr": "The manual describes event 0x004D as PROFIsafe communication error (CRC), indicating inconsistent data frames; possible cause is communication interference between fail-safe CPU and F-module, including excessive electromagnetic interference or sign-of-life monitoring error. Corrective measures include checking the communication connection and eliminating interference."
+      },
+      "source": {
+        "sourceId": "oem-siemens-s7-1200-fs-event-0005-overtemperature-manual",
+        "manualTitle": "S7-1200 Functional Safety Manual",
+        "revision": "S7-1200 Functional Safety Manual; V4.6, 11/2022; A5E03470344-AC",
+        "section": "6.2 Fault diagnostics; Event ID 0x004D",
+        "printedPage": 122,
+        "manualUrl": "https://support.industry.siemens.com/dl/files/552/104547552/att_896075/v1/s71200_f_user_manual_en-US_en-US.pdf",
+        "evidenceSummary": "The manual describes event 0x004D as PROFIsafe communication error (CRC), indicating inconsistent data frames; possible cause is communication interference between fail-safe CPU and F-module, including excessive electromagnetic interference or sign-of-life monitoring error. Corrective measures include checking the communication connection and eliminating interference."
+      },
+      "safeChecks": {
+        "en": [
+          "Record event ID, module, topology, and network diagnostics before changing settings. Externally inspect communication cables/connectors and follow the approved safety-network specification. Do not alter PROFIsafe timing or safety parameters without a risk assessment and approved engineering procedure."
+        ],
+        "ar": [
+          "سجّل رمز الإنذار والطراز والإصدار. اتبع تعليمات الدليل وإجراءات العزل والتحقق من انعدام الجهد؛ لا تتجاوز وسائل الحماية."
+        ],
+        "fr": [
+          "Consigner le code, le modèle et la révision. Suivre le manuel et la procédure de consignation; ne jamais contourner les protections."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate to a controls/safety engineer if communication faults persist; do not bypass safety communication.",
+        "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
+        "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
+    },
+    {
+      "id": "oem-siemens-s7-1200-fs-event-004e-profisafe-timeout",
+      "recordType": "alarm-code",
+      "manufacturer": "Siemens",
+      "productFamily": "SIMATIC S7-1200 fail-safe signal modules (F-modules)",
+      "modelScope": "Siemens — SIMATIC S7-1200 fail-safe signal modules (F-modules)",
+      "alarmCode": "0x004E",
+      "title": {
+        "en": "Siemens S7-1200 F-module Event 0x004E — PROFIsafe communication timeout",
+        "ar": "Siemens S7-1200 F-module Event 0x004E — مهلة اتصال PROFIsafe",
+        "fr": "Siemens S7-1200 F-module Event 0x004E — délai de communication PROFIsafe"
+      },
+      "meaning": {
+        "en": "The manual labels event 0x004E PROFIsafe communication failure (timeout) and states that the F-monitoring time was exceeded. It recommends checking the F-monitoring time and examining the safety program and other CPU activities such as interrupts, Ethernet communication, OB scheduling, and long program paths.",
+        "ar": "The manual labels event 0x004E PROFIsafe communication failure (timeout) and states that the F-monitoring time was exceeded. It recommends checking the F-monitoring time and examining the safety program and other CPU activities such as interrupts, Ethernet communication, OB scheduling, and long program paths.",
+        "fr": "The manual labels event 0x004E PROFIsafe communication failure (timeout) and states that the F-monitoring time was exceeded. It recommends checking the F-monitoring time and examining the safety program and other CPU activities such as interrupts, Ethernet communication, OB scheduling, and long program paths."
+      },
+      "source": {
+        "sourceId": "oem-siemens-s7-1200-fs-event-0005-overtemperature-manual",
+        "manualTitle": "S7-1200 Functional Safety Manual",
+        "revision": "S7-1200 Functional Safety Manual; V4.6, 11/2022; A5E03470344-AC",
+        "section": "6.2 Fault diagnostics; Event ID 0x004E",
+        "printedPage": 122,
+        "manualUrl": "https://support.industry.siemens.com/dl/files/552/104547552/att_896075/v1/s71200_f_user_manual_en-US_en-US.pdf",
+        "evidenceSummary": "The manual labels event 0x004E PROFIsafe communication failure (timeout) and states that the F-monitoring time was exceeded. It recommends checking the F-monitoring time and examining the safety program and other CPU activities such as interrupts, Ethernet communication, OB scheduling, and long program paths."
+      },
+      "safeChecks": {
+        "en": [
+          "Preserve diagnostics, CPU-cycle data, and event details before changing monitoring time. Have an authorized engineer review CPU load, interrupts, communications, and the safety program. Do not increase the timeout merely to suppress the alarm; risk analysis and safety validation are required."
+        ],
+        "ar": [
+          "سجّل رمز الإنذار والطراز والإصدار. اتبع تعليمات الدليل وإجراءات العزل والتحقق من انعدام الجهد؛ لا تتجاوز وسائل الحماية."
+        ],
+        "fr": [
+          "Consigner le code, le modèle et la révision. Suivre le manuel et la procédure de consignation; ne jamais contourner les protections."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate to a functional-safety engineer before changing F-monitoring time or resuming production.",
+        "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
+        "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
     }
   ]
 }
