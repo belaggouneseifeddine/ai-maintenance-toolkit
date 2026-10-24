@@ -310,6 +310,9 @@ const followupBank={
 };
 function followupGuidance(machine,symptom,answer){
 if(!answer)return [];
+const flow=window.MAINTENANCE_DIAGNOSTIC_FLOWS?.flows?.[machine+"|"+symptom];
+const matchedAnswer=flow?.answers?.find(item=>item.label===answer);
+if(matchedAnswer?.guidance)return [matchedAnswer.guidance];
 const rules={
 "pump|low_flow":Object.fromEntries(window.MAINTENANCE_DIAGNOSTIC_FLOWS.flows["pump|low_flow"].answers.map(item=>[item.label,[item.guidance]])),
 "compressor|low_pressure":Object.fromEntries(window.MAINTENANCE_DIAGNOSTIC_FLOWS.flows["compressor|low_pressure"].answers.map(item=>[item.label,[item.guidance]])),
@@ -343,7 +346,7 @@ const rules={
 const answers=rules[machine+"|"+symptom];
 return answers&&answers[answer]||[];
 }
-function updateFollowup(){const key=$("machine").value+"|"+$("symptom").value;const item=followupBank[key];$("followupPrompt").textContent=item?item.q:"لا يوجد سؤال متخصص لهذا الاختيار بعد؛ سجّل القياسات والإنذار كما هي.";const sel=$("followupAnswer");sel.innerHTML='<option value="">اختر الإجابة إن كانت معلومة</option>';if(item)item.a.forEach(a=>{const o=document.createElement("option");o.value=a;o.textContent=a;sel.appendChild(o);});}
+function updateFollowup(){const key=$("machine").value+"|"+$("symptom").value;const flow=window.MAINTENANCE_DIAGNOSTIC_FLOWS?.flows?.[key];const item=followupBank[key];const question=flow?.question?.text||item?.q;$("followupPrompt").textContent=question||"لا يوجد سؤال متخصص لهذا الاختيار بعد؛ سجّل القياسات والإنذار كما هي.";const answers=flow?.answers?.map(answer=>answer.label)||item?.a||[];const sel=$("followupAnswer");sel.innerHTML='<option value="">اختر الإجابة إن كانت معلومة</option>';answers.forEach(a=>{const o=document.createElement("option");o.value=a;o.textContent=a;sel.appendChild(o);});}
 $("machine").addEventListener("change",updateFollowup);$("symptom").addEventListener("change",updateFollowup);updateFollowup();
 const symptomGeneral={
 slow_cycle:['قارن زمن الدورة أو سرعة الحركة بخط الأساس؛ راجع الحمل وإشارات الأمر ومؤشرات الطاقة/الضغط المتاحة قبل افتراض سبب ميكانيكي.'],
@@ -388,7 +391,7 @@ let data={},fromCache=false;
    let detail=[data.error].filter(Boolean).join(' — ')||('HTTP '+response.status);
    if(response.status===404) detail='لم يتم العثور على مسار API. تأكد أن الرابط ينتهي بـ /api/chat وأن آخر نسخة من Worker منشورة.';
    else if(response.status===403||/Origin not allowed/i.test(detail)) detail='رفض الخادم مصدر الطلب. افتح التطبيق المنشور على GitHub Pages وأرسل الطلب من داخله؛ لا تفتح /api/chat مباشرة.';
-   else if(response.status===503) detail='خدمة الذكاء الاصطناعي غير مُعدّة. تحقق من وجود السر AI_API_KEY داخل Cloudflare Worker ثم أعد النشر.';
+   else if(response.status===503) detail='خدمة الذكاء الاصطناعي غير مُعدّة. تحقق من وجود السر GEMINI_API_KEY (أو AI_API_KEY) داخل Cloudflare Worker ثم أعد النشر.';
    else if(providerStatus===400||providerStatus===401||providerStatus===403) detail='رفض Gemini الطلب (HTTP '+providerStatus+'). تحقق من صحة مفتاح Gemini وصلاحياته، وتفعيل Gemini API، واسم النموذج.';
    else if(providerStatus===429||response.status===429) detail='تم بلوغ حد الطلبات أو حصة Gemini. انتظر قليلًا ثم أعد المحاولة، وتحقق من الحصة والفوترة.';
    else if(providerStatus>=500) detail='Gemini يواجه عطلًا مؤقتًا (HTTP '+providerStatus+'). أعد المحاولة لاحقًا.';

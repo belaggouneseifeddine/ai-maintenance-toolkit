@@ -4,19 +4,22 @@ This backend serves the GitHub Pages frontend using Cloudflare Workers.
 
 ## Fast deployment through GitHub Actions
 
-The repository includes a manual workflow at **Actions → Deploy Maintenance AI Toolkit API**. Configure these three repository Actions secrets first:
+The repository includes a manual workflow at **Actions → Deploy Maintenance AI Toolkit API**.
+
+Required repository Actions secrets:
 
 1. `CLOUDFLARE_API_TOKEN`: a Cloudflare API token with permission to edit Workers Scripts and manage Worker secrets for the target account.
 2. `CLOUDFLARE_ACCOUNT_ID`: the Cloudflare account ID.
-3. `GEMINI_API_KEY`: your valid Google Gemini API key. Do not paste it into chat or commit it to the repository.
 
 Add them under **Repository → Settings → Secrets and variables → Actions → New repository secret**:
 https://github.com/belaggouneseifeddine/ai-maintenance-toolkit/settings/secrets/actions
 
+**Provider key handling:** the Worker accepts either `GEMINI_API_KEY` or the existing compatibility name `AI_API_KEY`. If one of those secrets is already configured directly on the Cloudflare Worker, you do not need to duplicate it in GitHub. The workflow checks that a provider secret exists after deployment. To provision or rotate the key through GitHub Actions, optionally add `GEMINI_API_KEY` as a third repository secret. Never paste the key into chat or commit it to the repository.
+
 Then open:
 https://github.com/belaggouneseifeddine/ai-maintenance-toolkit/actions/workflows/deploy-worker.yml
 
-Choose **Run workflow**. The workflow validates the three secrets, deploys `worker.js`, and then uploads `GEMINI_API_KEY` to the Worker using Wrangler's secret command. The key is passed through standard input and is not written into source files or printed by the workflow. The Cloudflare token must have permissions to deploy Workers and manage Worker secrets. Check the workflow run for the actual result.
+Choose **Run workflow**. The workflow validates the Cloudflare credentials, deploys `worker.js`, updates `GEMINI_API_KEY` only if that optional GitHub secret is supplied, and verifies that a provider secret remains configured. The key is passed through standard input and is not written into source files or printed by the workflow. Check the workflow run for the actual result.
 
 ## Connect the frontend
 
@@ -32,6 +35,6 @@ Use the Worker URL ending in `/api/chat` in the AI endpoint field, for example `
 - `POST /api/chat`: JSON body `{ "machine": "...", "symptom": "...", "code": "", "observations": "", "language": "ar" }`.
 - Supported languages: `ar`, `fr`, `en`.
 
-The Worker restricts browser requests to the GitHub Pages origin, validates payloads, limits request size, and keeps provider errors/credentials out of responses. Provider calls may incur Gemini usage charges; configure provider usage limits before public release.
+The Worker restricts browser requests to the GitHub Pages origin, validates payloads, limits request size, and keeps provider errors/credentials out of responses. Provider calls may incur Gemini usage charges; check provider quota and any billing settings before enabling usage.
 
-**Important:** committing source code does not deploy the backend. A successful workflow run, successful Worker-secret update, and a valid Worker URL are required before live AI diagnosis can be considered ready.
+**Important:** committing source code does not deploy the backend. A successful workflow run, a configured provider secret, and a valid Worker URL are required before live AI diagnosis can be considered ready.

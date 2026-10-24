@@ -64,3 +64,11 @@ test("expanded flows preserve isolation and protection safeguards", () => {
   assert.match(safeText, /العزل/);
   assert.match(safeText, /لا تقترب من الأجزاء الدوارة/);
 });
+
+test("published UI reads follow-up questions, answers, and guidance from the shared flow registry", () => {
+  const html = fs.readFileSync(require.resolve("../index.html"), "utf8");
+  assert.match(html, /const flow=window\.MAINTENANCE_DIAGNOSTIC_FLOWS\?\.flows\?\.\[key\]/);
+  assert.match(html, /flow\?\.answers\?\.map\(answer=>answer\.label\)/);
+  assert.match(html, /if\(matchedAnswer\?\.guidance\)return \[matchedAnswer\.guidance\]/);
+  assert.match(html, /GEMINI_API_KEY \(أو AI_API_KEY\)/);
+});
