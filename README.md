@@ -54,9 +54,9 @@ Never commit API keys or put them in browser code, local storage, or the public 
 - `manifest.json`, `sw.js` — PWA metadata and cache
 - `worker.js`, `wrangler.toml` — Cloudflare Worker API
 - `engineering-core.js` — request normalization, conservative routing, and local diagnostic adapter
-- `agent-core.js` — isolated orchestration core with safety-first routing and explicit tool adapters; not yet wired into the production UI
+- `agent-core.js` — orchestration core with safety-first routing and explicit tool adapters; `agent-ui.js` connects the local-agent button to the core. This confirms UI wiring in source, not live AI availability or end-to-end production validation.
 - `tests/agent-core.test.cjs` — agent orchestration behavior tests
-- `docs/AI-AGENT-CORE-V1.md` — architecture contract, planned integration files, and merge acceptance gates
+- `docs/AI-AGENT-CORE-V1.md` — orchestration contract, current UI integration, and remaining verification gates
 - `BACKEND_DEPLOYMENT.md`, `docs/AI-SETUP.md` — backend setup
 
 ## Safety
