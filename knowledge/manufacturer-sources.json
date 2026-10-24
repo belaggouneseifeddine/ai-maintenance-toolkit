@@ -338,6 +338,66 @@
       "scope": "Industrial robot and controller documentation; exact KR/KRC generation required",
       "status": "official-document-portal-exact-controller-required",
       "redistribution": "link-only; follow portal terms"
+    },
+    {
+      "id": "yizumi-machine-service",
+      "publisher": "YIZUMI",
+      "title": "YIZUMI — official service and support",
+      "url": "https://www.yizumi.com/en/service",
+      "type": "manufacturer-service-portal",
+      "scope": "Injection moulding, die-casting, rubber machinery, automation and service; exact machine model and control configuration required",
+      "status": "official-service-portal-exact-machine-required",
+      "redistribution": "link-only; follow portal terms"
+    },
+    {
+      "id": "haitian-machine-service",
+      "publisher": "Haitian International",
+      "title": "Haitian International — global service",
+      "url": "https://haitianinter.com/service/",
+      "type": "manufacturer-service-portal",
+      "scope": "Injection moulding machines and global service; exact machine model, controller and options required",
+      "status": "official-service-portal-exact-machine-required",
+      "redistribution": "link-only; follow portal terms"
+    },
+    {
+      "id": "bodor-laser-service",
+      "publisher": "Bodor Laser",
+      "title": "Bodor — official service portal",
+      "url": "https://www.bodor.com/en/service/",
+      "type": "manufacturer-service-portal",
+      "scope": "Laser cutting and welding equipment; manuals, installation and maintenance resources require exact model",
+      "status": "official-service-portal-exact-machine-required",
+      "redistribution": "link-only; follow portal terms"
+    },
+    {
+      "id": "mitsubishi-fa-china-documents",
+      "publisher": "Mitsubishi Electric Automation China",
+      "title": "Mitsubishi Electric FA China — file center",
+      "url": "https://www.mitsubishielectric-fa.cn/site/file-center",
+      "type": "manufacturer-document-portal",
+      "scope": "MELSEC PLC, CNC, servo, inverters, HMI, industrial robots and electrical protection; select exact series and document revision",
+      "status": "official-document-portal-exact-product-required",
+      "redistribution": "link-only; follow portal terms"
+    },
+    {
+      "id": "delta-industrial-download-center",
+      "publisher": "Delta Electronics",
+      "title": "Delta — official industrial automation download center",
+      "url": "https://downloadcenter.delta-china.com.cn/en-US/DownloadCenter",
+      "type": "manufacturer-document-portal",
+      "scope": "PLC, HMI, VFD, servo, CNC, industrial robots and motion control; exact series and language must match",
+      "status": "official-document-portal-exact-product-required",
+      "redistribution": "link-only; follow portal terms"
+    },
+    {
+      "id": "pilz-machine-safety-support",
+      "publisher": "Pilz",
+      "title": "Pilz — official support and downloads",
+      "url": "https://www.pilz.com/en-INT/support",
+      "type": "manufacturer-support-portal",
+      "scope": "Machine safety controllers, safety relays, sensors and safety automation; exact product and safety configuration required",
+      "status": "official-document-portal-exact-product-required",
+      "redistribution": "link-only; follow portal terms"
     }
   ]
 }
