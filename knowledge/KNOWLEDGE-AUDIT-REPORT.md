@@ -15,7 +15,7 @@ Deterministic inventory of the current repository. This report adds no technical
 - Structured OEM symptom templates: **38**
 - Official manufacturer/support portal records: **58**
 - Structured OEM platform index entries: **29**; model-verified: **0**
-- Structured source-linked OEM diagnostic records: **53**; records with a missing manufacturer-source registry entry: **0**
+- Structured source-linked OEM diagnostic records: **60**; records with a missing manufacturer-source registry entry: **0**
 
 ## Document inventory
 
