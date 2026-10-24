@@ -158,6 +158,186 @@
       "scope": "Use the official site search for the exact pneumatic component/valve terminal type and its operating instructions",
       "status": "official-portal-exact-product-required",
       "redistribution": "link-only; follow portal terms"
+    },
+    {
+      "id": "gsk-cnc-support",
+      "publisher": "GSK CNC",
+      "title": "GSK CNC — official documentation and support",
+      "url": "https://gskcnc.com/support.php",
+      "type": "manufacturer-support-portal",
+      "scope": "CNC controls and servo drives; manual lookup by exact series",
+      "status": "official-document-portal-exact-series-required",
+      "redistribution": "link-only; follow portal terms"
+    },
+    {
+      "id": "huazhongcnc-download-center",
+      "publisher": "HuazhongCNC",
+      "title": "HuazhongCNC — official documentation and support",
+      "url": "https://en.huazhongcnc.com/download-center-of-huazhongcnc/",
+      "type": "manufacturer-support-portal",
+      "scope": "HNC8 CNC controllers, PLC, parameters and commissioning manuals",
+      "status": "official-document-portal-exact-series-required",
+      "redistribution": "link-only; follow portal terms"
+    },
+    {
+      "id": "huazhongcnc-servo-manuals",
+      "publisher": "HuazhongCNC",
+      "title": "HuazhongCNC — official documentation and support",
+      "url": "https://www.huazhongcnc.com/portal/list/index/cid/74.html",
+      "type": "manufacturer-support-portal",
+      "scope": "HSV servo drive manuals and selection documents",
+      "status": "official-document-portal-exact-series-required",
+      "redistribution": "link-only; follow portal terms"
+    },
+    {
+      "id": "inovance-global-downloads",
+      "publisher": "Inovance",
+      "title": "Inovance — official documentation and support",
+      "url": "https://www.inovance.com/global/support/download-documentation.html",
+      "type": "manufacturer-support-portal",
+      "scope": "MD drives, servo, PLC, HMI and motion control documentation",
+      "status": "official-document-portal-exact-series-required",
+      "redistribution": "link-only; follow portal terms"
+    },
+    {
+      "id": "inovance-eu-downloads",
+      "publisher": "Inovance Europe",
+      "title": "Inovance Europe — official documentation and support",
+      "url": "https://www.inovance.eu/downloads",
+      "type": "manufacturer-support-portal",
+      "scope": "English downloads for MD drives, IS/SV servo, PLC and HMI families",
+      "status": "official-document-portal-exact-series-required",
+      "redistribution": "link-only; follow portal terms"
+    },
+    {
+      "id": "leadshine-downloads",
+      "publisher": "Leadshine",
+      "title": "Leadshine — official documentation and support",
+      "url": "https://www.leadshine.com/downloads.html",
+      "type": "manufacturer-support-portal",
+      "scope": "Servo, stepper, motion control and robot component manuals",
+      "status": "official-document-portal-exact-series-required",
+      "redistribution": "link-only; follow portal terms"
+    },
+    {
+      "id": "syntec-download-library",
+      "publisher": "Syntec",
+      "title": "Syntec — official documentation and support",
+      "url": "https://syntecclub.com/",
+      "type": "manufacturer-support-portal",
+      "scope": "CNC controller and automation documentation entry point; verify exact regional product page",
+      "status": "official-portal-exact-product-required",
+      "redistribution": "link-only; follow portal terms"
+    },
+    {
+      "id": "lynuc-download-center",
+      "publisher": "Lynuc / LNC",
+      "title": "Lynuc / LNC — official documentation and support",
+      "url": "https://www.lynuc.cn/download.aspx",
+      "type": "manufacturer-support-portal",
+      "scope": "CNC controllers, drives, I/O, parameter and programming manuals",
+      "status": "official-document-portal-exact-series-required",
+      "redistribution": "link-only; follow portal terms"
+    },
+    {
+      "id": "siemens-industry-support",
+      "publisher": "Siemens",
+      "title": "Siemens — official documentation and support",
+      "url": "https://support.industry.siemens.com/",
+      "type": "manufacturer-support-portal",
+      "scope": "SINUMERIK, SIMATIC, SINAMICS product support, manuals and diagnostics",
+      "status": "official-support-portal-exact-product-required",
+      "redistribution": "link-only; follow portal terms"
+    },
+    {
+      "id": "heidenhain-technical-support",
+      "publisher": "HEIDENHAIN",
+      "title": "HEIDENHAIN — official documentation and support",
+      "url": "https://www.heidenhain.com/service/technical-support",
+      "type": "manufacturer-support-portal",
+      "scope": "TNC controls, PLC programming, encoder and machine-tool service support",
+      "status": "official-support-portal-exact-control-required",
+      "redistribution": "link-only; follow portal terms"
+    },
+    {
+      "id": "beckhoff-downloads",
+      "publisher": "Beckhoff",
+      "title": "Beckhoff — official documentation and support",
+      "url": "https://www.beckhoff.com/en-us/support/download-finder/",
+      "type": "manufacturer-support-portal",
+      "scope": "TwinCAT, EtherCAT, IPC, I/O and drive documentation/software",
+      "status": "official-document-portal-exact-product-required",
+      "redistribution": "link-only; follow portal terms"
+    },
+    {
+      "id": "bosch-rexroth-documentation",
+      "publisher": "Bosch Rexroth",
+      "title": "Bosch Rexroth — official documentation and support",
+      "url": "https://docs.automation.boschrexroth.com/",
+      "type": "manufacturer-support-portal",
+      "scope": "ctrlX AUTOMATION, IndraDrive, MTX CNC and diagnostic messages",
+      "status": "official-document-portal-exact-product-required",
+      "redistribution": "link-only; follow portal terms"
+    },
+    {
+      "id": "schneider-downloads",
+      "publisher": "Schneider Electric",
+      "title": "Schneider Electric — official documentation and support",
+      "url": "https://www.se.com/ww/en/download/",
+      "type": "manufacturer-support-portal",
+      "scope": "Modicon PLC, Altivar drives, HMI and electrical protection documentation",
+      "status": "official-document-portal-exact-product-required",
+      "redistribution": "link-only; follow portal terms"
+    },
+    {
+      "id": "sew-eurodrive-documentation",
+      "publisher": "SEW-EURODRIVE",
+      "title": "SEW-EURODRIVE — official documentation and support",
+      "url": "https://download.sew-eurodrive.com/",
+      "type": "manufacturer-support-portal",
+      "scope": "Drive inverters, gearmotors, motion control and manuals",
+      "status": "official-document-portal-exact-product-required",
+      "redistribution": "link-only; follow portal terms"
+    },
+    {
+      "id": "lenze-downloads",
+      "publisher": "Lenze",
+      "title": "Lenze — official documentation and support",
+      "url": "https://www.lenze.com/en-de/services/downloads",
+      "type": "manufacturer-support-portal",
+      "scope": "i-series drives, controllers, engineering software and documentation",
+      "status": "official-document-portal-exact-product-required",
+      "redistribution": "link-only; follow portal terms"
+    },
+    {
+      "id": "trumpf-service",
+      "publisher": "TRUMPF",
+      "title": "TRUMPF — official documentation and support",
+      "url": "https://www.trumpf.com/en_INT/service/",
+      "type": "manufacturer-support-portal",
+      "scope": "Laser cutting, punching and machine-tool service; exact machine type required",
+      "status": "official-service-portal-exact-machine-required",
+      "redistribution": "link-only; follow portal terms"
+    },
+    {
+      "id": "homag-service",
+      "publisher": "HOMAG",
+      "title": "HOMAG — official documentation and support",
+      "url": "https://www.homag.com/en/services",
+      "type": "manufacturer-support-portal",
+      "scope": "Woodworking machinery service and support; exact machine type required",
+      "status": "official-service-portal-exact-machine-required",
+      "redistribution": "link-only; follow portal terms"
+    },
+    {
+      "id": "kuka-downloads",
+      "publisher": "KUKA",
+      "title": "KUKA — official documentation and support",
+      "url": "https://www.kuka.com/en-us/services/downloads",
+      "type": "manufacturer-support-portal",
+      "scope": "Industrial robot and controller documentation; exact KR/KRC generation required",
+      "status": "official-document-portal-exact-controller-required",
+      "redistribution": "link-only; follow portal terms"
     }
   ]
 }
