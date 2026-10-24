@@ -555,6 +555,19 @@ const checks = [
       }
       for (const ref of (fault.sourceRefs || [])) assert.ok(sourceIds.has(ref), fault.id + " has unknown source reference: " + ref);
     }
+
+    const modelVerified = faults.faults.filter(item => item.evidenceStatus === "model-specific-manual-reviewed");
+    for (const item of modelVerified) {
+      const evidence = item.modelSpecificEvidence;
+      assert.ok(evidence && evidence.manufacturer && evidence.productFamily, item.id + " missing OEM/model evidence");
+      assert.ok(evidence.manualTitle && evidence.manualRevision && evidence.officialDocumentUrl, item.id + " missing manual identity");
+      assert.ok(evidence.section && Number.isInteger(evidence.printedPage) && Number.isInteger(evidence.pdfPage), item.id + " missing exact section/page references");
+      assert.ok(evidence.claim && evidence.reviewedOn && evidence.reviewStatus === "manual-claim-reviewed-not-field-verified", item.id + " missing evidence review metadata");
+      assert.ok(/^https:\/\//.test(evidence.officialDocumentUrl), item.id + " manual URL must use HTTPS");
+      assert.ok(Array.isArray(item.sourceRefs) && item.sourceRefs.length, item.id + " missing source registry references");
+      for (const ref of item.sourceRefs) assert.ok(sourceIds.has(ref), item.id + " has unknown OEM source reference: " + ref);
+    }
+    assert.ok(modelVerified.length >= 10, "Expected at least 10 model-specific manual-reviewed records in this expansion");
     assert.ok(faults.faults.length > 200, "Structured fault library must exceed 200 cases");
     assert.equal(new Set(ids).size, faults.faults.length, "All structured fault IDs must be unique");
     for (const type of ["electronics", "electrical_control", "plc", "industrial_network", "robotics", "safety_circuit"]) {
