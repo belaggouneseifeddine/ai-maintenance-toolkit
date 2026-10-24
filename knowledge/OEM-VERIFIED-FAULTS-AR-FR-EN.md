@@ -1519,3 +1519,42 @@ These are manual-claim-reviewed, not field-verified. The model, frame size, firm
 - **Safe checks:** Record module/channel, full diagnostic text and output load. After isolation, qualified personnel should inspect wiring and load for a short, excessive current or unsuitable load. Do not force the output on or defeat passivation.
 - **Review date:** 2026-10-24. **Evidence status:** manual-claim-reviewed, not field-verified.
 - **Limits:** Specific to the module and manual edition cited; confirm installed hardware and safety configuration.
+
+### gsk-218m-alarm-0000-parameter-power-cycle
+
+- **Manufacturer / family:** GSK CNC — GSK218M CNC System
+- **Scope:** GSK218M only; do not generalize to other GSK controller families
+- **Alarm code:** 0000
+- **Meaning (EN):** The GSK218M alarm list labels code 0000 as power not turned off after parameter input; the controller indicates that the parameter change has not been followed by the required power-off/restart step.
+- **المعنى (AR):** تسمّي قائمة إنذارات GSK218M الرمز 0000 بأنه عدم فصل الطاقة بعد إدخال المعلمات؛ ويشير ذلك إلى أن تغيير المعلمة لم يتبعه إجراء إيقاف الطاقة المطلوب.
+- **Sens (FR):** La liste d’alarmes GSK218M associe le code 0000 à l’absence de mise hors tension après saisie d’un paramètre; le changement n’a pas été suivi de l’étape d’arrêt requise.
+- **Source:** GSK218M CNC System Programming and Operation Manual; “Alarm interface → alarm number and meaning list”; printed page 207.
+- **Official manual:** https://gskcnc.com/Support/218M01.pdf
+- **Safe checks:** Record the alarm and recent parameter change. Follow the machine builder’s approved shutdown/restart procedure; do not cycle power while axes or process are in an unsafe state.
+- **Review date:** 2026-10-24. **Evidence status:** manual-claim-reviewed, not field-verified.
+
+### gsk-218m-alarm-0001-file-open-fail
+
+- **Manufacturer / family:** GSK CNC — GSK218M CNC System
+- **Scope:** GSK218M only; do not generalize to other GSK controller families
+- **Alarm code:** 0001
+- **Meaning (EN):** The GSK218M alarm list labels code 0001 as file open fail. The message identifies a file-opening operation that did not complete; the specific file and operation context must be captured before intervention.
+- **المعنى (AR):** تسمّي قائمة إنذارات GSK218M الرمز 0001 بأنه فشل فتح الملف. يشير الإنذار إلى تعذر إكمال عملية فتح ملف؛ ويجب تسجيل اسم الملف وسياق العملية قبل التدخل.
+- **Sens (FR):** La liste d’alarmes GSK218M associe le code 0001 à un échec d’ouverture de fichier. Il faut relever le fichier concerné et le contexte avant intervention.
+- **Source:** GSK218M CNC System Programming and Operation Manual; “Alarm interface → alarm number and meaning list”; printed page 207.
+- **Official manual:** https://gskcnc.com/Support/218M01.pdf
+- **Safe checks:** Record the exact file name and operation; preserve program/data before changing or reloading files. Do not delete or overwrite machine data without a verified backup.
+- **Review date:** 2026-10-24. **Evidence status:** manual-claim-reviewed, not field-verified.
+
+### gsk-218m-alarm-0002-data-input-overflow
+
+- **Manufacturer / family:** GSK CNC — GSK218M CNC System
+- **Scope:** GSK218M only; do not generalize to other GSK controller families
+- **Alarm code:** 0002
+- **Meaning (EN):** The GSK218M alarm list labels code 0002 as data input overflow. The entered value or data payload exceeds the input capacity or accepted range for the active operation; the affected field and entry context must be verified.
+- **المعنى (AR):** تسمّي قائمة إنذارات GSK218M الرمز 0002 بأنه تجاوز سعة إدخال البيانات. يجب التحقق من الحقل المدخل وسياق العملية لأن القيمة أو البيانات قد تتجاوز السعة أو النطاق المقبول.
+- **Sens (FR):** La liste d’alarmes GSK218M associe le code 0002 à un dépassement de capacité des données saisies. Vérifier le champ et le contexte, car la valeur peut dépasser la capacité ou la plage acceptée.
+- **Source:** GSK218M CNC System Programming and Operation Manual; “Alarm interface → alarm number and meaning list”; printed page 207.
+- **Official manual:** https://gskcnc.com/Support/218M01.pdf
+- **Safe checks:** Record the field/value and active operation. Verify format and allowed range from the GSK218M manual before editing; preserve original program and parameters.
+- **Review date:** 2026-10-24. **Evidence status:** manual-claim-reviewed, not field-verified.
