@@ -2,6 +2,7 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const engineeringCore = require("../engineering-core.js");
 const agentModule = require("../agent-core.js");
+const evidenceLibrary = require("../evidence-library.js");
 require("../normalization.js");
 const faults = require("../faults.json");
 global.MAINTENANCE_FAULTS = faults;
@@ -12,6 +13,7 @@ function makeAgent(tools = {}) {
     engineeringCore,
     diagnosticEngine: global.MaintenanceDiagnosticEngine,
     faultLibrary: faults,
+    evidenceLibrary,
     tools
   });
 }
@@ -201,4 +203,19 @@ test("timed-out AI adapter preserves the local result and returns a stable error
   assert.equal(result.ok, true);
   assert.equal(result.data.modelEnhanced, false);
   assert.equal(result.data.aiFallback, "tool_timeout");
+});
+
+
+test("knowledge lookup returns registered citations when no remote adapter is configured", async () => {
+  const result = await makeAgent().run({
+    intent: "search_knowledge",
+    language: "en",
+    equipment: { type: "pump" },
+    symptom: "pump curve system performance"
+  });
+  assert.equal(result.ok, true);
+  assert.equal(result.route, "knowledge_lookup");
+  assert.equal(result.data.status, "sources_found");
+  assert.ok(result.data.results.some(item => item.citationId === "doe-pump-sourcebook"));
+  assert.ok(result.data.results.every(item => item.source.url.startsWith("https://")));
 });
