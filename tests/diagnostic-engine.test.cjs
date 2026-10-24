@@ -3,6 +3,7 @@ const assert = require("node:assert/strict");
 
 require("../normalization.js");
 const faults = require("../faults.json");
+const oemVerifiedFaults = require("../knowledge/oem-verified-faults.json");
 global.MAINTENANCE_FAULTS = faults;
 require("../diagnostic-engine.js");
 
@@ -135,7 +136,11 @@ test("fault library exposes source-backed OEM alarm-code records", () => {
   assert.ok(coded.length >= 30, "Expected source-backed OEM alarm/error codes in the diagnostic library");
   const g120c = faults.faults.find(fault => fault.id === "oem-siemens-g120c-f07900-motor-blocked");
   assert.ok(g120c, "Expected the reviewed SINAMICS G120C F07900 record");
-  assert.ok(g120c.alarmCodes?.includes("F07900") || g120c.modelSpecificEvidence?.alarmCode === "F07900", "F07900 must be represented in the structured alarm-code or model-evidence field");
+  const documentedAlarm = oemVerifiedFaults.records.find(record => record.id === "sinamics-g120c-f07900");
+  assert.ok(documentedAlarm, "F07900 must exist in the model-scoped OEM evidence database");
+  assert.equal(documentedAlarm.alarmCode, "F07900");
+  assert.equal(documentedAlarm.source.printedPage, 82);
+  assert.equal(documentedAlarm.source.section, "5.1 List of alarms and faults");
   assert.equal(g120c.modelSpecificEvidence.manufacturer, "Siemens");
   assert.equal(g120c.modelSpecificEvidence.printedPage, 82);
   assert.ok(g120c.sourceRefs.length > 0);
