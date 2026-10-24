@@ -22,6 +22,8 @@ const manufacturerMatrix = JSON.parse(readFileSync("knowledge/manufacturer-machi
 const manufacturerMatrixMarkdown = readFileSync("knowledge/CHINESE-EUROPEAN-OEM-FAULT-MATRIX-AR-FR-EN.md", "utf8");
 const oemPlatformIndex = JSON.parse(readFileSync("knowledge/oem-platform-index.json", "utf8"));
 const oemIndexMarkdown = readFileSync("knowledge/OEM-MANUFACTURER-INDEX-AR-FR-EN.md", "utf8");
+const oemVerifiedFaults = JSON.parse(readFileSync("knowledge/oem-verified-faults.json", "utf8"));
+const oemVerifiedMarkdown = readFileSync("knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md", "utf8");
 const diagnosticEngineSource = readFileSync("diagnostic-engine.js", "utf8");
 const normalizationSource = readFileSync("normalization.js", "utf8");
 const knowledgeReviewSource = readFileSync("knowledge-review.js", "utf8");
@@ -576,6 +578,25 @@ const checks = [
     assert.ok(faults.faults.some(item => item.equipmentType === "electronics"), "Electronics category must be represented");
     assert.ok(faults.faults.some(item => item.id.startsWith("chinese-")), "Chinese machine cases must be represented");
     assert.ok(faults.faults.some(item => item.id.startsWith("european-")), "European machine cases must be represented");
+  }],
+  ["OEM verified fault records have exact official source evidence and are included in retrieval", () => {
+    const records = oemVerifiedFaults.records;
+    assert.ok(records.length >= 20, "Expected at least 20 source-reviewed OEM records");
+    assert.equal(oemVerifiedFaults.recordCount, records.length, "OEM verified record count must match");
+    assert.equal(new Set(records.map(record => record.id)).size, records.length, "OEM verified IDs must be unique");
+    const sourceMap = new Map(manufacturerSources.sources.map(source => [source.id, source]));
+    for (const record of records) {
+      assert.equal(record.evidenceStatus, "verified-source-exact-scope", record.id + " must declare exact-scope evidence");
+      assert.ok(record.source?.sourceId && sourceMap.has(record.source.sourceId), record.id + " needs a registered source");
+      assert.equal(record.source.manualUrl, sourceMap.get(record.source.sourceId).url, record.id + " source URL must match registry");
+      assert.ok(record.source.section && record.source.manualTitle && record.source.revision, record.id + " needs manual title/revision/section");
+      assert.ok(record.meaning?.ar && record.meaning?.fr && record.meaning?.en, record.id + " needs Arabic/French/English meaning");
+      assert.ok(record.reviewDate && /^https:\/\//.test(record.source.manualUrl), record.id + " needs review date and HTTPS source");
+      if (record.alarmCode) assert.ok(record.source.printedPage || record.source.section, record.id + " needs page or section");
+    }
+    assert.ok(worker.includes("knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md"), "Worker retrieval must include OEM verified knowledge");
+    assert.ok(oemVerifiedMarkdown.includes("Evidence acquisition queue"), "OEM verified guide must distinguish pending evidence");
+    assert.ok(oemVerifiedMarkdown.includes("XINJE") && oemVerifiedMarkdown.includes("HuazhongCNC"), "Chinese OEM evidence queue must be present");
   }]
 ];
 let failed = 0;
