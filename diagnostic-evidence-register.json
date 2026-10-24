@@ -1,0 +1,771 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Track evidence provenance without claiming technical verification. This registry is documentation/QA metadata; the current app does not yet consume it at runtime.",
+  "statusDefinitions": {
+    "source-not-recorded": "No traceable source is recorded in the repository; technical correctness has not been verified by this registry.",
+    "review-needed": "A reviewer has identified a candidate source but has not completed scope/claim verification.",
+    "verified": "A reviewer has checked the cited source against the exact claim and equipment scope. Do not use without at least one reference."
+  },
+  "records": {
+    "pump-cavitation": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "pump-loss-of-prime": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "pump-abnormal-vibration": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "pump-mechanical-seal-leak": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "pump-check-valve-failure": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "motor-no-start": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "motor-overheating": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "vfd-trip": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "compressor-high-temperature": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "compressor-low-pressure": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "motor-overheat": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "compressor-overheat": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "compressor-low-output": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "motor-overload-trip": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "motor-fails-to-start": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "motor-hums-no-rotation": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "motor-excessive-vibration": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "motor-bearing-noise": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "motor-phase-loss": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "motor-phase-imbalance": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "motor-insulation-low": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "motor-winding-fault": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "motor-rotation-wrong": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "motor-starts-stops": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "motor-low-speed": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "motor-high-current": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "motor-low-torque": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "vfd-overcurrent": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "vfd-overvoltage": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "vfd-undervoltage": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "vfd-overtemperature": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "vfd-ground-fault": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "vfd-motor-not-running": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "vfd-frequency-unstable": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "vfd-communication-loss": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "vfd-parameter-mismatch": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "vfd-speed-reference-missing": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "vfd-fan-failure": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "vfd-dc-bus-ripple": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "compressor-oil-low": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "compressor-oil-pressure-low": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "compressor-oil-carryover": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "compressor-intake-restriction": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "compressor-air-leak": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "compressor-cycling": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "compressor-condensate": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "compressor-separator-pressure-drop": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "compressor-belt-slip": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "compressor-drain-failure": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "pump-low-flow": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "pump-no-discharge-pressure": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "pump-seal-leak": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "pump-bearing-overheat": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "pump-coupling-misalignment": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "pump-rotation-reversed": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "pump-air-lock": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "pump-discharge-blockage": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "pump-impeller-damage": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "pump-excessive-flow": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "pump-pressure-fluctuation": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "pump-dry-running": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "valve-stuck-closed": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "valve-stuck-open": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "valve-internal-leakage": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "valve-actuator-no-response": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "valve-position-feedback": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "valve-solenoid-fault": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "valve-water-hammer": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "hydraulic-low-pressure": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "hydraulic-overheating": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "hydraulic-foaming": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "hydraulic-filter-clogged": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "hydraulic-cylinder-drift": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "hydraulic-cylinder-slow": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "hydraulic-pump-noise": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "hydraulic-internal-leak": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "hydraulic-hose-damage": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "hydraulic-pressure-spike": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "hydraulic-valve-sticking": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "pneumatic-low-pressure": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "pneumatic-cylinder-slow": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "pneumatic-cylinder-stuck": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "pneumatic-air-leak": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "pneumatic-moisture": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "pneumatic-regulator-fault": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "pneumatic-solenoid-fault": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "pneumatic-filter-clogged": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "plc-not-running": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "plc-input-not-changing": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "plc-output-not-energizing": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "plc-communication-loss": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "plc-program-change": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "hmi-frozen": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "hmi-wrong-values": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "sensor-no-signal": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "sensor-signal-fluctuation": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "sensor-out-of-range": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "sensor-drift": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "sensor-wiring-fault": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "proximity-sensor-no-detect": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "photoelectric-sensor-false-trigger": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "encoder-feedback-loss": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "temperature-sensor-fault": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "pressure-sensor-fault": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "level-sensor-fault": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "flowmeter-no-reading": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "pressure-transmitter-drift": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "temperature-transmitter-fault": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "level-switch-chatter": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "contactor-chatter": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "contactor-not-pulling-in": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "contactor-welded": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "overload-relay-tripping": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "fuse-repeated-failure": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "control-voltage-missing": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "emergency-stop-chain-open": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "safety-interlock-not-made": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "safety-relay-fault": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "bearing-lubrication-failure": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "bearing-wear": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "shaft-misalignment": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "mechanical-looseness": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "belt-tension-issue": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "gearbox-overheating": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "gearbox-oil-low": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "gearbox-noise": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "conveyor-belt-tracking": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "conveyor-belt-slip": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "conveyor-jam": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "conveyor-speed-mismatch": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "filter-high-differential-pressure": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "heat-exchanger-poor-transfer": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "cooling-fan-failure": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "cooling-water-low-flow": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "steam-trap-failure": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "boiler-low-water-alarm": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "refrigeration-high-pressure": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "refrigeration-low-pressure": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "ups-battery-alarm": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "power-supply-voltage-unstable": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "power-supply-phase-sequence": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "earth-leakage-trip": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "electrical-panel-hotspot": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "network-switch-link-down": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "fieldbus-device-offline": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "robot-axis-following-error": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "robot-homing-failure": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "lubrication-system-low-flow": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "vacuum-low-level": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "dust-collector-high-pressure-drop": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "fire-alarm-device-fault": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    },
+    "leak-detector-fault": {
+      "status": "source-not-recorded",
+      "references": [],
+      "reviewNote": "No traceable technical reference is currently recorded for this fault ID. Do not present this status as manufacturer verification."
+    }
+  }
+}
