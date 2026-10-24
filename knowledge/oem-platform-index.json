@@ -45,7 +45,7 @@
       ],
       "url": "https://www.inovance.com/global/support/download-documentation.html",
       "evidenceStatus": "portal-only",
-      "alarmCodeRecords": 6,
+      "alarmCodeRecords": 0,
       "notes": "Official portal identified; exact model-specific fault claims have not yet been verified. The index remains portal-only; selected manual-reviewed claims are tracked per fault record and are not field-verified.",
       "modelsCovered": [
         "MD200 series AC drive"
@@ -563,7 +563,7 @@
       ],
       "url": "https://www.mitsubishielectric-cnc.com/manuals/",
       "evidenceStatus": "portal-only",
-      "alarmCodeRecords": 6,
+      "alarmCodeRecords": 0,
       "modelsCovered": [
         "C80 Series CNC"
       ],
