@@ -124,3 +124,17 @@ Further comparisons against the same baseline `main` HEAD covered these branches
 ## Scope limitation on historical completeness
 
 The GitHub connector exposed the current HEAD, the recent commit-search page, branch refs, PR file lists, and pairwise branch comparisons, but did not provide a complete paginated chronological commit list in this audit session. Therefore this report records the full current HEAD and the related-branch/PR comparisons performed, plus a recent-history summary; it does **not** falsely claim that every historical commit from the repository's first commit was individually inspected. A true commit-by-commit historical audit would require retrieving the full commit list and reviewing every commit/diff.
+
+
+## Final merge and deployment status — 2026-10-24
+
+- PR #55 merged the offline evidence-aware reasoning and local knowledge excerpt index into `main`.
+- PR #52 merged the isolated deterministic agent orchestration core. It remains a library module and is not yet wired into every live UI workflow.
+- PR #56 merged the evidence provenance register, explicit diagnostic-flow coverage map, and associated tests/docs.
+- PR #57 merged the reviewed skill specifications, exact keyword-boundary matching, unreviewed-alias hints, non-probabilistic UI labels, and stricter Worker validation for `confirmed_cause`.
+- PR #58 merged the Cloudflare Pages direct-upload workflow. PR #53 and PR #54 were closed as superseded after their useful changes were ported selectively; their old branches were not merged wholesale.
+- The final deployment workflow run for commit `4fcbddffec4ea15a25700125e32c2ff9e3d19b5f` completed successfully: [Cloudflare Pages deploy and smoke test](https://github.com/belaggouneseifeddine/ai-maintenance-toolkit/actions/runs/40066333828). It verified the production URL, diagnostic engine asset, and manufacturer-source registry.
+- GitHub Pages deployment and quality checks also passed for that commit. The Cloudflare Worker deployment for the preceding code commit `933aa6c44ae379f1a9d93454d367aa0d0cd11421` completed successfully, including credential-presence checks; secret values were not accessed or logged.
+- Primary frontend URL: https://maintenance-ai-toolkit.pages.dev/ . GitHub Pages remains as a fallback.
+- The repo contains 60+ branches. Pairwise comparisons were performed for the current branch list. Old branches that diverge substantially were not merged automatically; compatible changes were ported selectively through PRs #55–#58.
+- Historical completeness limit remains: the full chronological commit list from the repository's first commit was not available through the connector, so this is not a claim that every historical commit was individually reviewed.
