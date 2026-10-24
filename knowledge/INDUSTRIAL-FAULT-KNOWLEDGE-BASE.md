@@ -174,3 +174,69 @@ For more detailed symptom-led checks, see the [Electric Motor & Drive Troublesho
 - Do not use the entries as repair authorization, a complete risk assessment, or a substitute for competence and site training.
 - Keep references linked to the claims they support; add model-specific instructions only after reviewing the correct manufacturer documentation.
 - Revalidate source URLs and technical content before using this material for operational decisions.
+
+
+## Expanded equipment cases — general triage only
+
+The cases below broaden coverage beyond the original pump/motor/compressor set. They are deliberately **not marked OEM-verified**: the linked manufacturer portals are discovery routes until the exact model manual and relevant section have been reviewed.
+
+### Fans and blowers — abnormal vibration or noise
+- Capture vibration/noise trend, recent maintenance, operating state, and any available airflow/filter indicators from safe monitoring points.
+- Candidate areas to investigate include rotor buildup/imbalance, bearing or mounting condition, and changes in system resistance. The symptom alone does not distinguish them.
+- Do not remove guards or touch rotating parts. Isolate all relevant energy before inspection.
+- Manufacturer references: [ABB motor manuals](https://www.abb.com/global/en/areas/motion/motors-generators/low-voltage-motors/iec-low-voltage-motors/iec-lv-manuals); use only if the motor family matches.
+
+### Industrial chillers — high condensing temperature or poor cooling
+- Record the exact alarm, available inlet/outlet temperatures, cooling-flow indicators, ambient conditions, and load trend.
+- Potential areas include reduced heat transfer, inadequate cooling flow/airflow, or changed operating conditions. Do not infer a refrigerant fault from temperature alone.
+- Do not open refrigerant circuits or adjust pressure/charge without qualified personnel and the exact unit procedure.
+- Manufacturer reference: [Danfoss troubleshooting support](https://www.danfoss.com/en/service-and-support/fix-and-troubleshooting/); select the exact product family.
+
+### Servo drives and motion axes — following or position error
+- Capture the exact alarm text/code, drive and motor model, axis state, feedback status, and recent parameter or mechanical changes through an authorized interface.
+- Review command/feedback consistency, load or obstruction indications, and communications history. Do not force motion or infer an encoder/drive failure from the alarm label alone.
+- Never bypass guards or safety interlocks. Follow the exact drive/controller manual and site isolation procedure.
+- Manufacturer reference: [ABB drive document library](https://www.abbnow.com/PublicSite/home/LiteratureResources/Document-Library.htm); exact model and firmware revision required.
+
+### Transformers — abnormal temperature, humming, or burning smell
+- Review alarms, load trend, displayed temperature, and cooling indicators from a safe location.
+- Load, cooling, connections, and internal conditions are possible investigation areas; this entry does not diagnose transformer health.
+- Smoke, arcing, burning smell, or rapid temperature rise requires immediate stop/escalation under site emergency procedures. Do not open energized equipment.
+- Manufacturer documentation must match the transformer manufacturer and exact type; use [Siemens Industry Online Support](https://support.industry.siemens.com/) only as a document-finding route.
+
+### Hydraulic filters — restriction indication or slow movement
+- Record any installed differential-pressure indication, oil temperature, system state, and filter service history; do not invent an alarm threshold.
+- Filter loading, oil condition/temperature, and other flow/control issues can overlap.
+- Depressurize and control stored energy according to site procedure before opening any hydraulic component.
+- Manufacturer reference: [Danfoss troubleshooting support](https://www.danfoss.com/en/service-and-support/fix-and-troubleshooting/); exact hydraulic product/model required.
+
+### Steam systems — suspected steam-trap or condensate-drain fault
+- Record installed temperature/pressure indicators and process symptoms remotely; do not touch steam lines.
+- A trap may be blocked, passing steam, or affected by return-line/operating conditions; verify with the correct trap manual and approved diagnostic method.
+- Steam, hot condensate, and water hammer can cause severe injury. Do not loosen fittings or perform live tests without authorized procedures.
+- Find the exact component documentation through the original manufacturer; a general portal is not fault evidence.
+
+### Dust collectors — pulse-cleaning fault or high differential pressure
+- Record differential-pressure trend, pulse-cleaning alarms, compressed-air supply indicators, and filter service history from the control interface.
+- Potential areas include cleaning-air supply, pulse-valve/control sequence, filter loading/damage, or changed process flow.
+- Do not open the collector or enter a hopper until isolation, dust hazards, stored energy, and site entry requirements have been addressed.
+- Select the exact collector/controller manual before assigning a root cause.
+
+### Instrumentation — unstable or drifting process signal
+- Record the signal value with units/time, process state, independent approved indication if available, and exact transmitter/model.
+- Separate a real process change from possible wiring/interference, configuration, or calibration issues before concluding the sensor is faulty.
+- Do not change range/calibration or bypass interlocks without approved authorization; electrical checks are for qualified personnel.
+- Use [Siemens Industry Online Support](https://support.industry.siemens.com/) only when the exact instrument/product family matches.
+
+## Official manufacturer documentation portals
+
+- [Grundfos troubleshooting-guide locator](https://www.grundfos.com/solutions/support/how-to-guides/how-to-find-troubleshooting-guides) — select the exact pump in Product Center/GO Remote and open its Installation & Operating Instructions.
+- [Atlas Copco compressor troubleshooting](https://www.atlascopco.com/en-sa/compressors/air-compressor-blog/air-compressor-troubleshooting) — general examples; confirm the compressor/controller model.
+- [Atlas Copco compressor manuals](https://www.atlascopco.com/en-uk/compressors/manuals) — exact product/serial number may be required.
+- [ABB IEC low-voltage motor manuals](https://www.abb.com/global/en/areas/motion/motors-generators/low-voltage-motors/iec-low-voltage-motors/iec-lv-manuals) — installation, operation, maintenance, and safety documentation.
+- [ABB drive document library](https://www.abbnow.com/PublicSite/home/LiteratureResources/Document-Library.htm) — exact drive family/revision required.
+- [Danfoss fix and troubleshooting](https://www.danfoss.com/en/service-and-support/fix-and-troubleshooting/) — drives, climate solutions, high-pressure pumps, and sensing products.
+- [Siemens Industry Online Support](https://support.industry.siemens.com/) — search by exact order number/product/version.
+- [Festo official site](https://www.festo.com/) — find the exact pneumatic valve/component operating instructions.
+
+**Evidence rule:** A manufacturer link is not proof of a cause. Before promoting any entry to OEM-verified status, record the exact model, manual title/revision, section/page, inspected claim, and review date. Never invent alarm meanings, thresholds, torque values, pressure limits, or part numbers.
