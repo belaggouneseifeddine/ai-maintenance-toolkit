@@ -20,17 +20,17 @@
 | China | Inovance — MD-series AC drives; IS620 / IS810N / SV660 servo; H5U PLC and HMI | [Official portal](https://www.inovance.com/global/support/download-documentation.html)<br>[Official portal](https://www.inovance.eu/downloads) | vfd, servo, plc, hmi, motion |
 | China | Leadshine — EL7 servo drives, stepper/closed-loop drives and motion controllers | [Official portal](https://www.leadshine.com/downloads.html) | servo, motion, cnc |
 | Taiwan | LNC / Lynuc — N3 / N5 / U-series CNC controls and D-series drives | [Official portal](https://www.lynuc.cn/download.aspx) | cnc, servo, motion |
-| Taiwan | Syntec — Syntec CNC controller and servo systems; confirm series on official portal | [Official portal](https://syntecclub.com/) | cnc, servo, motion |
+| Taiwan | Syntec — Syntec CNC controller and servo systems; confirm series on official portal | [Official portal](https://www.syntecamerica.com/download/) | cnc, servo, motion |
 | Europe / Germany | Siemens — SINUMERIK CNC; SIMATIC PLC/HMI; SINAMICS drives | [Official portal](https://support.industry.siemens.com/) | cnc, plc, hmi, vfd, industrial-network |
 | Europe / Germany | HEIDENHAIN — TNC / iTNC controls, encoders and PLC integration | [Official portal](https://www.heidenhain.com/service/technical-support) | cnc, encoder, plc, machine-tool |
 | Europe / Germany | Beckhoff — TwinCAT, EtherCAT, IPC, EtherCAT I/O and drive systems | [Official portal](https://www.beckhoff.com/en-us/support/download-finder/) | plc, industrial-network, motion, hmi |
 | Europe / Germany | Bosch Rexroth — ctrlX AUTOMATION / DRIVE, IndraDrive and MTX CNC | [Official portal](https://docs.automation.boschrexroth.com/) | servo, vfd, cnc, plc, hydraulic |
 | Europe / France | Schneider Electric — Modicon PLC, Altivar drives, Harmony HMI and electrical protection | [Official portal](https://www.se.com/ww/en/download/) | plc, vfd, hmi, electrical-panel |
 | Europe / Germany | SEW-EURODRIVE — MOVITRAC / MOVIDRIVE inverters, gearmotors and motion control | [Official portal](https://download.sew-eurodrive.com/) | vfd, electric-motor, conveyor, motion |
-| Europe / Germany | Lenze — i-series drives, controllers and engineering tools | [Official portal](https://www.lenze.com/en-de/services/downloads) | vfd, servo, plc, conveyor |
+| Europe / Germany | Lenze — i-series drives, controllers and engineering tools | [Official portal](https://www.lenze.com/en-de/services/software-downloads) | vfd, servo, plc, conveyor |
 | Europe / Germany | Festo — CPX / valve terminals, pneumatic valves and sensors | [Official portal](https://www.festo.com/) | pneumatic, valves, plc, instrumentation |
 | Europe / Germany | TRUMPF — Laser cutting, punching and sheet-metal machines; machine type required | [Official portal](https://www.trumpf.com/en_INT/service/) | laser, cnc, machine-tool, cooling |
-| Europe / Germany | HOMAG — Woodworking CNC, edge banding and panel processing machinery | [Official portal](https://www.homag.com/en/services) | cnc, conveyor, machine-tool, safety |
+| Europe / Germany | HOMAG — Woodworking CNC, edge banding and panel processing machinery | [Official portal](https://www.homag.com/en/service) | cnc, conveyor, machine-tool, safety |
 | Europe / Germany | KUKA — KR robots and KRC controller generations; controller generation required | [Official portal](https://www.kuka.com/en-us/services/downloads) | robotics, servo, safety, industrial-network |
 
 ## Structured case templates
