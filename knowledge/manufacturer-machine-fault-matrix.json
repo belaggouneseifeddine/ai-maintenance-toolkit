@@ -1259,7 +1259,8 @@
       "title_fr": "Alarme de refroidissement ou d’interverrouillage sur machine laser",
       "equipmentDomain": "laser",
       "applicableFamilies": [
-        "Bodor laser machines; other laser brands require their own manual"
+        "Bodor laser machines",
+        "Other laser brands require their own exact machine and cooling-unit manuals"
       ],
       "symptomPattern": "laser-cooling-interlock",
       "sourceRefs": [
