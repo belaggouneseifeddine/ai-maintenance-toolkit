@@ -5,7 +5,7 @@ Deterministic inventory of the current repository. This report adds no technical
 ## Snapshot
 
 - Worker-referenced Markdown documents: **9**
-- Markdown inventory: **3,038 lines**, **39,781 whitespace-separated words**, **230 headings**
+- Markdown inventory: **3,234 lines**, **42,704 whitespace-separated words**, **237 headings**
 - Structured fault records: **284**
 - Model-specific manual-reviewed fault records (not field-verified): **60**
 - Distinct equipment-type labels in the fault library: **36**
@@ -29,7 +29,7 @@ Deterministic inventory of the current repository. This report adds no technical
 | knowledge/UNIVERSAL-INDUSTRIAL-FAULT-ATLAS-AR-FR-EN.md | 120 | 1,737 | 14 |
 | knowledge/CHINESE-EUROPEAN-OEM-FAULT-MATRIX-AR-FR-EN.md | 432 | 4,549 | 45 |
 | knowledge/OEM-MANUFACTURER-INDEX-AR-FR-EN.md | 123 | 1,378 | 10 |
-| knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md | 1561 | 21,777 | 66 |
+| knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md | 1757 | 24,700 | 73 |
 
 ## Source registry and licensing
 
