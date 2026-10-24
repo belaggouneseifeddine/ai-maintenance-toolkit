@@ -17,6 +17,7 @@ const sw = readFileSync("sw.js", "utf8");
 const deployWorkflow = readFileSync(".github/workflows/deploy-pages.yml", "utf8");
 const cloudflareDeployWorkflow = readFileSync(".github/workflows/deploy-cloudflare-pages.yml", "utf8");
 const faults = JSON.parse(readFileSync("faults.json", "utf8"));
+const manufacturerSources = JSON.parse(readFileSync("knowledge/manufacturer-sources.json", "utf8"));
 const diagnosticEngineSource = readFileSync("diagnostic-engine.js", "utf8");
 const normalizationSource = readFileSync("normalization.js", "utf8");
 const knowledgeReviewSource = readFileSync("knowledge-review.js", "utf8");
@@ -429,6 +430,50 @@ const checks = [
   }],
 ];
 
+
+  ["Expanded fault library has unique IDs, multilingual text, safe checks, and traceable source references", () => {
+    const ids = new Set();
+    for (const fault of faults.faults) {
+      assert.ok(!ids.has(fault.id), "Duplicate fault ID: " + fault.id);
+      ids.add(fault.id);
+    }
+    const addedIds = [
+      "fan-blower-abnormal-vibration",
+      "chiller-high-condensing-temperature",
+      "servo-drive-following-error",
+      "transformer-abnormal-temperature",
+      "hydraulic-filter-differential-pressure",
+      "steam-trap-suspected-failure",
+      "dust-collector-pulse-cleaning-fault",
+      "instrument-four-to-twenty-ma-drift"
+    ];
+    for (const id of addedIds) {
+      const fault = faults.faults.find(item => item.id === id);
+      assert.ok(fault, "Missing expanded fault: " + id);
+      for (const lang of ["ar", "fr", "en"]) {
+        assert.ok(fault.title[lang], id + " missing " + lang + " title");
+        assert.ok(Array.isArray(fault.keywords[lang]) && fault.keywords[lang].length, id + " missing " + lang + " keywords");
+      }
+      assert.ok(fault.causes.length >= 3, id + " needs multiple candidate causes");
+      assert.ok(fault.safeChecks.length >= 3, id + " needs safe checks");
+      assert.ok(fault.escalation.ar && fault.escalation.fr && fault.escalation.en, id + " needs multilingual escalation");
+      assert.equal(fault.evidenceStatus, "general-guidance-not-model-specific");
+      assert.ok(fault.sourceRefs.length, id + " needs source-discovery references");
+    }
+  }],
+  ["Manufacturer source registry keeps official portals distinct from model-verified evidence", () => {
+    const sourceIds = new Set();
+    for (const source of manufacturerSources.sources) {
+      assert.ok(!sourceIds.has(source.id), "Duplicate manufacturer source ID: " + source.id);
+      sourceIds.add(source.id);
+      assert.ok(/^https:\/\//.test(source.url), "Source URL must use HTTPS: " + source.id);
+      assert.ok(source.scope && source.status, "Source scope/status required: " + source.id);
+    }
+    for (const id of ["grundfos-troubleshooting-guides", "atlas-copco-compressor-troubleshooting", "atlas-copco-manuals", "abb-motor-manuals", "abb-drive-manuals", "danfoss-troubleshooting", "siemens-industrial-support", "festo-support-portal"]) {
+      assert.ok(sourceIds.has(id), "Missing OEM portal: " + id);
+    }
+    assert.match(manufacturerSources.purpose, /URLs do not prove/);
+  }],
 let failed = 0;
 for (const [name, run] of checks) {
   try {
