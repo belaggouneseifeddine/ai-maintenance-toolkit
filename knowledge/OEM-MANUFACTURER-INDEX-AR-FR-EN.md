@@ -11,7 +11,7 @@
 | `claim-reviewed` | Reviewer checked a specific claim against a passage in the source | Only for the exact claim and applicable product family |
 | `model-verified` | Exact model/variant and controller match, manual revision and passage recorded | Yes, within the recorded scope only |
 
-All 24 entries currently remain `portal-only`, with zero verified alarm-code records. This is deliberate: a manufacturer's support page is not evidence for the meaning of a particular alarm.
+All 28 entries currently remain `portal-only`, with zero verified alarm-code records. This is deliberate: a manufacturer's support page is not evidence for the meaning of a particular alarm.
 
 ## China and Asia — machine builders and control platforms
 
