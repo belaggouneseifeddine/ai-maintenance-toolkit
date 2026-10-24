@@ -1,0 +1,32 @@
+name: Local reasoning regression tests
+
+on:
+  push:
+    paths:
+      - "diagnostic-engine.js"
+      - "knowledge/manufacturer-sources.json"
+      - "tests/local-reasoning.test.cjs"
+      - ".github/workflows/local-reasoning-tests.yml"
+  pull_request:
+    paths:
+      - "diagnostic-engine.js"
+      - "knowledge/manufacturer-sources.json"
+      - "tests/local-reasoning.test.cjs"
+      - ".github/workflows/local-reasoning-tests.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  local-reasoning:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Run local reasoning regression tests
+        run: node --test tests/local-reasoning.test.cjs
+      - name: Run existing diagnostic engine tests
+        run: node --test tests/diagnostic-engine.test.cjs
