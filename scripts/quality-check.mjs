@@ -347,7 +347,7 @@ const checks = [
   }],
   ["PWA caches all new offline dependencies and bumps its cache", () => {
     assert.match(sw, /maintenance-ai-toolkit-v38/);
-    for (const asset of ["normalization.js", "knowledge-review.js", "answer-tools.js", "diagnostic-engine.js", "engineering-core.js", "agent-core.js", "agent-ui.js", "faults.json", "i18n.js"]) assert.ok(sw.includes(asset), "Missing offline cache asset " + asset);
+    for (const asset of ["normalization.js", "knowledge-review.js", "answer-tools.js", "diagnostic-engine.js", "engineering-core.js", "agent-core.js", "agent-ui.js", "faults.json", "knowledge/oem-platform-index.json", "knowledge/manufacturer-machine-fault-matrix.json", "i18n.js"]) assert.ok(sw.includes(asset), "Missing offline cache asset " + asset);
     assert.match(manifest.icons[0].src, /icon\.svg/);
   }]
 ,
@@ -472,7 +472,7 @@ const checks = [
       assert.ok(/^https:\/\//.test(source.url), "Source URL must use HTTPS: " + source.id);
       assert.ok(source.scope && source.status, "Source scope/status required: " + source.id);
     }
-    for (const id of ["grundfos-troubleshooting-guides", "atlas-copco-compressor-troubleshooting", "atlas-copco-manuals", "abb-motor-manuals", "abb-drive-manuals", "danfoss-troubleshooting", "siemens-industrial-support", "festo-support-portal", "yizumi-machine-service", "haitian-machine-service", "bodor-laser-service", "mitsubishi-fa-china-documents", "delta-industrial-download-center", "pilz-machine-safety-support", "xinje-download-center"]) {
+    for (const id of ["grundfos-troubleshooting-guides", "atlas-copco-compressor-troubleshooting", "atlas-copco-manuals", "abb-motor-manuals", "abb-drive-manuals", "danfoss-troubleshooting", "siemens-industrial-support", "festo-support-portal", "yizumi-machine-service", "haitian-machine-service", "bodor-laser-service", "mitsubishi-fa-china-documents", "delta-industrial-download-center", "pilz-machine-safety-support", "xinje-download-center", "omron-industrial-downloads", "yaskawa-drive-manuals", "fagor-automation-manuals", "fanuc-america-support"]) {
       assert.ok(sourceIds.has(id), "Missing OEM portal: " + id);
     }
     assert.match(manufacturerSources.purpose, /URLs do not prove/);
@@ -481,6 +481,7 @@ const checks = [
     assert.ok(worker.includes("knowledge/CHINESE-EUROPEAN-OEM-FAULT-MATRIX-AR-FR-EN.md"), "Worker must load the OEM matrix");
     assert.ok(manufacturerMatrix.manufacturerProfiles.length >= 15, "Expected at least 15 manufacturer profiles");
     assert.ok(manufacturerMatrix.caseTemplates.length >= 20, "Expected at least 20 structured OEM case templates");
+    for (const id of ["omron-plc-io-or-fieldbus-loss", "omron-servo-ready-or-following-error", "yaskawa-drive-overcurrent-or-overload", "yaskawa-motoman-servo-or-safety-stop", "fagor-cnc-axis-feedback-or-reference", "fanuc-servo-amplifier-alarm", "fanuc-robot-controller-alarm"]) assert.ok(manufacturerMatrix.caseTemplates.some(item => item.id === id), "Missing OEM case template: " + id);
     assert.ok(manufacturerMatrix.policy.noInventedAlarmCodes, "Policy must prohibit invented alarm codes");
     const profileIds = new Set();
     const knownSources = new Set(manufacturerSources.sources.map(source => source.id));
@@ -505,6 +506,7 @@ const checks = [
     assert.ok(manufacturerMatrixMarkdown.includes("Official manufacturer documentation index"));
     assert.ok(worker.includes("knowledge/OEM-MANUFACTURER-INDEX-AR-FR-EN.md"), "Worker must load the OEM platform index");
     assert.ok(oemPlatformIndex.manufacturers.length >= 20, "Expected at least 20 structured OEM/platform profiles");
+    for (const id of ["omron", "yaskawa", "fagor", "fanuc"]) assert.ok(oemPlatformIndex.manufacturers.some(profile => profile.id === id), "Missing OEM platform profile: " + id);
     assert.ok(oemPlatformIndex.manufacturers.every(p => p.evidenceStatus === "portal-only" && p.alarmCodeRecords === 0), "Portal-only sources must not be marked model verified");
     const platformIds = new Set();
     for (const profile of oemPlatformIndex.manufacturers) {
