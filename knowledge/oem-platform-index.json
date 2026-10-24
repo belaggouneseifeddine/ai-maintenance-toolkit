@@ -41,16 +41,19 @@
       ],
       "sourceRefs": [
         "inovance-global-downloads",
-        "inovance-eu-downloads"
+        "inovance-eu-downloads",
+        "inovance-h5u-plc-user-guide",
+        "inovance-fault-code-query"
       ],
       "url": "https://www.inovance.com/global/support/download-documentation.html",
       "evidenceStatus": "portal-only",
       "alarmCodeRecords": 0,
-      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified. The index remains portal-only; selected manual-reviewed claims are tracked per fault record and are not field-verified.",
+      "notes": "Portal-only index plus selected manual-reviewed claims; see individual record evidence scope. Not field-verified.",
       "modelsCovered": [
-        "MD200 series AC drive"
+        "MD200 series AC drive",
+        "H5U series PLC"
       ],
-      "manualReviewedFaultCount": 6
+      "manualReviewedFaultCount": 9
     },
     {
       "id": "delta",
@@ -83,12 +86,17 @@
         "VFD and motion control"
       ],
       "sourceRefs": [
-        "xinje-download-center"
+        "xinje-download-center",
+        "xinje-xnet-fieldbus-manual"
       ],
       "url": "https://en.xinje.com/web/downloadCenter/index",
       "evidenceStatus": "portal-only",
       "alarmCodeRecords": 0,
-      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified.",
+      "modelsCovered": [
+        "DS5K series servo driver",
+        "X-NET fieldbus"
+      ]
     },
     {
       "id": "huazhongcnc",
