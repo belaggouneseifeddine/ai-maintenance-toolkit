@@ -7,7 +7,7 @@
     "en"
   ],
   "generatedAt": "2026-10-24",
-  "recordCount": 63,
+  "recordCount": 66,
   "evidencePolicy": {
     "verifiedMeans": "The cited official manual explicitly supports the stated alarm meaning or diagnostic procedure within the recorded scope.",
     "notEquivalentTo": "This does not mean every machine built around the same brand/controller behaves identically; machine builder integration, firmware and options can change alarm behavior.",
@@ -3223,6 +3223,168 @@
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Specific to the module and manual edition cited. Confirm installed hardware, wiring and safety configuration before action."
+    },
+    {
+      "recordType": "alarm-code",
+      "manufacturer": "GSK CNC",
+      "productFamily": "GSK218M CNC System",
+      "modelScope": "GSK218M CNC system; do not generalize to other GSK controller families",
+      "firmwareScope": "Programming and Operation Manual; confirm the exact manual revision installed on the machine",
+      "source": {
+        "sourceId": "gsk-218m-cnc-programming-operation-manual",
+        "manualTitle": "GSK218M CNC System Programming and Operation Manual",
+        "revision": "Official manual PDF; revision/date to be confirmed against the machine documentation",
+        "section": "Alarm interface → alarm number and meaning list",
+        "printedPage": 207,
+        "manualUrl": "https://gskcnc.com/Support/218M01.pdf",
+        "evidenceSummary": "The official GSK218M manual describes the alarm interface and lists the specified program/operation alarm numbers and meanings. Summaries below are paraphrased."
+      },
+      "safeChecks": {
+        "en": [
+          "Record the exact alarm number and displayed text, active mode, current program/block and operation immediately preceding the alarm.",
+          "Preserve the alarm/history and relevant program before resetting; correct the stated program or file issue rather than repeatedly clearing the alarm.",
+          "Check the installed controller model and manual revision; do not apply the code meaning to other GSK models without their manual."
+        ],
+        "ar": [
+          "سجّل رقم الإنذار والنص الظاهر ووضع التشغيل والبرنامج/السطر الحالي والإجراء الذي سبق الإنذار.",
+          "احتفظ بسجل الإنذار والبرنامج قبل إعادة الضبط؛ عالج مشكلة البرنامج أو الملف المحددة بدلًا من مسح الإنذار بشكل متكرر.",
+          "تحقق من طراز وحدة التحكم ونسخة الدليل المثبتة؛ لا تعمم معنى الرمز على طرازات GSK أخرى."
+        ],
+        "fr": [
+          "Consigner le numéro et le texte exacts, le mode, le programme/bloc actif et l’opération juste avant l’alarme.",
+          "Préserver l’historique et le programme avant réinitialisation; corriger le problème de programme ou de fichier au lieu d’effacer répétitivement l’alarme.",
+          "Vérifier le modèle de commande et la révision du manuel; ne pas généraliser ce code à d’autres modèles GSK."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate recurring alarms, data corruption, unexpected machine motion, or any alarm whose meaning does not match the cited controller/manual.",
+        "ar": "صعّد عند تكرار الإنذار أو تلف البيانات أو الحركة غير المتوقعة أو عدم تطابق معنى الإنذار مع وحدة التحكم والدليل المحددين.",
+        "fr": "Escalader les alarmes récurrentes, données corrompues, mouvements inattendus ou tout code incompatible avec le contrôleur et le manuel cités."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Scope is limited to GSK218M and the cited manual. Confirm the exact installed revision before using operational instructions.",
+      "id": "gsk-218m-alarm-0000-parameter-power-cycle",
+      "alarmCode": "0000",
+      "title": {
+        "en": "Power off required after parameter input",
+        "ar": "يلزم فصل الطاقة بعد إدخال المعلمات",
+        "fr": "Mise hors tension requise après saisie de paramètres"
+      },
+      "meaning": {
+        "en": "The GSK218M alarm list labels code 0000 as power not turned off after parameter input; the controller indicates that the parameter change has not been followed by the required power-off/restart step.",
+        "ar": "تسمّي قائمة إنذارات GSK218M الرمز 0000 بأنه عدم فصل الطاقة بعد إدخال المعلمات؛ ويشير ذلك إلى أن تغيير المعلمة لم يتبعه إجراء إيقاف الطاقة المطلوب.",
+        "fr": "La liste d’alarmes GSK218M associe le code 0000 à l’absence de mise hors tension après saisie d’un paramètre; le changement n’a pas été suivi de l’étape d’arrêt requise."
+      }
+    },
+    {
+      "recordType": "alarm-code",
+      "manufacturer": "GSK CNC",
+      "productFamily": "GSK218M CNC System",
+      "modelScope": "GSK218M CNC system; do not generalize to other GSK controller families",
+      "firmwareScope": "Programming and Operation Manual; confirm the exact manual revision installed on the machine",
+      "source": {
+        "sourceId": "gsk-218m-cnc-programming-operation-manual",
+        "manualTitle": "GSK218M CNC System Programming and Operation Manual",
+        "revision": "Official manual PDF; revision/date to be confirmed against the machine documentation",
+        "section": "Alarm interface → alarm number and meaning list",
+        "printedPage": 207,
+        "manualUrl": "https://gskcnc.com/Support/218M01.pdf",
+        "evidenceSummary": "The official GSK218M manual describes the alarm interface and lists the specified program/operation alarm numbers and meanings. Summaries below are paraphrased."
+      },
+      "safeChecks": {
+        "en": [
+          "Record the exact alarm number and displayed text, active mode, current program/block and operation immediately preceding the alarm.",
+          "Preserve the alarm/history and relevant program before resetting; correct the stated program or file issue rather than repeatedly clearing the alarm.",
+          "Check the installed controller model and manual revision; do not apply the code meaning to other GSK models without their manual."
+        ],
+        "ar": [
+          "سجّل رقم الإنذار والنص الظاهر ووضع التشغيل والبرنامج/السطر الحالي والإجراء الذي سبق الإنذار.",
+          "احتفظ بسجل الإنذار والبرنامج قبل إعادة الضبط؛ عالج مشكلة البرنامج أو الملف المحددة بدلًا من مسح الإنذار بشكل متكرر.",
+          "تحقق من طراز وحدة التحكم ونسخة الدليل المثبتة؛ لا تعمم معنى الرمز على طرازات GSK أخرى."
+        ],
+        "fr": [
+          "Consigner le numéro et le texte exacts, le mode, le programme/bloc actif et l’opération juste avant l’alarme.",
+          "Préserver l’historique et le programme avant réinitialisation; corriger le problème de programme ou de fichier au lieu d’effacer répétitivement l’alarme.",
+          "Vérifier le modèle de commande et la révision du manuel; ne pas généraliser ce code à d’autres modèles GSK."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate recurring alarms, data corruption, unexpected machine motion, or any alarm whose meaning does not match the cited controller/manual.",
+        "ar": "صعّد عند تكرار الإنذار أو تلف البيانات أو الحركة غير المتوقعة أو عدم تطابق معنى الإنذار مع وحدة التحكم والدليل المحددين.",
+        "fr": "Escalader les alarmes récurrentes, données corrompues, mouvements inattendus ou tout code incompatible avec le contrôleur et le manuel cités."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Scope is limited to GSK218M and the cited manual. Confirm the exact installed revision before using operational instructions.",
+      "id": "gsk-218m-alarm-0001-file-open-fail",
+      "alarmCode": "0001",
+      "title": {
+        "en": "File open failure",
+        "ar": "فشل فتح الملف",
+        "fr": "Échec d’ouverture du fichier"
+      },
+      "meaning": {
+        "en": "The GSK218M alarm list labels code 0001 as file open fail. The message identifies a file-opening operation that did not complete; the specific file and operation context must be captured before intervention.",
+        "ar": "تسمّي قائمة إنذارات GSK218M الرمز 0001 بأنه فشل فتح الملف. يشير الإنذار إلى تعذر إكمال عملية فتح ملف؛ ويجب تسجيل اسم الملف وسياق العملية قبل التدخل.",
+        "fr": "La liste d’alarmes GSK218M associe le code 0001 à un échec d’ouverture de fichier. Il faut relever le fichier concerné et le contexte avant intervention."
+      }
+    },
+    {
+      "recordType": "alarm-code",
+      "manufacturer": "GSK CNC",
+      "productFamily": "GSK218M CNC System",
+      "modelScope": "GSK218M CNC system; do not generalize to other GSK controller families",
+      "firmwareScope": "Programming and Operation Manual; confirm the exact manual revision installed on the machine",
+      "source": {
+        "sourceId": "gsk-218m-cnc-programming-operation-manual",
+        "manualTitle": "GSK218M CNC System Programming and Operation Manual",
+        "revision": "Official manual PDF; revision/date to be confirmed against the machine documentation",
+        "section": "Alarm interface → alarm number and meaning list",
+        "printedPage": 207,
+        "manualUrl": "https://gskcnc.com/Support/218M01.pdf",
+        "evidenceSummary": "The official GSK218M manual describes the alarm interface and lists the specified program/operation alarm numbers and meanings. Summaries below are paraphrased."
+      },
+      "safeChecks": {
+        "en": [
+          "Record the exact alarm number and displayed text, active mode, current program/block and operation immediately preceding the alarm.",
+          "Preserve the alarm/history and relevant program before resetting; correct the stated program or file issue rather than repeatedly clearing the alarm.",
+          "Check the installed controller model and manual revision; do not apply the code meaning to other GSK models without their manual."
+        ],
+        "ar": [
+          "سجّل رقم الإنذار والنص الظاهر ووضع التشغيل والبرنامج/السطر الحالي والإجراء الذي سبق الإنذار.",
+          "احتفظ بسجل الإنذار والبرنامج قبل إعادة الضبط؛ عالج مشكلة البرنامج أو الملف المحددة بدلًا من مسح الإنذار بشكل متكرر.",
+          "تحقق من طراز وحدة التحكم ونسخة الدليل المثبتة؛ لا تعمم معنى الرمز على طرازات GSK أخرى."
+        ],
+        "fr": [
+          "Consigner le numéro et le texte exacts, le mode, le programme/bloc actif et l’opération juste avant l’alarme.",
+          "Préserver l’historique et le programme avant réinitialisation; corriger le problème de programme ou de fichier au lieu d’effacer répétitivement l’alarme.",
+          "Vérifier le modèle de commande et la révision du manuel; ne pas généraliser ce code à d’autres modèles GSK."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate recurring alarms, data corruption, unexpected machine motion, or any alarm whose meaning does not match the cited controller/manual.",
+        "ar": "صعّد عند تكرار الإنذار أو تلف البيانات أو الحركة غير المتوقعة أو عدم تطابق معنى الإنذار مع وحدة التحكم والدليل المحددين.",
+        "fr": "Escalader les alarmes récurrentes, données corrompues, mouvements inattendus ou tout code incompatible avec le contrôleur et le manuel cités."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Scope is limited to GSK218M and the cited manual. Confirm the exact installed revision before using operational instructions.",
+      "id": "gsk-218m-alarm-0002-data-input-overflow",
+      "alarmCode": "0002",
+      "title": {
+        "en": "Data input overflow",
+        "ar": "تجاوز سعة إدخال البيانات",
+        "fr": "Dépassement de capacité des données saisies"
+      },
+      "meaning": {
+        "en": "The GSK218M alarm list labels code 0002 as data input overflow. The entered value or data payload exceeds the input capacity or accepted range for the active operation; the affected field and entry context must be verified.",
+        "ar": "تسمّي قائمة إنذارات GSK218M الرمز 0002 بأنه تجاوز سعة إدخال البيانات. يجب التحقق من الحقل المدخل وسياق العملية لأن القيمة أو البيانات قد تتجاوز السعة أو النطاق المقبول.",
+        "fr": "La liste d’alarmes GSK218M associe le code 0002 à un dépassement de capacité des données saisies. Vérifier le champ et le contexte, car la valeur peut dépasser la capacité ou la plage acceptée."
+      }
     }
   ]
 }
