@@ -1455,3 +1455,22 @@ The following structured entries were added to `faults.json`. The descriptions b
 - Capture the full code, exact drive model, frame size, firmware, connected controller, and machine state before troubleshooting.
 - Do not change speed, torque, current, or network monitoring parameters merely to suppress a fault. Apply the machine's risk assessment, OEM instructions, and authorized change process.
 - Isolate hazardous energy before inspecting wiring or mechanical load. Never touch the DC link unless qualified and the OEM discharge/verification procedure has been completed.
+
+
+## Newly reviewed source tranche: Siemens SINAMICS G120C FSD–FSF
+
+Official source: [SINAMICS G120C FSD…FSF Compact Operating Instructions](https://support.industry.siemens.com/cs/attachments/109744756/G120C_FSD_F_cmpct_op_instr_1116_en-US.pdf), firmware V4.7 SP6, document A5E39339884B AA (11/2016), section 5.1, printed page 82.
+
+Seven additional records were added to the structured source-backed index:
+
+| Alarm | Manual description | Scope of manual guidance |
+|---|---|---|
+| F07860 | External fault 1 | Identify and remove the external cause; do not bypass the input. |
+| F07900 | Motor blocked | Verify free rotation and review the documented torque-limit values. |
+| F07901 | Motor overspeed | Review the documented speed-controller precontrol direction with authorized engineering. |
+| F07902 | Motor stalled | Check motor data/identification, documented current-limit parameters and possible cable disconnection. |
+| F08501 | Setpoint timeout | Check PROFINET, controller RUN state and documented monitoring time if repeated. |
+| F08502 | Sign-of-life monitoring time expired | Check the PROFINET connection. |
+| F08526 | No cyclic connection | Check cyclic operation, station name and station IP settings. |
+
+These are manual-claim-reviewed, not field-verified. The model, frame size, firmware and machine integration must match. Parameter changes require authorized engineering review; do not suppress faults or bypass safety/network monitoring.
