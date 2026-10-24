@@ -19,6 +19,11 @@
   function render() {
     const lang = language(), t = labels[lang], host = $("oemLookupResults"), query = ($("oemLookupSearch")?.value || "").trim().toLocaleLowerCase();
     if (!host) return;
+    if ($("oemLookupTitle")) $("oemLookupTitle").textContent = t.title;
+    if ($("oemLookupHint")) $("oemLookupHint").textContent = t.hint;
+    const searchLabel = document.querySelector('label[for="oemLookupSearch"]');
+    if (searchLabel) searchLabel.textContent = t.search;
+    if ($("oemLookupSearch")) $("oemLookupSearch").placeholder = t.search;
     host.replaceChildren();
     if (!state.loaded) { host.appendChild(textNode("p", state.error ? t.error : t.loading, "hint")); return; }
     const filtered = state.records.filter(record => {
