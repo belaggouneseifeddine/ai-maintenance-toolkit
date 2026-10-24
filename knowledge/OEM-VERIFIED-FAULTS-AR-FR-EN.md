@@ -361,6 +361,144 @@
 | Delta ASDA servo / PLC | https://downloadcenter.delta-china.com.cn/en-US/DownloadCenter | Official download portal only | Exact ASDA generation and manual alarm table |
 | Siemens SINUMERIK 828D diagnostics | https://support.industry.siemens.com/cs/attachments/109802874/828D_alarms_diagnostics_man_0721_en-US.pdf | Official diagnostics manual identified; code-level review pending for this edition | Exact alarm entry, page, software version and machine-builder context |
 
+## Chinese OEM records: XINJE DS5K servo drive
+
+The official DS5K series servo driver manual (Data No. SC5 03 20230427EN, revision 1.3.1) was reviewed. The following exact alarm entries are now represented with source pages. These apply only to the DS5K family; confirm the installed variant and manual revision.
+
+### xinje-ds5k-e-010
+
+- **Manufacturer / family:** Wuxi XINJE Electric Co., Ltd. — DS5K series servo driver
+- **Code:** E-010
+- **Meaning (EN):** The manual links E-010 to an incorrect downloaded firmware version and recommends contacting the agent/manufacturer.
+- **المعنى (AR):** يربط الدليل E-010 بإصدار برنامج ثابت تم تنزيله بصورة غير صحيحة، ويوصي بالتواصل مع الوكيل أو المصنع.
+- **Sens (FR):** Le manuel relie E-010 à une version de firmware téléchargée incorrecte et recommande de contacter l’agent/le fabricant.
+- **Official evidence:** DS5K series servo driver User Manual; Data No. SC5 03 20230427EN, revision 1.3.1; 7.1 Alarm code list / 7.2 Analysis of alarm types; printed page 173.
+- **Source:** https://cdn-en.xinje.com/DS5K%20servo%20manual.pdf
+- **Evidence note:** Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased.
+- **Review date:** 2026-10-24
+- **Status:** verified-source-exact-scope
+- **Safe checks:** Record the drive model and installed firmware; do not flash an unverified file. Confirm compatibility with the exact drive/motor before updates.
+- **Limit:** Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure.
+
+### xinje-ds5k-e-021
+
+- **Manufacturer / family:** Wuxi XINJE Electric Co., Ltd. — DS5K series servo driver
+- **Code:** E-021
+- **Meaning (EN):** The drive rejects a parameter value outside its allowed range; the manual says to check and correct the parameters.
+- **المعنى (AR):** يرفض المغير قيمة المعلمة خارج المجال المسموح؛ ويوصي الدليل بمراجعة المعلمات وتصحيحها.
+- **Sens (FR):** Le variateur rejette une valeur hors plage; le manuel demande de vérifier et corriger les paramètres.
+- **Official evidence:** DS5K series servo driver User Manual; Data No. SC5 03 20230427EN, revision 1.3.1; 7.1 Alarm code list / 7.2 Analysis of alarm types; printed page 173.
+- **Source:** https://cdn-en.xinje.com/DS5K%20servo%20manual.pdf
+- **Evidence note:** Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased.
+- **Review date:** 2026-10-24
+- **Status:** verified-source-exact-scope
+- **Safe checks:** Capture parameter number/value and source of write. Compare with the exact manual and commissioned settings; do not restore defaults without an approved backup.
+- **Limit:** Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure.
+
+### xinje-ds5k-e-030
+
+- **Manufacturer / family:** Wuxi XINJE Electric Co., Ltd. — DS5K series servo driver
+- **Code:** E-030
+- **Meaning (EN):** The manual associates E-030 with bus voltage above threshold; listed causes include high supply voltage, high inertia/regeneration demand, braking-resistor problems, or short ramps.
+- **المعنى (AR):** يربط الدليل E-030 بارتفاع جهد الناقل؛ وتشمل الأسباب ارتفاع جهد التغذية أو قصور التجديد بسبب القصور الذاتي أو مشكلة مقاومة الكبح أو قصر أزمنة التسارع والتباطؤ.
+- **Sens (FR):** Le manuel associe E-030 à une surtension du bus; les causes citées comprennent tension réseau élevée, régénération insuffisante, résistance de freinage ou rampes trop courtes.
+- **Official evidence:** DS5K series servo driver User Manual; Data No. SC5 03 20230427EN, revision 1.3.1; 7.1 Alarm code list / 7.2 Analysis of alarm types; printed page 175.
+- **Source:** https://cdn-en.xinje.com/DS5K%20servo%20manual.pdf
+- **Evidence note:** Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased.
+- **Review date:** 2026-10-24
+- **Status:** verified-source-exact-scope
+- **Safe checks:** Record U0-05 and when the fault occurs. Have qualified personnel inspect supply and regenerative resistor; do not change ramps before backup and engineering review.
+- **Limit:** Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure.
+
+### xinje-ds5k-e-040
+
+- **Manufacturer / family:** Wuxi XINJE Electric Co., Ltd. — DS5K series servo driver
+- **Code:** E-040
+- **Meaning (EN):** The alarm list distinguishes low grid voltage from bus undervoltage caused by a drive power failure.
+- **المعنى (AR):** تميّز قائمة الإنذارات بين انخفاض جهد الشبكة وانخفاض جهد الناقل الناتج عن انقطاع تغذية المغير.
+- **Sens (FR):** La liste distingue la sous-tension due au réseau de celle causée par une coupure d’alimentation du variateur.
+- **Official evidence:** DS5K series servo driver User Manual; Data No. SC5 03 20230427EN, revision 1.3.1; 7.1 Alarm code list / 7.2 Analysis of alarm types; printed page 175.
+- **Source:** https://cdn-en.xinje.com/DS5K%20servo%20manual.pdf
+- **Evidence note:** Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased.
+- **Review date:** 2026-10-24
+- **Status:** verified-source-exact-scope
+- **Safe checks:** Record supply behavior and event timing; have a qualified electrician verify phases/connections and avoid repeated resets before capturing the cause.
+- **Limit:** Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure.
+
+### xinje-ds5k-e-221
+
+- **Manufacturer / family:** Wuxi XINJE Electric Co., Ltd. — DS5K series servo driver
+- **Code:** E-221
+- **Meaning (EN):** Received encoder data is incorrect and retries exceed P0-56; the manual identifies encoder interference as a possible cause.
+- **المعنى (AR):** بيانات المشفّر المستقبلة غير صحيحة وعدد المحاولات يتجاوز P0-56؛ ويشير الدليل إلى احتمال وجود تداخل على المشفّر.
+- **Sens (FR):** Les données reçues du codeur sont erronées et les reprises dépassent P0-56; le manuel cite des interférences.
+- **Official evidence:** DS5K series servo driver User Manual; Data No. SC5 03 20230427EN, revision 1.3.1; 7.1 Alarm code list / 7.2 Analysis of alarm types; printed page 180.
+- **Source:** https://cdn-en.xinje.com/DS5K%20servo%20manual.pdf
+- **Evidence note:** Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased.
+- **Review date:** 2026-10-24
+- **Status:** verified-source-exact-scope
+- **Safe checks:** Review U0-79/U0-54 counters as directed by the manual and inspect cable routing/shielding after isolation. Do not change parameters without an EMC review.
+- **Limit:** Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure.
+
+### xinje-ds5k-e-222
+
+- **Manufacturer / family:** Wuxi XINJE Electric Co., Ltd. — DS5K series servo driver
+- **Code:** E-222
+- **Meaning (EN):** The manual identifies low voltage in the absolute-encoder battery box, below 2.75 V, and warns that position information may be lost if battery power is interrupted.
+- **المعنى (AR):** يحدد الدليل انخفاض جهد بطارية المشفّر المطلق إلى أقل من 2.75 فولت ويحذر من احتمال فقد بيانات الموضع عند انقطاع البطارية.
+- **Sens (FR):** Le manuel indique une tension de batterie du codeur absolu inférieure à 2,75 V et avertit d’un risque de perte de position.
+- **Official evidence:** DS5K series servo driver User Manual; Data No. SC5 03 20230427EN, revision 1.3.1; 7.1 Alarm code list / 7.2 Analysis of alarm types; printed page 180.
+- **Source:** https://cdn-en.xinje.com/DS5K%20servo%20manual.pdf
+- **Evidence note:** Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased.
+- **Review date:** 2026-10-24
+- **Status:** verified-source-exact-scope
+- **Safe checks:** Confirm the exact encoder/battery assembly and approved OEM replacement procedure. Do not perform live battery replacement based only on this summary; use qualified personnel and site safety rules.
+- **Limit:** Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure.
+
+### xinje-ds5k-e-236
+
+- **Manufacturer / family:** Wuxi XINJE Electric Co., Ltd. — DS5K series servo driver
+- **Code:** E-236
+- **Meaning (EN):** Motor encoder feedback differs from grating/displacement feedback by more than configured P9-02; the manual lists mechanical errors or scale alignment as possible causes.
+- **المعنى (AR):** يتجاوز الفرق بين تغذية مشفّر المحرك وتغذية المسطرة/الإزاحة الخارجية قيمة P9-02؛ ويذكر الدليل احتمال خلل ميكانيكي أو سوء محاذاة المسطرة.
+- **Sens (FR):** L’écart entre le codeur moteur et la règle dépasse P9-02; le manuel cite un problème mécanique ou d’alignement.
+- **Official evidence:** DS5K series servo driver User Manual; Data No. SC5 03 20230427EN, revision 1.3.1; 7.1 Alarm code list / 7.2 Analysis of alarm types; printed page 181.
+- **Source:** https://cdn-en.xinje.com/DS5K%20servo%20manual.pdf
+- **Evidence note:** Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased.
+- **Review date:** 2026-10-24
+- **Status:** verified-source-exact-scope
+- **Safe checks:** Record P9-02 and feedback values; inspect mechanical transmission and scale alignment before changing parameters; back up settings and seek machine-builder review.
+- **Limit:** Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure.
+
+### xinje-ds5k-e-237
+
+- **Manufacturer / family:** Wuxi XINJE Electric Co., Ltd. — DS5K series servo driver
+- **Code:** E-237
+- **Meaning (EN):** In the stated P9-02 configuration, the manual says the external scale may be broken or incorrectly connected when feedback direction is reversed.
+- **المعنى (AR):** في إعداد P9-02 المذكور، قد تكون المسطرة الخارجية مكسورة أو موصولة بشكل غير صحيح عند انعكاس اتجاه التغذية.
+- **Sens (FR):** Dans la configuration P9-02 indiquée, la règle externe peut être rompue ou mal raccordée lorsque le sens est inversé.
+- **Official evidence:** DS5K series servo driver User Manual; Data No. SC5 03 20230427EN, revision 1.3.1; 7.1 Alarm code list / 7.2 Analysis of alarm types; printed page 181.
+- **Source:** https://cdn-en.xinje.com/DS5K%20servo%20manual.pdf
+- **Evidence note:** Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased.
+- **Review date:** 2026-10-24
+- **Status:** verified-source-exact-scope
+- **Safe checks:** Confirm P9-02 and compare direction with machine drawings; inspect scale cable/connector and mounting under isolation. Do not alter direction parameters without authorization.
+- **Limit:** Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure.
+
+### xinje-ds5k-e-238
+
+- **Manufacturer / family:** Wuxi XINJE Electric Co., Ltd. — DS5K series servo driver
+- **Code:** E-238
+- **Meaning (EN):** The difference between motor encoder speed and external scale speed exceeds configured P9-04.
+- **المعنى (AR):** يتجاوز الفرق بين سرعة مشفّر المحرك وسرعة المسطرة الخارجية قيمة P9-04.
+- **Sens (FR):** L’écart entre la vitesse du codeur moteur et celle de la règle externe dépasse P9-04.
+- **Official evidence:** DS5K series servo driver User Manual; Data No. SC5 03 20230427EN, revision 1.3.1; 7.1 Alarm code list / 7.2 Analysis of alarm types; printed page 181.
+- **Source:** https://cdn-en.xinje.com/DS5K%20servo%20manual.pdf
+- **Evidence note:** Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased.
+- **Review date:** 2026-10-24
+- **Status:** verified-source-exact-scope
+- **Safe checks:** Capture both feedback values, P9-04 and mechanism configuration; verify scale/coupling and P9-05–P9-08 settings with qualified motion-control personnel before tuning.
+- **Limit:** Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure.
 ## Required fields for every new verified record
 
 1. Machine builder and machine model (including variant/serial range when relevant).
