@@ -45,7 +45,7 @@
       addMeta(card, t.source, src.manualTitle);
       addMeta(card, t.revision, src.revision);
       addMeta(card, t.section, src.section);
-      addMeta(card, t.page, src.printedPage || src.pdfPage || "");
+      addMeta(card, t.page, src.printedPageLabel || src.printedPage || src.pdfPage || "");
       addMeta(card, t.date, record.reviewDate || "");
       const checks = localized(record.safeChecks, lang);
       if (Array.isArray(checks) && checks.length) {
@@ -55,11 +55,15 @@
         card.appendChild(list);
       }
       const escalation = localized(record.escalation, lang);
-      if (Array.isArray(escalation) && escalation.length) {
+      if ((Array.isArray(escalation) && escalation.length) || (typeof escalation === "string" && escalation.trim())) {
         card.appendChild(textNode("h5", t.escalation));
-        const list = document.createElement("ul");
-        escalation.forEach(item => list.appendChild(textNode("li", item)));
-        card.appendChild(list);
+        if (Array.isArray(escalation)) {
+          const list = document.createElement("ul");
+          escalation.forEach(item => list.appendChild(textNode("li", item)));
+          card.appendChild(list);
+        } else {
+          card.appendChild(textNode("p", escalation));
+        }
       }
       if (src.manualUrl && /^https:\/\//i.test(src.manualUrl)) {
         const link = document.createElement("a");
