@@ -110,22 +110,26 @@
       output.textContent = formatResult(null, language);
       return;
     }
-    if (!root.MAINTENANCE_FAULTS) {
-      output.textContent = language === "en" ? "The local fault library is not available. Reload the app and try again." :
-        language === "fr" ? "La bibliothèque locale des pannes est indisponible. Rechargez l’application puis réessayez." :
-        "قاعدة الأعطال المحلية غير متاحة. أعد تحميل التطبيق ثم حاول مجددًا.";
-      return;
-    }
-
     if (button) { button.disabled = true; button.textContent = language === "en" ? "Checking locally…" : language === "fr" ? "Analyse locale…" : "جارٍ التحليل محليًا…"; }
     try {
+      // Load the bundled, same-origin fault library on demand. The service worker caches
+      // faults.json for offline use; no maintenance form data is sent with this GET.
+      let faultLibrary = root.MAINTENANCE_FAULTS;
+      if (!faultLibrary || !Array.isArray(faultLibrary.faults)) {
+        if (typeof root.fetch !== "function") throw new Error("local_fault_library_unavailable");
+        const response = await root.fetch("./faults.json", { method: "GET", credentials: "same-origin" });
+        if (!response || !response.ok) throw new Error("local_fault_library_unavailable");
+        faultLibrary = await response.json();
+      }
+      if (!faultLibrary || !Array.isArray(faultLibrary.faults)) throw new Error("invalid_local_fault_library");
+
       const notes = [];
       if (code && code.value.trim()) notes.push((language === "en" ? "Recorded alarm code: " : language === "fr" ? "Code d’alarme enregistré : " : "رمز الإنذار المسجل: ") + code.value.trim());
       if (observations && observations.value.trim()) notes.push(observations.value.trim());
       const agent = root.MaintenanceAIAgentCore.createAgentCore({
         engineeringCore: root.MaintenanceEngineeringCore,
         diagnosticEngine: root.MaintenanceDiagnosticEngine,
-        faultLibrary: root.MAINTENANCE_FAULTS,
+        faultLibrary,
         tools: {}
       });
       const result = await agent.run({
