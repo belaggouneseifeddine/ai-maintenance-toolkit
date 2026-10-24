@@ -34,7 +34,7 @@ test("local fault-library matches remain hypotheses and never become confirmed c
 test("manufacturer source is hidden unless exact family context is supplied", () => {
   const generic = engine.analyse({ machine: "pump", symptom: "low_flow", manualRef: "Grundfos Hydro EN", language: "en" }, { faults: [] });
   assert.equal(generic.references.some(item => item.id === "grundfos-hydro-en"), false);
-  const matchedFamily = engine.analyse({ machine: "pump", symptom: "low_flow", manufacturer: "Grundfos", model: "Hydro EN", language: "en" }, { faults: [] });
+  const matchedFamily = engine.analyse({ machine: "pump", symptom: "low_flow", manufacturer: "Grundfos", model: "Hydro EN", application: "firefighting system", language: "en" }, { faults: [] });
   const source = matchedFamily.references.find(item => item.id === "grundfos-hydro-en");
   assert.ok(source);
   assert.match(source.status, /heading-only-not-evidence/);
