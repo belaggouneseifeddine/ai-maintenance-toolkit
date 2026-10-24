@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Local source-discovery metadata for the offline reasoning path. URLs are references; they do not prove that a source supports a specific hypothesis.",
+  "policy": {
+    "manufacturerEvidenceRequires": ["exact equipment family/model match", "the relevant manual section and page inspected", "a specific claim matched to the inspected source"],
+    "doNot": ["copy manual text or PDF without checking redistribution rights", "infer fault causes from document titles or section headings", "apply one model's guidance to all equipment", "invent alarm meanings, setpoints, torque values, pressure limits, or parts"],
+    "safetyReferencesAreNotFaultEvidence": true
+  },
+  "sources": [
+    {
+      "id": "doe-pump-sourcebook",
+      "publisher": "U.S. Department of Energy / Hydraulic Institute",
+      "title": "Improving Pumping System Performance: A Sourcebook for Industry",
+      "url": "https://www.energy.gov/sites/prod/files/2014/05/f16/pump.pdf",
+      "type": "general-engineering-reference",
+      "scope": "General pumping-system concepts; not a manual for a specific pump model",
+      "status": "reference-listed-not-claim-verified",
+      "redistribution": "link-only; verify terms before copying material"
+    },
+    {
+      "id": "grundfos-hydro-en",
+      "publisher": "Grundfos",
+      "title": "Hydro EN firefighting systems — Installation and operating instructions",
+      "url": "https://api.grundfos.com/literature/Grundfosliterature-6819528.pdf",
+      "type": "manufacturer-manual",
+      "scope": "Hydro EN firefighting / automatic sprinkler pump systems only; exact system applicability required",
+      "reference": "Section 13 Fault finding; printed page 32 headings",
+      "status": "heading-index-only; cause/check tables not verified",
+      "redistribution": "reference-link-only; redistribution rights not reviewed"
+    },
+    {
+      "id": "abb-motor-troubleshooting",
+      "publisher": "ABB",
+      "title": "Maintenance and troubleshooting reference for motors",
+      "url": "https://library.e.abb.com/public/c553f9f2138646fbbe2321456a02de51/MN404.pdf",
+      "type": "manufacturer-reference",
+      "scope": "Check the exact motor family and document applicability before relying on it",
+      "status": "reference-listed; exact claim/model match not recorded",
+      "redistribution": "reference-link-only; verify terms before copying material"
+    },
+    {
+      "id": "doe-compressed-air-sourcebook",
+      "publisher": "U.S. Department of Energy",
+      "title": "Improving Compressed Air System Performance: A Sourcebook for Industry",
+      "url": "https://www1.eere.energy.gov/manufacturing/tech_assistance/pdfs/compressed_air_sourcebook.pdf",
+      "type": "general-engineering-reference",
+      "scope": "General compressed-air systems; not an exact compressor manual",
+      "status": "reference-listed-not-claim-verified",
+      "redistribution": "link-only; verify terms before copying material"
+    },
+    {
+      "id": "ingersoll-rand-reciprocating-compressor-documents",
+      "publisher": "Ingersoll Rand",
+      "title": "Reciprocating compressor documents and technical resources",
+      "url": "https://www.ingersollrand.com/en-us/resources/knowledge-hub/reciprocating-compressor-documents/",
+      "type": "manufacturer-document-portal",
+      "scope": "Ingersoll Rand reciprocating compressors; exact model manual must be selected",
+      "status": "portal-only; no individual model manual selected",
+      "redistribution": "check terms for each selected document"
+    },
+    {
+      "id": "osha-loto-1910-147",
+      "publisher": "U.S. Occupational Safety and Health Administration",
+      "title": "The control of hazardous energy (lockout/tagout), 29 CFR 1910.147",
+      "url": "https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910.147",
+      "type": "safety-regulation",
+      "scope": "General hazardous-energy safety context; not evidence for a mechanical/electrical root cause and not a substitute for local/site rules",
+      "status": "official-regulatory-reference",
+      "redistribution": "public regulatory text; identify jurisdiction"
+    }
+  ]
+}
