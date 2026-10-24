@@ -6,38 +6,52 @@
     "pump|low_flow": {
       "status": "covered-exact",
       "matchingFaultIds": [
+        "pump-cavitation",
+        "pump-loss-of-prime",
+        "pump-check-valve-failure",
         "pump-low-flow",
-        "pump-impeller-wear"
+        "pump-air-lock",
+        "pump-discharge-blockage",
+        "pump-excessive-flow",
+        "pump-dry-running"
       ]
     },
     "motor|not_start": {
       "status": "covered-exact",
       "matchingFaultIds": [
-        "motor-failure-to-start"
+        "motor-no-start"
       ]
     },
     "vfd|trip": {
       "status": "covered-exact",
       "matchingFaultIds": [
-        "vfd-overcurrent-trip"
+        "vfd-trip",
+        "vfd-overcurrent",
+        "vfd-overvoltage",
+        "vfd-undervoltage",
+        "vfd-ground-fault"
       ]
     },
     "compressor|low_pressure": {
       "status": "covered-exact",
       "matchingFaultIds": [
-        "compressor-low-pressure"
+        "compressor-low-pressure",
+        "compressor-oil-low",
+        "compressor-oil-pressure-low"
       ]
     },
     "valve|not_start": {
       "status": "covered-exact",
       "matchingFaultIds": [
-        "valve-actuator-not-responding"
+        "valve-stuck-closed",
+        "valve-stuck-open",
+        "valve-actuator-no-response"
       ]
     },
     "pneumatic|low_flow": {
       "status": "covered-exact",
       "matchingFaultIds": [
-        "pneumatic-low-flow"
+        "pneumatic-filter-clogged"
       ]
     },
     "gearbox|overheat": {
@@ -54,7 +68,8 @@
     "plc|not_start": {
       "status": "covered-exact",
       "matchingFaultIds": [
-        "plc-not-starting"
+        "plc-not-running",
+        "plc-communication-loss"
       ]
     },
     "conveyor|tracking": {
