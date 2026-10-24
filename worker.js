@@ -32,7 +32,7 @@ function validateDiagnosis(v, language, sourceIds) {
   if (!v.escalation || typeof v.escalation.required !== "boolean" || typeof v.escalation.reason !== "string" || v.escalation.reason.length > 500 || (v.status === "escalation_required" && !v.escalation.required)) return false;
   if (!Array.isArray(v.sources) || v.sources.length > 4 || !v.sources.every(x => typeof x === "string" && sourceIds.has(x))) return false;
   const z = v.session_summary;
-  return !!z && typeof z.equipment === "string" && z.equipment.length <= 120 && typeof z.symptom === "string" && z.symptom.length <= 240 && (z.confirmed_cause === null || typeof z.confirmed_cause === "string") && ["open","in_progress","resolved","escalated"].includes(z.work_status);
+  return !!z && typeof z.equipment === "string" && z.equipment.length <= 120 && typeof z.symptom === "string" && z.symptom.length <= 240 && typeof z.confirmed_cause === "string" && z.confirmed_cause.length <= 240 && z.confirmed_cause.trim() === "" && ["open","in_progress","resolved","escalated"].includes(z.work_status);
 }
 function formatDiagnosis(v) {
   const en = v.language === "en", fr = v.language === "fr";
