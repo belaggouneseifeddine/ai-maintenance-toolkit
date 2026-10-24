@@ -3,11 +3,11 @@
 > Verified means the cited official source supports the specific statement below. It does not mean every installation using the same brand behaves identically. Match machine builder, controller/drive model, firmware and manual revision before applying a record.
 
 - Review date: 2026-10-24
-- Model-scoped records with official manual evidence: 66 (manual-claim-reviewed, not field-verified)
+- Model-scoped records with official manual evidence: 79 (manual-claim-reviewed, not field-verified)
 - Languages: Arabic, French and English; summaries are paraphrased rather than copied from manuals.
 - Chinese OEM coverage includes XINJE DS5K servo drivers, XINJE X-NET remote-connection diagnostics, and INOVANCE MD200 drives/H5U PLC indicators; this is not yet broad coverage of all Chinese CNC/PLC families.
-- Other represented families include Siemens SINUMERIK/SINAMICS and Mitsubishi Electric CNC/PLC/servo records.
-- Evidence acquisition queue: INOVANCE H5U fault events and other PLC series, Delta ASDA/PLC, XINJE PLC families, GSK/HuazhongCNC/Syntec/LNC CNC controls, Siemens PLC/CNC, Beckhoff, Bosch Rexroth, Schneider Electric and machine-builder-specific alarm tables.
+- Other represented families include Delta ASDA-B2-F servo alarms, Siemens SINUMERIK/SINAMICS/SIMATIC S7-1200, Mitsubishi Electric CNC/PLC/servo, and GSK218M CNC records.
+- Evidence acquisition queue: INOVANCE H5U fault events and other PLC series, Delta PLC and other ASDA series, XINJE PLC families, GSK/HuazhongCNC/Syntec/LNC CNC controls, Siemens PLC/CNC, Beckhoff, Bosch Rexroth, Schneider Electric and machine-builder-specific alarm tables.
 - Store concise original summaries and links, not copied manual chapters.
 
 ## Record format and evidence limits
