@@ -16234,7 +16234,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "electrical_control",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -16339,7 +16338,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "electrical_control",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -16444,7 +16442,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "electronics",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -16549,7 +16546,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "electronics",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -16654,7 +16650,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "electronics",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -16759,7 +16754,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "electronics",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -16864,7 +16858,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "electronics",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -16969,7 +16962,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "electronics",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -17071,7 +17063,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "electronics",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -17176,7 +17167,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "electronics",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -17281,7 +17271,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "electronics",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -17386,8 +17375,8 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "electronics",
-        "abb-drive-manuals"
+        "abb-drive-manuals",
+        "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
     },
@@ -17491,8 +17480,8 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "robotics",
-        "abb-drive-manuals"
+        "abb-drive-manuals",
+        "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
     },
@@ -17596,8 +17585,8 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "robotics",
-        "abb-drive-manuals"
+        "abb-drive-manuals",
+        "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
     },
@@ -17701,7 +17690,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "industrial_network",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -17806,7 +17794,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "electronics",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -17911,7 +17898,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "electronics",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -18016,7 +18002,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "electronics",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -18121,7 +18106,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "electronics",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -18226,8 +18210,8 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "electronics",
-        "danfoss-troubleshooting"
+        "danfoss-troubleshooting",
+        "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
     },
@@ -18331,7 +18315,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "electrical_panel",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -18436,7 +18419,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "electrical_panel",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -18541,7 +18523,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "electrical_control",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -18646,7 +18627,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "electrical_control",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -18748,7 +18728,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "electrical_control",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -18853,8 +18832,8 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "electric_motor",
-        "abb-motor-manuals"
+        "abb-motor-manuals",
+        "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
     },
@@ -18958,8 +18937,8 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "electrical_panel",
-        "abb-motor-manuals"
+        "abb-motor-manuals",
+        "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
     },
@@ -19060,8 +19039,8 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "electrical_panel",
-        "abb-motor-manuals"
+        "abb-motor-manuals",
+        "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
     },
@@ -19165,7 +19144,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "electrical_panel",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -19270,7 +19248,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "electrical_panel",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -19375,7 +19352,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "electrical_control",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -19480,7 +19456,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "electrical_panel",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -19585,7 +19560,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "electrical_panel",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -19690,7 +19664,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "electrical_panel",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -19792,8 +19765,8 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "vfd",
-        "abb-drive-manuals"
+        "abb-drive-manuals",
+        "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
     },
@@ -19894,7 +19867,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "safety_circuit",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -19999,7 +19971,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "safety_circuit",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -20104,7 +20075,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "safety_circuit",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -20209,7 +20179,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "electrical_panel",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -20314,7 +20283,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "plc",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -20419,7 +20387,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "plc",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -20524,7 +20491,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "plc",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -20626,7 +20592,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "plc",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -20731,7 +20696,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "plc",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -20833,7 +20797,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "plc",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -20935,7 +20898,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "plc",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -21040,7 +21002,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "hmi",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -21145,7 +21106,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "industrial_network",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -21250,7 +21210,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "plc",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -21355,7 +21314,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "industrial_network",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -21457,7 +21415,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "industrial_network",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -21562,8 +21519,8 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "industrial_network",
-        "danfoss-troubleshooting"
+        "danfoss-troubleshooting",
+        "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
     },
@@ -21667,7 +21624,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "industrial_network",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -21772,8 +21728,8 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "robotics",
-        "abb-drive-manuals"
+        "abb-drive-manuals",
+        "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
     },
@@ -21874,8 +21830,8 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "robotics",
-        "siemens-industrial-support"
+        "siemens-industrial-support",
+        "abb-drive-manuals"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
     },
@@ -21979,7 +21935,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "industrial_network",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -22084,7 +22039,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "plc",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -22189,7 +22143,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "plc",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -22294,7 +22247,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "industrial_network",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -22399,7 +22351,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "robotics",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -22504,7 +22455,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "robotics",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -22606,7 +22556,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "robotics",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -22711,8 +22660,8 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "robotics",
-        "abb-drive-manuals"
+        "abb-drive-manuals",
+        "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
     },
@@ -22816,7 +22765,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "lubrication",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -22921,7 +22869,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "cooling",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -23023,7 +22970,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "electronics",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -23125,7 +23071,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "heat_exchanger",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -23227,8 +23172,8 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "hydraulic",
-        "festo-support-portal"
+        "festo-support-portal",
+        "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
     },
@@ -23332,8 +23277,8 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "vfd",
-        "abb-drive-manuals"
+        "abb-drive-manuals",
+        "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
     },
@@ -23437,7 +23382,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "robotics",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -23542,8 +23486,8 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "sensor",
-        "festo-support-portal"
+        "festo-support-portal",
+        "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
     },
@@ -23647,7 +23591,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "sensor",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -23752,7 +23695,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "gearbox",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -23857,7 +23799,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "heat_exchanger",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -23962,8 +23903,8 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "compressor",
-        "atlas-copco-manuals"
+        "atlas-copco-manuals",
+        "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
     },
@@ -24067,7 +24008,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "robotics",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -24172,8 +24112,8 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "vfd",
-        "danfoss-troubleshooting"
+        "danfoss-troubleshooting",
+        "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
     },
@@ -24277,8 +24217,8 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "robotics",
-        "abb-drive-manuals"
+        "abb-drive-manuals",
+        "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
     },
@@ -24382,7 +24322,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "hydraulic",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -24487,8 +24426,8 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "sensor",
-        "festo-support-portal"
+        "festo-support-portal",
+        "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
     },
@@ -24592,7 +24531,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "robotics",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -24697,8 +24635,8 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "robotics",
-        "abb-drive-manuals"
+        "abb-drive-manuals",
+        "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
     },
@@ -24799,7 +24737,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "safety_circuit",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -24904,7 +24841,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "conveyor",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -25006,7 +24942,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "safety_circuit",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -25111,8 +25046,8 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "compressor",
-        "atlas-copco-manuals"
+        "atlas-copco-manuals",
+        "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
     },
@@ -25216,7 +25151,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "robotics",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -25321,7 +25255,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "plc",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -25423,8 +25356,8 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "robotics",
-        "abb-drive-manuals"
+        "abb-drive-manuals",
+        "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
     },
@@ -25525,7 +25458,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "cooling",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -25627,7 +25559,6 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "lubrication",
         "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
@@ -25732,8 +25663,8 @@
         "en": "Stop and escalate if the fault repeats, affects a safety function, or the exact model manual is unavailable."
       },
       "sourceRefs": [
-        "vacuum",
-        "festo-support-portal"
+        "festo-support-portal",
+        "siemens-industrial-support"
       ],
       "evidenceStatus": "general-guidance-not-model-specific"
     }
