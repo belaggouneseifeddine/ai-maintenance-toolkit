@@ -408,6 +408,46 @@
       "scope": "PLC, HMI, servo, VFD, motion control and industrial robot documentation; exact series and firmware required",
       "status": "official-document-portal-exact-product-required",
       "redistribution": "link-only; follow portal terms"
+    },
+    {
+      "id": "omron-industrial-downloads",
+      "publisher": "OMRON",
+      "title": "OMRON Europe — official industrial downloads",
+      "url": "https://industrial.omron.eu/en/services-support/support/downloads",
+      "type": "manufacturer-document-portal",
+      "scope": "PLC, machine controllers, HMI, servo, VFD, robotics, sensors and safety; exact product family/revision required",
+      "status": "official-document-portal-exact-product-required",
+      "redistribution": "link-only; follow portal terms"
+    },
+    {
+      "id": "yaskawa-drive-manuals",
+      "publisher": "Yaskawa",
+      "title": "Yaskawa — official drive manuals",
+      "url": "https://www.yaskawa.com/products/drives/drive-manuals",
+      "type": "manufacturer-document-portal",
+      "scope": "Industrial AC drives; match exact GA/FP/HV family and revision",
+      "status": "official-document-portal-exact-product-required",
+      "redistribution": "link-only; follow portal terms"
+    },
+    {
+      "id": "fagor-automation-manuals",
+      "publisher": "Fagor Automation",
+      "title": "Fagor Automation — official CNC and drive manuals",
+      "url": "https://www.fagorautomation.com/en/categoria_descargas/manuals-en/",
+      "type": "manufacturer-document-portal",
+      "scope": "CNC controls, drives, feedback systems, installation and error-solving manuals; exact series/revision required",
+      "status": "official-document-portal-exact-product-required",
+      "redistribution": "link-only; follow portal terms"
+    },
+    {
+      "id": "fanuc-america-support",
+      "publisher": "FANUC America",
+      "title": "FANUC — official customer portal and support",
+      "url": "https://www.fanucamerica.com/support/myportal",
+      "type": "manufacturer-support-portal",
+      "scope": "CNC, industrial robots, ROBODRILL, technical documents and alarm lookup; access and regional applicability may vary",
+      "status": "official-support-portal-access-may-be-required",
+      "redistribution": "link-only; follow portal terms"
     }
   ]
 }
