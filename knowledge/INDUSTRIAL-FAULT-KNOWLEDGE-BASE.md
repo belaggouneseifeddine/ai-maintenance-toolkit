@@ -174,3 +174,122 @@ For more detailed symptom-led checks, see the [Electric Motor & Drive Troublesho
 - Do not use the entries as repair authorization, a complete risk assessment, or a substitute for competence and site training.
 - Keep references linked to the claims they support; add model-specific instructions only after reviewing the correct manufacturer documentation.
 - Revalidate source URLs and technical content before using this material for operational decisions.
+
+
+## Expanded equipment cases — general triage only
+
+The cases below broaden coverage beyond the original pump/motor/compressor set. They are deliberately **not marked OEM-verified**: the linked manufacturer portals are discovery routes until the exact model manual and relevant section have been reviewed.
+
+### Fans and blowers — abnormal vibration or noise
+- Capture vibration/noise trend, recent maintenance, operating state, and any available airflow/filter indicators from safe monitoring points.
+- Candidate areas to investigate include rotor buildup/imbalance, bearing or mounting condition, and changes in system resistance. The symptom alone does not distinguish them.
+- Do not remove guards or touch rotating parts. Isolate all relevant energy before inspection.
+- Manufacturer references: [ABB motor manuals](https://www.abb.com/global/en/areas/motion/motors-generators/low-voltage-motors/iec-low-voltage-motors/iec-lv-manuals); use only if the motor family matches.
+
+### Industrial chillers — high condensing temperature or poor cooling
+- Record the exact alarm, available inlet/outlet temperatures, cooling-flow indicators, ambient conditions, and load trend.
+- Potential areas include reduced heat transfer, inadequate cooling flow/airflow, or changed operating conditions. Do not infer a refrigerant fault from temperature alone.
+- Do not open refrigerant circuits or adjust pressure/charge without qualified personnel and the exact unit procedure.
+- Manufacturer reference: [Danfoss troubleshooting support](https://www.danfoss.com/en/service-and-support/fix-and-troubleshooting/); select the exact product family.
+
+### Servo drives and motion axes — following or position error
+- Capture the exact alarm text/code, drive and motor model, axis state, feedback status, and recent parameter or mechanical changes through an authorized interface.
+- Review command/feedback consistency, load or obstruction indications, and communications history. Do not force motion or infer an encoder/drive failure from the alarm label alone.
+- Never bypass guards or safety interlocks. Follow the exact drive/controller manual and site isolation procedure.
+- Manufacturer reference: [ABB drive document library](https://www.abbnow.com/PublicSite/home/LiteratureResources/Document-Library.htm); exact model and firmware revision required.
+
+### Transformers — abnormal temperature, humming, or burning smell
+- Review alarms, load trend, displayed temperature, and cooling indicators from a safe location.
+- Load, cooling, connections, and internal conditions are possible investigation areas; this entry does not diagnose transformer health.
+- Smoke, arcing, burning smell, or rapid temperature rise requires immediate stop/escalation under site emergency procedures. Do not open energized equipment.
+- Manufacturer documentation must match the transformer manufacturer and exact type; use [Siemens Industry Online Support](https://support.industry.siemens.com/) only as a document-finding route.
+
+### Hydraulic filters — restriction indication or slow movement
+- Record any installed differential-pressure indication, oil temperature, system state, and filter service history; do not invent an alarm threshold.
+- Filter loading, oil condition/temperature, and other flow/control issues can overlap.
+- Depressurize and control stored energy according to site procedure before opening any hydraulic component.
+- Manufacturer reference: [Danfoss troubleshooting support](https://www.danfoss.com/en/service-and-support/fix-and-troubleshooting/); exact hydraulic product/model required.
+
+### Steam systems — suspected steam-trap or condensate-drain fault
+- Record installed temperature/pressure indicators and process symptoms remotely; do not touch steam lines.
+- A trap may be blocked, passing steam, or affected by return-line/operating conditions; verify with the correct trap manual and approved diagnostic method.
+- Steam, hot condensate, and water hammer can cause severe injury. Do not loosen fittings or perform live tests without authorized procedures.
+- Find the exact component documentation through the original manufacturer; a general portal is not fault evidence.
+
+### Dust collectors — pulse-cleaning fault or high differential pressure
+- Record differential-pressure trend, pulse-cleaning alarms, compressed-air supply indicators, and filter service history from the control interface.
+- Potential areas include cleaning-air supply, pulse-valve/control sequence, filter loading/damage, or changed process flow.
+- Do not open the collector or enter a hopper until isolation, dust hazards, stored energy, and site entry requirements have been addressed.
+- Select the exact collector/controller manual before assigning a root cause.
+
+### Instrumentation — unstable or drifting process signal
+- Record the signal value with units/time, process state, independent approved indication if available, and exact transmitter/model.
+- Separate a real process change from possible wiring/interference, configuration, or calibration issues before concluding the sensor is faulty.
+- Do not change range/calibration or bypass interlocks without approved authorization; electrical checks are for qualified personnel.
+- Use [Siemens Industry Online Support](https://support.industry.siemens.com/) only when the exact instrument/product family matches.
+
+## Official manufacturer documentation portals
+
+- [Grundfos troubleshooting-guide locator](https://www.grundfos.com/solutions/support/how-to-guides/how-to-find-troubleshooting-guides) — select the exact pump in Product Center/GO Remote and open its Installation & Operating Instructions.
+- [Atlas Copco compressor troubleshooting](https://www.atlascopco.com/en-sa/compressors/air-compressor-blog/air-compressor-troubleshooting) — general examples; confirm the compressor/controller model.
+- [Atlas Copco compressor manuals](https://www.atlascopco.com/en-uk/compressors/manuals) — exact product/serial number may be required.
+- [ABB IEC low-voltage motor manuals](https://www.abb.com/global/en/areas/motion/motors-generators/low-voltage-motors/iec-low-voltage-motors/iec-lv-manuals) — installation, operation, maintenance, and safety documentation.
+- [ABB drive document library](https://www.abbnow.com/PublicSite/home/LiteratureResources/Document-Library.htm) — exact drive family/revision required.
+- [Danfoss fix and troubleshooting](https://www.danfoss.com/en/service-and-support/fix-and-troubleshooting/) — drives, climate solutions, high-pressure pumps, and sensing products.
+- [Siemens Industry Online Support](https://support.industry.siemens.com/) — search by exact order number/product/version.
+- [Festo official site](https://www.festo.com/) — find the exact pneumatic valve/component operating instructions.
+
+**Evidence rule:** A manufacturer link is not proof of a cause. Before promoting any entry to OEM-verified status, record the exact model, manual title/revision, section/page, inspected claim, and review date. Never invent alarm meanings, thresholds, torque values, pressure limits, or part numbers.
+
+## Expanded structured coverage: 200+ fault cases
+
+The structured catalogue now contains **252 records** across 33 equipment-type labels. This is a breadth-first troubleshooting library, not a claim that every case has been validated against a specific machine model. Each newly generated general-guidance record is marked `general-guidance-not-model-specific`.
+
+### Electronics and electronic control boards
+
+Coverage includes DC supply instability, output ripple, capacitor deterioration, analog/digital I/O mismatch, ADC/DAC symptoms, optocouplers, relay drivers, MOSFET/IGBT alarms, encoder feedback, watchdog resets, memory/checksum issues, clock drift, PCB contamination, and electromagnetic interference. These symptoms are hypotheses for triage; confirm with the correct circuit diagram, component datasheet, board revision, and qualified test procedure before replacing components.
+
+### Electrical circuits and protection
+
+Coverage includes unexpected breaker or fuse operation, contactor coil/pickup and chatter, auxiliary-contact feedback mismatch, motor overload trips, suspected phase loss or phase-sequence problems, earth-leakage protection, protective-earth continuity, control-transformer secondary voltage, open control circuits, suspected short circuits, loose terminals, busbar overheating, braking resistors, safety-relay reset, emergency-stop loops, interlocks, and cabinet condensation.
+
+**Safety boundary:** Never troubleshoot by touching exposed live conductors, bypassing protective devices, defeating an interlock, or repeatedly resetting a breaker. Isolate, lock out/tag out, verify absence of voltage, and use a qualified person and approved procedure. Safety circuits must not be bridged to keep production running.
+
+### Industrial operating systems and communications
+
+Coverage includes PLC STOP mode, scan-time overrun, retentive-memory loss, module configuration mismatch, remote I/O dropout, stuck input/output points, HMI tag quality, stale SCADA values, time synchronisation, IP conflicts, PROFINET naming, Modbus mapping, Fieldbus timeouts, servo homing, robot safety stops, industrial PC storage, software/firmware incompatibility, missing parameter backups, and intermittent network loss.
+
+Before downloading a project, restoring a backup, changing addresses, or updating firmware, record the exact controller, hardware order number, firmware/software version, topology, current alarms, and backup status. Use vendor documentation for the installed version; never assume that a generic reset sequence applies.
+
+### Industrial machines: Chinese and European equipment
+
+The catalogue includes general fault patterns for CNC controllers, VFDs and servos on Chinese-built machines, injection-moulding and packaging equipment, photoeyes, ejectors, tool magazines, robot axis references, safety doors, two-hand controls, conveyor synchronisation, compressor-drive communications, palletiser grippers, machine recipes, axis brakes, cooling flow, central lubrication, and vacuum pick-up.
+
+Country of manufacture alone does not identify the control platform or fault meaning. Chinese and European machines may use third-party PLCs, drives, CNCs, servos, HMIs, and safety components. For every model-specific diagnosis, collect the machine builder, exact model/serial number, controller and drive manufacturer/model, alarm text/code, software version, and relevant manual revision. Translate alarm text carefully; do not map an unfamiliar code to a guessed cause.
+
+### Evidence and maturity labels
+
+- `general-guidance-not-model-specific`: safe triage hypotheses only; not an OEM-confirmed diagnosis.
+- An official manufacturer support portal is a discovery route, not evidence that a particular cause applies.
+- Promote a record to model-verified only after recording the exact model, inspected manual revision, relevant section/page, the supported claim, and review date.
+- Alarm-code databases, electrical values, torque values, and parameter numbers must not be invented to make the catalogue appear more complete.
+
+
+
+## Expanded multilingual fault atlas — October 2026
+
+The structured registry currently targets **more than 200 distinct fault records** across Arabic, French, and English. The expansion covers:
+
+- **Electronics:** 24 V DC supplies, DC ripple, capacitors, analogue I/O, ADC/DAC, optocouplers, relay drivers, MOSFET/IGBT, encoder feedback, watchdog resets, memory integrity, PCB contamination, and electromagnetic interference.
+- **Electrical circuits and protection:** breakers, fuses, contactors, auxiliary feedback, overload relays, phase-loss/sequence checks, earth-leakage protection, control transformers, open control circuits, suspected short circuits, terminal connections, busbars, braking resistors, safety relays, emergency-stop loops, and interlocks.
+- **Industrial operating systems:** PLC CPU/scan time, retentive memory, I/O modules, HMI tag quality, stale SCADA values, time synchronization, PROFINET, Modbus, Fieldbus, servo homing, robot safety stops, industrial PCs, software-version mismatch, and parameter backup.
+- **Machine applications:** CNC axes and tool changers, laser-cutter cooling, injection moulding, extrusion, packaging, textile and printing lines, industrial ovens, compressors, and central lubrication.
+- **Chinese- and European-origin equipment:** records describe common symptom patterns that may occur on machines from either region. They are **not** brand-specific alarm-code databases. For Chinese machines, capture the exact OEM, model, controller/drive make, alarm code, firmware, and translated manual. Apply the same rule to European equipment.
+
+### Record quality and evidence limits
+
+Each new record is a structured troubleshooting hypothesis, not a confirmed diagnosis. Its safe checks prioritize reading logs and labels through approved interfaces, avoiding energized electrical exposure, and requiring qualified isolation before intrusive checks. The generic entries intentionally do not invent voltage/current thresholds, alarm-code meanings, torque values, pressure limits, or replacement part numbers.
+
+Manufacturer portals in `manufacturer-sources.json` are source-discovery routes only. An entry can be promoted to **OEM-verified** only after a reviewer records the exact equipment model, document title and revision, relevant section/page, claim supported by the document, and review date. A general support page does not establish that a suspected cause applies to a particular machine.
+
+**Important implementation note:** the library count alone does not prove that every record is reachable through the current UI's equipment selectors or diagnostic ranking. UI discoverability and representative matching tests must be checked before release.

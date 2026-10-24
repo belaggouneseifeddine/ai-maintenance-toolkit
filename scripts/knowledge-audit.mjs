@@ -6,6 +6,9 @@ import { readFileSync, writeFileSync } from "node:fs";
 const worker = readFileSync("worker.js", "utf8");
 const registry = JSON.parse(readFileSync("knowledge/sources.json", "utf8"));
 const faultLibrary = JSON.parse(readFileSync("faults.json", "utf8"));
+const manufacturerSources = JSON.parse(readFileSync("knowledge/manufacturer-sources.json", "utf8"));
+const manufacturerMatrix = JSON.parse(readFileSync("knowledge/manufacturer-machine-fault-matrix.json", "utf8"));
+const oemPlatformIndex = JSON.parse(readFileSync("knowledge/oem-platform-index.json", "utf8"));
 const knowledgeMatch = worker.match(/const KNOWLEDGE_FILES = \[([\s\S]*?)\];/);
 if (!knowledgeMatch) throw new Error("Could not find Worker KNOWLEDGE_FILES registry.");
 const documentPaths = [...knowledgeMatch[1].matchAll(/"([^"]+\.md)"/g)].map(match => match[1]);
@@ -45,6 +48,11 @@ const referencePortals = registry.reference_only_portals || [];
 const fetchablePortals = referencePortals.filter(portal => portal.fetch_allowed === true).length;
 const approvedCount = statusCounts.approved || 0;
 const nonApprovedCount = (registry.sources || []).length - approvedCount;
+const manufacturerPortalCount = (manufacturerSources.sources || []).length;
+const manufacturerProfileCount = (manufacturerMatrix.manufacturerProfiles || []).length;
+const manufacturerTemplateCount = (manufacturerMatrix.caseTemplates || []).length;
+const oemPlatformCount = (oemPlatformIndex.manufacturers || []).length;
+const modelVerifiedPlatformCount = (oemPlatformIndex.manufacturers || []).filter(item => item.evidenceStatus === "model-verified").length;
 const fmt = value => Number(value).toLocaleString("en-US");
 
 const report = [
@@ -60,6 +68,10 @@ const report = [
   "- Distinct equipment-type labels in the fault library: **" + equipmentTypes.length + "**",
   "- Cause entries across fault records: **" + causeCount + "**",
   "- Fault records with an alarmCodes or errorCodes array: **" + structuredAlarmIndexCount + "/" + faults.length + "**",
+  "- Chinese/European OEM manufacturer profiles: **" + manufacturerProfileCount + "**",
+  "- Structured OEM symptom templates: **" + manufacturerTemplateCount + "**",
+  "- Official manufacturer/support portal records: **" + manufacturerPortalCount + "**",
+  "- Structured OEM platform index entries: **" + oemPlatformCount + "**; model-verified: **" + modelVerifiedPlatformCount + "**",
   "",
   "## Document inventory",
   "",
@@ -89,6 +101,13 @@ const report = [
   "2. " + nonApprovedCount + " source-registry entries are not marked approved (approved count: " + approvedCount + "). Candidate sources must not be treated as approved technical authority.",
   "3. " + literalMissing.length + " equipment labels lack a literal name match in the Worker-loaded documents. Review this list with a subject-matter expert; do not automatically fill the gaps with generated technical content.",
   "4. " + (referencePortals.length - fetchablePortals) + " reference-only portals are not allowlisted for automated fetching. Keep this restriction until reuse permissions are documented in the registry.",
+  "",
+  "## Manufacturer-specific case coverage and limits",
+  "",
+  "- The OEM matrix maps " + manufacturerProfileCount + " manufacturer/controller families to official documentation routes and contains " + manufacturerTemplateCount + " structured symptom templates.",
+  "- The OEM platform index lists " + oemPlatformCount + " machine builders and component OEMs; " + modelVerifiedPlatformCount + " are model-verified. These entries are discovery routes only until exact model/manual evidence is reviewed.",
+  "- These templates are not verified alarm-code definitions. A verified case requires exact model, controller/drive, firmware, manual revision, page/section, supported claim, and human review.",
+  "- The " + manufacturerPortalCount + "-entry OEM source-discovery registry is separate from the " + (registry.sources || []).length + " license-tracked research sources above. Its URLs do not prove that a particular fault cause applies.",
   "",
   "## Method and limits",
   "",

@@ -17,6 +17,11 @@ const sw = readFileSync("sw.js", "utf8");
 const deployWorkflow = readFileSync(".github/workflows/deploy-pages.yml", "utf8");
 const cloudflareDeployWorkflow = readFileSync(".github/workflows/deploy-cloudflare-pages.yml", "utf8");
 const faults = JSON.parse(readFileSync("faults.json", "utf8"));
+const manufacturerSources = JSON.parse(readFileSync("knowledge/manufacturer-sources.json", "utf8"));
+const manufacturerMatrix = JSON.parse(readFileSync("knowledge/manufacturer-machine-fault-matrix.json", "utf8"));
+const manufacturerMatrixMarkdown = readFileSync("knowledge/CHINESE-EUROPEAN-OEM-FAULT-MATRIX-AR-FR-EN.md", "utf8");
+const oemPlatformIndex = JSON.parse(readFileSync("knowledge/oem-platform-index.json", "utf8"));
+const oemIndexMarkdown = readFileSync("knowledge/OEM-MANUFACTURER-INDEX-AR-FR-EN.md", "utf8");
 const diagnosticEngineSource = readFileSync("diagnostic-engine.js", "utf8");
 const normalizationSource = readFileSync("normalization.js", "utf8");
 const knowledgeReviewSource = readFileSync("knowledge-review.js", "utf8");
@@ -152,7 +157,9 @@ const checks = [
   }],
   ["AI backend only accepts POST and validates origin", () => {
     assert.match(worker, /request\.method !== "POST"/);
-    assert.match(worker, /function isAllowedOrigin\(origin\)/);\n    assert.match(worker, /if \(!isAllowedOrigin\(origin\)\)/);\n    assert.match(worker, /ALLOWED_ORIGINS = new Set\(/);
+    assert.match(worker, /function isAllowedOrigin\(origin\)/);
+    assert.match(worker, /if \(!isAllowedOrigin\(origin\)\)/);
+    assert.match(worker, /ALLOWED_ORIGINS = new Set\(/);
   }],
   ["AI credentials come from server environment secrets", () => assert.match(worker, /env\.AI_API_KEY/)],
   ["AI backend validates and bounds input lengths", () => {
@@ -247,7 +254,7 @@ const checks = [
   ["Service worker caches the app shell and icon with a bumped cache version", () => {
     assert.match(sw, /APP_SHELL/);
     assert.match(sw, /\.\/icon\.svg/);
-    assert.match(sw, /maintenance-ai-toolkit-v37/);
+    assert.match(sw, /maintenance-ai-toolkit-v39/);
   }]
 ,
   ["Multilingual fault library covers pumps, motors, VFDs and compressors", () => {
@@ -261,7 +268,7 @@ const checks = [
       "compressor-high-temperature", "compressor-low-pressure"
     ]) assert.ok(ids.includes(id), "missing fault " + id);
     for (const fault of faults.faults) {
-      assert.ok(["pump", "motor", "vfd", "compressor", "electric_motor", "valve", "hydraulic", "pneumatic", "plc", "hmi", "sensor", "instrumentation", "electrical_control", "safety_circuit", "mechanical", "gearbox", "conveyor", "filtration", "heat_exchanger", "cooling", "steam_system", "boiler", "refrigeration", "ups", "power_supply", "electrical_panel", "industrial_network", "robotics", "lubrication", "vacuum", "dust_collector", "fire_safety"].includes(fault.equipmentType), fault.id + " has unsupported equipment type");
+      assert.ok(["pump", "motor", "vfd", "compressor", "electric_motor", "valve", "hydraulic", "pneumatic", "plc", "hmi", "sensor", "instrumentation", "electrical_control", "safety_circuit", "mechanical", "gearbox", "conveyor", "filtration", "heat_exchanger", "cooling", "steam_system", "boiler", "refrigeration", "ups", "power_supply", "electrical_panel", "industrial_network", "robotics", "lubrication", "vacuum", "dust_collector", "fire_safety", "electronics", "fan-blower"].includes(fault.equipmentType), fault.id + " has unsupported equipment type");
       for (const language of ["ar", "fr", "en"]) {
         assert.ok(fault.title[language], fault.id + " missing title " + language);
         assert.ok(fault.keywords[language].length >= 3, fault.id + " missing keywords " + language);
@@ -339,8 +346,8 @@ const checks = [
     for (const node of Object.values(tree.nodes)) if (node.result) assert.ok(node.safe && node.escalate && node.cause);
   }],
   ["PWA caches all new offline dependencies and bumps its cache", () => {
-    assert.match(sw, /maintenance-ai-toolkit-v37/);
-    for (const asset of ["normalization.js", "knowledge-review.js", "answer-tools.js", "diagnostic-engine.js", "engineering-core.js", "agent-core.js", "agent-ui.js", "faults.json", "i18n.js"]) assert.ok(sw.includes(asset), "Missing offline cache asset " + asset);
+    assert.match(sw, /maintenance-ai-toolkit-v39/);
+    for (const asset of ["normalization.js", "knowledge-review.js", "answer-tools.js", "diagnostic-engine.js", "engineering-core.js", "agent-core.js", "agent-ui.js", "faults.json", "knowledge/oem-platform-index.json", "knowledge/manufacturer-machine-fault-matrix.json", "i18n.js"]) assert.ok(sw.includes(asset), "Missing offline cache asset " + asset);
     assert.match(manifest.icons[0].src, /icon\.svg/);
   }]
 ,
@@ -427,8 +434,137 @@ const checks = [
     assert.match(uxCss, /env\(safe-area-inset-bottom/);
     new vm.Script(navRedesign, { filename: "navigation-redesign.js" });
   }],
+  ["Expanded fault library has unique IDs, multilingual text, safe checks, and traceable source references", () => {
+    const ids = new Set();
+    for (const fault of faults.faults) {
+      assert.ok(!ids.has(fault.id), "Duplicate fault ID: " + fault.id);
+      ids.add(fault.id);
+    }
+    const addedIds = [
+      "fan-blower-abnormal-vibration",
+      "chiller-high-condensing-temperature",
+      "servo-drive-following-error",
+      "transformer-abnormal-temperature",
+      "hydraulic-filter-differential-pressure",
+      "steam-trap-suspected-failure",
+      "dust-collector-pulse-cleaning-fault",
+      "instrument-four-to-twenty-ma-drift"
+    ];
+    for (const id of addedIds) {
+      const fault = faults.faults.find(item => item.id === id);
+      assert.ok(fault, "Missing expanded fault: " + id);
+      for (const lang of ["ar", "fr", "en"]) {
+        assert.ok(fault.title[lang], id + " missing " + lang + " title");
+        assert.ok(Array.isArray(fault.keywords[lang]) && fault.keywords[lang].length, id + " missing " + lang + " keywords");
+      }
+      assert.ok(fault.causes.length >= 3, id + " needs multiple candidate causes");
+      assert.ok(fault.safeChecks.length >= 3, id + " needs safe checks");
+      assert.ok(fault.escalation.ar && fault.escalation.fr && fault.escalation.en, id + " needs multilingual escalation");
+      assert.equal(fault.evidenceStatus, "general-guidance-not-model-specific");
+      assert.ok(fault.sourceRefs.length, id + " needs source-discovery references");
+    }
+  }],
+  ["Manufacturer source registry keeps official portals distinct from model-verified evidence", () => {
+    const sourceIds = new Set();
+    for (const source of manufacturerSources.sources) {
+      assert.ok(!sourceIds.has(source.id), "Duplicate manufacturer source ID: " + source.id);
+      sourceIds.add(source.id);
+      assert.ok(/^https:\/\//.test(source.url), "Source URL must use HTTPS: " + source.id);
+      assert.ok(source.scope && source.status, "Source scope/status required: " + source.id);
+    }
+    for (const id of ["grundfos-troubleshooting-guides", "atlas-copco-compressor-troubleshooting", "atlas-copco-manuals", "abb-motor-manuals", "abb-drive-manuals", "danfoss-troubleshooting", "siemens-industrial-support", "festo-support-portal", "yizumi-machine-service", "haitian-machine-service", "bodor-laser-service", "mitsubishi-fa-china-documents", "delta-industrial-download-center", "pilz-machine-safety-support", "xinje-download-center", "omron-industrial-downloads", "yaskawa-drive-manuals", "fagor-automation-manuals", "fanuc-america-support"]) {
+      assert.ok(sourceIds.has(id), "Missing OEM portal: " + id);
+    }
+    assert.match(manufacturerSources.purpose, /URLs do not prove/);
+  }],
+  ["Chinese and European OEM matrix is structured, linked, and explicitly unverified until model evidence is reviewed", () => {
+    assert.ok(worker.includes("knowledge/CHINESE-EUROPEAN-OEM-FAULT-MATRIX-AR-FR-EN.md"), "Worker must load the OEM matrix");
+    assert.ok(manufacturerMatrix.manufacturerProfiles.length >= 15, "Expected at least 15 manufacturer profiles");
+    assert.ok(manufacturerMatrix.caseTemplates.length >= 20, "Expected at least 20 structured OEM case templates");
+    for (const id of ["omron-plc-io-or-fieldbus-loss", "omron-servo-ready-or-following-error", "yaskawa-drive-overcurrent-or-overload", "yaskawa-motoman-servo-or-safety-stop", "fagor-cnc-axis-feedback-or-reference", "fanuc-servo-amplifier-alarm", "fanuc-robot-controller-alarm"]) assert.ok(manufacturerMatrix.caseTemplates.some(item => item.id === id), "Missing OEM case template: " + id);
+    assert.ok(manufacturerMatrix.policy.noInventedAlarmCodes, "Policy must prohibit invented alarm codes");
+    const profileIds = new Set();
+    const knownSources = new Set(manufacturerSources.sources.map(source => source.id));
+    for (const profile of manufacturerMatrix.manufacturerProfiles) {
+      assert.ok(!profileIds.has(profile.id), "Duplicate manufacturer profile: " + profile.id);
+      profileIds.add(profile.id);
+      assert.ok(profile.manufacturer && profile.family && profile.region, "Profile identity fields required: " + profile.id);
+      assert.ok(profile.sourceUrls.length, "Official documentation links required: " + profile.id);
+      for (const url of profile.sourceUrls) assert.ok(/^https:\/\//.test(url), "Profile link must use HTTPS: " + profile.id);
+      for (const ref of profile.docs) assert.ok(knownSources.has(ref), "Unknown source registry ref: " + ref);
+    }
+    const caseIds = new Set();
+    for (const item of manufacturerMatrix.caseTemplates) {
+      assert.ok(!caseIds.has(item.id), "Duplicate OEM case template: " + item.id);
+      caseIds.add(item.id);
+      assert.ok(item.applicableFamilies.length >= 1, "Case must identify at least one relevant model family: " + item.id);
+      assert.ok(item.diagnosticCapture.includes("exact_alarm_text_or_code"), "Case must capture exact displayed alarm: " + item.id);
+      assert.equal(item.evidenceStatus, "general-guidance-not-model-specific");
+      assert.ok(item.sourceDiscoveryOnly, "OEM portal must be treated as source discovery only: " + item.id);
+    }
+    assert.ok(manufacturerMatrixMarkdown.includes("Do not infer an alarm meaning"));
+    assert.ok(manufacturerMatrixMarkdown.includes("Official manufacturer documentation index"));
+    assert.ok(worker.includes("knowledge/OEM-MANUFACTURER-INDEX-AR-FR-EN.md"), "Worker must load the OEM platform index");
+    assert.ok(oemPlatformIndex.manufacturers.length >= 20, "Expected at least 20 structured OEM/platform profiles");
+    for (const id of ["omron", "yaskawa", "fagor", "fanuc"]) assert.ok(oemPlatformIndex.manufacturers.some(profile => profile.id === id), "Missing OEM platform profile: " + id);
+    assert.ok(oemPlatformIndex.manufacturers.every(p => p.evidenceStatus === "portal-only" && p.alarmCodeRecords === 0), "Portal-only sources must not be marked model verified");
+    const platformIds = new Set();
+    for (const profile of oemPlatformIndex.manufacturers) {
+      assert.ok(!platformIds.has(profile.id), "Duplicate OEM platform index ID: " + profile.id);
+      platformIds.add(profile.id);
+      assert.ok(profile.sourceRefs.length && profile.families.length, "OEM profile requires sources and product families: " + profile.id);
+      for (const ref of profile.sourceRefs) assert.ok(knownSources.has(ref), "Unknown OEM platform source: " + ref);
+      assert.ok(/^https:\/\//.test(profile.url), "OEM platform URL must use HTTPS: " + profile.id);
+    }
+    assert.ok(oemIndexMarkdown.includes("minimumEvidenceForModelVerified") || oemIndexMarkdown.includes("Required intake fields"));
+    assert.ok(oemIndexMarkdown.includes("not an OEM alarm-code database"));
+  }],
+  ["Fault library exceeds 200 cases and covers electronics, electrical circuits, industrial controls, and machine families", () => {
+    assert.ok(faults.faults.length > 200, "Fault library must contain more than 200 records");
+    const ids = faults.faults.map(item => item.id);
+    assert.equal(new Set(ids).size, ids.length, "Fault IDs must be unique");
+    const requiredIds = [
+      "electronics-igbt-desaturation",
+      "electronics-encoder-signal-loss",
+      "breaker-unexpected-trip",
+      "earth-leakage-protection-trip",
+      "plc-cpu-stop-mode",
+      "industrial-ip-address-conflict",
+      "chinese-cnc-controller-unknown-alarm",
+      "chinese-vfd-parameter-loss",
+      "european-cnc-tool-magazine-fault",
+      "european-packaging-safety-door-fault"
+    ];
+    for (const id of requiredIds) assert.ok(ids.includes(id), "Missing coverage case: " + id);
+    for (const type of ["electronics", "electrical_panel", "plc", "hmi", "industrial_network", "robotics", "safety_circuit", "fan-blower", "steam_system", "dust_collector", "cooling"]) {
+      assert.ok(html.includes('<option value="' + type + '">'), "Machine selector missing category: " + type);
+    }
+    const sourceIds = new Set(manufacturerSources.sources.map(source => source.id));
+    for (const fault of faults.faults) {
+      if (fault.evidenceStatus === "general-guidance-not-model-specific") {
+        for (const lang of ["ar", "fr", "en"]) {
+          assert.ok(fault.title && fault.title[lang], fault.id + " missing " + lang + " title");
+          assert.ok(Array.isArray(fault.keywords && fault.keywords[lang]) && fault.keywords[lang].length, fault.id + " missing " + lang + " keywords");
+          assert.ok(fault.escalation && fault.escalation[lang], fault.id + " missing " + lang + " escalation");
+        }
+        assert.ok(Array.isArray(fault.causes) && fault.causes.length >= 3, fault.id + " needs candidate causes");
+        assert.ok(Array.isArray(fault.safeChecks) && fault.safeChecks.length >= 3, fault.id + " needs safe checks");
+      }
+      if (fault.evidenceStatus === "general-guidance-not-model-specific") {
+        assert.ok(Array.isArray(fault.sourceRefs) && fault.sourceRefs.length, fault.id + " needs source discovery references");
+      }
+      for (const ref of (fault.sourceRefs || [])) assert.ok(sourceIds.has(ref), fault.id + " has unknown source reference: " + ref);
+    }
+    assert.ok(faults.faults.length > 200, "Structured fault library must exceed 200 cases");
+    assert.equal(new Set(ids).size, faults.faults.length, "All structured fault IDs must be unique");
+    for (const type of ["electronics", "electrical_control", "plc", "industrial_network", "robotics", "safety_circuit"]) {
+      assert.ok(faults.faults.some(item => item.equipmentType === type), "Required domain category missing: " + type);
+    }
+    assert.ok(faults.faults.some(item => item.equipmentType === "electronics"), "Electronics category must be represented");
+    assert.ok(faults.faults.some(item => item.id.startsWith("chinese-")), "Chinese machine cases must be represented");
+    assert.ok(faults.faults.some(item => item.id.startsWith("european-")), "European machine cases must be represented");
+  }]
 ];
-
 let failed = 0;
 for (const [name, run] of checks) {
   try {
