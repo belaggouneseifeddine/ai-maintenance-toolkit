@@ -1396,6 +1396,132 @@
           "verificationLimit": "The cited manual supports this claim for the stated product family; this is not field verification of a particular installed machine."
         }
       ]
+    },
+    "oem-siemens-g120c-f07860-external-fault-1": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://support.industry.siemens.com/cs/attachments/109744756/G120C_FSD_F_cmpct_op_instr_1116_en-US.pdf",
+          "title": "SINAMICS G120C FSD … FSF Compact Operating Instructions",
+          "revision": "V4.7 SP6; document A5E39339884B AA (11/2016)",
+          "section": "5.1 List of alarms and faults",
+          "printedPage": 82,
+          "pdfPage": 82,
+          "claim": "The manual lists F07860 as an external fault and directs the user to identify and remove the external cause; do not bypass the input.",
+          "reviewedOn": "2026-10-24",
+          "scope": "SINAMICS G120C frame sizes FSD through FSF only; verify installed frame size and firmware",
+          "verificationLimit": "Manual-claim-reviewed, not field-verified. Confirm exact installed converter and machine integration; never bypass external, network, or safety monitoring."
+        }
+      ]
+    },
+    "oem-siemens-g120c-f07900-motor-blocked": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://support.industry.siemens.com/cs/attachments/109744756/G120C_FSD_F_cmpct_op_instr_1116_en-US.pdf",
+          "title": "SINAMICS G120C FSD … FSF Compact Operating Instructions",
+          "revision": "V4.7 SP6; document A5E39339884B AA (11/2016)",
+          "section": "5.1 List of alarms and faults",
+          "printedPage": 82,
+          "pdfPage": 82,
+          "claim": "The manual identifies F07900 as motor blocked and documents checks related to free rotation and the relevant torque-limit configuration.",
+          "reviewedOn": "2026-10-24",
+          "scope": "SINAMICS G120C frame sizes FSD through FSF only; verify installed frame size and firmware",
+          "verificationLimit": "Manual-claim-reviewed, not field-verified. Confirm exact installed converter and machine integration; never bypass external, network, or safety monitoring."
+        }
+      ]
+    },
+    "oem-siemens-g120c-f07901-motor-overspeed": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://support.industry.siemens.com/cs/attachments/109744756/G120C_FSD_F_cmpct_op_instr_1116_en-US.pdf",
+          "title": "SINAMICS G120C FSD … FSF Compact Operating Instructions",
+          "revision": "V4.7 SP6; document A5E39339884B AA (11/2016)",
+          "section": "5.1 List of alarms and faults",
+          "printedPage": 82,
+          "pdfPage": 82,
+          "claim": "The manual identifies F07901 as motor overspeed and points to documented speed-controller precontrol direction.",
+          "reviewedOn": "2026-10-24",
+          "scope": "SINAMICS G120C frame sizes FSD through FSF only; verify installed frame size and firmware",
+          "verificationLimit": "Manual-claim-reviewed, not field-verified. Confirm exact installed converter and machine integration; never bypass external, network, or safety monitoring."
+        }
+      ]
+    },
+    "oem-siemens-g120c-f07902-motor-stalled": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://support.industry.siemens.com/cs/attachments/109744756/G120C_FSD_F_cmpct_op_instr_1116_en-US.pdf",
+          "title": "SINAMICS G120C FSD … FSF Compact Operating Instructions",
+          "revision": "V4.7 SP6; document A5E39339884B AA (11/2016)",
+          "section": "5.1 List of alarms and faults",
+          "printedPage": 82,
+          "pdfPage": 82,
+          "claim": "The manual identifies F07902 as motor stalled and lists motor identification, documented current-limit parameters, and possible motor-cable disconnection among checks.",
+          "reviewedOn": "2026-10-24",
+          "scope": "SINAMICS G120C frame sizes FSD through FSF only; verify installed frame size and firmware",
+          "verificationLimit": "Manual-claim-reviewed, not field-verified. Confirm exact installed converter and machine integration; never bypass external, network, or safety monitoring."
+        }
+      ]
+    },
+    "oem-siemens-g120c-f08501-setpoint-timeout": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://support.industry.siemens.com/cs/attachments/109744756/G120C_FSD_F_cmpct_op_instr_1116_en-US.pdf",
+          "title": "SINAMICS G120C FSD … FSF Compact Operating Instructions",
+          "revision": "V4.7 SP6; document A5E39339884B AA (11/2016)",
+          "section": "5.1 List of alarms and faults",
+          "printedPage": 82,
+          "pdfPage": 82,
+          "claim": "The manual identifies F08501 as setpoint timeout and directs checks of the PROFINET connection, controller RUN state and documented monitoring time if recurring.",
+          "reviewedOn": "2026-10-24",
+          "scope": "SINAMICS G120C frame sizes FSD through FSF only; verify installed frame size and firmware",
+          "verificationLimit": "Manual-claim-reviewed, not field-verified. Confirm exact installed converter and machine integration; never bypass external, network, or safety monitoring."
+        }
+      ]
+    },
+    "oem-siemens-g120c-f08502-sign-of-life-timeout": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://support.industry.siemens.com/cs/attachments/109744756/G120C_FSD_F_cmpct_op_instr_1116_en-US.pdf",
+          "title": "SINAMICS G120C FSD … FSF Compact Operating Instructions",
+          "revision": "V4.7 SP6; document A5E39339884B AA (11/2016)",
+          "section": "5.1 List of alarms and faults",
+          "printedPage": 82,
+          "pdfPage": 82,
+          "claim": "The manual identifies F08502 as expiration of sign-of-life monitoring and directs checking the PROFINET connection.",
+          "reviewedOn": "2026-10-24",
+          "scope": "SINAMICS G120C frame sizes FSD through FSF only; verify installed frame size and firmware",
+          "verificationLimit": "Manual-claim-reviewed, not field-verified. Confirm exact installed converter and machine integration; never bypass external, network, or safety monitoring."
+        }
+      ]
+    },
+    "oem-siemens-g120c-f08526-no-cyclic-connection": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://support.industry.siemens.com/cs/attachments/109744756/G120C_FSD_F_cmpct_op_instr_1116_en-US.pdf",
+          "title": "SINAMICS G120C FSD … FSF Compact Operating Instructions",
+          "revision": "V4.7 SP6; document A5E39339884B AA (11/2016)",
+          "section": "5.1 List of alarms and faults",
+          "printedPage": 82,
+          "pdfPage": 82,
+          "claim": "The manual identifies F08526 as no cyclic connection and documents checks of cyclic operation, station name and station IP settings.",
+          "reviewedOn": "2026-10-24",
+          "scope": "SINAMICS G120C frame sizes FSD through FSF only; verify installed frame size and firmware",
+          "verificationLimit": "Manual-claim-reviewed, not field-verified. Confirm exact installed converter and machine integration; never bypass external, network, or safety monitoring."
+        }
+      ]
     }
   },
   "generalSafetyReferences": [
