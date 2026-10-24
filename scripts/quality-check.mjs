@@ -614,6 +614,17 @@ const checks = [
       if (record.alarmCode) assert.ok(record.source.printedPage || record.source.section, record.id + " needs page or section");
     }
     assert.ok(worker.includes("knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md"), "Worker retrieval must include OEM verified knowledge");
+    assert.equal(oemPlatformIndex.verifiedRecordFileCount, records.length, "OEM index inventory count must match the verified-record file");
+    assert.equal(oemPlatformIndex.verifiedRecordFile, "knowledge/oem-verified-faults.json", "OEM index must point to the structured record file");
+    assert.equal(oemPlatformIndex.manufacturers.reduce((sum, manufacturer) => sum + (manufacturer.manualReviewedRecordCount || 0), 0), records.length, "Per-manufacturer manual-reviewed counts must reconcile to the record inventory");
+    for (const manufacturer of oemPlatformIndex.manufacturers) {
+      if ((manufacturer.manualReviewedRecordCount || 0) > 0) {
+        assert.ok(Array.isArray(manufacturer.modelsCovered) && manufacturer.modelsCovered.length, manufacturer.id + " must list the product families with manual-reviewed records");
+        assert.equal(manufacturer.evidenceStatus, "manual-claims-reviewed", manufacturer.id + " must not imply field verification");
+      } else {
+        assert.equal(manufacturer.evidenceStatus, "portal-only", manufacturer.id + " without records must remain portal-only");
+      }
+    }
     assert.ok(oemVerifiedMarkdown.includes("Evidence acquisition queue"), "OEM verified guide must distinguish pending evidence");
     assert.ok(oemVerifiedMarkdown.includes("XINJE") && oemVerifiedMarkdown.includes("HuazhongCNC"), "Chinese OEM evidence queue must be present");
     for (const record of records) {
