@@ -1,0 +1,72 @@
+name: Deploy Maintenance AI Toolkit to Cloudflare Pages
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: "cloudflare-pages-production"
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Verify deployment credentials are configured
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          test -n "$CLOUDFLARE_API_TOKEN" || (echo "Missing GitHub Actions secret: CLOUDFLARE_API_TOKEN" && exit 1)
+          test -n "$CLOUDFLARE_ACCOUNT_ID" || (echo "Missing GitHub Actions secret: CLOUDFLARE_ACCOUNT_ID" && exit 1)
+
+      - name: Prepare static site
+        run: |
+          mkdir -p _site
+          cp index.html manifest.json sw.js diagnostic-flows.js normalization.js diagnostic-engine.js faults.json i18n.js icon.svg maintenance-v03.js maintenance-v03.css decision-trees.json ux-redesign.js ux-redesign.css navigation-redesign.js knowledge-review.js answer-tools.js _site/
+          if [ -f cv.html ]; then cp cv.html _site/; fi
+          if [ -d docs ]; then cp -R docs _site/; fi
+          if [ -d knowledge ]; then cp -R knowledge _site/; fi
+          if [ -f SAFETY.md ]; then cp SAFETY.md _site/; fi
+          if [ -f icon-192.png ]; then cp icon-192.png _site/; fi
+          if [ -f icon-512.png ]; then cp icon-512.png _site/; fi
+          test -s _site/index.html
+          test -s _site/diagnostic-engine.js
+          test -s _site/knowledge/manufacturer-sources.json
+
+      - name: Install Wrangler
+        run: npm install --global wrangler@4
+
+      - name: Deploy static site to Cloudflare Pages
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: wrangler pages deploy _site --project-name=maintenance-ai-toolkit --branch=main
+
+      - name: Smoke-test Cloudflare Pages production URL
+        run: |
+          for attempt in 1 2 3 4 5 6; do
+            if curl --fail --silent --show-error https://maintenance-ai-toolkit.pages.dev/ -o /tmp/maintenance-index.html               && curl --fail --silent --show-error https://maintenance-ai-toolkit.pages.dev/diagnostic-engine.js -o /tmp/maintenance-engine.js               && curl --fail --silent --show-error https://maintenance-ai-toolkit.pages.dev/knowledge/manufacturer-sources.json -o /tmp/maintenance-sources.json; then
+              grep -q "maintenance" /tmp/maintenance-index.html
+              grep -q "retrieveLocalKnowledge" /tmp/maintenance-engine.js
+              grep -q "grundfos-hydro-en" /tmp/maintenance-sources.json
+              echo "Cloudflare Pages production smoke test passed."
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "Cloudflare Pages smoke test did not pass after retries."
+          exit 1
