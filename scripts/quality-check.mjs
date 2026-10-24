@@ -269,6 +269,25 @@ const checks = [
       "motor-no-start", "motor-overheating", "vfd-trip",
       "compressor-high-temperature", "compressor-low-pressure"
     ]) assert.ok(ids.includes(id), "missing fault " + id);
+    const modelReviewed = faults.faults.filter(fault => fault.modelSpecificEvidence);
+    assert.ok(modelReviewed.length >= 22, "expected at least 22 structured model-specific manual-reviewed records");
+    for (const fault of modelReviewed) {
+      const evidence = fault.modelSpecificEvidence;
+      assert.ok(evidence.manufacturer && evidence.productFamily && evidence.manualTitle, fault.id + " missing model/manual identity");
+      assert.ok(evidence.officialDocumentUrl?.startsWith("https://"), fault.id + " missing official manual URL");
+      assert.ok(evidence.section && Number.isInteger(evidence.printedPage), fault.id + " missing manual section/page");
+      assert.ok(evidence.reviewedOn && evidence.reviewStatus, fault.id + " missing review metadata");
+      assert.ok(Array.isArray(fault.sourceRefs) && fault.sourceRefs.length > 0, fault.id + " missing source references");
+    }
+    for (const id of [
+      "oem-siemens-g120c-f07860-external-fault-1",
+      "oem-siemens-g120c-f07900-motor-blocked",
+      "oem-siemens-g120c-f07901-motor-overspeed",
+      "oem-siemens-g120c-f07902-motor-stalled",
+      "oem-siemens-g120c-f08501-setpoint-timeout",
+      "oem-siemens-g120c-f08502-sign-of-life-timeout",
+      "oem-siemens-g120c-f08526-no-cyclic-connection"
+    ]) assert.ok(faults.faults.some(fault => fault.id === id), "missing model-specific Siemens G120C case " + id);
     for (const fault of faults.faults) {
       assert.ok(["pump", "motor", "vfd", "compressor", "electric_motor", "valve", "hydraulic", "pneumatic", "plc", "hmi", "sensor", "instrumentation", "electrical_control", "safety_circuit", "mechanical", "gearbox", "conveyor", "filtration", "heat_exchanger", "cooling", "steam_system", "boiler", "refrigeration", "ups", "power_supply", "electrical_panel", "industrial_network", "robotics", "lubrication", "vacuum", "dust_collector", "fire_safety", "electronics", "fan-blower"].includes(fault.equipmentType), fault.id + " has unsupported equipment type");
       for (const language of ["ar", "fr", "en"]) {
