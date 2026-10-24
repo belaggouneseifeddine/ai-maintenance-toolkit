@@ -250,7 +250,7 @@ const checks = [
   ["Service worker caches the app shell and icon with a bumped cache version", () => {
     assert.match(sw, /APP_SHELL/);
     assert.match(sw, /\.\/icon\.svg/);
-    assert.match(sw, /maintenance-ai-toolkit-v37/);
+    assert.match(sw, /maintenance-ai-toolkit-v38/);
   }]
 ,
   ["Multilingual fault library covers pumps, motors, VFDs and compressors", () => {
@@ -264,7 +264,7 @@ const checks = [
       "compressor-high-temperature", "compressor-low-pressure"
     ]) assert.ok(ids.includes(id), "missing fault " + id);
     for (const fault of faults.faults) {
-      assert.ok(["pump", "motor", "vfd", "compressor", "electric_motor", "valve", "hydraulic", "pneumatic", "plc", "hmi", "sensor", "instrumentation", "electrical_control", "safety_circuit", "mechanical", "gearbox", "conveyor", "filtration", "heat_exchanger", "cooling", "steam_system", "boiler", "refrigeration", "ups", "power_supply", "electrical_panel", "industrial_network", "robotics", "lubrication", "vacuum", "dust_collector", "fire_safety"].includes(fault.equipmentType), fault.id + " has unsupported equipment type");
+      assert.ok(["pump", "motor", "vfd", "compressor", "electric_motor", "valve", "hydraulic", "pneumatic", "plc", "hmi", "sensor", "instrumentation", "electrical_control", "safety_circuit", "mechanical", "gearbox", "conveyor", "filtration", "heat_exchanger", "cooling", "steam_system", "boiler", "refrigeration", "ups", "power_supply", "electrical_panel", "industrial_network", "robotics", "lubrication", "vacuum", "dust_collector", "fire_safety", "electronics"].includes(fault.equipmentType), fault.id + " has unsupported equipment type");
       for (const language of ["ar", "fr", "en"]) {
         assert.ok(fault.title[language], fault.id + " missing title " + language);
         assert.ok(fault.keywords[language].length >= 3, fault.id + " missing keywords " + language);
@@ -342,7 +342,7 @@ const checks = [
     for (const node of Object.values(tree.nodes)) if (node.result) assert.ok(node.safe && node.escalate && node.cause);
   }],
   ["PWA caches all new offline dependencies and bumps its cache", () => {
-    assert.match(sw, /maintenance-ai-toolkit-v37/);
+    assert.match(sw, /maintenance-ai-toolkit-v38/);
     for (const asset of ["normalization.js", "knowledge-review.js", "answer-tools.js", "diagnostic-engine.js", "engineering-core.js", "agent-core.js", "agent-ui.js", "faults.json", "i18n.js"]) assert.ok(sw.includes(asset), "Missing offline cache asset " + asset);
     assert.match(manifest.icons[0].src, /icon\.svg/);
   }]
