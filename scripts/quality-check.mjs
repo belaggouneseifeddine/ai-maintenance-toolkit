@@ -430,9 +430,6 @@ const checks = [
     assert.match(uxCss, /env\(safe-area-inset-bottom/);
     new vm.Script(navRedesign, { filename: "navigation-redesign.js" });
   }],
-];
-
-
   ["Expanded fault library has unique IDs, multilingual text, safe checks, and traceable source references", () => {
     const ids = new Set();
     for (const fault of faults.faults) {
