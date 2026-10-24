@@ -325,6 +325,136 @@
       "sourceUrls": [
         "https://www.kuka.com/en-us/services/downloads"
       ]
+    },
+    {
+      "id": "delta-as-vfd-asda",
+      "manufacturer": "Delta Electronics",
+      "region": "Taiwan / Asia",
+      "family": "AS/DVP PLC, ASDA servo, MS300 VFD and HMI families; exact series required",
+      "domains": [
+        "plc",
+        "servo",
+        "vfd",
+        "hmi",
+        "motion"
+      ],
+      "docs": [
+        "delta-industrial-download-center"
+      ],
+      "sourceUrls": [
+        "https://downloadcenter.delta-china.com.cn/en-US/DownloadCenter"
+      ]
+    },
+    {
+      "id": "xinje-xd-ds",
+      "manufacturer": "XINJE",
+      "region": "China",
+      "family": "XD/XG/XL PLC, DS servo, HMI and VFD; exact series and firmware required",
+      "domains": [
+        "plc",
+        "servo",
+        "vfd",
+        "hmi",
+        "motion"
+      ],
+      "docs": [
+        "xinje-download-center"
+      ],
+      "sourceUrls": [
+        "https://en.xinje.com/web/downloadCenter/index"
+      ]
+    },
+    {
+      "id": "mitsubishi-fa-china",
+      "manufacturer": "Mitsubishi Electric FA China",
+      "region": "Japan / China support portal",
+      "family": "MELSEC PLC, MELSERVO, FREQROL, CNC, GOT HMI and MELFA robot families",
+      "domains": [
+        "plc",
+        "servo",
+        "vfd",
+        "cnc",
+        "hmi",
+        "robotics"
+      ],
+      "docs": [
+        "mitsubishi-fa-china-documents"
+      ],
+      "sourceUrls": [
+        "https://www.mitsubishielectric-fa.cn/site/file-center"
+      ]
+    },
+    {
+      "id": "yizumi-injection-die-cast",
+      "manufacturer": "YIZUMI",
+      "region": "China",
+      "family": "Injection moulding, die-casting, rubber machinery and automation; exact machine/control options required",
+      "domains": [
+        "injection-moulding",
+        "hydraulic",
+        "servo",
+        "automation"
+      ],
+      "docs": [
+        "yizumi-machine-service"
+      ],
+      "sourceUrls": [
+        "https://www.yizumi.com/en/service"
+      ]
+    },
+    {
+      "id": "haitian-injection",
+      "manufacturer": "Haitian International",
+      "region": "China",
+      "family": "Servo-hydraulic and all-electric injection moulding machines; exact model and options required",
+      "domains": [
+        "injection-moulding",
+        "hydraulic",
+        "servo",
+        "automation"
+      ],
+      "docs": [
+        "haitian-machine-service"
+      ],
+      "sourceUrls": [
+        "https://haitianinter.com/service/"
+      ]
+    },
+    {
+      "id": "bodor-laser",
+      "manufacturer": "Bodor Laser",
+      "region": "China",
+      "family": "Laser cutting/welding machines and machine-specific cooling/interlocks",
+      "domains": [
+        "laser",
+        "cooling",
+        "cnc",
+        "safety"
+      ],
+      "docs": [
+        "bodor-laser-service"
+      ],
+      "sourceUrls": [
+        "https://www.bodor.com/en/service/"
+      ]
+    },
+    {
+      "id": "pilz-safety-components",
+      "manufacturer": "Pilz",
+      "region": "Europe / Germany",
+      "family": "Safety relays, safety PLC, sensors and machine safety functions; exact device and wiring configuration required",
+      "domains": [
+        "safety",
+        "safety_circuit",
+        "sensors",
+        "plc"
+      ],
+      "docs": [
+        "pilz-machine-safety-support"
+      ],
+      "sourceUrls": [
+        "https://www.pilz.com/en-INT/support"
+      ]
     }
   ],
   "caseTemplates": [
@@ -1022,6 +1152,226 @@
         "Capture the displayed alarm and event log before reset.",
         "Use the exact OEM manual and site-approved procedure.",
         "Do not bypass interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true
+    },
+    {
+      "id": "chinese-vfd-parameter-backup-check",
+      "title": "VFD parameters missing after replacement or power event",
+      "title_ar": "فقدان معلمات مغير التردد بعد الاستبدال أو انقطاع الطاقة",
+      "title_fr": "Paramètres du variateur manquants après remplacement ou coupure",
+      "equipmentDomain": "vfd",
+      "applicableFamilies": [
+        "INOVANCE MD series",
+        "Delta VFD series",
+        "XINJE VFD series; exact installed drive decides"
+      ],
+      "symptomPattern": "drive-parameters-missing",
+      "sourceRefs": [
+        "inovance-global-downloads",
+        "delta-industrial-download-center",
+        "xinje-download-center"
+      ],
+      "diagnosticCapture": [
+        "machine_builder_and_exact_model",
+        "controller_and_drive_model",
+        "exact_alarm_text_and_code",
+        "firmware_or_software_version",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Record the original alarm and approved event log before reset.",
+        "Consult only the manual matching the installed model and firmware.",
+        "Do not bypass guards/interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true
+    },
+    {
+      "id": "chinese-cnc-alarm-identity-check",
+      "title": "Unknown CNC alarm on a Chinese-built machine",
+      "title_ar": "إنذار CNC غير معروف في ماكينة مصنّعة في الصين",
+      "title_fr": "Alarme CNC inconnue sur une machine fabriquée en Chine",
+      "equipmentDomain": "cnc",
+      "applicableFamilies": [
+        "HNC",
+        "GSK",
+        "LNC",
+        "Syntec; do not assume controller from machine origin"
+      ],
+      "symptomPattern": "unknown-cnc-alarm",
+      "sourceRefs": [
+        "huazhongcnc-download-center",
+        "gsk-cnc-support",
+        "lynuc-download-center",
+        "syntec-download-library"
+      ],
+      "diagnosticCapture": [
+        "machine_builder_and_exact_model",
+        "controller_and_drive_model",
+        "exact_alarm_text_and_code",
+        "firmware_or_software_version",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Record the original alarm and approved event log before reset.",
+        "Consult only the manual matching the installed model and firmware.",
+        "Do not bypass guards/interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true
+    },
+    {
+      "id": "chinese-injection-hydraulic-pressure-low",
+      "title": "Injection moulding hydraulic pressure low",
+      "title_ar": "انخفاض الضغط الهيدروليكي في آلة الحقن",
+      "title_fr": "Pression hydraulique basse sur presse à injecter",
+      "equipmentDomain": "hydraulic",
+      "applicableFamilies": [
+        "YIZUMI injection moulding machines",
+        "Haitian injection moulding machines; exact machine model required"
+      ],
+      "symptomPattern": "injection-pressure-low",
+      "sourceRefs": [
+        "yizumi-machine-service",
+        "haitian-machine-service"
+      ],
+      "diagnosticCapture": [
+        "machine_builder_and_exact_model",
+        "controller_and_drive_model",
+        "exact_alarm_text_and_code",
+        "firmware_or_software_version",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Record the original alarm and approved event log before reset.",
+        "Consult only the manual matching the installed model and firmware.",
+        "Do not bypass guards/interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true
+    },
+    {
+      "id": "chinese-laser-cooling-interlock",
+      "title": "Laser machine cooling/interlock alarm",
+      "title_ar": "إنذار التبريد أو التعشيق في آلة ليزر",
+      "title_fr": "Alarme de refroidissement ou d’interverrouillage sur machine laser",
+      "equipmentDomain": "laser",
+      "applicableFamilies": [
+        "Bodor laser machines; other laser brands require their own manual"
+      ],
+      "symptomPattern": "laser-cooling-interlock",
+      "sourceRefs": [
+        "bodor-laser-service"
+      ],
+      "diagnosticCapture": [
+        "machine_builder_and_exact_model",
+        "controller_and_drive_model",
+        "exact_alarm_text_and_code",
+        "firmware_or_software_version",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Record the original alarm and approved event log before reset.",
+        "Consult only the manual matching the installed model and firmware.",
+        "Do not bypass guards/interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true
+    },
+    {
+      "id": "chinese-servo-feedback-alarm",
+      "title": "Servo feedback or encoder alarm on a Chinese machine",
+      "title_ar": "إنذار تغذية راجعة أو مشفر سيرفو في ماكينة صينية",
+      "title_fr": "Alarme de retour ou de codeur servo sur machine chinoise",
+      "equipmentDomain": "servo",
+      "applicableFamilies": [
+        "INOVANCE servo",
+        "Leadshine",
+        "XINJE servo",
+        "Huazhong HSV; exact drive family required"
+      ],
+      "symptomPattern": "servo-feedback-alarm",
+      "sourceRefs": [
+        "inovance-global-downloads",
+        "leadshine-downloads",
+        "xinje-download-center",
+        "huazhongcnc-servo-manuals"
+      ],
+      "diagnosticCapture": [
+        "machine_builder_and_exact_model",
+        "controller_and_drive_model",
+        "exact_alarm_text_and_code",
+        "firmware_or_software_version",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Record the original alarm and approved event log before reset.",
+        "Consult only the manual matching the installed model and firmware.",
+        "Do not bypass guards/interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true
+    },
+    {
+      "id": "european-safety-door-loop",
+      "title": "Safety door/interlock chain not satisfied",
+      "title_ar": "شروط دائرة باب السلامة أو التعشيق غير مستوفاة",
+      "title_fr": "Chaîne de porte de sécurité ou d’interverrouillage non satisfaite",
+      "equipmentDomain": "safety",
+      "applicableFamilies": [
+        "Pilz safety devices",
+        "Siemens PLC; identify the installed safety architecture"
+      ],
+      "symptomPattern": "safety-interlock-open",
+      "sourceRefs": [
+        "pilz-machine-safety-support",
+        "siemens-industrial-support"
+      ],
+      "diagnosticCapture": [
+        "machine_builder_and_exact_model",
+        "controller_and_drive_model",
+        "exact_alarm_text_and_code",
+        "firmware_or_software_version",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Record the original alarm and approved event log before reset.",
+        "Consult only the manual matching the installed model and firmware.",
+        "Do not bypass guards/interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true
+    },
+    {
+      "id": "european-conveyor-drive-sync",
+      "title": "Conveyor synchronization or drive communication fault",
+      "title_ar": "خلل مزامنة الناقل أو اتصال مغيرات التردد",
+      "title_fr": "Défaut de synchronisation du convoyeur ou de communication des variateurs",
+      "equipmentDomain": "motion",
+      "applicableFamilies": [
+        "Beckhoff TwinCAT/EtherCAT",
+        "Siemens SIMATIC/SINAMICS",
+        "SEW-EURODRIVE; exact architecture required"
+      ],
+      "symptomPattern": "conveyor-sync-communication",
+      "sourceRefs": [
+        "beckhoff-downloads",
+        "siemens-industrial-support",
+        "sew-eurodrive-documentation"
+      ],
+      "diagnosticCapture": [
+        "machine_builder_and_exact_model",
+        "controller_and_drive_model",
+        "exact_alarm_text_and_code",
+        "firmware_or_software_version",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Record the original alarm and approved event log before reset.",
+        "Consult only the manual matching the installed model and firmware.",
+        "Do not bypass guards/interlocks or change parameters without authorization."
       ],
       "evidenceStatus": "general-guidance-not-model-specific",
       "sourceDiscoveryOnly": true
