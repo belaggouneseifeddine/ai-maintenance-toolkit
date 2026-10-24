@@ -7,7 +7,7 @@
     "en"
   ],
   "generatedAt": "2026-10-24",
-  "recordCount": 94,
+  "recordCount": 99,
   "evidencePolicy": {
     "verifiedMeans": "The cited official manual explicitly supports the stated alarm meaning or diagnostic procedure within the recorded scope.",
     "notEquivalentTo": "This does not mean every machine built around the same brand/controller behaves identically; machine builder integration, firmware and options can change alarm behavior.",
@@ -4919,6 +4919,266 @@
         "fr": [
           "Conservez l’historique; après consignation, faites vérifier terre, blindage et cheminement; des réinitialisations répétées ne constituent pas une réparation.",
           "Inspectez le câblage après consignation uniquement; les interventions internes sont réservées au personnel qualifié."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate to qualified Delta or machine-builder personnel if the alarm persists or recurs after approved checks.",
+        "ar": "صعّد إلى مختص مؤهل من Delta أو مصنع الماكينة إذا استمر الإنذار أو تكرر بعد الفحوصات المصرح بها.",
+        "fr": "Faites intervenir un spécialiste Delta ou le constructeur si l’alarme persiste ou revient après les contrôles autorisés."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm."
+    },
+    {
+      "id": "delta-asda-b2-f-al027-encoder-internal-reset-error",
+      "recordType": "alarm-code",
+      "manufacturer": "Delta Electronics",
+      "productFamily": "ASDA-B2-F series servo drive",
+      "modelScope": "Delta ASDA-B2-F only; User Manual V1.0, September 2015. Do not generalize to other ASDA series.",
+      "controllerModel": "Delta ASDA-B2-F servo drive with DMCNET communication",
+      "alarmCode": "AL027",
+      "title": {
+        "en": "Delta ASDA-B2-F AL027 — Encoder internal reset error",
+        "ar": "Delta ASDA-B2-F AL027 — خطأ إعادة الضبط الداخلية للمشفّر",
+        "fr": "Delta ASDA-B2-F AL027 — Erreur de réinitialisation interne du codeur"
+      },
+      "meaning": {
+        "en": "The manual identifies AL027 as an internal encoder-reset error and directs checks to encoder communication, supply stability and operating temperature.",
+        "ar": "يعرّف الدليل AL027 بأنه خطأ في إعادة الضبط الداخلية للمشفّر ويوجه إلى اتصال المشفّر واستقرار التغذية وحرارة التشغيل.",
+        "fr": "Le manuel identifie AL027 comme une erreur de réinitialisation interne et renvoie à la communication codeur, à l’alimentation et à la température."
+      },
+      "source": {
+        "sourceId": "delta-asda-b2-f-user-manual",
+        "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
+        "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
+        "section": "9.4 Causes and Corrective Actions → AL027",
+        "printedPageLabel": "9-10",
+        "pdfPage": 211,
+        "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
+        "evidenceSummary": "The manual identifies AL027 as an internal encoder-reset error and directs checks to encoder communication, supply stability and operating temperature."
+      },
+      "safeChecks": {
+        "en": [
+          "Record recent thermal/supply events; after isolation inspect encoder connectors and cable; have qualified personnel verify supply and temperature against the manual.",
+          "Use approved isolation before inspecting wiring; internal electrical work is for qualified personnel."
+        ],
+        "ar": [
+          "سجّل اضطرابات الحرارة أو التغذية؛ بعد العزل افحص موصلات وكابل المشفّر؛ ليتحقق فني مؤهل من التغذية والحرارة وفق الدليل.",
+          "طبّق العزل المعتمد قبل فحص الأسلاك؛ الأعمال الكهربائية الداخلية من اختصاص شخص مؤهل."
+        ],
+        "fr": [
+          "Consignez les incidents thermiques/alimentation; après consignation inspectez connecteurs et câble; faites vérifier alimentation/température selon le manuel.",
+          "Appliquez la consignation avant d’inspecter le câblage; les travaux électriques internes sont réservés au personnel qualifié."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate to qualified Delta or machine-builder personnel if the alarm persists or recurs after approved checks.",
+        "ar": "صعّد إلى مختص مؤهل من Delta أو مصنع الماكينة إذا استمر الإنذار أو تكرر بعد الفحوصات المصرح بها.",
+        "fr": "Faites intervenir un spécialiste Delta ou le constructeur si l’alarme persiste ou revient après les contrôles autorisés."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm."
+    },
+    {
+      "id": "delta-asda-b2-f-al028-encoder-voltage-or-internal-error",
+      "recordType": "alarm-code",
+      "manufacturer": "Delta Electronics",
+      "productFamily": "ASDA-B2-F series servo drive",
+      "modelScope": "Delta ASDA-B2-F only; User Manual V1.0, September 2015. Do not generalize to other ASDA series.",
+      "controllerModel": "Delta ASDA-B2-F servo drive with DMCNET communication",
+      "alarmCode": "AL028",
+      "title": {
+        "en": "Delta ASDA-B2-F AL028 — Encoder voltage/internal error",
+        "ar": "Delta ASDA-B2-F AL028 — خطأ في جهد المشفّر أو خطأ داخلي",
+        "fr": "Delta ASDA-B2-F AL028 — Erreur de tension ou interne du codeur"
+      },
+      "meaning": {
+        "en": "The manual associates AL028 with encoder voltage/internal error and discusses battery voltage above specification or an encoder internal fault.",
+        "ar": "يربط الدليل AL028 بخطأ جهد المشفّر أو خطأ داخلي ويناقش تجاوز جهد البطارية للمواصفة أو عطل المشفّر.",
+        "fr": "Le manuel associe AL028 à une erreur de tension/interne et évoque une tension de batterie hors spécification ou un défaut interne."
+      },
+      "source": {
+        "sourceId": "delta-asda-b2-f-user-manual",
+        "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
+        "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
+        "section": "9.4 Causes and Corrective Actions → AL028",
+        "printedPageLabel": "9-10",
+        "pdfPage": 211,
+        "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
+        "evidenceSummary": "The manual associates AL028 with encoder voltage/internal error and discusses battery voltage above specification or an encoder internal fault."
+      },
+      "safeChecks": {
+        "en": [
+          "Confirm encoder/battery configuration and compare with the exact manual; do not replace the battery or initialize absolute coordinates without the approved position-preservation/homing procedure.",
+          "Use approved isolation before inspecting wiring; internal electrical work is for qualified personnel."
+        ],
+        "ar": [
+          "تحقق من إعداد المشفّر/البطارية وطابقه مع الدليل؛ لا تستبدل البطارية ولا تهيّئ الإحداثيات المطلقة دون إجراء معتمد لحفظ الموضع والمرجعة.",
+          "طبّق العزل المعتمد قبل فحص الأسلاك؛ الأعمال الكهربائية الداخلية من اختصاص شخص مؤهل."
+        ],
+        "fr": [
+          "Confirmez la configuration codeur/batterie et comparez au manuel exact; ne remplacez pas la batterie et n’initialisez pas les coordonnées sans procédure approuvée.",
+          "Appliquez la consignation avant d’inspecter le câblage; les travaux électriques internes sont réservés au personnel qualifié."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate to qualified Delta or machine-builder personnel if the alarm persists or recurs after approved checks.",
+        "ar": "صعّد إلى مختص مؤهل من Delta أو مصنع الماكينة إذا استمر الإنذار أو تكرر بعد الفحوصات المصرح بها.",
+        "fr": "Faites intervenir un spécialiste Delta ou le constructeur si l’alarme persiste ou revient après les contrôles autorisés."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm."
+    },
+    {
+      "id": "delta-asda-b2-f-al029-absolute-position-gray-code-error",
+      "recordType": "alarm-code",
+      "manufacturer": "Delta Electronics",
+      "productFamily": "ASDA-B2-F series servo drive",
+      "modelScope": "Delta ASDA-B2-F only; User Manual V1.0, September 2015. Do not generalize to other ASDA series.",
+      "controllerModel": "Delta ASDA-B2-F servo drive with DMCNET communication",
+      "alarmCode": "AL029",
+      "title": {
+        "en": "Delta ASDA-B2-F AL029 — Absolute-position Gray-code error",
+        "ar": "Delta ASDA-B2-F AL029 — خطأ Gray Code في الموضع المطلق",
+        "fr": "Delta ASDA-B2-F AL029 — Erreur Gray code de position absolue"
+      },
+      "meaning": {
+        "en": "The manual identifies AL029 as an absolute-position error and advises checking whether it recurs after a power cycle.",
+        "ar": "يعرّف الدليل AL029 بأنه خطأ في الموضع المطلق ويوجه إلى التحقق من تكراره بعد دورة طاقة.",
+        "fr": "Le manuel identifie AL029 comme une erreur de position absolue et recommande de vérifier sa réapparition après un cycle d’alimentation."
+      },
+      "source": {
+        "sourceId": "delta-asda-b2-f-user-manual",
+        "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
+        "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
+        "section": "9.4 Causes and Corrective Actions → AL029",
+        "printedPageLabel": "9-11",
+        "pdfPage": 212,
+        "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
+        "evidenceSummary": "The manual identifies AL029 as an absolute-position error and advises checking whether it recurs after a power cycle."
+      },
+      "safeChecks": {
+        "en": [
+          "Preserve axis position and absolute-position status; use only the machine builder's approved restart/homing procedure; do not resume automatic motion until position validity is confirmed.",
+          "Use approved isolation before inspecting wiring; internal electrical work is for qualified personnel."
+        ],
+        "ar": [
+          "احفظ موضع المحور وحالة الموضع المطلق؛ استخدم إجراء إعادة التشغيل والمرجعة المعتمد فقط؛ لا تستأنف الحركة الآلية قبل تأكيد صلاحية الموضع.",
+          "طبّق العزل المعتمد قبل فحص الأسلاك؛ الأعمال الكهربائية الداخلية من اختصاص شخص مؤهل."
+        ],
+        "fr": [
+          "Préservez la position de l’axe et l’état absolu; utilisez uniquement la procédure approuvée de redémarrage/référencement; ne reprenez pas le mouvement avant validation.",
+          "Appliquez la consignation avant d’inspecter le câblage; les travaux électriques internes sont réservés au personnel qualifié."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate to qualified Delta or machine-builder personnel if the alarm persists or recurs after approved checks.",
+        "ar": "صعّد إلى مختص مؤهل من Delta أو مصنع الماكينة إذا استمر الإنذار أو تكرر بعد الفحوصات المصرح بها.",
+        "fr": "Faites intervenir un spécialiste Delta ou le constructeur si l’alarme persiste ou revient après les contrôles autorisés."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm."
+    },
+    {
+      "id": "delta-asda-b2-f-al034-encoder-internal-communication-error",
+      "recordType": "alarm-code",
+      "manufacturer": "Delta Electronics",
+      "productFamily": "ASDA-B2-F series servo drive",
+      "modelScope": "Delta ASDA-B2-F only; User Manual V1.0, September 2015. Do not generalize to other ASDA series.",
+      "controllerModel": "Delta ASDA-B2-F servo drive with DMCNET communication",
+      "alarmCode": "AL034",
+      "title": {
+        "en": "Delta ASDA-B2-F AL034 — Encoder internal communication error",
+        "ar": "Delta ASDA-B2-F AL034 — خطأ اتصال داخلي بالمشفّر",
+        "fr": "Delta ASDA-B2-F AL034 — Erreur de communication interne du codeur"
+      },
+      "meaning": {
+        "en": "The manual identifies AL034 as an internal communication error affecting an absolute encoder or another encoder type.",
+        "ar": "يعرّف الدليل AL034 بأنه خطأ اتصال داخلي قد يؤثر في المشفّر المطلق أو أنواع أخرى.",
+        "fr": "Le manuel identifie AL034 comme une erreur de communication interne pouvant toucher un codeur absolu ou un autre type."
+      },
+      "source": {
+        "sourceId": "delta-asda-b2-f-user-manual",
+        "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
+        "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
+        "section": "9.4 Causes and Corrective Actions → AL034",
+        "printedPageLabel": "9-11",
+        "pdfPage": 212,
+        "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
+        "evidenceSummary": "The manual identifies AL034 as an internal communication error affecting an absolute encoder or another encoder type."
+      },
+      "safeChecks": {
+        "en": [
+          "Record encoder type and related alarms; after isolation, have qualified personnel verify model-specific encoder/battery wiring; escalate if persistent.",
+          "Use approved isolation before inspecting wiring; internal electrical work is for qualified personnel."
+        ],
+        "ar": [
+          "سجّل نوع المشفّر والإنذارات المصاحبة؛ بعد العزل ليتحقق فني مؤهل من توصيلات المشفّر/البطارية الخاصة بالطراز؛ صعّد إذا استمر العطل.",
+          "طبّق العزل المعتمد قبل فحص الأسلاك؛ الأعمال الكهربائية الداخلية من اختصاص شخص مؤهل."
+        ],
+        "fr": [
+          "Consignez le type de codeur et les alarmes associées; après consignation, faites vérifier le câblage codeur/batterie exact; escaladez si persistant.",
+          "Appliquez la consignation avant d’inspecter le câblage; les travaux électriques internes sont réservés au personnel qualifié."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate to qualified Delta or machine-builder personnel if the alarm persists or recurs after approved checks.",
+        "ar": "صعّد إلى مختص مؤهل من Delta أو مصنع الماكينة إذا استمر الإنذار أو تكرر بعد الفحوصات المصرح بها.",
+        "fr": "Faites intervenir un spécialiste Delta ou le constructeur si l’alarme persiste ou revient après les contrôles autorisés."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm."
+    },
+    {
+      "id": "delta-asda-b2-f-al035-encoder-overtemperature",
+      "recordType": "alarm-code",
+      "manufacturer": "Delta Electronics",
+      "productFamily": "ASDA-B2-F series servo drive",
+      "modelScope": "Delta ASDA-B2-F only; User Manual V1.0, September 2015. Do not generalize to other ASDA series.",
+      "controllerModel": "Delta ASDA-B2-F servo drive with DMCNET communication",
+      "alarmCode": "AL035",
+      "title": {
+        "en": "Delta ASDA-B2-F AL035 — Encoder overtemperature",
+        "ar": "Delta ASDA-B2-F AL035 — ارتفاع حرارة المشفّر",
+        "fr": "Delta ASDA-B2-F AL035 — Surchauffe du codeur"
+      },
+      "meaning": {
+        "en": "The manual identifies AL035 when encoder temperature exceeds 100°C and directs checks to the displayed temperature, heat dissipation and load.",
+        "ar": "يعرّف الدليل AL035 عند تجاوز حرارة المشفّر 100°C ويوجه إلى فحص الحرارة المعروضة وتبديد الحرارة والحمل.",
+        "fr": "Le manuel identifie AL035 lorsque la température du codeur dépasse 100 °C et recommande de vérifier la température affichée, le refroidissement et la charge."
+      },
+      "source": {
+        "sourceId": "delta-asda-b2-f-user-manual",
+        "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
+        "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
+        "section": "9.4 Causes and Corrective Actions → AL035",
+        "printedPageLabel": "9-11–9-12",
+        "pdfPage": 212,
+        "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
+        "evidenceSummary": "The manual identifies AL035 when encoder temperature exceeds 100°C and directs checks to the displayed temperature, heat dissipation and load."
+      },
+      "safeChecks": {
+        "en": [
+          "Treat 100°C as specific to this manual/model scope; record displayed temperature, review cooling/load per approved procedure, and escalate if the reading is inconsistent or alarm persists.",
+          "Use approved isolation before inspecting wiring; internal electrical work is for qualified personnel."
+        ],
+        "ar": [
+          "اعتبر 100°C حدًا خاصًا بهذا الدليل والطراز؛ سجّل الحرارة المعروضة وراجع التبريد والحمل وفق الإجراء المعتمد، وصعّد إذا استمر الإنذار أو تناقضت القراءة.",
+          "طبّق العزل المعتمد قبل فحص الأسلاك؛ الأعمال الكهربائية الداخلية من اختصاص شخص مؤهل."
+        ],
+        "fr": [
+          "Considérez 100 °C comme propre à ce manuel/modèle; consignez la température, vérifiez refroidissement/charge selon procédure et escaladez si l’alarme persiste.",
+          "Appliquez la consignation avant d’inspecter le câblage; les travaux électriques internes sont réservés au personnel qualifié."
         ]
       },
       "escalation": {
