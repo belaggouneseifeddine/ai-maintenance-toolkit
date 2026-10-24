@@ -7,7 +7,7 @@
     "en"
   ],
   "generatedAt": "2026-10-24",
-  "recordCount": 20,
+  "recordCount": 29,
   "evidencePolicy": {
     "verifiedMeans": "The cited official manual explicitly supports the stated alarm meaning or diagnostic procedure within the recorded scope.",
     "notEquivalentTo": "This does not mean every machine built around the same brand/controller behaves identically; machine builder integration, firmware and options can change alarm behavior.",
@@ -1069,6 +1069,438 @@
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Narrow compatibility note, not a universal diagnostic for AL.16 or AL.20."
+    },
+    {
+      "id": "xinje-ds5k-e-010",
+      "recordType": "alarm-code",
+      "manufacturer": "Wuxi XINJE Electric Co., Ltd.",
+      "productFamily": "DS5K series servo driver",
+      "modelScope": "XINJE DS5K servo driver family covered by Data No. SC5 03 20230427EN",
+      "firmwareScope": "Confirm installed drive variant and compatible firmware",
+      "alarmCode": "E-010",
+      "title": {
+        "en": "Firmware version mismatch",
+        "ar": "عدم تطابق إصدار البرنامج الثابت",
+        "fr": "Incompatibilité de version du firmware"
+      },
+      "meaning": {
+        "en": "The manual links E-010 to an incorrect downloaded firmware version and recommends contacting the agent/manufacturer.",
+        "ar": "يربط الدليل E-010 بإصدار برنامج ثابت تم تنزيله بصورة غير صحيحة، ويوصي بالتواصل مع الوكيل أو المصنع.",
+        "fr": "Le manuel relie E-010 à une version de firmware téléchargée incorrecte et recommande de contacter l’agent/le fabricant."
+      },
+      "source": {
+        "sourceId": "xinje-ds5k-servo-driver-user-manual",
+        "manualTitle": "DS5K series servo driver User Manual",
+        "revision": "Data No. SC5 03 20230427EN, revision 1.3.1",
+        "section": "7.1 Alarm code list / 7.2 Analysis of alarm types",
+        "manualUrl": "https://cdn-en.xinje.com/DS5K%20servo%20manual.pdf",
+        "printedPage": 173,
+        "evidenceSummary": "Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased."
+      },
+      "safeChecks": {
+        "en": [
+          "Record the drive model and installed firmware; do not flash an unverified file. Confirm compatibility with the exact drive/motor before updates."
+        ],
+        "ar": [
+          "Record the drive model and installed firmware; do not flash an unverified file. Confirm compatibility with the exact drive/motor before updates."
+        ],
+        "fr": [
+          "Record the drive model and installed firmware; do not flash an unverified file. Confirm compatibility with the exact drive/motor before updates."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate if the fault recurs or the correction requires energized access or changes to safety-critical parameters.",
+        "ar": "صعّد إذا تكرر العطل أو تطلب التصحيح العمل تحت الجهد أو تعديل معلمات حرجة للسلامة.",
+        "fr": "Escalader si le défaut revient ou si la correction exige une intervention sous tension ou la modification de paramètres critiques."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure."
+    },
+    {
+      "id": "xinje-ds5k-e-021",
+      "recordType": "alarm-code",
+      "manufacturer": "Wuxi XINJE Electric Co., Ltd.",
+      "productFamily": "DS5K series servo driver",
+      "modelScope": "XINJE DS5K servo driver family covered by Data No. SC5 03 20230427EN",
+      "firmwareScope": "Confirm installed drive variant and compatible firmware",
+      "alarmCode": "E-021",
+      "title": {
+        "en": "Parameter value out of range",
+        "ar": "قيمة معلمة خارج النطاق",
+        "fr": "Paramètre hors plage"
+      },
+      "meaning": {
+        "en": "The drive rejects a parameter value outside its allowed range; the manual says to check and correct the parameters.",
+        "ar": "يرفض المغير قيمة المعلمة خارج المجال المسموح؛ ويوصي الدليل بمراجعة المعلمات وتصحيحها.",
+        "fr": "Le variateur rejette une valeur hors plage; le manuel demande de vérifier et corriger les paramètres."
+      },
+      "source": {
+        "sourceId": "xinje-ds5k-servo-driver-user-manual",
+        "manualTitle": "DS5K series servo driver User Manual",
+        "revision": "Data No. SC5 03 20230427EN, revision 1.3.1",
+        "section": "7.1 Alarm code list / 7.2 Analysis of alarm types",
+        "manualUrl": "https://cdn-en.xinje.com/DS5K%20servo%20manual.pdf",
+        "printedPage": 173,
+        "evidenceSummary": "Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased."
+      },
+      "safeChecks": {
+        "en": [
+          "Capture parameter number/value and source of write. Compare with the exact manual and commissioned settings; do not restore defaults without an approved backup."
+        ],
+        "ar": [
+          "Capture parameter number/value and source of write. Compare with the exact manual and commissioned settings; do not restore defaults without an approved backup."
+        ],
+        "fr": [
+          "Capture parameter number/value and source of write. Compare with the exact manual and commissioned settings; do not restore defaults without an approved backup."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate if the fault recurs or the correction requires energized access or changes to safety-critical parameters.",
+        "ar": "صعّد إذا تكرر العطل أو تطلب التصحيح العمل تحت الجهد أو تعديل معلمات حرجة للسلامة.",
+        "fr": "Escalader si le défaut revient ou si la correction exige une intervention sous tension ou la modification de paramètres critiques."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure."
+    },
+    {
+      "id": "xinje-ds5k-e-030",
+      "recordType": "alarm-code",
+      "manufacturer": "Wuxi XINJE Electric Co., Ltd.",
+      "productFamily": "DS5K series servo driver",
+      "modelScope": "XINJE DS5K servo driver family covered by Data No. SC5 03 20230427EN",
+      "firmwareScope": "Confirm installed drive variant and compatible firmware",
+      "alarmCode": "E-030",
+      "title": {
+        "en": "Bus voltage overvoltage",
+        "ar": "ارتفاع جهد ناقل التيار المستمر",
+        "fr": "Surtension du bus continu"
+      },
+      "meaning": {
+        "en": "The manual associates E-030 with bus voltage above threshold; listed causes include high supply voltage, high inertia/regeneration demand, braking-resistor problems, or short ramps.",
+        "ar": "يربط الدليل E-030 بارتفاع جهد الناقل؛ وتشمل الأسباب ارتفاع جهد التغذية أو قصور التجديد بسبب القصور الذاتي أو مشكلة مقاومة الكبح أو قصر أزمنة التسارع والتباطؤ.",
+        "fr": "Le manuel associe E-030 à une surtension du bus; les causes citées comprennent tension réseau élevée, régénération insuffisante, résistance de freinage ou rampes trop courtes."
+      },
+      "source": {
+        "sourceId": "xinje-ds5k-servo-driver-user-manual",
+        "manualTitle": "DS5K series servo driver User Manual",
+        "revision": "Data No. SC5 03 20230427EN, revision 1.3.1",
+        "section": "7.1 Alarm code list / 7.2 Analysis of alarm types",
+        "manualUrl": "https://cdn-en.xinje.com/DS5K%20servo%20manual.pdf",
+        "printedPage": 175,
+        "evidenceSummary": "Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased."
+      },
+      "safeChecks": {
+        "en": [
+          "Record U0-05 and when the fault occurs. Have qualified personnel inspect supply and regenerative resistor; do not change ramps before backup and engineering review."
+        ],
+        "ar": [
+          "Record U0-05 and when the fault occurs. Have qualified personnel inspect supply and regenerative resistor; do not change ramps before backup and engineering review."
+        ],
+        "fr": [
+          "Record U0-05 and when the fault occurs. Have qualified personnel inspect supply and regenerative resistor; do not change ramps before backup and engineering review."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate if the fault recurs or the correction requires energized access or changes to safety-critical parameters.",
+        "ar": "صعّد إذا تكرر العطل أو تطلب التصحيح العمل تحت الجهد أو تعديل معلمات حرجة للسلامة.",
+        "fr": "Escalader si le défaut revient ou si la correction exige une intervention sous tension ou la modification de paramètres critiques."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure."
+    },
+    {
+      "id": "xinje-ds5k-e-040",
+      "recordType": "alarm-code",
+      "manufacturer": "Wuxi XINJE Electric Co., Ltd.",
+      "productFamily": "DS5K series servo driver",
+      "modelScope": "XINJE DS5K servo driver family covered by Data No. SC5 03 20230427EN",
+      "firmwareScope": "Confirm installed drive variant and compatible firmware",
+      "alarmCode": "E-040",
+      "title": {
+        "en": "Bus voltage undervoltage",
+        "ar": "انخفاض جهد ناقل التيار المستمر",
+        "fr": "Sous-tension du bus continu"
+      },
+      "meaning": {
+        "en": "The alarm list distinguishes low grid voltage from bus undervoltage caused by a drive power failure.",
+        "ar": "تميّز قائمة الإنذارات بين انخفاض جهد الشبكة وانخفاض جهد الناقل الناتج عن انقطاع تغذية المغير.",
+        "fr": "La liste distingue la sous-tension due au réseau de celle causée par une coupure d’alimentation du variateur."
+      },
+      "source": {
+        "sourceId": "xinje-ds5k-servo-driver-user-manual",
+        "manualTitle": "DS5K series servo driver User Manual",
+        "revision": "Data No. SC5 03 20230427EN, revision 1.3.1",
+        "section": "7.1 Alarm code list / 7.2 Analysis of alarm types",
+        "manualUrl": "https://cdn-en.xinje.com/DS5K%20servo%20manual.pdf",
+        "printedPage": 175,
+        "evidenceSummary": "Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased."
+      },
+      "safeChecks": {
+        "en": [
+          "Record supply behavior and event timing; have a qualified electrician verify phases/connections and avoid repeated resets before capturing the cause."
+        ],
+        "ar": [
+          "Record supply behavior and event timing; have a qualified electrician verify phases/connections and avoid repeated resets before capturing the cause."
+        ],
+        "fr": [
+          "Record supply behavior and event timing; have a qualified electrician verify phases/connections and avoid repeated resets before capturing the cause."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate if the fault recurs or the correction requires energized access or changes to safety-critical parameters.",
+        "ar": "صعّد إذا تكرر العطل أو تطلب التصحيح العمل تحت الجهد أو تعديل معلمات حرجة للسلامة.",
+        "fr": "Escalader si le défaut revient ou si la correction exige une intervention sous tension ou la modification de paramètres critiques."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure."
+    },
+    {
+      "id": "xinje-ds5k-e-221",
+      "recordType": "alarm-code",
+      "manufacturer": "Wuxi XINJE Electric Co., Ltd.",
+      "productFamily": "DS5K series servo driver",
+      "modelScope": "XINJE DS5K servo driver family covered by Data No. SC5 03 20230427EN",
+      "firmwareScope": "Confirm installed drive variant and compatible firmware",
+      "alarmCode": "E-221",
+      "title": {
+        "en": "Too many CRC errors in encoder communication",
+        "ar": "تجاوز أخطاء CRC في اتصال المشفّر الحد",
+        "fr": "Trop d’erreurs CRC de communication du codeur"
+      },
+      "meaning": {
+        "en": "Received encoder data is incorrect and retries exceed P0-56; the manual identifies encoder interference as a possible cause.",
+        "ar": "بيانات المشفّر المستقبلة غير صحيحة وعدد المحاولات يتجاوز P0-56؛ ويشير الدليل إلى احتمال وجود تداخل على المشفّر.",
+        "fr": "Les données reçues du codeur sont erronées et les reprises dépassent P0-56; le manuel cite des interférences."
+      },
+      "source": {
+        "sourceId": "xinje-ds5k-servo-driver-user-manual",
+        "manualTitle": "DS5K series servo driver User Manual",
+        "revision": "Data No. SC5 03 20230427EN, revision 1.3.1",
+        "section": "7.1 Alarm code list / 7.2 Analysis of alarm types",
+        "manualUrl": "https://cdn-en.xinje.com/DS5K%20servo%20manual.pdf",
+        "printedPage": 180,
+        "evidenceSummary": "Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased."
+      },
+      "safeChecks": {
+        "en": [
+          "Review U0-79/U0-54 counters as directed by the manual and inspect cable routing/shielding after isolation. Do not change parameters without an EMC review."
+        ],
+        "ar": [
+          "Review U0-79/U0-54 counters as directed by the manual and inspect cable routing/shielding after isolation. Do not change parameters without an EMC review."
+        ],
+        "fr": [
+          "Review U0-79/U0-54 counters as directed by the manual and inspect cable routing/shielding after isolation. Do not change parameters without an EMC review."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate if the fault recurs or the correction requires energized access or changes to safety-critical parameters.",
+        "ar": "صعّد إذا تكرر العطل أو تطلب التصحيح العمل تحت الجهد أو تعديل معلمات حرجة للسلامة.",
+        "fr": "Escalader si le défaut revient ou si la correction exige une intervention sous tension ou la modification de paramètres critiques."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure."
+    },
+    {
+      "id": "xinje-ds5k-e-222",
+      "recordType": "alarm-code",
+      "manufacturer": "Wuxi XINJE Electric Co., Ltd.",
+      "productFamily": "DS5K series servo driver",
+      "modelScope": "XINJE DS5K servo driver family covered by Data No. SC5 03 20230427EN",
+      "firmwareScope": "Confirm installed drive variant and compatible firmware",
+      "alarmCode": "E-222",
+      "title": {
+        "en": "Absolute encoder battery low-voltage alarm",
+        "ar": "إنذار انخفاض جهد بطارية المشفّر المطلق",
+        "fr": "Alarme de batterie faible du codeur absolu"
+      },
+      "meaning": {
+        "en": "The manual identifies low voltage in the absolute-encoder battery box, below 2.75 V, and warns that position information may be lost if battery power is interrupted.",
+        "ar": "يحدد الدليل انخفاض جهد بطارية المشفّر المطلق إلى أقل من 2.75 فولت ويحذر من احتمال فقد بيانات الموضع عند انقطاع البطارية.",
+        "fr": "Le manuel indique une tension de batterie du codeur absolu inférieure à 2,75 V et avertit d’un risque de perte de position."
+      },
+      "source": {
+        "sourceId": "xinje-ds5k-servo-driver-user-manual",
+        "manualTitle": "DS5K series servo driver User Manual",
+        "revision": "Data No. SC5 03 20230427EN, revision 1.3.1",
+        "section": "7.1 Alarm code list / 7.2 Analysis of alarm types",
+        "manualUrl": "https://cdn-en.xinje.com/DS5K%20servo%20manual.pdf",
+        "printedPage": 180,
+        "evidenceSummary": "Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased."
+      },
+      "safeChecks": {
+        "en": [
+          "Confirm the exact encoder/battery assembly and approved OEM replacement procedure. Do not perform live battery replacement based only on this summary; use qualified personnel and site safety rules."
+        ],
+        "ar": [
+          "Confirm the exact encoder/battery assembly and approved OEM replacement procedure. Do not perform live battery replacement based only on this summary; use qualified personnel and site safety rules."
+        ],
+        "fr": [
+          "Confirm the exact encoder/battery assembly and approved OEM replacement procedure. Do not perform live battery replacement based only on this summary; use qualified personnel and site safety rules."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate if the fault recurs or the correction requires energized access or changes to safety-critical parameters.",
+        "ar": "صعّد إذا تكرر العطل أو تطلب التصحيح العمل تحت الجهد أو تعديل معلمات حرجة للسلامة.",
+        "fr": "Escalader si le défaut revient ou si la correction exige une intervention sous tension ou la modification de paramètres critiques."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure."
+    },
+    {
+      "id": "xinje-ds5k-e-236",
+      "recordType": "alarm-code",
+      "manufacturer": "Wuxi XINJE Electric Co., Ltd.",
+      "productFamily": "DS5K series servo driver",
+      "modelScope": "XINJE DS5K servo driver family covered by Data No. SC5 03 20230427EN",
+      "firmwareScope": "Confirm installed drive variant and compatible firmware",
+      "alarmCode": "E-236",
+      "title": {
+        "en": "Motor encoder / external displacement feedback deviation",
+        "ar": "اختلاف تغذية مشفّر المحرك عن حساس الإزاحة الخارجي",
+        "fr": "Écart entre le codeur moteur et le retour de déplacement externe"
+      },
+      "meaning": {
+        "en": "Motor encoder feedback differs from grating/displacement feedback by more than configured P9-02; the manual lists mechanical errors or scale alignment as possible causes.",
+        "ar": "يتجاوز الفرق بين تغذية مشفّر المحرك وتغذية المسطرة/الإزاحة الخارجية قيمة P9-02؛ ويذكر الدليل احتمال خلل ميكانيكي أو سوء محاذاة المسطرة.",
+        "fr": "L’écart entre le codeur moteur et la règle dépasse P9-02; le manuel cite un problème mécanique ou d’alignement."
+      },
+      "source": {
+        "sourceId": "xinje-ds5k-servo-driver-user-manual",
+        "manualTitle": "DS5K series servo driver User Manual",
+        "revision": "Data No. SC5 03 20230427EN, revision 1.3.1",
+        "section": "7.1 Alarm code list / 7.2 Analysis of alarm types",
+        "manualUrl": "https://cdn-en.xinje.com/DS5K%20servo%20manual.pdf",
+        "printedPage": 181,
+        "evidenceSummary": "Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased."
+      },
+      "safeChecks": {
+        "en": [
+          "Record P9-02 and feedback values; inspect mechanical transmission and scale alignment before changing parameters; back up settings and seek machine-builder review."
+        ],
+        "ar": [
+          "Record P9-02 and feedback values; inspect mechanical transmission and scale alignment before changing parameters; back up settings and seek machine-builder review."
+        ],
+        "fr": [
+          "Record P9-02 and feedback values; inspect mechanical transmission and scale alignment before changing parameters; back up settings and seek machine-builder review."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate if the fault recurs or the correction requires energized access or changes to safety-critical parameters.",
+        "ar": "صعّد إذا تكرر العطل أو تطلب التصحيح العمل تحت الجهد أو تعديل معلمات حرجة للسلامة.",
+        "fr": "Escalader si le défaut revient ou si la correction exige une intervention sous tension ou la modification de paramètres critiques."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure."
+    },
+    {
+      "id": "xinje-ds5k-e-237",
+      "recordType": "alarm-code",
+      "manufacturer": "Wuxi XINJE Electric Co., Ltd.",
+      "productFamily": "DS5K series servo driver",
+      "modelScope": "XINJE DS5K servo driver family covered by Data No. SC5 03 20230427EN",
+      "firmwareScope": "Confirm installed drive variant and compatible firmware",
+      "alarmCode": "E-237",
+      "title": {
+        "en": "External grating scale direction mismatch",
+        "ar": "عدم تطابق اتجاه المسطرة الخطية الخارجية",
+        "fr": "Sens incohérent de la règle externe"
+      },
+      "meaning": {
+        "en": "In the stated P9-02 configuration, the manual says the external scale may be broken or incorrectly connected when feedback direction is reversed.",
+        "ar": "في إعداد P9-02 المذكور، قد تكون المسطرة الخارجية مكسورة أو موصولة بشكل غير صحيح عند انعكاس اتجاه التغذية.",
+        "fr": "Dans la configuration P9-02 indiquée, la règle externe peut être rompue ou mal raccordée lorsque le sens est inversé."
+      },
+      "source": {
+        "sourceId": "xinje-ds5k-servo-driver-user-manual",
+        "manualTitle": "DS5K series servo driver User Manual",
+        "revision": "Data No. SC5 03 20230427EN, revision 1.3.1",
+        "section": "7.1 Alarm code list / 7.2 Analysis of alarm types",
+        "manualUrl": "https://cdn-en.xinje.com/DS5K%20servo%20manual.pdf",
+        "printedPage": 181,
+        "evidenceSummary": "Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased."
+      },
+      "safeChecks": {
+        "en": [
+          "Confirm P9-02 and compare direction with machine drawings; inspect scale cable/connector and mounting under isolation. Do not alter direction parameters without authorization."
+        ],
+        "ar": [
+          "Confirm P9-02 and compare direction with machine drawings; inspect scale cable/connector and mounting under isolation. Do not alter direction parameters without authorization."
+        ],
+        "fr": [
+          "Confirm P9-02 and compare direction with machine drawings; inspect scale cable/connector and mounting under isolation. Do not alter direction parameters without authorization."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate if the fault recurs or the correction requires energized access or changes to safety-critical parameters.",
+        "ar": "صعّد إذا تكرر العطل أو تطلب التصحيح العمل تحت الجهد أو تعديل معلمات حرجة للسلامة.",
+        "fr": "Escalader si le défaut revient ou si la correction exige une intervention sous tension ou la modification de paramètres critiques."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure."
+    },
+    {
+      "id": "xinje-ds5k-e-238",
+      "recordType": "alarm-code",
+      "manufacturer": "Wuxi XINJE Electric Co., Ltd.",
+      "productFamily": "DS5K series servo driver",
+      "modelScope": "XINJE DS5K servo driver family covered by Data No. SC5 03 20230427EN",
+      "firmwareScope": "Confirm installed drive variant and compatible firmware",
+      "alarmCode": "E-238",
+      "title": {
+        "en": "Full closed-loop external scale speed overrun",
+        "ar": "تجاوز سرعة المسطرة الخارجية في الحلقة المغلقة",
+        "fr": "Dépassement de vitesse de la règle en boucle fermée"
+      },
+      "meaning": {
+        "en": "The difference between motor encoder speed and external scale speed exceeds configured P9-04.",
+        "ar": "يتجاوز الفرق بين سرعة مشفّر المحرك وسرعة المسطرة الخارجية قيمة P9-04.",
+        "fr": "L’écart entre la vitesse du codeur moteur et celle de la règle externe dépasse P9-04."
+      },
+      "source": {
+        "sourceId": "xinje-ds5k-servo-driver-user-manual",
+        "manualTitle": "DS5K series servo driver User Manual",
+        "revision": "Data No. SC5 03 20230427EN, revision 1.3.1",
+        "section": "7.1 Alarm code list / 7.2 Analysis of alarm types",
+        "manualUrl": "https://cdn-en.xinje.com/DS5K%20servo%20manual.pdf",
+        "printedPage": 181,
+        "evidenceSummary": "Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased."
+      },
+      "safeChecks": {
+        "en": [
+          "Capture both feedback values, P9-04 and mechanism configuration; verify scale/coupling and P9-05–P9-08 settings with qualified motion-control personnel before tuning."
+        ],
+        "ar": [
+          "Capture both feedback values, P9-04 and mechanism configuration; verify scale/coupling and P9-05–P9-08 settings with qualified motion-control personnel before tuning."
+        ],
+        "fr": [
+          "Capture both feedback values, P9-04 and mechanism configuration; verify scale/coupling and P9-05–P9-08 settings with qualified motion-control personnel before tuning."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate if the fault recurs or the correction requires energized access or changes to safety-critical parameters.",
+        "ar": "صعّد إذا تكرر العطل أو تطلب التصحيح العمل تحت الجهد أو تعديل معلمات حرجة للسلامة.",
+        "fr": "Escalader si le défaut revient ou si la correction exige une intervention sous tension ou la modification de paramètres critiques."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure."
     }
   ]
 }
