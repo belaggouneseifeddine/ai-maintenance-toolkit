@@ -11,7 +11,7 @@
 | `claim-reviewed` | Reviewer checked a specific claim against a passage in the source | Only for the exact claim and applicable product family |
 | `model-verified` | Exact model/variant and controller match, manual revision and passage recorded | Yes, within the recorded scope only |
 
-All 29 entries in the structured platform index remain `portal-only`, with zero field-verified alarm-code records. Separately, 81 model-scoped records have been reviewed against cited manuals, but are manual-claim-reviewed—not field-verified, including 13 Delta ASDA-B2-F servo alarm summaries and two Syntec CNC communication alarms. A manufacturer's support page is not evidence for the meaning of a particular alarm.
+All 29 entries in the structured platform index remain `portal-only`, with zero field-verified alarm-code records. Separately, 99 model-scoped records have been reviewed against cited manuals, but are manual-claim-reviewed—not field-verified, including 31 Delta ASDA-B2-F servo alarm summaries and two Syntec CNC communication alarms. A manufacturer's support page is not evidence for the meaning of a particular alarm.
 
 ## China and Asia — machine builders and control platforms
 
