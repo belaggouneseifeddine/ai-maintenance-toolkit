@@ -88,6 +88,20 @@ test("valid structured diagnosis is accepted", () => {
   assert.equal(context.__validateDiagnosis(validDiagnosis(), "ar", new Set(["S1"])), true);
 });
 
+test("unverified non-empty confirmed_cause is rejected", () => {
+  const diagnosis = validDiagnosis();
+  diagnosis.session_summary.confirmed_cause = "Bearing failure";
+  assert.equal(context.__validateDiagnosis(diagnosis, "ar", new Set(["S1"])), false);
+});
+
+test("confirmed_cause must be a bounded empty string until explicit verification is represented", () => {
+  const diagnosis = validDiagnosis();
+  diagnosis.session_summary.confirmed_cause = " ".repeat(241);
+  assert.equal(context.__validateDiagnosis(diagnosis, "ar", new Set(["S1"])), false);
+  diagnosis.session_summary.confirmed_cause = null;
+  assert.equal(context.__validateDiagnosis(diagnosis, "ar", new Set(["S1"])), false);
+});
+
 test("response without mandatory safety and LOTO gate is rejected", () => {
   const diagnosis = validDiagnosis();
   diagnosis.safety.loto_required_before_intervention = false;
