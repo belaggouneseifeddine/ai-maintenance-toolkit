@@ -498,6 +498,11 @@ const checks = [
       assert.ok(Array.isArray(fault.sourceRefs) && fault.sourceRefs.length, fault.id + " needs source discovery references");
       for (const ref of fault.sourceRefs) assert.ok(sourceIds.has(ref), fault.id + " has unknown source reference: " + ref);
     }
+    assert.ok(faults.faults.length > 200, "Structured fault library must exceed 200 cases");
+    assert.equal(ids.size, faults.faults.length, "All structured fault IDs must be unique");
+    for (const type of ["electronics", "electrical_control", "plc", "industrial_network", "robotics", "safety_circuit"]) {
+      assert.ok(faults.faults.some(item => item.equipmentType === type), "Required domain category missing: " + type);
+    }
     assert.ok(faults.faults.some(item => item.equipmentType === "electronics"), "Electronics category must be represented");
     assert.ok(faults.faults.some(item => item.id.startsWith("chinese-")), "Chinese machine cases must be represented");
     assert.ok(faults.faults.some(item => item.id.startsWith("european-")), "European machine cases must be represented");
