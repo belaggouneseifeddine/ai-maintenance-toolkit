@@ -43,7 +43,7 @@
     let followup=null;
     if(flow.length){followup=flow[0]; if(answer && flow.length>1)followup=flow[1];}
     const context=norm([input.manualRef,input.observations,input.assetId].join(" "));
-    const hydroMatch=machine==="pump" && /(hydro\\s*en|fire.?fight|sprinkler|fire pump|مكافحة الحريق|شبكة رشاشات)/i.test(context);
+    const hydroMatch=machine==="pump" && /(hydro\s*en|fire.?fight|sprinkler|fire pump|مكافحة الحريق|شبكة رشاشات)/i.test(context);
     const source=hydroMatch?{
       title:"Grundfos Hydro EN — Installation and operating instructions",
       url:SOURCE_URL,section:"13 Fault finding",page:32,
