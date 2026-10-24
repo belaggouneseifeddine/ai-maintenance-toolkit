@@ -134,3 +134,27 @@ test("fault library has no structured OEM alarm-code index yet", () => {
   assert.ok(faults.faults.every(fault => !Array.isArray(fault.alarmCodes) && !Array.isArray(fault.errorCodes)),
     "Do not claim OEM alarm-code matching until sourced code fields are added");
 });
+
+test("unreviewed aliases are flagged and not mapped automatically", () => {
+  const aliases = global.MaintenanceNormalization.getReviewAliases();
+  assert.ok(aliases.length > 0);
+  const alias = aliases.find(item => item.domain === "equipment") || aliases[0];
+  const input = {
+    equipmentType: alias.domain === "equipment" ? alias.alias : "pump",
+    symptom: alias.domain === "symptom" ? alias.alias : "unknown_symptom",
+    observations: "",
+    language: "en"
+  };
+  const result = diagnose(input, faults);
+  assert.equal(result.matched, false);
+  assert.ok(result.normalizationReview && result.normalizationReview.length > 0);
+  assert.match(result.reason, /alias|review|standard/i);
+});
+
+test("keyword matching does not match a term embedded inside another word", () => {
+  const result = diagnose({ equipmentType: "compressor", symptom: "low_pressure", observations: "boiler", language: "en" }, faults);
+  for (const fault of result.results || []) {
+    assert.ok(!(fault.matchedKeywords || []).some(term => String(term).toLowerCase() === "oil"),
+      "substring 'oil' must not match inside 'boiler'");
+  }
+});

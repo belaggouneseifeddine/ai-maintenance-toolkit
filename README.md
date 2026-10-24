@@ -13,6 +13,7 @@ Mobile-first progressive web app (PWA) for preliminary industrial-maintenance tr
 - Rule-based fault guidance, structured fault data, offline exploratory hypotheses, and a compact local knowledge-excerpt index with explicit evidence limits.
 - Safety checklist and inspection-plan gate.
 - Evidence provenance register and explicit equipment/symptom coverage gaps (QA metadata; not yet used to label runtime causes as OEM-verified).
+- Portable maintenance-agent skill specifications, exact-keyword matching, review-required alias hints, and stricter Worker validation that prevents unverified causes from being labelled confirmed.
 - Local maintenance log, draft recovery, filters, CSV export, and printable reports.
 - Responsive interface, language switching, and PWA offline shell.
 - Optional Gemini assistant through a separately deployed Cloudflare Worker.
