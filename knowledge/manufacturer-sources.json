@@ -618,6 +618,16 @@
       "scope": "S7-1200 fail-safe signal modules; diagnostic events including read-back failure and output overload; equipment manual 11/2022",
       "status": "manual-content-reviewed-for-listed-records",
       "redistribution": "link-and-original-summary-only"
+    },
+    {
+      "id": "gsk-218m-cnc-programming-operation-manual",
+      "publisher": "GSK CNC",
+      "title": "GSK218M CNC System Programming and Operation Manual",
+      "url": "https://gskcnc.com/Support/218M01.pdf",
+      "type": "exact-model-family-manual",
+      "scope": "GSK218M CNC system; alarm interface and program/operation alarms; confirm manual revision and machine-builder configuration",
+      "status": "manual-content-reviewed-for-listed-records",
+      "redistribution": "link-and-original-summary-only"
     }
   ]
 }
