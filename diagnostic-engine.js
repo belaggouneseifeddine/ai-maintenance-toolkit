@@ -175,8 +175,14 @@
     const language = ["ar","fr","en"].includes(value.language) ? value.language : "ar";
     const equipment = canonicalEquipment(value.machine || value.equipmentType || "");
     const symptom = canonicalSymptom(value.symptom || "");
+    const rawSymptom = String(value.symptom || "").toLocaleLowerCase();
+    const catalogSymptom = symptom === "noise_vibration"
+      ? (/vibration|اهتزاز|رجة/.test(rawSymptom) ? "vibration" : "noise")
+      : symptom === "low_flow_pressure"
+        ? (/pressure|ضغط/.test(rawSymptom) ? "low_pressure" : "low_flow")
+        : symptom;
     const observations = String(value.observations || "");
-    const key = equipment + "|" + symptom;
+    const key = equipment + "|" + catalogSymptom;
     const local = diagnose({ equipmentType: equipment, symptom, observations, language }, library);
     const hypotheses = [];
     if (local.matched) {
