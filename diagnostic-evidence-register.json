@@ -1126,6 +1126,276 @@
       "status": "review-needed",
       "references": [],
       "note": "General guidance only; exact model-specific evidence has not been reviewed."
+    },
+    "oem-inovance-md200-err02-overcurrent-acceleration": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://www.inovance.eu/fileadmin/downloads/Manuals/EN/MD200/MD200_User_Guide_EN_C02_19012113.PDF",
+          "title": "MD200 User Guide",
+          "revision": "C02; document identifier MD200_User_Guide_EN_C02_19012113",
+          "section": "3 Fault > 3.1 Fault List",
+          "printedPage": 32,
+          "pdfPage": 32,
+          "claim": "The manual labels Err02 as overcurrent during acceleration and lists output short/ground fault, short acceleration time, unsuitable torque boost/V/f, low voltage, restarting a rotating motor, sudden load, undersized drive, braking resistor fault, and motor ground fault among possible causes.",
+          "reviewedOn": "2026-10-24",
+          "scope": "MD200 series AC drive",
+          "verificationLimit": "The cited manual supports this claim for the stated product family; this is not field verification of a particular installed machine."
+        }
+      ]
+    },
+    "oem-inovance-md200-err03-overcurrent-deceleration": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://www.inovance.eu/fileadmin/downloads/Manuals/EN/MD200/MD200_User_Guide_EN_C02_19012113.PDF",
+          "title": "MD200 User Guide",
+          "revision": "C02; document identifier MD200_User_Guide_EN_C02_19012113",
+          "section": "3 Fault > 3.1 Fault List",
+          "printedPage": 32,
+          "pdfPage": 32,
+          "claim": "The manual identifies Err03 as overcurrent during deceleration and lists short/ground faults, short deceleration time, low voltage, sudden load, missing/unsuitable braking resistor, and motor ground fault as possible causes.",
+          "reviewedOn": "2026-10-24",
+          "scope": "MD200 series AC drive",
+          "verificationLimit": "The cited manual supports this claim for the stated product family; this is not field verification of a particular installed machine."
+        }
+      ]
+    },
+    "oem-inovance-md200-err05-overvoltage-acceleration": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://www.inovance.eu/fileadmin/downloads/Manuals/EN/MD200/MD200_User_Guide_EN_C02_19012113.PDF",
+          "title": "MD200 User Guide",
+          "revision": "C02; document identifier MD200_User_Guide_EN_C02_19012113",
+          "section": "3 Fault > 3.1 Fault List",
+          "printedPage": 33,
+          "pdfPage": 33,
+          "claim": "The manual labels Err05 as overvoltage during acceleration and lists excessive input voltage, external force driving the motor, short acceleration time, and absent braking resistor as possible causes.",
+          "reviewedOn": "2026-10-24",
+          "scope": "MD200 series AC drive",
+          "verificationLimit": "The cited manual supports this claim for the stated product family; this is not field verification of a particular installed machine."
+        }
+      ]
+    },
+    "oem-inovance-md200-err09-undervoltage": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://www.inovance.eu/fileadmin/downloads/Manuals/EN/MD200/MD200_User_Guide_EN_C02_19012113.PDF",
+          "title": "MD200 User Guide",
+          "revision": "C02; document identifier MD200_User_Guide_EN_C02_19012113",
+          "section": "3 Fault > 3.1 Fault List",
+          "printedPage": 34,
+          "pdfPage": 34,
+          "claim": "The manual labels Err09 as undervoltage and lists momentary power failure, input voltage outside the permitted range, abnormal bus voltage, and possible rectifier/pre-charge/drive/control-board faults.",
+          "reviewedOn": "2026-10-24",
+          "scope": "MD200 series AC drive",
+          "verificationLimit": "The cited manual supports this claim for the stated product family; this is not field verification of a particular installed machine."
+        }
+      ]
+    },
+    "oem-inovance-md200-err12-input-phase-loss": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://www.inovance.eu/fileadmin/downloads/Manuals/EN/MD200/MD200_User_Guide_EN_C02_19012113.PDF",
+          "title": "MD200 User Guide",
+          "revision": "C02; document identifier MD200_User_Guide_EN_C02_19012113",
+          "section": "3 Fault > 3.1 Fault List; parameter F9-12 note",
+          "printedPage": 34,
+          "pdfPage": 34,
+          "claim": "The fault table names Err12 as input phase loss and lists abnormal three-phase input supply or internal drive/protection/control components as possible causes. The parameter note says the F9-12 input phase-loss protection applies only to single-phase MD200TXX models; do not generalize this parameter applicability to all MD200 variants.",
+          "reviewedOn": "2026-10-24",
+          "scope": "MD200 series AC drive",
+          "verificationLimit": "The cited manual supports this claim for the stated product family; this is not field verification of a particular installed machine."
+        }
+      ]
+    },
+    "oem-inovance-md200-err14-drive-overtemperature": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://www.inovance.eu/fileadmin/downloads/Manuals/EN/MD200/MD200_User_Guide_EN_C02_19012113.PDF",
+          "title": "MD200 User Guide",
+          "revision": "C02; document identifier MD200_User_Guide_EN_C02_19012113",
+          "section": "3 Fault > 3.1 Fault List",
+          "printedPage": 35,
+          "pdfPage": 35,
+          "claim": "The manual labels Err14 as drive overtemperature and lists high ambient temperature, blocked air filter, damaged fan, damaged module thermistor, or a faulty drive unit as possible causes.",
+          "reviewedOn": "2026-10-24",
+          "scope": "MD200 series AC drive",
+          "verificationLimit": "The cited manual supports this claim for the stated product family; this is not field verification of a particular installed machine."
+        }
+      ]
+    },
+    "oem-mitsubishi-c80-servo-alarm-10-insufficient-voltage": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://www.mitsubishielectric-cnc.com/wp-content/uploads/2025/02/C80-Series-Alarm-Parameter-Manual.pdf",
+          "title": "C80 Series Alarm/Parameter Manual",
+          "revision": "IB-1501560-F",
+          "section": "3.1 Servo Errors (S01/S03/S04), drive unit alarm table",
+          "printedPage": 51,
+          "pdfPage": 63,
+          "claim": "Alarm No. 10 is named Insufficient voltage; the manual says a drop of bus voltage was detected in the main circuit. It gives reset class PR, but detailed troubleshooting is delegated to the exact drive-unit instruction manual.",
+          "reviewedOn": "2026-10-24",
+          "scope": "C80 Series CNC; servo/spindle alarm table",
+          "verificationLimit": "The cited manual supports this claim for the stated product family; this is not field verification of a particular installed machine."
+        }
+      ]
+    },
+    "oem-mitsubishi-c80-servo-alarm-18-encoder-initial-communication": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://www.mitsubishielectric-cnc.com/wp-content/uploads/2025/02/C80-Series-Alarm-Parameter-Manual.pdf",
+          "title": "C80 Series Alarm/Parameter Manual",
+          "revision": "IB-1501560-F",
+          "section": "3.1 Servo Errors (S01/S03/S04), drive unit alarm table",
+          "printedPage": 51,
+          "pdfPage": 63,
+          "claim": "Alarm No. 18 is named Main side encoder: Initial communication error; the details say initial communication with the motor-side encoder failed. Troubleshooting is not specified in this table and requires the exact drive-unit manual.",
+          "reviewedOn": "2026-10-24",
+          "scope": "C80 Series CNC; servo/spindle alarm table",
+          "verificationLimit": "The cited manual supports this claim for the stated product family; this is not field verification of a particular installed machine."
+        }
+      ]
+    },
+    "oem-mitsubishi-c80-servo-alarm-23-excessive-speed-error": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://www.mitsubishielectric-cnc.com/wp-content/uploads/2025/02/C80-Series-Alarm-Parameter-Manual.pdf",
+          "title": "C80 Series Alarm/Parameter Manual",
+          "revision": "IB-1501560-F",
+          "section": "3.1 Servo Errors (S01/S03/S04), drive unit alarm table",
+          "printedPage": 52,
+          "pdfPage": 64,
+          "claim": "Alarm No. 23 is Excessive speed error; the manual defines it as the difference between actual and commanded speed persisting longer than the configured excessive-speed-deviation timer. Reset class is NR.",
+          "reviewedOn": "2026-10-24",
+          "scope": "C80 Series CNC; servo/spindle alarm table",
+          "verificationLimit": "The cited manual supports this claim for the stated product family; this is not field verification of a particular installed machine."
+        }
+      ]
+    },
+    "oem-mitsubishi-c80-servo-alarm-24-grounding": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://www.mitsubishielectric-cnc.com/wp-content/uploads/2025/02/C80-Series-Alarm-Parameter-Manual.pdf",
+          "title": "C80 Series Alarm/Parameter Manual",
+          "revision": "IB-1501560-F",
+          "section": "3.1 Servo Errors (S01/S03/S04), drive unit alarm table",
+          "printedPage": 52,
+          "pdfPage": 64,
+          "claim": "Alarm No. 24 is named Grounding; the manual states the motor power cable is in contact with FG (frame ground). Reset class is PR.",
+          "reviewedOn": "2026-10-24",
+          "scope": "C80 Series CNC; servo/spindle alarm table",
+          "verificationLimit": "The cited manual supports this claim for the stated product family; this is not field verification of a particular installed machine."
+        }
+      ]
+    },
+    "oem-mitsubishi-c80-servo-alarm-25-absolute-position-lost": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://www.mitsubishielectric-cnc.com/wp-content/uploads/2025/02/C80-Series-Alarm-Parameter-Manual.pdf",
+          "title": "C80 Series Alarm/Parameter Manual",
+          "revision": "IB-1501560-F",
+          "section": "3.1 Servo Errors (S01/S03/S04), drive unit alarm table",
+          "printedPage": 52,
+          "pdfPage": 64,
+          "claim": "Alarm No. 25 is named Absolute position data lost; the manual states absolute-position data was lost in the encoder. Reset class is AR. Recovery must follow the exact machine-builder and encoder procedure.",
+          "reviewedOn": "2026-10-24",
+          "scope": "C80 Series CNC; servo/spindle alarm table",
+          "verificationLimit": "The cited manual supports this claim for the stated product family; this is not field verification of a particular installed machine."
+        }
+      ]
+    },
+    "oem-mitsubishi-c80-emg-plc-emergency-stop": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://www.mitsubishielectric-cnc.com/wp-content/uploads/2025/02/C80-Series-Alarm-Parameter-Manual.pdf",
+          "title": "C80 Series Alarm/Parameter Manual",
+          "revision": "IB-1501560-F",
+          "section": "8 Emergency Stop Alarms (EMG)",
+          "printedPage": 106,
+          "pdfPage": 118,
+          "claim": "The manual states that the PLC emergency-stop signal is turned ON during user-PLC sequence processing and instructs checking the conditions that turn the signal ON and removing the cause. Other EMG labels in the same section have distinct causes and must not be conflated.",
+          "reviewedOn": "2026-10-24",
+          "scope": "C80 Series CNC; emergency-stop alarm section",
+          "verificationLimit": "The cited manual supports this claim for the stated product family; this is not field verification of a particular installed machine."
+        }
+      ]
+    },
+    "oem-siemens-s7-1200-fs-event-0005-overtemperature": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://support.industry.siemens.com/dl/files/552/104547552/att_896075/v1/s71200_f_user_manual_en-US_en-US.pdf",
+          "title": "S7-1200 Functional Safety Manual",
+          "revision": "V4.6, 11/2022; A5E03470344-AC",
+          "section": "6.2 Fault diagnostics; Event ID 0x0005",
+          "printedPage": 122,
+          "pdfPage": 122,
+          "claim": "The manual labels event 0x0005 Overtemperature for all listed fail-safe signal modules and states the module-case high-temperature limit has been exceeded; it directs checking ambient temperature and power cycling after the fault is eliminated.",
+          "reviewedOn": "2026-10-24",
+          "scope": "SIMATIC S7-1200 fail-safe signal modules (F-modules)",
+          "verificationLimit": "The cited manual supports this claim for the stated product family; this is not field verification of a particular installed machine."
+        }
+      ]
+    },
+    "oem-siemens-s7-1200-fs-event-004d-profisafe-crc": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://support.industry.siemens.com/dl/files/552/104547552/att_896075/v1/s71200_f_user_manual_en-US_en-US.pdf",
+          "title": "S7-1200 Functional Safety Manual",
+          "revision": "V4.6, 11/2022; A5E03470344-AC",
+          "section": "6.2 Fault diagnostics; Event ID 0x004D",
+          "printedPage": 122,
+          "pdfPage": 122,
+          "claim": "The manual describes event 0x004D as PROFIsafe communication error (CRC), indicating inconsistent data frames; possible cause is communication interference between fail-safe CPU and F-module, including excessive electromagnetic interference or sign-of-life monitoring error. Corrective measures include checking the communication connection and eliminating interference.",
+          "reviewedOn": "2026-10-24",
+          "scope": "SIMATIC S7-1200 fail-safe signal modules (F-modules)",
+          "verificationLimit": "The cited manual supports this claim for the stated product family; this is not field verification of a particular installed machine."
+        }
+      ]
+    },
+    "oem-siemens-s7-1200-fs-event-004e-profisafe-timeout": {
+      "status": "verified",
+      "references": [
+        {
+          "type": "official-manual",
+          "url": "https://support.industry.siemens.com/dl/files/552/104547552/att_896075/v1/s71200_f_user_manual_en-US_en-US.pdf",
+          "title": "S7-1200 Functional Safety Manual",
+          "revision": "V4.6, 11/2022; A5E03470344-AC",
+          "section": "6.2 Fault diagnostics; Event ID 0x004E",
+          "printedPage": 122,
+          "pdfPage": 122,
+          "claim": "The manual labels event 0x004E PROFIsafe communication failure (timeout) and states that the F-monitoring time was exceeded. It recommends checking the F-monitoring time and examining the safety program and other CPU activities such as interrupts, Ethernet communication, OB scheduling, and long program paths.",
+          "reviewedOn": "2026-10-24",
+          "scope": "SIMATIC S7-1200 fail-safe signal modules (F-modules)",
+          "verificationLimit": "The cited manual supports this claim for the stated product family; this is not field verification of a particular installed machine."
+        }
+      ]
     }
   },
   "generalSafetyReferences": [
