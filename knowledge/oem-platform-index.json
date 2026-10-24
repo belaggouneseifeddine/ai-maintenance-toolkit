@@ -238,14 +238,16 @@
       "url": "https://support.industry.siemens.com/",
       "evidenceStatus": "portal-only",
       "alarmCodeRecords": 0,
-      "notes": "Manual-reviewed records exist in the separate OEM evidence file; this manufacturer profile remains a discovery index, not proof of field verification. Match exact model, firmware and machine-builder integration.",
-      "manualReviewedRecordCount": 26,
+      "notes": "Manual-reviewed records cover SINUMERIK/SINAMICS/SIMATIC selected scopes; all claims remain limited to the cited model and manual revision.",
+      "manualReviewedRecordCount": 29,
       "modelsCovered": [
         "SINUMERIK 840D sl / 828D",
         "SINAMICS G120D",
         "SINAMICS G120P Cabinet Units",
         "SIMATIC S7-1200 fail-safe signal modules (F-modules)",
-        "SINAMICS G120C FSD–FSF"
+        "SINAMICS G120C FSD–FSF",
+        "SIMATIC S7-1200 system diagnostics",
+        "S7-1200 SM 1226 F-DQ fail-safe outputs"
       ]
     },
     {
@@ -620,7 +622,7 @@
     }
   ],
   "relatedEvidenceFile": "knowledge/oem-verified-faults.json",
-  "verifiedRecordFileCount": 60,
+  "verifiedRecordFileCount": 63,
   "verifiedRecordFile": "knowledge/oem-verified-faults.json",
   "lastEvidenceInventoryDate": "2026-10-24"
 }
