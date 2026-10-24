@@ -7,7 +7,7 @@
     "en"
   ],
   "generatedAt": "2026-10-24",
-  "recordCount": 66,
+  "recordCount": 79,
   "evidencePolicy": {
     "verifiedMeans": "The cited official manual explicitly supports the stated alarm meaning or diagnostic procedure within the recorded scope.",
     "notEquivalentTo": "This does not mean every machine built around the same brand/controller behaves identically; machine builder integration, firmware and options can change alarm behavior.",
@@ -3407,6 +3407,721 @@
         "ar": "تسمّي قائمة إنذارات GSK218M الرمز 0002 بأنه تجاوز سعة إدخال البيانات. يجب التحقق من الحقل المدخل وسياق العملية لأن القيمة أو البيانات قد تتجاوز السعة أو النطاق المقبول.",
         "fr": "La liste d’alarmes GSK218M associe le code 0002 à un dépassement de capacité des données saisies. Vérifier le champ et le contexte, car la valeur peut dépasser la capacité ou la plage acceptée."
       }
+    },
+    {
+      "id": "delta-asda-b2-f-al001-overcurrent",
+      "recordType": "alarm-code",
+      "manufacturer": "Delta Electronics",
+      "productFamily": "ASDA-B2-F series servo drive",
+      "modelScope": "Delta ASDA-B2-F servo drive; User Manual V1.0, September 2015. Do not generalize to ASDA-B2, ASDA-A3, ASDA-B3 or other series.",
+      "controllerModel": "Delta ASDA-B2-F servo drive with DMCNET communication",
+      "alarmCode": "AL001",
+      "title": {
+        "en": "Delta ASDA-B2-F AL001 — Overcurrent",
+        "ar": "Delta ASDA-B2-F AL001 — زيادة التيار",
+        "fr": "Delta ASDA-B2-F AL001 — Surintensité"
+      },
+      "meaning": {
+        "en": "The ASDA-B2-F manual identifies AL001 as overcurrent in the servo drive main circuit.",
+        "ar": "يصنّف دليل ASDA-B2-F الإنذار AL001 على أنه زيادة تيار في الدائرة الرئيسية للمحرك المؤازر.",
+        "fr": "Le manuel ASDA-B2-F identifie AL001 comme une surintensité dans le circuit principal du variateur servo."
+      },
+      "source": {
+        "sourceId": "delta-asda-b2-f-user-manual",
+        "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
+        "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
+        "section": "9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted",
+        "printedPageLabel": "9-2",
+        "pdfPage": 203,
+        "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
+        "evidenceSummary": "The ASDA-B2-F manual identifies AL001 as overcurrent in the servo drive main circuit."
+      },
+      "safeChecks": {
+        "en": [
+          "Record the exact code, operating mode, load and time of occurrence; preserve the fault history before any reset.",
+          "Use the machine's approved isolation procedure before inspecting wiring or connectors. Electrical measurements inside the drive are for qualified personnel only.",
+          "Compare the observed condition with the ASDA-B2-F manual and machine-builder drawings; do not bypass protection or change limits to hide the alarm."
+        ],
+        "ar": [
+          "سجّل الرمز الدقيق ووضع التشغيل والحمل ووقت ظهور العطل، واحتفظ بسجل الأعطال قبل أي إعادة ضبط.",
+          "طبّق إجراء العزل المعتمد قبل فحص الأسلاك أو الموصلات. القياسات الكهربائية داخل المغير من اختصاص شخص مؤهل فقط.",
+          "طابق الحالة مع دليل ASDA-B2-F ومخططات مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار."
+        ],
+        "fr": [
+          "Consignez le code exact, le mode de fonctionnement, la charge et l’heure d’apparition; conservez l’historique avant toute réinitialisation.",
+          "Appliquez la procédure de consignation approuvée avant d’inspecter câbles ou connecteurs. Les mesures électriques à l’intérieur du variateur sont réservées au personnel qualifié.",
+          "Comparez la situation au manuel ASDA-B2-F et aux schémas du constructeur; ne contournez pas les protections et ne modifiez pas les limites pour masquer l’alarme."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate to a qualified Delta servo-drive or machine-builder specialist if the alarm persists, recurs after approved checks, or suggests internal power-stage/encoder damage.",
+        "ar": "صعّد إلى مختص مؤهل في مغيرات Delta أو مصنع الماكينة إذا استمر الإنذار أو تكرر بعد الفحوصات المصرح بها أو دلّ على احتمال تلف داخلي في مرحلة القدرة أو المشفّر.",
+        "fr": "Faites intervenir un spécialiste Delta ou le constructeur de la machine si l’alarme persiste, réapparaît après les contrôles autorisés ou suggère un dommage interne de l’étage de puissance ou du codeur."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope."
+    },
+    {
+      "id": "delta-asda-b2-f-al002-overvoltage",
+      "recordType": "alarm-code",
+      "manufacturer": "Delta Electronics",
+      "productFamily": "ASDA-B2-F series servo drive",
+      "modelScope": "Delta ASDA-B2-F servo drive; User Manual V1.0, September 2015. Do not generalize to ASDA-B2, ASDA-A3, ASDA-B3 or other series.",
+      "controllerModel": "Delta ASDA-B2-F servo drive with DMCNET communication",
+      "alarmCode": "AL002",
+      "title": {
+        "en": "Delta ASDA-B2-F AL002 — Main-circuit overvoltage",
+        "ar": "Delta ASDA-B2-F AL002 — ارتفاع جهد الدائرة الرئيسية",
+        "fr": "Delta ASDA-B2-F AL002 — Surtension du circuit principal"
+      },
+      "meaning": {
+        "en": "The manual identifies AL002 as main-circuit voltage above the specified standard voltage.",
+        "ar": "يعرّف الدليل AL002 بأنه ارتفاع جهد الدائرة الرئيسية فوق الجهد القياسي المحدد.",
+        "fr": "Le manuel définit AL002 comme une tension du circuit principal supérieure à la tension standard spécifiée."
+      },
+      "source": {
+        "sourceId": "delta-asda-b2-f-user-manual",
+        "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
+        "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
+        "section": "9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted",
+        "printedPageLabel": "9-2",
+        "pdfPage": 203,
+        "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
+        "evidenceSummary": "The manual identifies AL002 as main-circuit voltage above the specified standard voltage."
+      },
+      "safeChecks": {
+        "en": [
+          "Record the exact code, operating mode, load and time of occurrence; preserve the fault history before any reset.",
+          "Use the machine's approved isolation procedure before inspecting wiring or connectors. Electrical measurements inside the drive are for qualified personnel only.",
+          "Compare the observed condition with the ASDA-B2-F manual and machine-builder drawings; do not bypass protection or change limits to hide the alarm."
+        ],
+        "ar": [
+          "سجّل الرمز الدقيق ووضع التشغيل والحمل ووقت ظهور العطل، واحتفظ بسجل الأعطال قبل أي إعادة ضبط.",
+          "طبّق إجراء العزل المعتمد قبل فحص الأسلاك أو الموصلات. القياسات الكهربائية داخل المغير من اختصاص شخص مؤهل فقط.",
+          "طابق الحالة مع دليل ASDA-B2-F ومخططات مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار."
+        ],
+        "fr": [
+          "Consignez le code exact, le mode de fonctionnement, la charge et l’heure d’apparition; conservez l’historique avant toute réinitialisation.",
+          "Appliquez la procédure de consignation approuvée avant d’inspecter câbles ou connecteurs. Les mesures électriques à l’intérieur du variateur sont réservées au personnel qualifié.",
+          "Comparez la situation au manuel ASDA-B2-F et aux schémas du constructeur; ne contournez pas les protections et ne modifiez pas les limites pour masquer l’alarme."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate to a qualified Delta servo-drive or machine-builder specialist if the alarm persists, recurs after approved checks, or suggests internal power-stage/encoder damage.",
+        "ar": "صعّد إلى مختص مؤهل في مغيرات Delta أو مصنع الماكينة إذا استمر الإنذار أو تكرر بعد الفحوصات المصرح بها أو دلّ على احتمال تلف داخلي في مرحلة القدرة أو المشفّر.",
+        "fr": "Faites intervenir un spécialiste Delta ou le constructeur de la machine si l’alarme persiste, réapparaît après les contrôles autorisés ou suggère un dommage interne de l’étage de puissance ou du codeur."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope."
+    },
+    {
+      "id": "delta-asda-b2-f-al003-undervoltage",
+      "recordType": "alarm-code",
+      "manufacturer": "Delta Electronics",
+      "productFamily": "ASDA-B2-F series servo drive",
+      "modelScope": "Delta ASDA-B2-F servo drive; User Manual V1.0, September 2015. Do not generalize to ASDA-B2, ASDA-A3, ASDA-B3 or other series.",
+      "controllerModel": "Delta ASDA-B2-F servo drive with DMCNET communication",
+      "alarmCode": "AL003",
+      "title": {
+        "en": "Delta ASDA-B2-F AL003 — Main-circuit undervoltage",
+        "ar": "Delta ASDA-B2-F AL003 — انخفاض جهد الدائرة الرئيسية",
+        "fr": "Delta ASDA-B2-F AL003 — Sous-tension du circuit principal"
+      },
+      "meaning": {
+        "en": "The manual identifies AL003 as main-circuit voltage below the specified standard voltage.",
+        "ar": "يعرّف الدليل AL003 بأنه انخفاض جهد الدائرة الرئيسية عن الجهد القياسي المحدد.",
+        "fr": "Le manuel définit AL003 comme une tension du circuit principal inférieure à la tension standard spécifiée."
+      },
+      "source": {
+        "sourceId": "delta-asda-b2-f-user-manual",
+        "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
+        "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
+        "section": "9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted",
+        "printedPageLabel": "9-2",
+        "pdfPage": 203,
+        "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
+        "evidenceSummary": "The manual identifies AL003 as main-circuit voltage below the specified standard voltage."
+      },
+      "safeChecks": {
+        "en": [
+          "Record the exact code, operating mode, load and time of occurrence; preserve the fault history before any reset.",
+          "Use the machine's approved isolation procedure before inspecting wiring or connectors. Electrical measurements inside the drive are for qualified personnel only.",
+          "Compare the observed condition with the ASDA-B2-F manual and machine-builder drawings; do not bypass protection or change limits to hide the alarm."
+        ],
+        "ar": [
+          "سجّل الرمز الدقيق ووضع التشغيل والحمل ووقت ظهور العطل، واحتفظ بسجل الأعطال قبل أي إعادة ضبط.",
+          "طبّق إجراء العزل المعتمد قبل فحص الأسلاك أو الموصلات. القياسات الكهربائية داخل المغير من اختصاص شخص مؤهل فقط.",
+          "طابق الحالة مع دليل ASDA-B2-F ومخططات مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار."
+        ],
+        "fr": [
+          "Consignez le code exact, le mode de fonctionnement, la charge et l’heure d’apparition; conservez l’historique avant toute réinitialisation.",
+          "Appliquez la procédure de consignation approuvée avant d’inspecter câbles ou connecteurs. Les mesures électriques à l’intérieur du variateur sont réservées au personnel qualifié.",
+          "Comparez la situation au manuel ASDA-B2-F et aux schémas du constructeur; ne contournez pas les protections et ne modifiez pas les limites pour masquer l’alarme."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate to a qualified Delta servo-drive or machine-builder specialist if the alarm persists, recurs after approved checks, or suggests internal power-stage/encoder damage.",
+        "ar": "صعّد إلى مختص مؤهل في مغيرات Delta أو مصنع الماكينة إذا استمر الإنذار أو تكرر بعد الفحوصات المصرح بها أو دلّ على احتمال تلف داخلي في مرحلة القدرة أو المشفّر.",
+        "fr": "Faites intervenir un spécialiste Delta ou le constructeur de la machine si l’alarme persiste, réapparaît après les contrôles autorisés ou suggère un dommage interne de l’étage de puissance ou du codeur."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope."
+    },
+    {
+      "id": "delta-asda-b2-f-al006-overload",
+      "recordType": "alarm-code",
+      "manufacturer": "Delta Electronics",
+      "productFamily": "ASDA-B2-F series servo drive",
+      "modelScope": "Delta ASDA-B2-F servo drive; User Manual V1.0, September 2015. Do not generalize to ASDA-B2, ASDA-A3, ASDA-B3 or other series.",
+      "controllerModel": "Delta ASDA-B2-F servo drive with DMCNET communication",
+      "alarmCode": "AL006",
+      "title": {
+        "en": "Delta ASDA-B2-F AL006 — Servo motor/drive overload",
+        "ar": "Delta ASDA-B2-F AL006 — حمل زائد على المحرك/المغير",
+        "fr": "Delta ASDA-B2-F AL006 — Surcharge du moteur/variateur servo"
+      },
+      "meaning": {
+        "en": "The manual labels AL006 as overload of the motor and servo drive.",
+        "ar": "يصنّف الدليل AL006 على أنه حمل زائد على المحرك والمغير المؤازر.",
+        "fr": "Le manuel classe AL006 comme une surcharge du moteur et du variateur servo."
+      },
+      "source": {
+        "sourceId": "delta-asda-b2-f-user-manual",
+        "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
+        "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
+        "section": "9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted",
+        "printedPageLabel": "9-2",
+        "pdfPage": 203,
+        "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
+        "evidenceSummary": "The manual labels AL006 as overload of the motor and servo drive."
+      },
+      "safeChecks": {
+        "en": [
+          "Record the exact code, operating mode, load and time of occurrence; preserve the fault history before any reset.",
+          "Use the machine's approved isolation procedure before inspecting wiring or connectors. Electrical measurements inside the drive are for qualified personnel only.",
+          "Compare the observed condition with the ASDA-B2-F manual and machine-builder drawings; do not bypass protection or change limits to hide the alarm."
+        ],
+        "ar": [
+          "سجّل الرمز الدقيق ووضع التشغيل والحمل ووقت ظهور العطل، واحتفظ بسجل الأعطال قبل أي إعادة ضبط.",
+          "طبّق إجراء العزل المعتمد قبل فحص الأسلاك أو الموصلات. القياسات الكهربائية داخل المغير من اختصاص شخص مؤهل فقط.",
+          "طابق الحالة مع دليل ASDA-B2-F ومخططات مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار."
+        ],
+        "fr": [
+          "Consignez le code exact, le mode de fonctionnement, la charge et l’heure d’apparition; conservez l’historique avant toute réinitialisation.",
+          "Appliquez la procédure de consignation approuvée avant d’inspecter câbles ou connecteurs. Les mesures électriques à l’intérieur du variateur sont réservées au personnel qualifié.",
+          "Comparez la situation au manuel ASDA-B2-F et aux schémas du constructeur; ne contournez pas les protections et ne modifiez pas les limites pour masquer l’alarme."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate to a qualified Delta servo-drive or machine-builder specialist if the alarm persists, recurs after approved checks, or suggests internal power-stage/encoder damage.",
+        "ar": "صعّد إلى مختص مؤهل في مغيرات Delta أو مصنع الماكينة إذا استمر الإنذار أو تكرر بعد الفحوصات المصرح بها أو دلّ على احتمال تلف داخلي في مرحلة القدرة أو المشفّر.",
+        "fr": "Faites intervenir un spécialiste Delta ou le constructeur de la machine si l’alarme persiste, réapparaît après les contrôles autorisés ou suggère un dommage interne de l’étage de puissance ou du codeur."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope."
+    },
+    {
+      "id": "delta-asda-b2-f-al007-overspeed",
+      "recordType": "alarm-code",
+      "manufacturer": "Delta Electronics",
+      "productFamily": "ASDA-B2-F series servo drive",
+      "modelScope": "Delta ASDA-B2-F servo drive; User Manual V1.0, September 2015. Do not generalize to ASDA-B2, ASDA-A3, ASDA-B3 or other series.",
+      "controllerModel": "Delta ASDA-B2-F servo drive with DMCNET communication",
+      "alarmCode": "AL007",
+      "title": {
+        "en": "Delta ASDA-B2-F AL007 — Motor overspeed",
+        "ar": "Delta ASDA-B2-F AL007 — تجاوز سرعة المحرك",
+        "fr": "Delta ASDA-B2-F AL007 — Survitesse du moteur"
+      },
+      "meaning": {
+        "en": "The manual identifies AL007 when motor speed exceeds the normal speed range.",
+        "ar": "يعرّف الدليل AL007 عند تجاوز سرعة المحرك نطاق السرعة الطبيعي.",
+        "fr": "Le manuel indique AL007 lorsque la vitesse du moteur dépasse la plage normale."
+      },
+      "source": {
+        "sourceId": "delta-asda-b2-f-user-manual",
+        "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
+        "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
+        "section": "9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted",
+        "printedPageLabel": "9-2",
+        "pdfPage": 203,
+        "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
+        "evidenceSummary": "The manual identifies AL007 when motor speed exceeds the normal speed range."
+      },
+      "safeChecks": {
+        "en": [
+          "Record the exact code, operating mode, load and time of occurrence; preserve the fault history before any reset.",
+          "Use the machine's approved isolation procedure before inspecting wiring or connectors. Electrical measurements inside the drive are for qualified personnel only.",
+          "Compare the observed condition with the ASDA-B2-F manual and machine-builder drawings; do not bypass protection or change limits to hide the alarm."
+        ],
+        "ar": [
+          "سجّل الرمز الدقيق ووضع التشغيل والحمل ووقت ظهور العطل، واحتفظ بسجل الأعطال قبل أي إعادة ضبط.",
+          "طبّق إجراء العزل المعتمد قبل فحص الأسلاك أو الموصلات. القياسات الكهربائية داخل المغير من اختصاص شخص مؤهل فقط.",
+          "طابق الحالة مع دليل ASDA-B2-F ومخططات مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار."
+        ],
+        "fr": [
+          "Consignez le code exact, le mode de fonctionnement, la charge et l’heure d’apparition; conservez l’historique avant toute réinitialisation.",
+          "Appliquez la procédure de consignation approuvée avant d’inspecter câbles ou connecteurs. Les mesures électriques à l’intérieur du variateur sont réservées au personnel qualifié.",
+          "Comparez la situation au manuel ASDA-B2-F et aux schémas du constructeur; ne contournez pas les protections et ne modifiez pas les limites pour masquer l’alarme."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate to a qualified Delta servo-drive or machine-builder specialist if the alarm persists, recurs after approved checks, or suggests internal power-stage/encoder damage.",
+        "ar": "صعّد إلى مختص مؤهل في مغيرات Delta أو مصنع الماكينة إذا استمر الإنذار أو تكرر بعد الفحوصات المصرح بها أو دلّ على احتمال تلف داخلي في مرحلة القدرة أو المشفّر.",
+        "fr": "Faites intervenir un spécialiste Delta ou le constructeur de la machine si l’alarme persiste, réapparaît après les contrôles autorisés ou suggère un dommage interne de l’étage de puissance ou du codeur."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope."
+    },
+    {
+      "id": "delta-asda-b2-f-al009-position-deviation",
+      "recordType": "alarm-code",
+      "manufacturer": "Delta Electronics",
+      "productFamily": "ASDA-B2-F series servo drive",
+      "modelScope": "Delta ASDA-B2-F servo drive; User Manual V1.0, September 2015. Do not generalize to ASDA-B2, ASDA-A3, ASDA-B3 or other series.",
+      "controllerModel": "Delta ASDA-B2-F servo drive with DMCNET communication",
+      "alarmCode": "AL009",
+      "title": {
+        "en": "Delta ASDA-B2-F AL009 — Excessive position-command deviation",
+        "ar": "Delta ASDA-B2-F AL009 — انحراف مفرط في أمر الموضع",
+        "fr": "Delta ASDA-B2-F AL009 — Écart excessif de commande de position"
+      },
+      "meaning": {
+        "en": "The manual identifies AL009 when position-command deviation exceeds the permitted setting.",
+        "ar": "يعرّف الدليل AL009 عندما يتجاوز انحراف أمر الموضع القيمة المسموح بها في الإعداد.",
+        "fr": "Le manuel identifie AL009 lorsque l'écart de commande de position dépasse la valeur réglée autorisée."
+      },
+      "source": {
+        "sourceId": "delta-asda-b2-f-user-manual",
+        "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
+        "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
+        "section": "9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted",
+        "printedPageLabel": "9-2",
+        "pdfPage": 203,
+        "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
+        "evidenceSummary": "The manual identifies AL009 when position-command deviation exceeds the permitted setting."
+      },
+      "safeChecks": {
+        "en": [
+          "Record the exact code, operating mode, load and time of occurrence; preserve the fault history before any reset.",
+          "Use the machine's approved isolation procedure before inspecting wiring or connectors. Electrical measurements inside the drive are for qualified personnel only.",
+          "Compare the observed condition with the ASDA-B2-F manual and machine-builder drawings; do not bypass protection or change limits to hide the alarm."
+        ],
+        "ar": [
+          "سجّل الرمز الدقيق ووضع التشغيل والحمل ووقت ظهور العطل، واحتفظ بسجل الأعطال قبل أي إعادة ضبط.",
+          "طبّق إجراء العزل المعتمد قبل فحص الأسلاك أو الموصلات. القياسات الكهربائية داخل المغير من اختصاص شخص مؤهل فقط.",
+          "طابق الحالة مع دليل ASDA-B2-F ومخططات مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار."
+        ],
+        "fr": [
+          "Consignez le code exact, le mode de fonctionnement, la charge et l’heure d’apparition; conservez l’historique avant toute réinitialisation.",
+          "Appliquez la procédure de consignation approuvée avant d’inspecter câbles ou connecteurs. Les mesures électriques à l’intérieur du variateur sont réservées au personnel qualifié.",
+          "Comparez la situation au manuel ASDA-B2-F et aux schémas du constructeur; ne contournez pas les protections et ne modifiez pas les limites pour masquer l’alarme."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate to a qualified Delta servo-drive or machine-builder specialist if the alarm persists, recurs after approved checks, or suggests internal power-stage/encoder damage.",
+        "ar": "صعّد إلى مختص مؤهل في مغيرات Delta أو مصنع الماكينة إذا استمر الإنذار أو تكرر بعد الفحوصات المصرح بها أو دلّ على احتمال تلف داخلي في مرحلة القدرة أو المشفّر.",
+        "fr": "Faites intervenir un spécialiste Delta ou le constructeur de la machine si l’alarme persiste, réapparaît après les contrôles autorisés ou suggère un dommage interne de l’étage de puissance ou du codeur."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope."
+    },
+    {
+      "id": "delta-asda-b2-f-al011-encoder-error",
+      "recordType": "alarm-code",
+      "manufacturer": "Delta Electronics",
+      "productFamily": "ASDA-B2-F series servo drive",
+      "modelScope": "Delta ASDA-B2-F servo drive; User Manual V1.0, September 2015. Do not generalize to ASDA-B2, ASDA-A3, ASDA-B3 or other series.",
+      "controllerModel": "Delta ASDA-B2-F servo drive with DMCNET communication",
+      "alarmCode": "AL011",
+      "title": {
+        "en": "Delta ASDA-B2-F AL011 — Encoder signal error",
+        "ar": "Delta ASDA-B2-F AL011 — خطأ في إشارة المشفّر",
+        "fr": "Delta ASDA-B2-F AL011 — Erreur de signal du codeur"
+      },
+      "meaning": {
+        "en": "The manual identifies AL011 as an encoder error in which the encoder generates an abnormal pulse.",
+        "ar": "يعرّف الدليل AL011 بأنه خطأ في المشفّر ينتج فيه المشفّر نبضات غير طبيعية.",
+        "fr": "Le manuel identifie AL011 comme une erreur du codeur produisant des impulsions anormales."
+      },
+      "source": {
+        "sourceId": "delta-asda-b2-f-user-manual",
+        "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
+        "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
+        "section": "9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted",
+        "printedPageLabel": "9-2",
+        "pdfPage": 203,
+        "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
+        "evidenceSummary": "The manual identifies AL011 as an encoder error in which the encoder generates an abnormal pulse."
+      },
+      "safeChecks": {
+        "en": [
+          "Record the exact code, operating mode, load and time of occurrence; preserve the fault history before any reset.",
+          "Use the machine's approved isolation procedure before inspecting wiring or connectors. Electrical measurements inside the drive are for qualified personnel only.",
+          "Compare the observed condition with the ASDA-B2-F manual and machine-builder drawings; do not bypass protection or change limits to hide the alarm."
+        ],
+        "ar": [
+          "سجّل الرمز الدقيق ووضع التشغيل والحمل ووقت ظهور العطل، واحتفظ بسجل الأعطال قبل أي إعادة ضبط.",
+          "طبّق إجراء العزل المعتمد قبل فحص الأسلاك أو الموصلات. القياسات الكهربائية داخل المغير من اختصاص شخص مؤهل فقط.",
+          "طابق الحالة مع دليل ASDA-B2-F ومخططات مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار."
+        ],
+        "fr": [
+          "Consignez le code exact, le mode de fonctionnement, la charge et l’heure d’apparition; conservez l’historique avant toute réinitialisation.",
+          "Appliquez la procédure de consignation approuvée avant d’inspecter câbles ou connecteurs. Les mesures électriques à l’intérieur du variateur sont réservées au personnel qualifié.",
+          "Comparez la situation au manuel ASDA-B2-F et aux schémas du constructeur; ne contournez pas les protections et ne modifiez pas les limites pour masquer l’alarme."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate to a qualified Delta servo-drive or machine-builder specialist if the alarm persists, recurs after approved checks, or suggests internal power-stage/encoder damage.",
+        "ar": "صعّد إلى مختص مؤهل في مغيرات Delta أو مصنع الماكينة إذا استمر الإنذار أو تكرر بعد الفحوصات المصرح بها أو دلّ على احتمال تلف داخلي في مرحلة القدرة أو المشفّر.",
+        "fr": "Faites intervenir un spécialiste Delta ou le constructeur de la machine si l’alarme persiste, réapparaît après les contrôles autorisés ou suggère un dommage interne de l’étage de puissance ou du codeur."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope."
+    },
+    {
+      "id": "delta-asda-b2-f-al016-igbt-overheat",
+      "recordType": "alarm-code",
+      "manufacturer": "Delta Electronics",
+      "productFamily": "ASDA-B2-F series servo drive",
+      "modelScope": "Delta ASDA-B2-F servo drive; User Manual V1.0, September 2015. Do not generalize to ASDA-B2, ASDA-A3, ASDA-B3 or other series.",
+      "controllerModel": "Delta ASDA-B2-F servo drive with DMCNET communication",
+      "alarmCode": "AL016",
+      "title": {
+        "en": "Delta ASDA-B2-F AL016 — IGBT overtemperature",
+        "ar": "Delta ASDA-B2-F AL016 — ارتفاع حرارة IGBT",
+        "fr": "Delta ASDA-B2-F AL016 — Surchauffe de l’IGBT"
+      },
+      "meaning": {
+        "en": "The manual identifies AL016 when the IGBT temperature is too high.",
+        "ar": "يعرّف الدليل AL016 عندما تكون درجة حرارة IGBT مرتفعة جدًا.",
+        "fr": "Le manuel identifie AL016 lorsque la température de l’IGBT est trop élevée."
+      },
+      "source": {
+        "sourceId": "delta-asda-b2-f-user-manual",
+        "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
+        "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
+        "section": "9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted",
+        "printedPageLabel": "9-2",
+        "pdfPage": 203,
+        "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
+        "evidenceSummary": "The manual identifies AL016 when the IGBT temperature is too high."
+      },
+      "safeChecks": {
+        "en": [
+          "Record the exact code, operating mode, load and time of occurrence; preserve the fault history before any reset.",
+          "Use the machine's approved isolation procedure before inspecting wiring or connectors. Electrical measurements inside the drive are for qualified personnel only.",
+          "Compare the observed condition with the ASDA-B2-F manual and machine-builder drawings; do not bypass protection or change limits to hide the alarm."
+        ],
+        "ar": [
+          "سجّل الرمز الدقيق ووضع التشغيل والحمل ووقت ظهور العطل، واحتفظ بسجل الأعطال قبل أي إعادة ضبط.",
+          "طبّق إجراء العزل المعتمد قبل فحص الأسلاك أو الموصلات. القياسات الكهربائية داخل المغير من اختصاص شخص مؤهل فقط.",
+          "طابق الحالة مع دليل ASDA-B2-F ومخططات مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار."
+        ],
+        "fr": [
+          "Consignez le code exact, le mode de fonctionnement, la charge et l’heure d’apparition; conservez l’historique avant toute réinitialisation.",
+          "Appliquez la procédure de consignation approuvée avant d’inspecter câbles ou connecteurs. Les mesures électriques à l’intérieur du variateur sont réservées au personnel qualifié.",
+          "Comparez la situation au manuel ASDA-B2-F et aux schémas du constructeur; ne contournez pas les protections et ne modifiez pas les limites pour masquer l’alarme."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate to a qualified Delta servo-drive or machine-builder specialist if the alarm persists, recurs after approved checks, or suggests internal power-stage/encoder damage.",
+        "ar": "صعّد إلى مختص مؤهل في مغيرات Delta أو مصنع الماكينة إذا استمر الإنذار أو تكرر بعد الفحوصات المصرح بها أو دلّ على احتمال تلف داخلي في مرحلة القدرة أو المشفّر.",
+        "fr": "Faites intervenir un spécialiste Delta ou le constructeur de la machine si l’alarme persiste, réapparaît après les contrôles autorisés ou suggère un dommage interne de l’étage de puissance ou du codeur."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope."
+    },
+    {
+      "id": "delta-asda-b2-f-al022-main-circuit-phase-loss",
+      "recordType": "alarm-code",
+      "manufacturer": "Delta Electronics",
+      "productFamily": "ASDA-B2-F series servo drive",
+      "modelScope": "Delta ASDA-B2-F servo drive; User Manual V1.0, September 2015. Do not generalize to ASDA-B2, ASDA-A3, ASDA-B3 or other series.",
+      "controllerModel": "Delta ASDA-B2-F servo drive with DMCNET communication",
+      "alarmCode": "AL022",
+      "title": {
+        "en": "Delta ASDA-B2-F AL022 — Main-circuit input phase loss",
+        "ar": "Delta ASDA-B2-F AL022 — فقدان طور في تغذية الدائرة الرئيسية",
+        "fr": "Delta ASDA-B2-F AL022 — Perte de phase de l’alimentation principale"
+      },
+      "meaning": {
+        "en": "The manual identifies AL022 as an abnormal main-circuit supply condition associated with missing phase power; the exact power wiring and drive rating must be matched to the manual.",
+        "ar": "يعرّف الدليل AL022 بأنه حالة غير طبيعية في تغذية الدائرة الرئيسية مرتبطة بفقدان طور؛ يجب مطابقة توصيل التغذية وقدرة المغير مع الدليل.",
+        "fr": "Le manuel identifie AL022 comme une anomalie de l’alimentation principale liée à une phase manquante; le câblage et la puissance du variateur doivent correspondre au manuel."
+      },
+      "source": {
+        "sourceId": "delta-asda-b2-f-user-manual",
+        "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
+        "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
+        "section": "9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted",
+        "printedPageLabel": "9-2; corrective details 9-9",
+        "pdfPage": 203,
+        "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
+        "evidenceSummary": "The manual identifies AL022 as an abnormal main-circuit supply condition associated with missing phase power; the exact power wiring and drive rating must be matched to the manual."
+      },
+      "safeChecks": {
+        "en": [
+          "Record the exact code, operating mode, load and time of occurrence; preserve the fault history before any reset.",
+          "Use the machine's approved isolation procedure before inspecting wiring or connectors. Electrical measurements inside the drive are for qualified personnel only.",
+          "Compare the observed condition with the ASDA-B2-F manual and machine-builder drawings; do not bypass protection or change limits to hide the alarm."
+        ],
+        "ar": [
+          "سجّل الرمز الدقيق ووضع التشغيل والحمل ووقت ظهور العطل، واحتفظ بسجل الأعطال قبل أي إعادة ضبط.",
+          "طبّق إجراء العزل المعتمد قبل فحص الأسلاك أو الموصلات. القياسات الكهربائية داخل المغير من اختصاص شخص مؤهل فقط.",
+          "طابق الحالة مع دليل ASDA-B2-F ومخططات مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار."
+        ],
+        "fr": [
+          "Consignez le code exact, le mode de fonctionnement, la charge et l’heure d’apparition; conservez l’historique avant toute réinitialisation.",
+          "Appliquez la procédure de consignation approuvée avant d’inspecter câbles ou connecteurs. Les mesures électriques à l’intérieur du variateur sont réservées au personnel qualifié.",
+          "Comparez la situation au manuel ASDA-B2-F et aux schémas du constructeur; ne contournez pas les protections et ne modifiez pas les limites pour masquer l’alarme."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate to a qualified Delta servo-drive or machine-builder specialist if the alarm persists, recurs after approved checks, or suggests internal power-stage/encoder damage.",
+        "ar": "صعّد إلى مختص مؤهل في مغيرات Delta أو مصنع الماكينة إذا استمر الإنذار أو تكرر بعد الفحوصات المصرح بها أو دلّ على احتمال تلف داخلي في مرحلة القدرة أو المشفّر.",
+        "fr": "Faites intervenir un spécialiste Delta ou le constructeur de la machine si l’alarme persiste, réapparaît après les contrôles autorisés ou suggère un dommage interne de l’étage de puissance ou du codeur."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope."
+    },
+    {
+      "id": "delta-asda-b2-f-al024-encoder-magnetic-field",
+      "recordType": "alarm-code",
+      "manufacturer": "Delta Electronics",
+      "productFamily": "ASDA-B2-F series servo drive",
+      "modelScope": "Delta ASDA-B2-F servo drive; User Manual V1.0, September 2015. Do not generalize to ASDA-B2, ASDA-A3, ASDA-B3 or other series.",
+      "controllerModel": "Delta ASDA-B2-F servo drive with DMCNET communication",
+      "alarmCode": "AL024",
+      "title": {
+        "en": "Delta ASDA-B2-F AL024 — Encoder initial magnetic-field error",
+        "ar": "Delta ASDA-B2-F AL024 — خطأ في المجال المغناطيسي الابتدائي للمشفّر",
+        "fr": "Delta ASDA-B2-F AL024 — Erreur du champ magnétique initial du codeur"
+      },
+      "meaning": {
+        "en": "The manual identifies AL024 as an error in the initial magnetic field of the encoder U/V/W signals.",
+        "ar": "يعرّف الدليل AL024 بأنه خطأ في المجال المغناطيسي الابتدائي لإشارات U/V/W الخاصة بالمشفّر.",
+        "fr": "Le manuel identifie AL024 comme une erreur du champ magnétique initial des signaux U/V/W du codeur."
+      },
+      "source": {
+        "sourceId": "delta-asda-b2-f-user-manual",
+        "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
+        "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
+        "section": "9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted",
+        "printedPageLabel": "9-2; corrective details 9-9",
+        "pdfPage": 203,
+        "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
+        "evidenceSummary": "The manual identifies AL024 as an error in the initial magnetic field of the encoder U/V/W signals."
+      },
+      "safeChecks": {
+        "en": [
+          "Record the exact code, operating mode, load and time of occurrence; preserve the fault history before any reset.",
+          "Use the machine's approved isolation procedure before inspecting wiring or connectors. Electrical measurements inside the drive are for qualified personnel only.",
+          "Compare the observed condition with the ASDA-B2-F manual and machine-builder drawings; do not bypass protection or change limits to hide the alarm."
+        ],
+        "ar": [
+          "سجّل الرمز الدقيق ووضع التشغيل والحمل ووقت ظهور العطل، واحتفظ بسجل الأعطال قبل أي إعادة ضبط.",
+          "طبّق إجراء العزل المعتمد قبل فحص الأسلاك أو الموصلات. القياسات الكهربائية داخل المغير من اختصاص شخص مؤهل فقط.",
+          "طابق الحالة مع دليل ASDA-B2-F ومخططات مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار."
+        ],
+        "fr": [
+          "Consignez le code exact, le mode de fonctionnement, la charge et l’heure d’apparition; conservez l’historique avant toute réinitialisation.",
+          "Appliquez la procédure de consignation approuvée avant d’inspecter câbles ou connecteurs. Les mesures électriques à l’intérieur du variateur sont réservées au personnel qualifié.",
+          "Comparez la situation au manuel ASDA-B2-F et aux schémas du constructeur; ne contournez pas les protections et ne modifiez pas les limites pour masquer l’alarme."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate to a qualified Delta servo-drive or machine-builder specialist if the alarm persists, recurs after approved checks, or suggests internal power-stage/encoder damage.",
+        "ar": "صعّد إلى مختص مؤهل في مغيرات Delta أو مصنع الماكينة إذا استمر الإنذار أو تكرر بعد الفحوصات المصرح بها أو دلّ على احتمال تلف داخلي في مرحلة القدرة أو المشفّر.",
+        "fr": "Faites intervenir un spécialiste Delta ou le constructeur de la machine si l’alarme persiste, réapparaît après les contrôles autorisés ou suggère un dommage interne de l’étage de puissance ou du codeur."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope."
+    },
+    {
+      "id": "delta-asda-b2-f-al031-motor-power-wiring",
+      "recordType": "alarm-code",
+      "manufacturer": "Delta Electronics",
+      "productFamily": "ASDA-B2-F series servo drive",
+      "modelScope": "Delta ASDA-B2-F servo drive; User Manual V1.0, September 2015. Do not generalize to ASDA-B2, ASDA-A3, ASDA-B3 or other series.",
+      "controllerModel": "Delta ASDA-B2-F servo drive with DMCNET communication",
+      "alarmCode": "AL031",
+      "title": {
+        "en": "Delta ASDA-B2-F AL031 — Incorrect motor power-cable wiring",
+        "ar": "Delta ASDA-B2-F AL031 — توصيل غير صحيح لكابل قدرة المحرك",
+        "fr": "Delta ASDA-B2-F AL031 — Câblage incorrect du câble de puissance moteur"
+      },
+      "meaning": {
+        "en": "The manual identifies AL031 as incorrect wiring of the motor power cable U, V, W or ground.",
+        "ar": "يعرّف الدليل AL031 بأنه توصيل غير صحيح لكابل قدرة المحرك U/V/W أو التأريض.",
+        "fr": "Le manuel identifie AL031 comme un câblage incorrect du câble moteur U/V/W ou de terre."
+      },
+      "source": {
+        "sourceId": "delta-asda-b2-f-user-manual",
+        "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
+        "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
+        "section": "9.4 Causes and Corrective Actions → AL031; 9.4 Causes and Corrective Actions where noted",
+        "printedPageLabel": "9-11",
+        "pdfPage": 212,
+        "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
+        "evidenceSummary": "The manual identifies AL031 as incorrect wiring of the motor power cable U, V, W or ground."
+      },
+      "safeChecks": {
+        "en": [
+          "Record the exact code, operating mode, load and time of occurrence; preserve the fault history before any reset.",
+          "Use the machine's approved isolation procedure before inspecting wiring or connectors. Electrical measurements inside the drive are for qualified personnel only.",
+          "Compare the observed condition with the ASDA-B2-F manual and machine-builder drawings; do not bypass protection or change limits to hide the alarm."
+        ],
+        "ar": [
+          "سجّل الرمز الدقيق ووضع التشغيل والحمل ووقت ظهور العطل، واحتفظ بسجل الأعطال قبل أي إعادة ضبط.",
+          "طبّق إجراء العزل المعتمد قبل فحص الأسلاك أو الموصلات. القياسات الكهربائية داخل المغير من اختصاص شخص مؤهل فقط.",
+          "طابق الحالة مع دليل ASDA-B2-F ومخططات مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار."
+        ],
+        "fr": [
+          "Consignez le code exact, le mode de fonctionnement, la charge et l’heure d’apparition; conservez l’historique avant toute réinitialisation.",
+          "Appliquez la procédure de consignation approuvée avant d’inspecter câbles ou connecteurs. Les mesures électriques à l’intérieur du variateur sont réservées au personnel qualifié.",
+          "Comparez la situation au manuel ASDA-B2-F et aux schémas du constructeur; ne contournez pas les protections et ne modifiez pas les limites pour masquer l’alarme."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate to a qualified Delta servo-drive or machine-builder specialist if the alarm persists, recurs after approved checks, or suggests internal power-stage/encoder damage.",
+        "ar": "صعّد إلى مختص مؤهل في مغيرات Delta أو مصنع الماكينة إذا استمر الإنذار أو تكرر بعد الفحوصات المصرح بها أو دلّ على احتمال تلف داخلي في مرحلة القدرة أو المشفّر.",
+        "fr": "Faites intervenir un spécialiste Delta ou le constructeur de la machine si l’alarme persiste, réapparaît après les contrôles autorisés ou suggère un dommage interne de l’étage de puissance ou du codeur."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope."
+    },
+    {
+      "id": "delta-asda-b2-f-al060-absolute-position-lost",
+      "recordType": "alarm-code",
+      "manufacturer": "Delta Electronics",
+      "productFamily": "ASDA-B2-F series servo drive",
+      "modelScope": "Delta ASDA-B2-F servo drive; User Manual V1.0, September 2015. Do not generalize to ASDA-B2, ASDA-A3, ASDA-B3 or other series.",
+      "controllerModel": "Delta ASDA-B2-F servo drive with DMCNET communication",
+      "alarmCode": "AL060",
+      "title": {
+        "en": "Delta ASDA-B2-F AL060 — Absolute position lost",
+        "ar": "Delta ASDA-B2-F AL060 — فقدان الموضع المطلق",
+        "fr": "Delta ASDA-B2-F AL060 — Position absolue perdue"
+      },
+      "meaning": {
+        "en": "The manual identifies AL060 as loss of absolute position and discusses battery undervoltage, incomplete absolute-coordinate initialization, and battery-circuit connection issues in the troubleshooting section.",
+        "ar": "يعرّف الدليل AL060 بأنه فقدان الموضع المطلق، ويناقش انخفاض جهد البطارية وعدم اكتمال تهيئة الإحداثيات المطلقة ومشكلات توصيل دائرة البطارية ضمن قسم استكشاف الأعطال.",
+        "fr": "Le manuel identifie AL060 comme une perte de position absolue et cite notamment une batterie sous-tension, une initialisation incomplète des coordonnées absolues et des problèmes de connexion du circuit de batterie."
+      },
+      "source": {
+        "sourceId": "delta-asda-b2-f-user-manual",
+        "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
+        "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
+        "section": "9.4 Causes and Corrective Actions → AL060; 9.4 Causes and Corrective Actions where noted",
+        "printedPageLabel": "9-12",
+        "pdfPage": 213,
+        "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
+        "evidenceSummary": "The manual identifies AL060 as loss of absolute position and discusses battery undervoltage, incomplete absolute-coordinate initialization, and battery-circuit connection issues in the troubleshooting section."
+      },
+      "safeChecks": {
+        "en": [
+          "Record the exact code, operating mode, load and time of occurrence; preserve the fault history before any reset.",
+          "Use the machine's approved isolation procedure before inspecting wiring or connectors. Electrical measurements inside the drive are for qualified personnel only.",
+          "Compare the observed condition with the ASDA-B2-F manual and machine-builder drawings; do not bypass protection or change limits to hide the alarm."
+        ],
+        "ar": [
+          "سجّل الرمز الدقيق ووضع التشغيل والحمل ووقت ظهور العطل، واحتفظ بسجل الأعطال قبل أي إعادة ضبط.",
+          "طبّق إجراء العزل المعتمد قبل فحص الأسلاك أو الموصلات. القياسات الكهربائية داخل المغير من اختصاص شخص مؤهل فقط.",
+          "طابق الحالة مع دليل ASDA-B2-F ومخططات مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار."
+        ],
+        "fr": [
+          "Consignez le code exact, le mode de fonctionnement, la charge et l’heure d’apparition; conservez l’historique avant toute réinitialisation.",
+          "Appliquez la procédure de consignation approuvée avant d’inspecter câbles ou connecteurs. Les mesures électriques à l’intérieur du variateur sont réservées au personnel qualifié.",
+          "Comparez la situation au manuel ASDA-B2-F et aux schémas du constructeur; ne contournez pas les protections et ne modifiez pas les limites pour masquer l’alarme."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate to a qualified Delta servo-drive or machine-builder specialist if the alarm persists, recurs after approved checks, or suggests internal power-stage/encoder damage.",
+        "ar": "صعّد إلى مختص مؤهل في مغيرات Delta أو مصنع الماكينة إذا استمر الإنذار أو تكرر بعد الفحوصات المصرح بها أو دلّ على احتمال تلف داخلي في مرحلة القدرة أو المشفّر.",
+        "fr": "Faites intervenir un spécialiste Delta ou le constructeur de la machine si l’alarme persiste, réapparaît après les contrôles autorisés ou suggère un dommage interne de l’étage de puissance ou du codeur."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope."
+    },
+    {
+      "id": "delta-asda-b2-f-al185-dmcnet-bus-hardware",
+      "recordType": "alarm-code",
+      "manufacturer": "Delta Electronics",
+      "productFamily": "ASDA-B2-F series servo drive",
+      "modelScope": "Delta ASDA-B2-F servo drive; User Manual V1.0, September 2015. Do not generalize to ASDA-B2, ASDA-A3, ASDA-B3 or other series.",
+      "controllerModel": "Delta ASDA-B2-F servo drive with DMCNET communication",
+      "alarmCode": "AL185",
+      "title": {
+        "en": "Delta ASDA-B2-F AL185 — DMCNET bus hardware abnormality",
+        "ar": "Delta ASDA-B2-F AL185 — خلل عتادي في ناقل DMCNET",
+        "fr": "Delta ASDA-B2-F AL185 — Anomalie matérielle du bus DMCNET"
+      },
+      "meaning": {
+        "en": "The manual identifies AL185 as abnormal DMCNET bus hardware and directs attention to communication-cable condition and communication quality.",
+        "ar": "يعرّف الدليل AL185 بأنه خلل عتادي في ناقل DMCNET، ويوجه إلى فحص حالة كابل الاتصال وجودة الاتصال.",
+        "fr": "Le manuel identifie AL185 comme une anomalie matérielle du bus DMCNET et recommande de vérifier le câble et la qualité de communication."
+      },
+      "source": {
+        "sourceId": "delta-asda-b2-f-user-manual",
+        "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
+        "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
+        "section": "9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted",
+        "printedPageLabel": "9-14",
+        "pdfPage": 215,
+        "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
+        "evidenceSummary": "The manual identifies AL185 as abnormal DMCNET bus hardware and directs attention to communication-cable condition and communication quality."
+      },
+      "safeChecks": {
+        "en": [
+          "Record the exact code, operating mode, load and time of occurrence; preserve the fault history before any reset.",
+          "Use the machine's approved isolation procedure before inspecting wiring or connectors. Electrical measurements inside the drive are for qualified personnel only.",
+          "Compare the observed condition with the ASDA-B2-F manual and machine-builder drawings; do not bypass protection or change limits to hide the alarm."
+        ],
+        "ar": [
+          "سجّل الرمز الدقيق ووضع التشغيل والحمل ووقت ظهور العطل، واحتفظ بسجل الأعطال قبل أي إعادة ضبط.",
+          "طبّق إجراء العزل المعتمد قبل فحص الأسلاك أو الموصلات. القياسات الكهربائية داخل المغير من اختصاص شخص مؤهل فقط.",
+          "طابق الحالة مع دليل ASDA-B2-F ومخططات مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار."
+        ],
+        "fr": [
+          "Consignez le code exact, le mode de fonctionnement, la charge et l’heure d’apparition; conservez l’historique avant toute réinitialisation.",
+          "Appliquez la procédure de consignation approuvée avant d’inspecter câbles ou connecteurs. Les mesures électriques à l’intérieur du variateur sont réservées au personnel qualifié.",
+          "Comparez la situation au manuel ASDA-B2-F et aux schémas du constructeur; ne contournez pas les protections et ne modifiez pas les limites pour masquer l’alarme."
+        ]
+      },
+      "escalation": {
+        "en": "Escalate to a qualified Delta servo-drive or machine-builder specialist if the alarm persists, recurs after approved checks, or suggests internal power-stage/encoder damage.",
+        "ar": "صعّد إلى مختص مؤهل في مغيرات Delta أو مصنع الماكينة إذا استمر الإنذار أو تكرر بعد الفحوصات المصرح بها أو دلّ على احتمال تلف داخلي في مرحلة القدرة أو المشفّر.",
+        "fr": "Faites intervenir un spécialiste Delta ou le constructeur de la machine si l’alarme persiste, réapparaît après les contrôles autorisés ou suggère un dommage interne de l’étage de puissance ou du codeur."
+      },
+      "evidenceStatus": "verified-source-exact-scope",
+      "reviewDate": "2026-10-24",
+      "reviewerRole": "repository evidence review",
+      "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope."
     }
   ]
 }
