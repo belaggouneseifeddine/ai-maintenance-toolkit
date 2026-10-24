@@ -46,12 +46,12 @@
         "inovance-fault-code-query"
       ],
       "url": "https://www.inovance.com/global/support/download-documentation.html",
-      "evidenceStatus": "portal-only",
+      "evidenceStatus": "manual-claims-reviewed",
       "alarmCodeRecords": 0,
-      "notes": "Portal-only index plus selected manual-reviewed claims; see individual record evidence scope. Not field-verified.",
+      "notes": "Count reflects records in knowledge/oem-verified-faults.json. These are manual-claim-reviewed only; field validation and machine-builder integration checks remain outstanding.",
       "modelsCovered": [
         "MD200 series AC drive",
-        "H5U series PLC"
+        "H5U Series Programmable Logic Controller"
       ],
       "manualReviewedRecordCount": 9
     },
@@ -72,7 +72,8 @@
       "url": "https://downloadcenter.delta-china.com.cn/en-US/DownloadCenter",
       "evidenceStatus": "portal-only",
       "alarmCodeRecords": 0,
-      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+      "notes": "Official portal/index only; no model-specific alarm records are currently claim-reviewed for this manufacturer in the structured OEM record file.",
+      "manualReviewedRecordCount": 0
     },
     {
       "id": "xinje",
@@ -90,12 +91,11 @@
         "xinje-xnet-fieldbus-manual"
       ],
       "url": "https://en.xinje.com/web/downloadCenter/index",
-      "evidenceStatus": "portal-only",
+      "evidenceStatus": "manual-claims-reviewed",
       "alarmCodeRecords": 0,
-      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified.",
+      "notes": "Count reflects records in knowledge/oem-verified-faults.json. These are manual-claim-reviewed only; field validation and machine-builder integration checks remain outstanding.",
       "modelsCovered": [
         "DS5K series servo driver",
-        "X-NET fieldbus",
         "X-NET fieldbus / XINJEConfig remote-connection diagnostics"
       ],
       "manualReviewedRecordCount": 15
@@ -117,7 +117,8 @@
       "url": "https://en.huazhongcnc.com/download-center-of-huazhongcnc/",
       "evidenceStatus": "portal-only",
       "alarmCodeRecords": 0,
-      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+      "notes": "Official portal/index only; no model-specific alarm records are currently claim-reviewed for this manufacturer in the structured OEM record file.",
+      "manualReviewedRecordCount": 0
     },
     {
       "id": "gsk",
@@ -134,7 +135,8 @@
       "url": "https://gskcnc.com/support.php",
       "evidenceStatus": "portal-only",
       "alarmCodeRecords": 0,
-      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+      "notes": "Official portal/index only; no model-specific alarm records are currently claim-reviewed for this manufacturer in the structured OEM record file.",
+      "manualReviewedRecordCount": 0
     },
     {
       "id": "syntec",
@@ -151,7 +153,8 @@
       "url": "https://syntecclub.com/",
       "evidenceStatus": "portal-only",
       "alarmCodeRecords": 0,
-      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+      "notes": "Official portal/index only; no model-specific alarm records are currently claim-reviewed for this manufacturer in the structured OEM record file.",
+      "manualReviewedRecordCount": 0
     },
     {
       "id": "lnc",
@@ -168,7 +171,8 @@
       "url": "https://www.lynuc.cn/download.aspx",
       "evidenceStatus": "portal-only",
       "alarmCodeRecords": 0,
-      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+      "notes": "Official portal/index only; no model-specific alarm records are currently claim-reviewed for this manufacturer in the structured OEM record file.",
+      "manualReviewedRecordCount": 0
     },
     {
       "id": "leadshine",
@@ -186,7 +190,8 @@
       "url": "https://www.leadshine.com/downloads.html",
       "evidenceStatus": "portal-only",
       "alarmCodeRecords": 0,
-      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+      "notes": "Official portal/index only; no model-specific alarm records are currently claim-reviewed for this manufacturer in the structured OEM record file.",
+      "manualReviewedRecordCount": 0
     },
     {
       "id": "mitsubishi-fa",
@@ -207,7 +212,8 @@
       "url": "https://www.mitsubishielectric-fa.cn/site/file-center",
       "evidenceStatus": "portal-only",
       "alarmCodeRecords": 0,
-      "notes": "FA portal only; C80 CNC alarm records are tracked under the dedicated Mitsubishi Electric CNC entry."
+      "notes": "Official portal/index only; no model-specific alarm records are currently claim-reviewed for this manufacturer in the structured OEM record file.",
+      "manualReviewedRecordCount": 0
     },
     {
       "id": "siemens",
@@ -226,9 +232,17 @@
         "siemens-industry-support"
       ],
       "url": "https://support.industry.siemens.com/",
-      "evidenceStatus": "portal-only",
+      "evidenceStatus": "manual-claims-reviewed",
       "alarmCodeRecords": 0,
-      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+      "notes": "Count reflects records in knowledge/oem-verified-faults.json. These are manual-claim-reviewed only; field validation and machine-builder integration checks remain outstanding.",
+      "manualReviewedRecordCount": 26,
+      "modelsCovered": [
+        "SINUMERIK 840D sl / 828D",
+        "SINAMICS G120D",
+        "SINAMICS G120P Cabinet Units",
+        "SIMATIC S7-1200 fail-safe signal modules (F-modules)",
+        "SINAMICS G120C FSD–FSF"
+      ]
     },
     {
       "id": "bosch-rexroth",
@@ -247,7 +261,8 @@
       "url": "https://docs.automation.boschrexroth.com/",
       "evidenceStatus": "portal-only",
       "alarmCodeRecords": 0,
-      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+      "notes": "Official portal/index only; no model-specific alarm records are currently claim-reviewed for this manufacturer in the structured OEM record file.",
+      "manualReviewedRecordCount": 0
     },
     {
       "id": "beckhoff",
@@ -266,7 +281,8 @@
       "url": "https://www.beckhoff.com/en-us/support/download-finder/",
       "evidenceStatus": "portal-only",
       "alarmCodeRecords": 0,
-      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+      "notes": "Official portal/index only; no model-specific alarm records are currently claim-reviewed for this manufacturer in the structured OEM record file.",
+      "manualReviewedRecordCount": 0
     },
     {
       "id": "heidenhain",
@@ -284,7 +300,8 @@
       "url": "https://www.heidenhain.com/service/technical-support",
       "evidenceStatus": "portal-only",
       "alarmCodeRecords": 0,
-      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+      "notes": "Official portal/index only; no model-specific alarm records are currently claim-reviewed for this manufacturer in the structured OEM record file.",
+      "manualReviewedRecordCount": 0
     },
     {
       "id": "schneider",
@@ -303,7 +320,8 @@
       "url": "https://www.se.com/ww/en/download/",
       "evidenceStatus": "portal-only",
       "alarmCodeRecords": 0,
-      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+      "notes": "Official portal/index only; no model-specific alarm records are currently claim-reviewed for this manufacturer in the structured OEM record file.",
+      "manualReviewedRecordCount": 0
     },
     {
       "id": "abb",
@@ -323,7 +341,8 @@
       "url": "https://www.abb.com/",
       "evidenceStatus": "portal-only",
       "alarmCodeRecords": 0,
-      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+      "notes": "Official portal/index only; no model-specific alarm records are currently claim-reviewed for this manufacturer in the structured OEM record file.",
+      "manualReviewedRecordCount": 0
     },
     {
       "id": "sew",
@@ -341,7 +360,8 @@
       "url": "https://download.sew-eurodrive.com/",
       "evidenceStatus": "portal-only",
       "alarmCodeRecords": 0,
-      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+      "notes": "Official portal/index only; no model-specific alarm records are currently claim-reviewed for this manufacturer in the structured OEM record file.",
+      "manualReviewedRecordCount": 0
     },
     {
       "id": "lenze",
@@ -359,7 +379,8 @@
       "url": "https://www.lenze.com/en-de/services/downloads",
       "evidenceStatus": "portal-only",
       "alarmCodeRecords": 0,
-      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+      "notes": "Official portal/index only; no model-specific alarm records are currently claim-reviewed for this manufacturer in the structured OEM record file.",
+      "manualReviewedRecordCount": 0
     },
     {
       "id": "kuka",
@@ -376,7 +397,8 @@
       "url": "https://www.kuka.com/en-us/services/downloads",
       "evidenceStatus": "portal-only",
       "alarmCodeRecords": 0,
-      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+      "notes": "Official portal/index only; no model-specific alarm records are currently claim-reviewed for this manufacturer in the structured OEM record file.",
+      "manualReviewedRecordCount": 0
     },
     {
       "id": "trumpf",
@@ -394,7 +416,8 @@
       "url": "https://www.trumpf.com/en_INT/service/",
       "evidenceStatus": "portal-only",
       "alarmCodeRecords": 0,
-      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+      "notes": "Official portal/index only; no model-specific alarm records are currently claim-reviewed for this manufacturer in the structured OEM record file.",
+      "manualReviewedRecordCount": 0
     },
     {
       "id": "homag",
@@ -410,7 +433,8 @@
       "url": "https://www.homag.com/en/services",
       "evidenceStatus": "portal-only",
       "alarmCodeRecords": 0,
-      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+      "notes": "Official portal/index only; no model-specific alarm records are currently claim-reviewed for this manufacturer in the structured OEM record file.",
+      "manualReviewedRecordCount": 0
     },
     {
       "id": "yizumi",
@@ -429,7 +453,8 @@
       "url": "https://www.yizumi.com/en/service",
       "evidenceStatus": "portal-only",
       "alarmCodeRecords": 0,
-      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+      "notes": "Official portal/index only; no model-specific alarm records are currently claim-reviewed for this manufacturer in the structured OEM record file.",
+      "manualReviewedRecordCount": 0
     },
     {
       "id": "haitian",
@@ -445,7 +470,8 @@
       "url": "https://haitianinter.com/service/",
       "evidenceStatus": "portal-only",
       "alarmCodeRecords": 0,
-      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+      "notes": "Official portal/index only; no model-specific alarm records are currently claim-reviewed for this manufacturer in the structured OEM record file.",
+      "manualReviewedRecordCount": 0
     },
     {
       "id": "bodor",
@@ -461,7 +487,8 @@
       "url": "https://www.bodor.com/en/service/",
       "evidenceStatus": "portal-only",
       "alarmCodeRecords": 0,
-      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+      "notes": "Official portal/index only; no model-specific alarm records are currently claim-reviewed for this manufacturer in the structured OEM record file.",
+      "manualReviewedRecordCount": 0
     },
     {
       "id": "pilz",
@@ -479,7 +506,8 @@
       "url": "https://www.pilz.com/en-INT/support",
       "evidenceStatus": "portal-only",
       "alarmCodeRecords": 0,
-      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+      "notes": "Official portal/index only; no model-specific alarm records are currently claim-reviewed for this manufacturer in the structured OEM record file.",
+      "manualReviewedRecordCount": 0
     },
     {
       "id": "omron",
@@ -499,7 +527,8 @@
       "url": "https://industrial.omron.eu/en/services-support/support/downloads",
       "evidenceStatus": "portal-only",
       "alarmCodeRecords": 0,
-      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+      "notes": "Official portal/index only; no model-specific alarm records are currently claim-reviewed for this manufacturer in the structured OEM record file.",
+      "manualReviewedRecordCount": 0
     },
     {
       "id": "yaskawa",
@@ -518,7 +547,8 @@
       "url": "https://www.yaskawa.com/products/drives/drive-manuals",
       "evidenceStatus": "portal-only",
       "alarmCodeRecords": 0,
-      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+      "notes": "Official portal/index only; no model-specific alarm records are currently claim-reviewed for this manufacturer in the structured OEM record file.",
+      "manualReviewedRecordCount": 0
     },
     {
       "id": "fagor",
@@ -536,7 +566,8 @@
       "url": "https://www.fagorautomation.com/en/categoria_descargas/manuals-en/",
       "evidenceStatus": "portal-only",
       "alarmCodeRecords": 0,
-      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+      "notes": "Official portal/index only; no model-specific alarm records are currently claim-reviewed for this manufacturer in the structured OEM record file.",
+      "manualReviewedRecordCount": 0
     },
     {
       "id": "fanuc",
@@ -556,7 +587,8 @@
       "url": "https://www.fanucamerica.com/support/myportal",
       "evidenceStatus": "portal-only",
       "alarmCodeRecords": 0,
-      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+      "notes": "Official portal/index only; no model-specific alarm records are currently claim-reviewed for this manufacturer in the structured OEM record file.",
+      "manualReviewedRecordCount": 0
     },
     {
       "id": "mitsubishi-cnc",
@@ -572,14 +604,19 @@
         "mitsubishi-cnc-manuals"
       ],
       "url": "https://www.mitsubishielectric-cnc.com/manuals/",
-      "evidenceStatus": "portal-only",
+      "evidenceStatus": "manual-claims-reviewed",
       "alarmCodeRecords": 0,
       "modelsCovered": [
-        "C80 Series CNC"
+        "C80 Series CNC; servo/spindle alarm table",
+        "C80 Series CNC; emergency-stop alarm section"
       ],
-      "notes": "Alarm records reference C80 Series Alarm/Parameter Manual IB-1501560-F; exact machine-tool builder manuals still take precedence. The index remains portal-only; selected manual-reviewed claims are tracked per fault record and are not field-verified.",
-      "manualReviewedFaultCount": 6
+      "notes": "Count reflects records in knowledge/oem-verified-faults.json. These are manual-claim-reviewed only; field validation and machine-builder integration checks remain outstanding.",
+      "manualReviewedFaultCount": 6,
+      "manualReviewedRecordCount": 6
     }
   ],
-  "relatedEvidenceFile": "knowledge/oem-verified-faults.json"
+  "relatedEvidenceFile": "knowledge/oem-verified-faults.json",
+  "verifiedRecordFileCount": 60,
+  "verifiedRecordFile": "knowledge/oem-verified-faults.json",
+  "lastEvidenceInventoryDate": "2026-10-24"
 }
