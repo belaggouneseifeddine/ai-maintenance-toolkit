@@ -3,11 +3,11 @@
 > Verified means the cited official source supports the specific statement below. It does not mean every installation using the same brand behaves identically. Match machine builder, controller/drive model, firmware and manual revision before applying a record.
 
 - Review date: 2026-10-24
-- Model-scoped records with official manual evidence: 44
+- Model-scoped records with official manual evidence: 47
 - Languages: Arabic, French and English; summaries are paraphrased rather than copied from manuals.
-- Chinese OEM coverage currently includes XINJE DS5K servo drivers and INOVANCE MD200 drives; this is not yet broad coverage of all Chinese CNC/PLC families.
-- European OEM coverage currently includes Siemens SINUMERIK/SINAMICS and Mitsubishi Electric CNC/PLC/servo records; additional families require model-specific source review.
-- Evidence acquisition queue: INOVANCE H5U PLC, Delta ASDA/PLC, XINJE PLC families, GSK/HuazhongCNC/Syntec/LNC CNC controls, Siemens PLC/CNC, Beckhoff, Bosch Rexroth, Schneider Electric and other machine-builder-specific alarm tables.
+- Chinese OEM coverage currently includes XINJE DS5K servo drivers and INOVANCE MD200 drives plus H5U PLC indicator diagnostics; this is not yet broad coverage of all Chinese CNC/PLC families.
+- Other represented families include Siemens SINUMERIK/SINAMICS and Mitsubishi Electric CNC/PLC/servo records.
+- Evidence acquisition queue: INOVANCE H5U fault events and other PLC series, Delta ASDA/PLC, XINJE PLC families, GSK/HuazhongCNC/Syntec/LNC CNC controls, Siemens PLC/CNC, Beckhoff, Bosch Rexroth, Schneider Electric and machine-builder-specific alarm tables.
 - Store concise original summaries and links, not copied manual chapters.
 
 ## Record format and evidence limits
@@ -466,7 +466,7 @@ Records describe what the cited manual supports. They do not establish that a pa
 
 - **Manufacturer / family:** Mitsubishi Electric — MELSEC iQ-F FX5S / FX5UJ / FX5U / FX5UC
 - **Scope:** FX5S, FX5UJ, FX5U and FX5UC CPU/module diagnostics; Not stated in cited source; verify on device.
-- **Code / event:** No single alarm code; diagnostic procedure
+- **Code / event:** No single alarm code; diagnostic indicator/procedure
 - **Meaning (EN):** Module diagnostics shows the current error, details, cause and recommended action; it can identify incorrect parameter settings or program error location.
 - **المعنى (AR):** يعرض تشخيص الوحدة العطل الحالي وتفاصيله وسببه والإجراء المقترح؛ وقد يحدد إعداد معلمة غير صحيح أو موضع خطأ في البرنامج.
 - **Sens (FR):** Le diagnostic de module affiche l’erreur courante, ses détails, sa cause et l’action recommandée; il peut repérer un paramètre incorrect ou l’emplacement d’une erreur de programme.
@@ -496,7 +496,7 @@ Records describe what the cited manual supports. They do not establish that a pa
 
 - **Manufacturer / family:** Mitsubishi Electric — MELSEC iQ-F FX5S / FX5UJ / FX5U / FX5UC
 - **Scope:** FX5S, FX5UJ, FX5U and FX5UC; Not stated in cited source; verify on device.
-- **Code / event:** No single alarm code; diagnostic procedure
+- **Code / event:** No single alarm code; diagnostic indicator/procedure
 - **Meaning (EN):** The hardware manual distinguishes major errors (stop; hardware issue), moderate errors (stop; possible program/parameter setting or temporary noise issue), and minor errors (execution continues).
 - **المعنى (AR):** يميّز الدليل بين خطأ كبير يوقف التنفيذ ويرتبط بمشكلة عتادية، وخطأ متوسط يوقف التنفيذ وقد يرتبط بالبرنامج أو المعلمات أو التشويش المؤقت، وخطأ بسيط يستمر معه التنفيذ.
 - **Sens (FR):** Le manuel distingue les erreurs majeures (arrêt, matériel), modérées (arrêt, programme/paramètres ou bruit temporaire) et mineures (l’exécution continue).
@@ -526,7 +526,7 @@ Records describe what the cited manual supports. They do not establish that a pa
 
 - **Manufacturer / family:** Mitsubishi Electric — MELSEC iQ-F FX5S / FX5UJ / FX5U / FX5UC
 - **Scope:** FX5 CPU, expansion, intelligent function modules and network-related event history; Not stated in cited source; verify on device.
-- **Code / event:** No single alarm code; diagnostic procedure
+- **Code / event:** No single alarm code; diagnostic indicator/procedure
 - **Meaning (EN):** Event history can include CPU, expansion, intelligent module and network errors; events recorded before power-off/reset help identify causes and can be exported as CSV.
 - **المعنى (AR):** قد يشمل سجل الأحداث أخطاء CPU والوحدات التوسعية والذكية والشبكة؛ وتساعد الأحداث السابقة لفصل التغذية أو إعادة الضبط على تحديد السبب ويمكن تصديرها إلى CSV.
 - **Sens (FR):** L’historique peut inclure les erreurs CPU, extensions, modules intelligents et réseau; les événements antérieurs à une coupure/réinitialisation aident au diagnostic et peuvent être exportés en CSV.
@@ -553,7 +553,7 @@ Records describe what the cited manual supports. They do not establish that a pa
 
 - **Manufacturer / family:** Mitsubishi Electric — MELSERVO-J4 MR-J4-A
 - **Scope:** Only the handbook’s stated transition case: HC-FS/HA-FS motors driven by MR-J4-A with MR-J2S-compatible encoder setting; Not stated in cited source; verify on device.
-- **Code / event:** No single alarm code; diagnostic procedure
+- **Code / event:** No single alarm code; diagnostic indicator/procedure
 - **Meaning (EN):** The transition handbook states that in the specified HC-FS/HA-FS motor and MR-J4-A setup, an incorrect PC22 encoder setting can cause AL.16 (encoder initial communication error 1) or AL.20 (encoder normal communication error 1).
 - **المعنى (AR):** يذكر دليل الانتقال أن إعداد PC22 غير الصحيح في حالة محرك HC-FS/HA-FS مع MR-J4-A قد يؤدي إلى AL.16 (خطأ اتصال أولي للمشفّر) أو AL.20 (خطأ اتصال عادي للمشفّر).
 - **Sens (FR):** Le guide de transition indique qu’un réglage PC22 incorrect, dans le cas moteur HC-FS/HA-FS avec MR-J4-A, peut provoquer AL.16 ou AL.20.
@@ -1151,6 +1151,96 @@ Records describe what the cited manual supports. They do not establish that a pa
 - **التصعيد (AR):** صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.
 - **Escalade (FR):** Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité.
 - **Limit:** Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope.
+
+### oem-inovance-h5u-err-system-indicator
+
+- **Manufacturer / family:** INOVANCE — H5U Series Programmable Logic Controller
+- **Scope:** INOVANCE H5U series PLC; hardware status indicators; H5U User Guide revision A00 (June 2023); verify current hardware and firmware revision
+- **Code / event:** No single alarm code; diagnostic indicator/procedure
+- **Meaning (EN):** The H5U guide defines the ERR indicator as a PLC system fault. The indicator alone does not identify the root cause; retrieve the controller diagnostics and exact event details.
+- **المعنى (AR):** يعرّف دليل H5U مؤشر ERR بأنه عطل في نظام PLC. لا يحدد المؤشر وحده السبب الجذري؛ يجب استخراج تشخيصات المتحكم وتفاصيل الحدث.
+- **Sens (FR):** Le guide H5U définit le voyant ERR comme un défaut système du PLC. Le voyant seul n’identifie pas la cause racine; consulter les diagnostics du contrôleur et les détails de l’événement.
+- **Official evidence:** H5U Series Programmable Logic Controller User Guide (Without CAN, Electronic CAM, Electronic Gear); June 2023; A00; document code 19012251A00; 5 Operation and Maintenance → 5.3 Indicators.
+- **Source:** https://portal-file.inovance.com/owfile/ProdDoc/SC/19012251-SC/A00/19012251-SC_A00%E3%80%8AH5U%20Series%20Programmable%20Logic%20Control%20User%20Guide%20%E3%80%8BWithout%20CAN%2C%20ECAM%2C%20Electronic%20Gear-EN.pdf
+- **Evidence note:** The official H5U guide identifies the RUN, ERR, BAT and BF indicators and defines ERR as system failure, BAT as battery error, and BF as EtherCAT bus error. These records describe indicator meaning only, not a specific root cause.
+- **Review date:** 2026-10-24
+- **Status:** verified-source-exact-scope
+- **Safe checks (EN):**
+- Record PLC model, RUN/ERR states, exact diagnostic text, program/firmware revision and event time.
+- Preserve the project and diagnostic/event logs before power cycling or changing parameters.
+- Check power, I/O and communication status only using the approved schematic and site isolation procedure; do not force outputs or bypass interlocks.
+- **الفحوص الآمنة (AR):**
+- سجّل طراز PLC وحالة مؤشري RUN وERR ونص التشخيص وإصدار البرنامج/البرنامج الثابت ووقت الحدث.
+- احفظ نسخة المشروع وسجلات التشخيص والأحداث قبل فصل التغذية أو تغيير المعلمات.
+- افحص التغذية وحالة I/O والاتصالات بالرجوع إلى المخطط المعتمد وإجراء العزل؛ لا تفرض المخارج ولا تتجاوز دوائر التعشيق.
+- **Contrôles sûrs (FR):**
+- Consigner le modèle PLC, les états RUN/ERR, le texte exact du diagnostic, les versions programme/firmware et l’heure de l’événement.
+- Sauvegarder le projet et les journaux avant coupure ou modification des paramètres.
+- Contrôler alimentation, E/S et communications selon le schéma approuvé et la procédure de consignation; ne pas forcer les sorties ni contourner les interverrouillages.
+- **Escalation (EN):** Escalate persistent ERR status, unexplained machine motion, safety-related errors or loss of the PLC project to qualified controls personnel and the machine builder.
+- **التصعيد (AR):** صعّد إلى مختص تحكم ومصنّع الماكينة عند استمرار ERR أو حدوث حركة غير مفسرة أو خطأ متعلق بالسلامة أو فقد مشروع PLC.
+- **Escalade (FR):** Faire intervenir un spécialiste automatismes et le constructeur si ERR persiste, si un mouvement est inexpliqué, si la sécurité est concernée ou si le projet PLC est perdu.
+- **Limit:** Indicator meaning only; no exact H5U alarm code or root cause is asserted. Confirm the installed manual revision and retrieve the actual diagnostic event.
+
+### oem-inovance-h5u-bat-battery-indicator
+
+- **Manufacturer / family:** INOVANCE — H5U Series Programmable Logic Controller
+- **Scope:** INOVANCE H5U series PLC; BAT indicator; H5U User Guide revision A00 (June 2023); verify installed hardware revision
+- **Code / event:** No single alarm code; diagnostic indicator/procedure
+- **Meaning (EN):** The H5U guide identifies BAT as a battery error indicator. It does not by itself specify the battery condition, retention risk or replacement procedure for every hardware variant.
+- **المعنى (AR):** يحدد دليل H5U مؤشر BAT على أنه خطأ في البطارية. ولا يحدد المؤشر وحده حالة البطارية أو خطر فقد البيانات أو إجراء الاستبدال لكل نسخ العتاد.
+- **Sens (FR):** Le guide H5U identifie BAT comme un indicateur de défaut de batterie. Il ne précise pas à lui seul l’état de la batterie, le risque de perte des données ni la procédure pour toutes les variantes matérielles.
+- **Official evidence:** H5U Series Programmable Logic Controller User Guide (Without CAN, Electronic CAM, Electronic Gear); June 2023; A00; document code 19012251A00; 5 Operation and Maintenance → 5.3 Indicators.
+- **Source:** https://portal-file.inovance.com/owfile/ProdDoc/SC/19012251-SC/A00/19012251-SC_A00%E3%80%8AH5U%20Series%20Programmable%20Logic%20Control%20User%20Guide%20%E3%80%8BWithout%20CAN%2C%20ECAM%2C%20Electronic%20Gear-EN.pdf
+- **Evidence note:** The official H5U guide identifies the RUN, ERR, BAT and BF indicators and defines ERR as system failure, BAT as battery error, and BF as EtherCAT bus error. These records describe indicator meaning only, not a specific root cause.
+- **Review date:** 2026-10-24
+- **Status:** verified-source-exact-scope
+- **Safe checks (EN):**
+- Record the exact CPU model and indicator state; back up the PLC project and relevant retained data before maintenance.
+- Consult the manual for the exact CPU and battery type before replacement; do not assume data retention during battery removal.
+- Follow the manufacturer’s replacement and disposal instructions and the site's isolation procedure.
+- **الفحوص الآمنة (AR):**
+- سجّل طراز CPU الدقيق وحالة المؤشر، وخذ نسخة احتياطية من مشروع PLC والبيانات المحتفظ بها قبل الصيانة.
+- راجع دليل وحدة CPU ونوع البطارية المطابقين قبل الاستبدال؛ لا تفترض بقاء البيانات عند نزع البطارية.
+- اتبع تعليمات الشركة المصنّعة للاستبدال والتخلص من البطارية وإجراء العزل المعتمد.
+- **Contrôles sûrs (FR):**
+- Consigner le modèle exact du CPU et l’état du voyant; sauvegarder le projet PLC et les données rémanentes avant maintenance.
+- Consulter le manuel du CPU et le type de batterie exact avant remplacement; ne pas supposer que les données seront conservées pendant le retrait.
+- Suivre les instructions du fabricant pour le remplacement et l’élimination de la batterie ainsi que la procédure de consignation du site.
+- **Escalation (EN):** Escalate if the battery warning persists, retained data may be at risk, or the replacement procedure for the exact CPU variant is unclear.
+- **التصعيد (AR):** صعّد إذا استمر تحذير البطارية أو كان حفظ البيانات مهددًا أو لم يتضح إجراء الاستبدال الخاص بنسخة CPU.
+- **Escalade (FR):** Faire intervenir le support si l’avertissement persiste, si les données rémanentes sont menacées ou si la procédure propre au CPU n’est pas claire.
+- **Limit:** Indicator meaning only; does not specify a battery part number, replacement interval or data-retention duration.
+
+### oem-inovance-h5u-bf-ethercat-indicator
+
+- **Manufacturer / family:** INOVANCE — H5U Series Programmable Logic Controller
+- **Scope:** INOVANCE H5U series PLC; EtherCAT bus indicator; H5U User Guide revision A00 (June 2023); verify installed EtherCAT topology and firmware
+- **Code / event:** No single alarm code; diagnostic indicator/procedure
+- **Meaning (EN):** The H5U guide identifies BF as an EtherCAT bus error indicator. It does not establish which slave, cable, topology or configuration is responsible; inspect the actual bus diagnostics.
+- **المعنى (AR):** يحدد دليل H5U مؤشر BF على أنه خطأ في ناقل EtherCAT. ولا يحدد المؤشر وحده وحدة التابع أو الكابل أو البنية أو الإعداد المسؤول؛ افحص تشخيصات الناقل الفعلية.
+- **Sens (FR):** Le guide H5U identifie BF comme un indicateur d’erreur du bus EtherCAT. Il ne désigne pas à lui seul l’esclave, le câble, la topologie ou la configuration en cause; consulter les diagnostics réels du bus.
+- **Official evidence:** H5U Series Programmable Logic Controller User Guide (Without CAN, Electronic CAM, Electronic Gear); June 2023; A00; document code 19012251A00; 5 Operation and Maintenance → 5.3 Indicators.
+- **Source:** https://portal-file.inovance.com/owfile/ProdDoc/SC/19012251-SC/A00/19012251-SC_A00%E3%80%8AH5U%20Series%20Programmable%20Logic%20Control%20User%20Guide%20%E3%80%8BWithout%20CAN%2C%20ECAM%2C%20Electronic%20Gear-EN.pdf
+- **Evidence note:** The official H5U guide identifies the RUN, ERR, BAT and BF indicators and defines ERR as system failure, BAT as battery error, and BF as EtherCAT bus error. These records describe indicator meaning only, not a specific root cause.
+- **Review date:** 2026-10-24
+- **Status:** verified-source-exact-scope
+- **Safe checks (EN):**
+- Record the EtherCAT topology, master/slave models, firmware versions and exact diagnostic state before restarting the bus.
+- Inspect link/status indicators and connectors only under approved safe conditions; compare the topology and device order with the project.
+- Check the controller’s EtherCAT diagnostic view for the first failing node and preserve logs; do not hot-plug unless the exact system explicitly permits it.
+- **الفحوص الآمنة (AR):**
+- سجّل بنية EtherCAT وطرازات المتحكم الرئيسي والوحدات التابعة وإصدارات البرنامج الثابت وحالة التشخيص قبل إعادة تشغيل الناقل.
+- افحص مؤشرات الاتصال والموصلات ضمن شروط العمل الآمنة المعتمدة، وقارن ترتيب الأجهزة بالمشروع.
+- راجع تشخيص EtherCAT لتحديد أول عقدة فاشلة واحفظ السجلات؛ لا تفصل أو توصل أثناء التشغيل إلا إذا سمح النظام المحدد بذلك صراحةً.
+- **Contrôles sûrs (FR):**
+- Consigner la topologie EtherCAT, les modèles maître/esclaves, les versions firmware et l’état de diagnostic avant redémarrage du bus.
+- Contrôler les voyants de liaison et connecteurs dans les conditions de sécurité approuvées; comparer l’ordre des appareils au projet.
+- Consulter le diagnostic EtherCAT pour identifier le premier nœud en défaut et sauvegarder les journaux; ne pas connecter/déconnecter à chaud sauf autorisation explicite du système exact.
+- **Escalation (EN):** Escalate recurring bus faults, unexpected axis motion, loss of safety communication or unresolved slave identification to a qualified automation engineer.
+- **التصعيد (AR):** صعّد عند تكرار أخطاء الناقل أو حركة محور غير متوقعة أو فقد اتصال السلامة أو تعذر تحديد الوحدة التابعة إلى مهندس أتمتة مؤهل.
+- **Escalade (FR):** Faire intervenir un automaticien qualifié en cas de défauts bus récurrents, de mouvement inattendu, de perte de communication de sécurité ou d’esclave non identifié.
+- **Limit:** Indicator meaning only; not an EtherCAT fault-code mapping. Exact root cause must come from the installed topology and diagnostic log.
 
 ## Evidence acquisition queue
 
