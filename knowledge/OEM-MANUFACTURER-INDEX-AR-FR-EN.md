@@ -111,3 +111,13 @@ This is a proposed intake schema; it does not imply that the runtime already per
 Selected portals were checked as official manufacturer or official regional support pages during this work. Portal availability can change; a portal check does not verify any particular alarm claim. Examples include INOVANCE documentation downloads, XINJE's download center, Delta's download center, Mitsubishi Electric FA China's file center, YIZUMI service, Haitian global service, Bodor service, Siemens Industry Support and Pilz support.
 
 External portal pages: [INOVANCE](https://www.inovance.com/global/support/download-documentation.html), [XINJE](https://en.xinje.com/web/downloadCenter/index), [Delta](https://downloadcenter.delta-china.com.cn/en-US/DownloadCenter), [Mitsubishi Electric FA China](https://www.mitsubishielectric-fa.cn/site/file-center), [YIZUMI](https://www.yizumi.com/en/service), [Haitian](https://haitianinter.com/service/), [Bodor](https://www.bodor.com/en/service/), [Siemens](https://support.industry.siemens.com/), [Pilz](https://www.pilz.com/en-INT/support).
+
+
+## Newly indexed manufacturers — 2026-10-24
+
+- **OMRON** — [official Europe downloads](https://industrial.omron.eu/en/services-support/support/downloads): PLC, HMI, servo, VFD, sensors and safety. Select the exact series and document revision.
+- **Yaskawa** — [official drive manuals](https://www.yaskawa.com/products/drives/drive-manuals): industrial drives. Robot/servo cases still require the exact controller and product documentation.
+- **Fagor Automation** — [official manuals](https://www.fagorautomation.com/en/categoria_descargas/manuals-en/): CNC, drives and feedback systems; the library includes installation and error-solving manuals.
+- **FANUC** — [official MyPortal support](https://www.fanucamerica.com/support/myportal): CNC and robotics documentation/alarm lookup; access and regional availability may differ.
+
+All four entries remain `portal-only`; no model-specific alarm has been marked verified.
