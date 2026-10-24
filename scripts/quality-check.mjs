@@ -15,6 +15,7 @@ const motorCasebook = readFileSync("knowledge/ELECTRIC-MOTOR-AND-VFD-CASEBOOK.md
 const manifest = JSON.parse(readFileSync("manifest.json", "utf8"));
 const sw = readFileSync("sw.js", "utf8");
 const deployWorkflow = readFileSync(".github/workflows/deploy-pages.yml", "utf8");
+const cloudflareDeployWorkflow = readFileSync(".github/workflows/deploy-cloudflare-pages.yml", "utf8");
 const faults = JSON.parse(readFileSync("faults.json", "utf8"));
 const diagnosticEngineSource = readFileSync("diagnostic-engine.js", "utf8");
 const normalizationSource = readFileSync("normalization.js", "utf8");
@@ -31,6 +32,16 @@ vm.runInNewContext(normalizationSource, engineContext);
 vm.runInNewContext(diagnosticEngineSource, engineContext);
 
 const checks = [
+  ["Local agent core is explicitly loaded and offers a non-network diagnosis action", () => {
+    assert.ok(html.includes('<script src="./engineering-core.js"></script>'));
+    assert.ok(html.includes('<script src="./agent-core.js"></script>'));
+    assert.ok(html.includes('<script src="./agent-ui.js"></script>'));
+    assert.ok(html.includes('id="runLocalAgent"'));
+    for (const asset of ["engineering-core.js", "agent-core.js", "agent-ui.js"]) assert.ok(cloudflareDeployWorkflow.includes(asset), `Cloudflare Pages deploy omits ${asset}`);
+    assert.ok(sw.includes('"./engineering-core.js"'));
+    assert.ok(sw.includes('"./agent-core.js"'));
+    assert.ok(sw.includes('"./agent-ui.js"'));
+  }],
   ["Shared normalization is loaded by the UI, Worker and Pages deployment", () => {
     assert.match(html, /<script src="\.\/normalization\.js"><\/script>/);
     assert.match(worker, /import "\.\/normalization\.js";/);
@@ -236,7 +247,7 @@ const checks = [
   ["Service worker caches the app shell and icon with a bumped cache version", () => {
     assert.match(sw, /APP_SHELL/);
     assert.match(sw, /\.\/icon\.svg/);
-    assert.match(sw, /maintenance-ai-toolkit-v36/);
+    assert.match(sw, /maintenance-ai-toolkit-v37/);
   }]
 ,
   ["Multilingual fault library covers pumps, motors, VFDs and compressors", () => {
@@ -328,8 +339,8 @@ const checks = [
     for (const node of Object.values(tree.nodes)) if (node.result) assert.ok(node.safe && node.escalate && node.cause);
   }],
   ["PWA caches all new offline dependencies and bumps its cache", () => {
-    assert.match(sw, /maintenance-ai-toolkit-v36/);
-    for (const asset of ["normalization.js", "knowledge-review.js", "answer-tools.js", "diagnostic-engine.js", "faults.json", "i18n.js"]) assert.ok(sw.includes(asset), "Missing offline cache asset " + asset);
+    assert.match(sw, /maintenance-ai-toolkit-v37/);
+    for (const asset of ["normalization.js", "knowledge-review.js", "answer-tools.js", "diagnostic-engine.js", "engineering-core.js", "agent-core.js", "agent-ui.js", "faults.json", "i18n.js"]) assert.ok(sw.includes(asset), "Missing offline cache asset " + asset);
     assert.match(manifest.icons[0].src, /icon\.svg/);
   }]
 ,
