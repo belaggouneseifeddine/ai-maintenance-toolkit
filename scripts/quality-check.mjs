@@ -270,12 +270,12 @@ const checks = [
       "compressor-high-temperature", "compressor-low-pressure"
     ]) assert.ok(ids.includes(id), "missing fault " + id);
     const modelReviewed = faults.faults.filter(fault => fault.modelSpecificEvidence);
-    assert.ok(modelReviewed.length >= 22, "expected at least 22 structured model-specific manual-reviewed records");
+    assert.ok(modelReviewed.length >= 60, "expected at least 60 structured model-specific manual-reviewed records");
     for (const fault of modelReviewed) {
       const evidence = fault.modelSpecificEvidence;
       assert.ok(evidence.manufacturer && evidence.productFamily && evidence.manualTitle, fault.id + " missing model/manual identity");
       assert.ok(evidence.officialDocumentUrl?.startsWith("https://"), fault.id + " missing official manual URL");
-      assert.ok(evidence.section && Number.isInteger(evidence.printedPage), fault.id + " missing manual section/page");
+      assert.ok(evidence.section && (Number.isInteger(evidence.printedPage) || evidence.pageNotProvidedReason), fault.id + " missing manual section/page provenance");
       assert.ok(evidence.reviewedOn && evidence.reviewStatus, fault.id + " missing review metadata");
       assert.ok(Array.isArray(fault.sourceRefs) && fault.sourceRefs.length > 0, fault.id + " missing source references");
     }
@@ -289,7 +289,7 @@ const checks = [
       "oem-siemens-g120c-f08526-no-cyclic-connection"
     ]) assert.ok(faults.faults.some(fault => fault.id === id), "missing model-specific Siemens G120C case " + id);
     for (const fault of faults.faults) {
-      assert.ok(["pump", "motor", "vfd", "compressor", "electric_motor", "valve", "hydraulic", "pneumatic", "plc", "hmi", "sensor", "instrumentation", "electrical_control", "safety_circuit", "mechanical", "gearbox", "conveyor", "filtration", "heat_exchanger", "cooling", "steam_system", "boiler", "refrigeration", "ups", "power_supply", "electrical_panel", "industrial_network", "robotics", "lubrication", "vacuum", "dust_collector", "fire_safety", "electronics", "fan-blower"].includes(fault.equipmentType), fault.id + " has unsupported equipment type");
+      assert.ok(["pump", "motor", "vfd", "compressor", "electric_motor", "valve", "hydraulic", "pneumatic", "plc", "hmi", "sensor", "instrumentation", "electrical_control", "safety_circuit", "mechanical", "gearbox", "conveyor", "filtration", "heat_exchanger", "cooling", "steam_system", "boiler", "refrigeration", "ups", "power_supply", "electrical_panel", "industrial_network", "robotics", "lubrication", "vacuum", "dust_collector", "fire_safety", "electronics", "fan-blower", "cnc", "servo_drive"].includes(fault.equipmentType), fault.id + " has unsupported equipment type");
       for (const language of ["ar", "fr", "en"]) {
         assert.ok(fault.title[language], fault.id + " missing title " + language);
         assert.ok(fault.keywords[language].length >= 3, fault.id + " missing keywords " + language);
@@ -557,7 +557,7 @@ const checks = [
       "european-packaging-safety-door-fault"
     ];
     for (const id of requiredIds) assert.ok(ids.includes(id), "Missing coverage case: " + id);
-    for (const type of ["electronics", "electrical_panel", "plc", "hmi", "industrial_network", "robotics", "safety_circuit", "fan-blower", "steam_system", "dust_collector", "cooling"]) {
+    for (const type of ["electronics", "electrical_panel", "plc", "cnc", "servo_drive", "hmi", "industrial_network", "robotics", "safety_circuit", "fan-blower", "steam_system", "dust_collector", "cooling"]) {
       assert.ok(html.includes('<option value="' + type + '">'), "Machine selector missing category: " + type);
     }
     const sourceIds = new Set(manufacturerSources.sources.map(source => source.id));
