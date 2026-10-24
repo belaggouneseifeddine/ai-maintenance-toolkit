@@ -615,6 +615,8 @@ const checks = [
       if (record.alarmCode) assert.ok(record.source.printedPage || record.source.section, record.id + " needs page or section");
     }
     assert.ok(worker.includes("knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md"), "Worker retrieval must include OEM verified knowledge");
+    assert.ok(sw.includes('"./knowledge/oem-verified-faults.json"'), "Structured OEM evidence must be available in the offline cache");
+    assert.ok(sw.includes('"./knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md"'), "OEM evidence guide must be available in the offline cache");
     assert.equal(oemPlatformIndex.verifiedRecordFileCount, records.length, "OEM index inventory count must match the verified-record file");
     assert.equal(oemPlatformIndex.verifiedRecordFile, "knowledge/oem-verified-faults.json", "OEM index must point to the structured record file");
     assert.equal(oemPlatformIndex.manufacturers.reduce((sum, manufacturer) => sum + (manufacturer.manualReviewedRecordCount || 0), 0), records.length, "Per-manufacturer manual-reviewed counts must reconcile to the record inventory");
