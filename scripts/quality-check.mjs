@@ -652,6 +652,11 @@ const checks = [
     assert.ok(deltaB2F.every(record => record.source.section && record.source.printedPageLabel && record.reviewDate === "2026-10-24"), "Delta records must include manual locator and review date");
     assert.equal(oemPlatformIndex.manufacturers.find(manufacturer => manufacturer.id === "delta")?.manualReviewedRecordCount, 13, "Delta platform count must match the evidence tranche");
     assert.ok(records.length >= 79, "Expected the Delta ASDA-B2-F source-reviewed tranche in the OEM database");
+    const syntecRecords = records.filter(record => record.manufacturer === "Syntec" && record.source.sourceId === "syntec-cnc-alarm-manual");
+    assert.equal(syntecRecords.length, 2, "Syntec CNC communication alarm records must be present");
+    assert.ok(syntecRecords.every(record => record.source.manualUrl === "https://www.syntecclub.com/cncrel/Manual/PDF/Syntec%20CNC%20Alarm%20Manual.pdf" && record.source.section.includes(record.alarmCode)), "Syntec records must retain the exact official manual and alarm locator");
+    assert.equal(oemPlatformIndex.manufacturers.find(manufacturer => manufacturer.id === "syntec")?.manualReviewedRecordCount, 2, "Syntec platform count must match its evidence tranche");
+    assert.ok(records.length >= 81, "Expected the Syntec source-reviewed tranche in the OEM database");
     assert.ok(oemVerifiedFaults.recordCount >= 47, "Expected at least 47 structured OEM evidence records");
   }]
 ];
