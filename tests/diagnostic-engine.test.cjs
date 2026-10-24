@@ -232,3 +232,21 @@ test("review-only French/dialect aliases explain the unconfirmed mapping without
   assert.match(result.reason, /alias à vérifier/);
   assert.match(result.reason, /not_start/);
 });
+
+test("local fault records have unique IDs and complete multilingual matching data", () => {
+  const ids = faults.faults.map(fault => fault.id);
+  assert.equal(new Set(ids).size, ids.length, "fault IDs must be unique");
+  for (const fault of faults.faults) {
+    assert.ok(typeof fault.equipmentType === "string" && fault.equipmentType.trim(), fault.id + ": equipment type missing");
+    assert.ok(Array.isArray(fault.symptoms) && fault.symptoms.length > 0, fault.id + ": symptoms missing");
+    assert.ok(Array.isArray(fault.causes) && fault.causes.length > 0, fault.id + ": causes missing");
+    for (const language of ["ar", "fr", "en"]) {
+      assert.ok(Array.isArray(fault.keywords?.[language]) && fault.keywords[language].length > 0, fault.id + ": matching keywords missing for " + language);
+      assert.ok(fault.keywords[language].every(term => typeof term === "string" && term.trim()), fault.id + ": invalid keyword in " + language);
+      for (const cause of fault.causes) {
+        assert.ok(typeof cause.label?.[language] === "string" && cause.label[language].trim(), fault.id + "/" + cause.id + ": cause label missing for " + language);
+        assert.ok(Array.isArray(cause.keywords) && cause.keywords.length > 0, fault.id + "/" + cause.id + ": cause keywords missing");
+      }
+    }
+  }
+});
