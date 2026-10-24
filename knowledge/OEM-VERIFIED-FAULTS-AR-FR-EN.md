@@ -1755,3 +1755,220 @@ These are manual-claim-reviewed, not field-verified. The model, frame size, firm
 - **Escalade (FR):** Escalader les défauts récurrents et toute modification de paramètres variateur, sécurité ou réseau vers un ingénieur habilité. Ne jamais contourner les surveillances de sécurité/communication.
 - **Review date:** 2026-10-24. **Evidence status:** manual-claim-reviewed, not field-verified.
 - **Limits:** Manual-claim reviewed, not field-verified. Applies only to the stated SINAMICS G120C frame range and cited manual revision. Verify the exact installed drive, firmware, PLC project and machine-builder instructions before action.
+
+## Delta Electronics — ASDA-B2-F series servo drive
+
+- **Official manual:** Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual, Version 1.0, September 2015.
+- **Manual URL:** https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf
+- **Scope:** ASDA-B2-F only. Do not generalize to ASDA-B2, ASDA-A3, ASDA-B3 or other series without the matching manual.
+- **Evidence status:** Manual-claim-reviewed, not field-verified. Code meanings below are concise paraphrases of the official alarm table; safe checks are advisory and do not replace machine-builder instructions.
+- **Review date:** 2026-10-24
+
+### delta-asda-b2-f-al001-overcurrent
+
+- **Code:** AL001
+- **Meaning (EN):** The ASDA-B2-F manual identifies AL001 as overcurrent in the servo drive main circuit.
+- **المعنى (AR):** يصنّف دليل ASDA-B2-F الإنذار AL001 على أنه زيادة تيار في الدائرة الرئيسية للمحرك المؤازر.
+- **Sens (FR):** Le manuel ASDA-B2-F identifie AL001 comme une surintensité dans le circuit principal du variateur servo.
+- **Manual locator:** 9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted; printed page 9-2
+- **Review date:** 2026-10-24
+- **Safe checks (EN):** Record the exact code, operating mode, load and time of occurrence; preserve the fault history before any reset. Use the machine's approved isolation procedure before inspecting wiring or connectors. Electrical measurements inside the drive are for qualified personnel only. Compare the observed condition with the ASDA-B2-F manual and machine-builder drawings; do not bypass protection or change limits to hide the alarm.
+- **فحوصات آمنة (AR):** سجّل الرمز الدقيق ووضع التشغيل والحمل ووقت ظهور العطل، واحتفظ بسجل الأعطال قبل أي إعادة ضبط. طبّق إجراء العزل المعتمد قبل فحص الأسلاك أو الموصلات. القياسات الكهربائية داخل المغير من اختصاص شخص مؤهل فقط. طابق الحالة مع دليل ASDA-B2-F ومخططات مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار.
+- **Contrôles sûrs (FR):** Consignez le code exact, le mode de fonctionnement, la charge et l’heure d’apparition; conservez l’historique avant toute réinitialisation. Appliquez la procédure de consignation approuvée avant d’inspecter câbles ou connecteurs. Les mesures électriques à l’intérieur du variateur sont réservées au personnel qualifié. Comparez la situation au manuel ASDA-B2-F et aux schémas du constructeur; ne contournez pas les protections et ne modifiez pas les limites pour masquer l’alarme.
+- **Escalation (EN):** Escalate to a qualified Delta servo-drive or machine-builder specialist if the alarm persists, recurs after approved checks, or suggests internal power-stage/encoder damage.
+- **التصعيد (AR):** صعّد إلى مختص مؤهل في مغيرات Delta أو مصنع الماكينة إذا استمر الإنذار أو تكرر بعد الفحوصات المصرح بها أو دلّ على احتمال تلف داخلي في مرحلة القدرة أو المشفّر.
+- **Escalade (FR):** Faites intervenir un spécialiste Delta ou le constructeur de la machine si l’alarme persiste, réapparaît après les contrôles autorisés ou suggère un dommage interne de l’étage de puissance ou du codeur.
+- **Evidence note:** The ASDA-B2-F manual identifies AL001 as overcurrent in the servo drive main circuit.
+
+### delta-asda-b2-f-al002-overvoltage
+
+- **Code:** AL002
+- **Meaning (EN):** The manual identifies AL002 as main-circuit voltage above the specified standard voltage.
+- **المعنى (AR):** يعرّف الدليل AL002 بأنه ارتفاع جهد الدائرة الرئيسية فوق الجهد القياسي المحدد.
+- **Sens (FR):** Le manuel définit AL002 comme une tension du circuit principal supérieure à la tension standard spécifiée.
+- **Manual locator:** 9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted; printed page 9-2
+- **Review date:** 2026-10-24
+- **Safe checks (EN):** Record the exact code, operating mode, load and time of occurrence; preserve the fault history before any reset. Use the machine's approved isolation procedure before inspecting wiring or connectors. Electrical measurements inside the drive are for qualified personnel only. Compare the observed condition with the ASDA-B2-F manual and machine-builder drawings; do not bypass protection or change limits to hide the alarm.
+- **فحوصات آمنة (AR):** سجّل الرمز الدقيق ووضع التشغيل والحمل ووقت ظهور العطل، واحتفظ بسجل الأعطال قبل أي إعادة ضبط. طبّق إجراء العزل المعتمد قبل فحص الأسلاك أو الموصلات. القياسات الكهربائية داخل المغير من اختصاص شخص مؤهل فقط. طابق الحالة مع دليل ASDA-B2-F ومخططات مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار.
+- **Contrôles sûrs (FR):** Consignez le code exact, le mode de fonctionnement, la charge et l’heure d’apparition; conservez l’historique avant toute réinitialisation. Appliquez la procédure de consignation approuvée avant d’inspecter câbles ou connecteurs. Les mesures électriques à l’intérieur du variateur sont réservées au personnel qualifié. Comparez la situation au manuel ASDA-B2-F et aux schémas du constructeur; ne contournez pas les protections et ne modifiez pas les limites pour masquer l’alarme.
+- **Escalation (EN):** Escalate to a qualified Delta servo-drive or machine-builder specialist if the alarm persists, recurs after approved checks, or suggests internal power-stage/encoder damage.
+- **التصعيد (AR):** صعّد إلى مختص مؤهل في مغيرات Delta أو مصنع الماكينة إذا استمر الإنذار أو تكرر بعد الفحوصات المصرح بها أو دلّ على احتمال تلف داخلي في مرحلة القدرة أو المشفّر.
+- **Escalade (FR):** Faites intervenir un spécialiste Delta ou le constructeur de la machine si l’alarme persiste, réapparaît après les contrôles autorisés ou suggère un dommage interne de l’étage de puissance ou du codeur.
+- **Evidence note:** The manual identifies AL002 as main-circuit voltage above the specified standard voltage.
+
+### delta-asda-b2-f-al003-undervoltage
+
+- **Code:** AL003
+- **Meaning (EN):** The manual identifies AL003 as main-circuit voltage below the specified standard voltage.
+- **المعنى (AR):** يعرّف الدليل AL003 بأنه انخفاض جهد الدائرة الرئيسية عن الجهد القياسي المحدد.
+- **Sens (FR):** Le manuel définit AL003 comme une tension du circuit principal inférieure à la tension standard spécifiée.
+- **Manual locator:** 9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted; printed page 9-2
+- **Review date:** 2026-10-24
+- **Safe checks (EN):** Record the exact code, operating mode, load and time of occurrence; preserve the fault history before any reset. Use the machine's approved isolation procedure before inspecting wiring or connectors. Electrical measurements inside the drive are for qualified personnel only. Compare the observed condition with the ASDA-B2-F manual and machine-builder drawings; do not bypass protection or change limits to hide the alarm.
+- **فحوصات آمنة (AR):** سجّل الرمز الدقيق ووضع التشغيل والحمل ووقت ظهور العطل، واحتفظ بسجل الأعطال قبل أي إعادة ضبط. طبّق إجراء العزل المعتمد قبل فحص الأسلاك أو الموصلات. القياسات الكهربائية داخل المغير من اختصاص شخص مؤهل فقط. طابق الحالة مع دليل ASDA-B2-F ومخططات مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار.
+- **Contrôles sûrs (FR):** Consignez le code exact, le mode de fonctionnement, la charge et l’heure d’apparition; conservez l’historique avant toute réinitialisation. Appliquez la procédure de consignation approuvée avant d’inspecter câbles ou connecteurs. Les mesures électriques à l’intérieur du variateur sont réservées au personnel qualifié. Comparez la situation au manuel ASDA-B2-F et aux schémas du constructeur; ne contournez pas les protections et ne modifiez pas les limites pour masquer l’alarme.
+- **Escalation (EN):** Escalate to a qualified Delta servo-drive or machine-builder specialist if the alarm persists, recurs after approved checks, or suggests internal power-stage/encoder damage.
+- **التصعيد (AR):** صعّد إلى مختص مؤهل في مغيرات Delta أو مصنع الماكينة إذا استمر الإنذار أو تكرر بعد الفحوصات المصرح بها أو دلّ على احتمال تلف داخلي في مرحلة القدرة أو المشفّر.
+- **Escalade (FR):** Faites intervenir un spécialiste Delta ou le constructeur de la machine si l’alarme persiste, réapparaît après les contrôles autorisés ou suggère un dommage interne de l’étage de puissance ou du codeur.
+- **Evidence note:** The manual identifies AL003 as main-circuit voltage below the specified standard voltage.
+
+### delta-asda-b2-f-al006-overload
+
+- **Code:** AL006
+- **Meaning (EN):** The manual labels AL006 as overload of the motor and servo drive.
+- **المعنى (AR):** يصنّف الدليل AL006 على أنه حمل زائد على المحرك والمغير المؤازر.
+- **Sens (FR):** Le manuel classe AL006 comme une surcharge du moteur et du variateur servo.
+- **Manual locator:** 9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted; printed page 9-2
+- **Review date:** 2026-10-24
+- **Safe checks (EN):** Record the exact code, operating mode, load and time of occurrence; preserve the fault history before any reset. Use the machine's approved isolation procedure before inspecting wiring or connectors. Electrical measurements inside the drive are for qualified personnel only. Compare the observed condition with the ASDA-B2-F manual and machine-builder drawings; do not bypass protection or change limits to hide the alarm.
+- **فحوصات آمنة (AR):** سجّل الرمز الدقيق ووضع التشغيل والحمل ووقت ظهور العطل، واحتفظ بسجل الأعطال قبل أي إعادة ضبط. طبّق إجراء العزل المعتمد قبل فحص الأسلاك أو الموصلات. القياسات الكهربائية داخل المغير من اختصاص شخص مؤهل فقط. طابق الحالة مع دليل ASDA-B2-F ومخططات مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار.
+- **Contrôles sûrs (FR):** Consignez le code exact, le mode de fonctionnement, la charge et l’heure d’apparition; conservez l’historique avant toute réinitialisation. Appliquez la procédure de consignation approuvée avant d’inspecter câbles ou connecteurs. Les mesures électriques à l’intérieur du variateur sont réservées au personnel qualifié. Comparez la situation au manuel ASDA-B2-F et aux schémas du constructeur; ne contournez pas les protections et ne modifiez pas les limites pour masquer l’alarme.
+- **Escalation (EN):** Escalate to a qualified Delta servo-drive or machine-builder specialist if the alarm persists, recurs after approved checks, or suggests internal power-stage/encoder damage.
+- **التصعيد (AR):** صعّد إلى مختص مؤهل في مغيرات Delta أو مصنع الماكينة إذا استمر الإنذار أو تكرر بعد الفحوصات المصرح بها أو دلّ على احتمال تلف داخلي في مرحلة القدرة أو المشفّر.
+- **Escalade (FR):** Faites intervenir un spécialiste Delta ou le constructeur de la machine si l’alarme persiste, réapparaît après les contrôles autorisés ou suggère un dommage interne de l’étage de puissance ou du codeur.
+- **Evidence note:** The manual labels AL006 as overload of the motor and servo drive.
+
+### delta-asda-b2-f-al007-overspeed
+
+- **Code:** AL007
+- **Meaning (EN):** The manual identifies AL007 when motor speed exceeds the normal speed range.
+- **المعنى (AR):** يعرّف الدليل AL007 عند تجاوز سرعة المحرك نطاق السرعة الطبيعي.
+- **Sens (FR):** Le manuel indique AL007 lorsque la vitesse du moteur dépasse la plage normale.
+- **Manual locator:** 9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted; printed page 9-2
+- **Review date:** 2026-10-24
+- **Safe checks (EN):** Record the exact code, operating mode, load and time of occurrence; preserve the fault history before any reset. Use the machine's approved isolation procedure before inspecting wiring or connectors. Electrical measurements inside the drive are for qualified personnel only. Compare the observed condition with the ASDA-B2-F manual and machine-builder drawings; do not bypass protection or change limits to hide the alarm.
+- **فحوصات آمنة (AR):** سجّل الرمز الدقيق ووضع التشغيل والحمل ووقت ظهور العطل، واحتفظ بسجل الأعطال قبل أي إعادة ضبط. طبّق إجراء العزل المعتمد قبل فحص الأسلاك أو الموصلات. القياسات الكهربائية داخل المغير من اختصاص شخص مؤهل فقط. طابق الحالة مع دليل ASDA-B2-F ومخططات مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار.
+- **Contrôles sûrs (FR):** Consignez le code exact, le mode de fonctionnement, la charge et l’heure d’apparition; conservez l’historique avant toute réinitialisation. Appliquez la procédure de consignation approuvée avant d’inspecter câbles ou connecteurs. Les mesures électriques à l’intérieur du variateur sont réservées au personnel qualifié. Comparez la situation au manuel ASDA-B2-F et aux schémas du constructeur; ne contournez pas les protections et ne modifiez pas les limites pour masquer l’alarme.
+- **Escalation (EN):** Escalate to a qualified Delta servo-drive or machine-builder specialist if the alarm persists, recurs after approved checks, or suggests internal power-stage/encoder damage.
+- **التصعيد (AR):** صعّد إلى مختص مؤهل في مغيرات Delta أو مصنع الماكينة إذا استمر الإنذار أو تكرر بعد الفحوصات المصرح بها أو دلّ على احتمال تلف داخلي في مرحلة القدرة أو المشفّر.
+- **Escalade (FR):** Faites intervenir un spécialiste Delta ou le constructeur de la machine si l’alarme persiste, réapparaît après les contrôles autorisés ou suggère un dommage interne de l’étage de puissance ou du codeur.
+- **Evidence note:** The manual identifies AL007 when motor speed exceeds the normal speed range.
+
+### delta-asda-b2-f-al009-position-deviation
+
+- **Code:** AL009
+- **Meaning (EN):** The manual identifies AL009 when position-command deviation exceeds the permitted setting.
+- **المعنى (AR):** يعرّف الدليل AL009 عندما يتجاوز انحراف أمر الموضع القيمة المسموح بها في الإعداد.
+- **Sens (FR):** Le manuel identifie AL009 lorsque l'écart de commande de position dépasse la valeur réglée autorisée.
+- **Manual locator:** 9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted; printed page 9-2
+- **Review date:** 2026-10-24
+- **Safe checks (EN):** Record the exact code, operating mode, load and time of occurrence; preserve the fault history before any reset. Use the machine's approved isolation procedure before inspecting wiring or connectors. Electrical measurements inside the drive are for qualified personnel only. Compare the observed condition with the ASDA-B2-F manual and machine-builder drawings; do not bypass protection or change limits to hide the alarm.
+- **فحوصات آمنة (AR):** سجّل الرمز الدقيق ووضع التشغيل والحمل ووقت ظهور العطل، واحتفظ بسجل الأعطال قبل أي إعادة ضبط. طبّق إجراء العزل المعتمد قبل فحص الأسلاك أو الموصلات. القياسات الكهربائية داخل المغير من اختصاص شخص مؤهل فقط. طابق الحالة مع دليل ASDA-B2-F ومخططات مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار.
+- **Contrôles sûrs (FR):** Consignez le code exact, le mode de fonctionnement, la charge et l’heure d’apparition; conservez l’historique avant toute réinitialisation. Appliquez la procédure de consignation approuvée avant d’inspecter câbles ou connecteurs. Les mesures électriques à l’intérieur du variateur sont réservées au personnel qualifié. Comparez la situation au manuel ASDA-B2-F et aux schémas du constructeur; ne contournez pas les protections et ne modifiez pas les limites pour masquer l’alarme.
+- **Escalation (EN):** Escalate to a qualified Delta servo-drive or machine-builder specialist if the alarm persists, recurs after approved checks, or suggests internal power-stage/encoder damage.
+- **التصعيد (AR):** صعّد إلى مختص مؤهل في مغيرات Delta أو مصنع الماكينة إذا استمر الإنذار أو تكرر بعد الفحوصات المصرح بها أو دلّ على احتمال تلف داخلي في مرحلة القدرة أو المشفّر.
+- **Escalade (FR):** Faites intervenir un spécialiste Delta ou le constructeur de la machine si l’alarme persiste, réapparaît après les contrôles autorisés ou suggère un dommage interne de l’étage de puissance ou du codeur.
+- **Evidence note:** The manual identifies AL009 when position-command deviation exceeds the permitted setting.
+
+### delta-asda-b2-f-al011-encoder-error
+
+- **Code:** AL011
+- **Meaning (EN):** The manual identifies AL011 as an encoder error in which the encoder generates an abnormal pulse.
+- **المعنى (AR):** يعرّف الدليل AL011 بأنه خطأ في المشفّر ينتج فيه المشفّر نبضات غير طبيعية.
+- **Sens (FR):** Le manuel identifie AL011 comme une erreur du codeur produisant des impulsions anormales.
+- **Manual locator:** 9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted; printed page 9-2
+- **Review date:** 2026-10-24
+- **Safe checks (EN):** Record the exact code, operating mode, load and time of occurrence; preserve the fault history before any reset. Use the machine's approved isolation procedure before inspecting wiring or connectors. Electrical measurements inside the drive are for qualified personnel only. Compare the observed condition with the ASDA-B2-F manual and machine-builder drawings; do not bypass protection or change limits to hide the alarm.
+- **فحوصات آمنة (AR):** سجّل الرمز الدقيق ووضع التشغيل والحمل ووقت ظهور العطل، واحتفظ بسجل الأعطال قبل أي إعادة ضبط. طبّق إجراء العزل المعتمد قبل فحص الأسلاك أو الموصلات. القياسات الكهربائية داخل المغير من اختصاص شخص مؤهل فقط. طابق الحالة مع دليل ASDA-B2-F ومخططات مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار.
+- **Contrôles sûrs (FR):** Consignez le code exact, le mode de fonctionnement, la charge et l’heure d’apparition; conservez l’historique avant toute réinitialisation. Appliquez la procédure de consignation approuvée avant d’inspecter câbles ou connecteurs. Les mesures électriques à l’intérieur du variateur sont réservées au personnel qualifié. Comparez la situation au manuel ASDA-B2-F et aux schémas du constructeur; ne contournez pas les protections et ne modifiez pas les limites pour masquer l’alarme.
+- **Escalation (EN):** Escalate to a qualified Delta servo-drive or machine-builder specialist if the alarm persists, recurs after approved checks, or suggests internal power-stage/encoder damage.
+- **التصعيد (AR):** صعّد إلى مختص مؤهل في مغيرات Delta أو مصنع الماكينة إذا استمر الإنذار أو تكرر بعد الفحوصات المصرح بها أو دلّ على احتمال تلف داخلي في مرحلة القدرة أو المشفّر.
+- **Escalade (FR):** Faites intervenir un spécialiste Delta ou le constructeur de la machine si l’alarme persiste, réapparaît après les contrôles autorisés ou suggère un dommage interne de l’étage de puissance ou du codeur.
+- **Evidence note:** The manual identifies AL011 as an encoder error in which the encoder generates an abnormal pulse.
+
+### delta-asda-b2-f-al016-igbt-overheat
+
+- **Code:** AL016
+- **Meaning (EN):** The manual identifies AL016 when the IGBT temperature is too high.
+- **المعنى (AR):** يعرّف الدليل AL016 عندما تكون درجة حرارة IGBT مرتفعة جدًا.
+- **Sens (FR):** Le manuel identifie AL016 lorsque la température de l’IGBT est trop élevée.
+- **Manual locator:** 9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted; printed page 9-2
+- **Review date:** 2026-10-24
+- **Safe checks (EN):** Record the exact code, operating mode, load and time of occurrence; preserve the fault history before any reset. Use the machine's approved isolation procedure before inspecting wiring or connectors. Electrical measurements inside the drive are for qualified personnel only. Compare the observed condition with the ASDA-B2-F manual and machine-builder drawings; do not bypass protection or change limits to hide the alarm.
+- **فحوصات آمنة (AR):** سجّل الرمز الدقيق ووضع التشغيل والحمل ووقت ظهور العطل، واحتفظ بسجل الأعطال قبل أي إعادة ضبط. طبّق إجراء العزل المعتمد قبل فحص الأسلاك أو الموصلات. القياسات الكهربائية داخل المغير من اختصاص شخص مؤهل فقط. طابق الحالة مع دليل ASDA-B2-F ومخططات مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار.
+- **Contrôles sûrs (FR):** Consignez le code exact, le mode de fonctionnement, la charge et l’heure d’apparition; conservez l’historique avant toute réinitialisation. Appliquez la procédure de consignation approuvée avant d’inspecter câbles ou connecteurs. Les mesures électriques à l’intérieur du variateur sont réservées au personnel qualifié. Comparez la situation au manuel ASDA-B2-F et aux schémas du constructeur; ne contournez pas les protections et ne modifiez pas les limites pour masquer l’alarme.
+- **Escalation (EN):** Escalate to a qualified Delta servo-drive or machine-builder specialist if the alarm persists, recurs after approved checks, or suggests internal power-stage/encoder damage.
+- **التصعيد (AR):** صعّد إلى مختص مؤهل في مغيرات Delta أو مصنع الماكينة إذا استمر الإنذار أو تكرر بعد الفحوصات المصرح بها أو دلّ على احتمال تلف داخلي في مرحلة القدرة أو المشفّر.
+- **Escalade (FR):** Faites intervenir un spécialiste Delta ou le constructeur de la machine si l’alarme persiste, réapparaît après les contrôles autorisés ou suggère un dommage interne de l’étage de puissance ou du codeur.
+- **Evidence note:** The manual identifies AL016 when the IGBT temperature is too high.
+
+### delta-asda-b2-f-al022-main-circuit-phase-loss
+
+- **Code:** AL022
+- **Meaning (EN):** The manual identifies AL022 as an abnormal main-circuit supply condition associated with missing phase power; the exact power wiring and drive rating must be matched to the manual.
+- **المعنى (AR):** يعرّف الدليل AL022 بأنه حالة غير طبيعية في تغذية الدائرة الرئيسية مرتبطة بفقدان طور؛ يجب مطابقة توصيل التغذية وقدرة المغير مع الدليل.
+- **Sens (FR):** Le manuel identifie AL022 comme une anomalie de l’alimentation principale liée à une phase manquante; le câblage et la puissance du variateur doivent correspondre au manuel.
+- **Manual locator:** 9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted; printed page 9-2; corrective details 9-9
+- **Review date:** 2026-10-24
+- **Safe checks (EN):** Record the exact code, operating mode, load and time of occurrence; preserve the fault history before any reset. Use the machine's approved isolation procedure before inspecting wiring or connectors. Electrical measurements inside the drive are for qualified personnel only. Compare the observed condition with the ASDA-B2-F manual and machine-builder drawings; do not bypass protection or change limits to hide the alarm.
+- **فحوصات آمنة (AR):** سجّل الرمز الدقيق ووضع التشغيل والحمل ووقت ظهور العطل، واحتفظ بسجل الأعطال قبل أي إعادة ضبط. طبّق إجراء العزل المعتمد قبل فحص الأسلاك أو الموصلات. القياسات الكهربائية داخل المغير من اختصاص شخص مؤهل فقط. طابق الحالة مع دليل ASDA-B2-F ومخططات مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار.
+- **Contrôles sûrs (FR):** Consignez le code exact, le mode de fonctionnement, la charge et l’heure d’apparition; conservez l’historique avant toute réinitialisation. Appliquez la procédure de consignation approuvée avant d’inspecter câbles ou connecteurs. Les mesures électriques à l’intérieur du variateur sont réservées au personnel qualifié. Comparez la situation au manuel ASDA-B2-F et aux schémas du constructeur; ne contournez pas les protections et ne modifiez pas les limites pour masquer l’alarme.
+- **Escalation (EN):** Escalate to a qualified Delta servo-drive or machine-builder specialist if the alarm persists, recurs after approved checks, or suggests internal power-stage/encoder damage.
+- **التصعيد (AR):** صعّد إلى مختص مؤهل في مغيرات Delta أو مصنع الماكينة إذا استمر الإنذار أو تكرر بعد الفحوصات المصرح بها أو دلّ على احتمال تلف داخلي في مرحلة القدرة أو المشفّر.
+- **Escalade (FR):** Faites intervenir un spécialiste Delta ou le constructeur de la machine si l’alarme persiste, réapparaît après les contrôles autorisés ou suggère un dommage interne de l’étage de puissance ou du codeur.
+- **Evidence note:** The manual identifies AL022 as an abnormal main-circuit supply condition associated with missing phase power; the exact power wiring and drive rating must be matched to the manual.
+
+### delta-asda-b2-f-al024-encoder-magnetic-field
+
+- **Code:** AL024
+- **Meaning (EN):** The manual identifies AL024 as an error in the initial magnetic field of the encoder U/V/W signals.
+- **المعنى (AR):** يعرّف الدليل AL024 بأنه خطأ في المجال المغناطيسي الابتدائي لإشارات U/V/W الخاصة بالمشفّر.
+- **Sens (FR):** Le manuel identifie AL024 comme une erreur du champ magnétique initial des signaux U/V/W du codeur.
+- **Manual locator:** 9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted; printed page 9-2; corrective details 9-9
+- **Review date:** 2026-10-24
+- **Safe checks (EN):** Record the exact code, operating mode, load and time of occurrence; preserve the fault history before any reset. Use the machine's approved isolation procedure before inspecting wiring or connectors. Electrical measurements inside the drive are for qualified personnel only. Compare the observed condition with the ASDA-B2-F manual and machine-builder drawings; do not bypass protection or change limits to hide the alarm.
+- **فحوصات آمنة (AR):** سجّل الرمز الدقيق ووضع التشغيل والحمل ووقت ظهور العطل، واحتفظ بسجل الأعطال قبل أي إعادة ضبط. طبّق إجراء العزل المعتمد قبل فحص الأسلاك أو الموصلات. القياسات الكهربائية داخل المغير من اختصاص شخص مؤهل فقط. طابق الحالة مع دليل ASDA-B2-F ومخططات مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار.
+- **Contrôles sûrs (FR):** Consignez le code exact, le mode de fonctionnement, la charge et l’heure d’apparition; conservez l’historique avant toute réinitialisation. Appliquez la procédure de consignation approuvée avant d’inspecter câbles ou connecteurs. Les mesures électriques à l’intérieur du variateur sont réservées au personnel qualifié. Comparez la situation au manuel ASDA-B2-F et aux schémas du constructeur; ne contournez pas les protections et ne modifiez pas les limites pour masquer l’alarme.
+- **Escalation (EN):** Escalate to a qualified Delta servo-drive or machine-builder specialist if the alarm persists, recurs after approved checks, or suggests internal power-stage/encoder damage.
+- **التصعيد (AR):** صعّد إلى مختص مؤهل في مغيرات Delta أو مصنع الماكينة إذا استمر الإنذار أو تكرر بعد الفحوصات المصرح بها أو دلّ على احتمال تلف داخلي في مرحلة القدرة أو المشفّر.
+- **Escalade (FR):** Faites intervenir un spécialiste Delta ou le constructeur de la machine si l’alarme persiste, réapparaît après les contrôles autorisés ou suggère un dommage interne de l’étage de puissance ou du codeur.
+- **Evidence note:** The manual identifies AL024 as an error in the initial magnetic field of the encoder U/V/W signals.
+
+### delta-asda-b2-f-al031-motor-power-wiring
+
+- **Code:** AL031
+- **Meaning (EN):** The manual identifies AL031 as incorrect wiring of the motor power cable U, V, W or ground.
+- **المعنى (AR):** يعرّف الدليل AL031 بأنه توصيل غير صحيح لكابل قدرة المحرك U/V/W أو التأريض.
+- **Sens (FR):** Le manuel identifie AL031 comme un câblage incorrect du câble moteur U/V/W ou de terre.
+- **Manual locator:** 9.4 Causes and Corrective Actions → AL031; 9.4 Causes and Corrective Actions where noted; printed page 9-11
+- **Review date:** 2026-10-24
+- **Safe checks (EN):** Record the exact code, operating mode, load and time of occurrence; preserve the fault history before any reset. Use the machine's approved isolation procedure before inspecting wiring or connectors. Electrical measurements inside the drive are for qualified personnel only. Compare the observed condition with the ASDA-B2-F manual and machine-builder drawings; do not bypass protection or change limits to hide the alarm.
+- **فحوصات آمنة (AR):** سجّل الرمز الدقيق ووضع التشغيل والحمل ووقت ظهور العطل، واحتفظ بسجل الأعطال قبل أي إعادة ضبط. طبّق إجراء العزل المعتمد قبل فحص الأسلاك أو الموصلات. القياسات الكهربائية داخل المغير من اختصاص شخص مؤهل فقط. طابق الحالة مع دليل ASDA-B2-F ومخططات مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار.
+- **Contrôles sûrs (FR):** Consignez le code exact, le mode de fonctionnement, la charge et l’heure d’apparition; conservez l’historique avant toute réinitialisation. Appliquez la procédure de consignation approuvée avant d’inspecter câbles ou connecteurs. Les mesures électriques à l’intérieur du variateur sont réservées au personnel qualifié. Comparez la situation au manuel ASDA-B2-F et aux schémas du constructeur; ne contournez pas les protections et ne modifiez pas les limites pour masquer l’alarme.
+- **Escalation (EN):** Escalate to a qualified Delta servo-drive or machine-builder specialist if the alarm persists, recurs after approved checks, or suggests internal power-stage/encoder damage.
+- **التصعيد (AR):** صعّد إلى مختص مؤهل في مغيرات Delta أو مصنع الماكينة إذا استمر الإنذار أو تكرر بعد الفحوصات المصرح بها أو دلّ على احتمال تلف داخلي في مرحلة القدرة أو المشفّر.
+- **Escalade (FR):** Faites intervenir un spécialiste Delta ou le constructeur de la machine si l’alarme persiste, réapparaît après les contrôles autorisés ou suggère un dommage interne de l’étage de puissance ou du codeur.
+- **Evidence note:** The manual identifies AL031 as incorrect wiring of the motor power cable U, V, W or ground.
+
+### delta-asda-b2-f-al060-absolute-position-lost
+
+- **Code:** AL060
+- **Meaning (EN):** The manual identifies AL060 as loss of absolute position and discusses battery undervoltage, incomplete absolute-coordinate initialization, and battery-circuit connection issues in the troubleshooting section.
+- **المعنى (AR):** يعرّف الدليل AL060 بأنه فقدان الموضع المطلق، ويناقش انخفاض جهد البطارية وعدم اكتمال تهيئة الإحداثيات المطلقة ومشكلات توصيل دائرة البطارية ضمن قسم استكشاف الأعطال.
+- **Sens (FR):** Le manuel identifie AL060 comme une perte de position absolue et cite notamment une batterie sous-tension, une initialisation incomplète des coordonnées absolues et des problèmes de connexion du circuit de batterie.
+- **Manual locator:** 9.4 Causes and Corrective Actions → AL060; 9.4 Causes and Corrective Actions where noted; printed page 9-12
+- **Review date:** 2026-10-24
+- **Safe checks (EN):** Record the exact code, operating mode, load and time of occurrence; preserve the fault history before any reset. Use the machine's approved isolation procedure before inspecting wiring or connectors. Electrical measurements inside the drive are for qualified personnel only. Compare the observed condition with the ASDA-B2-F manual and machine-builder drawings; do not bypass protection or change limits to hide the alarm.
+- **فحوصات آمنة (AR):** سجّل الرمز الدقيق ووضع التشغيل والحمل ووقت ظهور العطل، واحتفظ بسجل الأعطال قبل أي إعادة ضبط. طبّق إجراء العزل المعتمد قبل فحص الأسلاك أو الموصلات. القياسات الكهربائية داخل المغير من اختصاص شخص مؤهل فقط. طابق الحالة مع دليل ASDA-B2-F ومخططات مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار.
+- **Contrôles sûrs (FR):** Consignez le code exact, le mode de fonctionnement, la charge et l’heure d’apparition; conservez l’historique avant toute réinitialisation. Appliquez la procédure de consignation approuvée avant d’inspecter câbles ou connecteurs. Les mesures électriques à l’intérieur du variateur sont réservées au personnel qualifié. Comparez la situation au manuel ASDA-B2-F et aux schémas du constructeur; ne contournez pas les protections et ne modifiez pas les limites pour masquer l’alarme.
+- **Escalation (EN):** Escalate to a qualified Delta servo-drive or machine-builder specialist if the alarm persists, recurs after approved checks, or suggests internal power-stage/encoder damage.
+- **التصعيد (AR):** صعّد إلى مختص مؤهل في مغيرات Delta أو مصنع الماكينة إذا استمر الإنذار أو تكرر بعد الفحوصات المصرح بها أو دلّ على احتمال تلف داخلي في مرحلة القدرة أو المشفّر.
+- **Escalade (FR):** Faites intervenir un spécialiste Delta ou le constructeur de la machine si l’alarme persiste, réapparaît après les contrôles autorisés ou suggère un dommage interne de l’étage de puissance ou du codeur.
+- **Evidence note:** The manual identifies AL060 as loss of absolute position and discusses battery undervoltage, incomplete absolute-coordinate initialization, and battery-circuit connection issues in the troubleshooting section.
+
+### delta-asda-b2-f-al185-dmcnet-bus-hardware
+
+- **Code:** AL185
+- **Meaning (EN):** The manual identifies AL185 as abnormal DMCNET bus hardware and directs attention to communication-cable condition and communication quality.
+- **المعنى (AR):** يعرّف الدليل AL185 بأنه خلل عتادي في ناقل DMCNET، ويوجه إلى فحص حالة كابل الاتصال وجودة الاتصال.
+- **Sens (FR):** Le manuel identifie AL185 comme une anomalie matérielle du bus DMCNET et recommande de vérifier le câble et la qualité de communication.
+- **Manual locator:** 9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted; printed page 9-14
+- **Review date:** 2026-10-24
+- **Safe checks (EN):** Record the exact code, operating mode, load and time of occurrence; preserve the fault history before any reset. Use the machine's approved isolation procedure before inspecting wiring or connectors. Electrical measurements inside the drive are for qualified personnel only. Compare the observed condition with the ASDA-B2-F manual and machine-builder drawings; do not bypass protection or change limits to hide the alarm.
+- **فحوصات آمنة (AR):** سجّل الرمز الدقيق ووضع التشغيل والحمل ووقت ظهور العطل، واحتفظ بسجل الأعطال قبل أي إعادة ضبط. طبّق إجراء العزل المعتمد قبل فحص الأسلاك أو الموصلات. القياسات الكهربائية داخل المغير من اختصاص شخص مؤهل فقط. طابق الحالة مع دليل ASDA-B2-F ومخططات مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار.
+- **Contrôles sûrs (FR):** Consignez le code exact, le mode de fonctionnement, la charge et l’heure d’apparition; conservez l’historique avant toute réinitialisation. Appliquez la procédure de consignation approuvée avant d’inspecter câbles ou connecteurs. Les mesures électriques à l’intérieur du variateur sont réservées au personnel qualifié. Comparez la situation au manuel ASDA-B2-F et aux schémas du constructeur; ne contournez pas les protections et ne modifiez pas les limites pour masquer l’alarme.
+- **Escalation (EN):** Escalate to a qualified Delta servo-drive or machine-builder specialist if the alarm persists, recurs after approved checks, or suggests internal power-stage/encoder damage.
+- **التصعيد (AR):** صعّد إلى مختص مؤهل في مغيرات Delta أو مصنع الماكينة إذا استمر الإنذار أو تكرر بعد الفحوصات المصرح بها أو دلّ على احتمال تلف داخلي في مرحلة القدرة أو المشفّر.
+- **Escalade (FR):** Faites intervenir un spécialiste Delta ou le constructeur de la machine si l’alarme persiste, réapparaît après les contrôles autorisés ou suggère un dommage interne de l’étage de puissance ou du codeur.
+- **Evidence note:** The manual identifies AL185 as abnormal DMCNET bus hardware and directs attention to communication-cable condition and communication quality.
+
