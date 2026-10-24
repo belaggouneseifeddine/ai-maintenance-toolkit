@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Discovery register for potentially useful open industrial-maintenance knowledge and data. It is not an imported fault database.",
+  "policy": "Do not copy repository contents or datasets into this project until the exact license, dataset terms, attribution requirements, and provenance are checked. Research papers and public GitHub visibility do not by themselves grant redistribution rights.",
+  "sources": [
+    {
+      "id": "fzu-hgpfd",
+      "title": "FZU_HGPFD — hydraulic gear pump fault diagnosis dataset",
+      "url": "https://github.com/HuiHuang2025/FZU_HGPFD",
+      "type": "experimental-dataset",
+      "potentialUse": "Research/evaluation of signal-based pump fault classification, not as a text troubleshooting guide.",
+      "reportedScope": "Gear-pump health/operating states; acoustic and vibration channels; TDMS data.",
+      "licenseStatus": "not-yet-verified",
+      "accessStatus": "README indicates external data download route; full dataset not confirmed accessible from repository",
+      "decision": "do-not-import-yet"
+    },
+    {
+      "id": "machine-fault-dataset-index",
+      "title": "Machine-Fault-Dataset — index of machine-fault datasets",
+      "url": "https://github.com/CHAOZHAO-1/Machine-Fault-Dataset",
+      "type": "dataset-catalog",
+      "potentialUse": "Discover original datasets and papers for bearings, gears, motors, pumps and other equipment.",
+      "reportedScope": "Index/catalog; individual linked datasets have separate owners and terms.",
+      "licenseStatus": "repository and each linked dataset require separate review",
+      "accessStatus": "catalog link only",
+      "decision": "use-for-discovery-only"
+    },
+    {
+      "id": "manufacturing-rag-agent",
+      "title": "ManufacturingRagAgent",
+      "url": "https://github.com/pikaachi/ManufacturingRagAgent",
+      "type": "rag-example",
+      "potentialUse": "Study retrieval-grounded answers and abstention when evidence is absent.",
+      "reportedScope": "PDF retrieval / vector store / LLM example; depends on OpenAI API and associated costs.",
+      "licenseStatus": "not-yet-verified",
+      "accessStatus": "public repository",
+      "decision": "ideas-only-no-code-copy-until-license-verified"
+    },
+    {
+      "id": "iiot-graph-rag",
+      "title": "IIoT Graph RAG",
+      "url": "https://github.com/venergiac/iiot-graph-rag",
+      "type": "industrial-rag-example",
+      "potentialUse": "Study equipment hierarchy and relationships between assets, faults and maintenance records.",
+      "reportedScope": "Graph RAG with ISO 14224-inspired hierarchy and sample data described as generated.",
+      "licenseStatus": "repository license reported as Other; exact reuse terms unresolved",
+      "accessStatus": "public repository",
+      "decision": "ideas-only-no-code-copy"
+    },
+    {
+      "id": "azure-predictive-maintenance-agents",
+      "title": "Azure predictive maintenance agents",
+      "url": "https://github.com/fvalerii/azure-predictive-maintenance-agents",
+      "type": "agent-architecture-example",
+      "potentialUse": "Study workflow separation, human approval and evidence aggregation.",
+      "reportedScope": "Azure-dependent agent architecture; not a required runtime dependency for this offline app.",
+      "licenseStatus": "MIT reported in repository review; re-check exact commit before copying",
+      "accessStatus": "public repository",
+      "decision": "architecture-reference-only-no-cloud-dependency"
+    }
+  ]
+}
