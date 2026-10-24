@@ -53,7 +53,7 @@
         "MD200 series AC drive",
         "H5U series PLC"
       ],
-      "manualReviewedFaultCount": 9
+      "manualReviewedRecordCount": 9
     },
     {
       "id": "delta",
@@ -95,8 +95,10 @@
       "notes": "Official portal identified; exact model-specific fault claims have not yet been verified.",
       "modelsCovered": [
         "DS5K series servo driver",
-        "X-NET fieldbus"
-      ]
+        "X-NET fieldbus",
+        "X-NET fieldbus / XINJEConfig remote-connection diagnostics"
+      ],
+      "manualReviewedRecordCount": 15
     },
     {
       "id": "huazhongcnc",
