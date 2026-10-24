@@ -96,3 +96,29 @@ The branch catalogue is larger than the active PR set. The comparisons above pri
 - Automated results must be taken from the new branch's Actions run after the commit. Until such a run is observed, tests are **added but not yet confirmed passing**.
 - The new UI path still requires manual testing on an Android browser and field review by qualified maintenance personnel.
 - No fault cause is claimed as OEM-verified by this increment.
+
+
+## Additional related-branch comparisons
+
+Further comparisons against the same baseline `main` HEAD covered these branches because they touch diagnosis, safety, consent, knowledge acquisition, or validation:
+
+| Branch | Compare result | Review implication |
+|---|---:|---|
+| `feature/structured-pump-diagnostic-flow` | diverged, 10 ahead / 213 behind | Older pump-flow work; not safe to merge wholesale into current main. |
+| `feature/diagnostic-architecture-roadmap` | diverged, 2 ahead / 214 behind | Documentation-only roadmap line; consult for planning, not runtime behavior. |
+| `feature/diagnostic-work-report-and-triage` | diverged, 7 ahead / 212 behind | Older report/triage work; substantial divergence. |
+| `feature/agent-security-diagnostic-expansion` | diverged, 8 ahead / 211 behind | Older agent/safety design; do not import without reconciliation. |
+| `feature/ai-data-consent` | diverged, 5 ahead / 217 behind | Consent UI changes are on an old divergent line; current main already has consent controls. |
+| `fix/pmc-fulltext-xml-fetch` | diverged, 7 ahead / 16 behind | Knowledge-fetch work needs a dedicated license/data review before reuse. |
+| `fix/pmc-fulltext-xml-fetch-reviewed` | diverged, 3 ahead / 15 behind | Reviewed fetch variant, still divergent from current main. |
+| `fix/gemini-secret-deploy-phase1-2026-10-24` | diverged, 2 ahead / 3 behind | Worker secret workflow differs from current main; no secrets were read. |
+| `test/knowledge-base-safety-coverage` | diverged, 1 ahead / 216 behind | Older static safety-coverage check. |
+| `safety-gate/independent-2026-10-23` | diverged, 2 ahead / 25 behind | Worker safety-gate experiment, not imported into local reasoning. |
+| `audit/worker-loto-and-knowledge-ci-2026-10-23` | diverged, 2 ahead / 13 behind | Validation workflow branch; separate review required. |
+| `chore/quality-gates-2026-10` | diverged, 12 ahead / 226 behind | Older architecture/workflow line; not a safe base. |
+| `docs/architecture-audit-phase2-2026-10-24` | diverged, 2 ahead / 6 behind | Recent architecture docs; reviewed conceptually, not merged. |
+| `feat/equipment-workflows-phase2-2026-10-24` | diverged, 2 ahead / 2 behind | Small structured-flow changes; separate comparison needed before reuse. |
+
+## Scope limitation on historical completeness
+
+The GitHub connector exposed the current HEAD, the recent commit-search page, branch refs, PR file lists, and pairwise branch comparisons, but did not provide a complete paginated chronological commit list in this audit session. Therefore this report records the full current HEAD and the related-branch/PR comparisons performed, plus a recent-history summary; it does **not** falsely claim that every historical commit from the repository's first commit was individually inspected. A true commit-by-commit historical audit would require retrieving the full commit list and reviewing every commit/diff.
