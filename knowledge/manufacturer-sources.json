@@ -628,6 +628,16 @@
       "scope": "GSK218M CNC system; alarm interface and program/operation alarms; confirm manual revision and machine-builder configuration",
       "status": "manual-content-reviewed-for-listed-records",
       "redistribution": "link-and-original-summary-only"
+    },
+    {
+      "id": "delta-asda-b2-f-user-manual",
+      "publisher": "Delta Electronics",
+      "title": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
+      "url": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
+      "type": "official-product-manual",
+      "scope": "ASDA-B2-F series servo drive; Version 1.0, September 2015; alarm definitions in section 9.1 and corrective-action tables in section 9.4. Do not apply to ASDA-B2, ASDA-A3, ASDA-B3 or other series without their own manual.",
+      "status": "manual-content-reviewed-for-listed-records",
+      "redistribution": "link-and-concise-original-summaries-only"
     }
   ]
 }
