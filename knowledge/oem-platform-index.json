@@ -466,6 +466,83 @@
       "evidenceStatus": "portal-only",
       "alarmCodeRecords": 0,
       "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+    },
+    {
+      "id": "omron",
+      "name": "OMRON",
+      "region": "Europe / Japan",
+      "kind": "component_oem",
+      "families": [
+        "NX/NJ/CJ/CP PLC and machine controllers",
+        "NA/NB HMI",
+        "1S/G5 servo",
+        "MX2/RX2 VFD",
+        "sensors and safety"
+      ],
+      "sourceRefs": [
+        "omron-industrial-downloads"
+      ],
+      "url": "https://industrial.omron.eu/en/services-support/support/downloads",
+      "evidenceStatus": "portal-only",
+      "alarmCodeRecords": 0,
+      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+    },
+    {
+      "id": "yaskawa",
+      "name": "Yaskawa",
+      "region": "Japan / Europe support",
+      "kind": "component_oem",
+      "families": [
+        "GA/FP/HV industrial drives",
+        "Sigma-7/Sigma-X servo",
+        "MOTOMAN robots",
+        "motion control"
+      ],
+      "sourceRefs": [
+        "yaskawa-drive-manuals"
+      ],
+      "url": "https://www.yaskawa.com/products/drives/drive-manuals",
+      "evidenceStatus": "portal-only",
+      "alarmCodeRecords": 0,
+      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+    },
+    {
+      "id": "fagor",
+      "name": "Fagor Automation",
+      "region": "Europe / Spain",
+      "kind": "cnc_control_oem",
+      "families": [
+        "CNC 8055/8060/8065/8070 and CNCelite",
+        "DDS/QC drives",
+        "feedback systems"
+      ],
+      "sourceRefs": [
+        "fagor-automation-manuals"
+      ],
+      "url": "https://www.fagorautomation.com/en/categoria_descargas/manuals-en/",
+      "evidenceStatus": "portal-only",
+      "alarmCodeRecords": 0,
+      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
+    },
+    {
+      "id": "fanuc",
+      "name": "FANUC",
+      "region": "Japan / global regional support",
+      "kind": "cnc_robot_oem",
+      "families": [
+        "Series 0i/30i CNC",
+        "servo amplifiers",
+        "ROBODRILL",
+        "M-10/M-20 and other robot families",
+        "R-30i controllers"
+      ],
+      "sourceRefs": [
+        "fanuc-america-support"
+      ],
+      "url": "https://www.fanucamerica.com/support/myportal",
+      "evidenceStatus": "portal-only",
+      "alarmCodeRecords": 0,
+      "notes": "Official portal identified; exact model-specific fault claims have not yet been verified."
     }
   ]
 }
