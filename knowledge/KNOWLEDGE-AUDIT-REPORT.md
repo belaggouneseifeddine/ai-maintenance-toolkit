@@ -64,9 +64,9 @@ This is a conservative string-presence check only. It does not prove that a topi
 
 ## Recent model-specific evidence tranche
 
-- The latest tranche adds three SIMATIC S7-1200 diagnostic records (OB80/time-error conditions, plus fail-safe output events 0x031E and 0x0320) and three GSK218M CNC alarm records (0000, 0001 and 0002).
-- The structured OEM evidence file now contains 66 manual-claim-reviewed records; these are not field-verified.
-- Source-backed families include SINUMERIK, SINAMICS G120D/G120P/G120C, MELSEC FX5, MR-J4, Mitsubishi C80 CNC, XINJE DS5K/X-NET, INOVANCE MD200/H5U, SIMATIC S7-1200 and GSK218M.
+- The latest reviewed tranche adds seven SINAMICS G120C FSD–FSF alarm records scoped to the official Compact Operating Instructions, firmware V4.7 SP6, section 5.1, printed page 82.
+- The structured fault library includes 60 model/manual-scoped records; these are manual-claim-reviewed, not field-verified.
+- Additional source-backed SINUMERIK, SINAMICS G120D/G120P, MELSEC FX5, MR-J4, XINJE DS5K/X-NET, and INOVANCE H5U records are now available to the app's local diagnostic library.
 
 ## Method and limits
 
