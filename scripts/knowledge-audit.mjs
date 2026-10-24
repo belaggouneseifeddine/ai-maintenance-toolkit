@@ -136,6 +136,7 @@ const reportPath = "knowledge/KNOWLEDGE-AUDIT-REPORT.md";
 if (process.argv.includes("--check")) {
   const committed = readFileSync(reportPath, "utf8");
   if (committed !== report) {
+    console.error("BEGIN_GENERATED_REPORT\\n" + report + "\\nEND_GENERATED_REPORT");
     console.error(reportPath + " is stale. Run: node scripts/knowledge-audit.mjs");
     process.exitCode = 1;
   } else {
