@@ -1,6 +1,6 @@
 # Maintenance AI Toolkit API (Cloudflare Workers)
 
-This backend serves the published frontend using Cloudflare Workers. The source allowlist includes the primary Cloudflare Pages site (`https://maintenance-ai-toolkit.pages.dev`) and the GitHub Pages fallback (`https://belaggouneseifeddine.github.io`).
+This backend serves the published frontend using Cloudflare Workers. The intended Worker allowlist is the primary Cloudflare Pages site (`https://maintenance-ai-toolkit.pages.dev`) and the GitHub Pages fallback (`https://belaggouneseifeddine.github.io`).
 
 ## Fast deployment through GitHub Actions
 
@@ -35,6 +35,6 @@ Use the Worker URL ending in `/api/chat` in the AI endpoint field, for example `
 - `POST /api/chat`: JSON body `{ "machine": "...", "symptom": "...", "code": "", "observations": "", "language": "ar" }`.
 - Supported languages: `ar`, `fr`, `en`.
 
-The Worker restricts browser requests to the two explicitly allowlisted published app origins, validates payloads, limits request size, and keeps provider errors/credentials out of responses. CORS is not authentication. Provider calls may incur Gemini usage charges; check provider quota and any billing settings before enabling usage.
+The Worker must restrict browser requests to these two explicitly allowlisted published app origins, validate payloads, limit request size, and keep provider errors/credentials out of responses. CORS is not authentication. Provider calls may incur Gemini usage charges; check provider quota and any billing settings before enabling usage.
 
 **Important:** committing source code does not deploy the backend. A successful workflow run, a configured provider secret, and a valid Worker URL are required before live AI diagnosis can be considered ready.
