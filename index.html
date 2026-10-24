@@ -125,7 +125,7 @@ footer{line-height:1.8}
 <label class="check" for="aiConsent"><input id="aiConsent" type="checkbox" required><span>أوافق على إرسال وصف العطل والقياسات إلى خادم الذكاء الاصطناعي المُعدّ للتجربة. لن أرسل بيانات شخصية أو معلومات سرية عن المصنع.</span></label>
 <label class="check" for="aiCacheEnabled"><input id="aiCacheEnabled" type="checkbox"><span id="aiCacheLabel">تفعيل التخزين المحلي الاختياري للإجابات المتطابقة لمدة 24 ساعة. لا تُخزّن حالات التصعيد أو تحذيرات السلامة.</span></label>
 <div class="notice">لا تستخدم اقتراحات الذكاء الاصطناعي وحدها لاتخاذ قرارات تشغيل أو سلامة. طبّق LOTO وإجراءات موقعك، ولا تتجاوز الحمايات أو تفتح الأنظمة المضغوطة.</div>
-<div class="actions"><button class="btn" id="askAi" type="submit">تحليل العطل</button></div>
+<div class="actions"><button class="btn" id="askAi" type="submit">تحليل العطل عبر الخادم</button><button class="btn secondary" id="runLocalAgent" type="button">تشخيص محلي دون إرسال البيانات</button></div>
 </form>
 <div id="aiResult" class="result" aria-live="polite" hidden></div>
 <div id="aiAnswerTools" class="actions no-print" hidden><button type="button" class="btn secondary" id="speakAiAnswer">قراءة الإجابة صوتيًا</button><button type="button" class="btn secondary" id="stopAiSpeech">إيقاف القراءة</button><button type="button" class="btn secondary" id="clearAiCache">مسح الإجابات المحفوظة</button></div>
@@ -254,6 +254,8 @@ footer{line-height:1.8}
 <script src="./diagnostic-flows.js"></script>
 <script src="./normalization.js"></script>
 <script src="./diagnostic-engine.js"></script>
+<script src="./engineering-core.js"></script>
+<script src="./agent-core.js"></script>
 <script src="./i18n.js"></script>
 <script>
 const $=id=>document.getElementById(id);
@@ -554,6 +556,7 @@ if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigato
 <script src="./answer-tools.js"></script>
 <script src="./ux-redesign.js"></script>
 <script src="./navigation-redesign.js"></script>
+<script src="./agent-ui.js"></script>
 <footer class="author">
 <p>صمّمه وطوّره: <strong>Seif Eddine Belaggoune</strong> — تقني صيانة صناعية</p>
 <p><a href="./cv.html" target="_blank" rel="noopener noreferrer">📄 السيرة الذاتية (CV)</a></p>
