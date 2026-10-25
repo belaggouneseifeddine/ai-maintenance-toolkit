@@ -1555,7 +1555,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-25",
       "reviewerRole": "repository evidence review",
-      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
+      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope.",
+      "firmwareScope": "MD200 User Guide C02 (January 2023); firmware version is not specified in the cited fault table. Confirm the installed drive variant and applicable manual before applying."
     },
     {
       "id": "oem-inovance-md200-err03-overcurrent-deceleration",
@@ -1602,7 +1603,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-25",
       "reviewerRole": "repository evidence review",
-      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
+      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope.",
+      "firmwareScope": "MD200 User Guide C02 (January 2023); firmware version is not specified in the cited fault table. Confirm the installed drive variant and applicable manual before applying."
     },
     {
       "id": "oem-inovance-md200-err05-overvoltage-acceleration",
@@ -1649,7 +1651,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-25",
       "reviewerRole": "repository evidence review",
-      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
+      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope.",
+      "firmwareScope": "MD200 User Guide C02 (January 2023); firmware version is not specified in the cited fault table. Confirm the installed drive variant and applicable manual before applying."
     },
     {
       "id": "oem-inovance-md200-err09-undervoltage",
@@ -1696,7 +1699,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-25",
       "reviewerRole": "repository evidence review",
-      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
+      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope.",
+      "firmwareScope": "MD200 User Guide C02 (January 2023); firmware version is not specified in the cited fault table. Confirm the installed drive variant and applicable manual before applying."
     },
     {
       "id": "oem-inovance-md200-err12-input-phase-loss",
@@ -1743,7 +1747,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-25",
       "reviewerRole": "repository evidence review",
-      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
+      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope.",
+      "firmwareScope": "MD200 User Guide C02 (January 2023); firmware version is not specified in the cited fault table. Confirm the installed drive variant and applicable manual before applying."
     },
     {
       "id": "oem-inovance-md200-err14-drive-overtemperature",
@@ -1791,7 +1796,7 @@
       "reviewDate": "2026-10-25",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope.",
-      "firmwareScope": "MD200 User Guide C02 (January 2023); apply only to MD200 family variants whose manual matches this revision."
+      "firmwareScope": "MD200 User Guide C02 (January 2023); firmware version is not specified in the cited fault table. Confirm the installed drive variant and applicable manual before applying."
     },
     {
       "id": "oem-mitsubishi-c80-servo-alarm-10-insufficient-voltage",
@@ -1838,7 +1843,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-25",
       "reviewerRole": "repository evidence review",
-      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
+      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope.",
+      "firmwareScope": "C80 Series Alarm/Parameter Manual IB-1501560-F; the cited alarm table does not establish the installed machine-tool-builder configuration or drive firmware. Confirm both against the actual machine documentation."
     },
     {
       "id": "oem-mitsubishi-c80-servo-alarm-18-encoder-initial-communication",
@@ -1885,7 +1891,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-25",
       "reviewerRole": "repository evidence review",
-      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
+      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope.",
+      "firmwareScope": "C80 Series Alarm/Parameter Manual IB-1501560-F; the cited alarm table does not establish the installed machine-tool-builder configuration or drive firmware. Confirm both against the actual machine documentation."
     },
     {
       "id": "oem-mitsubishi-c80-servo-alarm-23-excessive-speed-error",
@@ -1932,7 +1939,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-25",
       "reviewerRole": "repository evidence review",
-      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
+      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope.",
+      "firmwareScope": "C80 Series Alarm/Parameter Manual IB-1501560-F; the cited alarm table does not establish the installed machine-tool-builder configuration or drive firmware. Confirm both against the actual machine documentation."
     },
     {
       "id": "oem-mitsubishi-c80-servo-alarm-24-grounding",
@@ -1979,7 +1987,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-25",
       "reviewerRole": "repository evidence review",
-      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
+      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope.",
+      "firmwareScope": "C80 Series Alarm/Parameter Manual IB-1501560-F; the cited alarm table does not establish the installed machine-tool-builder configuration or drive firmware. Confirm both against the actual machine documentation."
     },
     {
       "id": "oem-mitsubishi-c80-servo-alarm-25-absolute-position-lost",
@@ -2026,7 +2035,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-25",
       "reviewerRole": "repository evidence review",
-      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
+      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope.",
+      "firmwareScope": "C80 Series Alarm/Parameter Manual IB-1501560-F; the cited alarm table does not establish the installed machine-tool-builder configuration or drive firmware. Confirm both against the actual machine documentation."
     },
     {
       "id": "oem-mitsubishi-c80-emg-plc-emergency-stop",
@@ -2073,7 +2083,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-25",
       "reviewerRole": "repository evidence review",
-      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
+      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope.",
+      "firmwareScope": "C80 Series Alarm/Parameter Manual IB-1501560-F; the cited alarm table does not establish the installed machine-tool-builder configuration or drive firmware. Confirm both against the actual machine documentation."
     },
     {
       "id": "oem-siemens-s7-1200-fs-event-0005-overtemperature",
@@ -2120,7 +2131,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-25",
       "reviewerRole": "repository evidence review",
-      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
+      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope.",
+      "firmwareScope": "SIMATIC S7-1200 Functional Safety Manual V4.6 (November 2022); confirm the installed F-module part number, CPU/firmware compatibility and machine configuration."
     },
     {
       "id": "oem-siemens-s7-1200-fs-event-004d-profisafe-crc",
@@ -2167,7 +2179,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-25",
       "reviewerRole": "repository evidence review",
-      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
+      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope.",
+      "firmwareScope": "SIMATIC S7-1200 Functional Safety Manual V4.6 (November 2022); confirm the installed F-module part number, CPU/firmware compatibility and machine configuration."
     },
     {
       "id": "oem-siemens-s7-1200-fs-event-004e-profisafe-timeout",
@@ -2214,7 +2227,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-25",
       "reviewerRole": "repository evidence review",
-      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
+      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope.",
+      "firmwareScope": "SIMATIC S7-1200 Functional Safety Manual V4.6 (November 2022); confirm the installed F-module part number, CPU/firmware compatibility and machine configuration."
     },
     {
       "id": "oem-inovance-h5u-err-system-indicator",
