@@ -53,5 +53,8 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
+      - name: Checkout source for live smoke test
+        uses: actions/checkout@v4
+
       - name: Smoke-test published app and Worker
         run: node scripts/smoke-test-live.mjs
