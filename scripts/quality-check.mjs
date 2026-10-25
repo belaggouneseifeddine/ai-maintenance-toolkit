@@ -45,7 +45,7 @@ const checks = [
     assert.ok(html.includes('<script src="./agent-core.js"></script>'));
     assert.ok(html.includes('<script src="./agent-ui.js"></script>'));
     assert.ok(html.includes('id="runLocalAgent"'));
-    for (const asset of ["engineering-core.js", "agent-core.js", "agent-ui.js", "oem-lookup.js"]) assert.ok(cloudflareDeployWorkflow.includes(asset), `Cloudflare Pages deploy omits ${asset}`);
+    for (const asset of ["engineering-core.js", "agent-core.js", "agent-ui.js", "oem-lookup.js"]) { assert.ok(cloudflareDeployWorkflow.includes(asset), `Cloudflare Pages deploy omits ${asset}`); assert.ok(deployWorkflow.includes(asset), `GitHub Pages deploy omits ${asset}`); }
     assert.ok(sw.includes('"./engineering-core.js"'));
     assert.ok(sw.includes('"./agent-core.js"'));
     assert.ok(sw.includes('"./agent-ui.js"'));
