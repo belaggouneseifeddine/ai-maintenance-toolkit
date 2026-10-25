@@ -61,7 +61,7 @@ This is a conservative string-presence check only. It does not prove that a topi
 - These templates are not verified alarm-code definitions. A verified case requires exact model, controller/drive, firmware, manual revision, page/section, supported claim, and human review.
 - The 63-entry OEM source-discovery registry is separate from the 2 license-tracked research sources above. Its URLs do not prove that a particular fault cause applies.
 - OEM record registry references are checked against the manufacturer-source registry; missing references: none. The source link alone is not evidence unless the recorded manual section supports the claim.
-- The structured OEM file contains 99 claim-reviewed records and 0 records pending claim-level review. Claim review is not field validation, and the source link alone is not evidence unless the recorded manual section supports the claim.
+- The structured OEM file contains 99 claim-reviewed records and 0 records pending claim-level review. Pending records must not be presented as source-verified.
 
 ## Recent model-specific evidence tranche
 
