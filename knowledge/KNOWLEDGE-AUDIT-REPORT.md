@@ -5,7 +5,7 @@ Deterministic inventory of the current repository. This report adds no technical
 ## Snapshot
 
 - Worker-referenced Markdown documents: **9**
-- Markdown inventory: **3,801 lines**, **54,499 whitespace-separated words**, **275 headings**
+- Markdown inventory: **3,801 lines**, **54,536 whitespace-separated words**, **275 headings**
 - Structured fault records: **284**
 - Model-specific manual-reviewed fault records (not field-verified): **60**
 - Distinct equipment-type labels in the fault library: **36**
@@ -15,7 +15,7 @@ Deterministic inventory of the current repository. This report adds no technical
 - Structured OEM symptom templates: **38**
 - Official manufacturer/support portal records: **63**
 - Structured OEM platform index entries: **29**; model-verified: **0**
-- Structured source-linked OEM diagnostic records: **99**; records with a missing manufacturer-source registry entry: **0**
+- Structured source-linked OEM diagnostic records: **99**; claim-reviewed: **84**; pending claim-level review: **15**; records with a missing manufacturer-source registry entry: **0**
 
 ## Document inventory
 
@@ -28,8 +28,8 @@ Deterministic inventory of the current repository. This report adds no technical
 | knowledge/EQUIPMENT-TROUBLESHOOTING-AR-FR-EN.md | 156 | 1,946 | 21 |
 | knowledge/UNIVERSAL-INDUSTRIAL-FAULT-ATLAS-AR-FR-EN.md | 120 | 1,737 | 14 |
 | knowledge/CHINESE-EUROPEAN-OEM-FAULT-MATRIX-AR-FR-EN.md | 432 | 4,549 | 45 |
-| knowledge/OEM-MANUFACTURER-INDEX-AR-FR-EN.md | 139 | 1,602 | 12 |
-| knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md | 2308 | 36,271 | 109 |
+| knowledge/OEM-MANUFACTURER-INDEX-AR-FR-EN.md | 139 | 1,615 | 12 |
+| knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md | 2308 | 36,295 | 109 |
 
 ## Source registry and licensing
 
@@ -61,6 +61,7 @@ This is a conservative string-presence check only. It does not prove that a topi
 - These templates are not verified alarm-code definitions. A verified case requires exact model, controller/drive, firmware, manual revision, page/section, supported claim, and human review.
 - The 63-entry OEM source-discovery registry is separate from the 2 license-tracked research sources above. Its URLs do not prove that a particular fault cause applies.
 - OEM record registry references are checked against the manufacturer-source registry; missing references: none. The source link alone is not evidence unless the recorded manual section supports the claim.
+- The structured OEM file contains 84 claim-reviewed records and 15 records pending claim-level review. Pending records must not be presented as source-verified.
 
 ## Recent model-specific evidence tranche
 
