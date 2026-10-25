@@ -803,7 +803,7 @@ Records marked `verified-source-exact-scope` describe what the cited manual supp
 - **Official evidence:** MD200 User Guide; MD200 User Guide; C02; document identifier MD200_User_Guide_EN_C02_19012113; 3 Fault > 3.1 Fault List; printed page 32.
 - **Source:** https://www.inovance.eu/fileadmin/downloads/Manuals/EN/MD200/MD200_User_Guide_EN_C02_19012113.PDF
 - **Evidence note:** The manual labels Err02 as overcurrent during acceleration and lists output short/ground fault, short acceleration time, unsuitable torque boost/V/f, low voltage, restarting a rotating motor, sudden load, undersized drive, braking resistor fault, and motor ground fault among possible causes.
-- **Review date:** 2026-10-24
+- **Review date:** 2026-10-25
 - **Status:** verified-source-exact-scope
 - **Safe checks (EN):**
 - Record the code and operating conditions; inspect fault history before repeated resets. After site-approved isolation and absence-of-voltage verification, have a qualified technician inspect motor cable and insulation. Compare acceleration ramp, load, and V/f settings with the MD200 manual and application; do not alter protection settings arbitrarily.
@@ -827,7 +827,7 @@ Records marked `verified-source-exact-scope` describe what the cited manual supp
 - **Official evidence:** MD200 User Guide; MD200 User Guide; C02; document identifier MD200_User_Guide_EN_C02_19012113; 3 Fault > 3.1 Fault List; printed page 32.
 - **Source:** https://www.inovance.eu/fileadmin/downloads/Manuals/EN/MD200/MD200_User_Guide_EN_C02_19012113.PDF
 - **Evidence note:** The manual identifies Err03 as overcurrent during deceleration and lists short/ground faults, short deceleration time, low voltage, sudden load, missing/unsuitable braking resistor, and motor ground fault as possible causes.
-- **Review date:** 2026-10-24
+- **Review date:** 2026-10-25
 - **Status:** verified-source-exact-scope
 - **Safe checks (EN):**
 - Record whether the fault occurs only on stopping or with a specific load; do not repeat test starts without risk assessment. Review fault history and compare deceleration time with the application requirements and MD200 manual. Inspect braking resistor and power cables only after isolation and DC-bus discharge by a qualified technician.
@@ -851,7 +851,7 @@ Records marked `verified-source-exact-scope` describe what the cited manual supp
 - **Official evidence:** MD200 User Guide; MD200 User Guide; C02; document identifier MD200_User_Guide_EN_C02_19012113; 3 Fault > 3.1 Fault List; printed page 33.
 - **Source:** https://www.inovance.eu/fileadmin/downloads/Manuals/EN/MD200/MD200_User_Guide_EN_C02_19012113.PDF
 - **Evidence note:** The manual labels Err05 as overvoltage during acceleration and lists excessive input voltage, external force driving the motor, short acceleration time, and absent braking resistor as possible causes.
-- **Review date:** 2026-10-24
+- **Review date:** 2026-10-25
 - **Status:** verified-source-exact-scope
 - **Safe checks (EN):**
 - Compare supply readings and fault timing with the drive nameplate and model manual limits. Review the ramp and any load that may drive the motor; do not change braking settings without engineering approval. A qualified technician must perform power-cabinet measurements or braking-resistor checks after isolation and energy discharge.
@@ -875,7 +875,7 @@ Records marked `verified-source-exact-scope` describe what the cited manual supp
 - **Official evidence:** MD200 User Guide; MD200 User Guide; C02; document identifier MD200_User_Guide_EN_C02_19012113; 3 Fault > 3.1 Fault List; printed page 34.
 - **Source:** https://www.inovance.eu/fileadmin/downloads/Manuals/EN/MD200/MD200_User_Guide_EN_C02_19012113.PDF
 - **Evidence note:** The manual labels Err09 as undervoltage and lists momentary power failure, input voltage outside the permitted range, abnormal bus voltage, and possible rectifier/pre-charge/drive/control-board faults.
-- **Review date:** 2026-10-24
+- **Review date:** 2026-10-25
 - **Status:** verified-source-exact-scope
 - **Safe checks (EN):**
 - Check supply interruption history and approved voltage monitoring without opening an energized cabinet. If the fault recurs with a sound supply, preserve the fault log and contact INOVANCE support instead of attempting board-level repair. Avoid repeated resets before identifying the voltage dip; follow site energy-isolation procedures.
@@ -899,7 +899,7 @@ Records marked `verified-source-exact-scope` describe what the cited manual supp
 - **Official evidence:** MD200 User Guide; MD200 User Guide; C02; document identifier MD200_User_Guide_EN_C02_19012113; 3 Fault > 3.1 Fault List; parameter F9-12 note; printed page 34.
 - **Source:** https://www.inovance.eu/fileadmin/downloads/Manuals/EN/MD200/MD200_User_Guide_EN_C02_19012113.PDF
 - **Evidence note:** The fault table names Err12 as input phase loss and lists abnormal three-phase input supply or internal drive/protection/control components as possible causes. The parameter note says the F9-12 input phase-loss protection applies only to single-phase MD200TXX models; do not generalize this parameter applicability to all MD200 variants.
-- **Review date:** 2026-10-24
+- **Review date:** 2026-10-25
 - **Status:** verified-source-exact-scope
 - **Safe checks (EN):**
 - Review breaker, supply status, and fault history from a safe point; the code alone does not prove drive failure. Inter-phase voltage measurements or cabinet wiring inspections must be performed by a qualified electrician under an approved isolation procedure. If the supply is sound and the fault persists, send the exact drive model and fault log to INOVANCE support.
@@ -923,7 +923,7 @@ Records marked `verified-source-exact-scope` describe what the cited manual supp
 - **Official evidence:** MD200 User Guide; MD200 User Guide; C02; document identifier MD200_User_Guide_EN_C02_19012113; 3 Fault > 3.2 Faults and Solutions; printed page 35.
 - **Source:** https://www.inovance.eu/fileadmin/downloads/Manuals/EN/MD200/MD200_User_Guide_EN_C02_19012113.PDF
 - **Evidence note:** The manual labels Err14 as module overheat and lists high ambient temperature, blocked air filter, damaged fan, damaged module thermistor, or a faulty drive unit as possible causes.
-- **Review date:** 2026-10-24
+- **Review date:** 2026-10-25
 - **Status:** verified-source-exact-scope
 - **Safe checks (EN):**
 - Check ambient temperature, cabinet ventilation, and fan indications externally. Do not clean the filter or approach the fan until the equipment is stopped and isolated under the approved procedure. If Err14 persists after correcting external ventilation conditions, request OEM diagnosis rather than opening the power module.
@@ -947,7 +947,7 @@ Records marked `verified-source-exact-scope` describe what the cited manual supp
 - **Official evidence:** C80 Series Alarm/Parameter Manual; C80 Series Alarm/Parameter Manual; IB-1501560-F; 3.1 Servo Errors (S01/S03/S04), drive unit alarm table; printed page 51.
 - **Source:** https://www.mitsubishielectric-cnc.com/wp-content/uploads/2025/02/C80-Series-Alarm-Parameter-Manual.pdf
 - **Evidence note:** Alarm No. 10 is named Insufficient voltage; the manual says a drop of bus voltage was detected in the main circuit. It gives reset class PR, but detailed troubleshooting is delegated to the exact drive-unit instruction manual.
-- **Review date:** 2026-10-24
+- **Review date:** 2026-10-25
 - **Status:** verified-source-exact-scope
 - **Safe checks (EN):**
 - Record the full C80 alarm, affected axis, drive model, and time of occurrence. Review alarm history and supply measurements available through an approved monitoring system. Use the manual for the actual drive unit before measurements or power cycling; the CNC manual alone is insufficient.
@@ -971,7 +971,7 @@ Records marked `verified-source-exact-scope` describe what the cited manual supp
 - **Official evidence:** C80 Series Alarm/Parameter Manual; C80 Series Alarm/Parameter Manual; IB-1501560-F; 3.1 Servo Errors (S01/S03/S04), drive unit alarm table; printed page 51.
 - **Source:** https://www.mitsubishielectric-cnc.com/wp-content/uploads/2025/02/C80-Series-Alarm-Parameter-Manual.pdf
 - **Evidence note:** Alarm No. 18 is named Main side encoder: Initial communication error; the details say initial communication with the motor-side encoder failed. Troubleshooting is not specified in this table and requires the exact drive-unit manual.
-- **Review date:** 2026-10-24
+- **Review date:** 2026-10-25
 - **Status:** verified-source-exact-scope
 - **Safe checks (EN):**
 - Record axis, full alarm code, encoder type, and drive model. Review alarm history and prior encoder-cable work without disconnecting connectors while running. Inspect connections only after stopping and isolating per the drive manual; do not replace the encoder without diagnosis.
@@ -995,7 +995,7 @@ Records marked `verified-source-exact-scope` describe what the cited manual supp
 - **Official evidence:** C80 Series Alarm/Parameter Manual; C80 Series Alarm/Parameter Manual; IB-1501560-F; 3.1 Servo Errors (S01/S03/S04), drive unit alarm table; printed page 52.
 - **Source:** https://www.mitsubishielectric-cnc.com/wp-content/uploads/2025/02/C80-Series-Alarm-Parameter-Manual.pdf
 - **Evidence note:** Alarm No. 23 is Excessive speed error; the manual defines it as the difference between actual and commanded speed persisting longer than the configured excessive-speed-deviation timer. Reset class is NR.
-- **Review date:** 2026-10-24
+- **Review date:** 2026-10-25
 - **Status:** verified-source-exact-scope
 - **Safe checks (EN):**
 - Capture the alarm, axis, commanded/actual speed, and available load changes. Visually check for an obstruction from a safe point; do not enter the motion zone or bypass guards. Review the configured deviation timer and exact servo manual; do not change alarm thresholds or control parameters without approval.
@@ -1019,7 +1019,7 @@ Records marked `verified-source-exact-scope` describe what the cited manual supp
 - **Official evidence:** C80 Series Alarm/Parameter Manual; C80 Series Alarm/Parameter Manual; IB-1501560-F; 3.1 Servo Errors (S01/S03/S04), drive unit alarm table; printed page 52.
 - **Source:** https://www.mitsubishielectric-cnc.com/wp-content/uploads/2025/02/C80-Series-Alarm-Parameter-Manual.pdf
 - **Evidence note:** Alarm No. 24 is named Grounding; the manual states the motor power cable is in contact with FG (frame ground). Reset class is PR.
-- **Review date:** 2026-10-24
+- **Review date:** 2026-10-25
 - **Status:** verified-source-exact-scope
 - **Safe checks (EN):**
 - Stop the machine and apply isolation plus absence-of-voltage verification before inspecting the power cable. Visually inspect chafing points and external damage without touching conductors or taking live measurements. Insulation testing must be performed by a qualified technician per the drive manual; do not megger connected electronics.
@@ -1043,7 +1043,7 @@ Records marked `verified-source-exact-scope` describe what the cited manual supp
 - **Official evidence:** C80 Series Alarm/Parameter Manual; C80 Series Alarm/Parameter Manual; IB-1501560-F; 3.1 Servo Errors (S01/S03/S04), drive unit alarm table; printed page 52.
 - **Source:** https://www.mitsubishielectric-cnc.com/wp-content/uploads/2025/02/C80-Series-Alarm-Parameter-Manual.pdf
 - **Evidence note:** Alarm No. 25 is named Absolute position data lost; the manual states absolute-position data was lost in the encoder. Reset class is AR. Recovery must follow the exact machine-builder and encoder procedure.
-- **Review date:** 2026-10-24
+- **Review date:** 2026-10-25
 - **Status:** verified-source-exact-scope
 - **Safe checks (EN):**
 - Do not move the axis or perform arbitrary homing before confirming reference state and OEM procedure. Record the alarm, battery/encoder status, and any recent power loss or maintenance. Use the drive, encoder, and machine-builder manuals to determine safe position recovery.
@@ -1067,7 +1067,7 @@ Records marked `verified-source-exact-scope` describe what the cited manual supp
 - **Official evidence:** C80 Series Alarm/Parameter Manual; C80 Series Alarm/Parameter Manual; IB-1501560-F; 8 Emergency Stop Alarms (EMG); printed page 106.
 - **Source:** https://www.mitsubishielectric-cnc.com/wp-content/uploads/2025/02/C80-Series-Alarm-Parameter-Manual.pdf
 - **Evidence note:** The manual states that the PLC emergency-stop signal is turned ON during user-PLC sequence processing and instructs checking the conditions that turn the signal ON and removing the cause. Other EMG labels in the same section have distinct causes and must not be conflated.
-- **Review date:** 2026-10-24
+- **Review date:** 2026-10-25
 - **Status:** verified-source-exact-scope
 - **Safe checks (EN):**
 - Check the stop-signal state on the diagnostic screen without bypassing the circuit or forcing outputs. Have an authorized person review signal conditions in the PLC program and approved safety schematic. Restart only after identifying the cause, removing the hazard, and verifying the stop system.
@@ -1091,7 +1091,7 @@ Records marked `verified-source-exact-scope` describe what the cited manual supp
 - **Official evidence:** S7-1200 Functional Safety Manual; S7-1200 Functional Safety Manual; V4.6, 11/2022; A5E03470344-AC; 6.2 Fault diagnostics; Event ID 0x0005; printed page 122.
 - **Source:** https://support.industry.siemens.com/dl/files/552/104547552/att_896075/v1/s71200_f_user_manual_en-US_en-US.pdf
 - **Evidence note:** The manual labels event 0x0005 Overtemperature for all listed fail-safe signal modules and states the module-case high-temperature limit has been exceeded; it directs checking ambient temperature and power cycling after the fault is eliminated.
-- **Review date:** 2026-10-24
+- **Review date:** 2026-10-25
 - **Status:** verified-source-exact-scope
 - **Safe checks (EN):**
 - Record the Event ID, module part number, and timestamp from the diagnostics buffer. Check cabinet temperature and ventilation externally; do not open an energized cabinet. After correcting the cause, follow the OEM power-cycle procedure; do not bypass the safety function.
@@ -1115,7 +1115,7 @@ Records marked `verified-source-exact-scope` describe what the cited manual supp
 - **Official evidence:** S7-1200 Functional Safety Manual; S7-1200 Functional Safety Manual; V4.6, 11/2022; A5E03470344-AC; 6.2 Fault diagnostics; Event ID 0x004D; printed page 122.
 - **Source:** https://support.industry.siemens.com/dl/files/552/104547552/att_896075/v1/s71200_f_user_manual_en-US_en-US.pdf
 - **Evidence note:** The manual describes event 0x004D as PROFIsafe communication error (CRC), indicating inconsistent data frames; possible cause is communication interference between fail-safe CPU and F-module, including excessive electromagnetic interference or sign-of-life monitoring error. Corrective measures include checking the communication connection and eliminating interference.
-- **Review date:** 2026-10-24
+- **Review date:** 2026-10-25
 - **Status:** verified-source-exact-scope
 - **Safe checks (EN):**
 - Record event ID, module, topology, and network diagnostics before changing settings. Externally inspect communication cables/connectors and follow the approved safety-network specification. Do not alter PROFIsafe timing or safety parameters without a risk assessment and approved engineering procedure.
@@ -1139,7 +1139,7 @@ Records marked `verified-source-exact-scope` describe what the cited manual supp
 - **Official evidence:** S7-1200 Functional Safety Manual; S7-1200 Functional Safety Manual; V4.6, 11/2022; A5E03470344-AC; 6.2 Fault diagnostics; Event ID 0x004E; printed page 122.
 - **Source:** https://support.industry.siemens.com/dl/files/552/104547552/att_896075/v1/s71200_f_user_manual_en-US_en-US.pdf
 - **Evidence note:** The manual labels event 0x004E PROFIsafe communication failure (timeout) and states that the F-monitoring time was exceeded. It recommends checking the F-monitoring time and examining the safety program and other CPU activities such as interrupts, Ethernet communication, OB scheduling, and long program paths.
-- **Review date:** 2026-10-24
+- **Review date:** 2026-10-25
 - **Status:** verified-source-exact-scope
 - **Safe checks (EN):**
 - Preserve diagnostics, CPU-cycle data, and event details before changing monitoring time. Have an authorized engineer review CPU load, interrupts, communications, and the safety program. Do not increase the timeout merely to suppress the alarm; risk analysis and safety validation are required.
