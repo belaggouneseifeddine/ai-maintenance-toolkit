@@ -58,6 +58,8 @@ const modelVerifiedPlatformCount = (oemPlatformIndex.manufacturers || []).filter
 const oemVerifiedRecordCount = Array.isArray(oemVerifiedFaults.records) ? oemVerifiedFaults.records.length : 0;
 const oemClaimReviewedCount = (oemVerifiedFaults.records || []).filter(record => record.evidenceStatus === "verified-source-exact-scope").length;
 const oemPendingClaimReviewCount = (oemVerifiedFaults.records || []).filter(record => record.evidenceStatus === "source-registered-pending-claim-review").length;
+const oemRecordsMissingPageRef = (oemVerifiedFaults.records || []).filter(record => !(record.source && (record.source.printedPage || record.source.pdfPage))).length;
+const oemRecordsMissingFirmwareScope = (oemVerifiedFaults.records || []).filter(record => !String(record.firmwareScope || "").trim()).length;
 const oemVerifiedSourceIds = new Set((oemVerifiedFaults.records || []).map(record => record.source && record.source.sourceId).filter(Boolean));
 const missingOemSources = [...oemVerifiedSourceIds].filter(id => !(manufacturerSources.sources || []).some(source => source.id === id));
 const fmt = value => Number(value).toLocaleString("en-US");
@@ -80,7 +82,7 @@ const report = [
   "- Structured OEM symptom templates: **" + manufacturerTemplateCount + "**",
   "- Official manufacturer/support portal records: **" + manufacturerPortalCount + "**",
   "- Structured OEM platform index entries: **" + oemPlatformCount + "**; model-verified: **" + modelVerifiedPlatformCount + "**",
-  "- Structured source-linked OEM diagnostic records: **" + oemVerifiedRecordCount + "**; claim-reviewed: **" + oemClaimReviewedCount + "**; pending claim-level review: **" + oemPendingClaimReviewCount + "**; records with a missing manufacturer-source registry entry: **" + missingOemSources.length + "**",
+  "- Structured source-linked OEM diagnostic records: **" + oemVerifiedRecordCount + "**; claim-reviewed: **" + oemClaimReviewedCount + "**; pending claim-level review: **" + oemPendingClaimReviewCount + "**; records missing a printed/PDF page reference: **" + oemRecordsMissingPageRef + "**; records missing firmware/applicability scope: **" + oemRecordsMissingFirmwareScope + "**; records with a missing manufacturer-source registry entry: **" + missingOemSources.length + "**",
   "",
   "## Document inventory",
   "",
