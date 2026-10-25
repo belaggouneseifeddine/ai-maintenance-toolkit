@@ -1531,7 +1531,7 @@
         "sourceId": "oem-inovance-md200-err02-overcurrent-acceleration-manual",
         "manualTitle": "MD200 User Guide",
         "revision": "MD200 User Guide; C02; document identifier MD200_User_Guide_EN_C02_19012113",
-        "section": "3 Fault > 3.1 Fault List",
+        "section": "3.2 Faults and Solutions",
         "printedPage": 32,
         "manualUrl": "https://www.inovance.eu/fileadmin/downloads/Manuals/EN/MD200/MD200_User_Guide_EN_C02_19012113.PDF",
         "evidenceSummary": "The manual labels Err02 as overcurrent during acceleration and lists output short/ground fault, short acceleration time, unsuitable torque boost/V/f, low voltage, restarting a rotating motor, sudden load, undersized drive, braking resistor fault, and motor ground fault among possible causes."
@@ -1552,7 +1552,7 @@
         "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
         "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
       },
-      "evidenceStatus": "source-registered-pending-claim-review",
+      "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
@@ -1578,7 +1578,7 @@
         "sourceId": "oem-inovance-md200-err02-overcurrent-acceleration-manual",
         "manualTitle": "MD200 User Guide",
         "revision": "MD200 User Guide; C02; document identifier MD200_User_Guide_EN_C02_19012113",
-        "section": "3 Fault > 3.1 Fault List",
+        "section": "3.2 Faults and Solutions",
         "printedPage": 32,
         "manualUrl": "https://www.inovance.eu/fileadmin/downloads/Manuals/EN/MD200/MD200_User_Guide_EN_C02_19012113.PDF",
         "evidenceSummary": "The manual identifies Err03 as overcurrent during deceleration and lists short/ground faults, short deceleration time, low voltage, sudden load, missing/unsuitable braking resistor, and motor ground fault as possible causes."
@@ -1599,7 +1599,7 @@
         "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
         "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
       },
-      "evidenceStatus": "source-registered-pending-claim-review",
+      "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
@@ -1625,7 +1625,7 @@
         "sourceId": "oem-inovance-md200-err02-overcurrent-acceleration-manual",
         "manualTitle": "MD200 User Guide",
         "revision": "MD200 User Guide; C02; document identifier MD200_User_Guide_EN_C02_19012113",
-        "section": "3 Fault > 3.1 Fault List",
+        "section": "3.2 Faults and Solutions",
         "printedPage": 33,
         "manualUrl": "https://www.inovance.eu/fileadmin/downloads/Manuals/EN/MD200/MD200_User_Guide_EN_C02_19012113.PDF",
         "evidenceSummary": "The manual labels Err05 as overvoltage during acceleration and lists excessive input voltage, external force driving the motor, short acceleration time, and absent braking resistor as possible causes."
@@ -1646,7 +1646,7 @@
         "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
         "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
       },
-      "evidenceStatus": "source-registered-pending-claim-review",
+      "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
@@ -1672,7 +1672,7 @@
         "sourceId": "oem-inovance-md200-err02-overcurrent-acceleration-manual",
         "manualTitle": "MD200 User Guide",
         "revision": "MD200 User Guide; C02; document identifier MD200_User_Guide_EN_C02_19012113",
-        "section": "3 Fault > 3.1 Fault List",
+        "section": "3.2 Faults and Solutions",
         "printedPage": 34,
         "manualUrl": "https://www.inovance.eu/fileadmin/downloads/Manuals/EN/MD200/MD200_User_Guide_EN_C02_19012113.PDF",
         "evidenceSummary": "The manual labels Err09 as undervoltage and lists momentary power failure, input voltage outside the permitted range, abnormal bus voltage, and possible rectifier/pre-charge/drive/control-board faults."
@@ -1693,7 +1693,7 @@
         "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
         "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
       },
-      "evidenceStatus": "source-registered-pending-claim-review",
+      "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
@@ -1719,7 +1719,7 @@
         "sourceId": "oem-inovance-md200-err02-overcurrent-acceleration-manual",
         "manualTitle": "MD200 User Guide",
         "revision": "MD200 User Guide; C02; document identifier MD200_User_Guide_EN_C02_19012113",
-        "section": "3 Fault > 3.1 Fault List; parameter F9-12 note",
+        "section": "3.2 Faults and Solutions",
         "printedPage": 34,
         "manualUrl": "https://www.inovance.eu/fileadmin/downloads/Manuals/EN/MD200/MD200_User_Guide_EN_C02_19012113.PDF",
         "evidenceSummary": "The fault table names Err12 as input phase loss and lists abnormal three-phase input supply or internal drive/protection/control components as possible causes. The parameter note says the F9-12 input phase-loss protection applies only to single-phase MD200TXX models; do not generalize this parameter applicability to all MD200 variants."
@@ -1740,7 +1740,7 @@
         "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
         "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
       },
-      "evidenceStatus": "source-registered-pending-claim-review",
+      "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
@@ -1753,23 +1753,23 @@
       "modelScope": "INOVANCE — MD200 series AC drive",
       "alarmCode": "Err14",
       "title": {
-        "en": "INOVANCE MD200 Err14 — drive overtemperature",
-        "ar": "INOVANCE MD200 Err14 — ارتفاع حرارة الدرايف",
-        "fr": "INOVANCE MD200 Err14 — surchauffe du variateur"
+        "en": "Module overheat",
+        "ar": "ارتفاع حرارة الوحدة",
+        "fr": "Surchauffe du module"
       },
       "meaning": {
-        "en": "The manual labels Err14 as drive overtemperature and lists high ambient temperature, blocked air filter, damaged fan, damaged module thermistor, or a faulty drive unit as possible causes.",
-        "ar": "يصنّف الدليل Err14 على أنه ارتفاع حرارة المغير. تشمل الأسباب المحتملة ارتفاع حرارة المحيط، أو انسداد مرشح الهواء، أو تلف المروحة أو حساس حرارة الوحدة، أو عطل وحدة القيادة.",
-        "fr": "Le guide classe Err14 comme une surchauffe du variateur. Les causes possibles comprennent une température ambiante élevée, un filtre d’air obstrué, un ventilateur ou thermistor de module endommagé, ou une unité de variateur défectueuse."
+        "en": "The MD200 manual labels Err14 as Module overheat. Listed possible causes include high ambient temperature, a blocked air filter, a damaged fan, a damaged module thermistor, or a faulty drive unit.",
+        "ar": "يسمّي دليل MD200 الرمز Err14 «ارتفاع حرارة الوحدة». وتشمل الأسباب المحتملة ارتفاع حرارة المحيط، أو انسداد مرشح الهواء، أو تلف المروحة أو حساس حرارة الوحدة، أو خلل وحدة القيادة.",
+        "fr": "Le guide MD200 nomme Err14 « Surchauffe du module ». Les causes possibles incluent une température ambiante élevée, un filtre à air obstrué, un ventilateur ou une thermistance de module endommagé, ou un variateur défectueux."
       },
       "source": {
         "sourceId": "oem-inovance-md200-err02-overcurrent-acceleration-manual",
         "manualTitle": "MD200 User Guide",
         "revision": "MD200 User Guide; C02; document identifier MD200_User_Guide_EN_C02_19012113",
-        "section": "3 Fault > 3.1 Fault List",
+        "section": "3.2 Faults and Solutions",
         "printedPage": 35,
         "manualUrl": "https://www.inovance.eu/fileadmin/downloads/Manuals/EN/MD200/MD200_User_Guide_EN_C02_19012113.PDF",
-        "evidenceSummary": "The manual labels Err14 as drive overtemperature and lists high ambient temperature, blocked air filter, damaged fan, damaged module thermistor, or a faulty drive unit as possible causes."
+        "evidenceSummary": "The MD200 manual labels Err14 as Module overheat. Listed possible causes include high ambient temperature, a blocked air filter, a damaged fan, a damaged module thermistor, or a faulty drive unit."
       },
       "safeChecks": {
         "en": [
@@ -1787,10 +1787,11 @@
         "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
         "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
       },
-      "evidenceStatus": "source-registered-pending-claim-review",
+      "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
+      "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope.",
+      "firmwareScope": "MD200 User Guide C02 (January 2023); apply only to MD200 family variants whose manual matches this revision."
     },
     {
       "id": "oem-mitsubishi-c80-servo-alarm-10-insufficient-voltage",
@@ -1834,7 +1835,7 @@
         "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
         "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
       },
-      "evidenceStatus": "source-registered-pending-claim-review",
+      "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
@@ -1881,7 +1882,7 @@
         "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
         "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
       },
-      "evidenceStatus": "source-registered-pending-claim-review",
+      "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
@@ -1928,7 +1929,7 @@
         "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
         "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
       },
-      "evidenceStatus": "source-registered-pending-claim-review",
+      "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
@@ -1975,7 +1976,7 @@
         "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
         "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
       },
-      "evidenceStatus": "source-registered-pending-claim-review",
+      "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
@@ -2022,7 +2023,7 @@
         "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
         "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
       },
-      "evidenceStatus": "source-registered-pending-claim-review",
+      "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
@@ -2069,7 +2070,7 @@
         "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
         "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
       },
-      "evidenceStatus": "source-registered-pending-claim-review",
+      "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
@@ -2116,7 +2117,7 @@
         "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
         "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
       },
-      "evidenceStatus": "source-registered-pending-claim-review",
+      "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
@@ -2163,7 +2164,7 @@
         "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
         "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
       },
-      "evidenceStatus": "source-registered-pending-claim-review",
+      "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
@@ -2210,7 +2211,7 @@
         "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
         "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
       },
-      "evidenceStatus": "source-registered-pending-claim-review",
+      "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
@@ -5196,6 +5197,6 @@
       "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm."
     }
   ],
-  "manualClaimReviewedCount": 84,
-  "pendingClaimReviewCount": 15
+  "manualClaimReviewedCount": 99,
+  "pendingClaimReviewCount": 0
 }
