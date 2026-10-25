@@ -3459,12 +3459,11 @@
         "sourceId": "delta-asda-b2-f-user-manual",
         "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
         "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
-        "section": "9.1 Alarm of Servo Drive (alarm name/description table; PDF page 203, printed page 9-2)",
+        "section": "9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted",
         "printedPageLabel": "9-2",
         "pdfPage": 203,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The ASDA-B2-F manual identifies AL001 as overcurrent in the servo drive main circuit.",
-        "pageLabel": "9-2"
+        "evidenceSummary": "The ASDA-B2-F manual identifies AL001 as overcurrent in the servo drive main circuit."
       },
       "safeChecks": {
         "en": [
@@ -3516,12 +3515,11 @@
         "sourceId": "delta-asda-b2-f-user-manual",
         "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
         "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
-        "section": "9.1 Alarm of Servo Drive (alarm name/description table; PDF page 203, printed page 9-2)",
+        "section": "9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted",
         "printedPageLabel": "9-2",
         "pdfPage": 203,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL002 as main-circuit voltage above the specified standard voltage.",
-        "pageLabel": "9-2"
+        "evidenceSummary": "The manual identifies AL002 as main-circuit voltage above the specified standard voltage."
       },
       "safeChecks": {
         "en": [
@@ -3573,12 +3571,11 @@
         "sourceId": "delta-asda-b2-f-user-manual",
         "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
         "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
-        "section": "9.1 Alarm of Servo Drive (alarm name/description table; PDF page 203, printed page 9-2)",
+        "section": "9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted",
         "printedPageLabel": "9-2",
         "pdfPage": 203,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL003 as main-circuit voltage below the specified standard voltage.",
-        "pageLabel": "9-2"
+        "evidenceSummary": "The manual identifies AL003 as main-circuit voltage below the specified standard voltage."
       },
       "safeChecks": {
         "en": [
@@ -3630,12 +3627,11 @@
         "sourceId": "delta-asda-b2-f-user-manual",
         "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
         "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
-        "section": "9.1 Alarm of Servo Drive (alarm name/description table; PDF page 203, printed page 9-2)",
+        "section": "9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted",
         "printedPageLabel": "9-2",
         "pdfPage": 203,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual labels AL006 as overload of the motor and servo drive.",
-        "pageLabel": "9-2"
+        "evidenceSummary": "The manual labels AL006 as overload of the motor and servo drive."
       },
       "safeChecks": {
         "en": [
@@ -3687,12 +3683,11 @@
         "sourceId": "delta-asda-b2-f-user-manual",
         "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
         "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
-        "section": "9.1 Alarm of Servo Drive (alarm name/description table; PDF page 203, printed page 9-2)",
+        "section": "9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted",
         "printedPageLabel": "9-2",
         "pdfPage": 203,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL007 when motor speed exceeds the normal speed range.",
-        "pageLabel": "9-2"
+        "evidenceSummary": "The manual identifies AL007 when motor speed exceeds the normal speed range."
       },
       "safeChecks": {
         "en": [
@@ -3744,12 +3739,11 @@
         "sourceId": "delta-asda-b2-f-user-manual",
         "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
         "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
-        "section": "9.1 Alarm of Servo Drive (alarm name/description table; PDF page 203, printed page 9-2)",
+        "section": "9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted",
         "printedPageLabel": "9-2",
         "pdfPage": 203,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL009 when position-command deviation exceeds the permitted setting.",
-        "pageLabel": "9-2"
+        "evidenceSummary": "The manual identifies AL009 when position-command deviation exceeds the permitted setting."
       },
       "safeChecks": {
         "en": [
@@ -3801,12 +3795,11 @@
         "sourceId": "delta-asda-b2-f-user-manual",
         "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
         "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
-        "section": "9.1 Alarm of Servo Drive (alarm name/description table; PDF page 203, printed page 9-2)",
+        "section": "9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted",
         "printedPageLabel": "9-2",
         "pdfPage": 203,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL011 as an encoder error in which the encoder generates an abnormal pulse.",
-        "pageLabel": "9-2"
+        "evidenceSummary": "The manual identifies AL011 as an encoder error in which the encoder generates an abnormal pulse."
       },
       "safeChecks": {
         "en": [
@@ -3858,12 +3851,11 @@
         "sourceId": "delta-asda-b2-f-user-manual",
         "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
         "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
-        "section": "9.1 Alarm of Servo Drive (alarm name/description table; PDF page 203, printed page 9-2)",
+        "section": "9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted",
         "printedPageLabel": "9-2",
         "pdfPage": 203,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL016 when the IGBT temperature is too high.",
-        "pageLabel": "9-2"
+        "evidenceSummary": "The manual identifies AL016 when the IGBT temperature is too high."
       },
       "safeChecks": {
         "en": [
@@ -3915,12 +3907,11 @@
         "sourceId": "delta-asda-b2-f-user-manual",
         "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
         "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
-        "section": "9.1 Alarm of Servo Drive (alarm name/description table; PDF page 203, printed page 9-2)",
+        "section": "9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted",
         "printedPageLabel": "9-2; corrective details 9-9",
         "pdfPage": 203,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL022 as an abnormal main-circuit supply condition associated with missing phase power; the exact power wiring and drive rating must be matched to the manual.",
-        "pageLabel": "9-2"
+        "evidenceSummary": "The manual identifies AL022 as an abnormal main-circuit supply condition associated with missing phase power; the exact power wiring and drive rating must be matched to the manual."
       },
       "safeChecks": {
         "en": [
@@ -3972,12 +3963,11 @@
         "sourceId": "delta-asda-b2-f-user-manual",
         "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
         "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
-        "section": "9.1 Alarm of Servo Drive (alarm name/description table; PDF page 203, printed page 9-2)",
+        "section": "9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted",
         "printedPageLabel": "9-2; corrective details 9-9",
         "pdfPage": 203,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL024 as an error in the initial magnetic field of the encoder U/V/W signals.",
-        "pageLabel": "9-2"
+        "evidenceSummary": "The manual identifies AL024 as an error in the initial magnetic field of the encoder U/V/W signals."
       },
       "safeChecks": {
         "en": [
@@ -4029,12 +4019,11 @@
         "sourceId": "delta-asda-b2-f-user-manual",
         "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
         "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
-        "section": "9.1 Alarm of Servo Drive (alarm name/description table; PDF page 203, printed page 9-2)",
+        "section": "9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted",
         "printedPageLabel": "9-11",
-        "pdfPage": 203,
+        "pdfPage": 212,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL031 as incorrect wiring of the motor power cable U, V, W or ground.",
-        "pageLabel": "9-2"
+        "evidenceSummary": "The manual identifies AL031 as incorrect wiring of the motor power cable U, V, W or ground."
       },
       "safeChecks": {
         "en": [
@@ -4086,12 +4075,11 @@
         "sourceId": "delta-asda-b2-f-user-manual",
         "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
         "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
-        "section": "9.1 Alarm of Servo Drive (alarm name/description table; PDF page 203, printed page 9-2)",
+        "section": "9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted",
         "printedPageLabel": "9-12",
-        "pdfPage": 203,
+        "pdfPage": 213,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL060 as loss of absolute position and discusses battery undervoltage, incomplete absolute-coordinate initialization, and battery-circuit connection issues in the troubleshooting section.",
-        "pageLabel": "9-2"
+        "evidenceSummary": "The manual identifies AL060 as loss of absolute position and discusses battery undervoltage, incomplete absolute-coordinate initialization, and battery-circuit connection issues in the troubleshooting section."
       },
       "safeChecks": {
         "en": [
@@ -4143,12 +4131,11 @@
         "sourceId": "delta-asda-b2-f-user-manual",
         "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
         "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
-        "section": "9.1 Alarm of Servo Drive (alarm name/description table; PDF page 203, printed page 9-2)",
+        "section": "9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted",
         "printedPageLabel": "9-14",
-        "pdfPage": 203,
+        "pdfPage": 215,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL185 as abnormal DMCNET bus hardware and directs attention to communication-cable condition and communication quality.",
-        "pageLabel": "9-2"
+        "evidenceSummary": "The manual identifies AL185 as abnormal DMCNET bus hardware and directs attention to communication-cable condition and communication quality."
       },
       "safeChecks": {
         "en": [
@@ -4312,12 +4299,11 @@
         "sourceId": "delta-asda-b2-f-user-manual",
         "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
         "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
-        "section": "9.1 Alarm of Servo Drive (alarm name/description table; PDF page 203, printed page 9-2)",
+        "section": "9.4 Causes and Corrective Actions → AL004",
         "printedPageLabel": "9-5",
-        "pdfPage": 203,
+        "pdfPage": 206,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL004 when the drive is paired with the wrong motor.",
-        "pageLabel": "9-2"
+        "evidenceSummary": "The manual identifies AL004 when the drive is paired with the wrong motor."
       },
       "safeChecks": {
         "en": [
@@ -4369,12 +4355,11 @@
         "sourceId": "delta-asda-b2-f-user-manual",
         "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
         "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
-        "section": "9.1 Alarm of Servo Drive (alarm name/description table; PDF page 203, printed page 9-2)",
+        "section": "9.4 Causes and Corrective Actions → AL005",
         "printedPageLabel": "9-6",
-        "pdfPage": 203,
+        "pdfPage": 207,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL005 as a regeneration error and directs checks to the regenerative-resistor circuit/configuration.",
-        "pageLabel": "9-2"
+        "evidenceSummary": "The manual identifies AL005 as a regeneration error and directs checks to the regenerative-resistor circuit/configuration."
       },
       "safeChecks": {
         "en": [
@@ -4426,12 +4411,11 @@
         "sourceId": "delta-asda-b2-f-user-manual",
         "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
         "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
-        "section": "9.1 Alarm of Servo Drive (alarm name/description table; PDF page 203, printed page 9-2)",
+        "section": "9.4 Causes and Corrective Actions → AL012",
         "printedPageLabel": "9-7",
-        "pdfPage": 203,
+        "pdfPage": 208,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual describes AL012 when electrical adjustment exceeds the allowable value; abnormal current adjustment is listed as a cause.",
-        "pageLabel": "9-2"
+        "evidenceSummary": "The manual describes AL012 when electrical adjustment exceeds the allowable value; abnormal current adjustment is listed as a cause."
       },
       "safeChecks": {
         "en": [
@@ -4483,12 +4467,11 @@
         "sourceId": "delta-asda-b2-f-user-manual",
         "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
         "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
-        "section": "9.1 Alarm of Servo Drive (alarm name/description table; PDF page 203, printed page 9-2)",
+        "section": "9.4 Causes and Corrective Actions → AL013",
         "printedPageLabel": "9-7",
-        "pdfPage": 203,
+        "pdfPage": 208,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL013 when DI.EMGS is active; it clears automatically after the input is OFF.",
-        "pageLabel": "9-2"
+        "evidenceSummary": "The manual identifies AL013 when DI.EMGS is active; it clears automatically after the input is OFF."
       },
       "safeChecks": {
         "en": [
@@ -4540,12 +4523,11 @@
         "sourceId": "delta-asda-b2-f-user-manual",
         "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
         "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
-        "section": "9.1 Alarm of Servo Drive (alarm name/description table; PDF page 203, printed page 9-2)",
+        "section": "9.4 Causes and Corrective Actions → AL014",
         "printedPageLabel": "9-7",
-        "pdfPage": 203,
+        "pdfPage": 208,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL014 when the reverse-limit switch is activated.",
-        "pageLabel": "9-2"
+        "evidenceSummary": "The manual identifies AL014 when the reverse-limit switch is activated."
       },
       "safeChecks": {
         "en": [
@@ -4597,12 +4579,11 @@
         "sourceId": "delta-asda-b2-f-user-manual",
         "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
         "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
-        "section": "9.1 Alarm of Servo Drive (alarm name/description table; PDF page 203, printed page 9-2)",
+        "section": "9.4 Causes and Corrective Actions → AL015",
         "printedPageLabel": "9-7",
-        "pdfPage": 203,
+        "pdfPage": 208,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL015 when the forward-limit switch is activated.",
-        "pageLabel": "9-2"
+        "evidenceSummary": "The manual identifies AL015 when the forward-limit switch is activated."
       },
       "safeChecks": {
         "en": [
@@ -4654,12 +4635,11 @@
         "sourceId": "delta-asda-b2-f-user-manual",
         "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
         "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
-        "section": "9.1 Alarm of Servo Drive (alarm name/description table; PDF page 203, printed page 9-2)",
+        "section": "9.4 Causes and Corrective Actions → AL017",
         "printedPageLabel": "9-8",
-        "pdfPage": 203,
+        "pdfPage": 209,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL017 as an error when the drive DSP accesses EEPROM and discusses parameter-write/ROM issues.",
-        "pageLabel": "9-2"
+        "evidenceSummary": "The manual identifies AL017 as an error when the drive DSP accesses EEPROM and discusses parameter-write/ROM issues."
       },
       "safeChecks": {
         "en": [
@@ -4711,12 +4691,11 @@
         "sourceId": "delta-asda-b2-f-user-manual",
         "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
         "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
-        "section": "9.1 Alarm of Servo Drive (alarm name/description table; PDF page 203, printed page 9-2)",
+        "section": "9.4 Causes and Corrective Actions → AL018",
         "printedPageLabel": "9-8",
-        "pdfPage": 203,
+        "pdfPage": 209,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual links AL018 to encoder faults or output pulses exceeding the hardware range, and points to related encoder alarms and P1-76/P1-46.",
-        "pageLabel": "9-2"
+        "evidenceSummary": "The manual links AL018 to encoder faults or output pulses exceeding the hardware range, and points to related encoder alarms and P1-76/P1-46."
       },
       "safeChecks": {
         "en": [
@@ -4768,12 +4747,11 @@
         "sourceId": "delta-asda-b2-f-user-manual",
         "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
         "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
-        "section": "9.1 Alarm of Servo Drive (alarm name/description table; PDF page 203, printed page 9-2)",
+        "section": "9.4 Causes and Corrective Actions → AL019",
         "printedPageLabel": "9-8",
-        "pdfPage": 203,
+        "pdfPage": 209,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL019 as an RS-232 communication error; it directs checks to communication parameters, address and accessed value.",
-        "pageLabel": "9-2"
+        "evidenceSummary": "The manual identifies AL019 as an RS-232 communication error; it directs checks to communication parameters, address and accessed value."
       },
       "safeChecks": {
         "en": [
@@ -4822,12 +4800,11 @@
         "sourceId": "delta-asda-b2-f-user-manual",
         "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
         "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
-        "section": "9.1 Alarm of Servo Drive (alarm name/description table; PDF page 203, printed page 9-2)",
+        "section": "9.4 Causes and Corrective Actions → AL020",
         "printedPageLabel": "9-8–9-9",
-        "pdfPage": 203,
+        "pdfPage": 209,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL020 as an RS-232 timeout and lists timeout settings, missing commands or cable faults as checks.",
-        "pageLabel": "9-2"
+        "evidenceSummary": "The manual identifies AL020 as an RS-232 timeout and lists timeout settings, missing commands or cable faults as checks."
       },
       "safeChecks": {
         "en": [
@@ -4876,12 +4853,11 @@
         "sourceId": "delta-asda-b2-f-user-manual",
         "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
         "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
-        "section": "9.1 Alarm of Servo Drive (alarm name/description table; PDF page 203, printed page 9-2)",
+        "section": "9.4 Causes and Corrective Actions → AL023",
         "printedPageLabel": "9-9",
-        "pdfPage": 203,
+        "pdfPage": 210,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL023 as an overload warning and directs checks to the overload condition and parameter P1-56.",
-        "pageLabel": "9-2"
+        "evidenceSummary": "The manual identifies AL023 as an overload warning and directs checks to the overload condition and parameter P1-56."
       },
       "safeChecks": {
         "en": [
@@ -4930,12 +4906,11 @@
         "sourceId": "delta-asda-b2-f-user-manual",
         "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
         "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
-        "section": "9.1 Alarm of Servo Drive (alarm name/description table; PDF page 203, printed page 9-2)",
+        "section": "9.4 Causes and Corrective Actions → AL025",
         "printedPageLabel": "9-9",
-        "pdfPage": 203,
+        "pdfPage": 210,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL025 as an encoder internal-memory/counter error and lists grounding, cable routing and shielding checks.",
-        "pageLabel": "9-2"
+        "evidenceSummary": "The manual identifies AL025 as an encoder internal-memory/counter error and lists grounding, cable routing and shielding checks."
       },
       "safeChecks": {
         "en": [
@@ -4984,12 +4959,11 @@
         "sourceId": "delta-asda-b2-f-user-manual",
         "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
         "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
-        "section": "9.1 Alarm of Servo Drive (alarm name/description table; PDF page 203, printed page 9-2)",
+        "section": "9.4 Causes and Corrective Actions → AL026",
         "printedPageLabel": "9-10",
-        "pdfPage": 203,
+        "pdfPage": 211,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL026 when encoder internal-data errors occur three times consecutively.",
-        "pageLabel": "9-2"
+        "evidenceSummary": "The manual identifies AL026 when encoder internal-data errors occur three times consecutively."
       },
       "safeChecks": {
         "en": [
@@ -5038,12 +5012,11 @@
         "sourceId": "delta-asda-b2-f-user-manual",
         "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
         "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
-        "section": "9.1 Alarm of Servo Drive (alarm name/description table; PDF page 203, printed page 9-2)",
+        "section": "9.4 Causes and Corrective Actions → AL027",
         "printedPageLabel": "9-10",
-        "pdfPage": 203,
+        "pdfPage": 211,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL027 as an internal encoder-reset error and directs checks to encoder communication, supply stability and operating temperature.",
-        "pageLabel": "9-2"
+        "evidenceSummary": "The manual identifies AL027 as an internal encoder-reset error and directs checks to encoder communication, supply stability and operating temperature."
       },
       "safeChecks": {
         "en": [
@@ -5092,12 +5065,11 @@
         "sourceId": "delta-asda-b2-f-user-manual",
         "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
         "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
-        "section": "9.1 Alarm of Servo Drive (alarm name/description table; PDF page 203, printed page 9-2)",
+        "section": "9.4 Causes and Corrective Actions → AL028",
         "printedPageLabel": "9-10",
-        "pdfPage": 203,
+        "pdfPage": 211,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual associates AL028 with encoder voltage/internal error and discusses battery voltage above specification or an encoder internal fault.",
-        "pageLabel": "9-2"
+        "evidenceSummary": "The manual associates AL028 with encoder voltage/internal error and discusses battery voltage above specification or an encoder internal fault."
       },
       "safeChecks": {
         "en": [
@@ -5146,12 +5118,11 @@
         "sourceId": "delta-asda-b2-f-user-manual",
         "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
         "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
-        "section": "9.1 Alarm of Servo Drive (alarm name/description table; PDF page 203, printed page 9-2)",
+        "section": "9.4 Causes and Corrective Actions → AL029",
         "printedPageLabel": "9-11",
-        "pdfPage": 203,
+        "pdfPage": 212,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL029 as an absolute-position error and advises checking whether it recurs after a power cycle.",
-        "pageLabel": "9-2"
+        "evidenceSummary": "The manual identifies AL029 as an absolute-position error and advises checking whether it recurs after a power cycle."
       },
       "safeChecks": {
         "en": [
@@ -5200,12 +5171,11 @@
         "sourceId": "delta-asda-b2-f-user-manual",
         "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
         "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
-        "section": "9.1 Alarm of Servo Drive (alarm name/description table; PDF page 203, printed page 9-2)",
+        "section": "9.4 Causes and Corrective Actions → AL034",
         "printedPageLabel": "9-11",
-        "pdfPage": 203,
+        "pdfPage": 212,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL034 as an internal communication error affecting an absolute encoder or another encoder type.",
-        "pageLabel": "9-2"
+        "evidenceSummary": "The manual identifies AL034 as an internal communication error affecting an absolute encoder or another encoder type."
       },
       "safeChecks": {
         "en": [
@@ -5254,12 +5224,11 @@
         "sourceId": "delta-asda-b2-f-user-manual",
         "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
         "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
-        "section": "9.1 Alarm of Servo Drive (alarm name/description table; PDF page 203, printed page 9-2)",
+        "section": "9.4 Causes and Corrective Actions → AL035",
         "printedPageLabel": "9-11–9-12",
-        "pdfPage": 203,
+        "pdfPage": 212,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL035 when encoder temperature exceeds 100°C and directs checks to the displayed temperature, heat dissipation and load.",
-        "pageLabel": "9-2"
+        "evidenceSummary": "The manual identifies AL035 when encoder temperature exceeds 100°C and directs checks to the displayed temperature, heat dissipation and load."
       },
       "safeChecks": {
         "en": [
