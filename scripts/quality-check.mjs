@@ -17,6 +17,14 @@ const sw = readFileSync("sw.js", "utf8");
 const deployWorkflow = readFileSync(".github/workflows/deploy-pages.yml", "utf8");
 const cloudflareDeployWorkflow = readFileSync(".github/workflows/deploy-cloudflare-pages.yml", "utf8");
 const faults = JSON.parse(readFileSync("faults.json", "utf8"));
+const manufacturerSources = JSON.parse(readFileSync("knowledge/manufacturer-sources.json", "utf8"));
+const manufacturerMatrix = JSON.parse(readFileSync("knowledge/manufacturer-machine-fault-matrix.json", "utf8"));
+const manufacturerMatrixMarkdown = readFileSync("knowledge/CHINESE-EUROPEAN-OEM-FAULT-MATRIX-AR-FR-EN.md", "utf8");
+const oemPlatformIndex = JSON.parse(readFileSync("knowledge/oem-platform-index.json", "utf8"));
+const oemIndexMarkdown = readFileSync("knowledge/OEM-MANUFACTURER-INDEX-AR-FR-EN.md", "utf8");
+const oemVerifiedFaults = JSON.parse(readFileSync("knowledge/oem-verified-faults.json", "utf8"));
+const oemVerifiedMarkdown = readFileSync("knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md", "utf8");
+const oemLookupSource = readFileSync("oem-lookup.js", "utf8");
 const diagnosticEngineSource = readFileSync("diagnostic-engine.js", "utf8");
 const normalizationSource = readFileSync("normalization.js", "utf8");
 const knowledgeReviewSource = readFileSync("knowledge-review.js", "utf8");
@@ -37,7 +45,7 @@ const checks = [
     assert.ok(html.includes('<script src="./agent-core.js"></script>'));
     assert.ok(html.includes('<script src="./agent-ui.js"></script>'));
     assert.ok(html.includes('id="runLocalAgent"'));
-    for (const asset of ["engineering-core.js", "agent-core.js", "agent-ui.js"]) assert.ok(cloudflareDeployWorkflow.includes(asset), `Cloudflare Pages deploy omits ${asset}`);
+    for (const asset of ["engineering-core.js", "agent-core.js", "agent-ui.js", "oem-lookup.js"]) { assert.ok(cloudflareDeployWorkflow.includes(asset), `Cloudflare Pages deploy omits ${asset}`); assert.ok(deployWorkflow.includes(asset), `GitHub Pages deploy omits ${asset}`); }
     assert.ok(sw.includes('"./engineering-core.js"'));
     assert.ok(sw.includes('"./agent-core.js"'));
     assert.ok(sw.includes('"./agent-ui.js"'));
@@ -249,7 +257,7 @@ const checks = [
   ["Service worker caches the app shell and icon with a bumped cache version", () => {
     assert.match(sw, /APP_SHELL/);
     assert.match(sw, /\.\/icon\.svg/);
-    assert.match(sw, /maintenance-ai-toolkit-v37/);
+    assert.match(sw, /maintenance-ai-toolkit-v46/);
   }]
 ,
   ["Multilingual fault library covers pumps, motors, VFDs and compressors", () => {
@@ -262,15 +270,35 @@ const checks = [
       "motor-no-start", "motor-overheating", "vfd-trip",
       "compressor-high-temperature", "compressor-low-pressure"
     ]) assert.ok(ids.includes(id), "missing fault " + id);
+    const modelReviewed = faults.faults.filter(fault => fault.modelSpecificEvidence);
+    assert.ok(modelReviewed.length >= 60, "expected at least 60 structured model-specific manual-reviewed records");
+    for (const fault of modelReviewed) {
+      const evidence = fault.modelSpecificEvidence;
+      assert.ok(evidence.manufacturer && evidence.productFamily && evidence.manualTitle, fault.id + " missing model/manual identity");
+      assert.ok(evidence.officialDocumentUrl?.startsWith("https://"), fault.id + " missing official manual URL");
+      assert.ok(evidence.section && (Number.isInteger(evidence.printedPage) || evidence.pageNotProvidedReason), fault.id + " missing manual section/page provenance");
+      assert.ok(evidence.reviewedOn && evidence.reviewStatus, fault.id + " missing review metadata");
+      assert.ok(Array.isArray(fault.sourceRefs) && fault.sourceRefs.length > 0, fault.id + " missing source references");
+    }
+    for (const id of [
+      "oem-siemens-g120c-f07860-external-fault-1",
+      "oem-siemens-g120c-f07900-motor-blocked",
+      "oem-siemens-g120c-f07901-motor-overspeed",
+      "oem-siemens-g120c-f07902-motor-stalled",
+      "oem-siemens-g120c-f08501-setpoint-timeout",
+      "oem-siemens-g120c-f08502-sign-of-life-timeout",
+      "oem-siemens-g120c-f08526-no-cyclic-connection"
+    ]) assert.ok(faults.faults.some(fault => fault.id === id), "missing model-specific Siemens G120C case " + id);
     for (const fault of faults.faults) {
-      assert.ok(["pump", "motor", "vfd", "compressor", "electric_motor", "valve", "hydraulic", "pneumatic", "plc", "hmi", "sensor", "instrumentation", "electrical_control", "safety_circuit", "mechanical", "gearbox", "conveyor", "filtration", "heat_exchanger", "cooling", "steam_system", "boiler", "refrigeration", "ups", "power_supply", "electrical_panel", "industrial_network", "robotics", "lubrication", "vacuum", "dust_collector", "fire_safety"].includes(fault.equipmentType), fault.id + " has unsupported equipment type");
+      assert.ok(["pump", "motor", "vfd", "compressor", "electric_motor", "valve", "hydraulic", "pneumatic", "plc", "hmi", "sensor", "instrumentation", "electrical_control", "safety_circuit", "mechanical", "gearbox", "conveyor", "filtration", "heat_exchanger", "cooling", "steam_system", "boiler", "refrigeration", "ups", "power_supply", "electrical_panel", "industrial_network", "robotics", "lubrication", "vacuum", "dust_collector", "fire_safety", "electronics", "fan-blower", "cnc", "servo_drive"].includes(fault.equipmentType), fault.id + " has unsupported equipment type");
       for (const language of ["ar", "fr", "en"]) {
         assert.ok(fault.title[language], fault.id + " missing title " + language);
         assert.ok(fault.keywords[language].length >= 3, fault.id + " missing keywords " + language);
         assert.ok(fault.safeChecks.filter(item => item[language]).length >= 3, fault.id + " missing safe checks " + language);
         assert.ok(fault.escalation[language], fault.id + " missing escalation " + language);
       }
-      assert.ok(fault.causes.length >= 3 && fault.causes.length <= 5);
+      if (fault.modelSpecificEvidence) assert.ok(fault.causes.length >= 1 && fault.causes.length <= 5, fault.id + " needs 1–5 scoped candidate causes");
+      else assert.ok(fault.causes.length >= 3 && fault.causes.length <= 5, fault.id + " needs 3–5 general candidate causes");
       assert.ok(fault.safeChecks.length >= 3 && fault.safeChecks.length <= 5);
       for (const cause of fault.causes) assert.ok(cause.id && cause.keywords.length && cause.label.ar && cause.label.fr && cause.label.en);
     }
@@ -341,8 +369,8 @@ const checks = [
     for (const node of Object.values(tree.nodes)) if (node.result) assert.ok(node.safe && node.escalate && node.cause);
   }],
   ["PWA caches all new offline dependencies and bumps its cache", () => {
-    assert.match(sw, /maintenance-ai-toolkit-v37/);
-    for (const asset of ["normalization.js", "knowledge-review.js", "answer-tools.js", "diagnostic-engine.js", "engineering-core.js", "agent-core.js", "agent-ui.js", "faults.json", "i18n.js"]) assert.ok(sw.includes(asset), "Missing offline cache asset " + asset);
+    assert.match(sw, /maintenance-ai-toolkit-v46/);
+    for (const asset of ["normalization.js", "knowledge-review.js", "answer-tools.js", "diagnostic-engine.js", "engineering-core.js", "agent-core.js", "agent-ui.js", "faults.json", "knowledge/oem-platform-index.json", "knowledge/manufacturer-machine-fault-matrix.json", "i18n.js"]) assert.ok(sw.includes(asset), "Missing offline cache asset " + asset);
     assert.match(manifest.icons[0].src, /icon\.svg/);
   }]
 ,
@@ -429,8 +457,224 @@ const checks = [
     assert.match(uxCss, /env\(safe-area-inset-bottom/);
     new vm.Script(navRedesign, { filename: "navigation-redesign.js" });
   }],
-];
+  ["Expanded fault library has unique IDs, multilingual text, safe checks, and traceable source references", () => {
+    const ids = new Set();
+    for (const fault of faults.faults) {
+      assert.ok(!ids.has(fault.id), "Duplicate fault ID: " + fault.id);
+      ids.add(fault.id);
+    }
+    const addedIds = [
+      "fan-blower-abnormal-vibration",
+      "chiller-high-condensing-temperature",
+      "servo-drive-following-error",
+      "transformer-abnormal-temperature",
+      "hydraulic-filter-differential-pressure",
+      "steam-trap-suspected-failure",
+      "dust-collector-pulse-cleaning-fault",
+      "instrument-four-to-twenty-ma-drift"
+    ];
+    for (const id of addedIds) {
+      const fault = faults.faults.find(item => item.id === id);
+      assert.ok(fault, "Missing expanded fault: " + id);
+      for (const lang of ["ar", "fr", "en"]) {
+        assert.ok(fault.title[lang], id + " missing " + lang + " title");
+        assert.ok(Array.isArray(fault.keywords[lang]) && fault.keywords[lang].length, id + " missing " + lang + " keywords");
+      }
+      assert.ok(fault.causes.length >= 3, id + " needs multiple candidate causes");
+      assert.ok(fault.safeChecks.length >= 3, id + " needs safe checks");
+      assert.ok(fault.escalation.ar && fault.escalation.fr && fault.escalation.en, id + " needs multilingual escalation");
+      assert.equal(fault.evidenceStatus, "general-guidance-not-model-specific");
+      assert.ok(fault.sourceRefs.length, id + " needs source-discovery references");
+    }
+  }],
+  ["Manufacturer source registry keeps official portals distinct from model-verified evidence", () => {
+    const sourceIds = new Set();
+    for (const source of manufacturerSources.sources) {
+      assert.ok(!sourceIds.has(source.id), "Duplicate manufacturer source ID: " + source.id);
+      sourceIds.add(source.id);
+      assert.ok(/^https:\/\//.test(source.url), "Source URL must use HTTPS: " + source.id);
+      assert.ok(source.scope && source.status, "Source scope/status required: " + source.id);
+    }
+    for (const id of ["grundfos-troubleshooting-guides", "atlas-copco-compressor-troubleshooting", "atlas-copco-manuals", "abb-motor-manuals", "abb-drive-manuals", "danfoss-troubleshooting", "siemens-industrial-support", "festo-support-portal", "yizumi-machine-service", "haitian-machine-service", "bodor-laser-service", "mitsubishi-fa-china-documents", "delta-industrial-download-center", "pilz-machine-safety-support", "xinje-download-center", "omron-industrial-downloads", "yaskawa-drive-manuals", "fagor-automation-manuals", "fanuc-america-support"]) {
+      assert.ok(sourceIds.has(id), "Missing OEM portal: " + id);
+    }
+    assert.match(manufacturerSources.purpose, /URLs do not prove/);
+  }],
+  ["Chinese and European OEM matrix is structured, linked, and explicitly unverified until model evidence is reviewed", () => {
+    assert.ok(worker.includes("knowledge/CHINESE-EUROPEAN-OEM-FAULT-MATRIX-AR-FR-EN.md"), "Worker must load the OEM matrix");
+    assert.ok(manufacturerMatrix.manufacturerProfiles.length >= 15, "Expected at least 15 manufacturer profiles");
+    assert.ok(manufacturerMatrix.caseTemplates.length >= 20, "Expected at least 20 structured OEM case templates");
+    for (const id of ["omron-plc-io-or-fieldbus-loss", "omron-servo-ready-or-following-error", "yaskawa-drive-overcurrent-or-overload", "yaskawa-motoman-servo-or-safety-stop", "fagor-cnc-axis-feedback-or-reference", "fanuc-servo-amplifier-alarm", "fanuc-robot-controller-alarm"]) assert.ok(manufacturerMatrix.caseTemplates.some(item => item.id === id), "Missing OEM case template: " + id);
+    assert.ok(manufacturerMatrix.policy.noInventedAlarmCodes, "Policy must prohibit invented alarm codes");
+    const profileIds = new Set();
+    const knownSources = new Set(manufacturerSources.sources.map(source => source.id));
+    for (const profile of manufacturerMatrix.manufacturerProfiles) {
+      assert.ok(!profileIds.has(profile.id), "Duplicate manufacturer profile: " + profile.id);
+      profileIds.add(profile.id);
+      assert.ok(profile.manufacturer && profile.family && profile.region, "Profile identity fields required: " + profile.id);
+      assert.ok(profile.sourceUrls.length, "Official documentation links required: " + profile.id);
+      for (const url of profile.sourceUrls) assert.ok(/^https:\/\//.test(url), "Profile link must use HTTPS: " + profile.id);
+      for (const ref of profile.docs) assert.ok(knownSources.has(ref), "Unknown source registry ref: " + ref);
+    }
+    const caseIds = new Set();
+    for (const item of manufacturerMatrix.caseTemplates) {
+      assert.ok(!caseIds.has(item.id), "Duplicate OEM case template: " + item.id);
+      caseIds.add(item.id);
+      assert.ok(item.applicableFamilies.length >= 1, "Case must identify at least one relevant model family: " + item.id);
+      assert.ok(item.diagnosticCapture.includes("exact_alarm_text_or_code"), "Case must capture exact displayed alarm: " + item.id);
+      assert.equal(item.evidenceStatus, "general-guidance-not-model-specific");
+      assert.ok(item.sourceDiscoveryOnly, "OEM portal must be treated as source discovery only: " + item.id);
+    }
+    assert.ok(manufacturerMatrixMarkdown.includes("Do not infer an alarm meaning"));
+    assert.ok(manufacturerMatrixMarkdown.includes("Official manufacturer documentation index"));
+    assert.ok(worker.includes("knowledge/OEM-MANUFACTURER-INDEX-AR-FR-EN.md"), "Worker must load the OEM platform index");
+    assert.ok(oemPlatformIndex.manufacturers.length >= 20, "Expected at least 20 structured OEM/platform profiles");
+    for (const id of ["omron", "yaskawa", "fagor", "fanuc"]) assert.ok(oemPlatformIndex.manufacturers.some(profile => profile.id === id), "Missing OEM platform profile: " + id);
+    assert.ok(oemPlatformIndex.manufacturers.every(p => p.evidenceStatus === "portal-only" && p.alarmCodeRecords === 0), "Portal-only sources must not be marked model verified");
+    const platformIds = new Set();
+    for (const profile of oemPlatformIndex.manufacturers) {
+      assert.ok(!platformIds.has(profile.id), "Duplicate OEM platform index ID: " + profile.id);
+      platformIds.add(profile.id);
+      assert.ok(profile.sourceRefs.length && profile.families.length, "OEM profile requires sources and product families: " + profile.id);
+      for (const ref of profile.sourceRefs) assert.ok(knownSources.has(ref), "Unknown OEM platform source: " + ref);
+      assert.ok(/^https:\/\//.test(profile.url), "OEM platform URL must use HTTPS: " + profile.id);
+    }
+    assert.ok(oemIndexMarkdown.includes("minimumEvidenceForModelVerified") || oemIndexMarkdown.includes("Required intake fields"));
+    assert.ok(oemIndexMarkdown.includes("not an OEM alarm-code database"));
+  }],
+  ["Fault library exceeds 200 cases and covers electronics, electrical circuits, industrial controls, and machine families", () => {
+    assert.ok(faults.faults.length > 200, "Fault library must contain more than 200 records");
+    const ids = faults.faults.map(item => item.id);
+    assert.equal(new Set(ids).size, ids.length, "Fault IDs must be unique");
+    const requiredIds = [
+      "electronics-igbt-desaturation",
+      "electronics-encoder-signal-loss",
+      "breaker-unexpected-trip",
+      "earth-leakage-protection-trip",
+      "plc-cpu-stop-mode",
+      "industrial-ip-address-conflict",
+      "chinese-cnc-controller-unknown-alarm",
+      "chinese-vfd-parameter-loss",
+      "european-cnc-tool-magazine-fault",
+      "european-packaging-safety-door-fault"
+    ];
+    for (const id of requiredIds) assert.ok(ids.includes(id), "Missing coverage case: " + id);
+    for (const type of ["electronics", "electrical_panel", "plc", "cnc", "servo_drive", "hmi", "industrial_network", "robotics", "safety_circuit", "fan-blower", "steam_system", "dust_collector", "cooling"]) {
+      assert.ok(html.includes('<option value="' + type + '">'), "Machine selector missing category: " + type);
+    }
+    const sourceIds = new Set(manufacturerSources.sources.map(source => source.id));
+    for (const fault of faults.faults) {
+      if (fault.evidenceStatus === "general-guidance-not-model-specific") {
+        for (const lang of ["ar", "fr", "en"]) {
+          assert.ok(fault.title && fault.title[lang], fault.id + " missing " + lang + " title");
+          assert.ok(Array.isArray(fault.keywords && fault.keywords[lang]) && fault.keywords[lang].length, fault.id + " missing " + lang + " keywords");
+          assert.ok(fault.escalation && fault.escalation[lang], fault.id + " missing " + lang + " escalation");
+        }
+        assert.ok(Array.isArray(fault.causes) && fault.causes.length >= 3, fault.id + " needs candidate causes");
+        assert.ok(Array.isArray(fault.safeChecks) && fault.safeChecks.length >= 3, fault.id + " needs safe checks");
+      }
+      if (fault.evidenceStatus === "general-guidance-not-model-specific") {
+        assert.ok(Array.isArray(fault.sourceRefs) && fault.sourceRefs.length, fault.id + " needs source discovery references");
+      }
+      for (const ref of (fault.sourceRefs || [])) assert.ok(sourceIds.has(ref), fault.id + " has unknown source reference: " + ref);
+    }
 
+    const modelVerified = faults.faults.filter(item => item.evidenceStatus === "model-specific-manual-reviewed");
+    for (const item of modelVerified) {
+      const evidence = item.modelSpecificEvidence;
+      assert.ok(evidence && evidence.manufacturer && evidence.productFamily, item.id + " missing OEM/model evidence");
+      assert.ok(evidence.manualTitle && evidence.manualRevision && evidence.officialDocumentUrl, item.id + " missing manual identity");
+      assert.ok(evidence.section && (Number.isInteger(evidence.printedPage) || evidence.pageNotProvidedReason), item.id + " missing manual section/page provenance");
+      assert.ok(evidence.claim && evidence.reviewedOn && evidence.reviewStatus === "manual-claim-reviewed-not-field-verified", item.id + " missing evidence review metadata");
+      assert.ok(/^https:\/\//.test(evidence.officialDocumentUrl), item.id + " manual URL must use HTTPS");
+      assert.ok(Array.isArray(item.sourceRefs) && item.sourceRefs.length, item.id + " missing source registry references");
+      for (const ref of item.sourceRefs) assert.ok(sourceIds.has(ref), item.id + " has unknown OEM source reference: " + ref);
+    }
+    assert.ok(modelVerified.length >= 10, "Expected at least 10 model-specific manual-reviewed records in this expansion");
+    assert.ok(faults.faults.length > 200, "Structured fault library must exceed 200 cases");
+    assert.equal(new Set(ids).size, faults.faults.length, "All structured fault IDs must be unique");
+    for (const type of ["electronics", "electrical_control", "plc", "industrial_network", "robotics", "safety_circuit"]) {
+      assert.ok(faults.faults.some(item => item.equipmentType === type), "Required domain category missing: " + type);
+    }
+    assert.ok(faults.faults.some(item => item.equipmentType === "electronics"), "Electronics category must be represented");
+    assert.ok(faults.faults.some(item => item.id.startsWith("chinese-")), "Chinese machine cases must be represented");
+    assert.ok(faults.faults.some(item => item.id.startsWith("european-")), "European machine cases must be represented");
+  }],
+  ["OEM verified fault records have exact official source evidence and are included in retrieval", () => {
+    const records = oemVerifiedFaults.records;
+    assert.ok(records.length >= 20, "Expected at least 20 source-reviewed OEM records");
+    assert.equal(oemVerifiedFaults.recordCount, records.length, "OEM verified record count must match");
+    assert.equal(new Set(records.map(record => record.id)).size, records.length, "OEM verified IDs must be unique");
+    const sourceMap = new Map(manufacturerSources.sources.map(source => [source.id, source]));
+    const pendingReviewRecords = records.filter(record => record.evidenceStatus === "source-registered-pending-claim-review");
+    const reviewedRecords = records.filter(record => record.evidenceStatus === "verified-source-exact-scope");
+    assert.equal(reviewedRecords.length, oemPlatformIndex.manualReviewedRecordCount, "Reviewed-record count must match the evidence index");
+    assert.equal(pendingReviewRecords.length, oemPlatformIndex.pendingClaimReviewCount, "Pending-review count must match the evidence index");
+    for (const record of records) {
+      assert.ok(["verified-source-exact-scope", "source-registered-pending-claim-review"].includes(record.evidenceStatus), record.id + " must have an explicit evidence status");
+      assert.ok(record.source?.sourceId && sourceMap.has(record.source.sourceId), record.id + " needs a registered source");
+      if (record.evidenceStatus === "source-registered-pending-claim-review") {
+        assert.equal(sourceMap.get(record.source.sourceId).status, "manual-reference-registered-exact-model-review-required", record.id + " pending status must match source registry");
+      } else {
+        assert.ok(["manual-content-reviewed-for-listed-records", "manual-reviewed-limited-claims", "official-manual-reviewed-for-listed-claims"].includes(sourceMap.get(record.source.sourceId).status), record.id + " must use a claim-reviewed source");
+      }
+      assert.equal(record.source.manualUrl, sourceMap.get(record.source.sourceId).url, record.id + " source URL must match registry");
+      assert.ok(record.source.section && record.source.manualTitle && record.source.revision, record.id + " needs manual title/revision/section");
+      assert.ok(record.meaning?.ar && record.meaning?.fr && record.meaning?.en, record.id + " needs Arabic/French/English meaning");
+      assert.ok(record.reviewDate && /^https:\/\//.test(record.source.manualUrl), record.id + " needs review date and HTTPS source");
+      if (record.alarmCode) assert.ok(record.source.printedPage || record.source.section, record.id + " needs page or section");
+    }
+    assert.ok(worker.includes("knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md"), "Worker retrieval must include OEM verified knowledge");
+    assert.ok(html.includes('id="oemLookupCard"') && html.includes('id="oemLookupSearch"'), "Knowledge tab must expose the OEM evidence lookup");
+    assert.ok(html.includes('<script src="./oem-lookup.js"></script>'), "OEM lookup script must be loaded by the UI");
+    assert.ok(oemLookupSource.includes("./knowledge/oem-verified-faults.json"), "OEM lookup must load the structured evidence database");
+    assert.ok(oemLookupSource.includes("src.manualUrl") && oemLookupSource.includes("src.section"), "OEM lookup must display source links and manual sections");
+    assert.ok(cloudflareDeployWorkflow.includes("oem-lookup.js"), "Cloudflare Pages deploy must copy the OEM lookup script");
+    assert.ok(cloudflareDeployWorkflow.includes("oem-verified-faults.json"), "Cloudflare Pages smoke test must verify the structured OEM evidence database");
+    assert.ok(sw.includes('"./oem-lookup.js"'), "OEM lookup script must be available offline");
+    assert.ok(sw.includes('"./knowledge/oem-verified-faults.json"'), "Structured OEM evidence must be available in the offline cache");
+    assert.ok(sw.includes('"./knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md"'), "OEM evidence guide must be available in the offline cache");
+    assert.ok(sw.includes('"./knowledge/oem-verified-faults.json"'), "Structured OEM evidence must be available in the offline cache");
+    assert.ok(sw.includes('"./knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md"'), "OEM evidence guide must be available in the offline cache");
+    assert.equal(oemPlatformIndex.verifiedRecordFileCount, records.length, "OEM index inventory count must match the verified-record file");
+    assert.equal(oemPlatformIndex.verifiedRecordFile, "knowledge/oem-verified-faults.json", "OEM index must point to the structured record file");
+    assert.equal(oemPlatformIndex.manufacturers.reduce((sum, manufacturer) => sum + (manufacturer.manualReviewedRecordCount || 0), 0), reviewedRecords.length, "Per-manufacturer manual-reviewed counts must reconcile to reviewed records");
+    for (const manufacturer of oemPlatformIndex.manufacturers) {
+      if ((manufacturer.manualReviewedRecordCount || 0) > 0) {
+        assert.ok(Array.isArray(manufacturer.modelsCovered) && manufacturer.modelsCovered.length, manufacturer.id + " must list the product families with manual-reviewed records");
+        assert.equal(manufacturer.evidenceStatus, "portal-only", manufacturer.id + " must not imply field verification");
+      } else {
+        assert.equal(manufacturer.evidenceStatus, "portal-only", manufacturer.id + " without records must remain portal-only");
+      }
+    }
+    assert.ok(oemVerifiedMarkdown.includes("Evidence acquisition queue"), "OEM verified guide must distinguish pending evidence");
+    assert.ok(oemVerifiedMarkdown.includes("XINJE") && oemVerifiedMarkdown.includes("HuazhongCNC"), "Chinese OEM evidence queue must be present");
+    for (const record of records) {
+      assert.notEqual(record.meaning.ar, record.meaning.en, record.id + " Arabic meaning must be translated");
+      assert.notEqual(record.meaning.fr, record.meaning.en, record.id + " French meaning must be translated");
+      assert.ok(record.safeChecks.ar?.length && record.safeChecks.fr?.length, record.id + " needs Arabic/French safe checks");
+    }
+    assert.ok(records.some(record => record.productFamily.includes("H5U Series") && record.source.sourceId === "inovance-h5u-plc-user-guide"), "INOVANCE H5U model-specific manual evidence must be represented");
+    const deltaB2F = records.filter(record => record.manufacturer === "Delta Electronics" && record.productFamily === "ASDA-B2-F series servo drive");
+    assert.equal(deltaB2F.length, 31, "Delta ASDA-B2-F manual-reviewed record tranche must be present");
+    assert.ok(deltaB2F.every(record => record.source.sourceId === "delta-asda-b2-f-user-manual" && record.source.manualUrl.includes("DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf")), "Delta records must use the exact official ASDA-B2-F manual");
+    assert.ok(deltaB2F.every(record => record.source.section && record.source.printedPageLabel && record.reviewDate === "2026-10-24"), "Delta records must include manual locator and review date");
+    for (const code of ["AL004", "AL005", "AL012", "AL013", "AL014", "AL015", "AL017", "AL018", "AL019", "AL020", "AL023", "AL025", "AL026", "AL027", "AL028", "AL029", "AL034", "AL035"]) {
+      const record = deltaB2F.find(item => item.alarmCode === code);
+      assert.ok(record, "Missing added Delta ASDA-B2-F alarm record: " + code);
+      assert.ok(record.source.section.includes(code) && record.source.printedPageLabel && record.source.pdfPage, code + " must retain its exact manual locator");
+      assert.ok(record.meaning.ar && record.meaning.fr && record.safeChecks.ar?.length && record.safeChecks.fr?.length, code + " must remain multilingual");
+    }
+    assert.equal(oemPlatformIndex.manufacturers.find(manufacturer => manufacturer.id === "delta")?.manualReviewedRecordCount, 31, "Delta platform count must match the evidence tranche");
+    assert.ok(records.length >= 97, "Expected the expanded Delta ASDA-B2-F source-reviewed tranche in the OEM database");
+    const syntecRecords = records.filter(record => record.manufacturer === "Syntec" && record.source.sourceId === "syntec-cnc-alarm-manual");
+    assert.equal(syntecRecords.length, 2, "Syntec CNC communication alarm records must be present");
+    assert.ok(syntecRecords.every(record => record.source.manualUrl === "https://www.syntecclub.com/cncrel/Manual/PDF/Syntec%20CNC%20Alarm%20Manual.pdf" && record.source.section.includes(record.alarmCode)), "Syntec records must retain the exact official manual and alarm locator");
+    assert.equal(oemPlatformIndex.manufacturers.find(manufacturer => manufacturer.id === "syntec")?.manualReviewedRecordCount, 2, "Syntec platform count must match its evidence tranche");
+    assert.ok(records.length >= 99, "Expected the expanded OEM evidence database after the Delta tranche");
+    assert.ok(oemVerifiedFaults.recordCount >= 47, "Expected at least 47 structured OEM evidence records");
+  }]
+];
 let failed = 0;
 for (const [name, run] of checks) {
   try {

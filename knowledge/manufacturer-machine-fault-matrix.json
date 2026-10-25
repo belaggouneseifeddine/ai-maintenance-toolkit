@@ -1,0 +1,1689 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Manufacturer/model-family fault investigation matrix. These are symptom templates and official documentation routes, not OEM-verified alarm-code definitions.",
+  "policy": {
+    "evidenceStatus": "general-guidance-not-model-specific",
+    "noInventedAlarmCodes": true,
+    "requiredForVerifiedCase": [
+      "manufacturer",
+      "exact machine model and serial range",
+      "control/drive model and firmware",
+      "alarm text/code exactly as displayed",
+      "manual title and revision",
+      "section/page and inspected claim",
+      "review date",
+      "reviewer"
+    ],
+    "rule": "Do not infer an alarm meaning from a family name or a support portal. Match exact controller/drive and firmware; if the manual is unavailable, keep this as an unverified template."
+  },
+  "manufacturerProfiles": [
+    {
+      "id": "huazhong-hnc8",
+      "manufacturer": "HuazhongCNC",
+      "region": "China",
+      "family": "HNC8 / HNC-808 / HNC-818 / HNC-848 CNC controls",
+      "domains": [
+        "cnc",
+        "plc",
+        "servo",
+        "machine-tool"
+      ],
+      "docs": [
+        "huazhongcnc-download-center",
+        "huazhongcnc-servo-manuals"
+      ],
+      "sourceUrls": [
+        "https://en.huazhongcnc.com/download-center-of-huazhongcnc/",
+        "https://www.huazhongcnc.com/portal/list/index/cid/74.html"
+      ]
+    },
+    {
+      "id": "gsk-980-218",
+      "manufacturer": "GSK CNC",
+      "region": "China",
+      "family": "980TD / 928 / 218M CNC controls and DA98 servo drives",
+      "domains": [
+        "cnc",
+        "servo",
+        "machine-tool"
+      ],
+      "docs": [
+        "gsk-cnc-support"
+      ],
+      "sourceUrls": [
+        "https://gskcnc.com/support.php"
+      ]
+    },
+    {
+      "id": "inovance-md-is-sv",
+      "manufacturer": "Inovance",
+      "region": "China",
+      "family": "MD-series AC drives; IS620 / IS810N / SV660 servo; H5U PLC and HMI",
+      "domains": [
+        "vfd",
+        "servo",
+        "plc",
+        "hmi",
+        "motion"
+      ],
+      "docs": [
+        "inovance-global-downloads",
+        "inovance-eu-downloads"
+      ],
+      "sourceUrls": [
+        "https://www.inovance.com/global/support/download-documentation.html",
+        "https://www.inovance.eu/downloads"
+      ]
+    },
+    {
+      "id": "leadshine-el7",
+      "manufacturer": "Leadshine",
+      "region": "China",
+      "family": "EL7 servo drives, stepper/closed-loop drives and motion controllers",
+      "domains": [
+        "servo",
+        "motion",
+        "cnc"
+      ],
+      "docs": [
+        "leadshine-downloads"
+      ],
+      "sourceUrls": [
+        "https://www.leadshine.com/downloads.html"
+      ]
+    },
+    {
+      "id": "lnc-n3-n5",
+      "manufacturer": "LNC / Lynuc",
+      "region": "Taiwan",
+      "family": "N3 / N5 / U-series CNC controls and D-series drives",
+      "domains": [
+        "cnc",
+        "servo",
+        "motion"
+      ],
+      "docs": [
+        "lynuc-download-center"
+      ],
+      "sourceUrls": [
+        "https://www.lynuc.cn/download.aspx"
+      ]
+    },
+    {
+      "id": "syntec-cnc",
+      "manufacturer": "Syntec",
+      "region": "Taiwan",
+      "family": "Syntec CNC controller and servo systems; confirm series on official portal",
+      "domains": [
+        "cnc",
+        "servo",
+        "motion"
+      ],
+      "docs": [
+        "syntec-download-library"
+      ],
+      "sourceUrls": [
+        "https://www.syntecamerica.com/download/"
+      ]
+    },
+    {
+      "id": "siemens-sinumerik-simatic",
+      "manufacturer": "Siemens",
+      "region": "Europe / Germany",
+      "family": "SINUMERIK CNC; SIMATIC PLC/HMI; SINAMICS drives",
+      "domains": [
+        "cnc",
+        "plc",
+        "hmi",
+        "vfd",
+        "industrial-network"
+      ],
+      "docs": [
+        "siemens-industry-support"
+      ],
+      "sourceUrls": [
+        "https://support.industry.siemens.com/"
+      ]
+    },
+    {
+      "id": "heidenhain-tnc",
+      "manufacturer": "HEIDENHAIN",
+      "region": "Europe / Germany",
+      "family": "TNC / iTNC controls, encoders and PLC integration",
+      "domains": [
+        "cnc",
+        "encoder",
+        "plc",
+        "machine-tool"
+      ],
+      "docs": [
+        "heidenhain-technical-support"
+      ],
+      "sourceUrls": [
+        "https://www.heidenhain.com/service/technical-support"
+      ]
+    },
+    {
+      "id": "beckhoff-twincat",
+      "manufacturer": "Beckhoff",
+      "region": "Europe / Germany",
+      "family": "TwinCAT, EtherCAT, IPC, EtherCAT I/O and drive systems",
+      "domains": [
+        "plc",
+        "industrial-network",
+        "motion",
+        "hmi"
+      ],
+      "docs": [
+        "beckhoff-downloads"
+      ],
+      "sourceUrls": [
+        "https://www.beckhoff.com/en-us/support/download-finder/"
+      ]
+    },
+    {
+      "id": "bosch-rexroth-ctrlx-indradrive",
+      "manufacturer": "Bosch Rexroth",
+      "region": "Europe / Germany",
+      "family": "ctrlX AUTOMATION / DRIVE, IndraDrive and MTX CNC",
+      "domains": [
+        "servo",
+        "vfd",
+        "cnc",
+        "plc",
+        "hydraulic"
+      ],
+      "docs": [
+        "bosch-rexroth-documentation"
+      ],
+      "sourceUrls": [
+        "https://docs.automation.boschrexroth.com/"
+      ]
+    },
+    {
+      "id": "schneider-modicon-altivar",
+      "manufacturer": "Schneider Electric",
+      "region": "Europe / France",
+      "family": "Modicon PLC, Altivar drives, Harmony HMI and electrical protection",
+      "domains": [
+        "plc",
+        "vfd",
+        "hmi",
+        "electrical-panel"
+      ],
+      "docs": [
+        "schneider-downloads"
+      ],
+      "sourceUrls": [
+        "https://www.se.com/ww/en/download/"
+      ]
+    },
+    {
+      "id": "sew-movidrive",
+      "manufacturer": "SEW-EURODRIVE",
+      "region": "Europe / Germany",
+      "family": "MOVITRAC / MOVIDRIVE inverters, gearmotors and motion control",
+      "domains": [
+        "vfd",
+        "electric-motor",
+        "conveyor",
+        "motion"
+      ],
+      "docs": [
+        "sew-eurodrive-documentation"
+      ],
+      "sourceUrls": [
+        "https://download.sew-eurodrive.com/"
+      ]
+    },
+    {
+      "id": "lenze-i-series",
+      "manufacturer": "Lenze",
+      "region": "Europe / Germany",
+      "family": "i-series drives, controllers and engineering tools",
+      "domains": [
+        "vfd",
+        "servo",
+        "plc",
+        "conveyor"
+      ],
+      "docs": [
+        "lenze-downloads"
+      ],
+      "sourceUrls": [
+        "https://www.lenze.com/en-de/services/software-downloads"
+      ]
+    },
+    {
+      "id": "festo-cpx-valves",
+      "manufacturer": "Festo",
+      "region": "Europe / Germany",
+      "family": "CPX / valve terminals, pneumatic valves and sensors",
+      "domains": [
+        "pneumatic",
+        "valves",
+        "plc",
+        "instrumentation"
+      ],
+      "docs": [
+        "festo-support-portal"
+      ],
+      "sourceUrls": [
+        "https://www.festo.com/"
+      ]
+    },
+    {
+      "id": "trumpf-laser-punch",
+      "manufacturer": "TRUMPF",
+      "region": "Europe / Germany",
+      "family": "Laser cutting, punching and sheet-metal machines; machine type required",
+      "domains": [
+        "laser",
+        "cnc",
+        "machine-tool",
+        "cooling"
+      ],
+      "docs": [
+        "trumpf-service"
+      ],
+      "sourceUrls": [
+        "https://www.trumpf.com/en_INT/service/"
+      ]
+    },
+    {
+      "id": "homag-woodworking",
+      "manufacturer": "HOMAG",
+      "region": "Europe / Germany",
+      "family": "Woodworking CNC, edge banding and panel processing machinery",
+      "domains": [
+        "cnc",
+        "conveyor",
+        "machine-tool",
+        "safety"
+      ],
+      "docs": [
+        "homag-service"
+      ],
+      "sourceUrls": [
+        "https://www.homag.com/en/service"
+      ]
+    },
+    {
+      "id": "kuka-kr-controller",
+      "manufacturer": "KUKA",
+      "region": "Europe / Germany",
+      "family": "KR robots and KRC controller generations; controller generation required",
+      "domains": [
+        "robotics",
+        "servo",
+        "safety",
+        "industrial-network"
+      ],
+      "docs": [
+        "kuka-downloads"
+      ],
+      "sourceUrls": [
+        "https://www.kuka.com/en-us/services/downloads"
+      ]
+    },
+    {
+      "id": "delta-as-vfd-asda",
+      "manufacturer": "Delta Electronics",
+      "region": "Taiwan / Asia",
+      "family": "AS/DVP PLC, ASDA servo, MS300 VFD and HMI families; exact series required",
+      "domains": [
+        "plc",
+        "servo",
+        "vfd",
+        "hmi",
+        "motion"
+      ],
+      "docs": [
+        "delta-industrial-download-center"
+      ],
+      "sourceUrls": [
+        "https://downloadcenter.delta-china.com.cn/en-US/DownloadCenter"
+      ]
+    },
+    {
+      "id": "xinje-xd-ds",
+      "manufacturer": "XINJE",
+      "region": "China",
+      "family": "XD/XG/XL PLC, DS servo, HMI and VFD; exact series and firmware required",
+      "domains": [
+        "plc",
+        "servo",
+        "vfd",
+        "hmi",
+        "motion"
+      ],
+      "docs": [
+        "xinje-download-center"
+      ],
+      "sourceUrls": [
+        "https://en.xinje.com/web/downloadCenter/index"
+      ]
+    },
+    {
+      "id": "mitsubishi-fa-china",
+      "manufacturer": "Mitsubishi Electric FA China",
+      "region": "Japan / China support portal",
+      "family": "MELSEC PLC, MELSERVO, FREQROL, CNC, GOT HMI and MELFA robot families",
+      "domains": [
+        "plc",
+        "servo",
+        "vfd",
+        "cnc",
+        "hmi",
+        "robotics"
+      ],
+      "docs": [
+        "mitsubishi-fa-china-documents"
+      ],
+      "sourceUrls": [
+        "https://www.mitsubishielectric-fa.cn/site/file-center"
+      ]
+    },
+    {
+      "id": "yizumi-injection-die-cast",
+      "manufacturer": "YIZUMI",
+      "region": "China",
+      "family": "Injection moulding, die-casting, rubber machinery and automation; exact machine/control options required",
+      "domains": [
+        "injection-moulding",
+        "hydraulic",
+        "servo",
+        "automation"
+      ],
+      "docs": [
+        "yizumi-machine-service"
+      ],
+      "sourceUrls": [
+        "https://www.yizumi.com/en/service"
+      ]
+    },
+    {
+      "id": "haitian-injection",
+      "manufacturer": "Haitian International",
+      "region": "China",
+      "family": "Servo-hydraulic and all-electric injection moulding machines; exact model and options required",
+      "domains": [
+        "injection-moulding",
+        "hydraulic",
+        "servo",
+        "automation"
+      ],
+      "docs": [
+        "haitian-machine-service"
+      ],
+      "sourceUrls": [
+        "https://haitianinter.com/service/"
+      ]
+    },
+    {
+      "id": "bodor-laser",
+      "manufacturer": "Bodor Laser",
+      "region": "China",
+      "family": "Laser cutting/welding machines and machine-specific cooling/interlocks",
+      "domains": [
+        "laser",
+        "cooling",
+        "cnc",
+        "safety"
+      ],
+      "docs": [
+        "bodor-laser-service"
+      ],
+      "sourceUrls": [
+        "https://www.bodor.com/en/service/"
+      ]
+    },
+    {
+      "id": "pilz-safety-components",
+      "manufacturer": "Pilz",
+      "region": "Europe / Germany",
+      "family": "Safety relays, safety PLC, sensors and machine safety functions; exact device and wiring configuration required",
+      "domains": [
+        "safety",
+        "safety_circuit",
+        "sensors",
+        "plc"
+      ],
+      "docs": [
+        "pilz-machine-safety-support"
+      ],
+      "sourceUrls": [
+        "https://www.pilz.com/en-INT/support"
+      ]
+    },
+    {
+      "id": "omron-nx-nj-cj-cp",
+      "manufacturer": "OMRON",
+      "region": "Europe / Japan",
+      "family": "NX/NJ/CJ/CP PLC, NA/NB HMI, 1S/G5 servo and MX2/RX2 drives; exact series required",
+      "domains": [
+        "plc",
+        "hmi",
+        "servo",
+        "vfd",
+        "sensors",
+        "safety"
+      ],
+      "docs": [
+        "omron-industrial-downloads"
+      ],
+      "sourceUrls": [
+        "https://industrial.omron.eu/en/services-support/support/downloads"
+      ]
+    },
+    {
+      "id": "yaskawa-ga-sigma-motoman",
+      "manufacturer": "Yaskawa",
+      "region": "Japan / Europe support",
+      "family": "GA/FP/HV drives, Sigma servo and MOTOMAN robot controllers; exact series required",
+      "domains": [
+        "vfd",
+        "servo",
+        "robotics",
+        "motion"
+      ],
+      "docs": [
+        "yaskawa-drive-manuals"
+      ],
+      "sourceUrls": [
+        "https://www.yaskawa.com/products/drives/drive-manuals"
+      ]
+    },
+    {
+      "id": "fagor-cnc-drive-feedback",
+      "manufacturer": "Fagor Automation",
+      "region": "Europe / Spain",
+      "family": "CNC 8055/8060/8065/8070/CNCelite, DDS/QC drives and feedback systems",
+      "domains": [
+        "cnc",
+        "servo",
+        "feedback",
+        "machine-tool"
+      ],
+      "docs": [
+        "fagor-automation-manuals"
+      ],
+      "sourceUrls": [
+        "https://www.fagorautomation.com/en/categoria_descargas/manuals-en/"
+      ]
+    },
+    {
+      "id": "fanuc-cnc-robot",
+      "manufacturer": "FANUC",
+      "region": "Japan / global regional support",
+      "family": "Series 0i/30i CNC, servo amplifiers, ROBODRILL and robot/R-30i families; portal access may be required",
+      "domains": [
+        "cnc",
+        "servo",
+        "robotics",
+        "machine-tool"
+      ],
+      "docs": [
+        "fanuc-america-support"
+      ],
+      "sourceUrls": [
+        "https://www.fanucamerica.com/support/myportal"
+      ]
+    }
+  ],
+  "caseTemplates": [
+    {
+      "id": "cnc-axis-reference-lost",
+      "title": "CNC axis reference/homing lost",
+      "title_ar": "قالب عطل قيد التحقق: CNC axis reference/homing lost",
+      "title_fr": "Modèle de panne à vérifier : CNC axis reference/homing lost",
+      "equipmentDomain": "cnc",
+      "applicableFamilies": [
+        "HNC8",
+        "GSK 980/218",
+        "LNC N/U",
+        "Syntec CNC",
+        "SINUMERIK",
+        "HEIDENHAIN TNC"
+      ],
+      "symptomPattern": "position-reference",
+      "diagnosticCapture": [
+        "exact_alarm_text_or_code",
+        "machine_model_and_serial_range",
+        "controller_or_drive_model",
+        "firmware_or_software_version",
+        "operating_mode_and_recent_change",
+        "approved_event_log",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Capture the displayed alarm and event log before reset.",
+        "Use the exact OEM manual and site-approved procedure.",
+        "Do not bypass interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true
+    },
+    {
+      "id": "cnc-axis-following-error",
+      "title": "Axis following error or position deviation",
+      "title_ar": "قالب عطل قيد التحقق: Axis following error or position deviation",
+      "title_fr": "Modèle de panne à vérifier : Axis following error or position deviation",
+      "equipmentDomain": "servo",
+      "applicableFamilies": [
+        "Inovance servo",
+        "Leadshine EL7",
+        "Huazhong HSV",
+        "SINAMICS",
+        "IndraDrive"
+      ],
+      "symptomPattern": "following-error",
+      "diagnosticCapture": [
+        "exact_alarm_text_or_code",
+        "machine_model_and_serial_range",
+        "controller_or_drive_model",
+        "firmware_or_software_version",
+        "operating_mode_and_recent_change",
+        "approved_event_log",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Capture the displayed alarm and event log before reset.",
+        "Use the exact OEM manual and site-approved procedure.",
+        "Do not bypass interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true
+    },
+    {
+      "id": "cnc-spindle-not-ready",
+      "title": "Spindle not ready / drive enable missing",
+      "title_ar": "قالب عطل قيد التحقق: Spindle not ready / drive enable missing",
+      "title_fr": "Modèle de panne à vérifier : Spindle not ready / drive enable missing",
+      "equipmentDomain": "cnc",
+      "applicableFamilies": [
+        "HNC8",
+        "GSK",
+        "Syntec",
+        "SINUMERIK",
+        "MTX CNC"
+      ],
+      "symptomPattern": "spindle-enable",
+      "diagnosticCapture": [
+        "exact_alarm_text_or_code",
+        "machine_model_and_serial_range",
+        "controller_or_drive_model",
+        "firmware_or_software_version",
+        "operating_mode_and_recent_change",
+        "approved_event_log",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Capture the displayed alarm and event log before reset.",
+        "Use the exact OEM manual and site-approved procedure.",
+        "Do not bypass interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true
+    },
+    {
+      "id": "cnc-tool-change-sequence-timeout",
+      "title": "Tool change sequence timeout",
+      "title_ar": "قالب عطل قيد التحقق: Tool change sequence timeout",
+      "title_fr": "Modèle de panne à vérifier : Tool change sequence timeout",
+      "equipmentDomain": "cnc",
+      "applicableFamilies": [
+        "HNC8",
+        "GSK",
+        "SINUMERIK",
+        "HEIDENHAIN TNC",
+        "TRUMPF",
+        "HOMAG"
+      ],
+      "symptomPattern": "tool-change",
+      "diagnosticCapture": [
+        "exact_alarm_text_or_code",
+        "machine_model_and_serial_range",
+        "controller_or_drive_model",
+        "firmware_or_software_version",
+        "operating_mode_and_recent_change",
+        "approved_event_log",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Capture the displayed alarm and event log before reset.",
+        "Use the exact OEM manual and site-approved procedure.",
+        "Do not bypass interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true
+    },
+    {
+      "id": "cnc-axis-overtravel",
+      "title": "Axis overtravel or limit input active",
+      "title_ar": "قالب عطل قيد التحقق: Axis overtravel or limit input active",
+      "title_fr": "Modèle de panne à vérifier : Axis overtravel or limit input active",
+      "equipmentDomain": "cnc",
+      "applicableFamilies": [
+        "HNC8",
+        "GSK",
+        "LNC",
+        "Syntec",
+        "SINUMERIK",
+        "HEIDENHAIN"
+      ],
+      "symptomPattern": "overtravel",
+      "diagnosticCapture": [
+        "exact_alarm_text_or_code",
+        "machine_model_and_serial_range",
+        "controller_or_drive_model",
+        "firmware_or_software_version",
+        "operating_mode_and_recent_change",
+        "approved_event_log",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Capture the displayed alarm and event log before reset.",
+        "Use the exact OEM manual and site-approved procedure.",
+        "Do not bypass interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true
+    },
+    {
+      "id": "servo-encoder-feedback-loss",
+      "title": "Servo encoder feedback missing/unstable",
+      "title_ar": "قالب عطل قيد التحقق: Servo encoder feedback missing/unstable",
+      "title_fr": "Modèle de panne à vérifier : Servo encoder feedback missing/unstable",
+      "equipmentDomain": "servo",
+      "applicableFamilies": [
+        "Huazhong HSV",
+        "GSK DA98",
+        "Inovance IS/SV",
+        "Leadshine EL7",
+        "SINAMICS",
+        "IndraDrive"
+      ],
+      "symptomPattern": "encoder-feedback",
+      "diagnosticCapture": [
+        "exact_alarm_text_or_code",
+        "machine_model_and_serial_range",
+        "controller_or_drive_model",
+        "firmware_or_software_version",
+        "operating_mode_and_recent_change",
+        "approved_event_log",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Capture the displayed alarm and event log before reset.",
+        "Use the exact OEM manual and site-approved procedure.",
+        "Do not bypass interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true
+    },
+    {
+      "id": "servo-motor-commutation-alarm",
+      "title": "Servo commutation/initialization alarm",
+      "title_ar": "قالب عطل قيد التحقق: Servo commutation/initialization alarm",
+      "title_fr": "Modèle de panne à vérifier : Servo commutation/initialization alarm",
+      "equipmentDomain": "servo",
+      "applicableFamilies": [
+        "Inovance IS/SV",
+        "Leadshine EL7",
+        "Huazhong HSV",
+        "Bosch Rexroth drives"
+      ],
+      "symptomPattern": "commutation",
+      "diagnosticCapture": [
+        "exact_alarm_text_or_code",
+        "machine_model_and_serial_range",
+        "controller_or_drive_model",
+        "firmware_or_software_version",
+        "operating_mode_and_recent_change",
+        "approved_event_log",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Capture the displayed alarm and event log before reset.",
+        "Use the exact OEM manual and site-approved procedure.",
+        "Do not bypass interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true
+    },
+    {
+      "id": "vfd-dc-bus-overvoltage",
+      "title": "Drive DC bus overvoltage during deceleration",
+      "title_ar": "قالب عطل قيد التحقق: Drive DC bus overvoltage during deceleration",
+      "title_fr": "Modèle de panne à vérifier : Drive DC bus overvoltage during deceleration",
+      "equipmentDomain": "vfd",
+      "applicableFamilies": [
+        "Inovance MD",
+        "SINAMICS",
+        "Altivar",
+        "SEW MOVIDRIVE",
+        "Lenze i-series"
+      ],
+      "symptomPattern": "dc-bus-overvoltage",
+      "diagnosticCapture": [
+        "exact_alarm_text_or_code",
+        "machine_model_and_serial_range",
+        "controller_or_drive_model",
+        "firmware_or_software_version",
+        "operating_mode_and_recent_change",
+        "approved_event_log",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Capture the displayed alarm and event log before reset.",
+        "Use the exact OEM manual and site-approved procedure.",
+        "Do not bypass interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true
+    },
+    {
+      "id": "vfd-overcurrent-on-start",
+      "title": "Drive overcurrent during start or acceleration",
+      "title_ar": "قالب عطل قيد التحقق: Drive overcurrent during start or acceleration",
+      "title_fr": "Modèle de panne à vérifier : Drive overcurrent during start or acceleration",
+      "equipmentDomain": "vfd",
+      "applicableFamilies": [
+        "Inovance MD",
+        "SINAMICS",
+        "Altivar",
+        "SEW",
+        "Lenze"
+      ],
+      "symptomPattern": "overcurrent",
+      "diagnosticCapture": [
+        "exact_alarm_text_or_code",
+        "machine_model_and_serial_range",
+        "controller_or_drive_model",
+        "firmware_or_software_version",
+        "operating_mode_and_recent_change",
+        "approved_event_log",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Capture the displayed alarm and event log before reset.",
+        "Use the exact OEM manual and site-approved procedure.",
+        "Do not bypass interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true
+    },
+    {
+      "id": "vfd-motor-autotune-mismatch",
+      "title": "Motor identification/autotune fails or is mismatched",
+      "title_ar": "قالب عطل قيد التحقق: Motor identification/autotune fails or is mismatched",
+      "title_fr": "Modèle de panne à vérifier : Motor identification/autotune fails or is mismatched",
+      "equipmentDomain": "vfd",
+      "applicableFamilies": [
+        "Inovance MD",
+        "SINAMICS",
+        "Altivar",
+        "SEW",
+        "Lenze"
+      ],
+      "symptomPattern": "motor-identification",
+      "diagnosticCapture": [
+        "exact_alarm_text_or_code",
+        "machine_model_and_serial_range",
+        "controller_or_drive_model",
+        "firmware_or_software_version",
+        "operating_mode_and_recent_change",
+        "approved_event_log",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Capture the displayed alarm and event log before reset.",
+        "Use the exact OEM manual and site-approved procedure.",
+        "Do not bypass interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true
+    },
+    {
+      "id": "plc-cpu-stop-or-fault",
+      "title": "PLC CPU STOP/fault state",
+      "title_ar": "قالب عطل قيد التحقق: PLC CPU STOP/fault state",
+      "title_fr": "Modèle de panne à vérifier : PLC CPU STOP/fault state",
+      "equipmentDomain": "plc",
+      "applicableFamilies": [
+        "SIMATIC",
+        "Modicon",
+        "Beckhoff TwinCAT",
+        "Inovance H5U",
+        "Bosch Rexroth ctrlX"
+      ],
+      "symptomPattern": "cpu-stop",
+      "diagnosticCapture": [
+        "exact_alarm_text_or_code",
+        "machine_model_and_serial_range",
+        "controller_or_drive_model",
+        "firmware_or_software_version",
+        "operating_mode_and_recent_change",
+        "approved_event_log",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Capture the displayed alarm and event log before reset.",
+        "Use the exact OEM manual and site-approved procedure.",
+        "Do not bypass interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true
+    },
+    {
+      "id": "plc-remote-io-device-lost",
+      "title": "Remote I/O station or bus device lost",
+      "title_ar": "قالب عطل قيد التحقق: Remote I/O station or bus device lost",
+      "title_fr": "Modèle de panne à vérifier : Remote I/O station or bus device lost",
+      "equipmentDomain": "industrial-network",
+      "applicableFamilies": [
+        "SIMATIC PROFINET",
+        "Beckhoff EtherCAT",
+        "Modicon",
+        "ctrlX",
+        "Inovance"
+      ],
+      "symptomPattern": "remote-io",
+      "diagnosticCapture": [
+        "exact_alarm_text_or_code",
+        "machine_model_and_serial_range",
+        "controller_or_drive_model",
+        "firmware_or_software_version",
+        "operating_mode_and_recent_change",
+        "approved_event_log",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Capture the displayed alarm and event log before reset.",
+        "Use the exact OEM manual and site-approved procedure.",
+        "Do not bypass interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true
+    },
+    {
+      "id": "industrial-network-device-name-or-ip",
+      "title": "Device name, IP, node address or topology mismatch",
+      "title_ar": "قالب عطل قيد التحقق: Device name, IP, node address or topology mismatch",
+      "title_fr": "Modèle de panne à vérifier : Device name, IP, node address or topology mismatch",
+      "equipmentDomain": "industrial-network",
+      "applicableFamilies": [
+        "PROFINET/SIMATIC",
+        "EtherCAT/Beckhoff",
+        "Modbus/Modicon",
+        "ctrlX"
+      ],
+      "symptomPattern": "network-identity",
+      "diagnosticCapture": [
+        "exact_alarm_text_or_code",
+        "machine_model_and_serial_range",
+        "controller_or_drive_model",
+        "firmware_or_software_version",
+        "operating_mode_and_recent_change",
+        "approved_event_log",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Capture the displayed alarm and event log before reset.",
+        "Use the exact OEM manual and site-approved procedure.",
+        "Do not bypass interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true
+    },
+    {
+      "id": "hmi-plc-tag-communication-loss",
+      "title": "HMI/SCADA tags stale or PLC connection lost",
+      "title_ar": "قالب عطل قيد التحقق: HMI/SCADA tags stale or PLC connection lost",
+      "title_fr": "Modèle de panne à vérifier : HMI/SCADA tags stale or PLC connection lost",
+      "equipmentDomain": "hmi",
+      "applicableFamilies": [
+        "SIMATIC HMI",
+        "Modicon/Harmony",
+        "Beckhoff HMI",
+        "Inovance HMI"
+      ],
+      "symptomPattern": "hmi-communication",
+      "diagnosticCapture": [
+        "exact_alarm_text_or_code",
+        "machine_model_and_serial_range",
+        "controller_or_drive_model",
+        "firmware_or_software_version",
+        "operating_mode_and_recent_change",
+        "approved_event_log",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Capture the displayed alarm and event log before reset.",
+        "Use the exact OEM manual and site-approved procedure.",
+        "Do not bypass interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true
+    },
+    {
+      "id": "safety-interlock-not-satisfied",
+      "title": "Guard/door/interlock condition not satisfied",
+      "title_ar": "قالب عطل قيد التحقق: Guard/door/interlock condition not satisfied",
+      "title_fr": "Modèle de panne à vérifier : Guard/door/interlock condition not satisfied",
+      "equipmentDomain": "safety",
+      "applicableFamilies": [
+        "TRUMPF",
+        "HOMAG",
+        "KUKA",
+        "Siemens",
+        "Schneider",
+        "HEIDENHAIN-integrated machines"
+      ],
+      "symptomPattern": "safety-interlock",
+      "diagnosticCapture": [
+        "exact_alarm_text_or_code",
+        "machine_model_and_serial_range",
+        "controller_or_drive_model",
+        "firmware_or_software_version",
+        "operating_mode_and_recent_change",
+        "approved_event_log",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Capture the displayed alarm and event log before reset.",
+        "Use the exact OEM manual and site-approved procedure.",
+        "Do not bypass interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true
+    },
+    {
+      "id": "robot-axis-mastering-lost",
+      "title": "Robot axis mastering/reference lost",
+      "title_ar": "قالب عطل قيد التحقق: Robot axis mastering/reference lost",
+      "title_fr": "Modèle de panne à vérifier : Robot axis mastering/reference lost",
+      "equipmentDomain": "robotics",
+      "applicableFamilies": [
+        "KUKA KR/KRC; use exact controller generation and robot model"
+      ],
+      "symptomPattern": "robot-mastering",
+      "diagnosticCapture": [
+        "exact_alarm_text_or_code",
+        "machine_model_and_serial_range",
+        "controller_or_drive_model",
+        "firmware_or_software_version",
+        "operating_mode_and_recent_change",
+        "approved_event_log",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Capture the displayed alarm and event log before reset.",
+        "Use the exact OEM manual and site-approved procedure.",
+        "Do not bypass interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true
+    },
+    {
+      "id": "robot-drive-axis-not-enabled",
+      "title": "Robot axis drive not enabled",
+      "title_ar": "قالب عطل قيد التحقق: Robot axis drive not enabled",
+      "title_fr": "Modèle de panne à vérifier : Robot axis drive not enabled",
+      "equipmentDomain": "robotics",
+      "applicableFamilies": [
+        "KUKA KR/KRC; servo system and safety chain must be identified"
+      ],
+      "symptomPattern": "axis-enable",
+      "diagnosticCapture": [
+        "exact_alarm_text_or_code",
+        "machine_model_and_serial_range",
+        "controller_or_drive_model",
+        "firmware_or_software_version",
+        "operating_mode_and_recent_change",
+        "approved_event_log",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Capture the displayed alarm and event log before reset.",
+        "Use the exact OEM manual and site-approved procedure.",
+        "Do not bypass interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true
+    },
+    {
+      "id": "hydraulic-servo-pressure-response",
+      "title": "Hydraulic servo pressure/response abnormal",
+      "title_ar": "قالب عطل قيد التحقق: Hydraulic servo pressure/response abnormal",
+      "title_fr": "Modèle de panne à vérifier : Hydraulic servo pressure/response abnormal",
+      "equipmentDomain": "hydraulic",
+      "applicableFamilies": [
+        "Bosch Rexroth IndraDrive/ctrlX hydraulic applications; confirm valve/pump model"
+      ],
+      "symptomPattern": "hydraulic-response",
+      "diagnosticCapture": [
+        "exact_alarm_text_or_code",
+        "machine_model_and_serial_range",
+        "controller_or_drive_model",
+        "firmware_or_software_version",
+        "operating_mode_and_recent_change",
+        "approved_event_log",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Capture the displayed alarm and event log before reset.",
+        "Use the exact OEM manual and site-approved procedure.",
+        "Do not bypass interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true
+    },
+    {
+      "id": "pneumatic-valve-terminal-communication",
+      "title": "Valve terminal / pneumatic I/O communication fault",
+      "title_ar": "قالب عطل قيد التحقق: Valve terminal / pneumatic I/O communication fault",
+      "title_fr": "Modèle de panne à vérifier : Valve terminal / pneumatic I/O communication fault",
+      "equipmentDomain": "pneumatic",
+      "applicableFamilies": [
+        "Festo CPX/valve terminal families; exact module and fieldbus required"
+      ],
+      "symptomPattern": "valve-terminal",
+      "diagnosticCapture": [
+        "exact_alarm_text_or_code",
+        "machine_model_and_serial_range",
+        "controller_or_drive_model",
+        "firmware_or_software_version",
+        "operating_mode_and_recent_change",
+        "approved_event_log",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Capture the displayed alarm and event log before reset.",
+        "Use the exact OEM manual and site-approved procedure.",
+        "Do not bypass interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true
+    },
+    {
+      "id": "machine-laser-chiller-interlock",
+      "title": "Laser source/chiller interlock or temperature alarm",
+      "title_ar": "قالب عطل قيد التحقق: Laser source/chiller interlock or temperature alarm",
+      "title_fr": "Modèle de panne à vérifier : Laser source/chiller interlock or temperature alarm",
+      "equipmentDomain": "laser",
+      "applicableFamilies": [
+        "TRUMPF laser systems; exact laser and cooling unit model required"
+      ],
+      "symptomPattern": "laser-cooling",
+      "diagnosticCapture": [
+        "exact_alarm_text_or_code",
+        "machine_model_and_serial_range",
+        "controller_or_drive_model",
+        "firmware_or_software_version",
+        "operating_mode_and_recent_change",
+        "approved_event_log",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Capture the displayed alarm and event log before reset.",
+        "Use the exact OEM manual and site-approved procedure.",
+        "Do not bypass interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true
+    },
+    {
+      "id": "woodworking-machine-axis-sync",
+      "title": "Axis/gantry synchronization or reference mismatch",
+      "title_ar": "قالب عطل قيد التحقق: Axis/gantry synchronization or reference mismatch",
+      "title_fr": "Modèle de panne à vérifier : Axis/gantry synchronization or reference mismatch",
+      "equipmentDomain": "cnc",
+      "applicableFamilies": [
+        "HOMAG CNC/gantry machinery; machine and control generation required"
+      ],
+      "symptomPattern": "gantry-sync",
+      "diagnosticCapture": [
+        "exact_alarm_text_or_code",
+        "machine_model_and_serial_range",
+        "controller_or_drive_model",
+        "firmware_or_software_version",
+        "operating_mode_and_recent_change",
+        "approved_event_log",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Capture the displayed alarm and event log before reset.",
+        "Use the exact OEM manual and site-approved procedure.",
+        "Do not bypass interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true
+    },
+    {
+      "id": "cnc-parameter-backup-mismatch",
+      "title": "Parameter/recipe/backup mismatch after service or replacement",
+      "title_ar": "قالب عطل قيد التحقق: Parameter/recipe/backup mismatch after service or replacement",
+      "title_fr": "Modèle de panne à vérifier : Parameter/recipe/backup mismatch after service or replacement",
+      "equipmentDomain": "cnc",
+      "applicableFamilies": [
+        "HNC8",
+        "GSK",
+        "LNC",
+        "Syntec",
+        "SINUMERIK",
+        "HEIDENHAIN; never restore unverified backup"
+      ],
+      "symptomPattern": "parameter-backup",
+      "diagnosticCapture": [
+        "exact_alarm_text_or_code",
+        "machine_model_and_serial_range",
+        "controller_or_drive_model",
+        "firmware_or_software_version",
+        "operating_mode_and_recent_change",
+        "approved_event_log",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Capture the displayed alarm and event log before reset.",
+        "Use the exact OEM manual and site-approved procedure.",
+        "Do not bypass interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true
+    },
+    {
+      "id": "servo-drive-overtemperature",
+      "title": "Servo/drive overtemperature or thermal model warning",
+      "title_ar": "قالب عطل قيد التحقق: Servo/drive overtemperature or thermal model warning",
+      "title_fr": "Modèle de panne à vérifier : Servo/drive overtemperature or thermal model warning",
+      "equipmentDomain": "servo",
+      "applicableFamilies": [
+        "Inovance",
+        "Leadshine",
+        "Huazhong HSV",
+        "SINAMICS",
+        "IndraDrive",
+        "Lenze"
+      ],
+      "symptomPattern": "drive-temperature",
+      "diagnosticCapture": [
+        "exact_alarm_text_or_code",
+        "machine_model_and_serial_range",
+        "controller_or_drive_model",
+        "firmware_or_software_version",
+        "operating_mode_and_recent_change",
+        "approved_event_log",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Capture the displayed alarm and event log before reset.",
+        "Use the exact OEM manual and site-approved procedure.",
+        "Do not bypass interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true
+    },
+    {
+      "id": "machine-cycle-blocked-by-permissive",
+      "title": "Cycle start blocked by permissive/sequence condition",
+      "title_ar": "قالب عطل قيد التحقق: Cycle start blocked by permissive/sequence condition",
+      "title_fr": "Modèle de panne à vérifier : Cycle start blocked by permissive/sequence condition",
+      "equipmentDomain": "plc",
+      "applicableFamilies": [
+        "PLC/HMI-controlled CNC",
+        "packaging",
+        "woodworking and laser machines"
+      ],
+      "symptomPattern": "sequence-permissive",
+      "diagnosticCapture": [
+        "exact_alarm_text_or_code",
+        "machine_model_and_serial_range",
+        "controller_or_drive_model",
+        "firmware_or_software_version",
+        "operating_mode_and_recent_change",
+        "approved_event_log",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Capture the displayed alarm and event log before reset.",
+        "Use the exact OEM manual and site-approved procedure.",
+        "Do not bypass interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true
+    },
+    {
+      "id": "chinese-vfd-parameter-backup-check",
+      "title": "VFD parameters missing after replacement or power event",
+      "title_ar": "فقدان معلمات مغير التردد بعد الاستبدال أو انقطاع الطاقة",
+      "title_fr": "Paramètres du variateur manquants après remplacement ou coupure",
+      "equipmentDomain": "vfd",
+      "applicableFamilies": [
+        "INOVANCE MD series",
+        "Delta VFD series",
+        "XINJE VFD series; exact installed drive decides"
+      ],
+      "symptomPattern": "drive-parameters-missing",
+      "sourceRefs": [
+        "inovance-global-downloads",
+        "delta-industrial-download-center",
+        "xinje-download-center"
+      ],
+      "diagnosticCapture": [
+        "exact_alarm_text_or_code",
+        "machine_builder_and_exact_model",
+        "controller_and_drive_model",
+        "exact_alarm_text_and_code",
+        "firmware_or_software_version",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Record the original alarm and approved event log before reset.",
+        "Consult only the manual matching the installed model and firmware.",
+        "Do not bypass guards/interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true
+    },
+    {
+      "id": "chinese-cnc-alarm-identity-check",
+      "title": "Unknown CNC alarm on a Chinese-built machine",
+      "title_ar": "إنذار CNC غير معروف في ماكينة مصنّعة في الصين",
+      "title_fr": "Alarme CNC inconnue sur une machine fabriquée en Chine",
+      "equipmentDomain": "cnc",
+      "applicableFamilies": [
+        "HNC",
+        "GSK",
+        "LNC",
+        "Syntec; do not assume controller from machine origin"
+      ],
+      "symptomPattern": "unknown-cnc-alarm",
+      "sourceRefs": [
+        "huazhongcnc-download-center",
+        "gsk-cnc-support",
+        "lynuc-download-center",
+        "syntec-download-library"
+      ],
+      "diagnosticCapture": [
+        "exact_alarm_text_or_code",
+        "machine_builder_and_exact_model",
+        "controller_and_drive_model",
+        "exact_alarm_text_and_code",
+        "firmware_or_software_version",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Record the original alarm and approved event log before reset.",
+        "Consult only the manual matching the installed model and firmware.",
+        "Do not bypass guards/interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true
+    },
+    {
+      "id": "chinese-injection-hydraulic-pressure-low",
+      "title": "Injection moulding hydraulic pressure low",
+      "title_ar": "انخفاض الضغط الهيدروليكي في آلة الحقن",
+      "title_fr": "Pression hydraulique basse sur presse à injecter",
+      "equipmentDomain": "hydraulic",
+      "applicableFamilies": [
+        "YIZUMI injection moulding machines",
+        "Haitian injection moulding machines; exact machine model required"
+      ],
+      "symptomPattern": "injection-pressure-low",
+      "sourceRefs": [
+        "yizumi-machine-service",
+        "haitian-machine-service"
+      ],
+      "diagnosticCapture": [
+        "exact_alarm_text_or_code",
+        "machine_builder_and_exact_model",
+        "controller_and_drive_model",
+        "exact_alarm_text_and_code",
+        "firmware_or_software_version",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Record the original alarm and approved event log before reset.",
+        "Consult only the manual matching the installed model and firmware.",
+        "Do not bypass guards/interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true
+    },
+    {
+      "id": "chinese-laser-cooling-interlock",
+      "title": "Laser machine cooling/interlock alarm",
+      "title_ar": "إنذار التبريد أو التعشيق في آلة ليزر",
+      "title_fr": "Alarme de refroidissement ou d’interverrouillage sur machine laser",
+      "equipmentDomain": "laser",
+      "applicableFamilies": [
+        "Bodor laser machines",
+        "Other laser brands require their own exact machine and cooling-unit manuals"
+      ],
+      "symptomPattern": "laser-cooling-interlock",
+      "sourceRefs": [
+        "bodor-laser-service"
+      ],
+      "diagnosticCapture": [
+        "exact_alarm_text_or_code",
+        "machine_builder_and_exact_model",
+        "controller_and_drive_model",
+        "exact_alarm_text_and_code",
+        "firmware_or_software_version",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Record the original alarm and approved event log before reset.",
+        "Consult only the manual matching the installed model and firmware.",
+        "Do not bypass guards/interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true
+    },
+    {
+      "id": "chinese-servo-feedback-alarm",
+      "title": "Servo feedback or encoder alarm on a Chinese machine",
+      "title_ar": "إنذار تغذية راجعة أو مشفر سيرفو في ماكينة صينية",
+      "title_fr": "Alarme de retour ou de codeur servo sur machine chinoise",
+      "equipmentDomain": "servo",
+      "applicableFamilies": [
+        "INOVANCE servo",
+        "Leadshine",
+        "XINJE servo",
+        "Huazhong HSV; exact drive family required"
+      ],
+      "symptomPattern": "servo-feedback-alarm",
+      "sourceRefs": [
+        "inovance-global-downloads",
+        "leadshine-downloads",
+        "xinje-download-center",
+        "huazhongcnc-servo-manuals"
+      ],
+      "diagnosticCapture": [
+        "exact_alarm_text_or_code",
+        "machine_builder_and_exact_model",
+        "controller_and_drive_model",
+        "exact_alarm_text_and_code",
+        "firmware_or_software_version",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Record the original alarm and approved event log before reset.",
+        "Consult only the manual matching the installed model and firmware.",
+        "Do not bypass guards/interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true
+    },
+    {
+      "id": "european-safety-door-loop",
+      "title": "Safety door/interlock chain not satisfied",
+      "title_ar": "شروط دائرة باب السلامة أو التعشيق غير مستوفاة",
+      "title_fr": "Chaîne de porte de sécurité ou d’interverrouillage non satisfaite",
+      "equipmentDomain": "safety",
+      "applicableFamilies": [
+        "Pilz safety devices",
+        "Siemens PLC; identify the installed safety architecture"
+      ],
+      "symptomPattern": "safety-interlock-open",
+      "sourceRefs": [
+        "pilz-machine-safety-support",
+        "siemens-industrial-support"
+      ],
+      "diagnosticCapture": [
+        "exact_alarm_text_or_code",
+        "machine_builder_and_exact_model",
+        "controller_and_drive_model",
+        "exact_alarm_text_and_code",
+        "firmware_or_software_version",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Record the original alarm and approved event log before reset.",
+        "Consult only the manual matching the installed model and firmware.",
+        "Do not bypass guards/interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true
+    },
+    {
+      "id": "european-conveyor-drive-sync",
+      "title": "Conveyor synchronization or drive communication fault",
+      "title_ar": "خلل مزامنة الناقل أو اتصال مغيرات التردد",
+      "title_fr": "Défaut de synchronisation du convoyeur ou de communication des variateurs",
+      "equipmentDomain": "motion",
+      "applicableFamilies": [
+        "Beckhoff TwinCAT/EtherCAT",
+        "Siemens SIMATIC/SINAMICS",
+        "SEW-EURODRIVE; exact architecture required"
+      ],
+      "symptomPattern": "conveyor-sync-communication",
+      "sourceRefs": [
+        "beckhoff-downloads",
+        "siemens-industrial-support",
+        "sew-eurodrive-documentation"
+      ],
+      "diagnosticCapture": [
+        "exact_alarm_text_or_code",
+        "machine_builder_and_exact_model",
+        "controller_and_drive_model",
+        "exact_alarm_text_and_code",
+        "firmware_or_software_version",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Record the original alarm and approved event log before reset.",
+        "Consult only the manual matching the installed model and firmware.",
+        "Do not bypass guards/interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true
+    },
+    {
+      "diagnosticCapture": [
+        "exact_alarm_text_or_code",
+        "machine_builder_and_exact_model",
+        "controller_and_drive_model",
+        "exact_alarm_text_and_code",
+        "firmware_or_software_version",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Capture the exact displayed alarm and approved event log before reset.",
+        "Use the manual matching the installed model, controller/drive and firmware revision.",
+        "Do not bypass interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true,
+      "id": "omron-plc-io-or-fieldbus-loss",
+      "title": "PLC I/O or fieldbus device missing",
+      "title_ar": "فقدان وحدة دخل/خرج PLC أو جهاز على الشبكة الصناعية",
+      "title_fr": "Module E/S API ou équipement de bus de terrain absent",
+      "equipmentDomain": "plc",
+      "applicableFamilies": [
+        "OMRON NX/NJ/CJ/CP PLC; exact CPU and network module required"
+      ],
+      "symptomPattern": "plc-io-fieldbus-device-missing",
+      "sourceRefs": [
+        "omron-industrial-downloads"
+      ]
+    },
+    {
+      "diagnosticCapture": [
+        "exact_alarm_text_or_code",
+        "machine_builder_and_exact_model",
+        "controller_and_drive_model",
+        "exact_alarm_text_and_code",
+        "firmware_or_software_version",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Capture the exact displayed alarm and approved event log before reset.",
+        "Use the manual matching the installed model, controller/drive and firmware revision.",
+        "Do not bypass interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true,
+      "id": "omron-servo-ready-or-following-error",
+      "title": "Servo not ready or position following error",
+      "title_ar": "السيرفو غير جاهز أو خطأ تتبع الموضع",
+      "title_fr": "Servo non prêt ou erreur de poursuite de position",
+      "equipmentDomain": "servo",
+      "applicableFamilies": [
+        "OMRON 1S/G5 servo; exact drive/motor and controller required"
+      ],
+      "symptomPattern": "servo-ready-following-error",
+      "sourceRefs": [
+        "omron-industrial-downloads"
+      ]
+    },
+    {
+      "diagnosticCapture": [
+        "exact_alarm_text_or_code",
+        "machine_builder_and_exact_model",
+        "controller_and_drive_model",
+        "exact_alarm_text_and_code",
+        "firmware_or_software_version",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Capture the exact displayed alarm and approved event log before reset.",
+        "Use the manual matching the installed model, controller/drive and firmware revision.",
+        "Do not bypass interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true,
+      "id": "yaskawa-drive-overcurrent-or-overload",
+      "title": "AC drive overcurrent or motor overload trip",
+      "title_ar": "فصل مغير التردد بسبب زيادة التيار أو حمل المحرك",
+      "title_fr": "Déclenchement du variateur par surintensité ou surcharge moteur",
+      "equipmentDomain": "vfd",
+      "applicableFamilies": [
+        "Yaskawa GA/FP/HV drive families; exact model and displayed code required"
+      ],
+      "symptomPattern": "drive-overcurrent-overload",
+      "sourceRefs": [
+        "yaskawa-drive-manuals"
+      ]
+    },
+    {
+      "diagnosticCapture": [
+        "exact_alarm_text_or_code",
+        "machine_builder_and_exact_model",
+        "controller_and_drive_model",
+        "exact_alarm_text_and_code",
+        "firmware_or_software_version",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Capture the exact displayed alarm and approved event log before reset.",
+        "Use the manual matching the installed model, controller/drive and firmware revision.",
+        "Do not bypass interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true,
+      "id": "yaskawa-motoman-servo-or-safety-stop",
+      "title": "Robot servo alarm or safety stop",
+      "title_ar": "إنذار سيرفو الروبوت أو توقف دائرة السلامة",
+      "title_fr": "Alarme servo robot ou arrêt de sécurité",
+      "equipmentDomain": "robotics",
+      "applicableFamilies": [
+        "Yaskawa MOTOMAN robot and controller; controller generation required"
+      ],
+      "symptomPattern": "robot-servo-safety-stop",
+      "sourceRefs": [
+        "yaskawa-drive-manuals"
+      ]
+    },
+    {
+      "diagnosticCapture": [
+        "exact_alarm_text_or_code",
+        "machine_builder_and_exact_model",
+        "controller_and_drive_model",
+        "exact_alarm_text_and_code",
+        "firmware_or_software_version",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Capture the exact displayed alarm and approved event log before reset.",
+        "Use the manual matching the installed model, controller/drive and firmware revision.",
+        "Do not bypass interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true,
+      "id": "fagor-cnc-axis-feedback-or-reference",
+      "title": "CNC axis feedback/reference alarm",
+      "title_ar": "إنذار مرجع محور CNC أو تغذية راجعة",
+      "title_fr": "Alarme de référence ou de retour d’axe CNC",
+      "equipmentDomain": "cnc",
+      "applicableFamilies": [
+        "Fagor CNC 8055/8060/8065/8070/CNCelite; exact control and drive required"
+      ],
+      "symptomPattern": "cnc-axis-feedback-reference",
+      "sourceRefs": [
+        "fagor-automation-manuals"
+      ]
+    },
+    {
+      "diagnosticCapture": [
+        "exact_alarm_text_or_code",
+        "machine_builder_and_exact_model",
+        "controller_and_drive_model",
+        "exact_alarm_text_and_code",
+        "firmware_or_software_version",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Capture the exact displayed alarm and approved event log before reset.",
+        "Use the manual matching the installed model, controller/drive and firmware revision.",
+        "Do not bypass interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true,
+      "id": "fanuc-servo-amplifier-alarm",
+      "title": "CNC servo amplifier alarm",
+      "title_ar": "إنذار مضخم السيرفو في CNC",
+      "title_fr": "Alarme d’amplificateur servo CNC",
+      "equipmentDomain": "servo",
+      "applicableFamilies": [
+        "FANUC Series 0i/30i and installed servo amplifier; exact amplifier/model required"
+      ],
+      "symptomPattern": "fanuc-servo-amplifier-alarm",
+      "sourceRefs": [
+        "fanuc-america-support"
+      ]
+    },
+    {
+      "diagnosticCapture": [
+        "exact_alarm_text_or_code",
+        "machine_builder_and_exact_model",
+        "controller_and_drive_model",
+        "exact_alarm_text_and_code",
+        "firmware_or_software_version",
+        "manual_revision_section_and_page"
+      ],
+      "safeChecks": [
+        "Capture the exact displayed alarm and approved event log before reset.",
+        "Use the manual matching the installed model, controller/drive and firmware revision.",
+        "Do not bypass interlocks or change parameters without authorization."
+      ],
+      "evidenceStatus": "general-guidance-not-model-specific",
+      "sourceDiscoveryOnly": true,
+      "id": "fanuc-robot-controller-alarm",
+      "title": "Robot controller alarm or axis unavailable",
+      "title_ar": "إنذار متحكم الروبوت أو تعذر حركة أحد المحاور",
+      "title_fr": "Alarme du contrôleur robot ou axe indisponible",
+      "equipmentDomain": "robotics",
+      "applicableFamilies": [
+        "FANUC robot with exact robot model and R-30i controller generation"
+      ],
+      "symptomPattern": "fanuc-robot-controller-alarm",
+      "sourceRefs": [
+        "fanuc-america-support"
+      ]
+    }
+  ]
+}

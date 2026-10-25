@@ -3,6 +3,7 @@ const assert = require("node:assert/strict");
 
 require("../normalization.js");
 const faults = require("../faults.json");
+const oemVerifiedFaults = require("../knowledge/oem-verified-faults.json");
 global.MAINTENANCE_FAULTS = faults;
 require("../diagnostic-engine.js");
 
@@ -130,9 +131,19 @@ test("local matches report low or medium advisory confidence, never confirmed di
   }
 });
 
-test("fault library has no structured OEM alarm-code index yet", () => {
-  assert.ok(faults.faults.every(fault => !Array.isArray(fault.alarmCodes) && !Array.isArray(fault.errorCodes)),
-    "Do not claim OEM alarm-code matching until sourced code fields are added");
+test("fault library exposes source-backed OEM alarm-code records", () => {
+  const coded = faults.faults.filter(fault => Array.isArray(fault.alarmCodes) || Array.isArray(fault.errorCodes));
+  assert.ok(coded.length >= 30, "Expected source-backed OEM alarm/error codes in the diagnostic library");
+  const g120c = faults.faults.find(fault => fault.id === "oem-siemens-g120c-f07900-motor-blocked");
+  assert.ok(g120c, "Expected the reviewed SINAMICS G120C F07900 record");
+  const documentedAlarm = oemVerifiedFaults.records.find(record => record.id === "sinamics-g120c-f07900");
+  assert.ok(documentedAlarm, "F07900 must exist in the model-scoped OEM evidence database");
+  assert.equal(documentedAlarm.alarmCode, "F07900");
+  assert.equal(documentedAlarm.source.printedPage, 82);
+  assert.equal(documentedAlarm.source.section, "5.1 List of alarms and faults");
+  assert.equal(g120c.modelSpecificEvidence.manufacturer, "Siemens");
+  assert.equal(g120c.modelSpecificEvidence.printedPage, 82);
+  assert.ok(g120c.sourceRefs.length > 0);
 });
 
 test("unreviewed aliases are flagged and not mapped automatically", () => {
