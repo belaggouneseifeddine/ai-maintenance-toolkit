@@ -795,7 +795,7 @@ Records marked `verified-source-exact-scope` describe what the cited manual supp
 ### oem-inovance-md200-err02-overcurrent-acceleration
 
 - **Manufacturer / family:** INOVANCE — MD200 series AC drive
-- **Scope:** INOVANCE — MD200 series AC drive
+- **Scope:** INOVANCE — MD200 series AC drive; applicability: MD200 User Guide C02 (January 2023); firmware version is not specified in the cited fault table. Confirm the installed drive variant and applicable manual before applying.
 - **Code / event:** Err02
 - **Meaning (EN):** The manual labels Err02 as overcurrent during acceleration and lists output short/ground fault, short acceleration time, unsuitable torque boost/V/f, low voltage, restarting a rotating motor, sudden load, undersized drive, braking resistor fault, and motor ground fault among possible causes.
 - **المعنى (AR):** يصنّف الدليل Err02 على أنه زيادة تيار أثناء التسارع. تشمل الأسباب المحتملة قصرًا أو تماسًا أرضيًا في الخرج، وزمن تسارع قصيرًا، وإعدادًا غير مناسب لتعزيز العزم أو V/f، وانخفاض الجهد، وإعادة تشغيل محرك يدور، وحملًا مفاجئًا، ومغيرًا أصغر من المطلوب، وخلل مقاومة الكبح أو تأريض المحرك.
@@ -819,7 +819,7 @@ Records marked `verified-source-exact-scope` describe what the cited manual supp
 ### oem-inovance-md200-err03-overcurrent-deceleration
 
 - **Manufacturer / family:** INOVANCE — MD200 series AC drive
-- **Scope:** INOVANCE — MD200 series AC drive
+- **Scope:** INOVANCE — MD200 series AC drive; applicability: MD200 User Guide C02 (January 2023); firmware version is not specified in the cited fault table. Confirm the installed drive variant and applicable manual before applying.
 - **Code / event:** Err03
 - **Meaning (EN):** The manual identifies Err03 as overcurrent during deceleration and lists short/ground faults, short deceleration time, low voltage, sudden load, missing/unsuitable braking resistor, and motor ground fault as possible causes.
 - **المعنى (AR):** يصنّف الدليل Err03 على أنه زيادة تيار أثناء التباطؤ. تشمل الأسباب المحتملة قصرًا أو تماسًا أرضيًا، وزمن تباطؤ قصيرًا، وانخفاض الجهد، وحملًا مفاجئًا، أو غياب مقاومة الكبح أو عدم ملاءمتها، أو تأريض المحرك.
@@ -843,7 +843,7 @@ Records marked `verified-source-exact-scope` describe what the cited manual supp
 ### oem-inovance-md200-err05-overvoltage-acceleration
 
 - **Manufacturer / family:** INOVANCE — MD200 series AC drive
-- **Scope:** INOVANCE — MD200 series AC drive
+- **Scope:** INOVANCE — MD200 series AC drive; applicability: MD200 User Guide C02 (January 2023); firmware version is not specified in the cited fault table. Confirm the installed drive variant and applicable manual before applying.
 - **Code / event:** Err05
 - **Meaning (EN):** The manual labels Err05 as overvoltage during acceleration and lists excessive input voltage, external force driving the motor, short acceleration time, and absent braking resistor as possible causes.
 - **المعنى (AR):** يصنّف الدليل Err05 على أنه ارتفاع جهد أثناء التسارع. تشمل الأسباب المحتملة ارتفاع جهد الدخل، أو دفع المحرك بقوة خارجية، أو قصر زمن التسارع، أو غياب مقاومة الكبح.
@@ -867,7 +867,7 @@ Records marked `verified-source-exact-scope` describe what the cited manual supp
 ### oem-inovance-md200-err09-undervoltage
 
 - **Manufacturer / family:** INOVANCE — MD200 series AC drive
-- **Scope:** INOVANCE — MD200 series AC drive
+- **Scope:** INOVANCE — MD200 series AC drive; applicability: MD200 User Guide C02 (January 2023); firmware version is not specified in the cited fault table. Confirm the installed drive variant and applicable manual before applying.
 - **Code / event:** Err09
 - **Meaning (EN):** The manual labels Err09 as undervoltage and lists momentary power failure, input voltage outside the permitted range, abnormal bus voltage, and possible rectifier/pre-charge/drive/control-board faults.
 - **المعنى (AR):** يصنّف الدليل Err09 على أنه انخفاض جهد. تشمل الأسباب انقطاعًا لحظيًا للطاقة، أو جهد دخل خارج النطاق المسموح، أو خللًا في جهد الناقل، أو عطلًا محتملًا في المقوم أو دائرة الشحن المسبق أو لوحة القيادة/التحكم.
@@ -891,7 +891,7 @@ Records marked `verified-source-exact-scope` describe what the cited manual supp
 ### oem-inovance-md200-err12-input-phase-loss
 
 - **Manufacturer / family:** INOVANCE — MD200 series AC drive
-- **Scope:** INOVANCE — MD200 series AC drive
+- **Scope:** INOVANCE — MD200 series AC drive; applicability: MD200 User Guide C02 (January 2023); firmware version is not specified in the cited fault table. Confirm the installed drive variant and applicable manual before applying.
 - **Code / event:** Err12
 - **Meaning (EN):** The fault table names Err12 as input phase loss and lists abnormal three-phase input supply or internal drive/protection/control components as possible causes. The parameter note says the F9-12 input phase-loss protection applies only to single-phase MD200TXX models; do not generalize this parameter applicability to all MD200 variants.
 - **المعنى (AR):** يسمّي جدول الأعطال Err12 فقدان طور الدخل، ويذكر خلل التغذية ثلاثية الطور أو مكونات داخلية للقيادة/الحماية/التحكم. تنطبق ملاحظة المعلمة F9-12 الخاصة بحماية فقدان الطور على طرازات MD200TXX أحادية الطور فقط، ولا يجوز تعميمها على جميع نسخ MD200.
@@ -915,7 +915,7 @@ Records marked `verified-source-exact-scope` describe what the cited manual supp
 ### oem-inovance-md200-err14-drive-overtemperature
 
 - **Manufacturer / family:** INOVANCE — MD200 series AC drive
-- **Scope:** INOVANCE — MD200 series AC drive
+- **Scope:** INOVANCE — MD200 series AC drive; applicability: MD200 User Guide C02 (January 2023); firmware version is not specified in the cited fault table. Confirm the installed drive variant and applicable manual before applying.
 - **Code / event:** Err14
 - **Meaning (EN):** The MD200 manual labels Err14 as Module overheat and lists high ambient temperature, blocked air filter, damaged fan, damaged module thermistor, or a faulty drive unit as possible causes.
 - **المعنى (AR):** يسمّي دليل MD200 الرمز Err14 «ارتفاع حرارة الوحدة». تشمل الأسباب المحتملة ارتفاع حرارة المحيط، أو انسداد مرشح الهواء، أو تلف المروحة أو حساس حرارة الوحدة، أو عطل وحدة القيادة.
@@ -939,7 +939,7 @@ Records marked `verified-source-exact-scope` describe what the cited manual supp
 ### oem-mitsubishi-c80-servo-alarm-10-insufficient-voltage
 
 - **Manufacturer / family:** Mitsubishi Electric CNC — C80 Series CNC; servo/spindle alarm table
-- **Scope:** Mitsubishi Electric CNC — C80 Series CNC; servo/spindle alarm table
+- **Scope:** Mitsubishi Electric CNC — C80 Series CNC; servo/spindle alarm table; applicability: C80 Series Alarm/Parameter Manual IB-1501560-F; the cited alarm table does not establish the installed machine-tool-builder configuration or drive firmware. Confirm both against the actual machine documentation.
 - **Code / event:** servo alarm 10
 - **Meaning (EN):** Alarm No. 10 is named Insufficient voltage; the manual says a drop of bus voltage was detected in the main circuit. It gives reset class PR, but detailed troubleshooting is delegated to the exact drive-unit instruction manual.
 - **المعنى (AR):** يسمّي الدليل الإنذار 10 «جهد غير كافٍ» ويذكر اكتشاف انخفاض جهد الناقل في الدائرة الرئيسية. فئة إعادة الضبط PR؛ أما استكشاف الأعطال التفصيلي فيتطلب دليل وحدة القيادة المطابقة.
@@ -963,7 +963,7 @@ Records marked `verified-source-exact-scope` describe what the cited manual supp
 ### oem-mitsubishi-c80-servo-alarm-18-encoder-initial-communication
 
 - **Manufacturer / family:** Mitsubishi Electric CNC — C80 Series CNC; servo/spindle alarm table
-- **Scope:** Mitsubishi Electric CNC — C80 Series CNC; servo/spindle alarm table
+- **Scope:** Mitsubishi Electric CNC — C80 Series CNC; servo/spindle alarm table; applicability: C80 Series Alarm/Parameter Manual IB-1501560-F; the cited alarm table does not establish the installed machine-tool-builder configuration or drive firmware. Confirm both against the actual machine documentation.
 - **Code / event:** servo alarm 18
 - **Meaning (EN):** Alarm No. 18 is named Main side encoder: Initial communication error; the details say initial communication with the motor-side encoder failed. Troubleshooting is not specified in this table and requires the exact drive-unit manual.
 - **المعنى (AR):** يسمّي الدليل الإنذار 18 خطأ اتصال أولي بمشفّر جهة المحرك؛ فشل الاتصال الأولي بالمشفّر. لا يحدد هذا الجدول خطوات إصلاح، ويجب الرجوع إلى دليل وحدة القيادة المطابقة.
@@ -987,7 +987,7 @@ Records marked `verified-source-exact-scope` describe what the cited manual supp
 ### oem-mitsubishi-c80-servo-alarm-23-excessive-speed-error
 
 - **Manufacturer / family:** Mitsubishi Electric CNC — C80 Series CNC; servo/spindle alarm table
-- **Scope:** Mitsubishi Electric CNC — C80 Series CNC; servo/spindle alarm table
+- **Scope:** Mitsubishi Electric CNC — C80 Series CNC; servo/spindle alarm table; applicability: C80 Series Alarm/Parameter Manual IB-1501560-F; the cited alarm table does not establish the installed machine-tool-builder configuration or drive firmware. Confirm both against the actual machine documentation.
 - **Code / event:** servo alarm 23
 - **Meaning (EN):** Alarm No. 23 is Excessive speed error; the manual defines it as the difference between actual and commanded speed persisting longer than the configured excessive-speed-deviation timer. Reset class is NR.
 - **المعنى (AR):** الإنذار 23 هو خطأ تجاوز فرق السرعة؛ يعرّف الدليل ذلك باستمرار الفرق بين السرعة الفعلية والمطلوبة مدة أطول من المؤقت المضبوط. فئة إعادة الضبط NR.
@@ -1011,7 +1011,7 @@ Records marked `verified-source-exact-scope` describe what the cited manual supp
 ### oem-mitsubishi-c80-servo-alarm-24-grounding
 
 - **Manufacturer / family:** Mitsubishi Electric CNC — C80 Series CNC; servo/spindle alarm table
-- **Scope:** Mitsubishi Electric CNC — C80 Series CNC; servo/spindle alarm table
+- **Scope:** Mitsubishi Electric CNC — C80 Series CNC; servo/spindle alarm table; applicability: C80 Series Alarm/Parameter Manual IB-1501560-F; the cited alarm table does not establish the installed machine-tool-builder configuration or drive firmware. Confirm both against the actual machine documentation.
 - **Code / event:** servo alarm 24
 - **Meaning (EN):** Alarm No. 24 is named Grounding; the manual states the motor power cable is in contact with FG (frame ground). Reset class is PR.
 - **المعنى (AR):** يسمّي الدليل الإنذار 24 تأريضًا، ويذكر أن كابل قدرة المحرك يلامس FG (أرضي الهيكل). فئة إعادة الضبط PR.
@@ -1035,7 +1035,7 @@ Records marked `verified-source-exact-scope` describe what the cited manual supp
 ### oem-mitsubishi-c80-servo-alarm-25-absolute-position-lost
 
 - **Manufacturer / family:** Mitsubishi Electric CNC — C80 Series CNC; servo/spindle alarm table
-- **Scope:** Mitsubishi Electric CNC — C80 Series CNC; servo/spindle alarm table
+- **Scope:** Mitsubishi Electric CNC — C80 Series CNC; servo/spindle alarm table; applicability: C80 Series Alarm/Parameter Manual IB-1501560-F; the cited alarm table does not establish the installed machine-tool-builder configuration or drive firmware. Confirm both against the actual machine documentation.
 - **Code / event:** servo alarm 25
 - **Meaning (EN):** Alarm No. 25 is named Absolute position data lost; the manual states absolute-position data was lost in the encoder. Reset class is AR. Recovery must follow the exact machine-builder and encoder procedure.
 - **المعنى (AR):** الإنذار 25 يعني فقدان بيانات الموضع المطلق في المشفّر. فئة إعادة الضبط AR. يجب اتباع إجراء الاستعادة الخاص بمصنّع الماكينة والمشفّر المطابقين.
@@ -1059,7 +1059,7 @@ Records marked `verified-source-exact-scope` describe what the cited manual supp
 ### oem-mitsubishi-c80-emg-plc-emergency-stop
 
 - **Manufacturer / family:** Mitsubishi Electric CNC — C80 Series CNC; emergency-stop alarm section
-- **Scope:** Mitsubishi Electric CNC — C80 Series CNC; emergency-stop alarm section
+- **Scope:** Mitsubishi Electric CNC — C80 Series CNC; emergency-stop alarm section; applicability: C80 Series Alarm/Parameter Manual IB-1501560-F; the cited alarm table does not establish the installed machine-tool-builder configuration or drive firmware. Confirm both against the actual machine documentation.
 - **Code / event:** Mitsubishi Electric C80 — EMG: user PLC emergency stop
 - **Meaning (EN):** The manual states that the PLC emergency-stop signal is turned ON during user-PLC sequence processing and instructs checking the conditions that turn the signal ON and removing the cause. Other EMG labels in the same section have distinct causes and must not be conflated.
 - **المعنى (AR):** يوضح الدليل أن إشارة إيقاف الطوارئ القادمة من PLC المستخدم أصبحت مفعّلة أثناء تنفيذ تسلسل PLC. افحص شروط تفعيل الإشارة وأزل السبب؛ لا تخلط بينها وبين رسائل EMG الأخرى ذات الأسباب المختلفة.
@@ -1083,7 +1083,7 @@ Records marked `verified-source-exact-scope` describe what the cited manual supp
 ### oem-siemens-s7-1200-fs-event-0005-overtemperature
 
 - **Manufacturer / family:** Siemens — SIMATIC S7-1200 fail-safe signal modules (F-modules)
-- **Scope:** Siemens — SIMATIC S7-1200 fail-safe signal modules (F-modules)
+- **Scope:** Siemens — SIMATIC S7-1200 fail-safe signal modules (F-modules); applicability: SIMATIC S7-1200 Functional Safety Manual V4.6 (November 2022); confirm the installed F-module part number, CPU/firmware compatibility and machine configuration.
 - **Code / event:** 0x0005
 - **Meaning (EN):** The manual labels event 0x0005 Overtemperature for all listed fail-safe signal modules and states the module-case high-temperature limit has been exceeded; it directs checking ambient temperature and power cycling after the fault is eliminated.
 - **المعنى (AR):** يسمّي الدليل الحدث 0x0005 ارتفاع حرارة، ويذكر تجاوز حد حرارة هيكل الوحدة لوحدات الإشارة الآمنة المحددة. يوجّه إلى فحص حرارة المحيط ثم إعادة التغذية بعد إزالة السبب.
@@ -1107,7 +1107,7 @@ Records marked `verified-source-exact-scope` describe what the cited manual supp
 ### oem-siemens-s7-1200-fs-event-004d-profisafe-crc
 
 - **Manufacturer / family:** Siemens — SIMATIC S7-1200 fail-safe signal modules (F-modules)
-- **Scope:** Siemens — SIMATIC S7-1200 fail-safe signal modules (F-modules)
+- **Scope:** Siemens — SIMATIC S7-1200 fail-safe signal modules (F-modules); applicability: SIMATIC S7-1200 Functional Safety Manual V4.6 (November 2022); confirm the installed F-module part number, CPU/firmware compatibility and machine configuration.
 - **Code / event:** 0x004D
 - **Meaning (EN):** The manual describes event 0x004D as PROFIsafe communication error (CRC), indicating inconsistent data frames; possible cause is communication interference between fail-safe CPU and F-module, including excessive electromagnetic interference or sign-of-life monitoring error. Corrective measures include checking the communication connection and eliminating interference.
 - **المعنى (AR):** يصف الدليل الحدث 0x004D بأنه خطأ اتصال PROFIsafe (CRC) مع إطارات بيانات غير متسقة. قد يرتبط بتداخل الاتصال بين CPU الآمن ووحدة F، أو بتداخل كهرومغناطيسي أو مراقبة إشارة الحياة. يوصي بفحص الاتصال وإزالة مصادر التداخل.
@@ -1131,7 +1131,7 @@ Records marked `verified-source-exact-scope` describe what the cited manual supp
 ### oem-siemens-s7-1200-fs-event-004e-profisafe-timeout
 
 - **Manufacturer / family:** Siemens — SIMATIC S7-1200 fail-safe signal modules (F-modules)
-- **Scope:** Siemens — SIMATIC S7-1200 fail-safe signal modules (F-modules)
+- **Scope:** Siemens — SIMATIC S7-1200 fail-safe signal modules (F-modules); applicability: SIMATIC S7-1200 Functional Safety Manual V4.6 (November 2022); confirm the installed F-module part number, CPU/firmware compatibility and machine configuration.
 - **Code / event:** 0x004E
 - **Meaning (EN):** The manual labels event 0x004E PROFIsafe communication failure (timeout) and states that the F-monitoring time was exceeded. It recommends checking the F-monitoring time and examining the safety program and other CPU activities such as interrupts, Ethernet communication, OB scheduling, and long program paths.
 - **المعنى (AR):** يسمّي الدليل الحدث 0x004E فشل اتصال PROFIsafe بسبب انتهاء المهلة، لأن زمن مراقبة F قد تم تجاوزه. يوصي بفحص زمن المراقبة وبرنامج السلامة ونشاطات CPU مثل المقاطعات واتصال Ethernet وجدولة OB ومسارات البرنامج الطويلة.
