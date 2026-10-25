@@ -613,6 +613,8 @@ const checks = [
     for (const record of records) {
       assert.ok(["verified-source-exact-scope", "source-registered-pending-claim-review"].includes(record.evidenceStatus), record.id + " must have an explicit evidence status");
       assert.ok(record.source?.sourceId && sourceMap.has(record.source.sourceId), record.id + " needs a registered source");
+      assert.ok(record.firmwareScope && record.firmwareScope.trim(), record.id + " needs an explicit firmware/applicability scope");
+      assert.ok(record.source?.printedPage || record.source?.pdfPage, record.id + " needs a printed-page or PDF-page locator");
       if (record.evidenceStatus === "source-registered-pending-claim-review") {
         assert.equal(sourceMap.get(record.source.sourceId).status, "manual-reference-registered-exact-model-review-required", record.id + " pending status must match source registry");
       } else {

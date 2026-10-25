@@ -1032,7 +1032,7 @@
       "manufacturer": "Mitsubishi Electric",
       "productFamily": "MELSERVO-J4 MR-J4-A",
       "modelScope": "Only the handbook’s stated transition case: HC-FS/HA-FS motors driven by MR-J4-A with MR-J2S-compatible encoder setting",
-      "firmwareScope": "Not stated in cited source; verify on device.",
+      "firmwareScope": "Transition handbook L(NA)03093-F (March 2022); compatibility note applies to HC-FS/HA-FS motors driven by MR-J4-A/B with MR-J2S-compatible encoder settings. It is not a general fault-diagnosis manual.",
       "alarmCode": null,
       "title": {
         "en": "MR-J4 AL.16 / AL.20 may indicate encoder compatibility-setting mismatch in a specific transition setup",
@@ -1048,11 +1048,12 @@
         "sourceId": "mitsubishi-mrj4-transition-handbook",
         "manualTitle": "Transition from MELSERVO-J2-Super/J2M Series to J4 Series Handbook",
         "revision": "Official transition handbook reviewed 2026-10-24",
-        "section": "Part 7 Common Reference Material → 4. HC-FS/HA-FS MOTOR DRIVE → 4.1 Parameter setting",
-        "printedPage": null,
+        "section": "Part 7 Common Reference Material → 4. HC-FS/HA-FS MOTOR DRIVE → 4.1 Parameter setting (printed page 7-97)",
+        "printedPage": 97,
         "manualUrl": "https://dl.mitsubishielectric.com/dl/fa/document/catalog/servo/l03093/l03093e.pdf",
         "evidenceSummary": "The source explicitly links PC22 encoder compatibility setting with AL.16/AL.20 in the stated migration scenario.",
-        "pageNotProvidedReason": "A page number was not independently confirmed during this review; the cited official manual section is provided as the traceable locator. Do not infer a page number."
+        "pageNotProvidedReason": "A page number was not independently confirmed during this review; the cited official manual section is provided as the traceable locator. Do not infer a page number.",
+        "pageLabel": "7-97"
       },
       "safeChecks": {
         "en": [
@@ -2255,7 +2256,8 @@
         "section": "5 Operation and Maintenance → 5.3 Indicators",
         "manualUrl": "https://portal-file.inovance.com/owfile/ProdDoc/SC/19012251-SC/A00/19012251-SC_A00%E3%80%8AH5U%20Series%20Programmable%20Logic%20Control%20User%20Guide%20%E3%80%8BWithout%20CAN%2C%20ECAM%2C%20Electronic%20Gear-EN.pdf",
         "evidenceSummary": "The official H5U guide identifies the RUN, ERR, BAT and BF indicators and defines ERR as system failure, BAT as battery error, and BF as EtherCAT bus error. These records describe indicator meaning only, not a specific root cause.",
-        "pageNotProvidedReason": "A page number was not independently confirmed during this review; the cited official manual section is provided as the traceable locator. Do not infer a page number."
+        "pageNotProvidedReason": "A page number was not independently confirmed during this review; the cited official manual section is provided as the traceable locator. Do not infer a page number.",
+        "printedPage": 20
       },
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
@@ -2310,7 +2312,8 @@
         "section": "5 Operation and Maintenance → 5.3 Indicators",
         "manualUrl": "https://portal-file.inovance.com/owfile/ProdDoc/SC/19012251-SC/A00/19012251-SC_A00%E3%80%8AH5U%20Series%20Programmable%20Logic%20Control%20User%20Guide%20%E3%80%8BWithout%20CAN%2C%20ECAM%2C%20Electronic%20Gear-EN.pdf",
         "evidenceSummary": "The official H5U guide identifies the RUN, ERR, BAT and BF indicators and defines ERR as system failure, BAT as battery error, and BF as EtherCAT bus error. These records describe indicator meaning only, not a specific root cause.",
-        "pageNotProvidedReason": "A page number was not independently confirmed during this review; the cited official manual section is provided as the traceable locator. Do not infer a page number."
+        "pageNotProvidedReason": "A page number was not independently confirmed during this review; the cited official manual section is provided as the traceable locator. Do not infer a page number.",
+        "printedPage": 20
       },
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
@@ -2365,7 +2368,8 @@
         "section": "5 Operation and Maintenance → 5.3 Indicators",
         "manualUrl": "https://portal-file.inovance.com/owfile/ProdDoc/SC/19012251-SC/A00/19012251-SC_A00%E3%80%8AH5U%20Series%20Programmable%20Logic%20Control%20User%20Guide%20%E3%80%8BWithout%20CAN%2C%20ECAM%2C%20Electronic%20Gear-EN.pdf",
         "evidenceSummary": "The official H5U guide identifies the RUN, ERR, BAT and BF indicators and defines ERR as system failure, BAT as battery error, and BF as EtherCAT bus error. These records describe indicator meaning only, not a specific root cause.",
-        "pageNotProvidedReason": "A page number was not independently confirmed during this review; the cited official manual section is provided as the traceable locator. Do not infer a page number."
+        "pageNotProvidedReason": "A page number was not independently confirmed during this review; the cited official manual section is provided as the traceable locator. Do not infer a page number.",
+        "printedPage": 20
       },
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
@@ -2417,10 +2421,11 @@
         "sourceId": "xinje-xnet-fieldbus-manual",
         "manualTitle": "X-NET fieldbus User Manual",
         "revision": "Data No. PD06 20151009 3.2",
-        "section": "2. Search the device ID → Report error message when building the remote connection",
+        "section": "3 Ethernet Communication → 3-7 Error and solution → Report error message when building the remote connection (PDF page 131)",
         "manualUrl": "https://cdn-en.xinje.com/XNET%20manual.pdf",
         "evidenceSummary": "The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced.",
-        "pageNotProvidedReason": "A page number was not independently confirmed during this review; the cited official manual section is provided as the traceable locator. Do not infer a page number."
+        "pageNotProvidedReason": "A page number was not independently confirmed during this review; the cited official manual section is provided as the traceable locator. Do not infer a page number.",
+        "pdfPage": 131
       },
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
@@ -2472,10 +2477,11 @@
         "sourceId": "xinje-xnet-fieldbus-manual",
         "manualTitle": "X-NET fieldbus User Manual",
         "revision": "Data No. PD06 20151009 3.2",
-        "section": "2. Search the device ID → Report error message when building the remote connection",
+        "section": "3 Ethernet Communication → 3-7 Error and solution → Report error message when building the remote connection (PDF page 131)",
         "manualUrl": "https://cdn-en.xinje.com/XNET%20manual.pdf",
         "evidenceSummary": "The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced.",
-        "pageNotProvidedReason": "A page number was not independently confirmed during this review; the cited official manual section is provided as the traceable locator. Do not infer a page number."
+        "pageNotProvidedReason": "A page number was not independently confirmed during this review; the cited official manual section is provided as the traceable locator. Do not infer a page number.",
+        "pdfPage": 131
       },
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
@@ -2527,10 +2533,11 @@
         "sourceId": "xinje-xnet-fieldbus-manual",
         "manualTitle": "X-NET fieldbus User Manual",
         "revision": "Data No. PD06 20151009 3.2",
-        "section": "2. Search the device ID → Report error message when building the remote connection",
+        "section": "3 Ethernet Communication → 3-7 Error and solution → Report error message when building the remote connection (PDF page 131)",
         "manualUrl": "https://cdn-en.xinje.com/XNET%20manual.pdf",
         "evidenceSummary": "The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced.",
-        "pageNotProvidedReason": "A page number was not independently confirmed during this review; the cited official manual section is provided as the traceable locator. Do not infer a page number."
+        "pageNotProvidedReason": "A page number was not independently confirmed during this review; the cited official manual section is provided as the traceable locator. Do not infer a page number.",
+        "pdfPage": 131
       },
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
@@ -2582,10 +2589,11 @@
         "sourceId": "xinje-xnet-fieldbus-manual",
         "manualTitle": "X-NET fieldbus User Manual",
         "revision": "Data No. PD06 20151009 3.2",
-        "section": "2. Search the device ID → Report error message when building the remote connection",
+        "section": "3 Ethernet Communication → 3-7 Error and solution → Report error message when building the remote connection (PDF page 131)",
         "manualUrl": "https://cdn-en.xinje.com/XNET%20manual.pdf",
         "evidenceSummary": "The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced.",
-        "pageNotProvidedReason": "A page number was not independently confirmed during this review; the cited official manual section is provided as the traceable locator. Do not infer a page number."
+        "pageNotProvidedReason": "A page number was not independently confirmed during this review; the cited official manual section is provided as the traceable locator. Do not infer a page number.",
+        "pdfPage": 131
       },
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
@@ -2637,10 +2645,11 @@
         "sourceId": "xinje-xnet-fieldbus-manual",
         "manualTitle": "X-NET fieldbus User Manual",
         "revision": "Data No. PD06 20151009 3.2",
-        "section": "2. Search the device ID → Report error message when building the remote connection",
+        "section": "3 Ethernet Communication → 3-7 Error and solution → Report error message when building the remote connection (PDF page 131)",
         "manualUrl": "https://cdn-en.xinje.com/XNET%20manual.pdf",
         "evidenceSummary": "The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced.",
-        "pageNotProvidedReason": "A page number was not independently confirmed during this review; the cited official manual section is provided as the traceable locator. Do not infer a page number."
+        "pageNotProvidedReason": "A page number was not independently confirmed during this review; the cited official manual section is provided as the traceable locator. Do not infer a page number.",
+        "pdfPage": 131
       },
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
@@ -2692,10 +2701,11 @@
         "sourceId": "xinje-xnet-fieldbus-manual",
         "manualTitle": "X-NET fieldbus User Manual",
         "revision": "Data No. PD06 20151009 3.2",
-        "section": "2. Search the device ID → Report error message when building the remote connection",
+        "section": "3 Ethernet Communication → 3-7 Error and solution → Report error message when building the remote connection (PDF page 131)",
         "manualUrl": "https://cdn-en.xinje.com/XNET%20manual.pdf",
         "evidenceSummary": "The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced.",
-        "pageNotProvidedReason": "A page number was not independently confirmed during this review; the cited official manual section is provided as the traceable locator. Do not infer a page number."
+        "pageNotProvidedReason": "A page number was not independently confirmed during this review; the cited official manual section is provided as the traceable locator. Do not infer a page number.",
+        "pdfPage": 131
       },
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
@@ -3480,7 +3490,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope."
+      "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope.",
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
     },
     {
       "id": "delta-asda-b2-f-al002-overvoltage",
@@ -3535,7 +3546,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope."
+      "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope.",
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
     },
     {
       "id": "delta-asda-b2-f-al003-undervoltage",
@@ -3590,7 +3602,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope."
+      "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope.",
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
     },
     {
       "id": "delta-asda-b2-f-al006-overload",
@@ -3645,7 +3658,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope."
+      "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope.",
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
     },
     {
       "id": "delta-asda-b2-f-al007-overspeed",
@@ -3700,7 +3714,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope."
+      "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope.",
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
     },
     {
       "id": "delta-asda-b2-f-al009-position-deviation",
@@ -3755,7 +3770,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope."
+      "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope.",
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
     },
     {
       "id": "delta-asda-b2-f-al011-encoder-error",
@@ -3810,7 +3826,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope."
+      "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope.",
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
     },
     {
       "id": "delta-asda-b2-f-al016-igbt-overheat",
@@ -3865,7 +3882,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope."
+      "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope.",
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
     },
     {
       "id": "delta-asda-b2-f-al022-main-circuit-phase-loss",
@@ -3920,7 +3938,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope."
+      "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope.",
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
     },
     {
       "id": "delta-asda-b2-f-al024-encoder-magnetic-field",
@@ -3975,7 +3994,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope."
+      "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope.",
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
     },
     {
       "id": "delta-asda-b2-f-al031-motor-power-wiring",
@@ -3999,7 +4019,7 @@
         "sourceId": "delta-asda-b2-f-user-manual",
         "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
         "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
-        "section": "9.4 Causes and Corrective Actions → AL031; 9.4 Causes and Corrective Actions where noted",
+        "section": "9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted",
         "printedPageLabel": "9-11",
         "pdfPage": 212,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
@@ -4030,7 +4050,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope."
+      "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope.",
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
     },
     {
       "id": "delta-asda-b2-f-al060-absolute-position-lost",
@@ -4054,7 +4075,7 @@
         "sourceId": "delta-asda-b2-f-user-manual",
         "manualTitle": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
         "revision": "V1.0; September 2015; DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925",
-        "section": "9.4 Causes and Corrective Actions → AL060; 9.4 Causes and Corrective Actions where noted",
+        "section": "9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted",
         "printedPageLabel": "9-12",
         "pdfPage": 213,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
@@ -4085,7 +4106,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope."
+      "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope.",
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
     },
     {
       "id": "delta-asda-b2-f-al185-dmcnet-bus-hardware",
@@ -4140,7 +4162,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope."
+      "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope.",
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
     },
     {
       "id": "syntec-mot-082-drive-response-packet-noise",
@@ -4164,10 +4187,11 @@
         "sourceId": "syntec-cnc-alarm-manual",
         "manualTitle": "Syntec CNC Alarm Manual",
         "revision": "Supported versions listed: 10.118.86L, 10.120.16L, 10.120.24B, 10.120.27 and previous versions",
-        "section": "CNC Alarm Manual → MOT-082 → Description / Possible Reason / Solution",
+        "section": "CNC Alarm Manual → MOT-082 → Description / Possible Reason / Solution (PDF page 196)",
         "pageNotProvidedReason": "A stable printed/PDF page number was not confirmed in this review; the exact alarm ID and manual subsection are supplied as the locator.",
         "manualUrl": "https://www.syntecclub.com/cncrel/Manual/PDF/Syntec%20CNC%20Alarm%20Manual.pdf",
-        "evidenceSummary": "The official Syntec alarm manual describes MOT-082 as a drive-response packet disturbed by noise for more than 10 ms and lists cable quality/noise interference among possible reasons."
+        "evidenceSummary": "The official Syntec alarm manual describes MOT-082 as a drive-response packet disturbed by noise for more than 10 ms and lists cable quality/noise interference among possible reasons.",
+        "pdfPage": 196
       },
       "safeChecks": {
         "en": [
@@ -4194,7 +4218,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Manual-claim-reviewed, not field-verified. Alarm IDs and timing thresholds apply only within the Syntec manual's listed software-version scope and the actual controller/drive integration."
+      "limitations": "Manual-claim-reviewed, not field-verified. Alarm IDs and timing thresholds apply only within the Syntec manual's listed software-version scope and the actual controller/drive integration.",
+      "firmwareScope": "Syntec CNC Alarm Manual supported versions: 10.118.86L, 10.120.16L, 10.120.24B, 10.120.27 and previous versions; confirm installed CNC software and drive integration."
     },
     {
       "id": "syntec-mot-083-drive-response-packet-watchdog",
@@ -4218,10 +4243,11 @@
         "sourceId": "syntec-cnc-alarm-manual",
         "manualTitle": "Syntec CNC Alarm Manual",
         "revision": "Supported versions listed: 10.118.86L, 10.120.16L, 10.120.24B, 10.120.27 and previous versions",
-        "section": "CNC Alarm Manual → MOT-083 → Description / Possible Reason / Solution",
+        "section": "CNC Alarm Manual → section 3.79 MOT-083 → Description / Possible Reason / Solution (PDF page 238)",
         "pageNotProvidedReason": "A stable printed/PDF page number was not confirmed in this review; the exact alarm ID and manual subsection are supplied as the locator.",
         "manualUrl": "https://www.syntecclub.com/cncrel/Manual/PDF/Syntec%20CNC%20Alarm%20Manual.pdf",
-        "evidenceSummary": "The official Syntec alarm manual describes MOT-083 in terms of an incorrect drive response-packet watchdog (M3) or EtherCAT working counter lasting more than 10 ms."
+        "evidenceSummary": "The official Syntec alarm manual describes MOT-083 in terms of an incorrect drive response-packet watchdog (M3) or EtherCAT working counter lasting more than 10 ms.",
+        "pdfPage": 238
       },
       "safeChecks": {
         "en": [
@@ -4248,7 +4274,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Manual-claim-reviewed, not field-verified. Alarm IDs and timing thresholds apply only within the Syntec manual's listed software-version scope and the actual controller/drive integration."
+      "limitations": "Manual-claim-reviewed, not field-verified. Alarm IDs and timing thresholds apply only within the Syntec manual's listed software-version scope and the actual controller/drive integration.",
+      "firmwareScope": "Syntec CNC Alarm Manual supported versions: 10.118.86L, 10.120.16L, 10.120.24B, 10.120.27 and previous versions; confirm installed CNC software and drive integration."
     },
     {
       "id": "delta-asda-b2-f-al004-motor-combination-error",
@@ -4303,7 +4330,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm. Confirm installed configuration and current manual before action."
+      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm. Confirm installed configuration and current manual before action.",
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
     },
     {
       "id": "delta-asda-b2-f-al005-regeneration-error",
@@ -4358,7 +4386,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm. Confirm installed configuration and current manual before action."
+      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm. Confirm installed configuration and current manual before action.",
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
     },
     {
       "id": "delta-asda-b2-f-al012-adjustment-error",
@@ -4413,7 +4442,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm. Confirm installed configuration and current manual before action."
+      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm. Confirm installed configuration and current manual before action.",
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
     },
     {
       "id": "delta-asda-b2-f-al013-emergency-stop-active",
@@ -4468,7 +4498,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm. Confirm installed configuration and current manual before action."
+      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm. Confirm installed configuration and current manual before action.",
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
     },
     {
       "id": "delta-asda-b2-f-al014-reverse-limit-active",
@@ -4523,7 +4554,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm. Confirm installed configuration and current manual before action."
+      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm. Confirm installed configuration and current manual before action.",
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
     },
     {
       "id": "delta-asda-b2-f-al015-forward-limit-active",
@@ -4578,7 +4610,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm. Confirm installed configuration and current manual before action."
+      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm. Confirm installed configuration and current manual before action.",
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
     },
     {
       "id": "delta-asda-b2-f-al017-eeprom-access-error",
@@ -4633,7 +4666,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm. Confirm installed configuration and current manual before action."
+      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm. Confirm installed configuration and current manual before action.",
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
     },
     {
       "id": "delta-asda-b2-f-al018-abnormal-encoder-output",
@@ -4688,7 +4722,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm. Confirm installed configuration and current manual before action."
+      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm. Confirm installed configuration and current manual before action.",
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
     },
     {
       "id": "delta-asda-b2-f-al019-rs232-communication-error",
@@ -4740,7 +4775,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm."
+      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm.",
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
     },
     {
       "id": "delta-asda-b2-f-al020-rs232-communication-timeout",
@@ -4792,7 +4828,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm."
+      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm.",
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
     },
     {
       "id": "delta-asda-b2-f-al023-overload-warning",
@@ -4844,7 +4881,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm."
+      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm.",
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
     },
     {
       "id": "delta-asda-b2-f-al025-encoder-internal-memory-counter-error",
@@ -4896,7 +4934,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm."
+      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm.",
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
     },
     {
       "id": "delta-asda-b2-f-al026-encoder-internal-data-unreliable",
@@ -4948,7 +4987,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm."
+      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm.",
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
     },
     {
       "id": "delta-asda-b2-f-al027-encoder-internal-reset-error",
@@ -5000,7 +5040,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm."
+      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm.",
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
     },
     {
       "id": "delta-asda-b2-f-al028-encoder-voltage-or-internal-error",
@@ -5052,7 +5093,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm."
+      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm.",
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
     },
     {
       "id": "delta-asda-b2-f-al029-absolute-position-gray-code-error",
@@ -5104,7 +5146,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm."
+      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm.",
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
     },
     {
       "id": "delta-asda-b2-f-al034-encoder-internal-communication-error",
@@ -5156,7 +5199,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm."
+      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm.",
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
     },
     {
       "id": "delta-asda-b2-f-al035-encoder-overtemperature",
@@ -5208,7 +5252,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm."
+      "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm.",
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
     }
   ],
   "manualClaimReviewedCount": 99,
