@@ -606,9 +606,18 @@ const checks = [
     assert.equal(oemVerifiedFaults.recordCount, records.length, "OEM verified record count must match");
     assert.equal(new Set(records.map(record => record.id)).size, records.length, "OEM verified IDs must be unique");
     const sourceMap = new Map(manufacturerSources.sources.map(source => [source.id, source]));
+    const pendingReviewRecords = records.filter(record => record.evidenceStatus === "source-registered-pending-claim-review");
+    const reviewedRecords = records.filter(record => record.evidenceStatus === "verified-source-exact-scope");
+    assert.equal(reviewedRecords.length, oemPlatformIndex.manualReviewedRecordCount, "Reviewed-record count must match the evidence index");
+    assert.equal(pendingReviewRecords.length, oemPlatformIndex.pendingClaimReviewCount, "Pending-review count must match the evidence index");
     for (const record of records) {
-      assert.equal(record.evidenceStatus, "verified-source-exact-scope", record.id + " must declare exact-scope evidence");
+      assert.ok(["verified-source-exact-scope", "source-registered-pending-claim-review"].includes(record.evidenceStatus), record.id + " must have an explicit evidence status");
       assert.ok(record.source?.sourceId && sourceMap.has(record.source.sourceId), record.id + " needs a registered source");
+      if (record.evidenceStatus === "source-registered-pending-claim-review") {
+        assert.equal(sourceMap.get(record.source.sourceId).status, "manual-reference-registered-exact-model-review-required", record.id + " pending status must match source registry");
+      } else {
+        assert.ok(["manual-content-reviewed-for-listed-records", "manual-reviewed-limited-claims", "official-manual-reviewed-for-listed-claims"].includes(sourceMap.get(record.source.sourceId).status), record.id + " must use a claim-reviewed source");
+      }
       assert.equal(record.source.manualUrl, sourceMap.get(record.source.sourceId).url, record.id + " source URL must match registry");
       assert.ok(record.source.section && record.source.manualTitle && record.source.revision, record.id + " needs manual title/revision/section");
       assert.ok(record.meaning?.ar && record.meaning?.fr && record.meaning?.en, record.id + " needs Arabic/French/English meaning");
@@ -629,7 +638,7 @@ const checks = [
     assert.ok(sw.includes('"./knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md"'), "OEM evidence guide must be available in the offline cache");
     assert.equal(oemPlatformIndex.verifiedRecordFileCount, records.length, "OEM index inventory count must match the verified-record file");
     assert.equal(oemPlatformIndex.verifiedRecordFile, "knowledge/oem-verified-faults.json", "OEM index must point to the structured record file");
-    assert.equal(oemPlatformIndex.manufacturers.reduce((sum, manufacturer) => sum + (manufacturer.manualReviewedRecordCount || 0), 0), records.length, "Per-manufacturer manual-reviewed counts must reconcile to the record inventory");
+    assert.equal(oemPlatformIndex.manufacturers.reduce((sum, manufacturer) => sum + (manufacturer.manualReviewedRecordCount || 0), 0), reviewedRecords.length, "Per-manufacturer manual-reviewed counts must reconcile to reviewed records");
     for (const manufacturer of oemPlatformIndex.manufacturers) {
       if ((manufacturer.manualReviewedRecordCount || 0) > 0) {
         assert.ok(Array.isArray(manufacturer.modelsCovered) && manufacturer.modelsCovered.length, manufacturer.id + " must list the product families with manual-reviewed records");
