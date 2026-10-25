@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "title": "OEM-verified fault and diagnostic records",
+  "title": "OEM fault and diagnostic evidence records",
   "languageSupport": [
     "ar",
     "fr",
@@ -9,8 +9,8 @@
   "generatedAt": "2026-10-24",
   "recordCount": 99,
   "evidencePolicy": {
-    "verifiedMeans": "The cited official manual explicitly supports the stated alarm meaning or diagnostic procedure within the recorded scope.",
-    "notEquivalentTo": "This does not mean every machine built around the same brand/controller behaves identically; machine builder integration, firmware and options can change alarm behavior.",
+    "verifiedMeans": "The cited official manual explicitly supports the stated alarm meaning or diagnostic procedure within the recorded scope. Records marked source-registered-pending-claim-review do not meet this criterion.",
+    "notEquivalentTo": "Manual claim review is not field validation and does not mean every machine built around the same brand/controller behaves identically; machine builder integration, firmware and options can change alarm behavior.",
     "requiredForFutureModelSpecificRecord": [
       "machineBuilder",
       "machineModel",
@@ -29,7 +29,11 @@
       "Do not infer a code meaning from another product family or a portal landing page.",
       "Do not advise safety bypasses, forced outputs, or live electrical work as generic first steps.",
       "Store concise original summaries and links, not copied manual chapters."
-    ]
+    ],
+    "statusDefinitions": {
+      "verified-source-exact-scope": "The specific claim was reviewed against the cited manual within the recorded product scope; this is not field validation.",
+      "source-registered-pending-claim-review": "A manual reference is registered, but the specific claim has not yet passed claim-level review. Do not present it as source-verified."
+    }
   },
   "records": [
     {
@@ -1548,7 +1552,7 @@
         "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
         "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
       },
-      "evidenceStatus": "verified-source-exact-scope",
+      "evidenceStatus": "source-registered-pending-claim-review",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
@@ -1595,7 +1599,7 @@
         "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
         "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
       },
-      "evidenceStatus": "verified-source-exact-scope",
+      "evidenceStatus": "source-registered-pending-claim-review",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
@@ -1642,7 +1646,7 @@
         "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
         "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
       },
-      "evidenceStatus": "verified-source-exact-scope",
+      "evidenceStatus": "source-registered-pending-claim-review",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
@@ -1689,7 +1693,7 @@
         "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
         "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
       },
-      "evidenceStatus": "verified-source-exact-scope",
+      "evidenceStatus": "source-registered-pending-claim-review",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
@@ -1736,7 +1740,7 @@
         "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
         "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
       },
-      "evidenceStatus": "verified-source-exact-scope",
+      "evidenceStatus": "source-registered-pending-claim-review",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
@@ -1783,7 +1787,7 @@
         "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
         "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
       },
-      "evidenceStatus": "verified-source-exact-scope",
+      "evidenceStatus": "source-registered-pending-claim-review",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
@@ -1830,7 +1834,7 @@
         "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
         "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
       },
-      "evidenceStatus": "verified-source-exact-scope",
+      "evidenceStatus": "source-registered-pending-claim-review",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
@@ -1877,7 +1881,7 @@
         "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
         "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
       },
-      "evidenceStatus": "verified-source-exact-scope",
+      "evidenceStatus": "source-registered-pending-claim-review",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
@@ -1924,7 +1928,7 @@
         "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
         "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
       },
-      "evidenceStatus": "verified-source-exact-scope",
+      "evidenceStatus": "source-registered-pending-claim-review",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
@@ -1971,7 +1975,7 @@
         "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
         "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
       },
-      "evidenceStatus": "verified-source-exact-scope",
+      "evidenceStatus": "source-registered-pending-claim-review",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
@@ -2018,7 +2022,7 @@
         "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
         "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
       },
-      "evidenceStatus": "verified-source-exact-scope",
+      "evidenceStatus": "source-registered-pending-claim-review",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
@@ -2065,7 +2069,7 @@
         "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
         "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
       },
-      "evidenceStatus": "verified-source-exact-scope",
+      "evidenceStatus": "source-registered-pending-claim-review",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
@@ -2112,7 +2116,7 @@
         "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
         "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
       },
-      "evidenceStatus": "verified-source-exact-scope",
+      "evidenceStatus": "source-registered-pending-claim-review",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
@@ -2159,7 +2163,7 @@
         "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
         "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
       },
-      "evidenceStatus": "verified-source-exact-scope",
+      "evidenceStatus": "source-registered-pending-claim-review",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
@@ -2206,7 +2210,7 @@
         "ar": "صعّد إلى فني مؤهل عند تكرار العطل أو الاشتباه في خلل داخلي أو متعلق بالسلامة.",
         "fr": "Escalader vers un spécialiste qualifié en cas de récidive ou de risque de sécurité."
       },
-      "evidenceStatus": "verified-source-exact-scope",
+      "evidenceStatus": "source-registered-pending-claim-review",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope."
@@ -5191,5 +5195,7 @@
       "reviewerRole": "repository evidence review",
       "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm."
     }
-  ]
+  ],
+  "manualClaimReviewedCount": 84,
+  "pendingClaimReviewCount": 15
 }
