@@ -56,6 +56,8 @@ const manufacturerTemplateCount = (manufacturerMatrix.caseTemplates || []).lengt
 const oemPlatformCount = (oemPlatformIndex.manufacturers || []).length;
 const modelVerifiedPlatformCount = (oemPlatformIndex.manufacturers || []).filter(item => item.evidenceStatus === "model-verified").length;
 const oemVerifiedRecordCount = Array.isArray(oemVerifiedFaults.records) ? oemVerifiedFaults.records.length : 0;
+const oemClaimReviewedCount = (oemVerifiedFaults.records || []).filter(record => record.evidenceStatus === "verified-source-exact-scope").length;
+const oemPendingClaimReviewCount = (oemVerifiedFaults.records || []).filter(record => record.evidenceStatus === "source-registered-pending-claim-review").length;
 const oemVerifiedSourceIds = new Set((oemVerifiedFaults.records || []).map(record => record.source && record.source.sourceId).filter(Boolean));
 const missingOemSources = [...oemVerifiedSourceIds].filter(id => !(manufacturerSources.sources || []).some(source => source.id === id));
 const fmt = value => Number(value).toLocaleString("en-US");
@@ -78,7 +80,7 @@ const report = [
   "- Structured OEM symptom templates: **" + manufacturerTemplateCount + "**",
   "- Official manufacturer/support portal records: **" + manufacturerPortalCount + "**",
   "- Structured OEM platform index entries: **" + oemPlatformCount + "**; model-verified: **" + modelVerifiedPlatformCount + "**",
-  "- Structured source-linked OEM diagnostic records: **" + oemVerifiedRecordCount + "**; records with a missing manufacturer-source registry entry: **" + missingOemSources.length + "**",
+  "- Structured source-linked OEM diagnostic records: **" + oemVerifiedRecordCount + "**; claim-reviewed: **" + oemClaimReviewedCount + "**; pending claim-level review: **" + oemPendingClaimReviewCount + "**; records with a missing manufacturer-source registry entry: **" + missingOemSources.length + "**",
   "",
   "## Document inventory",
   "",
@@ -116,6 +118,7 @@ const report = [
   "- These templates are not verified alarm-code definitions. A verified case requires exact model, controller/drive, firmware, manual revision, page/section, supported claim, and human review.",
   "- The " + manufacturerPortalCount + "-entry OEM source-discovery registry is separate from the " + (registry.sources || []).length + " license-tracked research sources above. Its URLs do not prove that a particular fault cause applies.",
   "- OEM record registry references are checked against the manufacturer-source registry; missing references: " + (missingOemSources.join(", ") || "none") + ". The source link alone is not evidence unless the recorded manual section supports the claim.",
+  "- The structured OEM file contains " + oemClaimReviewedCount + " claim-reviewed records and " + oemPendingClaimReviewCount + " records pending claim-level review. Pending records must not be presented as source-verified.",
   "",
   "## Recent model-specific evidence tranche",
   "",
