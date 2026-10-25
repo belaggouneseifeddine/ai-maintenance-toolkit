@@ -3,7 +3,7 @@
 > Verified means the cited official source supports the specific statement below. It does not mean every installation using the same brand behaves identically. Match machine builder, controller/drive model, firmware and manual revision before applying a record.
 
 - Review date: 2026-10-24
-- Model-scoped records in this file: 99; 84 manual-claim-reviewed (not field-verified), 15 pending claim-level review
+- Model-scoped records in this file: 99 manual-claim-reviewed (not field-verified); pending claim-level review: 0
 - Languages: Arabic, French and English; summaries are paraphrased rather than copied from manuals.
 - Chinese OEM coverage includes XINJE DS5K servo drivers, XINJE X-NET remote-connection diagnostics, and INOVANCE MD200 drives/H5U PLC indicators; this is not yet broad coverage of all Chinese CNC/PLC families.
 - Other represented families include Delta ASDA-B2-F servo alarms, Syntec CNC communication alarms, Siemens SINUMERIK/SINAMICS/SIMATIC S7-1200, Mitsubishi Electric CNC/PLC/servo, and GSK218M CNC records.
@@ -918,7 +918,7 @@ Records marked `verified-source-exact-scope` describe what the cited manual supp
 - **Scope:** INOVANCE — MD200 series AC drive
 - **Code / event:** Err14
 - **Meaning (EN):** The MD200 manual labels Err14 as Module overheat and lists high ambient temperature, blocked air filter, damaged fan, damaged module thermistor, or a faulty drive unit as possible causes.
-- **المعنى (AR):** يصنّف الدليل Err14 على أنه ارتفاع حرارة المغير. تشمل الأسباب المحتملة ارتفاع حرارة المحيط، أو انسداد مرشح الهواء، أو تلف المروحة أو حساس حرارة الوحدة، أو عطل وحدة القيادة.
+- **المعنى (AR):** يسمّي دليل MD200 الرمز Err14 «ارتفاع حرارة الوحدة». تشمل الأسباب المحتملة ارتفاع حرارة المحيط، أو انسداد مرشح الهواء، أو تلف المروحة أو حساس حرارة الوحدة، أو عطل وحدة القيادة.
 - **Sens (FR):** Le guide classe Err14 comme une surchauffe du module. Les causes possibles comprennent une température ambiante élevée, un filtre d’air obstrué, un ventilateur ou thermistor de module endommagé, ou une unité de variateur défectueuse.
 - **Official evidence:** MD200 User Guide; MD200 User Guide; C02; document identifier MD200_User_Guide_EN_C02_19012113; 3 Fault > 3.2 Faults and Solutions; printed page 35.
 - **Source:** https://www.inovance.eu/fileadmin/downloads/Manuals/EN/MD200/MD200_User_Guide_EN_C02_19012113.PDF
