@@ -557,7 +557,7 @@ Records marked `verified-source-exact-scope` describe what the cited manual supp
 - **Meaning (EN):** The transition handbook states that in the specified HC-FS/HA-FS motor and MR-J4-A setup, an incorrect PC22 encoder setting can cause AL.16 (encoder initial communication error 1) or AL.20 (encoder normal communication error 1).
 - **المعنى (AR):** يذكر دليل الانتقال أن إعداد PC22 غير الصحيح في حالة محرك HC-FS/HA-FS مع MR-J4-A قد يؤدي إلى AL.16 (خطأ اتصال أولي للمشفّر) أو AL.20 (خطأ اتصال عادي للمشفّر).
 - **Sens (FR):** Le guide de transition indique qu’un réglage PC22 incorrect, dans le cas moteur HC-FS/HA-FS avec MR-J4-A, peut provoquer AL.16 ou AL.20.
-- **Official evidence:** Transition from MELSERVO-J2-Super/J2M Series to J4 Series Handbook; Official transition handbook reviewed 2026-10-24; Part 7 Common Reference Material → 4. HC-FS/HA-FS MOTOR DRIVE → 4.1 Parameter setting.
+- **Official evidence:** Transition from MELSERVO-J2-Super/J2M Series to J4 Series Handbook; Official transition handbook reviewed 2026-10-24; Part 7 Common Reference Material → 4. HC-FS/HA-FS MOTOR DRIVE → 4.1 Parameter setting (printed page 7-97); printed page 7-97
 - **Source:** https://dl.mitsubishielectric.com/dl/fa/document/catalog/servo/l03093/l03093e.pdf
 - **Evidence note:** The source explicitly links PC22 encoder compatibility setting with AL.16/AL.20 in the stated migration scenario.
 - **Review date:** 2026-10-24
@@ -1160,7 +1160,7 @@ Records marked `verified-source-exact-scope` describe what the cited manual supp
 - **Meaning (EN):** The H5U guide defines the ERR indicator as a PLC system fault. The indicator alone does not identify the root cause; retrieve the controller diagnostics and exact event details.
 - **المعنى (AR):** يعرّف دليل H5U مؤشر ERR بأنه عطل في نظام PLC. لا يحدد المؤشر وحده السبب الجذري؛ يجب استخراج تشخيصات المتحكم وتفاصيل الحدث.
 - **Sens (FR):** Le guide H5U définit le voyant ERR comme un défaut système du PLC. Le voyant seul n’identifie pas la cause racine; consulter les diagnostics du contrôleur et les détails de l’événement.
-- **Official evidence:** H5U Series Programmable Logic Controller User Guide (Without CAN, Electronic CAM, Electronic Gear); June 2023; A00; document code 19012251A00; 5 Operation and Maintenance → 5.3 Indicators.
+- **Official evidence:** H5U Series Programmable Logic Controller User Guide (Without CAN, Electronic CAM, Electronic Gear); June 2023; A00; document code 19012251A00; 5 Operation and Maintenance → 5.3 Indicators; printed page 20
 - **Source:** https://portal-file.inovance.com/owfile/ProdDoc/SC/19012251-SC/A00/19012251-SC_A00%E3%80%8AH5U%20Series%20Programmable%20Logic%20Control%20User%20Guide%20%E3%80%8BWithout%20CAN%2C%20ECAM%2C%20Electronic%20Gear-EN.pdf
 - **Evidence note:** The official H5U guide identifies the RUN, ERR, BAT and BF indicators and defines ERR as system failure, BAT as battery error, and BF as EtherCAT bus error. These records describe indicator meaning only, not a specific root cause.
 - **Review date:** 2026-10-24
@@ -1190,7 +1190,7 @@ Records marked `verified-source-exact-scope` describe what the cited manual supp
 - **Meaning (EN):** The H5U guide identifies BAT as a battery error indicator. It does not by itself specify the battery condition, retention risk or replacement procedure for every hardware variant.
 - **المعنى (AR):** يحدد دليل H5U مؤشر BAT على أنه خطأ في البطارية. ولا يحدد المؤشر وحده حالة البطارية أو خطر فقد البيانات أو إجراء الاستبدال لكل نسخ العتاد.
 - **Sens (FR):** Le guide H5U identifie BAT comme un indicateur de défaut de batterie. Il ne précise pas à lui seul l’état de la batterie, le risque de perte des données ni la procédure pour toutes les variantes matérielles.
-- **Official evidence:** H5U Series Programmable Logic Controller User Guide (Without CAN, Electronic CAM, Electronic Gear); June 2023; A00; document code 19012251A00; 5 Operation and Maintenance → 5.3 Indicators.
+- **Official evidence:** H5U Series Programmable Logic Controller User Guide (Without CAN, Electronic CAM, Electronic Gear); June 2023; A00; document code 19012251A00; 5 Operation and Maintenance → 5.3 Indicators; printed page 20
 - **Source:** https://portal-file.inovance.com/owfile/ProdDoc/SC/19012251-SC/A00/19012251-SC_A00%E3%80%8AH5U%20Series%20Programmable%20Logic%20Control%20User%20Guide%20%E3%80%8BWithout%20CAN%2C%20ECAM%2C%20Electronic%20Gear-EN.pdf
 - **Evidence note:** The official H5U guide identifies the RUN, ERR, BAT and BF indicators and defines ERR as system failure, BAT as battery error, and BF as EtherCAT bus error. These records describe indicator meaning only, not a specific root cause.
 - **Review date:** 2026-10-24
@@ -1220,7 +1220,7 @@ Records marked `verified-source-exact-scope` describe what the cited manual supp
 - **Meaning (EN):** The H5U guide identifies BF as an EtherCAT bus error indicator. It does not establish which slave, cable, topology or configuration is responsible; inspect the actual bus diagnostics.
 - **المعنى (AR):** يحدد دليل H5U مؤشر BF على أنه خطأ في ناقل EtherCAT. ولا يحدد المؤشر وحده وحدة التابع أو الكابل أو البنية أو الإعداد المسؤول؛ افحص تشخيصات الناقل الفعلية.
 - **Sens (FR):** Le guide H5U identifie BF comme un indicateur d’erreur du bus EtherCAT. Il ne désigne pas à lui seul l’esclave, le câble, la topologie ou la configuration en cause; consulter les diagnostics réels du bus.
-- **Official evidence:** H5U Series Programmable Logic Controller User Guide (Without CAN, Electronic CAM, Electronic Gear); June 2023; A00; document code 19012251A00; 5 Operation and Maintenance → 5.3 Indicators.
+- **Official evidence:** H5U Series Programmable Logic Controller User Guide (Without CAN, Electronic CAM, Electronic Gear); June 2023; A00; document code 19012251A00; 5 Operation and Maintenance → 5.3 Indicators; printed page 20
 - **Source:** https://portal-file.inovance.com/owfile/ProdDoc/SC/19012251-SC/A00/19012251-SC_A00%E3%80%8AH5U%20Series%20Programmable%20Logic%20Control%20User%20Guide%20%E3%80%8BWithout%20CAN%2C%20ECAM%2C%20Electronic%20Gear-EN.pdf
 - **Evidence note:** The official H5U guide identifies the RUN, ERR, BAT and BF indicators and defines ERR as system failure, BAT as battery error, and BF as EtherCAT bus error. These records describe indicator meaning only, not a specific root cause.
 - **Review date:** 2026-10-24
@@ -1250,7 +1250,7 @@ Records marked `verified-source-exact-scope` describe what the cited manual supp
 - **Meaning (EN):** The X-NET manual associates code 1 with failure to connect to a remote device and notes that an unstable network environment may contribute.
 - **المعنى (AR):** يربط دليل X-NET الرمز 1 بفشل الاتصال بجهاز بعيد، ويذكر أن عدم استقرار الشبكة قد يساهم في ذلك.
 - **Sens (FR):** Le manuel X-NET associe le code 1 à l’échec de connexion à un appareil distant et indique qu’un réseau instable peut y contribuer.
-- **Official evidence:** X-NET fieldbus User Manual; Data No. PD06 20151009 3.2; 2. Search the device ID → Report error message when building the remote connection.
+- **Official evidence:** X-NET fieldbus User Manual; Data No. PD06 20151009 3.2; 3 Ethernet Communication → 3-7 Error and solution → Report error message when building the remote connection (PDF page 131); PDF page 131
 - **Source:** https://cdn-en.xinje.com/XNET%20manual.pdf
 - **Evidence note:** The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced.
 - **Review date:** 2026-10-24
@@ -1280,7 +1280,7 @@ Records marked `verified-source-exact-scope` describe what the cited manual supp
 - **Meaning (EN):** The manual labels code 16 as the initiating party not logged in; its note mentions network instability as a possible contributing condition.
 - **المعنى (AR):** يسمّي الدليل الرمز 16 عدم تسجيل الطرف البادئ الدخول، ويذكر أن عدم استقرار الشبكة قد يكون عاملًا مساهمًا.
 - **Sens (FR):** Le manuel décrit le code 16 comme l’absence de connexion de la partie initiatrice; il mentionne une instabilité réseau possible.
-- **Official evidence:** X-NET fieldbus User Manual; Data No. PD06 20151009 3.2; 2. Search the device ID → Report error message when building the remote connection.
+- **Official evidence:** X-NET fieldbus User Manual; Data No. PD06 20151009 3.2; 3 Ethernet Communication → 3-7 Error and solution → Report error message when building the remote connection (PDF page 131); PDF page 131
 - **Source:** https://cdn-en.xinje.com/XNET%20manual.pdf
 - **Evidence note:** The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced.
 - **Review date:** 2026-10-24
@@ -1310,7 +1310,7 @@ Records marked `verified-source-exact-scope` describe what the cited manual supp
 - **Meaning (EN):** The manual labels code 17 as recipient not logged in and directs checking the device ID, BOX/XDE login state, remote parameters and network.
 - **المعنى (AR):** يسمّي الدليل الرمز 17 عدم تسجيل الطرف المستقبِل الدخول، ويوجّه إلى فحص معرّف الجهاز وحالة دخول BOX/XDE والمعلمات البعيدة والشبكة.
 - **Sens (FR):** Le manuel décrit le code 17 comme l’absence de connexion du destinataire et recommande de vérifier l’identifiant, l’état de connexion BOX/XDE, les paramètres distants et le réseau.
-- **Official evidence:** X-NET fieldbus User Manual; Data No. PD06 20151009 3.2; 2. Search the device ID → Report error message when building the remote connection.
+- **Official evidence:** X-NET fieldbus User Manual; Data No. PD06 20151009 3.2; 3 Ethernet Communication → 3-7 Error and solution → Report error message when building the remote connection (PDF page 131); PDF page 131
 - **Source:** https://cdn-en.xinje.com/XNET%20manual.pdf
 - **Evidence note:** The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced.
 - **Review date:** 2026-10-24
@@ -1340,7 +1340,7 @@ Records marked `verified-source-exact-scope` describe what the cited manual supp
 - **Meaning (EN):** The manual states that code 18 means remote parameters on the device and PC are not correct or consistent.
 - **المعنى (AR):** يذكر الدليل أن الرمز 18 يعني أن المعلمات البعيدة على الجهاز والحاسوب غير صحيحة أو غير متطابقة.
 - **Sens (FR):** Le manuel indique que le code 18 signifie que les paramètres distants du périphérique et du PC sont incorrects ou incohérents.
-- **Official evidence:** X-NET fieldbus User Manual; Data No. PD06 20151009 3.2; 2. Search the device ID → Report error message when building the remote connection.
+- **Official evidence:** X-NET fieldbus User Manual; Data No. PD06 20151009 3.2; 3 Ethernet Communication → 3-7 Error and solution → Report error message when building the remote connection (PDF page 131); PDF page 131
 - **Source:** https://cdn-en.xinje.com/XNET%20manual.pdf
 - **Evidence note:** The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced.
 - **Review date:** 2026-10-24
@@ -1370,7 +1370,7 @@ Records marked `verified-source-exact-scope` describe what the cited manual supp
 - **Meaning (EN):** The manual labels code 19 as a password error; do not store or request credentials in the fault record.
 - **المعنى (AR):** يسمّي الدليل الرمز 19 خطأ في كلمة المرور؛ لا تخزّن بيانات الدخول ولا تطلبها داخل سجل العطل.
 - **Sens (FR):** Le manuel nomme le code 19 « erreur de mot de passe »; ne pas enregistrer ni demander les identifiants dans le dossier d’incident.
-- **Official evidence:** X-NET fieldbus User Manual; Data No. PD06 20151009 3.2; 2. Search the device ID → Report error message when building the remote connection.
+- **Official evidence:** X-NET fieldbus User Manual; Data No. PD06 20151009 3.2; 3 Ethernet Communication → 3-7 Error and solution → Report error message when building the remote connection (PDF page 131); PDF page 131
 - **Source:** https://cdn-en.xinje.com/XNET%20manual.pdf
 - **Evidence note:** The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced.
 - **Review date:** 2026-10-24
@@ -1400,7 +1400,7 @@ Records marked `verified-source-exact-scope` describe what the cited manual supp
 - **Meaning (EN):** The manual labels code 255 as login failed and recommends checking remote parameters, network environment and firewall settings. The antivirus-uninstallation suggestion is excluded as an unsafe generic step.
 - **المعنى (AR):** يسمّي الدليل الرمز 255 فشل تسجيل الدخول، ويوصي بفحص المعلمات البعيدة والشبكة وإعدادات جدار الحماية. تم استبعاد اقتراح إزالة مضاد الفيروسات كخطوة عامة غير آمنة.
 - **Sens (FR):** Le manuel nomme le code 255 « échec de connexion » et recommande de vérifier les paramètres distants, le réseau et le pare-feu. La suggestion de désinstaller l’antivirus est exclue des consignes génériques.
-- **Official evidence:** X-NET fieldbus User Manual; Data No. PD06 20151009 3.2; 2. Search the device ID → Report error message when building the remote connection.
+- **Official evidence:** X-NET fieldbus User Manual; Data No. PD06 20151009 3.2; 3 Ethernet Communication → 3-7 Error and solution → Report error message when building the remote connection (PDF page 131); PDF page 131
 - **Source:** https://cdn-en.xinje.com/XNET%20manual.pdf
 - **Evidence note:** The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced.
 - **Review date:** 2026-10-24
@@ -1770,7 +1770,7 @@ These are manual-claim-reviewed, not field-verified. The model, frame size, firm
 - **Meaning (EN):** The ASDA-B2-F manual identifies AL001 as overcurrent in the servo drive main circuit.
 - **المعنى (AR):** يصنّف دليل ASDA-B2-F الإنذار AL001 على أنه زيادة تيار في الدائرة الرئيسية للمحرك المؤازر.
 - **Sens (FR):** Le manuel ASDA-B2-F identifie AL001 comme une surintensité dans le circuit principal du variateur servo.
-- **Manual locator:** 9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted; printed page 9-2
+- **Manual locator:** 9.1 Alarm of Servo Drive (alarm name/description table); printed page 9-2; PDF page 203
 - **Review date:** 2026-10-24
 - **Safe checks (EN):** Record the exact code, operating mode, load and time of occurrence; preserve the fault history before any reset. Use the machine's approved isolation procedure before inspecting wiring or connectors. Electrical measurements inside the drive are for qualified personnel only. Compare the observed condition with the ASDA-B2-F manual and machine-builder drawings; do not bypass protection or change limits to hide the alarm.
 - **فحوصات آمنة (AR):** سجّل الرمز الدقيق ووضع التشغيل والحمل ووقت ظهور العطل، واحتفظ بسجل الأعطال قبل أي إعادة ضبط. طبّق إجراء العزل المعتمد قبل فحص الأسلاك أو الموصلات. القياسات الكهربائية داخل المغير من اختصاص شخص مؤهل فقط. طابق الحالة مع دليل ASDA-B2-F ومخططات مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار.
@@ -1786,7 +1786,7 @@ These are manual-claim-reviewed, not field-verified. The model, frame size, firm
 - **Meaning (EN):** The manual identifies AL002 as main-circuit voltage above the specified standard voltage.
 - **المعنى (AR):** يعرّف الدليل AL002 بأنه ارتفاع جهد الدائرة الرئيسية فوق الجهد القياسي المحدد.
 - **Sens (FR):** Le manuel définit AL002 comme une tension du circuit principal supérieure à la tension standard spécifiée.
-- **Manual locator:** 9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted; printed page 9-2
+- **Manual locator:** 9.1 Alarm of Servo Drive (alarm name/description table); printed page 9-2; PDF page 203
 - **Review date:** 2026-10-24
 - **Safe checks (EN):** Record the exact code, operating mode, load and time of occurrence; preserve the fault history before any reset. Use the machine's approved isolation procedure before inspecting wiring or connectors. Electrical measurements inside the drive are for qualified personnel only. Compare the observed condition with the ASDA-B2-F manual and machine-builder drawings; do not bypass protection or change limits to hide the alarm.
 - **فحوصات آمنة (AR):** سجّل الرمز الدقيق ووضع التشغيل والحمل ووقت ظهور العطل، واحتفظ بسجل الأعطال قبل أي إعادة ضبط. طبّق إجراء العزل المعتمد قبل فحص الأسلاك أو الموصلات. القياسات الكهربائية داخل المغير من اختصاص شخص مؤهل فقط. طابق الحالة مع دليل ASDA-B2-F ومخططات مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار.
@@ -1802,7 +1802,7 @@ These are manual-claim-reviewed, not field-verified. The model, frame size, firm
 - **Meaning (EN):** The manual identifies AL003 as main-circuit voltage below the specified standard voltage.
 - **المعنى (AR):** يعرّف الدليل AL003 بأنه انخفاض جهد الدائرة الرئيسية عن الجهد القياسي المحدد.
 - **Sens (FR):** Le manuel définit AL003 comme une tension du circuit principal inférieure à la tension standard spécifiée.
-- **Manual locator:** 9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted; printed page 9-2
+- **Manual locator:** 9.1 Alarm of Servo Drive (alarm name/description table); printed page 9-2; PDF page 203
 - **Review date:** 2026-10-24
 - **Safe checks (EN):** Record the exact code, operating mode, load and time of occurrence; preserve the fault history before any reset. Use the machine's approved isolation procedure before inspecting wiring or connectors. Electrical measurements inside the drive are for qualified personnel only. Compare the observed condition with the ASDA-B2-F manual and machine-builder drawings; do not bypass protection or change limits to hide the alarm.
 - **فحوصات آمنة (AR):** سجّل الرمز الدقيق ووضع التشغيل والحمل ووقت ظهور العطل، واحتفظ بسجل الأعطال قبل أي إعادة ضبط. طبّق إجراء العزل المعتمد قبل فحص الأسلاك أو الموصلات. القياسات الكهربائية داخل المغير من اختصاص شخص مؤهل فقط. طابق الحالة مع دليل ASDA-B2-F ومخططات مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار.
@@ -1818,7 +1818,7 @@ These are manual-claim-reviewed, not field-verified. The model, frame size, firm
 - **Meaning (EN):** The manual labels AL006 as overload of the motor and servo drive.
 - **المعنى (AR):** يصنّف الدليل AL006 على أنه حمل زائد على المحرك والمغير المؤازر.
 - **Sens (FR):** Le manuel classe AL006 comme une surcharge du moteur et du variateur servo.
-- **Manual locator:** 9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted; printed page 9-2
+- **Manual locator:** 9.1 Alarm of Servo Drive (alarm name/description table); printed page 9-2; PDF page 203
 - **Review date:** 2026-10-24
 - **Safe checks (EN):** Record the exact code, operating mode, load and time of occurrence; preserve the fault history before any reset. Use the machine's approved isolation procedure before inspecting wiring or connectors. Electrical measurements inside the drive are for qualified personnel only. Compare the observed condition with the ASDA-B2-F manual and machine-builder drawings; do not bypass protection or change limits to hide the alarm.
 - **فحوصات آمنة (AR):** سجّل الرمز الدقيق ووضع التشغيل والحمل ووقت ظهور العطل، واحتفظ بسجل الأعطال قبل أي إعادة ضبط. طبّق إجراء العزل المعتمد قبل فحص الأسلاك أو الموصلات. القياسات الكهربائية داخل المغير من اختصاص شخص مؤهل فقط. طابق الحالة مع دليل ASDA-B2-F ومخططات مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار.
@@ -1834,7 +1834,7 @@ These are manual-claim-reviewed, not field-verified. The model, frame size, firm
 - **Meaning (EN):** The manual identifies AL007 when motor speed exceeds the normal speed range.
 - **المعنى (AR):** يعرّف الدليل AL007 عند تجاوز سرعة المحرك نطاق السرعة الطبيعي.
 - **Sens (FR):** Le manuel indique AL007 lorsque la vitesse du moteur dépasse la plage normale.
-- **Manual locator:** 9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted; printed page 9-2
+- **Manual locator:** 9.1 Alarm of Servo Drive (alarm name/description table); printed page 9-2; PDF page 203
 - **Review date:** 2026-10-24
 - **Safe checks (EN):** Record the exact code, operating mode, load and time of occurrence; preserve the fault history before any reset. Use the machine's approved isolation procedure before inspecting wiring or connectors. Electrical measurements inside the drive are for qualified personnel only. Compare the observed condition with the ASDA-B2-F manual and machine-builder drawings; do not bypass protection or change limits to hide the alarm.
 - **فحوصات آمنة (AR):** سجّل الرمز الدقيق ووضع التشغيل والحمل ووقت ظهور العطل، واحتفظ بسجل الأعطال قبل أي إعادة ضبط. طبّق إجراء العزل المعتمد قبل فحص الأسلاك أو الموصلات. القياسات الكهربائية داخل المغير من اختصاص شخص مؤهل فقط. طابق الحالة مع دليل ASDA-B2-F ومخططات مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار.
@@ -1850,7 +1850,7 @@ These are manual-claim-reviewed, not field-verified. The model, frame size, firm
 - **Meaning (EN):** The manual identifies AL009 when position-command deviation exceeds the permitted setting.
 - **المعنى (AR):** يعرّف الدليل AL009 عندما يتجاوز انحراف أمر الموضع القيمة المسموح بها في الإعداد.
 - **Sens (FR):** Le manuel identifie AL009 lorsque l'écart de commande de position dépasse la valeur réglée autorisée.
-- **Manual locator:** 9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted; printed page 9-2
+- **Manual locator:** 9.1 Alarm of Servo Drive (alarm name/description table); printed page 9-2; PDF page 203
 - **Review date:** 2026-10-24
 - **Safe checks (EN):** Record the exact code, operating mode, load and time of occurrence; preserve the fault history before any reset. Use the machine's approved isolation procedure before inspecting wiring or connectors. Electrical measurements inside the drive are for qualified personnel only. Compare the observed condition with the ASDA-B2-F manual and machine-builder drawings; do not bypass protection or change limits to hide the alarm.
 - **فحوصات آمنة (AR):** سجّل الرمز الدقيق ووضع التشغيل والحمل ووقت ظهور العطل، واحتفظ بسجل الأعطال قبل أي إعادة ضبط. طبّق إجراء العزل المعتمد قبل فحص الأسلاك أو الموصلات. القياسات الكهربائية داخل المغير من اختصاص شخص مؤهل فقط. طابق الحالة مع دليل ASDA-B2-F ومخططات مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار.
@@ -1866,7 +1866,7 @@ These are manual-claim-reviewed, not field-verified. The model, frame size, firm
 - **Meaning (EN):** The manual identifies AL011 as an encoder error in which the encoder generates an abnormal pulse.
 - **المعنى (AR):** يعرّف الدليل AL011 بأنه خطأ في المشفّر ينتج فيه المشفّر نبضات غير طبيعية.
 - **Sens (FR):** Le manuel identifie AL011 comme une erreur du codeur produisant des impulsions anormales.
-- **Manual locator:** 9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted; printed page 9-2
+- **Manual locator:** 9.1 Alarm of Servo Drive (alarm name/description table); printed page 9-2; PDF page 203
 - **Review date:** 2026-10-24
 - **Safe checks (EN):** Record the exact code, operating mode, load and time of occurrence; preserve the fault history before any reset. Use the machine's approved isolation procedure before inspecting wiring or connectors. Electrical measurements inside the drive are for qualified personnel only. Compare the observed condition with the ASDA-B2-F manual and machine-builder drawings; do not bypass protection or change limits to hide the alarm.
 - **فحوصات آمنة (AR):** سجّل الرمز الدقيق ووضع التشغيل والحمل ووقت ظهور العطل، واحتفظ بسجل الأعطال قبل أي إعادة ضبط. طبّق إجراء العزل المعتمد قبل فحص الأسلاك أو الموصلات. القياسات الكهربائية داخل المغير من اختصاص شخص مؤهل فقط. طابق الحالة مع دليل ASDA-B2-F ومخططات مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار.
@@ -1882,7 +1882,7 @@ These are manual-claim-reviewed, not field-verified. The model, frame size, firm
 - **Meaning (EN):** The manual identifies AL016 when the IGBT temperature is too high.
 - **المعنى (AR):** يعرّف الدليل AL016 عندما تكون درجة حرارة IGBT مرتفعة جدًا.
 - **Sens (FR):** Le manuel identifie AL016 lorsque la température de l’IGBT est trop élevée.
-- **Manual locator:** 9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted; printed page 9-2
+- **Manual locator:** 9.1 Alarm of Servo Drive (alarm name/description table); printed page 9-2; PDF page 203
 - **Review date:** 2026-10-24
 - **Safe checks (EN):** Record the exact code, operating mode, load and time of occurrence; preserve the fault history before any reset. Use the machine's approved isolation procedure before inspecting wiring or connectors. Electrical measurements inside the drive are for qualified personnel only. Compare the observed condition with the ASDA-B2-F manual and machine-builder drawings; do not bypass protection or change limits to hide the alarm.
 - **فحوصات آمنة (AR):** سجّل الرمز الدقيق ووضع التشغيل والحمل ووقت ظهور العطل، واحتفظ بسجل الأعطال قبل أي إعادة ضبط. طبّق إجراء العزل المعتمد قبل فحص الأسلاك أو الموصلات. القياسات الكهربائية داخل المغير من اختصاص شخص مؤهل فقط. طابق الحالة مع دليل ASDA-B2-F ومخططات مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار.
@@ -1898,7 +1898,7 @@ These are manual-claim-reviewed, not field-verified. The model, frame size, firm
 - **Meaning (EN):** The manual identifies AL022 as an abnormal main-circuit supply condition associated with missing phase power; the exact power wiring and drive rating must be matched to the manual.
 - **المعنى (AR):** يعرّف الدليل AL022 بأنه حالة غير طبيعية في تغذية الدائرة الرئيسية مرتبطة بفقدان طور؛ يجب مطابقة توصيل التغذية وقدرة المغير مع الدليل.
 - **Sens (FR):** Le manuel identifie AL022 comme une anomalie de l’alimentation principale liée à une phase manquante; le câblage et la puissance du variateur doivent correspondre au manuel.
-- **Manual locator:** 9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted; printed page 9-2; corrective details 9-9
+- **Manual locator:** 9.1 Alarm of Servo Drive (alarm name/description table); printed page 9-2; PDF page 203
 - **Review date:** 2026-10-24
 - **Safe checks (EN):** Record the exact code, operating mode, load and time of occurrence; preserve the fault history before any reset. Use the machine's approved isolation procedure before inspecting wiring or connectors. Electrical measurements inside the drive are for qualified personnel only. Compare the observed condition with the ASDA-B2-F manual and machine-builder drawings; do not bypass protection or change limits to hide the alarm.
 - **فحوصات آمنة (AR):** سجّل الرمز الدقيق ووضع التشغيل والحمل ووقت ظهور العطل، واحتفظ بسجل الأعطال قبل أي إعادة ضبط. طبّق إجراء العزل المعتمد قبل فحص الأسلاك أو الموصلات. القياسات الكهربائية داخل المغير من اختصاص شخص مؤهل فقط. طابق الحالة مع دليل ASDA-B2-F ومخططات مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار.
@@ -1914,7 +1914,7 @@ These are manual-claim-reviewed, not field-verified. The model, frame size, firm
 - **Meaning (EN):** The manual identifies AL024 as an error in the initial magnetic field of the encoder U/V/W signals.
 - **المعنى (AR):** يعرّف الدليل AL024 بأنه خطأ في المجال المغناطيسي الابتدائي لإشارات U/V/W الخاصة بالمشفّر.
 - **Sens (FR):** Le manuel identifie AL024 comme une erreur du champ magnétique initial des signaux U/V/W du codeur.
-- **Manual locator:** 9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted; printed page 9-2; corrective details 9-9
+- **Manual locator:** 9.1 Alarm of Servo Drive (alarm name/description table); printed page 9-2; PDF page 203
 - **Review date:** 2026-10-24
 - **Safe checks (EN):** Record the exact code, operating mode, load and time of occurrence; preserve the fault history before any reset. Use the machine's approved isolation procedure before inspecting wiring or connectors. Electrical measurements inside the drive are for qualified personnel only. Compare the observed condition with the ASDA-B2-F manual and machine-builder drawings; do not bypass protection or change limits to hide the alarm.
 - **فحوصات آمنة (AR):** سجّل الرمز الدقيق ووضع التشغيل والحمل ووقت ظهور العطل، واحتفظ بسجل الأعطال قبل أي إعادة ضبط. طبّق إجراء العزل المعتمد قبل فحص الأسلاك أو الموصلات. القياسات الكهربائية داخل المغير من اختصاص شخص مؤهل فقط. طابق الحالة مع دليل ASDA-B2-F ومخططات مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار.
@@ -1930,7 +1930,7 @@ These are manual-claim-reviewed, not field-verified. The model, frame size, firm
 - **Meaning (EN):** The manual identifies AL031 as incorrect wiring of the motor power cable U, V, W or ground.
 - **المعنى (AR):** يعرّف الدليل AL031 بأنه توصيل غير صحيح لكابل قدرة المحرك U/V/W أو التأريض.
 - **Sens (FR):** Le manuel identifie AL031 comme un câblage incorrect du câble moteur U/V/W ou de terre.
-- **Manual locator:** 9.4 Causes and Corrective Actions → AL031; 9.4 Causes and Corrective Actions where noted; printed page 9-11
+- **Manual locator:** 9.1 Alarm of Servo Drive (alarm name/description table); printed page 9-2; PDF page 203
 - **Review date:** 2026-10-24
 - **Safe checks (EN):** Record the exact code, operating mode, load and time of occurrence; preserve the fault history before any reset. Use the machine's approved isolation procedure before inspecting wiring or connectors. Electrical measurements inside the drive are for qualified personnel only. Compare the observed condition with the ASDA-B2-F manual and machine-builder drawings; do not bypass protection or change limits to hide the alarm.
 - **فحوصات آمنة (AR):** سجّل الرمز الدقيق ووضع التشغيل والحمل ووقت ظهور العطل، واحتفظ بسجل الأعطال قبل أي إعادة ضبط. طبّق إجراء العزل المعتمد قبل فحص الأسلاك أو الموصلات. القياسات الكهربائية داخل المغير من اختصاص شخص مؤهل فقط. طابق الحالة مع دليل ASDA-B2-F ومخططات مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار.
@@ -1946,7 +1946,7 @@ These are manual-claim-reviewed, not field-verified. The model, frame size, firm
 - **Meaning (EN):** The manual identifies AL060 as loss of absolute position and discusses battery undervoltage, incomplete absolute-coordinate initialization, and battery-circuit connection issues in the troubleshooting section.
 - **المعنى (AR):** يعرّف الدليل AL060 بأنه فقدان الموضع المطلق، ويناقش انخفاض جهد البطارية وعدم اكتمال تهيئة الإحداثيات المطلقة ومشكلات توصيل دائرة البطارية ضمن قسم استكشاف الأعطال.
 - **Sens (FR):** Le manuel identifie AL060 comme une perte de position absolue et cite notamment une batterie sous-tension, une initialisation incomplète des coordonnées absolues et des problèmes de connexion du circuit de batterie.
-- **Manual locator:** 9.4 Causes and Corrective Actions → AL060; 9.4 Causes and Corrective Actions where noted; printed page 9-12
+- **Manual locator:** 9.1 Alarm of Servo Drive (alarm name/description table); printed page 9-2; PDF page 203
 - **Review date:** 2026-10-24
 - **Safe checks (EN):** Record the exact code and check the manual's absolute-system section for the installed ASDA-B2-F revision. Do not replace/remove the backup battery or initialize absolute coordinates based on generic advice. Use the model-specific service procedure with qualified personnel; stop and escalate if that procedure is unavailable. Preserve machine position/reference information and verify the machine-builder's homing/recovery procedure before returning the axis to service.
 - **فحوصات آمنة (AR):** سجّل الرمز بدقة وراجع قسم النظام المطلق في دليل ASDA-B2-F المطابق للإصدار المركب. لا تستبدل أو تنزع بطارية النسخ الاحتياطي ولا تهيّئ الإحداثيات المطلقة اعتمادًا على نصيحة عامة. يجب اتباع إجراء الخدمة الخاص بالطراز بواسطة شخص مؤهل؛ أوقف العمل وصعّد إذا لم يتوفر الإجراء. حافظ على معلومات الموضع والمرجعة، وتحقق من إجراء الإرجاع إلى المرجع لدى مصنع الماكينة قبل إعادة المحور إلى الخدمة.
@@ -1962,7 +1962,7 @@ These are manual-claim-reviewed, not field-verified. The model, frame size, firm
 - **Meaning (EN):** The manual identifies AL185 as abnormal DMCNET bus hardware and directs attention to communication-cable condition and communication quality.
 - **المعنى (AR):** يعرّف الدليل AL185 بأنه خلل عتادي في ناقل DMCNET، ويوجه إلى فحص حالة كابل الاتصال وجودة الاتصال.
 - **Sens (FR):** Le manuel identifie AL185 comme une anomalie matérielle du bus DMCNET et recommande de vérifier le câble et la qualité de communication.
-- **Manual locator:** 9.1 Alarm of Servo Drive; 9.4 Causes and Corrective Actions where noted; printed page 9-14
+- **Manual locator:** 9.1 Alarm of Servo Drive (alarm name/description table); printed page 9-2; PDF page 203
 - **Review date:** 2026-10-24
 - **Safe checks (EN):** Record the exact code, operating mode, load and time of occurrence; preserve the fault history before any reset. Use the machine's approved isolation procedure before inspecting wiring or connectors. Electrical measurements inside the drive are for qualified personnel only. Compare the observed condition with the ASDA-B2-F manual and machine-builder drawings; do not bypass protection or change limits to hide the alarm.
 - **فحوصات آمنة (AR):** سجّل الرمز الدقيق ووضع التشغيل والحمل ووقت ظهور العطل، واحتفظ بسجل الأعطال قبل أي إعادة ضبط. طبّق إجراء العزل المعتمد قبل فحص الأسلاك أو الموصلات. القياسات الكهربائية داخل المغير من اختصاص شخص مؤهل فقط. طابق الحالة مع دليل ASDA-B2-F ومخططات مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار.
@@ -1984,7 +1984,7 @@ These are manual-claim-reviewed, not field-verified. The model, frame size, firm
 - **Meaning (EN):** The manual identifies AL004 when the drive is paired with the wrong motor.
 - **المعنى (AR):** يعرّف الدليل AL004 عند اقتران المغير بمحرك غير مناسب.
 - **Sens (FR):** Le manuel identifie AL004 lorsque le variateur est associé au mauvais moteur.
-- **Manual locator:** 9.4 Causes and Corrective Actions → AL004; printed page 9-5; PDF page 206
+- **Manual locator:** 9.1 Alarm of Servo Drive (alarm name/description table); printed page 9-2; PDF page 203
 - **Review date:** 2026-10-24
 - **Safe checks (EN):** Confirm complete drive/motor model codes against the manual pairing table; inspect encoder connectors only after isolation. Use the approved isolation procedure before inspecting wiring/connectors; electrical work inside the drive is for qualified personnel. Confirm the installed drive/motor and machine-builder configuration; do not bypass protection or change limits to suppress an alarm.
 - **فحوصات آمنة (AR):** طابق رموز طراز المغير والمحرك مع جدول التوافق؛ افحص موصلات المشفّر بعد العزل فقط. طبّق إجراء العزل المعتمد قبل فحص الأسلاك والموصلات؛ الأعمال الكهربائية داخل المغير من اختصاص شخص مؤهل. تحقق من طراز المغير/المحرك وإعداد مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار.
@@ -2000,7 +2000,7 @@ These are manual-claim-reviewed, not field-verified. The model, frame size, firm
 - **Meaning (EN):** The manual identifies AL005 as a regeneration error and directs checks to the regenerative-resistor circuit/configuration.
 - **المعنى (AR):** يعرّف الدليل AL005 بأنه خطأ في استرجاع الطاقة ويوجه إلى فحص دائرة مقاومة الكبح وإعدادها.
 - **Sens (FR):** Le manuel identifie AL005 comme un défaut de régénération et renvoie au circuit/configuration de la résistance.
-- **Manual locator:** 9.4 Causes and Corrective Actions → AL005; printed page 9-6; PDF page 207
+- **Manual locator:** 9.1 Alarm of Servo Drive (alarm name/description table); printed page 9-2; PDF page 203
 - **Review date:** 2026-10-24
 - **Safe checks (EN):** Under isolation and after cooling, check the model-specific regenerative-resistor wiring and connection; do not guess resistor values or change parameters without the sizing procedure. Use the approved isolation procedure before inspecting wiring/connectors; electrical work inside the drive is for qualified personnel. Confirm the installed drive/motor and machine-builder configuration; do not bypass protection or change limits to suppress an alarm.
 - **فحوصات آمنة (AR):** بعد العزل والتبريد، افحص توصيل مقاومة الكبح وفق الطراز؛ لا تخمّن قيمة المقاومة ولا تغيّر المعلمات دون إجراء تحديد القيمة. طبّق إجراء العزل المعتمد قبل فحص الأسلاك والموصلات؛ الأعمال الكهربائية داخل المغير من اختصاص شخص مؤهل. تحقق من طراز المغير/المحرك وإعداد مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار.
@@ -2016,7 +2016,7 @@ These are manual-claim-reviewed, not field-verified. The model, frame size, firm
 - **Meaning (EN):** The manual describes AL012 when electrical adjustment exceeds the allowable value; abnormal current adjustment is listed as a cause.
 - **المعنى (AR):** يصف الدليل AL012 عند تجاوز قيمة الضبط الكهربائي الحد المسموح، ويذكر خلل ضبط التيار سببًا محتملًا.
 - **Sens (FR):** Le manuel décrit AL012 lorsque le réglage électrique dépasse la valeur autorisée; un réglage anormal du courant est cité.
-- **Manual locator:** 9.4 Causes and Corrective Actions → AL012; printed page 9-7; PDF page 208
+- **Manual locator:** 9.1 Alarm of Servo Drive (alarm name/description table); printed page 9-2; PDF page 203
 - **Review date:** 2026-10-24
 - **Safe checks (EN):** Record the commissioning step and displayed diagnostics; do not repeat auto-adjustment blindly; escalate if the documented reset procedure does not clear the alarm. Use the approved isolation procedure before inspecting wiring/connectors; electrical work inside the drive is for qualified personnel. Confirm the installed drive/motor and machine-builder configuration; do not bypass protection or change limits to suppress an alarm.
 - **فحوصات آمنة (AR):** سجّل خطوة التشغيل الأولي والتشخيص المعروض؛ لا تكرر الضبط الآلي عشوائيًا، وصعّد إذا لم يزل الإنذار بعد الإجراء الموثق. طبّق إجراء العزل المعتمد قبل فحص الأسلاك والموصلات؛ الأعمال الكهربائية داخل المغير من اختصاص شخص مؤهل. تحقق من طراز المغير/المحرك وإعداد مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار.
@@ -2032,7 +2032,7 @@ These are manual-claim-reviewed, not field-verified. The model, frame size, firm
 - **Meaning (EN):** The manual identifies AL013 when DI.EMGS is active; it clears automatically after the input is OFF.
 - **المعنى (AR):** يعرّف الدليل AL013 عند تفعيل DI.EMGS، ويذكر أن الإنذار يزول تلقائيًا بعد إيقاف الدخل.
 - **Sens (FR):** Le manuel identifie AL013 lorsque DI.EMGS est actif; l’alarme disparaît lorsque l’entrée est désactivée.
-- **Manual locator:** 9.4 Causes and Corrective Actions → AL013; printed page 9-7; PDF page 208
+- **Manual locator:** 9.1 Alarm of Servo Drive (alarm name/description table); printed page 9-2; PDF page 203
 - **Review date:** 2026-10-24
 - **Safe checks (EN):** Treat as a safety state; identify why the emergency-stop circuit is active. Never bridge or defeat the circuit; restart only after the hazard is cleared and the approved procedure is followed. Use the approved isolation procedure before inspecting wiring/connectors; electrical work inside the drive is for qualified personnel. Confirm the installed drive/motor and machine-builder configuration; do not bypass protection or change limits to suppress an alarm.
 - **فحوصات آمنة (AR):** تعامل معها كحالة سلامة وحدد سبب تفعيل دائرة الطوارئ. لا تجسّر الدائرة؛ لا تستأنف التشغيل قبل إزالة الخطر واتباع الإجراء المعتمد. طبّق إجراء العزل المعتمد قبل فحص الأسلاك والموصلات؛ الأعمال الكهربائية داخل المغير من اختصاص شخص مؤهل. تحقق من طراز المغير/المحرك وإعداد مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار.
@@ -2048,7 +2048,7 @@ These are manual-claim-reviewed, not field-verified. The model, frame size, firm
 - **Meaning (EN):** The manual identifies AL014 when the reverse-limit switch is activated.
 - **المعنى (AR):** يعرّف الدليل AL014 عند تفعيل مفتاح حد الحركة العكسي.
 - **Sens (FR):** Le manuel identifie AL014 lorsque le fin de course arrière est activé.
-- **Manual locator:** 9.4 Causes and Corrective Actions → AL014; printed page 9-7; PDF page 208
+- **Manual locator:** 9.1 Alarm of Servo Drive (alarm name/description table); printed page 9-2; PDF page 203
 - **Review date:** 2026-10-24
 - **Safe checks (EN):** Record axis direction/position; verify limit-switch state against machine-builder limits after isolation; never force movement past the limit. Use the approved isolation procedure before inspecting wiring/connectors; electrical work inside the drive is for qualified personnel. Confirm the installed drive/motor and machine-builder configuration; do not bypass protection or change limits to suppress an alarm.
 - **فحوصات آمنة (AR):** سجّل اتجاه المحور وموضعه؛ تحقق من مفتاح الحد مقارنة بحدود المصنع بعد العزل؛ لا تفرض الحركة لتجاوز الحد. طبّق إجراء العزل المعتمد قبل فحص الأسلاك والموصلات؛ الأعمال الكهربائية داخل المغير من اختصاص شخص مؤهل. تحقق من طراز المغير/المحرك وإعداد مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار.
@@ -2064,7 +2064,7 @@ These are manual-claim-reviewed, not field-verified. The model, frame size, firm
 - **Meaning (EN):** The manual identifies AL015 when the forward-limit switch is activated.
 - **المعنى (AR):** يعرّف الدليل AL015 عند تفعيل مفتاح حد الحركة الأمامي.
 - **Sens (FR):** Le manuel identifie AL015 lorsque le fin de course avant est activé.
-- **Manual locator:** 9.4 Causes and Corrective Actions → AL015; printed page 9-7; PDF page 208
+- **Manual locator:** 9.1 Alarm of Servo Drive (alarm name/description table); printed page 9-2; PDF page 203
 - **Review date:** 2026-10-24
 - **Safe checks (EN):** Record axis direction/position; verify limit-switch state against machine-builder limits after isolation; use only the approved recovery/jog procedure. Use the approved isolation procedure before inspecting wiring/connectors; electrical work inside the drive is for qualified personnel. Confirm the installed drive/motor and machine-builder configuration; do not bypass protection or change limits to suppress an alarm.
 - **فحوصات آمنة (AR):** سجّل اتجاه المحور وموضعه؛ تحقق من مفتاح الحد مقارنة بحدود المصنع بعد العزل؛ استخدم إجراء الاستعادة المعتمد فقط. طبّق إجراء العزل المعتمد قبل فحص الأسلاك والموصلات؛ الأعمال الكهربائية داخل المغير من اختصاص شخص مؤهل. تحقق من طراز المغير/المحرك وإعداد مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار.
@@ -2080,7 +2080,7 @@ These are manual-claim-reviewed, not field-verified. The model, frame size, firm
 - **Meaning (EN):** The manual identifies AL017 as an error when the drive DSP accesses EEPROM and discusses parameter-write/ROM issues.
 - **المعنى (AR):** يعرّف الدليل AL017 بأنه خطأ عند وصول DSP إلى EEPROM ويناقش مشكلات كتابة المعلمات وROM.
 - **Sens (FR):** Le manuel identifie AL017 comme une erreur d’accès EEPROM par le DSP et décrit des problèmes d’écriture/ROM.
-- **Manual locator:** 9.4 Causes and Corrective Actions → AL017; printed page 9-8; PDF page 209
+- **Manual locator:** 9.1 Alarm of Servo Drive (alarm name/description table); printed page 9-2; PDF page 203
 - **Review date:** 2026-10-24
 - **Safe checks (EN):** Capture when the alarm occurs and any EXGAB/E100X/E0001 display; do not reset all parameters without approved backup/recovery; refer persistent ROM faults to Delta. Use the approved isolation procedure before inspecting wiring/connectors; electrical work inside the drive is for qualified personnel. Confirm the installed drive/motor and machine-builder configuration; do not bypass protection or change limits to suppress an alarm.
 - **فحوصات آمنة (AR):** سجّل توقيت الإنذار وأي رمز EXGAB/E100X/E0001؛ لا تصفّر جميع المعلمات دون نسخة احتياطية وإجراء استعادة معتمد؛ صعّد أعطال ROM المستمرة إلى Delta. طبّق إجراء العزل المعتمد قبل فحص الأسلاك والموصلات؛ الأعمال الكهربائية داخل المغير من اختصاص شخص مؤهل. تحقق من طراز المغير/المحرك وإعداد مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار.
@@ -2096,7 +2096,7 @@ These are manual-claim-reviewed, not field-verified. The model, frame size, firm
 - **Meaning (EN):** The manual links AL018 to encoder faults or output pulses exceeding the hardware range, and points to related encoder alarms and P1-76/P1-46.
 - **المعنى (AR):** يربط الدليل AL018 بأعطال المشفّر أو تجاوز نبضات الخرج النطاق العتادي، ويوجه إلى إنذارات المشفّر والمعلمتين P1-76/P1-46.
 - **Sens (FR):** Le manuel relie AL018 aux défauts codeur ou au dépassement de la plage matérielle des impulsions et renvoie aux alarmes associées et à P1-76/P1-46.
-- **Manual locator:** 9.4 Causes and Corrective Actions → AL018; printed page 9-8; PDF page 209
+- **Manual locator:** 9.1 Alarm of Servo Drive (alarm name/description table); printed page 9-2; PDF page 203
 - **Review date:** 2026-10-24
 - **Safe checks (EN):** Preserve P4-00 to P4-05 fault history; check for AL011/AL024/AL025/AL026; verify encoder rating and parameter definitions before changing P1-76/P1-46. Use the approved isolation procedure before inspecting wiring/connectors; electrical work inside the drive is for qualified personnel. Confirm the installed drive/motor and machine-builder configuration; do not bypass protection or change limits to suppress an alarm.
 - **فحوصات آمنة (AR):** احتفظ بسجل P4-00 إلى P4-05؛ تحقق من AL011/AL024/AL025/AL026؛ راجع مواصفات المشفّر وتعريف المعلمات قبل تغيير P1-76/P1-46. طبّق إجراء العزل المعتمد قبل فحص الأسلاك والموصلات؛ الأعمال الكهربائية داخل المغير من اختصاص شخص مؤهل. تحقق من طراز المغير/المحرك وإعداد مصنع الماكينة؛ لا تتجاوز الحماية ولا تغيّر الحدود لإخفاء الإنذار.
@@ -2112,7 +2112,7 @@ These are manual-claim-reviewed, not field-verified. The model, frame size, firm
 - **Meaning (EN):** The manual identifies AL019 as an RS-232 communication error; it directs checks to communication parameters, address and accessed value.
 - **المعنى (AR):** يعرّف الدليل AL019 بأنه خطأ اتصال RS-232 ويوجه إلى معلمات الاتصال والعنوان والقيمة المطلوبة.
 - **Sens (FR):** Le manuel identifie AL019 comme une erreur RS-232 et renvoie aux paramètres, à l’adresse et à la valeur accédée.
-- **Manual locator:** 9.4 Causes and Corrective Actions → AL019; printed page 9-8; PDF page 209
+- **Manual locator:** 9.1 Alarm of Servo Drive (alarm name/description table); printed page 9-2; PDF page 203
 - **Review date:** 2026-10-24
 - **Safe checks (EN):** Record host/controller, serial settings, address and failed transaction; compare with the exact drive and host manuals; inspect cable/connectors after isolation. Inspect wiring only under approved isolation; internal electrical work is for qualified personnel.
 - **فحوصات آمنة (AR):** سجّل المتحكم وإعدادات الاتصال والعنوان والمعاملة الفاشلة؛ طابقها مع الدليلين وافحص الكابل بعد العزل. افحص الأسلاك بعد العزل المعتمد فقط؛ الأعمال الكهربائية الداخلية من اختصاص شخص مؤهل.
@@ -2128,7 +2128,7 @@ These are manual-claim-reviewed, not field-verified. The model, frame size, firm
 - **Meaning (EN):** The manual identifies AL020 as an RS-232 timeout and lists timeout settings, missing commands or cable faults as checks.
 - **المعنى (AR):** يعرّف الدليل AL020 بأنه تجاوز مهلة RS-232 ويوجه إلى فحص إعداد المهلة وغياب الأمر أو خلل الكابل.
 - **Sens (FR):** Le manuel identifie AL020 comme un dépassement de délai RS-232; vérifier le délai, la commande attendue et le câble.
-- **Manual locator:** 9.4 Causes and Corrective Actions → AL020; printed page 9-8–9-9; PDF page 209
+- **Manual locator:** 9.1 Alarm of Servo Drive (alarm name/description table); printed page 9-2; PDF page 203
 - **Review date:** 2026-10-24
 - **Safe checks (EN):** Verify whether the host sent the expected command and inspect the timeout setting; inspect cable damage only after isolation. Inspect wiring only under approved isolation; internal electrical work is for qualified personnel.
 - **فحوصات آمنة (AR):** تحقق من إرسال الأمر المتوقع وراجع إعداد المهلة؛ افحص تلف الكابل بعد العزل فقط. افحص الأسلاك بعد العزل المعتمد فقط؛ الأعمال الكهربائية الداخلية من اختصاص شخص مؤهل.
@@ -2144,7 +2144,7 @@ These are manual-claim-reviewed, not field-verified. The model, frame size, firm
 - **Meaning (EN):** The manual identifies AL023 as an overload warning and directs checks to the overload condition and parameter P1-56.
 - **المعنى (AR):** يعرّف الدليل AL023 بأنه تحذير حمل زائد ويوجه إلى حالة الحمل والمعلمة P1-56.
 - **Sens (FR):** Le manuel identifie AL023 comme un avertissement de surcharge et renvoie à la charge et au paramètre P1-56.
-- **Manual locator:** 9.4 Causes and Corrective Actions → AL023; printed page 9-9; PDF page 210
+- **Manual locator:** 9.1 Alarm of Servo Drive (alarm name/description table); printed page 9-2; PDF page 203
 - **Review date:** 2026-10-24
 - **Safe checks (EN):** Compare load/duty with rated motor-drive capacity and review P1-56 against the exact manual; do not disable the warning merely to suppress it. Inspect wiring only under approved isolation; internal electrical work is for qualified personnel.
 - **فحوصات آمنة (AR):** قارن الحمل بقدرة المحرك والمغير وراجع P1-56 في الدليل المطابق؛ لا تعطّل التحذير لمجرد إخفائه. افحص الأسلاك بعد العزل المعتمد فقط؛ الأعمال الكهربائية الداخلية من اختصاص شخص مؤهل.
@@ -2160,7 +2160,7 @@ These are manual-claim-reviewed, not field-verified. The model, frame size, firm
 - **Meaning (EN):** The manual identifies AL025 as an encoder internal-memory/counter error and lists grounding, cable routing and shielding checks.
 - **المعنى (AR):** يعرّف الدليل AL025 بأنه خطأ في الذاكرة أو العداد الداخلي للمشفّر، ويوجه إلى التأريض ومسار الكابل والتدريع.
 - **Sens (FR):** Le manuel identifie AL025 comme une erreur de mémoire/compteur interne du codeur et recommande de vérifier terre, câble et blindage.
-- **Manual locator:** 9.4 Causes and Corrective Actions → AL025; printed page 9-9; PDF page 210
+- **Manual locator:** 9.1 Alarm of Servo Drive (alarm name/description table); printed page 9-2; PDF page 203
 - **Review date:** 2026-10-24
 - **Safe checks (EN):** Record related encoder alarms; after isolation, verify grounding and shielded cable routing away from power cables; escalate recurring faults. Inspect wiring only under approved isolation; internal electrical work is for qualified personnel.
 - **فحوصات آمنة (AR):** سجّل إنذارات المشفّر المصاحبة؛ بعد العزل تحقق من التأريض ومسار الكابل المدرع بعيدًا عن كابلات القدرة؛ صعّد عند التكرار. افحص الأسلاك بعد العزل المعتمد فقط؛ الأعمال الكهربائية الداخلية من اختصاص شخص مؤهل.
@@ -2176,7 +2176,7 @@ These are manual-claim-reviewed, not field-verified. The model, frame size, firm
 - **Meaning (EN):** The manual identifies AL026 when encoder internal-data errors occur three times consecutively.
 - **المعنى (AR):** يعرّف الدليل AL026 عند حدوث أخطاء البيانات الداخلية للمشفّر ثلاث مرات متتالية.
 - **Sens (FR):** Le manuel identifie AL026 lorsque des erreurs de données internes du codeur surviennent trois fois consécutivement.
-- **Manual locator:** 9.4 Causes and Corrective Actions → AL026; printed page 9-10; PDF page 211
+- **Manual locator:** 9.1 Alarm of Servo Drive (alarm name/description table); printed page 9-2; PDF page 203
 - **Review date:** 2026-10-24
 - **Safe checks (EN):** Preserve recurrence history; after isolation, have qualified personnel verify grounding, shielding and cable routing; do not treat repeated resets as repair. Inspect wiring only under approved isolation; internal electrical work is for qualified personnel.
 - **فحوصات آمنة (AR):** احتفظ بسجل التكرار؛ بعد العزل ليتحقق فني مؤهل من التأريض والتدريع ومسار الكابل؛ لا تعتبر إعادة الضبط المتكررة إصلاحًا. افحص الأسلاك بعد العزل المعتمد فقط؛ الأعمال الكهربائية الداخلية من اختصاص شخص مؤهل.
@@ -2192,7 +2192,7 @@ These are manual-claim-reviewed, not field-verified. The model, frame size, firm
 - **Meaning (EN):** The manual identifies AL027 as an internal encoder-reset error and directs checks to encoder communication, supply stability and operating temperature.
 - **المعنى (AR):** يعرّف الدليل AL027 بأنه خطأ في إعادة الضبط الداخلية للمشفّر ويوجه إلى اتصال المشفّر واستقرار التغذية وحرارة التشغيل.
 - **Sens (FR):** Le manuel identifie AL027 comme une erreur de réinitialisation interne et renvoie à la communication codeur, à l’alimentation et à la température.
-- **Manual locator:** 9.4 Causes and Corrective Actions → AL027; printed page 9-10; PDF page 211
+- **Manual locator:** 9.1 Alarm of Servo Drive (alarm name/description table); printed page 9-2; PDF page 203
 - **Review date:** 2026-10-24
 - **Safe checks (EN):** Record recent thermal/supply events; after isolation inspect encoder connectors and cable; have qualified personnel verify supply and temperature against the manual. Use approved isolation before inspecting wiring; internal electrical work is for qualified personnel.
 - **فحوصات آمنة (AR):** سجّل اضطرابات الحرارة أو التغذية؛ بعد العزل افحص موصلات وكابل المشفّر؛ ليتحقق فني مؤهل من التغذية والحرارة وفق الدليل. طبّق العزل المعتمد قبل فحص الأسلاك؛ الأعمال الكهربائية الداخلية من اختصاص شخص مؤهل.
@@ -2208,7 +2208,7 @@ These are manual-claim-reviewed, not field-verified. The model, frame size, firm
 - **Meaning (EN):** The manual associates AL028 with encoder voltage/internal error and discusses battery voltage above specification or an encoder internal fault.
 - **المعنى (AR):** يربط الدليل AL028 بخطأ جهد المشفّر أو خطأ داخلي ويناقش تجاوز جهد البطارية للمواصفة أو عطل المشفّر.
 - **Sens (FR):** Le manuel associe AL028 à une erreur de tension/interne et évoque une tension de batterie hors spécification ou un défaut interne.
-- **Manual locator:** 9.4 Causes and Corrective Actions → AL028; printed page 9-10; PDF page 211
+- **Manual locator:** 9.1 Alarm of Servo Drive (alarm name/description table); printed page 9-2; PDF page 203
 - **Review date:** 2026-10-24
 - **Safe checks (EN):** Confirm encoder/battery configuration and compare with the exact manual; do not replace the battery or initialize absolute coordinates without the approved position-preservation/homing procedure. Use approved isolation before inspecting wiring; internal electrical work is for qualified personnel.
 - **فحوصات آمنة (AR):** تحقق من إعداد المشفّر/البطارية وطابقه مع الدليل؛ لا تستبدل البطارية ولا تهيّئ الإحداثيات المطلقة دون إجراء معتمد لحفظ الموضع والمرجعة. طبّق العزل المعتمد قبل فحص الأسلاك؛ الأعمال الكهربائية الداخلية من اختصاص شخص مؤهل.
@@ -2224,7 +2224,7 @@ These are manual-claim-reviewed, not field-verified. The model, frame size, firm
 - **Meaning (EN):** The manual identifies AL029 as an absolute-position error and advises checking whether it recurs after a power cycle.
 - **المعنى (AR):** يعرّف الدليل AL029 بأنه خطأ في الموضع المطلق ويوجه إلى التحقق من تكراره بعد دورة طاقة.
 - **Sens (FR):** Le manuel identifie AL029 comme une erreur de position absolue et recommande de vérifier sa réapparition après un cycle d’alimentation.
-- **Manual locator:** 9.4 Causes and Corrective Actions → AL029; printed page 9-11; PDF page 212
+- **Manual locator:** 9.1 Alarm of Servo Drive (alarm name/description table); printed page 9-2; PDF page 203
 - **Review date:** 2026-10-24
 - **Safe checks (EN):** Preserve axis position and absolute-position status; use only the machine builder's approved restart/homing procedure; do not resume automatic motion until position validity is confirmed. Use approved isolation before inspecting wiring; internal electrical work is for qualified personnel.
 - **فحوصات آمنة (AR):** احفظ موضع المحور وحالة الموضع المطلق؛ استخدم إجراء إعادة التشغيل والمرجعة المعتمد فقط؛ لا تستأنف الحركة الآلية قبل تأكيد صلاحية الموضع. طبّق العزل المعتمد قبل فحص الأسلاك؛ الأعمال الكهربائية الداخلية من اختصاص شخص مؤهل.
@@ -2240,7 +2240,7 @@ These are manual-claim-reviewed, not field-verified. The model, frame size, firm
 - **Meaning (EN):** The manual identifies AL034 as an internal communication error affecting an absolute encoder or another encoder type.
 - **المعنى (AR):** يعرّف الدليل AL034 بأنه خطأ اتصال داخلي قد يؤثر في المشفّر المطلق أو أنواع أخرى.
 - **Sens (FR):** Le manuel identifie AL034 comme une erreur de communication interne pouvant toucher un codeur absolu ou un autre type.
-- **Manual locator:** 9.4 Causes and Corrective Actions → AL034; printed page 9-11; PDF page 212
+- **Manual locator:** 9.1 Alarm of Servo Drive (alarm name/description table); printed page 9-2; PDF page 203
 - **Review date:** 2026-10-24
 - **Safe checks (EN):** Record encoder type and related alarms; after isolation, have qualified personnel verify model-specific encoder/battery wiring; escalate if persistent. Use approved isolation before inspecting wiring; internal electrical work is for qualified personnel.
 - **فحوصات آمنة (AR):** سجّل نوع المشفّر والإنذارات المصاحبة؛ بعد العزل ليتحقق فني مؤهل من توصيلات المشفّر/البطارية الخاصة بالطراز؛ صعّد إذا استمر العطل. طبّق العزل المعتمد قبل فحص الأسلاك؛ الأعمال الكهربائية الداخلية من اختصاص شخص مؤهل.
@@ -2256,7 +2256,7 @@ These are manual-claim-reviewed, not field-verified. The model, frame size, firm
 - **Meaning (EN):** The manual identifies AL035 when encoder temperature exceeds 100°C and directs checks to the displayed temperature, heat dissipation and load.
 - **المعنى (AR):** يعرّف الدليل AL035 عند تجاوز حرارة المشفّر 100°C ويوجه إلى فحص الحرارة المعروضة وتبديد الحرارة والحمل.
 - **Sens (FR):** Le manuel identifie AL035 lorsque la température du codeur dépasse 100 °C et recommande de vérifier la température affichée, le refroidissement et la charge.
-- **Manual locator:** 9.4 Causes and Corrective Actions → AL035; printed page 9-11–9-12; PDF page 212
+- **Manual locator:** 9.1 Alarm of Servo Drive (alarm name/description table); printed page 9-2; PDF page 203
 - **Review date:** 2026-10-24
 - **Safe checks (EN):** Treat 100°C as specific to this manual/model scope; record displayed temperature, review cooling/load per approved procedure, and escalate if the reading is inconsistent or alarm persists. Use approved isolation before inspecting wiring; internal electrical work is for qualified personnel.
 - **فحوصات آمنة (AR):** اعتبر 100°C حدًا خاصًا بهذا الدليل والطراز؛ سجّل الحرارة المعروضة وراجع التبريد والحمل وفق الإجراء المعتمد، وصعّد إذا استمر الإنذار أو تناقضت القراءة. طبّق العزل المعتمد قبل فحص الأسلاك؛ الأعمال الكهربائية الداخلية من اختصاص شخص مؤهل.
@@ -2279,7 +2279,7 @@ These are manual-claim-reviewed, not field-verified. The model, frame size, firm
 - **Meaning (EN):** The Syntec alarm manual describes MOT-082 when a drive response packet is disturbed by noise for more than 10 ms. It lists poor communication-cable quality or noise interference as possible reasons.
 - **المعنى (AR):** يصف دليل إنذارات Syntec الرمز MOT-082 عندما تتعرض حزمة استجابة المشغّل للتشويش لأكثر من 10 مللي ثانية. ويذكر رداءة كابل الاتصال أو التداخل كأسباب محتملة.
 - **Sens (FR):** Le manuel d’alarmes Syntec décrit MOT-082 lorsque le bruit perturbe un paquet de réponse du variateur pendant plus de 10 ms. Une mauvaise qualité du câble ou des interférences sont citées comme causes possibles.
-- **Manual locator:** CNC Alarm Manual → MOT-082 → Description / Possible Reason / Solution
+- **Manual locator:** CNC Alarm Manual → MOT-082 → Description / Possible Reason / Solution (PDF page 196)
 - **Review date:** 2026-10-24
 - **Safe checks (EN):** Record the complete alarm ID, controller software version, drive model, and event time before resetting. Have qualified personnel inspect communication-cable condition, connectors, shielding/grounding, and controller-to-drive configuration under the approved isolation procedure. Compare DIP-switch and communication parameters with the machine-builder's documentation; do not change timing or communication settings arbitrarily.
 - **فحوصات آمنة (AR):** سجّل رمز الإنذار كاملًا وإصدار برنامج المتحكم وطراز المشغّل ووقت الحدث قبل إعادة الضبط. ليتحقق شخص مؤهل من كابل الاتصال والموصلات والتدريع/التأريض وإعداد الاتصال بين المتحكم والمشغّل وفق إجراء العزل المعتمد. طابق مفاتيح DIP ومعلمات الاتصال مع وثائق مصنع الماكينة؛ لا تغيّر إعدادات التوقيت أو الاتصال عشوائيًا.
@@ -2295,7 +2295,7 @@ These are manual-claim-reviewed, not field-verified. The model, frame size, firm
 - **Meaning (EN):** The Syntec alarm manual describes MOT-083 when the drive response-packet watchdog (M3) or EtherCAT working counter is incorrect for more than 10 ms.
 - **المعنى (AR):** يصف دليل إنذارات Syntec الرمز MOT-083 عندما تكون مراقبة حزمة استجابة المشغّل (M3) أو عدّاد العمل في EtherCAT غير صحيحة لأكثر من 10 مللي ثانية.
 - **Sens (FR):** Le manuel d’alarmes Syntec décrit MOT-083 lorsque le watchdog des paquets de réponse du variateur (M3) ou le compteur de travail EtherCAT est incorrect pendant plus de 10 ms.
-- **Manual locator:** CNC Alarm Manual → MOT-083 → Description / Possible Reason / Solution
+- **Manual locator:** CNC Alarm Manual → section 3.79 MOT-083 → Description / Possible Reason / Solution (PDF page 238)
 - **Review date:** 2026-10-24
 - **Safe checks (EN):** Record the complete alarm ID, controller software version, drive model, and event time before resetting. Have qualified personnel inspect communication-cable condition, connectors, shielding/grounding, and controller-to-drive configuration under the approved isolation procedure. Compare DIP-switch and communication parameters with the machine-builder's documentation; do not change timing or communication settings arbitrarily.
 - **فحوصات آمنة (AR):** سجّل رمز الإنذار كاملًا وإصدار برنامج المتحكم وطراز المشغّل ووقت الحدث قبل إعادة الضبط. ليتحقق شخص مؤهل من كابل الاتصال والموصلات والتدريع/التأريض وإعداد الاتصال بين المتحكم والمشغّل وفق إجراء العزل المعتمد. طابق مفاتيح DIP ومعلمات الاتصال مع وثائق مصنع الماكينة؛ لا تغيّر إعدادات التوقيت أو الاتصال عشوائيًا.
