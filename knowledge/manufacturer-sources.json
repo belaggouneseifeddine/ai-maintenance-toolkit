@@ -535,8 +535,8 @@
       "title": "MD200 User Guide; C02; document identifier MD200_User_Guide_EN_C02_19012113",
       "url": "https://www.inovance.eu/fileadmin/downloads/Manuals/EN/MD200/MD200_User_Guide_EN_C02_19012113.PDF",
       "type": "official-manual-direct-link",
-      "scope": "Model-specific manual cited by a source-reviewed fault record; applicability is limited to the named family and revision.",
-      "status": "manual-reference-registered-exact-model-review-required",
+      "scope": "INOVANCE MD200 User Guide C02; section 3.2 Faults and Solutions, printed pages 32–35. Claims reviewed for Err02, Err03, Err05, Err09, Err12 and Err14 only; Err14 is named Module overheat in this revision.",
+      "status": "manual-content-reviewed-for-listed-records",
       "redistribution": "link-only; follow publisher terms"
     },
     {
@@ -545,8 +545,8 @@
       "title": "C80 Series Alarm/Parameter Manual; IB-1501560-F",
       "url": "https://www.mitsubishielectric-cnc.com/wp-content/uploads/2025/02/C80-Series-Alarm-Parameter-Manual.pdf",
       "type": "official-manual-direct-link",
-      "scope": "Model-specific manual cited by a source-reviewed fault record; applicability is limited to the named family and revision.",
-      "status": "manual-reference-registered-exact-model-review-required",
+      "scope": "C80 Series Alarm/Parameter Manual IB-1501560-F; section 3.1 Servo Errors, printed pages 51–52, plus section 8 Emergency Stop Alarms, printed page 106. Claims reviewed for servo alarms 10, 18, 23, 24, 25 and the specific PLC emergency-stop entry only. Drive-specific troubleshooting remains delegated to the exact drive manual.",
+      "status": "manual-content-reviewed-for-listed-records",
       "redistribution": "link-only; follow publisher terms"
     },
     {
@@ -555,8 +555,8 @@
       "title": "S7-1200 Functional Safety Manual; V4.6, 11/2022; A5E03470344-AC",
       "url": "https://support.industry.siemens.com/dl/files/552/104547552/att_896075/v1/s71200_f_user_manual_en-US_en-US.pdf",
       "type": "official-manual-direct-link",
-      "scope": "Model-specific manual cited by a source-reviewed fault record; applicability is limited to the named family and revision.",
-      "status": "manual-reference-registered-exact-model-review-required",
+      "scope": "SIMATIC S7-1200 Functional Safety Manual V4.6, 11/2022, A5E03470344-AC; section 6.2 Fault diagnostics, printed page 122. Claims reviewed for Event IDs 0x0005, 0x004D and 0x004E only.",
+      "status": "manual-content-reviewed-for-listed-records",
       "redistribution": "link-only; follow publisher terms"
     },
     {
