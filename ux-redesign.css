@@ -349,3 +349,51 @@ header .head{z-index:1}
   .card,.ux-stat,.ux-action,.ux-record,.result,.btn{transition:none!important}
   .ux-action:hover,.ux-stat:hover,.ux-record:hover,.btn:not(:disabled):hover{transform:none}
 }
+
+
+/* Diagnostic and AI workspace refinement — visual only; no status is fabricated. */
+#diagnosisResult:empty,#aiResult:empty{display:none}
+#diagnosisResult:not(:empty),#aiResult:not(:empty){
+  animation:mat-result-enter .24s ease-out both;
+}
+#diagnosisResult .result,#aiResult{
+  border-radius:16px;
+  border-color:rgba(20,184,166,.38);
+  box-shadow:0 8px 26px rgba(15,118,110,.075);
+}
+#diagnosisResult .result h3{display:flex;align-items:center;gap:8px}
+#diagnosisResult .result h3:before{
+  content:"";
+  display:inline-block;flex:0 0 8px;width:8px;height:8px;border-radius:50%;
+  background:#0d9488;box-shadow:0 0 0 4px rgba(13,148,136,.12);
+}
+#aiResult{line-height:1.85}
+#aiResult a,#diagnosisResult a{overflow-wrap:anywhere}
+#safetyGateNotice{scroll-margin-top:18px}
+#safetyGateNotice[hidden]{display:none!important}
+#aiForm .notice{line-height:1.8}
+#aiForm .check{padding:10px 12px;border:1px solid var(--border-subtle);border-radius:13px;background:var(--surface-1)}
+#aiForm .check input{accent-color:var(--accent);margin-top:4px}
+#aiForm .check span{line-height:1.65}
+#aiEndpoint{direction:ltr;text-align:left}
+button:disabled,.btn:disabled{
+  cursor:not-allowed;opacity:.58;filter:saturate(.65);transform:none!important;box-shadow:none!important;
+}
+@keyframes mat-result-enter{
+  from{opacity:0;transform:translateY(7px)}
+  to{opacity:1;transform:translateY(0)}
+}
+:root[data-theme="dark"] #diagnosisResult .result,
+:root[data-theme="dark"] #aiResult{
+  border-color:#367e73;
+  box-shadow:0 8px 26px rgba(0,0,0,.16);
+}
+:root[data-theme="dark"] #diagnosisResult .result h3:before{
+  background:#5eead4;box-shadow:0 0 0 4px rgba(94,234,212,.13);
+}
+:root[data-theme="dark"] #aiForm .check{
+  background:#17262b;border-color:#33474d;
+}
+@media(prefers-reduced-motion:reduce){
+  #diagnosisResult:not(:empty),#aiResult:not(:empty){animation:none}
+}
