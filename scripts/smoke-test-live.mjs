@@ -1,7 +1,6 @@
 const pageUrl = "https://belaggouneseifeddine.github.io/ai-maintenance-toolkit/";
 const knownWorkerBases = [
-  "https://maintenance-ai-toolkit-api.maintenance-ai-toolkit-api-seif.workers.dev",
-  "https://maintenance-ai-toolkit-api-seif.workers.dev"
+  "https://maintenance-ai-toolkit-api.maintenance-ai-toolkit-api-seif.workers.dev"
 ];
 
 async function get(url) {

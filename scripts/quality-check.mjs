@@ -148,12 +148,12 @@ const checks = [
     assert.match(html, /if\(!\$\('aiConsent'\)\.checked&&!cached\)/);
     assert.match(html, /signal:AbortSignal\.timeout\(65000\)/);
     assert.match(html, /#aiResult\{white-space:pre-wrap/);
-    assert.match(html, /maintenance-ai-toolkit-api-seif\.workers\.dev\/api\/chat/);
+    assert.match(html, /maintenance-ai-toolkit-api\.maintenance-ai-toolkit-api-seif\.workers\.dev\/api\/chat/);
   }],
   ["Frontend uses the Cloudflare endpoint and does not contain provider API keys", () => {
     assert.match(html, /id="aiEndpoint"/);
     assert.match(html, /AI_ENDPOINT_KEY/);
-    assert.match(html, /maintenance-ai-toolkit-api-seif\.workers\.dev\/api\/chat/);
+    assert.match(html, /maintenance-ai-toolkit-api\.maintenance-ai-toolkit-api-seif\.workers\.dev\/api\/chat/);
     assert.doesNotMatch(html, /window\.GEMINI_API_KEY/);
     assert.doesNotMatch(html, /AIza[0-9A-Za-z_-]{30,}/);
     assert.doesNotMatch(html, /sk-[A-Za-z0-9]{20,}/);
