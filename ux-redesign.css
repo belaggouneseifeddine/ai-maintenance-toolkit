@@ -240,3 +240,112 @@ input:focus-visible,select:focus-visible,textarea:focus-visible{
   .panel.active{animation:none}
   .nav.bottom-navigation .tab:active{transform:none}
 }
+
+
+/* React Bits-inspired motion layer — CSS-only, safe for the existing vanilla app.
+   No React runtime, external package, or JavaScript behavior changes. */
+:root{
+  --motion-glow:rgba(45,212,191,.22);
+  --motion-glow-strong:rgba(45,212,191,.34);
+}
+header{
+  isolation:isolate;
+}
+header:before{
+  content:"";
+  position:absolute;
+  z-index:0;
+  inset:-35% auto auto -18%;
+  width:min(76vw,420px);
+  aspect-ratio:1;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(45,212,191,.20),rgba(45,212,191,0) 68%);
+  pointer-events:none;
+  animation:mat-orbit-glow 13s ease-in-out infinite alternate;
+}
+header .head{z-index:1}
+.card,.ux-stat,.ux-action,.ux-record,.result{
+  transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease,background-color .22s ease;
+}
+.card{
+  position:relative;
+  overflow:hidden;
+}
+.card:after{
+  content:"";
+  position:absolute;
+  inset:0 auto 0 -130%;
+  width:55%;
+  pointer-events:none;
+  background:linear-gradient(110deg,transparent,rgba(45,212,191,.055),transparent);
+  transform:skewX(-12deg);
+  transition:left .65s ease;
+}
+.card:focus-within:after{left:150%}
+.ux-action:hover,.ux-stat:hover,.ux-record:hover{
+  transform:translateY(-2px);
+  border-color:rgba(20,184,166,.55);
+  box-shadow:0 12px 28px rgba(15,118,110,.11);
+}
+.btn:not(:disabled):hover{
+  transform:translateY(-1px);
+  box-shadow:0 7px 18px rgba(15,118,110,.22);
+}
+.btn:not(:disabled):active,.ux-action:active{
+  transform:scale(.985);
+}
+.tab{
+  position:relative;
+  overflow:hidden;
+}
+.tab.active:after{
+  content:"";
+  position:absolute;
+  inset:auto 22% 3px;
+  height:2px;
+  border-radius:999px;
+  background:currentColor;
+  opacity:.55;
+}
+.ux-hero{
+  isolation:isolate;
+}
+.ux-hero:before{
+  content:"";
+  position:absolute;
+  z-index:0;
+  inset:-60% -20% auto auto;
+  width:70%;
+  aspect-ratio:1;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(94,234,212,.18),transparent 68%);
+  pointer-events:none;
+  animation:mat-orbit-glow 16s ease-in-out infinite alternate-reverse;
+}
+.ux-hero>*{position:relative;z-index:1}
+@keyframes mat-orbit-glow{
+  from{transform:translate3d(0,0,0) scale(.94);opacity:.65}
+  to{transform:translate3d(14px,10px,0) scale(1.08);opacity:1}
+}
+:root[data-theme="dark"]{
+  --motion-glow:rgba(45,212,191,.14);
+  --motion-glow-strong:rgba(45,212,191,.25);
+}
+:root[data-theme="dark"] .card:after{
+  background:linear-gradient(110deg,transparent,rgba(94,234,212,.045),transparent);
+}
+:root[data-theme="dark"] .ux-action:hover,
+:root[data-theme="dark"] .ux-stat:hover,
+:root[data-theme="dark"] .ux-record:hover{
+  border-color:#3c8d80;
+  box-shadow:0 12px 28px rgba(0,0,0,.2);
+}
+@media(hover:none){
+  .ux-action:hover,.ux-stat:hover,.ux-record:hover{transform:none}
+  .card:after{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+  header:before,.ux-hero:before{animation:none!important}
+  .card,.ux-stat,.ux-action,.ux-record,.result,.btn{transition:none!important}
+  .ux-action:hover,.ux-stat:hover,.ux-record:hover,.btn:not(:disabled):hover{transform:none}
+}
