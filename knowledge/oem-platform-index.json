@@ -53,7 +53,7 @@
         "MD200 series AC drive",
         "H5U Series Programmable Logic Controller"
       ],
-      "manualReviewedRecordCount": 9,
+      "manualReviewedRecordCount": 3,
       "manualReviewedAlarmCodeRecords": 6
     },
     {
@@ -254,7 +254,7 @@
       "evidenceStatus": "portal-only",
       "alarmCodeRecords": 0,
       "notes": "Manual-reviewed records cover SINUMERIK/SINAMICS/SIMATIC selected scopes; all claims remain limited to the cited model and manual revision.",
-      "manualReviewedRecordCount": 29,
+      "manualReviewedRecordCount": 26,
       "modelsCovered": [
         "SINUMERIK 840D sl / 828D",
         "SINAMICS G120D",
@@ -634,12 +634,14 @@
       ],
       "notes": "Manual-reviewed records exist in the separate OEM evidence file; this manufacturer profile remains a discovery index, not proof of field verification. Match exact model, firmware and machine-builder integration.",
       "manualReviewedFaultCount": 6,
-      "manualReviewedRecordCount": 6,
+      "manualReviewedRecordCount": 0,
       "manualReviewedAlarmCodeRecords": 6
     }
   ],
   "relatedEvidenceFile": "knowledge/oem-verified-faults.json",
   "verifiedRecordFileCount": 99,
   "verifiedRecordFile": "knowledge/oem-verified-faults.json",
-  "lastEvidenceInventoryDate": "2026-10-24"
+  "lastEvidenceInventoryDate": "2026-10-24",
+  "manualReviewedRecordCount": 84,
+  "pendingClaimReviewCount": 15
 }
