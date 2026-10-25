@@ -25,7 +25,7 @@ jobs:
         with:
           node-version: '20'
       - name: Test local diagnostic engine
-        run: node scripts/test_diagnostic_engine.js
+        run: node --test tests/*.test.cjs
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Prepare static site
