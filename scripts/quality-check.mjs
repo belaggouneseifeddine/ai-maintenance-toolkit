@@ -9,6 +9,8 @@ const navRedesign = readFileSync("navigation-redesign.js", "utf8");
 const diagnosticFlowsSource = readFileSync("diagnostic-flows.js", "utf8");
 const diagnosticFlows = (() => { const match = diagnosticFlowsSource.match(/window\.MAINTENANCE_DIAGNOSTIC_FLOWS\s*=\s*(\{[\s\S]*?\n\});/); assert.ok(match, "Structured diagnostic flow export must exist"); return JSON.parse(match[1]); })();
 const worker = readFileSync("worker.js", "utf8");
+const evidenceReasoning = readFileSync("evidence-reasoning.js", "utf8");
+const evidenceReasoningUI = readFileSync("evidence-reasoning-ui.js", "utf8");
 const safety = readFileSync("SAFETY.md", "utf8");
 const knowledge = readFileSync("knowledge/INDUSTRIAL-FAULT-KNOWLEDGE-BASE.md", "utf8");
 const motorCasebook = readFileSync("knowledge/ELECTRIC-MOTOR-AND-VFD-CASEBOOK.md", "utf8");
@@ -44,11 +46,22 @@ const checks = [
     assert.ok(html.includes('<script src="./engineering-core.js"></script>'));
     assert.ok(html.includes('<script src="./agent-core.js"></script>'));
     assert.ok(html.includes('<script src="./agent-ui.js"></script>'));
+    assert.ok(html.includes('<script src="./evidence-reasoning.js"></script>'));
+    assert.ok(html.includes('<script src="./evidence-reasoning-ui.js"></script>'));
+    assert.ok(html.includes('id="manufacturer"') && html.includes('id="equipmentModel"'));
+    assert.ok(html.includes("MaintenanceEvidenceReasoningUI.render"));
+    assert.ok(evidenceReasoning.includes("confirmedFault: null"));
+    assert.ok(evidenceReasoningUI.includes("diagnostic-evidence-register.json"));
     assert.ok(html.includes('id="runLocalAgent"'));
     for (const asset of ["engineering-core.js", "agent-core.js", "agent-ui.js", "oem-lookup.js"]) { assert.ok(cloudflareDeployWorkflow.includes(asset), `Cloudflare Pages deploy omits ${asset}`); assert.ok(deployWorkflow.includes(asset), `GitHub Pages deploy omits ${asset}`); }
     assert.ok(sw.includes('"./engineering-core.js"'));
     assert.ok(sw.includes('"./agent-core.js"'));
     assert.ok(sw.includes('"./agent-ui.js"'));
+    assert.ok(sw.includes('"./evidence-reasoning.js"'));
+    assert.ok(sw.includes('"./evidence-reasoning-ui.js"'));
+    assert.ok(sw.includes('"./diagnostic-evidence-register.json"'));
+    assert.ok(deployWorkflow.includes("evidence-reasoning.js evidence-reasoning-ui.js diagnostic-evidence-register.json"));
+    assert.ok(cloudflareDeployWorkflow.includes("evidence-reasoning.js evidence-reasoning-ui.js diagnostic-evidence-register.json"));
   }],
   ["Shared normalization is loaded by the UI, Worker and Pages deployment", () => {
     assert.match(html, /<script src="\.\/normalization\.js"><\/script>/);
