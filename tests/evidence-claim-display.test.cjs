@@ -31,7 +31,7 @@ test("verified claim is shown but is not treated as applicable without exact str
     assert.match(html, /MD200 User Guide/);
     assert.match(html, /Insufficient verified evidence for this model/);
     assert.match(html, /exact manufacturer and model scope was not established/i);
-    assert.match(html, /does not establish the installed machine's root cause/);
+    assert.match(html, /does not establish the installed machine&#39;s root cause/);
   } finally {
     global.fetch = previousFetch;
   }
