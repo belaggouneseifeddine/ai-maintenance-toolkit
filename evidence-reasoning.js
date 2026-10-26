@@ -56,6 +56,8 @@
         url: clean(source.url),
         section: clean(source.section),
         page: Number.isInteger(source.page) && source.page > 0 ? source.page : null,
+        claim: clean(source.claim),
+        verificationLimit: clean(source.verificationLimit),
         status: source.status,
         applicable,
         reason: applicable
