@@ -347,3 +347,31 @@ test("weak evidence plus no relevant retrieval abstains before Gemini", async ()
   assert.equal(upstreamCalls, before);
   assert.match(body.answer, /Evidence is insufficient/i);
 });
+
+
+test("CORS preflight permits only configured frontend origins", async () => {
+  const allowed = "https://belaggouneseifeddine.github.io";
+  const allowedResponse = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
+    method: "OPTIONS",
+    headers: { Origin: allowed, "Access-Control-Request-Method": "POST", "Access-Control-Request-Headers": "Content-Type" }
+  }));
+  assert.equal(allowedResponse.status, 204);
+  assert.equal(allowedResponse.headers.get("access-control-allow-origin"), allowed);
+  assert.match(allowedResponse.headers.get("access-control-allow-methods") || "", /POST/);
+
+  const rejectedResponse = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
+    method: "OPTIONS",
+    headers: { Origin: "https://untrusted.example", "Access-Control-Request-Method": "POST" }
+  }));
+  assert.equal(rejectedResponse.status, 204);
+  assert.notEqual(rejectedResponse.headers.get("access-control-allow-origin"), "https://untrusted.example");
+});
+
+test("CORS preflight does not call the AI provider", async () => {
+  const before = upstreamCalls;
+  await context.__worker.fetch(new Request("https://worker.test/api/chat", {
+    method: "OPTIONS",
+    headers: { Origin: "https://belaggouneseifeddine.github.io", "Access-Control-Request-Method": "POST" }
+  }));
+  assert.equal(upstreamCalls, before);
+});
