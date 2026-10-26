@@ -48,5 +48,5 @@ test("AI adapter failure and timeout keep a stable local fallback path", () => {
   assert.match(agent, /aiFallback/);
   assert.match(agent, /tool_timeout/);
   assert.match(agent, /tool_failed/);
-  assert.match(agent, /Do not return provider\/network exception text/i);
+  assert.match(agent, /Never return provider\/network exception text/i);
 });
