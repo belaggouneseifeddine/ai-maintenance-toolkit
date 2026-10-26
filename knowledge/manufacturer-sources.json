@@ -1,653 +1,171 @@
 {
   "schemaVersion": 1,
-  "purpose": "Source-discovery metadata for review and future local retrieval. The runtime currently uses a small curated reference list; URLs do not prove that a source supports a specific hypothesis.",
-  "policy": {
-    "manufacturerEvidenceRequires": [
-      "exact equipment family/model match",
-      "relevant manual section and page inspected",
-      "specific claim matched to inspected source",
-      "record document revision/date where available"
-    ],
-    "doNot": [
-      "copy manual text or PDF without checking redistribution rights",
-      "infer fault causes from document titles or section headings",
-      "apply one model's guidance to all equipment",
-      "invent alarm meanings, setpoints, torque values, pressure limits, or parts",
-      "treat an OEM support portal or general troubleshooting article as proof that a particular cause applies to a specific machine"
-    ],
-    "safetyReferencesAreNotFaultEvidence": true
-  },
+  "purpose": "Manufacturer/source index for runtime retrieval. This file stores metadata and short issue headings only; it does not reproduce manual troubleshooting tables.",
+  "usePolicy": "Only apply manufacturer-specific entries when equipment family/model and application match the source. A source link is not proof that a proposed cause is documented. Review copyright/redistribution terms before copying manual text or PDFs into this repository.",
   "sources": [
     {
-      "id": "doe-pump-sourcebook",
-      "publisher": "U.S. Department of Energy / Hydraulic Institute",
-      "title": "Improving Pumping System Performance: A Sourcebook for Industry",
-      "url": "https://www.energy.gov/sites/prod/files/2014/05/f16/pump.pdf",
-      "type": "general-engineering-reference",
-      "scope": "General pumping-system concepts; not a manual for a specific pump model",
-      "status": "reference-listed-not-claim-verified",
-      "redistribution": "link-only; verify terms before copying material"
-    },
-    {
-      "id": "grundfos-hydro-en",
+      "id": "grundfos-hydro-en-installation-operating-instructions",
       "publisher": "Grundfos",
-      "title": "Hydro EN firefighting systems — Installation and operating instructions",
+      "title": "Hydro EN — Grundfos firefighting systems: Installation and operating instructions",
       "url": "https://api.grundfos.com/literature/Grundfosliterature-6819528.pdf",
-      "type": "manufacturer-manual",
-      "scope": "Hydro EN firefighting / automatic sprinkler pump systems only; exact system applicability required",
-      "reference": "Section 13 Fault finding; printed page 32 headings",
-      "status": "heading-index-only; cause/check tables not verified",
-      "redistribution": "reference-link-only; redistribution rights not reviewed"
+      "documentType": "manufacturer-manual",
+      "language": "en-GB",
+      "applicability": {
+        "equipmentFamily": "Hydro EN firefighting / automatic sprinkler pump system",
+        "modelRequired": true,
+        "notFor": "Generic pumps, domestic booster sets, or unrelated pump models"
+      },
+      "reference": {
+        "section": "13 Fault finding",
+        "printedPage": 32,
+        "subsections": [
+          "13.1 The electric pump does not start",
+          "13.2 The diesel pump does not start",
+          "13.3 The thermal relay trips (only for jockey pump)",
+          "13.4 The flow rate of the system is not as desired",
+          "13.5 Water hammer in the system",
+          "13.6 Leaks from the mechanical seal"
+        ]
+      },
+      "verificationStatus": "headings-extracted-subsection-cause-table-not-yet-verified",
+      "redistributionStatus": "reference-link-only; manual text/PDF redistribution rights not reviewed",
+      "runtimeUse": "Use only as a source locator when the user explicitly identifies Hydro EN / firefighting system. Do not infer causes from headings alone."
     },
     {
-      "id": "abb-motor-troubleshooting",
-      "publisher": "ABB",
-      "title": "Maintenance and troubleshooting reference for motors",
-      "url": "https://library.e.abb.com/public/c553f9f2138646fbbe2321456a02de51/MN404.pdf",
-      "type": "manufacturer-reference",
-      "scope": "Check the exact motor family and document applicability before relying on it",
-      "status": "reference-listed; exact claim/model match not recorded",
-      "redistribution": "reference-link-only; verify terms before copying material"
-    },
-    {
-      "id": "doe-compressed-air-sourcebook",
-      "publisher": "U.S. Department of Energy",
-      "title": "Improving Compressed Air System Performance: A Sourcebook for Industry",
-      "url": "https://www1.eere.energy.gov/manufacturing/tech_assistance/pdfs/compressed_air_sourcebook.pdf",
-      "type": "general-engineering-reference",
-      "scope": "General compressed-air systems; not an exact compressor manual",
-      "status": "reference-listed-not-claim-verified",
-      "redistribution": "link-only; verify terms before copying material"
+      "id": "grundfos-alpha-hwr-installation-operating-instructions",
+      "publisher": "Grundfos",
+      "title": "ALPHA HWR — Installation and operating instructions",
+      "url": "https://www.grundfos.com/content/dam/local/en-us/activity-assets/domestic-cold-water/downloads/Grundfosliterature-6908924-ALPHA-HWR-IO.pdf",
+      "documentType": "manufacturer-manual",
+      "language": "en-US",
+      "applicability": {
+        "equipmentFamily": "ALPHA HWR domestic hot-water recirculation pump",
+        "modelRequired": true,
+        "notFor": "Hydro EN firefighting systems or generic centrifugal pumps"
+      },
+      "reference": {
+        "section": "12 Fault finding",
+        "printedPages": [
+          19,
+          20
+        ]
+      },
+      "verificationStatus": "contents-heading-extracted; detailed fault table not yet reviewed",
+      "redistributionStatus": "reference-link-only; manual text/PDF redistribution rights not reviewed",
+      "runtimeUse": "Catalog only; never show as applicable unless the equipment/model matches ALPHA HWR."
     },
     {
       "id": "ingersoll-rand-reciprocating-compressor-documents",
       "publisher": "Ingersoll Rand",
       "title": "Reciprocating compressor documents and technical resources",
       "url": "https://www.ingersollrand.com/en-us/resources/knowledge-hub/reciprocating-compressor-documents/",
-      "type": "manufacturer-document-portal",
-      "scope": "Ingersoll Rand reciprocating compressors; exact model manual must be selected",
-      "status": "portal-only; no individual model manual selected",
-      "redistribution": "check terms for each selected document"
+      "documentType": "manufacturer-document-portal",
+      "language": "en",
+      "applicability": {
+        "equipmentFamily": "Ingersoll Rand reciprocating compressors",
+        "modelRequired": true,
+        "notFor": "Other compressor types or models without a matching manual"
+      },
+      "reference": {
+        "section": "Select the exact model-specific manual from the official portal"
+      },
+      "verificationStatus": "portal-located; individual model manual not selected",
+      "redistributionStatus": "reference-link-only; review each document's terms",
+      "runtimeUse": "Ask for model/nameplate details before selecting a document."
     },
     {
-      "id": "osha-loto-1910-147",
-      "publisher": "U.S. Occupational Safety and Health Administration",
+      "id": "debem-industrial-pump-oim",
+      "publisher": "Debem",
+      "title": "Industrial pumps — Operating, installation and maintenance manuals",
+      "url": "https://www.debem.com/en/oim/",
+      "documentType": "manufacturer-document-portal",
+      "language": "en/fr/de/it/es",
+      "applicability": {
+        "equipmentFamily": "Debem pump product families",
+        "modelRequired": true,
+        "notFor": "Non-Debem equipment or an unmatched series"
+      },
+      "reference": {
+        "section": "Select the exact product-series OIM manual"
+      },
+      "verificationStatus": "official documentation portal located; individual manual not extracted",
+      "redistributionStatus": "reference-link-only; review each document's terms",
+      "runtimeUse": "Use as a source discovery route, not a general pump diagnosis source."
+    },
+    {
+      "id": "osha-lockout-tagout-1910-147",
+      "publisher": "OSHA",
       "title": "The control of hazardous energy (lockout/tagout), 29 CFR 1910.147",
       "url": "https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910.147",
-      "type": "safety-regulation",
-      "scope": "General hazardous-energy safety context; not evidence for a mechanical/electrical root cause and not a substitute for local/site rules",
-      "status": "official-regulatory-reference",
-      "redistribution": "public regulatory text; identify jurisdiction"
+      "documentType": "regulation",
+      "language": "en",
+      "applicability": {
+        "equipmentFamily": "General hazardous-energy safety context",
+        "modelRequired": false,
+        "notFor": "Determining technical root cause"
+      },
+      "reference": {
+        "section": "29 CFR 1910.147"
+      },
+      "verificationStatus": "official-regulatory-reference",
+      "redistributionStatus": "public regulation page; cite source and applicable jurisdiction",
+      "runtimeUse": "Safety context only; not evidence for a mechanical/electrical fault cause."
+    }
+  ],
+  "hydroEnFaultFindingIndex": [
+    {
+      "id": "hydro-en-electric-pump-no-start",
+      "section": "13.1",
+      "printedPage": 32,
+      "issue": "The electric pump does not start",
+      "causes": [],
+      "checks": [],
+      "status": "heading-only-needs-full-table-review"
     },
     {
-      "id": "grundfos-troubleshooting-guides",
-      "publisher": "Grundfos",
-      "title": "How to find pump troubleshooting guides",
-      "url": "https://www.grundfos.com/solutions/support/how-to-guides/how-to-find-troubleshooting-guides",
-      "type": "manufacturer-support-guide",
-      "scope": "Guide to locating the exact pump manual/troubleshooting section in Product Center or GO Remote; not itself proof for a specific fault cause",
-      "status": "official-source-discovery-portal",
-      "redistribution": "link-only; exact product manual must be selected"
+      "id": "hydro-en-diesel-pump-no-start",
+      "section": "13.2",
+      "printedPage": 32,
+      "issue": "The diesel pump does not start",
+      "causes": [],
+      "checks": [],
+      "status": "heading-only-needs-full-table-review"
     },
     {
-      "id": "atlas-copco-compressor-troubleshooting",
-      "publisher": "Atlas Copco",
-      "title": "How to troubleshoot an air compressor",
-      "url": "https://www.atlascopco.com/en-sa/compressors/air-compressor-blog/air-compressor-troubleshooting",
-      "type": "manufacturer-troubleshooting-guide",
-      "scope": "General Atlas Copco compressor troubleshooting examples; model/controller applicability must be checked",
-      "status": "official-general-guide-model-match-required",
-      "redistribution": "link-only; check terms before copying"
+      "id": "hydro-en-jockey-thermal-relay-trip",
+      "section": "13.3",
+      "printedPage": 32,
+      "issue": "The thermal relay trips (only for jockey pump)",
+      "causes": [],
+      "checks": [],
+      "status": "heading-only-needs-full-table-review"
     },
     {
-      "id": "atlas-copco-manuals",
-      "publisher": "Atlas Copco",
-      "title": "Compressor manuals and technical documentation",
-      "url": "https://www.atlascopco.com/en-uk/compressors/manuals",
-      "type": "manufacturer-document-portal",
-      "scope": "Locate documentation using exact product and serial number; access to some manuals may require registration/service support",
-      "status": "official-document-portal-exact-model-required",
-      "redistribution": "link-only; follow portal terms"
+      "id": "hydro-en-system-flow-not-as-desired",
+      "section": "13.4",
+      "printedPage": 32,
+      "issue": "The flow rate of the system is not as desired",
+      "causes": [],
+      "checks": [],
+      "status": "heading-only-needs-full-table-review"
     },
     {
-      "id": "abb-motor-manuals",
-      "publisher": "ABB",
-      "title": "IEC low-voltage motor manuals",
-      "url": "https://www.abb.com/global/en/areas/motion/motors-generators/low-voltage-motors/iec-low-voltage-motors/iec-lv-manuals",
-      "type": "manufacturer-manual-portal",
-      "scope": "Installation, operation, maintenance and safety manuals for the exact ABB motor family",
-      "status": "official-document-portal-exact-model-required",
-      "redistribution": "link-only; follow document terms"
+      "id": "hydro-en-water-hammer",
+      "section": "13.5",
+      "printedPage": 32,
+      "issue": "Water hammer in the system",
+      "causes": [],
+      "checks": [],
+      "status": "heading-only-needs-full-table-review"
     },
     {
-      "id": "abb-drive-manuals",
-      "publisher": "ABB",
-      "title": "ABB drive document library",
-      "url": "https://www.abbnow.com/PublicSite/home/LiteratureResources/Document-Library.htm",
-      "type": "manufacturer-document-portal",
-      "scope": "Drive manuals and fault-tracing resources; exact drive model and firmware/manual revision must match",
-      "status": "official-document-portal-exact-model-required",
-      "redistribution": "link-only; follow document terms"
-    },
-    {
-      "id": "danfoss-troubleshooting",
-      "publisher": "Danfoss",
-      "title": "Fix and troubleshooting support",
-      "url": "https://www.danfoss.com/en/service-and-support/fix-and-troubleshooting/",
-      "type": "manufacturer-support-portal",
-      "scope": "Support links for drives, climate solutions, high-pressure pumps and sensing; exact product/partner guidance may be required",
-      "status": "official-support-portal-exact-product-required",
-      "redistribution": "link-only; follow portal terms"
-    },
-    {
-      "id": "siemens-industrial-support",
-      "publisher": "Siemens",
-      "title": "Siemens Industry Online Support",
-      "url": "https://support.industry.siemens.com/",
-      "type": "manufacturer-support-portal",
-      "scope": "Find exact product manuals, diagnostics and technical notes by product number/version; a portal link alone does not verify a fault claim",
-      "status": "official-support-portal-exact-product-required",
-      "redistribution": "link-only; follow portal terms"
-    },
-    {
-      "id": "festo-support-portal",
-      "publisher": "Festo",
-      "title": "Festo Support Portal",
-      "url": "https://www.festo.com/",
-      "type": "manufacturer-support-portal",
-      "scope": "Use the official site search for the exact pneumatic component/valve terminal type and its operating instructions",
-      "status": "official-portal-exact-product-required",
-      "redistribution": "link-only; follow portal terms"
-    },
-    {
-      "id": "gsk-cnc-support",
-      "publisher": "GSK CNC",
-      "title": "GSK CNC — official documentation and support",
-      "url": "https://gskcnc.com/support.php",
-      "type": "manufacturer-support-portal",
-      "scope": "CNC controls and servo drives; manual lookup by exact series",
-      "status": "official-document-portal-exact-series-required",
-      "redistribution": "link-only; follow portal terms"
-    },
-    {
-      "id": "huazhongcnc-download-center",
-      "publisher": "HuazhongCNC",
-      "title": "HuazhongCNC — official documentation and support",
-      "url": "https://en.huazhongcnc.com/download-center-of-huazhongcnc/",
-      "type": "manufacturer-support-portal",
-      "scope": "HNC8 CNC controllers, PLC, parameters and commissioning manuals",
-      "status": "official-document-portal-exact-series-required",
-      "redistribution": "link-only; follow portal terms"
-    },
-    {
-      "id": "huazhongcnc-servo-manuals",
-      "publisher": "HuazhongCNC",
-      "title": "HuazhongCNC — official documentation and support",
-      "url": "https://www.huazhongcnc.com/portal/list/index/cid/74.html",
-      "type": "manufacturer-support-portal",
-      "scope": "HSV servo drive manuals and selection documents",
-      "status": "official-document-portal-exact-series-required",
-      "redistribution": "link-only; follow portal terms"
-    },
-    {
-      "id": "inovance-global-downloads",
-      "publisher": "Inovance",
-      "title": "Inovance — official documentation and support",
-      "url": "https://www.inovance.com/global/support/download-documentation.html",
-      "type": "manufacturer-support-portal",
-      "scope": "MD drives, servo, PLC, HMI and motion control documentation",
-      "status": "official-document-portal-exact-series-required",
-      "redistribution": "link-only; follow portal terms"
-    },
-    {
-      "id": "inovance-eu-downloads",
-      "publisher": "Inovance Europe",
-      "title": "Inovance Europe — official documentation and support",
-      "url": "https://www.inovance.eu/downloads",
-      "type": "manufacturer-support-portal",
-      "scope": "English downloads for MD drives, IS/SV servo, PLC and HMI families",
-      "status": "official-document-portal-exact-series-required",
-      "redistribution": "link-only; follow portal terms"
-    },
-    {
-      "id": "leadshine-downloads",
-      "publisher": "Leadshine",
-      "title": "Leadshine — official documentation and support",
-      "url": "https://www.leadshine.com/downloads.html",
-      "type": "manufacturer-support-portal",
-      "scope": "Servo, stepper, motion control and robot component manuals",
-      "status": "official-document-portal-exact-series-required",
-      "redistribution": "link-only; follow portal terms"
-    },
-    {
-      "id": "syntec-download-library",
-      "publisher": "Syntec",
-      "title": "Syntec — official documentation and support",
-      "url": "https://www.syntecamerica.com/download/",
-      "type": "manufacturer-support-portal",
-      "scope": "CNC controller and automation documentation entry point; verify exact regional product page",
-      "status": "official-portal-exact-product-required",
-      "redistribution": "link-only; follow portal terms"
-    },
-    {
-      "id": "lynuc-download-center",
-      "publisher": "Lynuc / LNC",
-      "title": "Lynuc / LNC — official documentation and support",
-      "url": "https://www.lynuc.cn/download.aspx",
-      "type": "manufacturer-support-portal",
-      "scope": "CNC controllers, drives, I/O, parameter and programming manuals",
-      "status": "official-document-portal-exact-series-required",
-      "redistribution": "link-only; follow portal terms"
-    },
-    {
-      "id": "siemens-industry-support",
-      "publisher": "Siemens",
-      "title": "Siemens — official documentation and support",
-      "url": "https://support.industry.siemens.com/",
-      "type": "manufacturer-support-portal",
-      "scope": "SINUMERIK, SIMATIC, SINAMICS product support, manuals and diagnostics",
-      "status": "official-support-portal-exact-product-required",
-      "redistribution": "link-only; follow portal terms"
-    },
-    {
-      "id": "heidenhain-technical-support",
-      "publisher": "HEIDENHAIN",
-      "title": "HEIDENHAIN — official documentation and support",
-      "url": "https://www.heidenhain.com/service/technical-support",
-      "type": "manufacturer-support-portal",
-      "scope": "TNC controls, PLC programming, encoder and machine-tool service support",
-      "status": "official-support-portal-exact-control-required",
-      "redistribution": "link-only; follow portal terms"
-    },
-    {
-      "id": "beckhoff-downloads",
-      "publisher": "Beckhoff",
-      "title": "Beckhoff — official documentation and support",
-      "url": "https://www.beckhoff.com/en-us/support/download-finder/",
-      "type": "manufacturer-support-portal",
-      "scope": "TwinCAT, EtherCAT, IPC, I/O and drive documentation/software",
-      "status": "official-document-portal-exact-product-required",
-      "redistribution": "link-only; follow portal terms"
-    },
-    {
-      "id": "bosch-rexroth-documentation",
-      "publisher": "Bosch Rexroth",
-      "title": "Bosch Rexroth — official documentation and support",
-      "url": "https://docs.automation.boschrexroth.com/",
-      "type": "manufacturer-support-portal",
-      "scope": "ctrlX AUTOMATION, IndraDrive, MTX CNC and diagnostic messages",
-      "status": "official-document-portal-exact-product-required",
-      "redistribution": "link-only; follow portal terms"
-    },
-    {
-      "id": "schneider-downloads",
-      "publisher": "Schneider Electric",
-      "title": "Schneider Electric — official documentation and support",
-      "url": "https://www.se.com/ww/en/download/",
-      "type": "manufacturer-support-portal",
-      "scope": "Modicon PLC, Altivar drives, HMI and electrical protection documentation",
-      "status": "official-document-portal-exact-product-required",
-      "redistribution": "link-only; follow portal terms"
-    },
-    {
-      "id": "sew-eurodrive-documentation",
-      "publisher": "SEW-EURODRIVE",
-      "title": "SEW-EURODRIVE — official documentation and support",
-      "url": "https://download.sew-eurodrive.com/",
-      "type": "manufacturer-support-portal",
-      "scope": "Drive inverters, gearmotors, motion control and manuals",
-      "status": "official-document-portal-exact-product-required",
-      "redistribution": "link-only; follow portal terms"
-    },
-    {
-      "id": "lenze-downloads",
-      "publisher": "Lenze",
-      "title": "Lenze — official documentation and support",
-      "url": "https://www.lenze.com/en-de/services/software-downloads",
-      "type": "manufacturer-support-portal",
-      "scope": "i-series drives, controllers, engineering software and documentation",
-      "status": "official-document-portal-exact-product-required",
-      "redistribution": "link-only; follow portal terms"
-    },
-    {
-      "id": "trumpf-service",
-      "publisher": "TRUMPF",
-      "title": "TRUMPF — official documentation and support",
-      "url": "https://www.trumpf.com/en_INT/service/",
-      "type": "manufacturer-support-portal",
-      "scope": "Laser cutting, punching and machine-tool service; exact machine type required",
-      "status": "official-service-portal-exact-machine-required",
-      "redistribution": "link-only; follow portal terms"
-    },
-    {
-      "id": "homag-service",
-      "publisher": "HOMAG",
-      "title": "HOMAG — official documentation and support",
-      "url": "https://www.homag.com/en/service",
-      "type": "manufacturer-support-portal",
-      "scope": "Woodworking machinery service and support; exact machine type required",
-      "status": "official-service-portal-exact-machine-required",
-      "redistribution": "link-only; follow portal terms"
-    },
-    {
-      "id": "kuka-downloads",
-      "publisher": "KUKA",
-      "title": "KUKA — official documentation and support",
-      "url": "https://www.kuka.com/en-us/services/downloads",
-      "type": "manufacturer-support-portal",
-      "scope": "Industrial robot and controller documentation; exact KR/KRC generation required",
-      "status": "official-document-portal-exact-controller-required",
-      "redistribution": "link-only; follow portal terms"
-    },
-    {
-      "id": "yizumi-machine-service",
-      "publisher": "YIZUMI",
-      "title": "YIZUMI — official service and support",
-      "url": "https://www.yizumi.com/en/service",
-      "type": "manufacturer-service-portal",
-      "scope": "Injection moulding, die-casting, rubber machinery, automation and service; exact machine model and control configuration required",
-      "status": "official-service-portal-exact-machine-required",
-      "redistribution": "link-only; follow portal terms"
-    },
-    {
-      "id": "haitian-machine-service",
-      "publisher": "Haitian International",
-      "title": "Haitian International — global service",
-      "url": "https://haitianinter.com/service/",
-      "type": "manufacturer-service-portal",
-      "scope": "Injection moulding machines and global service; exact machine model, controller and options required",
-      "status": "official-service-portal-exact-machine-required",
-      "redistribution": "link-only; follow portal terms"
-    },
-    {
-      "id": "bodor-laser-service",
-      "publisher": "Bodor Laser",
-      "title": "Bodor — official service portal",
-      "url": "https://www.bodor.com/en/service/",
-      "type": "manufacturer-service-portal",
-      "scope": "Laser cutting and welding equipment; manuals, installation and maintenance resources require exact model",
-      "status": "official-service-portal-exact-machine-required",
-      "redistribution": "link-only; follow portal terms"
-    },
-    {
-      "id": "mitsubishi-fa-china-documents",
-      "publisher": "Mitsubishi Electric Automation China",
-      "title": "Mitsubishi Electric FA China — file center",
-      "url": "https://www.mitsubishielectric-fa.cn/site/file-center",
-      "type": "manufacturer-document-portal",
-      "scope": "MELSEC PLC, CNC, servo, inverters, HMI, industrial robots and electrical protection; select exact series and document revision",
-      "status": "official-document-portal-exact-product-required",
-      "redistribution": "link-only; follow portal terms"
-    },
-    {
-      "id": "delta-industrial-download-center",
-      "publisher": "Delta Electronics",
-      "title": "Delta — official industrial automation download center",
-      "url": "https://downloadcenter.delta-china.com.cn/en-US/DownloadCenter",
-      "type": "manufacturer-document-portal",
-      "scope": "PLC, HMI, VFD, servo, CNC, industrial robots and motion control; exact series and language must match",
-      "status": "official-document-portal-exact-product-required",
-      "redistribution": "link-only; follow portal terms"
-    },
-    {
-      "id": "pilz-machine-safety-support",
-      "publisher": "Pilz",
-      "title": "Pilz — official support and downloads",
-      "url": "https://www.pilz.com/en-INT/support",
-      "type": "manufacturer-support-portal",
-      "scope": "Machine safety controllers, safety relays, sensors and safety automation; exact product and safety configuration required",
-      "status": "official-document-portal-exact-product-required",
-      "redistribution": "link-only; follow portal terms"
-    },
-    {
-      "id": "xinje-download-center",
-      "publisher": "XINJE",
-      "title": "XINJE — official download center",
-      "url": "https://en.xinje.com/web/downloadCenter/index",
-      "type": "manufacturer-document-portal",
-      "scope": "PLC, HMI, servo, VFD, motion control and industrial robot documentation; exact series and firmware required",
-      "status": "official-document-portal-exact-product-required",
-      "redistribution": "link-only; follow portal terms"
-    },
-    {
-      "id": "omron-industrial-downloads",
-      "publisher": "OMRON",
-      "title": "OMRON Europe — official industrial downloads",
-      "url": "https://industrial.omron.eu/en/services-support/support/downloads",
-      "type": "manufacturer-document-portal",
-      "scope": "PLC, machine controllers, HMI, servo, VFD, robotics, sensors and safety; exact product family/revision required",
-      "status": "official-document-portal-exact-product-required",
-      "redistribution": "link-only; follow portal terms"
-    },
-    {
-      "id": "yaskawa-drive-manuals",
-      "publisher": "Yaskawa",
-      "title": "Yaskawa — official drive manuals",
-      "url": "https://www.yaskawa.com/products/drives/drive-manuals",
-      "type": "manufacturer-document-portal",
-      "scope": "Industrial AC drives; match exact GA/FP/HV family and revision",
-      "status": "official-document-portal-exact-product-required",
-      "redistribution": "link-only; follow portal terms"
-    },
-    {
-      "id": "fagor-automation-manuals",
-      "publisher": "Fagor Automation",
-      "title": "Fagor Automation — official CNC and drive manuals",
-      "url": "https://www.fagorautomation.com/en/categoria_descargas/manuals-en/",
-      "type": "manufacturer-document-portal",
-      "scope": "CNC controls, drives, feedback systems, installation and error-solving manuals; exact series/revision required",
-      "status": "official-document-portal-exact-product-required",
-      "redistribution": "link-only; follow portal terms"
-    },
-    {
-      "id": "fanuc-america-support",
-      "publisher": "FANUC America",
-      "title": "FANUC — official customer portal and support",
-      "url": "https://www.fanucamerica.com/support/myportal",
-      "type": "manufacturer-support-portal",
-      "scope": "CNC, industrial robots, ROBODRILL, technical documents and alarm lookup; access and regional applicability may vary",
-      "status": "official-support-portal-access-may-be-required",
-      "redistribution": "link-only; follow portal terms"
-    },
-    {
-      "id": "siemens-sinamics-g120d-getting-started-v47sp10",
-      "publisher": "Siemens",
-      "title": "SINAMICS G120D Getting Started, firmware V4.7 SP10",
-      "url": "https://support.industry.siemens.com/cs/attachments/109757509/G120D_getting_started_0418_en-US.pdf",
-      "type": "exact-model-family-manual",
-      "scope": "SINAMICS G120D converter; firmware V4.7 SP10; fault list in section 6.4, printed pages 88–89",
-      "status": "manual-content-reviewed-for-listed-records",
-      "redistribution": "link-and-original-summary-only"
-    },
-    {
-      "id": "siemens-sinamics-g120p-operating-instructions-2016",
-      "publisher": "Siemens",
-      "title": "SINAMICS G120P Cabinet Units Operating Instructions",
-      "url": "https://support.industry.siemens.com/cs/attachments/109739200/SINAMICS_G120P_Cabinet_en-US.pdf",
-      "type": "exact-model-family-manual",
-      "scope": "SINAMICS G120P cabinet units; section 9.5, alarms and faults, printed page 473; 04/2016 edition",
-      "status": "manual-content-reviewed-for-listed-records",
-      "redistribution": "link-and-original-summary-only"
-    },
-    {
-      "id": "siemens-sinumerik-840dsl-828d-basic-functions-2018",
-      "publisher": "Siemens",
-      "title": "SINUMERIK 840D sl / 828D Basic Functions Function Manual",
-      "url": "https://support.industry.siemens.com/cs/attachments/download/109760797/840Dsl_828D_basic_fct_man_0818_en-US.pdf",
-      "type": "exact-control-family-manual",
-      "scope": "SINUMERIK 840D sl and 828D; axis measuring-system monitoring, section A3.5, printed page 105; 08/2018 edition",
-      "status": "manual-content-reviewed-for-listed-records",
-      "redistribution": "link-and-original-summary-only"
-    },
-    {
-      "id": "mitsubishi-melsec-iqf-fx5-hardware-manual",
-      "publisher": "Mitsubishi Electric",
-      "title": "MELSEC iQ-F FX5S/FX5UJ/FX5U/FX5UC User’s Manual (Hardware)",
-      "url": "https://dl.mitsubishielectric.com/dl/fa/document/manual/plcf/sh082452eng/sh082452engm.pdf",
-      "type": "exact-plc-family-manual",
-      "scope": "FX5S, FX5UJ, FX5U and FX5UC; troubleshooting sections 17.3–17.7, printed pages 276–281; current PDF inspected 2026-10-24",
-      "status": "manual-content-reviewed-for-listed-records",
-      "redistribution": "link-and-original-summary-only"
-    },
-    {
-      "id": "mitsubishi-mrj4-transition-handbook",
-      "publisher": "Mitsubishi Electric",
-      "title": "Transition from MELSERVO-J2-Super/J2M Series to J4 Series Handbook",
-      "url": "https://dl.mitsubishielectric.com/dl/fa/document/catalog/servo/l03093/l03093e.pdf",
-      "type": "exact-servo-family-handbook",
-      "scope": "MR-J4-A encoder compatibility setting example; Part 7, section 4.1; only the stated HC-FS/HA-FS compatibility context",
-      "status": "manual-content-reviewed-for-listed-records",
-      "redistribution": "link-and-original-summary-only"
-    },
-    {
-      "id": "siemens-sinumerik-828d-diagnostics-manual-495-2021",
-      "publisher": "Siemens",
-      "title": "SINUMERIK 828D, SINAMICS S120 Diagnostics Manual",
-      "url": "https://support.industry.siemens.com/cs/attachments/109802874/828D_alarms_diagnostics_man_0721_en-US.pdf",
-      "type": "exact-control-family-manual",
-      "scope": "SINUMERIK 828D CNC software 4.95 and SINAMICS S120 version 5.2 SP3; 07/2021 edition; manual contains NC, SINAMICS, I/O and PLC alarm chapters",
-      "status": "official-manual-discovered-pending-code-level-review",
-      "redistribution": "link-only-until-reviewed"
-    },
-    {
-      "id": "mitsubishi-cnc-manuals",
-      "publisher": "Mitsubishi Electric CNC",
-      "title": "Official CNC manuals — C80 and M800/M80/E80 families",
-      "url": "https://www.mitsubishielectric-cnc.com/manuals/",
-      "type": "manufacturer-manual-library",
-      "scope": "CNC alarm/parameter manuals, PLC interface/programming, maintenance and setup manuals. Select the exact controller series and manual revision.",
-      "status": "official-manual-library-exact-series-required",
-      "redistribution": "link-only; follow publisher terms"
-    },
-    {
-      "id": "xinje-ds5k-servo-driver-user-manual",
-      "publisher": "Wuxi XINJE Electric Co., Ltd.",
-      "title": "DS5K Series Servo Driver User Manual",
-      "url": "https://cdn-en.xinje.com/DS5K%20servo%20manual.pdf",
-      "type": "exact-servo-family-manual",
-      "scope": "DS5K series; Data No. SC5 03 20230427EN; alarm sections 7.1–7.2, printed pages 172–181",
-      "status": "manual-content-reviewed-for-listed-records",
-      "redistribution": "link-and-original-summary-only"
-    },
-    {
-      "id": "oem-inovance-md200-err02-overcurrent-acceleration-manual",
-      "publisher": "INOVANCE",
-      "title": "MD200 User Guide; C02; document identifier MD200_User_Guide_EN_C02_19012113",
-      "url": "https://www.inovance.eu/fileadmin/downloads/Manuals/EN/MD200/MD200_User_Guide_EN_C02_19012113.PDF",
-      "type": "official-manual-direct-link",
-      "scope": "INOVANCE MD200 User Guide C02; section 3.2 Faults and Solutions, printed pages 32–35. Claims reviewed for Err02, Err03, Err05, Err09, Err12 and Err14 only; Err14 is named Module overheat in this revision.",
-      "status": "manual-content-reviewed-for-listed-records",
-      "redistribution": "link-only; follow publisher terms"
-    },
-    {
-      "id": "oem-mitsubishi-c80-servo-alarm-10-insufficient-voltage-manual",
-      "publisher": "Mitsubishi Electric CNC",
-      "title": "C80 Series Alarm/Parameter Manual; IB-1501560-F",
-      "url": "https://www.mitsubishielectric-cnc.com/wp-content/uploads/2025/02/C80-Series-Alarm-Parameter-Manual.pdf",
-      "type": "official-manual-direct-link",
-      "scope": "C80 Series Alarm/Parameter Manual IB-1501560-F; section 3.1 Servo Errors, printed pages 51–52, plus section 8 Emergency Stop Alarms, printed page 106. Claims reviewed for servo alarms 10, 18, 23, 24, 25 and the specific PLC emergency-stop entry only. Drive-specific troubleshooting remains delegated to the exact drive manual.",
-      "status": "manual-content-reviewed-for-listed-records",
-      "redistribution": "link-only; follow publisher terms"
-    },
-    {
-      "id": "oem-siemens-s7-1200-fs-event-0005-overtemperature-manual",
-      "publisher": "Siemens",
-      "title": "S7-1200 Functional Safety Manual; V4.6, 11/2022; A5E03470344-AC",
-      "url": "https://support.industry.siemens.com/dl/files/552/104547552/att_896075/v1/s71200_f_user_manual_en-US_en-US.pdf",
-      "type": "official-manual-direct-link",
-      "scope": "SIMATIC S7-1200 Functional Safety Manual V4.6, 11/2022, A5E03470344-AC; section 6.2 Fault diagnostics, printed page 122. Claims reviewed for Event IDs 0x0005, 0x004D and 0x004E only.",
-      "status": "manual-content-reviewed-for-listed-records",
-      "redistribution": "link-only; follow publisher terms"
-    },
-    {
-      "id": "inovance-h5u-plc-user-guide",
-      "publisher": "INOVANCE",
-      "title": "H5U Series Programmable Logic Controller User Guide (Without CAN, Electronic CAM, Electronic Gear)",
-      "url": "https://portal-file.inovance.com/owfile/ProdDoc/SC/19012251-SC/A00/19012251-SC_A00%E3%80%8AH5U%20Series%20Programmable%20Logic%20Control%20User%20Guide%20%E3%80%8BWithout%20CAN%2C%20ECAM%2C%20Electronic%20Gear-EN.pdf",
-      "type": "manufacturer-manual",
-      "scope": "INOVANCE H5U PLC; hardware indicators and operating/maintenance; revision A00 June 2023",
-      "status": "manual-reviewed-limited-claims",
-      "redistribution": "link-only; concise paraphrase; verify latest revision before use"
-    },
-    {
-      "id": "inovance-fault-code-query",
-      "publisher": "INOVANCE",
-      "title": "INOVANCE official function-code and fault-code query",
-      "url": "https://www.inovance.com/global/support/code-search.html",
-      "type": "manufacturer-diagnostic-tool",
-      "scope": "Requires exact model number and correctly formatted function/fault code; use as an OEM lookup tool, not a standalone technical conclusion",
-      "status": "official-diagnostic-tool-model-required",
-      "redistribution": "link-only; follow portal terms"
-    },
-    {
-      "id": "xinje-xnet-fieldbus-manual",
-      "publisher": "Wuxi XINJE Electric Co., Ltd.",
-      "title": "X-NET fieldbus User Manual",
-      "url": "https://cdn-en.xinje.com/XNET%20manual.pdf",
-      "type": "manufacturer-manual",
-      "scope": "X-NET fieldbus and motion fieldbus communication; document Data No. PD06 20151009 3.2",
-      "status": "manual-reviewed-limited-claims",
-      "redistribution": "link-only; concise paraphrase; verify applicability to installed X-NET version"
-    },
-    {
-      "id": "siemens-g120c-fsd-fsf-compact-instructions-2016",
-      "publisher": "Siemens",
-      "title": "SINAMICS G120C FSD…FSF Compact Operating Instructions, FW V4.7 SP6",
-      "url": "https://support.industry.siemens.com/cs/attachments/109744756/G120C_FSD_F_cmpct_op_instr_1116_en-US.pdf",
-      "type": "manufacturer-manual",
-      "scope": "Specific alarm/fault table for SINAMICS G120C FSD through FSF; firmware V4.7 SP6; troubleshooting table 5.1, printed page 82",
-      "status": "official-manual-reviewed-for-listed-claims",
-      "redistribution": "metadata-and-link only; do not republish manual content beyond short factual descriptions"
-    },
-    {
-      "id": "siemens-s7-1200-system-manual-v46",
-      "publisher": "Siemens",
-      "title": "SIMATIC S7-1200 Programmable controller — System Manual V4.6",
-      "url": "https://support.industry.siemens.com/cs/attachments/download/109772940/s71200_system_manual_en-US_en-US.pdf",
-      "type": "exact-model-family-manual",
-      "scope": "SIMATIC S7-1200 system diagnostics and time-error events; revision/CPU firmware must be matched to installed device",
-      "status": "manual-content-reviewed-for-listed-records",
-      "redistribution": "link-and-original-summary-only"
-    },
-    {
-      "id": "siemens-s7-1200-failsafe-manual-v46",
-      "publisher": "Siemens",
-      "title": "S7-1200 Functional Safety Manual V4.6",
-      "url": "https://support.industry.siemens.com/dl/files/552/104547552/att_896075/v1/s71200_f_user_manual_en-US_en-US.pdf",
-      "type": "exact-model-family-manual",
-      "scope": "S7-1200 fail-safe signal modules; diagnostic events including read-back failure and output overload; equipment manual 11/2022",
-      "status": "manual-content-reviewed-for-listed-records",
-      "redistribution": "link-and-original-summary-only"
-    },
-    {
-      "id": "gsk-218m-cnc-programming-operation-manual",
-      "publisher": "GSK CNC",
-      "title": "GSK218M CNC System Programming and Operation Manual",
-      "url": "https://gskcnc.com/Support/218M01.pdf",
-      "type": "exact-model-family-manual",
-      "scope": "GSK218M CNC system; alarm interface and program/operation alarms; confirm manual revision and machine-builder configuration",
-      "status": "manual-content-reviewed-for-listed-records",
-      "redistribution": "link-and-original-summary-only"
-    },
-    {
-      "id": "delta-asda-b2-f-user-manual",
-      "publisher": "Delta Electronics",
-      "title": "Delta Economic AC Servo Drive with DMCNET Communication ASDA-B2-F Series User Manual",
-      "url": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-      "type": "official-product-manual",
-      "scope": "ASDA-B2-F series servo drive; Version 1.0, September 2015; alarm definitions in section 9.1 and corrective-action tables in section 9.4. Do not apply to ASDA-B2, ASDA-A3, ASDA-B3 or other series without their own manual.",
-      "status": "manual-content-reviewed-for-listed-records",
-      "redistribution": "link-and-concise-original-summaries-only"
-    },
-    {
-      "id": "syntec-cnc-alarm-manual",
-      "publisher": "Syntec",
-      "title": "Syntec CNC Alarm Manual",
-      "url": "https://www.syntecclub.com/cncrel/Manual/PDF/Syntec%20CNC%20Alarm%20Manual.pdf",
-      "type": "official-product-alarm-manual",
-      "scope": "Syntec CNC alarm manual; supported software versions listed in the manual include 10.118.86L, 10.120.16L, 10.120.24B, 10.120.27 and previous versions. Exact CNC/drive integration and machine-builder settings must be matched.",
-      "status": "manual-content-reviewed-for-listed-records",
-      "redistribution": "link-and-concise-original-summaries-only"
+      "id": "hydro-en-mechanical-seal-leak",
+      "section": "13.6",
+      "printedPage": 32,
+      "issue": "Leaks from the mechanical seal",
+      "causes": [],
+      "checks": [],
+      "status": "heading-only-needs-full-table-review"
     }
   ]
 }
