@@ -375,3 +375,38 @@ test("CORS preflight does not call the AI provider", async () => {
   }));
   assert.equal(upstreamCalls, before);
 });
+
+
+test("rate limiter denial returns 429 before retrieval or Gemini", async () => {
+  const before = { upstreamCalls, knowledgeCalls };
+  const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
+    method: "POST",
+    headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json", "cf-connecting-ip": "203.0.113.77" },
+    body: JSON.stringify({ machine: "pump", symptom: "low flow", language: "en" })
+  }), { AI_RATE_LIMITER: { limit: async ({ key }) => { assert.equal(key, "203.0.113.77"); return { success: false }; } } });
+  assert.equal(response.status, 429);
+  assert.match(response.headers.get("cache-control"), /no-store/i);
+  assert.deepEqual({ upstreamCalls, knowledgeCalls }, before);
+});
+
+test("non-POST diagnosis requests are rejected with no-store and no provider details", async () => {
+  const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
+    method: "GET",
+    headers: { Origin: "https://belaggouneseifeddine.github.io" }
+  }), { AI_API_KEY: "secret-must-not-appear" });
+  assert.equal(response.status, 405);
+  assert.match(response.headers.get("cache-control"), /no-store/i);
+  const text = await response.text();
+  assert.doesNotMatch(text, /secret-must-not-appear|AIza|GEMINI_API_KEY/i);
+});
+
+test("JSON content type is required before diagnosis processing", async () => {
+  const before = { upstreamCalls, knowledgeCalls };
+  const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
+    method: "POST",
+    headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "text/plain" },
+    body: "machine=pump"
+  }), { AI_API_KEY: "test-only-placeholder" });
+  assert.equal(response.status, 415);
+  assert.deepEqual({ upstreamCalls, knowledgeCalls }, before);
+});
