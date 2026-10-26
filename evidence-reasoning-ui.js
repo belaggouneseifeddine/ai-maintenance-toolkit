@@ -53,9 +53,11 @@
           url: ref.url || ref.uri || "",
           section: ref.section || "",
           page: Number.isInteger(ref.page) ? ref.page : (Number.isInteger(ref.printedPage) ? ref.printedPage : null),
+          claim: typeof ref.claim === "string" ? ref.claim : "",
+          verificationLimit: typeof ref.verificationLimit === "string" ? ref.verificationLimit : "",
           status: record.status || "source-not-recorded",
           scope: record.scope || ref.scope || {},
-          verifiedClaims: Array.isArray(ref.verifiedClaims) ? ref.verifiedClaims : (Array.isArray(record.verifiedClaims) ? record.verifiedClaims : [])
+          verifiedClaims: Array.isArray(ref.verifiedClaims) ? ref.verifiedClaims : (Array.isArray(record.verifiedClaims) ? record.verifiedClaims : (record.status === "verified" && typeof ref.claim === "string" && ref.claim.trim() ? [ref.claim] : []))
         });
       });
       return {
@@ -74,8 +76,9 @@
     const items = result.results.map(item => {
       const sources = item.supportingEvidence.length ? item.supportingEvidence.map(source => {
         const details = [source.section ? esc(t.section) + ": " + esc(source.section) : "", source.page ? esc(t.page) + ": " + esc(source.page) : ""].filter(Boolean).join(" · ");
+        const claim = typeof source.claim === "string" ? source.claim : "";
         return '<li>' + (source.url ? '<a href="' + esc(source.url) + '" target="_blank" rel="noopener noreferrer">' + esc(source.title || source.sourceId) + '</a>' : esc(source.title || source.sourceId)) +
-          (details ? '<div class="hint">' + details + '</div>' : '') + '<div class="hint">' + esc(source.reason) + '</div></li>';
+          (details ? '<div class="hint">' + details + '</div>' : '') + (claim ? '<p>' + esc(claim) + '</p>' : '') + (source.verificationLimit ? '<p class="hint">' + esc(source.verificationLimit) + '</p>' : '') + '<div class="hint">' + esc(source.reason) + '</div></li>';
       }).join("") : '<li>' + esc(t.noRef) + '</li>';
       return '<article class="record"><h4>' + esc(item.label) + '</h4><p><b>' + esc(labelFor(item.evidenceState, lang)) + '</b></p><ul>' + sources + '</ul><p class="hint">' + esc(t.next) + ': ' + esc(item.nextStep && item.nextStep.prompt || t.noNext) + '</p></article>';
     }).join("");
