@@ -68,14 +68,14 @@
       return s > a ? 1 : a > s ? 2 : 0;
     });
     const counts = buckets => buckets.reduce((result, bucket) => { result[bucket]++; return result; }, [0, 0, 0]);
-    const baseline = entropy(counts(classify(currentIds)));
+    // Expected entropy across answer outcomes is a heuristic proxy for discrimination.
     return candidates.map((question, index) => {
-      const gains = question.options.map(option => {
+      const outcomeEntropies = question.options.map(option => {
         if (!option.evidence || !option.evidence.length) return 0;
         const ids = new Set([...currentIds, ...option.evidence]);
-        return Math.max(0, baseline - entropy(counts(classify(ids))));
+        return entropy(counts(classify(ids)));
       });
-      return { question, score: gains.reduce((a, b) => a + b, 0) / Math.max(1, gains.length), index };
+      return { question, score: outcomeEntropies.reduce((a, b) => a + b, 0) / Math.max(1, outcomeEntropies.length), index };
     }).sort((a, b) => b.score - a.score || a.index - b.index)[0].question;
   }
   function createSession(input) {
