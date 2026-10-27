@@ -13,6 +13,7 @@ Mobile-first progressive web app (PWA) for preliminary industrial-maintenance tr
 ## Features
 
 - Rule-based fault guidance, structured fault data, offline exploratory hypotheses, and a compact local knowledge-excerpt index with explicit evidence limits.
+- Experimental exact-inference Bayesian network for pump/low-flow cases, with explicitly entered observations and clearly labelled uncalibrated assumptions.
 - Safety checklist and inspection-plan gate.
 - Evidence provenance register and explicit equipment/symptom coverage gaps (QA metadata; not yet used to label runtime causes as OEM-verified).
 - Portable maintenance-agent skill specifications, exact-keyword matching, review-required alias hints, and stricter Worker validation that prevents unverified causes from being labelled confirmed.
@@ -23,6 +24,7 @@ Mobile-first progressive web app (PWA) for preliminary industrial-maintenance tr
 ## Current limitations
 
 - Local diagnosis is heuristic guidance, not a confirmed root cause. Exploratory hypotheses are labelled as hypotheses and do not carry calibrated probabilities.
+- The Bayesian network is experimental and currently covers pump + low flow only. Its priors and conditional probabilities are provisional assumptions, not field-derived or calibrated values; do not use its percentages for operational or safety decisions.
 - Manufacturer links are source-discovery aids; model scope and the exact claim/page must be verified before describing a cause as OEM-supported.
 - Maintenance records are stored in the current browser/device and are not automatically synchronized or backed up.
 - The app is a PWA, not a native Android APK.
@@ -48,6 +50,8 @@ Never commit API keys or put them in browser code, local storage, or the public 
 
 - `index.html` — main interface and local diagnostic logic
 - `diagnostic-engine.js`, `faults.json`, `diagnostic-flows.js` — rule-based diagnostics plus local exploratory reasoning
+- `bayesian-diagnostic-engine.js`, `bayesian-diagnostic-ui.js` — experimental Bayesian inference and a limited pump/low-flow evidence panel
+- `tests/bayesian-diagnostic-engine.test.cjs`, `docs/BAYESIAN-DIAGNOSTICS-V1.md` — inference tests, model assumptions, and deployment limits
 - `knowledge/manufacturer-sources.json` — scoped source references; entries are not automatically treated as verified fault evidence
 - `i18n.js` — translations
 - `maintenance-v03.js`, `ux-redesign.js` — maintenance workflow and home dashboard
