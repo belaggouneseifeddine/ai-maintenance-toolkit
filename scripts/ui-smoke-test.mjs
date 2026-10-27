@@ -54,6 +54,26 @@ try {
   await page.locator('.tab[data-tab="diagnose"]').click();
   await page.locator("#diagnosisForm").waitFor({ state: "visible" });
 
+  // Exercise the experimental Bayesian UI independently of the legacy rule-based form.
+  const bayesAvailable = await page.evaluate(() => Boolean(window.MaintenanceBayesianDiagnostic && window.MaintenanceBayesianDiagnosticUI));
+  assert.equal(bayesAvailable, true, "Bayesian engine and UI adapter must load");
+  await page.evaluate(() => {
+    const host = document.createElement("div");
+    host.id = "bayesian-smoke-host";
+    document.body.append(host);
+    window.MaintenanceBayesianDiagnosticUI.attach(host, "pump", "low_flow", "ar");
+  });
+  const bayesHost = page.locator("#bayesian-smoke-host");
+  assert.equal(await bayesHost.locator("#bayesianDiagnosticPanel").count(), 1, "Pump low-flow selection must render the Bayesian panel");
+  await bayesHost.locator('[data-bayes-evidence="suctionPressureLow"]').selectOption("true");
+  await bayesHost.locator("#bayesRun").click();
+  assert.match(await bayesHost.locator("#bayesOutput").innerText(), /%/, "A checked observation must produce a ranked posterior result");
+  assert.match(await bayesHost.locator("#bayesianDiagnosticPanel").innerText(), /مجموع النسب 100%/, "Bayesian UI must explain that cause percentages need not sum to 100%");
+  await bayesHost.locator('[data-bayes-evidence="suctionPressureLow"]').selectOption("unknown");
+  await bayesHost.locator("#bayesRun").click();
+  assert.match(await bayesHost.locator("#bayesOutput").innerText(), /أدخل قراءة واحدة على الأقل/, "Unknown-only evidence must not be treated as a negative observation");
+  await page.locator("#bayesian-smoke-host").evaluate(el => el.remove());
+
   const panels = ["homeDashboard", "diagnose", "knowledge", "safety", "log", "v03"];
   for (const panel of panels) {
     await page.locator(`.tab[data-tab="${panel}"]`).click();

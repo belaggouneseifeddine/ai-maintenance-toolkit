@@ -48,12 +48,14 @@ const checks = [
     assert.ok(html.includes('<script src="./agent-ui.js"></script>'));
     assert.ok(html.includes('<script src="./evidence-reasoning.js"></script>'));
     assert.ok(html.includes('<script src="./evidence-reasoning-ui.js"></script>'));
+    assert.ok(html.includes('<script src="./bayesian-diagnostic-engine.js"></script>'));
+    assert.ok(html.includes('<script src="./bayesian-diagnostic-ui.js"></script>'));
     assert.ok(html.includes('id="manufacturer"') && html.includes('id="equipmentModel"'));
     assert.ok(html.includes("MaintenanceEvidenceReasoningUI.render"));
     assert.ok(evidenceReasoning.includes("confirmedFault: null"));
     assert.ok(evidenceReasoningUI.includes("diagnostic-evidence-register.json"));
     assert.ok(html.includes('id="runLocalAgent"'));
-    for (const asset of ["engineering-core.js", "agent-core.js", "agent-ui.js", "oem-lookup.js"]) { assert.ok(cloudflareDeployWorkflow.includes(asset), `Cloudflare Pages deploy omits ${asset}`); assert.ok(deployWorkflow.includes(asset), `GitHub Pages deploy omits ${asset}`); }
+    for (const asset of ["engineering-core.js", "agent-core.js", "agent-ui.js", "oem-lookup.js", "bayesian-diagnostic-engine.js", "bayesian-diagnostic-ui.js"]) { assert.ok(cloudflareDeployWorkflow.includes(asset), `Cloudflare Pages deploy omits ${asset}`); assert.ok(deployWorkflow.includes(asset), `GitHub Pages deploy omits ${asset}`); }
     assert.ok(sw.includes('"./engineering-core.js"'));
     assert.ok(sw.includes('"./agent-core.js"'));
     assert.ok(sw.includes('"./agent-ui.js"'));
@@ -270,7 +272,7 @@ const checks = [
   ["Service worker caches the app shell and icon with a bumped cache version", () => {
     assert.match(sw, /APP_SHELL/);
     assert.match(sw, /\.\/icon\.svg/);
-    assert.match(sw, /maintenance-ai-toolkit-v47/);
+    assert.match(sw, /maintenance-ai-toolkit-v48/);
   }]
 ,
   ["Multilingual fault library covers pumps, motors, VFDs and compressors", () => {
@@ -382,8 +384,8 @@ const checks = [
     for (const node of Object.values(tree.nodes)) if (node.result) assert.ok(node.safe && node.escalate && node.cause);
   }],
   ["PWA caches all new offline dependencies and bumps its cache", () => {
-    assert.match(sw, /maintenance-ai-toolkit-v47/);
-    for (const asset of ["normalization.js", "knowledge-review.js", "answer-tools.js", "diagnostic-engine.js", "engineering-core.js", "agent-core.js", "agent-ui.js", "faults.json", "knowledge/oem-platform-index.json", "knowledge/manufacturer-machine-fault-matrix.json", "i18n.js"]) assert.ok(sw.includes(asset), "Missing offline cache asset " + asset);
+    assert.match(sw, /maintenance-ai-toolkit-v48/);
+    for (const asset of ["normalization.js", "knowledge-review.js", "answer-tools.js", "diagnostic-engine.js", "bayesian-diagnostic-engine.js", "bayesian-diagnostic-ui.js", "engineering-core.js", "agent-core.js", "agent-ui.js", "faults.json", "knowledge/oem-platform-index.json", "knowledge/manufacturer-machine-fault-matrix.json", "i18n.js"]) assert.ok(sw.includes(asset), "Missing offline cache asset " + asset);
     assert.match(manifest.icons[0].src, /icon\.svg/);
   }]
 ,
