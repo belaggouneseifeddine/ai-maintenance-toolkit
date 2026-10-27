@@ -2,7 +2,8 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 
 require("../normalization.js");
-const diagnostic = require("../diagnostic-engine.js");
+require("../diagnostic-engine.js");
+const diagnostic = global.MaintenanceDiagnosticEngine;
 const evaluation = require("../reasoning-evaluation.js");
 
 const knownFaults = {
