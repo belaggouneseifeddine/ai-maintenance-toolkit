@@ -38,6 +38,13 @@ Saving an endpoint only stores its URL on the current device; it does not verify
 - If the Worker is not configured or the provider is unavailable, use the local rule-based mode.
 - AI output is not authoritative. Follow LOTO, site procedures, manufacturer instructions, and qualified-person requirements.
 
+## Integration details
+
+- The Worker converts its internal diagnosis schema into standard JSON Schema for Interactions API structured output.
+- The response parser reads the Interactions API model-output steps rather than the legacy `candidates[0].content.parts` response.
+- The API key remains server-side; provider response bodies and secret values are not returned to the browser.
+- Interactions API request storage is explicitly disabled (`store: false`) because maintenance cases may contain operationally sensitive information. This means server-side conversation continuation is not used.
+
 ## Verification status
 
 Source files and a deployment workflow are present in the repository. That does not prove the Worker is deployed or the Gemini request succeeds. Only mark AI as live after the health check and a real generic `POST /api/chat` test succeed.
