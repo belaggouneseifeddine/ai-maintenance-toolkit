@@ -5,6 +5,8 @@ const APP_SHELL = [
   "./diagnostic-flows.js",
   "./normalization.js",
   "./diagnostic-engine.js",
+  "./bayesian-diagnostic-engine.js",
+  "./bayesian-diagnostic-ui.js",
   "./engineering-core.js",
   "./agent-core.js",
   "./evidence-reasoning.js",
