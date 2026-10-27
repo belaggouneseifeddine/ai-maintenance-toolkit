@@ -64,3 +64,19 @@ test("missing evidence is not treated as normal evidence", () => {
   assert.equal(r.ok,true);
   assert.ok(r.session.hypotheses.every(h=>h.supportingEvidence.length===0&&h.contradictingEvidence.length===0));
 });
+
+test("flow contract exposes only curated IDs and evidence options", () => {
+  assert.equal(typeof engine.getFlowContract, "function");
+  const pump = engine.getFlowContract("pump|low_flow");
+  assert.deepEqual(pump.hypothesisIds.sort(), ["flow_path_restriction", "operating_condition", "supply_or_suction"].sort());
+  assert.ok(pump.evidenceIds.includes("source-low"));
+  assert.ok(!pump.evidenceIds.includes("trip-present"));
+  assert.equal(engine.getFlowContract("pump|unknown"), null);
+});
+
+test("flow contract is a snapshot and does not expose mutable internal flow definitions", () => {
+  const contract = engine.getFlowContract("motor|not_start");
+  contract.hypothesisIds.push("invented");
+  const again = engine.getFlowContract("motor|not_start");
+  assert.ok(!again.hypothesisIds.includes("invented"));
+});
