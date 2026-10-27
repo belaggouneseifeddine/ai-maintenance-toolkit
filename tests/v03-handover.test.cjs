@@ -11,7 +11,7 @@ const tree = JSON.parse(read("decision-trees.json"));
 
 test("v0.3 handover and PM module is wired into the current main UI", () => {
   assert.match(html, /<script src="\.\/maintenance-v03\.js"><\/script>/);
-  assert.match(html, /id="v03"/);
+  assert.match(v03, /p\.id=\x27v03\x27/);
   assert.match(v03, /تقرير تسليم النوبة/);
   assert.match(v03, /الصيانة الوقائية/);
   assert.match(v03, /إحصاءات الصيانة/);
