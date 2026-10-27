@@ -490,7 +490,7 @@ test("curated diagnostic flow rejects unknown IDs before retrieval or Gemini", a
   const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
     method: "POST",
     headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
-    body: JSON.stringify({ machine: "pump", symptom: "low flow", diagnosticFlowId: "pump|unknown", language: "en" })
+    body: JSON.stringify({ machine: "pump", symptom: "low flow", diagnosticFlowId: "pump|unknown", language: "ar" })
   }), { AI_API_KEY: "test-only-placeholder" });
   assert.equal(response.status, 400);
   assert.equal((await response.json()).code, "unknown_diagnostic_flow");
@@ -501,7 +501,7 @@ test("curated diagnostic flow must match the equipment family", async () => {
   const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
     method: "POST",
     headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
-    body: JSON.stringify({ machine: "industrial motor", symptom: "low flow", diagnosticFlowId: "pump|low_flow", language: "en" })
+    body: JSON.stringify({ machine: "industrial motor", symptom: "low flow", diagnosticFlowId: "pump|low_flow", language: "ar" })
   }), { AI_API_KEY: "test-only-placeholder" });
   assert.equal(response.status, 400);
   assert.equal((await response.json()).code, "diagnostic_flow_mismatch");
@@ -516,7 +516,7 @@ test("curated flow restricts Gemini output to server-approved hypothesis IDs", a
       symptom: "low flow with unstable discharge",
       observations: "Observed unstable flow over several operating cycles and historical log is available",
       diagnosticFlowId: "pump|low_flow",
-      language: "en"
+      language: "ar"
     })
   }), { AI_API_KEY: "test-only-placeholder" });
   assert.equal(response.status, 200);
@@ -549,7 +549,7 @@ test("curated flow rejects a model-invented hypothesis ID", async () => {
         symptom: "low flow with unstable discharge",
         observations: "Observed unstable flow over several operating cycles and historical log is available",
         diagnosticFlowId: "pump|low_flow",
-        language: "en"
+        language: "ar"
       })
     }), { AI_API_KEY: "test-only-placeholder" });
     assert.equal(response.status, 502);
