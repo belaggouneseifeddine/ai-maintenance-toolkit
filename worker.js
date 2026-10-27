@@ -512,7 +512,7 @@ export default {
         sources: [], unknowns: evidence.missing,
         session_summary: { equipment: machine, symptom, confirmed_cause: "", work_status: "open" }
       };
-      return json({ answer: lead + "\n\n" + formatDiagnosis(diagnosis), diagnosis, evidence_gate: { level: evidence.level, points: evidence.points, missing: evidence.missing }, source: "evidence-gate" }, 200, origin);
+      return json({ answer: lead + "\n\n" + formatDiagnosis(diagnosis), diagnosis, model_called: false, evidence_gate: { level: evidence.level, points: evidence.points, missing: evidence.missing }, source: "evidence-gate" }, 200, origin);
     }
 
     const replyLanguage = language === "fr" ? "French" : language === "en" ? "English" : "Arabic";
@@ -612,6 +612,6 @@ Use only the evidence supplied. Rank plausible causes, show how to distinguish t
     diagnosis.inspection_steps = diagnosis.inspection_steps.map(step => ({ ...step, requires_loto: step.kind === "intervention" ? true : step.requires_loto }));
     const usedCitations = citations.filter(c => diagnosis.sources.includes(c.id));
     const answer = formatDiagnosis(diagnosis);
-    return json({ answer: answer.slice(0, 12000), diagnosis, citations: usedCitations, retrieval: { status: retrieval.retrievalStatus, matchedChunks: retrieval.chunks.length, availableDocuments: retrieval.availableDocuments, ranking: retrieval.rankingComparison } }, 200, origin);
+    return json({ answer: answer.slice(0, 12000), diagnosis, model_called: true, citations: usedCitations, retrieval: { status: retrieval.retrievalStatus, matchedChunks: retrieval.chunks.length, availableDocuments: retrieval.availableDocuments, ranking: retrieval.rankingComparison } }, 200, origin);
   }
 };
