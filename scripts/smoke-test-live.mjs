@@ -72,6 +72,36 @@ if (validation.status !== 400 || !validationBody.includes("Equipment and symptom
 }
 console.log("API_INPUT_VALIDATION_OK (invalid payload rejected before AI provider call)");
 
+async function checkEvidenceGateWithoutProviderCall() {
+  const response = await fetch(configuredEndpoint, {
+    method: "POST",
+    headers: { "Origin": appOrigin, "Content-Type": "application/json" },
+    body: JSON.stringify({
+      machine: "unknown equipment",
+      symptom: "problem",
+      code: "",
+      observations: "",
+      measurementStatus: "unknown",
+      language: "en"
+    }),
+    signal: AbortSignal.timeout(10000)
+  });
+  const raw = await response.text();
+  let body = null;
+  try { body = JSON.parse(raw); } catch {}
+  if (response.status !== 200 || body?.source !== "evidence-gate" ||
+      body?.diagnosis?.status !== "needs_clarification" ||
+      !Array.isArray(body?.diagnosis?.clarifying_questions) ||
+      body.diagnosis.clarifying_questions.length < 1 ||
+      (body.diagnosis.possible_causes || []).length !== 0 ||
+      !String(body.answer || "").includes("Evidence is insufficient")) {
+    throw new Error(`Evidence-gate smoke test failed: HTTP ${response.status}; response=${raw.slice(0, 500)}`);
+  }
+  console.log("EVIDENCE_GATE_OK insufficient input requests clarification before retrieval/Gemini");
+}
+
+await checkEvidenceGateWithoutProviderCall();
+
 async function checkDeterministicSafetyGate(payload, expectedTrigger, expectedText) {
   const response = await fetch(configuredEndpoint, {
     method: "POST",
