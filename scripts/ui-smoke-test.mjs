@@ -68,6 +68,7 @@ try {
   await bayesHost.locator('[data-bayes-evidence="suctionPressureLow"]').selectOption("true");
   await bayesHost.locator("#bayesRun").click();
   assert.match(await bayesHost.locator("#bayesOutput").innerText(), /%/, "A checked observation must produce a ranked posterior result");
+  assert.match(await bayesHost.locator("#bayesianDiagnosticPanel").innerText(), /مجموع النسب 100%/, "Bayesian UI must explain that cause percentages need not sum to 100%");
   await bayesHost.locator('[data-bayes-evidence="suctionPressureLow"]').selectOption("unknown");
   await bayesHost.locator("#bayesRun").click();
   assert.match(await bayesHost.locator("#bayesOutput").innerText(), /أدخل قراءة واحدة على الأقل/, "Unknown-only evidence must not be treated as a negative observation");
