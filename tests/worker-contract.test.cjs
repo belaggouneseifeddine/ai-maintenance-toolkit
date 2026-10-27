@@ -211,7 +211,7 @@ test("retrieved prompt-injection text stays untrusted data and cannot replace sy
         machine: "centrifugal pump",
         symptom: "low flow",
         observations: "existing flow readings are available",
-        language: "en"
+        language: "ar"
       })
     }), { AI_API_KEY: "test-only-placeholder" });
     assert.equal(response.status, 200);
