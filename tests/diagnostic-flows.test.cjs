@@ -72,5 +72,5 @@ test("published UI reads follow-up questions, answers, and guidance from the sha
   assert.match(html, /if\(matchedAnswer\?\.guidance\)return \[matchedAnswer\.guidance\]/);
   assert.match(html, /محرك التشخيص المحلي/);
   assert.doesNotMatch(html, /GEMINI_API_KEY|id="aiEndpoint"|id="aiConsent"/);
-  assert.match(html, /MaintenanceAgentUI\\.runLocal/);
+  assert.match(html, /MaintenanceAgentUI\.runLocal/);
 });
