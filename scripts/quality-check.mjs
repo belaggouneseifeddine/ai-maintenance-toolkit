@@ -384,7 +384,7 @@ const checks = [
     for (const node of Object.values(tree.nodes)) if (node.result) assert.ok(node.safe && node.escalate && node.cause);
   }],
   ["PWA caches all new offline dependencies and bumps its cache", () => {
-    assert.match(sw, /maintenance-ai-toolkit-v47/);
+    assert.match(sw, /maintenance-ai-toolkit-v48/);
     for (const asset of ["normalization.js", "knowledge-review.js", "answer-tools.js", "diagnostic-engine.js", "bayesian-diagnostic-engine.js", "bayesian-diagnostic-ui.js", "engineering-core.js", "agent-core.js", "agent-ui.js", "faults.json", "knowledge/oem-platform-index.json", "knowledge/manufacturer-machine-fault-matrix.json", "i18n.js"]) assert.ok(sw.includes(asset), "Missing offline cache asset " + asset);
     assert.match(manifest.icons[0].src, /icon\.svg/);
   }]
