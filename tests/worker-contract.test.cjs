@@ -586,7 +586,7 @@ test("server-owned curated diagnostic allowlists match the local engine contract
     const server = context.__curatedDiagnosticFlows[flowId];
     assert.ok(server, "server flow missing for " + flowId);
     assert.deepEqual(Object.keys(server.hypotheses).sort(), local.hypothesisIds.slice().sort(), "hypothesis IDs drifted for " + flowId);
-    assert.deepEqual(server.evidence.slice().sort(), local.evidenceIds.slice().sort(), "evidence IDs drifted for " + flowId);
+    assert.deepEqual(Array.from(server.evidence).sort(), Array.from(local.evidenceIds).sort(), "evidence IDs drifted for " + flowId);
   }
   for (const flowId of Object.keys(context.__curatedDiagnosticFlows)) {
     assert.ok(engine.getFlowContract(flowId), "server has unrecognized flow " + flowId);
