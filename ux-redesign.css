@@ -397,3 +397,101 @@ button:disabled,.btn:disabled{
 @media(prefers-reduced-motion:reduce){
   #diagnosisResult:not(:empty),#aiResult:not(:empty){animation:none}
 }
+
+
+/* Design system v1 — cohesive hierarchy, form ergonomics, and resilient layouts.
+   Presentation-only: existing diagnostic logic, stored data, and navigation behavior stay unchanged. */
+:root{
+  color-scheme:light;
+  --ds-radius-sm:10px;
+  --ds-radius-md:15px;
+  --ds-radius-lg:22px;
+  --ds-shadow-card:0 4px 18px rgba(16,42,48,.045);
+}
+body{line-height:1.7;letter-spacing:0}
+header{padding-block:clamp(26px,5vw,46px) 44px}
+header .eyebrow{font-size:.74rem}
+header .brand{max-width:850px;font-size:clamp(1.45rem,4vw,2.15rem);line-height:1.25}
+header .sub{max-width:700px;font-size:clamp(.92rem,2vw,1.02rem)}
+.header-controls{margin-top:20px}
+main{width:min(calc(100% - 28px),1080px)}
+.panel{min-width:0}
+.panel>.card:first-child{margin-top:2px}
+.card{border-radius:var(--ds-radius-lg);box-shadow:var(--ds-shadow-card);padding:clamp(17px,3vw,26px)}
+.card h2{margin-bottom:14px;font-size:clamp(1.03rem,2vw,1.18rem);line-height:1.45}
+.card h3{line-height:1.45}
+.hint{max-width:72ch;font-size:.9rem;line-height:1.75}
+label{margin:16px 0 7px;font-size:.9rem;line-height:1.5}
+input,select,textarea{min-height:48px;padding:11px 13px;border-radius:var(--ds-radius-sm);line-height:1.5}
+textarea{min-height:112px}
+input[type="checkbox"],input[type="radio"]{accent-color:var(--brand);width:20px;height:20px;min-height:20px}
+.check{gap:11px;padding:7px 0;line-height:1.65}
+.grid{align-items:start;gap:16px}
+.actions{gap:10px;margin-top:18px}
+.actions .btn{flex:1 1 150px}
+.btn{min-height:48px;border-radius:var(--ds-radius-sm);padding:11px 17px}
+.btn.secondary{border:1px solid var(--border-subtle,#d6e3e6)}
+.notice,.result{padding:15px 17px;border-radius:var(--ds-radius-md);line-height:1.8}
+.result h3{margin-bottom:10px}
+.result ul{padding-inline-start:1.25rem}
+.pill{padding:4px 10px;font-size:.76rem}
+.record{padding:16px;border-radius:var(--ds-radius-md);margin-top:12px}
+.record h3{display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+#recordFilters{padding:17px;border-radius:var(--ds-radius-md)}
+#draftPanel{padding:17px;border-radius:var(--ds-radius-md)}
+#diagnosisResult,#aiResult{scroll-margin-block:18px}
+#diagnosisResult .result{overflow-wrap:anywhere}
+#aiResult{padding:15px;line-height:1.85}
+.ux-hero{border-radius:var(--ds-radius-lg);padding:clamp(22px,4vw,38px)}
+.ux-safety{border-radius:var(--ds-radius-md);padding:15px 17px}
+.ux-stat{border-radius:var(--ds-radius-md);padding:17px}
+.ux-actions{gap:14px}
+.ux-action{border-radius:var(--ds-radius-md);min-height:100px}
+.ux-recent{margin-top:6px}
+.ux-record{border-radius:var(--ds-radius-md);padding:16px}
+.nav.bottom-navigation{max-width:760px}
+.nav.bottom-navigation .tab{min-height:60px}
+.nav.bottom-navigation .tab.active{font-weight:850}
+footer.author{max-width:1080px;margin:24px auto 0;padding:22px 18px calc(26px + env(safe-area-inset-bottom,0px))}
+footer.author p{margin:6px 0}
+@media(min-width:760px){
+  main{padding-inline:18px}
+  .panel>.card{margin-bottom:18px}
+  .nav.bottom-navigation{width:min(760px,calc(100% - 36px))}
+}
+@media(max-width:600px){
+  main{width:calc(100% - 18px);padding-inline:0}
+  header{padding-inline:16px}
+  .card{padding:16px;border-radius:17px}
+  .grid{grid-template-columns:minmax(0,1fr);gap:8px}
+  .actions .btn{flex-basis:100%}
+  .ux-stats{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .ux-stat{padding:12px 9px}
+  .ux-actions{grid-template-columns:minmax(0,1fr)}
+  .ux-action{min-height:78px}
+  .ux-action small{font-size:.79rem}
+  .nav.bottom-navigation{width:100%}
+  footer.author{padding-bottom:calc(28px + env(safe-area-inset-bottom,0px))}
+}
+@media(max-width:360px){
+  .ux-stat span{font-size:.68rem}
+  .ux-stat strong{font-size:1.35rem}
+  .nav.bottom-navigation .tab{font-size:.6rem}
+  .bottom-tab-icon{font-size:1rem}
+  .btn{padding-inline:12px}
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ds-shadow-card:0 5px 20px rgba(0,0,0,.14);
+}
+:root[data-theme="dark"] .card,
+:root[data-theme="dark"] .record,
+:root[data-theme="dark"] #recordFilters,
+:root[data-theme="dark"] #draftPanel{box-shadow:var(--ds-shadow-card)}
+:root[data-theme="dark"] .notice{color:#f2f7f8}
+:root[data-theme="dark"] .ux-safety{color:#ffe7b8}
+:root[data-theme="dark"] input[type="checkbox"],
+:root[data-theme="dark"] input[type="radio"]{accent-color:#5eead4}
+@media(prefers-reduced-motion:reduce){
+  .ux-action,.ux-stat,.ux-record,.card,.btn{scroll-behavior:auto;transition:none!important}
+}
