@@ -21,7 +21,7 @@ test("new evidence updates hypothesis ranking and selects next question", () => 
   const r=engine.answer(s,"source-low");
   assert.equal(r.ok,true);
   assert.equal(r.session.hypotheses[0].id,"supply_or_suction");
-  assert.equal(r.session.nextQuestion.id,"operating_context");
+  assert.equal(r.session.nextQuestion.id,"flow_path_status");
 });
 test("session never claims a confirmed cause after all questions", () => {
   let s=engine.createSession({equipment:"pump",symptom:"low_flow",language:"en"});
