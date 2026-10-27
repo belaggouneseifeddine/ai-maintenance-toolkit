@@ -1,7 +1,7 @@
 /* Dynamic, evidence-led diagnostic sessions. Offline-first; no calibrated probabilities. */
 (function (root) {
   "use strict";
-  const VERSION = "0.1.0";
+  const VERSION = "0.2.0";
   const FLOWS = {
     "pump|low_flow": {
       equipment: "pump", symptom: "low_flow",
@@ -47,6 +47,37 @@
     }
   };
   function textFor(value, language) { return value && (value[language] || value.en || value.ar) || ""; }
+  // Select the next question by expected hypothesis discrimination, not source order.
+  // This is a heuristic information-gain proxy, not a calibrated probability.
+  function chooseNextQuestion(flow, evidence, answered, language) {
+    const candidates = flow.questions.filter(q => !answered.includes(q.id));
+    if (!candidates.length) return null;
+    const currentIds = new Set(evidence.flatMap(e => e.evidence || []));
+    const entropy = counts => {
+      const total = counts.reduce((a, b) => a + b, 0);
+      if (!total) return 0;
+      return -counts.reduce((sum, n) => {
+        if (!n) return sum;
+        const p = n / total;
+        return sum + p * Math.log2(p);
+      }, 0);
+    };
+    const classify = ids => flow.hypotheses.map(h => {
+      const s = (h.evidenceFor || []).filter(x => ids.has(x)).length;
+      const a = (h.evidenceAgainst || []).filter(x => ids.has(x)).length;
+      return s > a ? 1 : a > s ? 2 : 0;
+    });
+    const counts = buckets => buckets.reduce((result, bucket) => { result[bucket]++; return result; }, [0, 0, 0]);
+    const baseline = entropy(counts(classify(currentIds)));
+    return candidates.map((question, index) => {
+      const gains = question.options.map(option => {
+        if (!option.evidence || !option.evidence.length) return 0;
+        const ids = new Set([...currentIds, ...option.evidence]);
+        return Math.max(0, baseline - entropy(counts(classify(ids))));
+      });
+      return { question, score: gains.reduce((a, b) => a + b, 0) / Math.max(1, gains.length), index };
+    }).sort((a, b) => b.score - a.score || a.index - b.index)[0].question;
+  }
   function createSession(input) {
     input = input || {};
     const key = String(input.equipment || "") + "|" + String(input.symptom || "");
@@ -69,12 +100,12 @@
   function answer(session, answerId) {
     if (!session || session.ok !== true || session.status !== "collecting_evidence") return {ok:false,code:"invalid_session"};
     const flow=FLOWS[session.flowId]; if(!flow) return {ok:false,code:"flow_not_curated"};
-    const next=flow.questions.find(q=>!session.answeredQuestionIds.includes(q.id));
+    const next=session.nextQuestion ? flow.questions.find(q=>q.id===session.nextQuestion.id) : null;
     if(!next) return {ok:false,code:"no_question_pending"};
     const option=next.options.find(o=>o.id===answerId); if(!option) return {ok:false,code:"invalid_answer"};
     const evidence=session.evidence.concat([{questionId:next.id,answerId:option.id,evidence:option.evidence.slice()}]);
     const answered=session.answeredQuestionIds.concat([next.id]);
-    const following=flow.questions.find(q=>!answered.includes(q.id));
+    const following=chooseNextQuestion(flow,evidence,answered,session.language);
     const updated={...session,evidence,answeredQuestionIds:answered,status:following?"collecting_evidence":"evidence_review",nextQuestion:following?questionView(following,session.language):null,hypotheses:rank(flow,evidence,session.language)};
     if(!following) updated.summary={message:session.language==="ar"?"هذه فرضيات مرتبة حسب الأدلة المسجلة، وليست سببًا مؤكدًا. إذا كانت الأدلة غير كافية، اجمع قياسات موثوقة أو صعّد لفني مؤهل.":"These are hypotheses ranked against recorded evidence, not a confirmed cause. If evidence is insufficient, collect reliable measurements or escalate to a qualified technician.",confirmedCause:"",requiresMoreEvidence:true};
     return {ok:true,session:updated};
