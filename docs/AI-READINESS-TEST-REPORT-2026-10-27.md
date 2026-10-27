@@ -9,7 +9,7 @@
 
 **Status: partially verified; not ready to claim live Gemini diagnosis is operationally validated.**
 
-The published frontend and configured Cloudflare Worker pass the checks listed below. The deterministic evidence and safety gates work in live requests. Automated tests also exercise the Worker’s structured diagnosis contract with a mocked Gemini response. A live request that reaches Gemini, receives its real response, passes source-citation and schema validation, and renders correctly in the app has **not** been run in this verification cycle because provider quota/billing availability was not established.
+The published frontend and configured Cloudflare Worker pass the checks listed below. The deterministic evidence and safety gates work in live requests. Automated tests also exercise the Worker’s structured diagnosis contract with a mocked Gemini response. A live request that reaches Gemini, receives its real response, passes source-citation and schema validation, and renders correctly in the app remains **unverified**. A single bounded diagnostic request was attempted from the available execution environment, but the environment blocked outbound access to the Worker hostname with HTTP 403 before the request reached the Worker. This is an execution-environment restriction, not evidence of a Worker or Gemini failure.
 
 ## Confirmed results
 
@@ -26,6 +26,7 @@ At functional test commit `b657d508`:
 - Insufficient evidence returned clarification questions before retrieval/Gemini.
 - Interlock-bypass and high-pressure-leak requests were blocked by deterministic safety gates without retrieval or Gemini calls.
 - The Worker contract tests use a mocked provider response to exercise structured response validation, evidence/source IDs, required safety fields, and rejection of unverified confirmed causes.
+- Read-only Cloudflare settings inspection confirmed a Worker secret binding named `AI_API_KEY`; the secret value was not accessed or printed. The Worker supports this binding as a fallback and defaults to `gemini-2.5-flash` when `AI_MODEL` is not set.
 
 ## Bayesian engine limitations
 
@@ -33,15 +34,15 @@ The experimental Bayesian panel currently covers **pump + low flow** only. Its p
 
 ## Not yet verified
 
-1. **Live Gemini end-to-end response:** no provider call was made in this cycle. The mock-provider contract test is not proof that the configured API key, quota, model access, provider response, and live response validation all work together.
+1. **Live Gemini end-to-end response:** not verified. The direct test attempt was blocked before reaching the Worker by the execution environment's outbound-request policy. The mock-provider contract test is not proof that the configured API key, quota, model access, provider response, and live response validation all work together.
 2. **Operational diagnostic accuracy:** no held-out field-case evaluation or calibration analysis has established accuracy.
 3. **Broad equipment coverage for Bayesian inference:** the Bayesian model is not a general-purpose industrial fault model.
 4. **Production readiness:** not established by health checks or CI alone.
 
 ## Next safe steps
 
-1. Confirm the Gemini account’s quota and billing/usage limits without exposing the API key.
-2. If an acceptable free quota is available, run one deliberately bounded, non-hazardous test case through the published app and record HTTP status, provider/model metadata where safe, response structure, evidence excerpts, and citation validity. Do not print secrets or send multiple speculative retries.
+1. Run the bounded live test from an environment permitted to call the Worker (for example, the GitHub Actions runner), after confirming the Gemini account's quota and billing/usage limits. Keep it to one benign diagnostic request; never print secrets or send repeated speculative retries.
+2. Capture only sanitized results: HTTP status, whether JSON/schema validation passed, source IDs/citation matches, safety flags, and provider error status if present.
 3. If a live call is not safe to run, retain the mocked contract test and report the live-provider path as unverified.
 4. Evaluate the Bayesian model using reviewed field cases and calibration metrics before promoting it beyond experimental status.
 
