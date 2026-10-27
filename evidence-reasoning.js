@@ -8,7 +8,6 @@
   function list(value) { return Array.isArray(value) ? value : []; }
   function text(value) { return typeof value === "string" ? value.trim() : ""; }
   function normalized(value) { return text(value).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase(); }
-
   function indexEvidence(items) {
     const index = new Map();
     for (const item of list(items)) {
@@ -50,7 +49,8 @@
       return {
         sourceId: id, title: text(source.title), url: validHttpsUrl(source.url) ? text(source.url) : "",
         section: text(source.section), page: Number.isInteger(source.page) && source.page > 0 ? source.page : null,
-        status: source.status, applicable, claim: claim ? text(claim.claim) : "", reason
+        status: source.status, applicable, claim: claim ? text(claim.claim) : text(source.claim),
+        verificationLimit: text(source.verificationLimit), reason
       };
     });
   }
