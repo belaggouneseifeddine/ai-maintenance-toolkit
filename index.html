@@ -368,6 +368,15 @@ other:['صف ما تغير ومتى بدأ العطل، وسجّل رمز الإ
 };
 const general=['وثّق الحالة كما هي، ولا تفترض سببًا واحدًا قبل جمع الأدلة.','قارن القياسات بدليل المصنع وحدود التشغيل المعتمدة للمعدة نفسها.','إذا كانت المعلومات غير كافية أو بقي الخطر قائمًا، أوقف التشخيص وصعّد إلى مختص مؤهل.'];
 
+$('aiForm').addEventListener('submit',async e=>{
+ e.preventDefault();
+ if(window.MaintenanceAgentUI&&typeof window.MaintenanceAgentUI.runLocal==='function'){
+   window.MaintenanceAgentUI.runLocal();
+ }else{
+   const box=$('aiResult');box.hidden=false;
+   box.textContent='تعذر تشغيل محرك التشخيص المحلي. تحقق من تحميل ملفات المحرك ثم أعد المحاولة.';
+ }
+});
 
 const DRAFT_KEY='maintenance-ai-toolkit-draft-v1';
 let lastDiagnosisDraft=null;
