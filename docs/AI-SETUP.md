@@ -8,7 +8,7 @@ The frontend remains usable without AI. The AI assistant works only after the Cl
 - Worker configuration: `wrangler.toml`
 - Deployment workflow: [Deploy Maintenance AI Toolkit API](https://github.com/belaggouneseifeddine/ai-maintenance-toolkit/actions/workflows/deploy-worker.yml)
 - API key creation: https://aistudio.google.com/apikey
-- Gemini OpenAI-compatible API documentation: https://ai.google.dev/gemini-api/docs/openai
+- Gemini OpenAI-compatible API documentation: https://ai.google.dev/gemini-api/docs/interactions-overview
 - Pricing and quotas: https://ai.google.dev/gemini-api/docs/pricing
 
 The workflow expects these GitHub Actions repository secrets:
@@ -40,6 +40,7 @@ Saving an endpoint only stores its URL on the current device; it does not verify
 
 ## Integration details
 
+- The Worker calls `POST https://generativelanguage.googleapis.com/v1beta/interactions` and defaults to `gemini-3.8-flash`; set the Worker variable `AI_MODEL` only when intentionally overriding the model.
 - The Worker converts its internal diagnosis schema into standard JSON Schema for Interactions API structured output.
 - The response parser reads the Interactions API model-output steps rather than the legacy `candidates[0].content.parts` response.
 - The API key remains server-side; provider response bodies and secret values are not returned to the browser.
