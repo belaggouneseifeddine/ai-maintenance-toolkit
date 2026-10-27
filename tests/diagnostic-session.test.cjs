@@ -21,7 +21,7 @@ test("new evidence updates hypothesis ranking and selects next question", () => 
   const r=engine.answer(s,"source-low");
   assert.equal(r.ok,true);
   assert.equal(r.session.hypotheses[0].id,"supply_or_suction");
-  assert.equal(r.session.nextQuestion.id,"flow_path_status");
+  assert.equal(r.session.nextQuestion.id,"operating_context");
 });
 test("session never claims a confirmed cause after all questions", () => {
   let s=engine.createSession({equipment:"pump",symptom:"low_flow",language:"en"});
@@ -41,4 +41,27 @@ test("invalid answer does not mutate the session", () => {
   assert.equal(r.ok,false);
   assert.equal(r.code,"invalid_answer");
   assert.deepEqual(s.answeredQuestionIds,[]);
+});
+
+test("adaptive selector chooses a question that separates remaining hypotheses", () => {
+  const s=engine.createSession({equipment:"pump",symptom:"low_flow",language:"en"});
+  const r=engine.answer(s,"source-low");
+  assert.equal(r.ok,true);
+  // Given low source evidence, operating context separates the remaining hypothesis states
+  // better than the original fixed-order flow-path question in this curated test case.
+  assert.equal(r.session.nextQuestion.id,"operating_context");
+  assert.equal(r.session.answeredQuestionIds.includes(r.session.nextQuestion.id),false);
+});
+test("contradictory evidence remains visible and does not confirm a root cause", () => {
+  const s=engine.createSession({equipment:"pump",symptom:"low_flow",language:"en"});
+  const first=engine.answer(s,"source-normal");
+  assert.equal(first.ok,true);
+  assert.ok(first.session.hypotheses.some(h=>h.status==="weakened_by_current_evidence"));
+  assert.equal(first.session.summary,undefined);
+});
+test("missing evidence is not treated as normal evidence", () => {
+  const s=engine.createSession({equipment:"pump",symptom:"low_flow",language:"en"});
+  const r=engine.answer(s,"unknown");
+  assert.equal(r.ok,true);
+  assert.ok(r.session.hypotheses.every(h=>h.supportingEvidence.length===0&&h.contradictingEvidence.length===0));
 });
