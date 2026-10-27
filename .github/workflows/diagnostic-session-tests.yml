@@ -1,4 +1,4 @@
-name: Diagnostic session tests
+name: Diagnostic and worker contract tests
 on:
   push:
     branches:
@@ -14,4 +14,4 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - run: node --test tests/diagnostic-session.test.cjs
+      - run: node --test tests/diagnostic-session.test.cjs tests/worker-contract.test.cjs
