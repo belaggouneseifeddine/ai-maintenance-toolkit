@@ -122,6 +122,7 @@ footer{line-height:1.8}
 <label for="aiSymptom">العطل أو العرض الرئيسي</label><input id="aiSymptom" required maxlength="240" placeholder="مثال: ضغط الخروج منخفض">
 <label for="aiCode">رمز الإنذار (اختياري)</label><input id="aiCode" maxlength="300" placeholder="الرمز كما يظهر على الشاشة">
 <label for="aiObservations">الملاحظات والقياسات مع الوحدات (اختياري)</label><textarea id="aiObservations" maxlength="3000" placeholder="اذكر ما لاحظته فقط، ولا تضع بيانات سرية أو معلومات تخص المصنع الحساسة."></textarea>
+<div id="dynamicSessionPanel" class="result" aria-live="polite"><h3>جلسة تشخيص موجّهة</h3><p id="dynamicSessionStatus" class="hint">أدخل نوع المعدة والعَرَض لبدء جلسة محلية إن كان لهما مسار معتمد.</p><p id="dynamicQuestionText"></p><select id="dynamicAnswer" aria-label="إجابة سؤال التشخيص الموجّه" hidden></select><div class="actions"><button id="recordDynamicAnswer" class="btn secondary" type="button" hidden>تسجيل الإجابة التالية</button></div><ol id="dynamicHypotheses"></ol><p class="hint">تُرسل معرّفات الأدلة المسجلة فقط عند موافقتك على إرسال طلب Gemini. الفرضيات أولية وليست سببًا مؤكدًا.</p></div>
 <label for="aiMeasurementStatus">حالة القياسات المتاحة</label><select id="aiMeasurementStatus"><option value="unknown">لا أعرف / لست متأكدًا</option><option value="none">لا توجد قراءة متاحة</option><option value="available">توجد قراءات مسجلة بالفعل</option></select><p class="hint" id="aiMeasurementHint">لا تنفّذ قياسًا حيًا أو تلمس معدات خطرة لمجرد الإجابة. استخدم فقط المعلومات والقراءات المتاحة بالفعل.</p>
 <label class="check" for="aiConsent"><input id="aiConsent" type="checkbox" required><span>أوافق على إرسال وصف العطل والقياسات إلى خادم الذكاء الاصطناعي المُعدّ للتجربة. لن أرسل بيانات شخصية أو معلومات سرية عن المصنع.</span></label>
 <label class="check" for="aiCacheEnabled"><input id="aiCacheEnabled" type="checkbox"><span id="aiCacheLabel">تفعيل التخزين المحلي الاختياري للإجابات المتطابقة لمدة 24 ساعة. لا تُخزّن حالات التصعيد أو تحذيرات السلامة.</span></label>
@@ -570,6 +571,7 @@ if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigato
 <script src="./ux-redesign.js"></script>
 <script src="./navigation-redesign.js"></script>
 <script src="./agent-ui.js"></script>
+<script src="./diagnostic-session-ui.js"></script>
 <footer class="author">
 <p>صمّمه وطوّره: <strong>Seif Eddine Belaggoune</strong> — تقني صيانة صناعية</p>
 <p><a href="./cv.html" target="_blank" rel="noopener noreferrer">📄 السيرة الذاتية (CV)</a></p>
