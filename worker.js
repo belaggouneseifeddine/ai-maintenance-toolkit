@@ -529,11 +529,20 @@ export default {
       return json({ error: "Evidence ID is not part of the selected curated flow.", code: "unknown_diagnostic_evidence" }, 400, origin);
     }
     const curatedHypothesisIds = curatedFlow ? Object.keys(curatedFlow.hypotheses) : null;
+    if (!diagnosticFlowId && diagnosticEvidence.length) {
+      return json({ error: "Curated evidence requires a curated diagnostic flow.", code: "evidence_without_diagnostic_flow" }, 400, origin);
+    }
+    const normalizedMachine = normalizeEvidenceText(machine);
+    const normalizedSymptom = normalizeEvidenceText(symptom);
+    const pumpMachine = normalizedMachine.includes("pump") || normalizedMachine.includes("مضخه");
+    const motorMachine = normalizedMachine.includes("motor") || normalizedMachine.includes("محرك");
+    const lowFlowSymptom = normalizedSymptom.includes("low flow") || normalizedSymptom.includes("low_flow") || normalizedSymptom.includes("ضعف تدفق") || normalizedSymptom.includes("ضعف التدفق") || normalizedSymptom.includes("faible debit");
+    const motorStartSymptom = normalizedSymptom.includes("not start") || normalizedSymptom.includes("not_start") || normalizedSymptom.includes("won't start") || normalizedSymptom.includes("does not start") || normalizedSymptom.includes("لا يبدا") || normalizedSymptom.includes("لا يبدأ") || normalizedSymptom.includes("ne demarre pas");
     if (diagnosticFlowId && (
-      (diagnosticFlowId === "pump|low_flow" && (!normalizeEvidenceText(machine).includes("pump") && !normalizeEvidenceText(machine).includes("مضخه") && !normalizeEvidenceText(machine).includes("مضخة"))) ||
-      (diagnosticFlowId === "motor|not_start" && (!normalizeEvidenceText(machine).includes("motor") && !normalizeEvidenceText(machine).includes("محرك")))
+      (diagnosticFlowId === "pump|low_flow" && (!pumpMachine || !lowFlowSymptom)) ||
+      (diagnosticFlowId === "motor|not_start" && (!motorMachine || !motorStartSymptom))
     )) {
-      return json({ error: "Curated flow does not match the equipment description.", code: "diagnostic_flow_mismatch" }, 400, origin);
+      return json({ error: "Curated flow does not match the equipment and symptom.", code: "diagnostic_flow_mismatch" }, 400, origin);
     }
     if (![machine, symptom, code, observations, measurementStatus, language].every(v => typeof v === "string")) {
       return json({ error: "All fields must be text." }, 400, origin);
