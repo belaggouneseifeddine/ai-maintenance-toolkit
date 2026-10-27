@@ -521,7 +521,7 @@ test("curated flow restricts Gemini output to server-approved hypothesis IDs", a
   }), { AI_API_KEY: "test-only-placeholder" });
   assert.equal(response.status, 200);
   assert.ok(["supply_or_suction", "flow_path_restriction", "operating_condition"].includes((await response.json()).diagnosis.possible_causes[0].id));
-  assert.match(upstreamPayload.input, /only authorized hypothesis IDs are: supply_or_suction, flow_path_restriction, operating_condition/);
+  assert.match(upstreamPayload.input, /only authorized hypothesis IDs and meanings are: supply_or_suction = Supply or suction conditions; flow_path_restriction = Flow-path restriction or abnormal valve position; operating_condition = Unusual operating condition or demand/);
 });
 
 test("curated flow rejects a model-invented hypothesis ID", async () => {
@@ -558,4 +558,22 @@ test("curated flow rejects a model-invented hypothesis ID", async () => {
     context.fetch = originalFetch;
     mockUpstreamMode = originalMode;
   }
+});
+
+test("curated diagnostic flow rejects evidence IDs from another flow", async () => {
+  const before = { upstreamCalls, knowledgeCalls };
+  const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
+    method: "POST",
+    headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
+    body: JSON.stringify({
+      machine: "pump",
+      symptom: "low flow",
+      diagnosticFlowId: "pump|low_flow",
+      diagnosticEvidence: ["trip-present"],
+      language: "ar"
+    })
+  }), { AI_API_KEY: "test-only-placeholder" });
+  assert.equal(response.status, 400);
+  assert.equal((await response.json()).code, "unknown_diagnostic_evidence");
+  assert.deepEqual({ upstreamCalls, knowledgeCalls }, before);
 });
