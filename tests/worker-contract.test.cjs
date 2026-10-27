@@ -8,6 +8,7 @@ let upstreamPayload = null;
 let upstreamCalls = 0;
 let knowledgeCalls = 0;
 let mockIntervention = false;
+let mockProviderStatus = null;
 let mockKnowledge = "# مضخة طرد مركزي — ضعف التدفق\\n\\nتتضمن هذه الملاحظة الفنية مراجعة القراءات المتاحة ومقارنة الضغط والتدفق بخط الأساس ودليل المصنع. لا تستخدمها كقيمة ضبط ولا كبديل لإجراءات الموقع.";
 const context = {
   Request, Response, URL, AbortSignal, TextEncoder, setTimeout, clearTimeout, console,
@@ -17,6 +18,12 @@ const context = {
     if (target.includes("generativelanguage.googleapis.com")) {
       upstreamCalls++;
       upstreamPayload = JSON.parse(options.body);
+      if (mockProviderStatus !== null) {
+        return new Response(JSON.stringify({ error: { message: "private provider detail must not reach the client" } }), {
+          status: mockProviderStatus,
+          headers: { "content-type": "application/json" }
+        });
+      }
       const diagnosis = validDiagnosis();
       if (mockIntervention) diagnosis.inspection_steps[0].kind = "intervention";
       diagnosis.session_summary.equipment = "مضخة طرد مركزي";
@@ -169,6 +176,28 @@ test("Worker returns validated structured diagnosis and accepts missing readings
 });
 
 
+
+test("provider error details are not leaked to the client", async () => {
+  mockProviderStatus = 400;
+  try {
+    const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
+      method: "POST",
+      headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
+      body: JSON.stringify({
+        machine: "centrifugal pump",
+        symptom: "low flow",
+        observations: "existing flow readings are available",
+        language: "en"
+      })
+    }), { AI_API_KEY: "test-only-placeholder" });
+    assert.equal(response.status, 502);
+    const text = await response.text();
+    assert.match(text, /provider_status/);
+    assert.doesNotMatch(text, /private provider detail|test-only-placeholder|AIza/i);
+  } finally {
+    mockProviderStatus = null;
+  }
+});
 
 test("retrieved prompt-injection text stays untrusted data and cannot replace system instructions", async () => {
   const originalKnowledge = mockKnowledge;
