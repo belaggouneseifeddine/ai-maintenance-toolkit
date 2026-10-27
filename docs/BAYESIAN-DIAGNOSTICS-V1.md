@@ -16,7 +16,7 @@ This branch adds an exact-inference engine for small binary Bayesian networks an
 
 The pump/low-flow model contains four candidate causes: suction restriction, downstream restriction, insufficient supply/source level, and flow-measurement fault. Its root priors and conditional observation probabilities are **provisional elicited assumptions**, not values learned from maintenance records, fleet data, manufacturer documentation, or a validated study. They are not calibrated probabilities.
 
-The model assumes listed observations are conditionally independent given their listed parent causes. This simplification may be false in real installations. Priors are starting assumptions for the pump/low-flow scenario; qualified domain experts must review them and field cases must be used for calibration before operational use.
+The model assumes listed observations are conditionally independent given their listed parent causes. This simplification may be false in real installations. Priors are starting assumptions for the pump/low-flow scenario; qualified domain experts must review them and field cases must be used for calibration before operational use. The cause nodes are not mutually exclusive: the displayed values are marginal probabilities for each cause, so their percentages must not be read as a single distribution and need not sum to 100%.
 
 The panel is intentionally limited to pump + low flow. It does not infer evidence from free-text notes. The technician must select only readings actually checked and should record units, measurement points, baseline, and equipment model in the normal workflow.
 
