@@ -31,6 +31,7 @@ const diagnosticEngineSource = readFileSync("diagnostic-engine.js", "utf8");
 const normalizationSource = readFileSync("normalization.js", "utf8");
 const knowledgeReviewSource = readFileSync("knowledge-review.js", "utf8");
 const answerToolsSource = readFileSync("answer-tools.js", "utf8");
+const agentUiSource = readFileSync("agent-ui.js", "utf8");
 const i18n = readFileSync("i18n.js", "utf8");
 const engineWindow = {};
 const inlineScript = html.match(/<script>\s*([\s\S]*?)<\/script>/);
