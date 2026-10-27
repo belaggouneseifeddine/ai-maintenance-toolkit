@@ -382,7 +382,7 @@ const box=$('aiResult');
 if(window.MaintenanceAnswerTools)window.MaintenanceAnswerTools.stopSpeech();
 box.hidden=false;box.textContent='';
 const lang=window.MaintenanceI18n?window.MaintenanceI18n.getLanguage():'ar';
-const payload={machine:$('aiMachine').value.trim(),symptom:$('aiSymptom').value.trim(),code:$('aiCode').value.trim(),observations:$('aiObservations').value.trim(),measurementStatus:$('aiMeasurementStatus').value,language:['ar','fr','en'].includes(lang)?lang:'ar'};
+const guidedPayload=window.MaintenanceDiagnosticSessionUI?window.MaintenanceDiagnosticSessionUI.getPayload():{};const payload={machine:$('aiMachine').value.trim(),symptom:$('aiSymptom').value.trim(),code:$('aiCode').value.trim(),observations:$('aiObservations').value.trim(),measurementStatus:$('aiMeasurementStatus').value,language:['ar','fr','en'].includes(lang)?lang:'ar',...guidedPayload};
 const cacheEnabled=$('aiCacheEnabled')?.checked===true;
 const cached=cacheEnabled&&window.MaintenanceAnswerTools?window.MaintenanceAnswerTools.get(payload):null;
 if(!$('aiConsent').checked&&!cached){box.textContent='وافق على إرسال وصف العطل إلى الخادم قبل المتابعة.';return;}
@@ -571,6 +571,7 @@ if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigato
 <script src="./ux-redesign.js"></script>
 <script src="./navigation-redesign.js"></script>
 <script src="./agent-ui.js"></script>
+<script src="./diagnostic-session-ui.js"></script>
 <script src="./diagnostic-session-ui.js"></script>
 <footer class="author">
 <p>صمّمه وطوّره: <strong>Seif Eddine Belaggoune</strong> — تقني صيانة صناعية</p>
