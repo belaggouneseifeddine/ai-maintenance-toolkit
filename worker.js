@@ -575,7 +575,7 @@ Use only the evidence supplied. Rank plausible causes, show how to distinguish t
 
 
     let upstream;
-    const model = env.AI_MODEL || "gemini-2.5-flash";
+    const model = env.AI_MODEL || "gemini-3.8-flash";
     const responseSchema = toJsonSchema(DIAGNOSIS_SCHEMA);
     const requestBody = JSON.stringify({
       model,
