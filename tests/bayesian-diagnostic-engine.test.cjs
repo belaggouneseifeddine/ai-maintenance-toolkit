@@ -23,7 +23,7 @@ test("unknown evidence is omitted rather than interpreted as false", () => {
   const model = bayes.models.pumpLowFlow;
   const prior = bayes.infer(model, { evidence: {}, query: ["suctionRestriction"] });
   const negative = bayes.infer(model, { evidence: { suctionPressureLow: false }, query: ["suctionRestriction"] });
-  assert.equal(prior.results[0].probabilityTrue, 0.18);
+  assert.ok(Math.abs(prior.results[0].probabilityTrue - 0.18) < 1e-10);
   assert.notEqual(negative.results[0].probabilityTrue, prior.results[0].probabilityTrue);
 });
 test("pump low-flow model ranks four causes with valid probabilities", () => {
