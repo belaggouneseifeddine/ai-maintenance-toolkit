@@ -25,6 +25,36 @@ const DIAGNOSIS_SCHEMA = {
   },
   required: ["status", "language", "safety", "clarifying_questions", "possible_causes", "inspection_steps", "required_tools", "danger_signs", "escalation", "sources", "unknowns", "session_summary"]
 };
+function toJsonSchema(node) {
+  if (Array.isArray(node)) return node.map(toJsonSchema);
+  if (!node || typeof node !== "object") return node;
+  const out = {};
+  for (const [key, value] of Object.entries(node)) {
+    if (key === "type" && typeof value === "string") {
+      out.type = value.toLowerCase();
+    } else if (key === "properties" && value && typeof value === "object") {
+      out.properties = Object.fromEntries(Object.entries(value).map(([name, child]) => [name, toJsonSchema(child)]));
+    } else if (key === "items") {
+      out.items = toJsonSchema(value);
+    } else if (key === "required" || key === "enum" || key === "description") {
+      out[key] = value;
+    } else {
+      out[key] = toJsonSchema(value);
+    }
+  }
+  return out;
+}
+function extractInteractionText(data) {
+  if (typeof data?.output_text === "string") return data.output_text.trim();
+  const steps = Array.isArray(data?.output) ? data.output : Array.isArray(data?.steps) ? data.steps : [];
+  const texts = [];
+  for (const step of steps) {
+    if (step?.type !== "model_output" && step?.type !== "text") continue;
+    const content = Array.isArray(step.content) ? step.content : [];
+    for (const item of content) if (typeof item?.text === "string") texts.push(item.text);
+  }
+  return texts.join("\n").trim();
+}
 function validTextList(v, max, len = 500) { return Array.isArray(v) && v.length <= max && v.every(x => typeof x === "string" && x.length <= len); }
 function validateDiagnosis(v, language, sourceIds) {
   if (!v || typeof v !== "object" || Array.isArray(v)) return false;
@@ -546,10 +576,14 @@ Use only the evidence supplied. Rank plausible causes, show how to distinguish t
 
     let upstream;
     const model = env.AI_MODEL || "gemini-2.5-flash";
+    const responseSchema = toJsonSchema(DIAGNOSIS_SCHEMA);
     const requestBody = JSON.stringify({
-      systemInstruction: { parts: [{ text: systemPrompt + " Output only JSON matching the supplied response schema. safety.gate_required and safety.loto_required_before_intervention must always be true. Never ask the user to perform a live measurement, open equipment, touch hazardous parts, or enter a hazardous area. Ask only for information already available or for readings collected by an authorized qualified person under site procedures. Do not treat confidence labels as statistical probabilities. A cause is confirmed only when explicit evidence verifies it; otherwise confirmed_cause must be an empty string. For every possible cause, include evidence_class and source_ids. Use source_supported_hypothesis only when a supplied excerpt supports the stated claim; otherwise use hypothesis_only and an empty source_ids array." }] },
-      contents: [{ role: "user", parts: [{ text: userPrompt }] }],
-      generationConfig: { maxOutputTokens: 1800, responseMimeType: "application/json", responseSchema: DIAGNOSIS_SCHEMA }
+      model,
+      input: userPrompt,
+      system_instruction: systemPrompt + " Output only JSON matching the supplied response schema. safety.gate_required and safety.loto_required_before_intervention must always be true. Never ask the user to perform a live measurement, open equipment, touch hazardous parts, or enter a hazardous area. Ask only for information already available or for readings collected by an authorized qualified person under site procedures. Do not treat confidence labels as statistical probabilities. A cause is confirmed only when explicit evidence verifies it; otherwise confirmed_cause must be an empty string. For every possible cause, include evidence_class and source_ids. Use source_supported_hypothesis only when a supplied excerpt supports the stated claim; otherwise use hypothesis_only and an empty source_ids array.",
+      response_format: { type: "text", mime_type: "application/json", schema: responseSchema },
+      generation_config: { max_output_tokens: 1800 },
+      store: false
     });
     const retryableStatuses = new Set([429, 500, 502, 503, 504]);
     const retryDelays = [700, 1600];
@@ -557,7 +591,7 @@ Use only the evidence supplied. Rank plausible causes, show how to distinguish t
 
     for (let attempt = 0; attempt <= retryDelays.length; attempt++) {
       try {
-        upstream = await fetch("https://generativelanguage.googleapis.com/v1beta/models/" + encodeURIComponent(model) + ":generateContent", {
+        upstream = await fetch("https://generativelanguage.googleapis.com/v1beta/interactions", {
           method: "POST",
           headers: {
             "x-goog-api-key": apiKey,
@@ -599,10 +633,9 @@ Use only the evidence supplied. Rank plausible causes, show how to distinguish t
     }
     let data;
     try { data = await upstream.json(); } catch { return json({ error: "Gemini returned an unreadable response." }, 502, origin); }
-    const rawOutput = data?.candidates?.[0]?.content?.parts?.map(part => part.text || "").join("\n").trim();
+    const rawOutput = extractInteractionText(data);
     if (typeof rawOutput !== "string" || !rawOutput) {
-      const blockReason = data?.promptFeedback?.blockReason;
-      return json({ error: blockReason ? "Gemini blocked the request." : "Gemini response did not contain an answer." }, 502, origin);
+      return json({ error: "Gemini response did not contain a text answer." }, 502, origin);
     }
     let diagnosis;
     try { diagnosis = JSON.parse(rawOutput); } catch { return json({ error: "AI response could not be validated. Please retry or use local diagnostic tools." }, 502, origin); }
