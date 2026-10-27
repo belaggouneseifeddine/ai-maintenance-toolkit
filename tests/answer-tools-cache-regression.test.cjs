@@ -45,7 +45,7 @@ const input = {
 test("cache is disabled by default at the UI layer and core cache API remains opt-in", () => {
   const html = fs.readFileSync("index.html", "utf8");
   assert.match(html, /id="aiCacheEnabled"/);
-  assert.match(html, /id="aiCacheEnabled"[^>]*checked/i, "cache opt-in control should communicate its default explicitly");
+  assert.match(html, /id="aiCacheEnabled" type="checkbox"/, "cache must be controlled by an explicit checkbox");
   const { api } = setup();
   assert.equal(typeof api.get, "function");
   assert.equal(typeof api.put, "function");
