@@ -8,7 +8,8 @@ The frontend remains usable without AI. The AI assistant works only after the Cl
 - Worker configuration: `wrangler.toml`
 - Deployment workflow: [Deploy Maintenance AI Toolkit API](https://github.com/belaggouneseifeddine/ai-maintenance-toolkit/actions/workflows/deploy-worker.yml)
 - API key creation: https://aistudio.google.com/apikey
-- Gemini OpenAI-compatible API documentation: https://ai.google.dev/gemini-api/docs/openai
+- Gemini model list: https://ai.google.dev/gemini-api/docs/models
+- Gemini GenerateContent API documentation: https://ai.google.dev/api/generate-content
 - Pricing and quotas: https://ai.google.dev/gemini-api/docs/pricing
 
 The workflow expects these GitHub Actions repository secrets:
@@ -16,7 +17,7 @@ The workflow expects these GitHub Actions repository secrets:
 - `CLOUDFLARE_ACCOUNT_ID`
 - `GEMINI_API_KEY`
 
-The workflow uploads `GEMINI_API_KEY` to the Worker as `AI_API_KEY`, then deploys `worker.js`. It does not expose the key in the frontend or print it in logs.
+The workflow uploads `GEMINI_API_KEY` to the Worker as `AI_API_KEY`, then deploys `worker.js`. It does not expose the key in the frontend or print it in logs. The Worker defaults to `gemini-3.8-flash`; `AI_MODEL` can override this with a model available to the configured API key. The default is based on Google's current model documentation and must still be verified with a real provider request after deployment.
 
 ## After deployment
 
