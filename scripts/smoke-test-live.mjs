@@ -135,6 +135,9 @@ if (process.env.RUN_LIVE_AI_GENERATION === "1") {
       diagnosis.safety?.loto_required_before_intervention !== true ||
       diagnosis.session_summary?.confirmed_cause !== "" ||
       !Array.isArray(diagnosis.possible_causes) ||
+      !Array.isArray(diagnosis.inspection_steps) ||
+      !Array.isArray(diagnosis.sources) ||
+      diagnosis.sources.length < 1 ||
       !Array.isArray(body.citations) ||
       !Number.isInteger(body.retrieval.matchedChunks) ||
       body.retrieval.matchedChunks < 1) {
@@ -142,9 +145,14 @@ if (process.env.RUN_LIVE_AI_GENERATION === "1") {
   }
   const citationIds = new Set(body.citations.map(citation => citation?.id).filter(id => typeof id === "string"));
   if (body.citations.length < 1 ||
-      !(diagnosis.sources || []).every(id => citationIds.has(id)) ||
-      !diagnosis.possible_causes.every(cause => Array.isArray(cause.source_ids) && cause.source_ids.every(id => citationIds.has(id))) ||
-      !(diagnosis.inspection_steps || []).every(step => step.kind !== "intervention" || step.requires_loto === true)) {
+      !diagnosis.sources.every(id => citationIds.has(id)) ||
+      !body.citations.every(citation => typeof citation?.source === "string" && citation.source.length > 0) ||
+      !diagnosis.possible_causes.every(cause =>
+        Array.isArray(cause.source_ids) &&
+        cause.source_ids.every(id => citationIds.has(id)) &&
+        (cause.evidence_class !== "source_supported_hypothesis" || cause.source_ids.length > 0) &&
+        (cause.evidence_class !== "hypothesis_only" || cause.source_ids.length === 0)) ||
+      !diagnosis.inspection_steps.every(step => step.kind !== "intervention" || step.requires_loto === true)) {
     throw new Error("Live AI response failed citation traceability or intervention LOTO checks.");
   }
   console.log(JSON.stringify({
