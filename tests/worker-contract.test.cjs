@@ -36,7 +36,7 @@ const context = {
   }
 };
 const executable = source.replace("export default {", "const workerHandler = {") +
-  "\nglobalThis.__validateDiagnosis = validateDiagnosis; globalThis.__diagnosisSchema = DIAGNOSIS_SCHEMA; globalThis.__worker = workerHandler; globalThis.__retrievalTerms = retrievalTerms; globalThis.__applyEvidenceTraceability = applyEvidenceTraceability; globalThis.__buildInsufficientEvidenceDiagnosis = buildInsufficientEvidenceDiagnosis; globalThis.__rankLegacy = rankKnowledgeChunks; globalThis.__rankBM25 = rankKnowledgeChunksBM25; globalThis.__resetKnowledgeCache = () => { knowledgeCache = { expiresAt: 0, documents: null }; };";
+  "\nglobalThis.__validateDiagnosis = validateDiagnosis; globalThis.__diagnosisSchema = DIAGNOSIS_SCHEMA; globalThis.__worker = workerHandler; globalThis.__retrievalTerms = retrievalTerms; globalThis.__applyEvidenceTraceability = applyEvidenceTraceability; globalThis.__buildInsufficientEvidenceDiagnosis = buildInsufficientEvidenceDiagnosis; globalThis.__rankLegacy = rankKnowledgeChunks; globalThis.__rankBM25 = rankKnowledgeChunksBM25; globalThis.__resetKnowledgeCache = () => { knowledgeCache = { expiresAt: 0, documents: null }; }; globalThis.__curatedDiagnosticFlows = CURATED_DIAGNOSTIC_FLOWS;";
 new vm.Script(executable, { filename: "worker.js" }).runInNewContext(context);
 
 function validDiagnosis() {
@@ -576,4 +576,19 @@ test("curated diagnostic flow rejects evidence IDs from another flow", async () 
   assert.equal(response.status, 400);
   assert.equal((await response.json()).code, "unknown_diagnostic_evidence");
   assert.deepEqual({ upstreamCalls, knowledgeCalls }, before);
+});
+
+
+test("server-owned curated diagnostic allowlists match the local engine contract", () => {
+  const engine = require("../diagnostic-session.js");
+  for (const flowId of engine.availableFlows) {
+    const local = engine.getFlowContract(flowId);
+    const server = context.__curatedDiagnosticFlows[flowId];
+    assert.ok(server, "server flow missing for " + flowId);
+    assert.deepEqual(Object.keys(server.hypotheses).sort(), local.hypothesisIds.slice().sort(), "hypothesis IDs drifted for " + flowId);
+    assert.deepEqual(server.evidence.slice().sort(), local.evidenceIds.slice().sort(), "evidence IDs drifted for " + flowId);
+  }
+  for (const flowId of Object.keys(context.__curatedDiagnosticFlows)) {
+    assert.ok(engine.getFlowContract(flowId), "server has unrecognized flow " + flowId);
+  }
 });
