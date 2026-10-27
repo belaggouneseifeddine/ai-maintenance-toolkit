@@ -208,9 +208,9 @@ test("retrieved prompt-injection text stays untrusted data and cannot replace sy
       method: "POST",
       headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
       body: JSON.stringify({
-        machine: "centrifugal pump",
-        symptom: "low flow",
-        observations: "existing flow readings are available",
+        machine: "مضخة طرد مركزي",
+        symptom: "ضعف تدفق الماء أثناء التشغيل",
+        observations: "تتوفر قراءات التدفق الحالية",
         language: "ar"
       })
     }), { AI_API_KEY: "test-only-placeholder" });
