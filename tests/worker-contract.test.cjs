@@ -176,11 +176,11 @@ test("retrieved prompt-injection text remains untrusted reference data", async (
       method: "POST",
       headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
       body: JSON.stringify({
-        machine: "centrifugal pump",
-        symptom: "low water flow during operation",
-        observations: "No pressure or flow readings are available",
+        machine: "مضخة طرد مركزي",
+        symptom: "ضعف تدفق الماء أثناء التشغيل",
+        observations: "لا توجد قراءة ضغط أو تدفق متاحة حتى الآن",
         measurementStatus: "none",
-        language: "en"
+        language: "ar"
       })
     }), { AI_API_KEY: "test-only-placeholder" });
     assert.equal(response.status, 200);
