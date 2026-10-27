@@ -442,7 +442,7 @@ const checks = [
   }],
   ["AI sessions are saved locally after a structured response", () => {
     assert.match(html, /MaintenanceAgentUI\.runLocal\(\)/);
-    assert.match(agentUiSource, /output\.textContent = formatResult\(result, language\)/);
+    assert.match(agentUiSource, /output\.textContent = baseOutput \+ guidedOutput/);
     assert.match(agentUiSource, /consent: \{ sendToAI: false \}/);
   }],
 
