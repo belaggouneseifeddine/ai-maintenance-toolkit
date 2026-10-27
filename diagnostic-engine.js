@@ -320,6 +320,12 @@
     const intro = doc.createElement("p");
     intro.textContent = lang==="ar" ? "هذا المسار يعمل محليًا. قد يقترح احتمالات، لكنه لا يؤكد السبب ولا يخترع دليل مصنع." : lang==="fr" ? "Ce parcours fonctionne localement. Il propose des possibilités sans confirmer la cause ni inventer une preuve fabricant." : "This path runs locally. It can suggest possibilities, but does not confirm root cause or invent manufacturer evidence.";
     card.appendChild(intro);
+    if (result.reasoningNote) {
+      const note = doc.createElement("p");
+      note.className = "hint";
+      note.textContent = result.reasoningNote;
+      card.appendChild(note);
+    }
     if (!result.hypotheses.length) {
       const empty = doc.createElement("p");
       empty.textContent = lang==="ar" ? "لا توجد فرضيات مناسبة لهذا الزوج من المعدة والعَرَض. أضف تفاصيل أو اختر مرجعًا مطابقًا، ثم صعّد إذا بقي الدليل غير كافٍ." : lang==="fr" ? "Aucune hypothèse adaptée à cette combinaison. Ajoutez des détails ou une référence appropriée; escaladez si les preuves restent insuffisantes." : "No suitable hypothesis for this equipment/symptom pair. Add details or a matching reference; escalate if evidence remains insufficient.";
@@ -329,7 +335,8 @@
       const block = doc.createElement("article");
       block.className = "record";
       const heading = doc.createElement("h4");
-      heading.textContent = hypothesis.label + " — " + (lang==="ar" ? "فرضية فقط" : lang==="fr" ? "hypothèse uniquement" : "hypothesis only");
+      const estimate = Number.isFinite(hypothesis.bayesianEstimate) ? " · " + Math.round(hypothesis.bayesianEstimate * 100) + "% relative estimate" : "";
+      heading.textContent = hypothesis.label + " — " + (lang==="ar" ? "فرضية فقط" : lang==="fr" ? "hypothèse uniquement" : "hypothesis only") + estimate;
       block.appendChild(heading);
       const why = doc.createElement("p"); why.textContent = (lang==="ar" ? "لماذا: " : lang==="fr" ? "Pourquoi : " : "Why: ") + hypothesis.why; block.appendChild(why);
       const evidence = doc.createElement("p");
@@ -401,7 +408,11 @@
           model: doc.getElementById("model")?.value || "",
           manualRef: doc.getElementById("manualRef")?.value || ""
         };
-        renderLocalReasoning(input, analyse(input));
+        const localResult = analyse(input);
+        const rankedResult = root.MaintenanceBayesianEngine
+          ? root.MaintenanceBayesianEngine.enrich(input, localResult)
+          : localResult;
+        renderLocalReasoning(input, rankedResult);
       });
     });
   }

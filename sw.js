@@ -1,9 +1,10 @@
-const CACHE_NAME = "maintenance-ai-toolkit-v47";
+const CACHE_NAME = "maintenance-ai-toolkit-v48";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./diagnostic-flows.js",
   "./normalization.js",
+  "./bayesian-engine.js",
   "./diagnostic-engine.js",
   "./engineering-core.js",
   "./agent-core.js",
