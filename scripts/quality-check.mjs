@@ -425,8 +425,9 @@ const checks = [
   }],
 
   ["AI responses use a structured schema and server-side validation", () => {
-    assert.match(worker, /responseMimeType: "application\/json"/);
-    assert.match(worker, /responseSchema: DIAGNOSIS_SCHEMA/);
+    assert.match(worker, /response_format: \{ type: "text", mime_type: "application\/json", schema: responseSchema \}/);
+    assert.match(worker, /function toJsonSchema\(/);
+    assert.match(worker, /const responseSchema = toJsonSchema\(DIAGNOSIS_SCHEMA\)/);
     assert.match(worker, /function validateDiagnosis\(/);
     assert.match(worker, /v\.safety\.gate_required !== true/);
     assert.match(worker, /diagnosis\.inspection_steps = diagnosis\.inspection_steps\.map/);
