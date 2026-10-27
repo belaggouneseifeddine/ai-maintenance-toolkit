@@ -126,6 +126,9 @@
       const notes = [];
       if (code && code.value.trim()) notes.push((language === "en" ? "Recorded alarm code: " : language === "fr" ? "Code d’alarme enregistré : " : "رمز الإنذار المسجل: ") + code.value.trim());
       if (observations && observations.value.trim()) notes.push(observations.value.trim());
+      const guided = root.MaintenanceDiagnosticSessionUI && typeof root.MaintenanceDiagnosticSessionUI.getPayload === 'function' ? root.MaintenanceDiagnosticSessionUI.getPayload() : {};
+      const evidenceIds = Array.isArray(guided.diagnosticEvidence) ? guided.diagnosticEvidence : [];
+      if (evidenceIds.length) notes.push((language === 'en' ? 'Guided diagnostic evidence IDs: ' : language === 'fr' ? 'Identifiants de preuves guidées : ' : 'معرّفات أدلة التشخيص الموجّه: ') + evidenceIds.join(', '));
       const agent = root.MaintenanceAIAgentCore.createAgentCore({
         engineeringCore: root.MaintenanceEngineeringCore,
         diagnosticEngine: root.MaintenanceDiagnosticEngine,
