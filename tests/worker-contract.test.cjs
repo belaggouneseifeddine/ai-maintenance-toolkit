@@ -157,6 +157,9 @@ test("Worker returns validated structured diagnosis and accepts missing readings
   assert.equal(response.status, 200);
   const body = await response.json();
   assert.equal(body.diagnosis.status, "preliminary_assessment");
+  assert.equal(body.model_called, true);
+  assert.ok(body.retrieval.matchedChunks > 0);
+  assert.ok(Array.isArray(body.citations));
   assert.equal(body.diagnosis.safety.gate_required, true);
   assert.equal(body.diagnosis.safety.loto_required_before_intervention, true);
   assert.match(body.answer, /بوابة السلامة/);
