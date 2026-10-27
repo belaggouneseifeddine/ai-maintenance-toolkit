@@ -8,6 +8,9 @@ let upstreamPayload = null;
 let upstreamCalls = 0;
 let knowledgeCalls = 0;
 let mockIntervention = false;
+let mockUpstreamMode = "success";
+let mockUpstreamStatuses = [];
+let mockNetworkFailure = false;
 let mockKnowledge = "# مضخة طرد مركزي — ضعف التدفق\\n\\nتتضمن هذه الملاحظة الفنية مراجعة القراءات المتاحة ومقارنة الضغط والتدفق بخط الأساس ودليل المصنع. لا تستخدمها كقيمة ضبط ولا كبديل لإجراءات الموقع.";
 const context = {
   Request, Response, URL, AbortSignal, TextEncoder, setTimeout, clearTimeout, console,
@@ -17,6 +20,10 @@ const context = {
     if (target.includes("generativelanguage.googleapis.com")) {
       upstreamCalls++;
       upstreamPayload = JSON.parse(options.body);
+      if (mockNetworkFailure) throw new Error("simulated upstream network failure");
+      if (mockUpstreamStatuses.length) return new Response("simulated provider failure", { status: mockUpstreamStatuses.shift() });
+      if (mockUpstreamMode === "malformed-json") return new Response("{not-json", { status: 200 });
+      if (mockUpstreamMode === "empty-output") return new Response(JSON.stringify({ output: [] }), { status: 200 });
       const diagnosis = validDiagnosis();
       if (mockIntervention) diagnosis.inspection_steps[0].kind = "intervention";
       diagnosis.session_summary.equipment = "مضخة طرد مركزي";
@@ -442,4 +449,36 @@ test("JSON content type is required before diagnosis processing", async () => {
   }), { AI_API_KEY: "test-only-placeholder" });
   assert.equal(response.status, 415);
   assert.deepEqual({ upstreamCalls, knowledgeCalls }, before);
+});
+
+test("malformed JSON request is rejected before retrieval or Gemini", async () => {
+  const before = { upstreamCalls, knowledgeCalls };
+  const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", { method: "POST", headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" }, body: "{bad-json" }), { AI_API_KEY: "test-only-placeholder" });
+  assert.equal(response.status, 400);
+  assert.deepEqual({ upstreamCalls, knowledgeCalls }, before);
+});
+
+test("Gemini 429 and 503 exhaust bounded retries and return a retryable provider error", async () => {
+  const previous = mockUpstreamStatuses; mockUpstreamStatuses = [429, 503, 503];
+  try {
+    const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", { method: "POST", headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" }, body: JSON.stringify({ machine: "centrifugal pump", symptom: "low flow during operation", observations: "existing alarm history and baseline are available", measurementStatus: "available", language: "ar" }) }), { AI_API_KEY: "test-only-placeholder" });
+    assert.equal(response.status, 502); const body = await response.json(); assert.equal(body.provider_status, 503); assert.equal(body.retryable, true); assert.equal(mockUpstreamStatuses.length, 0);
+  } finally { mockUpstreamStatuses = previous; }
+});
+
+test("Gemini network failure returns bounded retryable error without leaking secrets", async () => {
+  mockNetworkFailure = true;
+  try {
+    const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", { method: "POST", headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" }, body: JSON.stringify({ machine: "centrifugal pump", symptom: "low flow during operation", observations: "existing alarm history and baseline are available", measurementStatus: "available", language: "ar" }) }), { AI_API_KEY: "test-only-placeholder" });
+    assert.equal(response.status, 502); const body = await response.json(); assert.equal(body.retryable, true); assert.doesNotMatch(JSON.stringify(body), /test-only-placeholder|simulated upstream/);
+  } finally { mockNetworkFailure = false; }
+});
+
+test("malformed and empty Gemini responses are rejected as upstream errors", async () => {
+  const previous = mockUpstreamMode;
+  try { for (const mode of ["malformed-json", "empty-output"]) {
+    mockUpstreamMode = mode;
+    const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", { method: "POST", headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" }, body: JSON.stringify({ machine: "centrifugal pump", symptom: "low flow during operation", observations: "existing alarm history and baseline are available", measurementStatus: "available", language: "ar" }) }), { AI_API_KEY: "test-only-placeholder" });
+    assert.equal(response.status, 502);
+  } } finally { mockUpstreamMode = previous; }
 });
