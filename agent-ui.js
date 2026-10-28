@@ -87,6 +87,26 @@
     return lines.join("\n");
   }
 
+  function formatGuidedEvidence(guided, language) {
+    if (!guided || !guided.diagnosticFlowId || !Array.isArray(guided.diagnosticHypotheses) || !guided.diagnosticHypotheses.length) return "";
+    const labels = {
+      ar: {title:"\n\nترتيب الفرضيات من الأدلة المسجلة:",support:"أدلة مؤيدة",against:"أدلة معارضة",none:"لا توجد أدلة تمييزية مسجلة.",checks:"فحوص آمنة للمراجعة",status:{supported_by_current_evidence:"تدعمها الأدلة الحالية",weakened_by_current_evidence:"تضعفها الأدلة الحالية",mixed_evidence:"أدلة مختلطة",unresolved:"غير محسومة"}},
+      en: {title:"\n\nGuided hypotheses ranked against recorded evidence:",support:"Supporting evidence",against:"Contradicting evidence",none:"No discriminating evidence recorded.",checks:"Safe checks to review",status:{supported_by_current_evidence:"supported by current evidence",weakened_by_current_evidence:"weakened by current evidence",mixed_evidence:"mixed evidence",unresolved:"unresolved"}},
+      fr: {title:"\n\nHypothèses guidées classées selon les éléments enregistrés :",support:"Éléments favorables",against:"Éléments contradictoires",none:"Aucun élément discriminant enregistré.",checks:"Contrôles sûrs à examiner",status:{supported_by_current_evidence:"étayée par les éléments actuels",weakened_by_current_evidence:"affaiblie par les éléments actuels",mixed_evidence:"éléments mixtes",unresolved:"non résolue"}}
+    }[language] || null;
+    const t = labels || {title:"",support:"",against:"",none:"",checks:"",status:{}};
+    const lines = [t.title, language==="ar"?"هذه نتائج جلسة محلية مستقلة؛ لا تؤكد سبب العطل.":language==="fr"?"Cette analyse locale reste provisoire et ne confirme pas la cause.":"This separate local ranking is provisional and does not confirm the cause."];
+    guided.diagnosticHypotheses.slice(0,3).forEach((h,i)=>{
+      lines.push("",(i+1)+". "+(h.label||h.id)+" — "+(t.status[h.status]||h.status||"unresolved"));
+      if(h.supportingEvidence&&h.supportingEvidence.length) lines.push("   "+t.support+": "+h.supportingEvidence.join(", "));
+      if(h.contradictingEvidence&&h.contradictingEvidence.length) lines.push("   "+t.against+": "+h.contradictingEvidence.join(", "));
+      if((!h.supportingEvidence||!h.supportingEvidence.length)&&(!h.contradictingEvidence||!h.contradictingEvidence.length)) lines.push("   "+t.none);
+      if(Array.isArray(h.checks)&&h.checks.length) lines.push("   "+t.checks+": "+h.checks.join("; "));
+    });
+    lines.push("",language==="ar"?"الأدلة هنا إجابات المستخدم داخل مسار إرشادي، وليست مراجع مصنع موثقة.":language==="fr"?"Ces éléments sont des réponses utilisateur dans un parcours guidé, pas des références constructeur vérifiées.":"These are user answers in a guided flow, not verified manufacturer references.");
+    return lines.join("\n");
+  }
+
   async function runLocal() {
     const output = root.document && root.document.getElementById("aiResult");
     const button = root.document && root.document.getElementById("runLocalAgent");
@@ -126,6 +146,9 @@
       const notes = [];
       if (code && code.value.trim()) notes.push((language === "en" ? "Recorded alarm code: " : language === "fr" ? "Code d’alarme enregistré : " : "رمز الإنذار المسجل: ") + code.value.trim());
       if (observations && observations.value.trim()) notes.push(observations.value.trim());
+      const guided = root.MaintenanceDiagnosticSessionUI && typeof root.MaintenanceDiagnosticSessionUI.getPayload === 'function' ? root.MaintenanceDiagnosticSessionUI.getPayload() : {};
+      const evidenceIds = Array.isArray(guided.diagnosticEvidence) ? guided.diagnosticEvidence : [];
+      if (evidenceIds.length) notes.push((language === 'en' ? 'Guided diagnostic evidence IDs: ' : language === 'fr' ? 'Identifiants de preuves guidées : ' : 'معرّفات أدلة التشخيص الموجّه: ') + evidenceIds.join(', '));
       const agent = root.MaintenanceAIAgentCore.createAgentCore({
         engineeringCore: root.MaintenanceEngineeringCore,
         diagnosticEngine: root.MaintenanceDiagnosticEngine,
@@ -140,7 +163,9 @@
         observations: notes,
         consent: { sendToAI: false }
       });
-      output.textContent = formatResult(result, language);
+      const baseOutput = formatResult(result, language);
+      const guidedOutput = result && result.route !== "safety_review" && result.status !== "escalation_required" ? formatGuidedEvidence(guided, language) : "";
+      output.textContent = baseOutput + guidedOutput;
     } catch (_) {
       output.textContent = formatResult(null, language);
     } finally {
@@ -153,7 +178,7 @@
     if (button) button.addEventListener("click", runLocal);
   }
 
-  const api = Object.freeze({ formatResult, runLocal, init });
+  const api = Object.freeze({ formatResult, formatGuidedEvidence, runLocal, init });
   root.MaintenanceAgentUI = api;
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   if (root.document) init();

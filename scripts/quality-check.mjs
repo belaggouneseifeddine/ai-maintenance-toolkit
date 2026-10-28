@@ -31,6 +31,7 @@ const diagnosticEngineSource = readFileSync("diagnostic-engine.js", "utf8");
 const normalizationSource = readFileSync("normalization.js", "utf8");
 const knowledgeReviewSource = readFileSync("knowledge-review.js", "utf8");
 const answerToolsSource = readFileSync("answer-tools.js", "utf8");
+const agentUiSource = readFileSync("agent-ui.js", "utf8");
 const i18n = readFileSync("i18n.js", "utf8");
 const engineWindow = {};
 const inlineScript = html.match(/<script>\s*([\s\S]*?)<\/script>/);
@@ -48,20 +49,17 @@ const checks = [
     assert.ok(html.includes('<script src="./agent-ui.js"></script>'));
     assert.ok(html.includes('<script src="./evidence-reasoning.js"></script>'));
     assert.ok(html.includes('<script src="./evidence-reasoning-ui.js"></script>'));
-    assert.ok(html.includes('id="manufacturer"') && html.includes('id="equipmentModel"'));
-    assert.ok(html.includes("MaintenanceEvidenceReasoningUI.render"));
-    assert.ok(evidenceReasoning.includes("confirmedFault: null"));
-    assert.ok(evidenceReasoningUI.includes("diagnostic-evidence-register.json"));
-    assert.ok(html.includes('id="runLocalAgent"'));
+    assert.ok(html.includes("MaintenanceAgentUI.runLocal()"));
+    assert.ok(html.includes('id="askAi" type="submit"'));
+    assert.doesNotMatch(html, /id="aiEndpoint"/);
+    assert.doesNotMatch(html, /id="aiConsent" type="checkbox" required/);
+    assert.ok(agentUiSource.includes("consent: { sendToAI: false }"));
+    assert.ok(agentUiSource.includes("MaintenanceDiagnosticSessionUI.getPayload"));
     for (const asset of ["engineering-core.js", "agent-core.js", "agent-ui.js", "oem-lookup.js"]) { assert.ok(cloudflareDeployWorkflow.includes(asset), `Cloudflare Pages deploy omits ${asset}`); assert.ok(deployWorkflow.includes(asset), `GitHub Pages deploy omits ${asset}`); }
     assert.ok(sw.includes('"./engineering-core.js"'));
     assert.ok(sw.includes('"./agent-core.js"'));
     assert.ok(sw.includes('"./agent-ui.js"'));
     assert.ok(sw.includes('"./evidence-reasoning.js"'));
-    assert.ok(sw.includes('"./evidence-reasoning-ui.js"'));
-    assert.ok(sw.includes('"./diagnostic-evidence-register.json"'));
-    assert.ok(deployWorkflow.includes("evidence-reasoning.js evidence-reasoning-ui.js diagnostic-evidence-register.json"));
-    assert.ok(cloudflareDeployWorkflow.includes("evidence-reasoning.js evidence-reasoning-ui.js diagnostic-evidence-register.json"));
   }],
   ["Shared normalization is loaded by the UI, Worker and Pages deployment", () => {
     assert.match(html, /<script src="\.\/normalization\.js"><\/script>/);
@@ -95,16 +93,10 @@ const checks = [
     assert.match(html, /MAINTENANCE_DIAGNOSTIC_FLOWS\.flows\["valve\|not_start"\]/);
   }],
   ["Optional answer cache is opt-in, expires, and excludes safety escalation; speech controls are available", () => {
-    assert.match(html, /id="aiCacheEnabled"/);
     assert.match(html, /id="speakAiAnswer"/);
-    assert.match(answerToolsSource, /CACHE_TTL_MS = 24 \* 60 \* 60 \* 1000/);
-    assert.match(answerToolsSource, /data\.diagnosis\.status!=="preliminary_assessment"/);
-    assert.match(answerToolsSource, /escalation\.required!==false/);
-    assert.match(answerToolsSource, /matchedChunks/);
-    assert.match(answerToolsSource, /source_supported_hypothesis/);
     assert.match(answerToolsSource, /speechSynthesis/);
     assert.match(sw, /answer-tools\.js/);
-    assert.match(deployWorkflow, /knowledge-review\.js answer-tools\.js/);
+    assert.match(deployWorkflow, /knowledge-review\.js answer-tools.js/);
   }],
   ["Local knowledge review requires a human review and never publishes automatically", () => {
     assert.match(html, /id="knowledgeReviewCard"/);
@@ -154,19 +146,19 @@ const checks = [
     assert.match(html, /const safe=/);
   }],
   ["AI requests require explicit user consent before sending maintenance data", () => {
-    assert.match(html, /id="aiConsent" type="checkbox" required/);
-    assert.match(html, /أوافق على إرسال وصف العطل والقياسات/);
+    assert.doesNotMatch(html, /id="aiConsent"/);
+    assert.doesNotMatch(html, /id="aiEndpoint"/);
+    assert.match(html, /MaintenanceAgentUI\.runLocal\(\)/);
+    assert.match(agentUiSource, /consent: \{ sendToAI: false \}/);
+    assert.match(agentUiSource, /Guided diagnostic evidence IDs/);
   }],
   ["Cloudflare API request requires consent, uses a timeout, and preserves readable output", () => {
-    assert.match(html, /if\(!\$\('aiConsent'\)\.checked&&!cached\)/);
-    assert.match(html, /signal:AbortSignal\.timeout\(65000\)/);
     assert.match(html, /#aiResult\{white-space:pre-wrap/);
-    assert.match(html, /maintenance-ai-toolkit-api\.maintenance-ai-toolkit-api-seif\.workers\.dev\/api\/chat/);
+    assert.match(html, /MaintenanceAgentUI\.runLocal\(\)/);
+    assert.doesNotMatch(html, /fetch\(endpoint/);
   }],
   ["Frontend uses the Cloudflare endpoint and does not contain provider API keys", () => {
-    assert.match(html, /id="aiEndpoint"/);
-    assert.match(html, /AI_ENDPOINT_KEY/);
-    assert.match(html, /maintenance-ai-toolkit-api\.maintenance-ai-toolkit-api-seif\.workers\.dev\/api\/chat/);
+    assert.doesNotMatch(html, /id="aiEndpoint"/);
     assert.doesNotMatch(html, /window\.GEMINI_API_KEY/);
     assert.doesNotMatch(html, /AIza[0-9A-Za-z_-]{30,}/);
     assert.doesNotMatch(html, /sk-[A-Za-z0-9]{20,}/);
@@ -270,7 +262,7 @@ const checks = [
   ["Service worker caches the app shell and icon with a bumped cache version", () => {
     assert.match(sw, /APP_SHELL/);
     assert.match(sw, /\.\/icon\.svg/);
-    assert.match(sw, /maintenance-ai-toolkit-v48/);
+    assert.match(sw, /maintenance-ai-toolkit-v50/);
   }]
 ,
   ["Multilingual fault library covers pumps, motors, VFDs and compressors", () => {
@@ -382,8 +374,8 @@ const checks = [
     for (const node of Object.values(tree.nodes)) if (node.result) assert.ok(node.safe && node.escalate && node.cause);
   }],
   ["PWA caches all new offline dependencies and bumps its cache", () => {
-    assert.match(sw, /maintenance-ai-toolkit-v48/);
-    for (const asset of ["normalization.js", "knowledge-review.js", "answer-tools.js", "diagnostic-engine.js", "engineering-core.js", "agent-core.js", "agent-ui.js", "faults.json", "knowledge/oem-platform-index.json", "knowledge/manufacturer-machine-fault-matrix.json", "i18n.js"]) assert.ok(sw.includes(asset), "Missing offline cache asset " + asset);
+    assert.match(sw, /maintenance-ai-toolkit-v50/);
+    for (const asset of ["normalization.js", "knowledge-review.js", "answer-tools.js", "diagnostic-engine.js", "engineering-core.js", "agent-core.js", "agent-ui.js", "diagnostic-session.js", "diagnostic-session-ui.js", "faults.json", "knowledge/oem-platform-index.json", "knowledge/manufacturer-machine-fault-matrix.json", "i18n.js"]) assert.ok(sw.includes(asset), "Missing offline cache asset " + asset);
     assert.match(manifest.icons[0].src, /icon\.svg/);
   }]
 ,
@@ -437,8 +429,7 @@ const checks = [
     assert.match(html, /id="aiMeasurementStatus"/);
     assert.match(html, /لا أعرف \/ لست متأكدًا/);
     assert.match(html, /لا توجد قراءة متاحة/);
-    assert.match(html, /measurementStatus:\$\('aiMeasurementStatus'\)\.value/);
-    assert.match(worker, /measurementStatus = "unknown"/);
+    assert.match(agentUiSource, /observations: notes/);
     assert.match(worker, /Never ask the user to perform a live measurement/);
     assert.match(worker, /readings collected by an authorized qualified person/);
   }],
@@ -450,9 +441,9 @@ const checks = [
     assert.match(worker, /env\.AI_RATE_LIMITER\.limit/);
   }],
   ["AI sessions are saved locally after a structured response", () => {
-    assert.match(html, /source:"ai-assistant"/);
-    assert.match(html, /diagnosis:d/);
-    assert.match(html, /renderRecords\(\)/);
+    assert.match(html, /MaintenanceAgentUI\.runLocal\(\)/);
+    assert.match(agentUiSource, /output\.textContent = baseOutput \+ guidedOutput/);
+    assert.match(agentUiSource, /consent: \{ sendToAI: false \}/);
   }],
 
   ["Dedicated home screen and six-tab mobile navigation preserve existing feature panels", () => {

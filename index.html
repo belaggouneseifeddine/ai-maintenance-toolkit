@@ -113,20 +113,17 @@ footer{line-height:1.8}
 </form><div id="diagnosisResult" aria-live="polite"></div></div>
 </section>
 <section id="ai" class="panel">
-<div class="card"><h2>مساعد الصيانة بالذكاء الاصطناعي — Gemini</h2>
-<p class="hint">يتصل المساعد بخادم خلفي آمن؛ لا تضع مفتاح Gemini في هذا التطبيق أو في المستودع العام. يجب نشر الخادم وضبط مفتاحه كمتغير بيئة قبل تفعيل التحليل.</p>
-<label for="aiEndpoint">رابط خادم الذكاء الاصطناعي (API endpoint)</label><input id="aiEndpoint" type="url" inputmode="url" maxlength="300" value="https://maintenance-ai-toolkit-api.maintenance-ai-toolkit-api-seif.workers.dev/api/chat" placeholder="https://YOUR-WORKER.workers.dev/api/chat" autocomplete="url"><div class="actions"><button class="btn secondary" type="button" id="saveAiEndpoint">حفظ الرابط على هذا الجهاز</button></div><p class="hint">يُحفظ رابط الخادم على هذا الجهاز فقط. لا تدخل أي مفتاح API في هذا الحقل.</p>
-<p class="hint">النموذج المستخدم: Gemini 2.5 Flash.</p>
+<div class="card"><h2>مساعد الصيانة — محرك التشخيص المحلي</h2>
+<p class="hint">يعتمد التحليل على محرك الاستدلال المحلي وقاعدة الأعطال المرفقة. لا تُرسل بيانات العطل إلى خادم خارجي في هذا المسار.</p>
 <form id="aiForm">
 <label for="aiMachine">نوع المعدة / الموديل إن عُرف</label><input id="aiMachine" required maxlength="120" placeholder="مثال: مضخة طرد مركزي، موديل غير معروف">
 <label for="aiSymptom">العطل أو العرض الرئيسي</label><input id="aiSymptom" required maxlength="240" placeholder="مثال: ضغط الخروج منخفض">
 <label for="aiCode">رمز الإنذار (اختياري)</label><input id="aiCode" maxlength="300" placeholder="الرمز كما يظهر على الشاشة">
 <label for="aiObservations">الملاحظات والقياسات مع الوحدات (اختياري)</label><textarea id="aiObservations" maxlength="3000" placeholder="اذكر ما لاحظته فقط، ولا تضع بيانات سرية أو معلومات تخص المصنع الحساسة."></textarea>
+<div id="dynamicSessionPanel" class="result" aria-live="polite"><h3>جلسة تشخيص موجّهة</h3><p id="dynamicSessionStatus" class="hint">أدخل نوع المعدة والعَرَض لبدء جلسة محلية إن كان لهما مسار معتمد.</p><p id="dynamicQuestionText"></p><select id="dynamicAnswer" aria-label="إجابة سؤال التشخيص الموجّه" hidden></select><div class="actions"><button id="recordDynamicAnswer" class="btn secondary" type="button" hidden>تسجيل الإجابة التالية</button></div><ol id="dynamicHypotheses"></ol><p class="hint">تُستخدم الأدلة المسجلة محليًا لتوجيه التحليل. الفرضيات أولية وليست سببًا مؤكدًا.</p></div>
 <label for="aiMeasurementStatus">حالة القياسات المتاحة</label><select id="aiMeasurementStatus"><option value="unknown">لا أعرف / لست متأكدًا</option><option value="none">لا توجد قراءة متاحة</option><option value="available">توجد قراءات مسجلة بالفعل</option></select><p class="hint" id="aiMeasurementHint">لا تنفّذ قياسًا حيًا أو تلمس معدات خطرة لمجرد الإجابة. استخدم فقط المعلومات والقراءات المتاحة بالفعل.</p>
-<label class="check" for="aiConsent"><input id="aiConsent" type="checkbox" required><span>أوافق على إرسال وصف العطل والقياسات إلى خادم الذكاء الاصطناعي المُعدّ للتجربة. لن أرسل بيانات شخصية أو معلومات سرية عن المصنع.</span></label>
-<label class="check" for="aiCacheEnabled"><input id="aiCacheEnabled" type="checkbox"><span id="aiCacheLabel">تفعيل التخزين المحلي الاختياري للإجابات المتطابقة لمدة 24 ساعة. لا تُخزّن حالات التصعيد أو تحذيرات السلامة.</span></label>
 <div class="notice">لا تستخدم اقتراحات الذكاء الاصطناعي وحدها لاتخاذ قرارات تشغيل أو سلامة. طبّق LOTO وإجراءات موقعك، ولا تتجاوز الحمايات أو تفتح الأنظمة المضغوطة.</div>
-<div class="actions"><button class="btn" id="askAi" type="submit">تحليل العطل عبر الخادم</button><button class="btn secondary" id="runLocalAgent" type="button">تشخيص محلي دون إرسال البيانات</button></div>
+<div class="actions"><button class="btn" id="askAi" type="submit">تشخيص بمحركنا المحلي</button></div>
 </form>
 <div id="aiResult" class="result" aria-live="polite" hidden></div>
 <div id="aiAnswerTools" class="actions no-print" hidden><button type="button" class="btn secondary" id="speakAiAnswer">قراءة الإجابة صوتيًا</button><button type="button" class="btn secondary" id="stopAiSpeech">إيقاف القراءة</button><button type="button" class="btn secondary" id="clearAiCache">مسح الإجابات المحفوظة</button></div>
@@ -370,64 +367,15 @@ consumption:['قارن استهلاك الطاقة أو المادة بمعدل 
 other:['صف ما تغير ومتى بدأ العطل، وسجّل رمز الإنذار والقراءات مع الوحدات ومصدرها؛ لا تستنتج السبب من وصف عام.']
 };
 const general=['وثّق الحالة كما هي، ولا تفترض سببًا واحدًا قبل جمع الأدلة.','قارن القياسات بدليل المصنع وحدود التشغيل المعتمدة للمعدة نفسها.','إذا كانت المعلومات غير كافية أو بقي الخطر قائمًا، أوقف التشخيص وصعّد إلى مختص مؤهل.'];
-const AI_ENDPOINT_KEY='maintenance-ai-toolkit-endpoint-v1';
-const endpointInput=$('aiEndpoint');
-try{const savedEndpoint=localStorage.getItem(AI_ENDPOINT_KEY)||'';const correctEndpoint='https://maintenance-ai-toolkit-api.maintenance-ai-toolkit-api-seif.workers.dev/api/chat';if(savedEndpoint.includes('maintenance-ai-toolkit-api-seif.workers.dev')&&!savedEndpoint.includes('maintenance-ai-toolkit-api.maintenance-ai-toolkit-api-seif.workers.dev')){localStorage.setItem(AI_ENDPOINT_KEY,correctEndpoint);endpointInput.value=correctEndpoint;}else{endpointInput.value=savedEndpoint||correctEndpoint;}}catch{endpointInput.value='https://maintenance-ai-toolkit-api.maintenance-ai-toolkit-api-seif.workers.dev/api/chat';}
-endpointInput.addEventListener('change',()=>{try{localStorage.setItem(AI_ENDPOINT_KEY,endpointInput.value.trim());}catch{}});
-$('saveAiEndpoint').addEventListener('click',()=>{const value=String(endpointInput.value||'').trim().replace(/\/+$/,'');try{if(value){const parsed=new URL(value);if(parsed.protocol!=='https:'||!parsed.pathname.endsWith('/api/chat'))throw new Error();localStorage.setItem(AI_ENDPOINT_KEY,value);endpointInput.value=value;$('aiResult').hidden=false;$('aiResult').textContent='تم حفظ رابط الخادم على هذا الجهاز. لم يتم اختبار الاتصال بعد.';}else{localStorage.removeItem(AI_ENDPOINT_KEY);$('aiResult').hidden=false;$('aiResult').textContent='تم مسح رابط الخادم المحفوظ.';}}catch{$('aiResult').hidden=false;$('aiResult').textContent='رابط غير صالح. أدخل رابط HTTPS ينتهي بـ /api/chat.';}});
+
 $('aiForm').addEventListener('submit',async e=>{
-e.preventDefault();
-const box=$('aiResult');
-if(window.MaintenanceAnswerTools)window.MaintenanceAnswerTools.stopSpeech();
-box.hidden=false;box.textContent='';
-const lang=window.MaintenanceI18n?window.MaintenanceI18n.getLanguage():'ar';
-const payload={machine:$('aiMachine').value.trim(),symptom:$('aiSymptom').value.trim(),code:$('aiCode').value.trim(),observations:$('aiObservations').value.trim(),measurementStatus:$('aiMeasurementStatus').value,language:['ar','fr','en'].includes(lang)?lang:'ar'};
-const cacheEnabled=$('aiCacheEnabled')?.checked===true;
-const cached=cacheEnabled&&window.MaintenanceAnswerTools?window.MaintenanceAnswerTools.get(payload):null;
-if(!$('aiConsent').checked&&!cached){box.textContent='وافق على إرسال وصف العطل إلى الخادم قبل المتابعة.';return;}
-const endpoint=String(endpointInput.value||'').trim().replace(/\/+$/,'');
-if(!cached&&!endpoint){box.textContent='لم يتم إعداد رابط الخادم بعد. انشر Cloudflare Worker ثم أدخل رابطه المنتهي بـ /api/chat. يبقى التشخيص المحلي متاحًا.';return;}
-if(!cached){
- let endpointUrl;
- try{endpointUrl=new URL(endpoint);if(endpointUrl.protocol!=='https:'||!endpointUrl.pathname.endsWith('/api/chat'))throw new Error();}catch{box.textContent='رابط الخادم غير صالح. أدخل رابط HTTPS كاملًا ينتهي بـ /api/chat.';return;}
- try{localStorage.setItem(AI_ENDPOINT_KEY,endpoint);}catch{}
-}
-const button=$('askAi');button.disabled=true;button.textContent='جارٍ تحليل العطل…';
-box.textContent=cached?'جارٍ تحميل الإجابة المحفوظة…':'جارٍ الاتصال بخادم الذكاء الاصطناعي…';
-try{
-let data={},fromCache=false;
- if(cached){data=cached;fromCache=true;}
- else{
-  const response=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},signal:AbortSignal.timeout(65000),body:JSON.stringify(payload)});
-  try{data=await response.json()}catch{data={};}
-  if(!response.ok){
-   const providerStatus=Number(data.provider_status||0);
-   let detail=[data.error].filter(Boolean).join(' — ')||('HTTP '+response.status);
-   if(response.status===404) detail='لم يتم العثور على مسار API. تأكد أن الرابط ينتهي بـ /api/chat وأن آخر نسخة من Worker منشورة.';
-   else if(response.status===403||/Origin not allowed/i.test(detail)) detail='رفض الخادم مصدر الطلب. افتح التطبيق المنشور على GitHub Pages وأرسل الطلب من داخله؛ لا تفتح /api/chat مباشرة.';
-   else if(response.status===503) detail='خدمة الذكاء الاصطناعي غير مُعدّة. تحقق من وجود السر GEMINI_API_KEY (أو AI_API_KEY) داخل Cloudflare Worker ثم أعد النشر.';
-   else if(providerStatus===400||providerStatus===401||providerStatus===403) detail='رفض Gemini الطلب (HTTP '+providerStatus+'). تحقق من صحة مفتاح Gemini وصلاحياته، وتفعيل Gemini API، واسم النموذج.';
-   else if(providerStatus===429||response.status===429) detail='تم بلوغ حد الطلبات أو حصة Gemini. انتظر قليلًا ثم أعد المحاولة، وتحقق من الحصة والفوترة.';
-   else if(providerStatus>=500) detail='Gemini يواجه عطلًا مؤقتًا (HTTP '+providerStatus+'). أعد المحاولة لاحقًا.';
-   else if(response.status===502&&data.provider_message) detail+=' — '+data.provider_message;
-   throw new Error(detail);
-  }
+ e.preventDefault();
+ if(window.MaintenanceAgentUI&&typeof window.MaintenanceAgentUI.runLocal==='function'){
+   window.MaintenanceAgentUI.runLocal();
+ }else{
+   const box=$('aiResult');box.hidden=false;
+   box.textContent='تعذر تشغيل محرك التشخيص المحلي. تحقق من تحميل ملفات المحرك ثم أعد المحاولة.';
  }
- if(typeof data.answer!=='string'||!data.answer.trim())throw new Error('استجابة الخادم لا تحتوي على إجابة صالحة.');
- if(!fromCache&&cacheEnabled&&window.MaintenanceAnswerTools){try{window.MaintenanceAnswerTools.put(payload,data)}catch{}}
-const lang=window.MaintenanceI18n?window.MaintenanceI18n.getLanguage():'ar';
-const suffix=lang==='fr'?'Avis préliminaire uniquement. Vérifiez le manuel du fabricant et les procédures de sécurité.':lang==='en'?'Preliminary guidance only. Verify the manufacturer manual and site safety procedures.':'تنبيه: نتيجة أولية؛ راجع دليل المصنع وإجراءات السلامة قبل أي تدخل.';
-const citationLines=Array.isArray(data.citations)&&data.citations.length?'\n\n'+(lang==='en'?'Retrieved knowledge sources:':lang==='fr'?'Sources de connaissances récupérées :':'مصادر المعرفة المسترجعة:')+'\n'+data.citations.map(c=>'['+String(c.id||'S?')+'] '+String(c.source||'')+' — '+String(c.section||'')+' (lines '+String(c.startLine||'?')+'–'+String(c.endLine||'?')+')').join('\n'):'';box.textContent=data.answer.trim()+citationLines+'\n\n'+suffix;
-if(fromCache&&window.MaintenanceAnswerTools)box.textContent+='\n\n'+window.MaintenanceAnswerTools.cacheNotice(lang);
-if(window.MaintenanceAnswerTools)window.MaintenanceAnswerTools.updateVisibility(true);
-if(data.diagnosis){
- const d=data.diagnosis;
- const record={id:newRecordId(),date:localDateString(),machine:payload.machine,fault:payload.symptom,action:data.answer.trim(),status:d.session_summary&&d.session_summary.work_status==="escalated"?"تم التصعيد":"قيد الفحص",source:"ai-assistant",code:payload.code,observations:payload.observations,measurementStatus:payload.measurementStatus,diagnosis:d,citations:Array.isArray(data.citations)?data.citations:[],createdAt:new Date().toISOString()};
- const all=getRecords();all.unshift(record);
- if(saveRecords(all)){renderRecords();box.textContent+="\n\nتم حفظ جلسة التشخيص في سجل الصيانة على هذا الجهاز.";}
-}
-}catch(err){if(window.MaintenanceAnswerTools)window.MaintenanceAnswerTools.updateVisibility(false);const message=err&&err.name==='TimeoutError'?'انتهت مهلة الاتصال بالخادم بعد 65 ثانية. تحقق من اتصال الإنترنت وحالة Gemini ثم أعد المحاولة.':err&&err.message==='Failed to fetch'?'تعذر قراءة استجابة الخادم. تحقق من الإنترنت ورابط HTTPS وCORS؛ افتح التطبيق من رابط GitHub Pages الرسمي وليس من معاينة أو ملف محلي.':(err.message||'خطأ غير معروف');box.textContent='تعذر إكمال التحليل بالذكاء الاصطناعي: '+message+'\n\nلم يُحذف أي سجل. يمكنك استخدام التشخيص المحلي مؤقتًا، ثم إعادة المحاولة بعد معالجة السبب.';}
-finally{button.disabled=false;button.textContent='تحليل العطل';}
 });
 
 const DRAFT_KEY='maintenance-ai-toolkit-draft-v1';
@@ -570,6 +518,8 @@ if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigato
 <script src="./ux-redesign.js"></script>
 <script src="./navigation-redesign.js"></script>
 <script src="./agent-ui.js"></script>
+<script src="./diagnostic-session.js"></script>
+<script src="./diagnostic-session-ui.js"></script>
 <footer class="author">
 <p>صمّمه وطوّره: <strong>Seif Eddine Belaggoune</strong> — تقني صيانة صناعية</p>
 <p><a href="./cv.html" target="_blank" rel="noopener noreferrer">📄 السيرة الذاتية (CV)</a></p>

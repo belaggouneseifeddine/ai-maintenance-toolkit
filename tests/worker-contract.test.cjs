@@ -8,6 +8,9 @@ let upstreamPayload = null;
 let upstreamCalls = 0;
 let knowledgeCalls = 0;
 let mockIntervention = false;
+let mockUpstreamMode = "success";
+let mockUpstreamStatuses = [];
+let mockNetworkFailure = false;
 let mockKnowledge = "# مضخة طرد مركزي — ضعف التدفق\\n\\nتتضمن هذه الملاحظة الفنية مراجعة القراءات المتاحة ومقارنة الضغط والتدفق بخط الأساس ودليل المصنع. لا تستخدمها كقيمة ضبط ولا كبديل لإجراءات الموقع.";
 const context = {
   Request, Response, URL, AbortSignal, TextEncoder, setTimeout, clearTimeout, console,
@@ -17,7 +20,13 @@ const context = {
     if (target.includes("generativelanguage.googleapis.com")) {
       upstreamCalls++;
       upstreamPayload = JSON.parse(options.body);
+      if (mockNetworkFailure) throw new Error("simulated upstream network failure");
+      if (mockUpstreamStatuses.length) return new Response("simulated provider failure", { status: mockUpstreamStatuses.shift() });
+      if (mockUpstreamMode === "malformed-json") return new Response("{not-json", { status: 200 });
+      if (mockUpstreamMode === "empty-output") return new Response(JSON.stringify({ output: [] }), { status: 200 });
       const diagnosis = validDiagnosis();
+      if (upstreamPayload.input.includes("Curated diagnostic engine contract: flow ID pump|low_flow")) diagnosis.possible_causes[0].id = "supply_or_suction";
+      if (upstreamPayload.input.includes("Curated diagnostic engine contract: flow ID motor|not_start")) diagnosis.possible_causes[0].id = "command_or_permissive";
       if (mockIntervention) diagnosis.inspection_steps[0].kind = "intervention";
       diagnosis.session_summary.equipment = "مضخة طرد مركزي";
       diagnosis.session_summary.symptom = "ضعف تدفق الماء أثناء التشغيل";
@@ -27,7 +36,7 @@ const context = {
   }
 };
 const executable = source.replace("export default {", "const workerHandler = {") +
-  "\nglobalThis.__validateDiagnosis = validateDiagnosis; globalThis.__diagnosisSchema = DIAGNOSIS_SCHEMA; globalThis.__worker = workerHandler; globalThis.__retrievalTerms = retrievalTerms; globalThis.__applyEvidenceTraceability = applyEvidenceTraceability; globalThis.__buildInsufficientEvidenceDiagnosis = buildInsufficientEvidenceDiagnosis; globalThis.__rankLegacy = rankKnowledgeChunks; globalThis.__rankBM25 = rankKnowledgeChunksBM25; globalThis.__resetKnowledgeCache = () => { knowledgeCache = { expiresAt: 0, documents: null }; };";
+  "\nglobalThis.__validateDiagnosis = validateDiagnosis; globalThis.__diagnosisSchema = DIAGNOSIS_SCHEMA; globalThis.__worker = workerHandler; globalThis.__retrievalTerms = retrievalTerms; globalThis.__applyEvidenceTraceability = applyEvidenceTraceability; globalThis.__buildInsufficientEvidenceDiagnosis = buildInsufficientEvidenceDiagnosis; globalThis.__rankLegacy = rankKnowledgeChunks; globalThis.__rankBM25 = rankKnowledgeChunksBM25; globalThis.__resetKnowledgeCache = () => { knowledgeCache = { expiresAt: 0, documents: null }; }; globalThis.__curatedDiagnosticFlows = CURATED_DIAGNOSTIC_FLOWS;";
 new vm.Script(executable, { filename: "worker.js" }).runInNewContext(context);
 
 function validDiagnosis() {
@@ -442,4 +451,144 @@ test("JSON content type is required before diagnosis processing", async () => {
   }), { AI_API_KEY: "test-only-placeholder" });
   assert.equal(response.status, 415);
   assert.deepEqual({ upstreamCalls, knowledgeCalls }, before);
+});
+
+test("malformed JSON request is rejected before retrieval or Gemini", async () => {
+  const before = { upstreamCalls, knowledgeCalls };
+  const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", { method: "POST", headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" }, body: "{bad-json" }), { AI_API_KEY: "test-only-placeholder" });
+  assert.equal(response.status, 400);
+  assert.deepEqual({ upstreamCalls, knowledgeCalls }, before);
+});
+
+test("Gemini 429 and 503 exhaust bounded retries and return a retryable provider error", async () => {
+  const previous = mockUpstreamStatuses; mockUpstreamStatuses = [429, 503, 503];
+  try {
+    const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", { method: "POST", headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" }, body: JSON.stringify({ machine: "centrifugal pump", symptom: "low flow during operation", observations: "existing alarm history and baseline are available", measurementStatus: "available", language: "ar" }) }), { AI_API_KEY: "test-only-placeholder" });
+    assert.equal(response.status, 502); const body = await response.json(); assert.equal(body.provider_status, 503); assert.equal(body.retryable, true); assert.equal(mockUpstreamStatuses.length, 0);
+  } finally { mockUpstreamStatuses = previous; }
+});
+
+test("Gemini network failure returns bounded retryable error without leaking secrets", async () => {
+  mockNetworkFailure = true;
+  try {
+    const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", { method: "POST", headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" }, body: JSON.stringify({ machine: "centrifugal pump", symptom: "low flow during operation", observations: "existing alarm history and baseline are available", measurementStatus: "available", language: "ar" }) }), { AI_API_KEY: "test-only-placeholder" });
+    assert.equal(response.status, 502); const body = await response.json(); assert.equal(body.retryable, true); assert.doesNotMatch(JSON.stringify(body), /test-only-placeholder|simulated upstream/);
+  } finally { mockNetworkFailure = false; }
+});
+
+test("malformed and empty Gemini responses are rejected as upstream errors", async () => {
+  const previous = mockUpstreamMode;
+  try { for (const mode of ["malformed-json", "empty-output"]) {
+    mockUpstreamMode = mode;
+    const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", { method: "POST", headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" }, body: JSON.stringify({ machine: "centrifugal pump", symptom: "low flow during operation", observations: "existing alarm history and baseline are available", measurementStatus: "available", language: "ar" }) }), { AI_API_KEY: "test-only-placeholder" });
+    assert.equal(response.status, 502);
+  } } finally { mockUpstreamMode = previous; }
+});
+
+test("curated diagnostic flow rejects unknown IDs before retrieval or Gemini", async () => {
+  const before = { upstreamCalls, knowledgeCalls };
+  const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
+    method: "POST",
+    headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
+    body: JSON.stringify({ machine: "pump", symptom: "low flow", diagnosticFlowId: "pump|unknown", language: "ar" })
+  }), { AI_API_KEY: "test-only-placeholder" });
+  assert.equal(response.status, 400);
+  assert.equal((await response.json()).code, "unknown_diagnostic_flow");
+  assert.deepEqual({ upstreamCalls, knowledgeCalls }, before);
+});
+
+test("curated diagnostic flow must match the equipment family", async () => {
+  const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
+    method: "POST",
+    headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
+    body: JSON.stringify({ machine: "industrial motor", symptom: "low flow", diagnosticFlowId: "pump|low_flow", language: "ar" })
+  }), { AI_API_KEY: "test-only-placeholder" });
+  assert.equal(response.status, 400);
+  assert.equal((await response.json()).code, "diagnostic_flow_mismatch");
+});
+
+test("curated flow restricts Gemini output to server-approved hypothesis IDs", async () => {
+  const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
+    method: "POST",
+    headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
+    body: JSON.stringify({
+      machine: "pump",
+      symptom: "low flow with unstable discharge",
+      observations: "Observed unstable flow over several operating cycles and historical log is available",
+      diagnosticFlowId: "pump|low_flow",
+      language: "ar"
+    })
+  }), { AI_API_KEY: "test-only-placeholder" });
+  assert.equal(response.status, 200);
+  assert.ok(["supply_or_suction", "flow_path_restriction", "operating_condition"].includes((await response.json()).diagnosis.possible_causes[0].id));
+  assert.match(upstreamPayload.input, /only authorized hypothesis IDs and meanings are: supply_or_suction = Supply or suction conditions; flow_path_restriction = Flow-path restriction or abnormal valve position; operating_condition = Unusual operating condition or demand/);
+});
+
+test("curated flow rejects a model-invented hypothesis ID", async () => {
+  const originalMode = mockUpstreamMode;
+  // Make the mock return a syntactically valid but unauthorized cause ID.
+  const originalFetch = context.fetch;
+  context.fetch = async (url, options = {}) => {
+    if (String(url).includes("generativelanguage.googleapis.com")) {
+      upstreamCalls++;
+      upstreamPayload = JSON.parse(options.body);
+      const diagnosis = validDiagnosis();
+      diagnosis.possible_causes[0].id = "invented_by_model";
+      diagnosis.session_summary.equipment = "pump";
+      diagnosis.session_summary.symptom = "low flow with unstable discharge";
+      return new Response(JSON.stringify({ output: [{ type: "model_output", content: [{ type: "text", text: JSON.stringify(diagnosis) }] }] }), { status: 200 });
+    }
+    return originalFetch(url, options);
+  };
+  try {
+    const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
+      method: "POST",
+      headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
+      body: JSON.stringify({
+        machine: "pump",
+        symptom: "low flow with unstable discharge",
+        observations: "Observed unstable flow over several operating cycles and historical log is available",
+        diagnosticFlowId: "pump|low_flow",
+        language: "ar"
+      })
+    }), { AI_API_KEY: "test-only-placeholder" });
+    assert.equal(response.status, 502);
+    assert.equal((await response.json()).code, "unapproved_hypothesis_id");
+  } finally {
+    context.fetch = originalFetch;
+    mockUpstreamMode = originalMode;
+  }
+});
+
+test("curated diagnostic flow rejects evidence IDs from another flow", async () => {
+  const before = { upstreamCalls, knowledgeCalls };
+  const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
+    method: "POST",
+    headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
+    body: JSON.stringify({
+      machine: "pump",
+      symptom: "low flow",
+      diagnosticFlowId: "pump|low_flow",
+      diagnosticEvidence: ["trip-present"],
+      language: "ar"
+    })
+  }), { AI_API_KEY: "test-only-placeholder" });
+  assert.equal(response.status, 400);
+  assert.equal((await response.json()).code, "unknown_diagnostic_evidence");
+  assert.deepEqual({ upstreamCalls, knowledgeCalls }, before);
+});
+
+
+test("server-owned curated diagnostic allowlists match the local engine contract", () => {
+  const engine = require("../diagnostic-session.js");
+  for (const flowId of engine.availableFlows) {
+    const local = engine.getFlowContract(flowId);
+    const server = context.__curatedDiagnosticFlows[flowId];
+    assert.ok(server, "server flow missing for " + flowId);
+    assert.deepEqual(Object.keys(server.hypotheses).sort(), local.hypothesisIds.slice().sort(), "hypothesis IDs drifted for " + flowId);
+    assert.deepEqual(Array.from(server.evidence).sort(), Array.from(local.evidenceIds).sort(), "evidence IDs drifted for " + flowId);
+  }
+  for (const flowId of Object.keys(context.__curatedDiagnosticFlows)) {
+    assert.ok(engine.getFlowContract(flowId), "server has unrecognized flow " + flowId);
+  }
 });
