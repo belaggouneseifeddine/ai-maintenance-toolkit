@@ -13,18 +13,21 @@ const page = await get(pageUrl);
 if (page.status !== 200 || !page.contentType.includes("text/html")) {
   throw new Error(`Published Pages smoke test failed: HTTP ${page.status}, content-type=${page.contentType}`);
 }
-if (!page.body.includes('id="diagnosisForm"') || !page.body.includes('id="aiEndpoint"')) {
-  throw new Error("Published app is missing expected diagnosis/AI endpoint controls");
+if (!page.body.includes('id="diagnosisForm"') ||
+    !page.body.includes("MaintenanceAgentUI") ||
+    !page.body.includes("diagnostic-session-ui.js")) {
+  throw new Error("Published app is missing the local diagnosis form or local diagnostic-agent wiring");
 }
-console.log(`PAGES_OK HTTP ${page.status} ${page.finalUrl}`);
+if (page.body.includes('id="aiEndpoint"')) {
+  throw new Error("Published app unexpectedly exposes the retired cloud-AI endpoint control");
+}
+console.log(`PAGES_OK HTTP ${page.status} ${page.finalUrl} (local diagnosis UI)`);
 
-const endpointMatch = page.body.match(/id="aiEndpoint"[^>]*value="([^"]+)"/i);
-const configuredEndpoint = endpointMatch?.[1];
-if (!configuredEndpoint || !configuredEndpoint.endsWith("/api/chat")) {
-  throw new Error("Could not identify the published app's configured /api/chat endpoint");
-}
-const configuredBase = configuredEndpoint.replace(/\/api\/chat\/?$/, "");
-const candidates = [...new Set([configuredBase, ...knownWorkerBases])];
+// The primary diagnosis path is local. Test the separately deployed Worker only
+// as an API contract/safety service; never infer that the UI depends on it.
+const configuredBase = knownWorkerBases[0];
+const configuredEndpoint = configuredBase + "/api/chat";
+const candidates = [...new Set(knownWorkerBases)];
 const healthResults = [];
 for (const base of candidates) {
   try {
