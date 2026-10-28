@@ -163,7 +163,9 @@
         observations: notes,
         consent: { sendToAI: false }
       });
-      const baseOutput = formatResult(result, language);\n      const guidedOutput = result && result.route !== "safety_review" && result.status !== "escalation_required" ? formatGuidedEvidence(guided, language) : "";\n      output.textContent = baseOutput + guidedOutput;
+      const baseOutput = formatResult(result, language);
+      const guidedOutput = result && result.route !== "safety_review" && result.status !== "escalation_required" ? formatGuidedEvidence(guided, language) : "";
+      output.textContent = baseOutput + guidedOutput;
     } catch (_) {
       output.textContent = formatResult(null, language);
     } finally {
