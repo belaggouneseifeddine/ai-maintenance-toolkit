@@ -1,0 +1,422 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Candidate OEM-derived maintenance knowledge. Records remain review-needed until claims are checked against the original manual and exact equipment scope.",
+  "source": {
+    "documentId": "schneider-altistart-22-user-manual-bbv51330-04",
+    "fileName": "ATS22_user_manual_EN_BBV51330_04.pdf",
+    "manufacturer": "Schneider Electric",
+    "productFamily": "Altistart 22 (ATS22) soft starter for induction motors",
+    "documentNumber": "BBV51330_04",
+    "publicationDate": "2015-09",
+    "language": "en",
+    "pageCount": 85,
+    "sourceUrl": null,
+    "redistributionPermissionConfirmed": false
+  },
+  "equipmentScope": {
+    "family": "ATS22",
+    "exactModelRequired": true,
+    "modelFamilies": {
+      "ATS22-Q": {
+        "lineVoltage": "230–440 Vac",
+        "controlSupply": "230 Vac",
+        "logicSupply": "24 Vdc",
+        "insideDeltaSupported": true
+      },
+      "ATS22-S6": {
+        "lineVoltage": "208–600 Vac",
+        "controlSupply": "230 Vac",
+        "logicSupply": "24 Vdc",
+        "insideDeltaSupported": false
+      },
+      "ATS22-S6U": {
+        "lineVoltage": "208–600 Vac",
+        "controlSupply": "110 Vac for control and logic",
+        "insideDeltaSupported": false
+      }
+    },
+    "scopeWarning": "Confirm the full ATS22 model code and nameplate before applying any family-specific wiring, voltage, or configuration information."
+  },
+  "safety": [
+    {
+      "id": "ats22-qualified-personnel-loto",
+      "severity": "critical",
+      "instruction": "Work only by qualified personnel. Isolate all energy sources, including external control supplies, and apply site lockout/tagout before inspection or maintenance.",
+      "evidence": {
+        "pages": null,
+        "section": "Safety instructions; exact page not independently rechecked"
+      },
+      "status": "review-needed"
+    },
+    {
+      "id": "ats22-semiconductor-not-isolation",
+      "severity": "critical",
+      "instruction": "Semiconductor switching does not provide complete isolation; hazardous voltage may remain on the load side while line-side power is present.",
+      "evidence": {
+        "pages": null,
+        "section": "Safety instructions; exact page not independently rechecked"
+      },
+      "status": "review-needed"
+    },
+    {
+      "id": "ats22-short-circuit-stop",
+      "severity": "critical",
+      "instruction": "For SCF (short-circuit) indication, stop the equipment and follow the approved isolation and inspection procedure. Do not restart merely by clearing the fault.",
+      "evidence": {
+        "pages": [
+          75,
+          76
+        ],
+        "section": "Troubleshooting"
+      },
+      "status": "review-needed"
+    },
+    {
+      "id": "ats22-no-capacitors-on-output",
+      "severity": "high",
+      "instruction": "Do not install power-factor-correction capacitors on the soft-starter output. Isolate the ATS22 before insulation or high-voltage tests.",
+      "evidence": {
+        "pages": null,
+        "section": "Installation and maintenance instructions; exact page not independently rechecked"
+      },
+      "status": "review-needed"
+    }
+  ],
+  "wiringRules": [
+    {
+      "id": "ats22-inside-delta-restrictions",
+      "statement": "Inside-delta connection is supported only for ATS22-Q family under the manual's stated conditions; line voltage must not exceed 440 Vac, phase sequence 1-2-3, parameter dLtA=dLt, and wiring must follow the exact model diagram.",
+      "evidence": {
+        "pages": [
+          43,
+          47
+        ],
+        "section": "Inside-delta connection and wiring"
+      },
+      "status": "review-needed",
+      "safetyCritical": true
+    },
+    {
+      "id": "ats22-current-rating-inside-delta",
+      "statement": "For inside-delta connection, parameter In is motor nameplate current divided by square root of 3; for line connection use the motor nameplate rated current.",
+      "evidence": {
+        "pages": [
+          43,
+          47
+        ],
+        "section": "Motor current setting and connection type"
+      },
+      "status": "review-needed",
+      "safetyCritical": true
+    }
+  ],
+  "faultCases": [
+    {
+      "id": "ats22-ocf",
+      "manufacturer": "Schneider Electric",
+      "productFamily": "Altistart 22 (ATS22)",
+      "exactModelRequired": true,
+      "faultCode": "OCF",
+      "symptom": "Overcurrent",
+      "possibleCauses": [],
+      "checks": "Check OId and OIt settings/limits against the manual and application.",
+      "correctiveAction": "Do not prescribe a parameter change or restart until the exact model, fault context, and applicable manual instructions are confirmed.",
+      "severity": "high",
+      "evidence": {
+        "documentId": "schneider-altistart-22-user-manual-bbv51330-04",
+        "pages": [
+          75,
+          76
+        ],
+        "section": "Troubleshooting"
+      },
+      "evidenceStatus": "review-needed",
+      "confidence": "not-calibrated",
+      "confidenceNote": "This is a structured extraction candidate, not a verified diagnosis or calibrated probability."
+    },
+    {
+      "id": "ats22-olf",
+      "manufacturer": "Schneider Electric",
+      "productFamily": "Altistart 22 (ATS22)",
+      "exactModelRequired": true,
+      "faultCode": "OLF",
+      "symptom": "Motor overload",
+      "possibleCauses": [],
+      "checks": "Check mechanical load, soft-starter sizing, and tHP and In settings.",
+      "correctiveAction": "Do not prescribe a parameter change or restart until the exact model, fault context, and applicable manual instructions are confirmed.",
+      "severity": "high",
+      "evidence": {
+        "documentId": "schneider-altistart-22-user-manual-bbv51330-04",
+        "pages": [
+          75,
+          76
+        ],
+        "section": "Troubleshooting"
+      },
+      "evidenceStatus": "review-needed",
+      "confidence": "not-calibrated",
+      "confidenceNote": "This is a structured extraction candidate, not a verified diagnosis or calibrated probability."
+    },
+    {
+      "id": "ats22-ohf",
+      "manufacturer": "Schneider Electric",
+      "productFamily": "Altistart 22 (ATS22)",
+      "exactModelRequired": true,
+      "faultCode": "OHF",
+      "symptom": "Soft-starter overtemperature",
+      "possibleCauses": [],
+      "checks": "Check ventilation, ambient temperature, and installation conditions against the manual.",
+      "correctiveAction": "Do not prescribe a parameter change or restart until the exact model, fault context, and applicable manual instructions are confirmed.",
+      "severity": "high",
+      "evidence": {
+        "documentId": "schneider-altistart-22-user-manual-bbv51330-04",
+        "pages": [
+          75,
+          76
+        ],
+        "section": "Troubleshooting"
+      },
+      "evidenceStatus": "review-needed",
+      "confidence": "not-calibrated",
+      "confidenceNote": "This is a structured extraction candidate, not a verified diagnosis or calibrated probability."
+    },
+    {
+      "id": "ats22-osf",
+      "manufacturer": "Schneider Electric",
+      "productFamily": "Altistart 22 (ATS22)",
+      "exactModelRequired": true,
+      "faultCode": "OSF",
+      "symptom": "Overvoltage",
+      "possibleCauses": [],
+      "checks": "Do not infer a root cause from the code alone; record supply measurements and operating conditions.",
+      "correctiveAction": "Do not prescribe a parameter change or restart until the exact model, fault context, and applicable manual instructions are confirmed.",
+      "severity": "high",
+      "evidence": {
+        "documentId": "schneider-altistart-22-user-manual-bbv51330-04",
+        "pages": [
+          75,
+          76
+        ],
+        "section": "Troubleshooting"
+      },
+      "evidenceStatus": "review-needed",
+      "confidence": "not-calibrated",
+      "confidenceNote": "This is a structured extraction candidate, not a verified diagnosis or calibrated probability."
+    },
+    {
+      "id": "ats22-phf",
+      "manufacturer": "Schneider Electric",
+      "productFamily": "Altistart 22 (ATS22)",
+      "exactModelRequired": true,
+      "faultCode": "PHF",
+      "symptom": "Phase loss",
+      "possibleCauses": [],
+      "checks": "A qualified person should check line/motor connections and switching devices against the exact model diagram after isolation.",
+      "correctiveAction": "Do not prescribe a parameter change or restart until the exact model, fault context, and applicable manual instructions are confirmed.",
+      "severity": "critical",
+      "evidence": {
+        "documentId": "schneider-altistart-22-user-manual-bbv51330-04",
+        "pages": [
+          75,
+          76
+        ],
+        "section": "Troubleshooting"
+      },
+      "evidenceStatus": "review-needed",
+      "confidence": "not-calibrated",
+      "confidenceNote": "This is a structured extraction candidate, not a verified diagnosis or calibrated probability."
+    },
+    {
+      "id": "ats22-pif",
+      "manufacturer": "Schneider Electric",
+      "productFamily": "Altistart 22 (ATS22)",
+      "exactModelRequired": true,
+      "faultCode": "PIF",
+      "symptom": "Phase sequence/reversal",
+      "possibleCauses": [],
+      "checks": "Verify phase sequence against the manual and the exact wiring diagram.",
+      "correctiveAction": "Do not prescribe a parameter change or restart until the exact model, fault context, and applicable manual instructions are confirmed.",
+      "severity": "high",
+      "evidence": {
+        "documentId": "schneider-altistart-22-user-manual-bbv51330-04",
+        "pages": [
+          75,
+          76
+        ],
+        "section": "Troubleshooting"
+      },
+      "evidenceStatus": "review-needed",
+      "confidence": "not-calibrated",
+      "confidenceNote": "This is a structured extraction candidate, not a verified diagnosis or calibrated probability."
+    },
+    {
+      "id": "ats22-scf",
+      "manufacturer": "Schneider Electric",
+      "productFamily": "Altistart 22 (ATS22)",
+      "exactModelRequired": true,
+      "faultCode": "SCF",
+      "symptom": "Short circuit",
+      "possibleCauses": [],
+      "checks": "Stop equipment; follow approved isolation and fault-inspection procedure. No restart based solely on clearing the alarm.",
+      "correctiveAction": "Do not prescribe a parameter change or restart until the exact model, fault context, and applicable manual instructions are confirmed.",
+      "severity": "critical",
+      "evidence": {
+        "documentId": "schneider-altistart-22-user-manual-bbv51330-04",
+        "pages": [
+          75,
+          76
+        ],
+        "section": "Troubleshooting"
+      },
+      "evidenceStatus": "review-needed",
+      "confidence": "not-calibrated",
+      "confidenceNote": "This is a structured extraction candidate, not a verified diagnosis or calibrated probability."
+    },
+    {
+      "id": "ats22-slf",
+      "manufacturer": "Schneider Electric",
+      "productFamily": "Altistart 22 (ATS22)",
+      "exactModelRequired": true,
+      "faultCode": "SLF",
+      "symptom": "Modbus communication timeout",
+      "possibleCauses": [],
+      "checks": "Check communication wiring and settings in the context of the installed network.",
+      "correctiveAction": "Do not prescribe a parameter change or restart until the exact model, fault context, and applicable manual instructions are confirmed.",
+      "severity": "medium",
+      "evidence": {
+        "documentId": "schneider-altistart-22-user-manual-bbv51330-04",
+        "pages": [
+          75,
+          76
+        ],
+        "section": "Troubleshooting"
+      },
+      "evidenceStatus": "review-needed",
+      "confidence": "not-calibrated",
+      "confidenceNote": "This is a structured extraction candidate, not a verified diagnosis or calibrated probability."
+    },
+    {
+      "id": "ats22-snbf",
+      "manufacturer": "Schneider Electric",
+      "productFamily": "Altistart 22 (ATS22)",
+      "exactModelRequired": true,
+      "faultCode": "SnbF",
+      "symptom": "Excessive starts",
+      "possibleCauses": [],
+      "checks": "Check start frequency and application duty against the manual.",
+      "correctiveAction": "Do not prescribe a parameter change or restart until the exact model, fault context, and applicable manual instructions are confirmed.",
+      "severity": "medium",
+      "evidence": {
+        "documentId": "schneider-altistart-22-user-manual-bbv51330-04",
+        "pages": [
+          75,
+          76
+        ],
+        "section": "Troubleshooting"
+      },
+      "evidenceStatus": "review-needed",
+      "confidence": "not-calibrated",
+      "confidenceNote": "This is a structured extraction candidate, not a verified diagnosis or calibrated probability."
+    },
+    {
+      "id": "ats22-tbs",
+      "manufacturer": "Schneider Electric",
+      "productFamily": "Altistart 22 (ATS22)",
+      "exactModelRequired": true,
+      "faultCode": "tbS",
+      "symptom": "Excessive starts / restart wait",
+      "possibleCauses": [],
+      "checks": "The extracted summary states a restart wait of 5 minutes for frame A and 15 minutes for frames B–E; confirm the exact model/frame in the source before use.",
+      "correctiveAction": "Do not prescribe a parameter change or restart until the exact model, fault context, and applicable manual instructions are confirmed.",
+      "severity": "high",
+      "evidence": {
+        "documentId": "schneider-altistart-22-user-manual-bbv51330-04",
+        "pages": [
+          75,
+          76
+        ],
+        "section": "Troubleshooting"
+      },
+      "evidenceStatus": "review-needed",
+      "confidence": "not-calibrated",
+      "confidenceNote": "This is a structured extraction candidate, not a verified diagnosis or calibrated probability."
+    },
+    {
+      "id": "ats22-stf",
+      "manufacturer": "Schneider Electric",
+      "productFamily": "Altistart 22 (ATS22)",
+      "exactModelRequired": true,
+      "faultCode": "StF",
+      "symptom": "Start time exceeded",
+      "possibleCauses": [],
+      "checks": "Check mechanical load, tLS compatibility with ACC, starter sizing, and ILt setting.",
+      "correctiveAction": "Do not prescribe a parameter change or restart until the exact model, fault context, and applicable manual instructions are confirmed.",
+      "severity": "high",
+      "evidence": {
+        "documentId": "schneider-altistart-22-user-manual-bbv51330-04",
+        "pages": [
+          75,
+          76
+        ],
+        "section": "Troubleshooting"
+      },
+      "evidenceStatus": "review-needed",
+      "confidence": "not-calibrated",
+      "confidenceNote": "This is a structured extraction candidate, not a verified diagnosis or calibrated probability."
+    },
+    {
+      "id": "ats22-ucf",
+      "manufacturer": "Schneider Electric",
+      "productFamily": "Altistart 22 (ATS22)",
+      "exactModelRequired": true,
+      "faultCode": "UCF",
+      "symptom": "Undercurrent",
+      "possibleCauses": [],
+      "checks": "Interpret with application and settings; gather operating context before proposing a root cause.",
+      "correctiveAction": "Do not prescribe a parameter change or restart until the exact model, fault context, and applicable manual instructions are confirmed.",
+      "severity": "medium",
+      "evidence": {
+        "documentId": "schneider-altistart-22-user-manual-bbv51330-04",
+        "pages": [
+          75,
+          76
+        ],
+        "section": "Troubleshooting"
+      },
+      "evidenceStatus": "review-needed",
+      "confidence": "not-calibrated",
+      "confidenceNote": "This is a structured extraction candidate, not a verified diagnosis or calibrated probability."
+    },
+    {
+      "id": "ats22-usf",
+      "manufacturer": "Schneider Electric",
+      "productFamily": "Altistart 22 (ATS22)",
+      "exactModelRequired": true,
+      "faultCode": "USF",
+      "symptom": "Undervoltage",
+      "possibleCauses": [],
+      "checks": "Check supply voltage and operating conditions before any restart.",
+      "correctiveAction": "Do not prescribe a parameter change or restart until the exact model, fault context, and applicable manual instructions are confirmed.",
+      "severity": "high",
+      "evidence": {
+        "documentId": "schneider-altistart-22-user-manual-bbv51330-04",
+        "pages": [
+          75,
+          76
+        ],
+        "section": "Troubleshooting"
+      },
+      "evidenceStatus": "review-needed",
+      "confidence": "not-calibrated",
+      "confidenceNote": "This is a structured extraction candidate, not a verified diagnosis or calibrated probability."
+    }
+  ],
+  "ingestionStatus": {
+    "extractedFromNotionSummary": true,
+    "originalPdfBinaryReviewedInThisChange": false,
+    "pageReferencesIndependentlyVerified": false,
+    "runtimeIntegration": false,
+    "reviewedByQualifiedTechnician": false,
+    "approvedForAutomaticRecommendations": false
+  }
+}
