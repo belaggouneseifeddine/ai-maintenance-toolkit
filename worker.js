@@ -92,7 +92,18 @@ function getDiagnosisValidationDiagnostics(v, language, sourceIds) {
     sources: Array.isArray(v.sources) && v.sources.length <= 4 && v.sources.every(x => typeof x === "string" && sourceIds.has(x)),
     sessionSummary: !!v.session_summary && typeof v.session_summary.equipment === "string" && v.session_summary.equipment.length <= 120 && typeof v.session_summary.symptom === "string" && v.session_summary.symptom.length <= 240 && typeof v.session_summary.confirmed_cause === "string" && v.session_summary.confirmed_cause.length <= 240 && v.session_summary.confirmed_cause.trim() === "" && ["open","in_progress","resolved","escalated"].includes(v.session_summary.work_status)
   };
-  return Object.fromEntries(Object.entries(checks).map(([key, passed]) => [key, passed ? "pass" : "fail"]));
+  const report = Object.fromEntries(Object.entries(checks).map(([key, passed]) => [key, passed ? "pass" : "fail"]));
+  report.causeDetails = Array.isArray(v.possible_causes) ? v.possible_causes.slice(0, 3).map(cause => ({
+    idAllowedShape: typeof cause?.id === "string" && cause.id.length <= 80,
+    label: typeof cause?.label === "string" && cause.label.length <= 300,
+    confidence: ["high","medium","low"].includes(cause?.confidence),
+    evidenceLists: validTextList(cause?.evidence_for,5) && validTextList(cause?.evidence_against,5),
+    sourceIds: validTextList(cause?.source_ids,4,8) && cause.source_ids.every(id => sourceIds.has(id)),
+    evidenceClass: ["source_supported_hypothesis","hypothesis_only"].includes(cause?.evidence_class),
+    nextCheck: typeof cause?.next_check === "string" && cause.next_check.length <= 600
+  })) : [];
+  report.invalidSourceCount = Array.isArray(v.sources) ? v.sources.filter(id => typeof id !== "string" || !sourceIds.has(id)).length : null;
+  return report;
 }
 function validateDiagnosis(v, language, sourceIds) {
   if (!v || typeof v !== "object" || Array.isArray(v)) return false;
