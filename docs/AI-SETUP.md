@@ -39,3 +39,8 @@ The frontend sends equipment, symptom, alarm code, observations, measurement sta
 ## Verification status
 
 The Worker health endpoint was confirmed by the operator on 2026-10-29. A previous real OpenAI request returned HTTP 502 with upstream status 429; the exact cause was not confirmed. The UI-to-Worker integration and provider selection changes are being prepared on a separate branch. Do not consider the full OpenAI path verified until a real, non-sensitive `POST /api/chat` returns a validated model-generated response.
+
+
+## Free UI simulation (no API credits required)
+
+The **اختبار الواجهة مجانًا — محاكاة فقط** button exercises the response-display path with a deterministic placeholder. It does not call the Worker, send case data, call OpenAI, or validate model reasoning. Its output is explicitly labelled as a simulation. Use the local diagnosis action for actual rule-based guidance. A real OpenAI test still requires available API quota.
