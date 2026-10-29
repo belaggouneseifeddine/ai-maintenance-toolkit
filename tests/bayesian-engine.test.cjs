@@ -65,7 +65,8 @@ test("unvalidated posterior remains bounded internally and is not exposed in UI-
   const result = engine.enrich({
     machine: "pump",
     symptom: "low_flow",
-    observations: "Suction pressure is low."
+    observations: "Suction pressure is low.",
+    language: "en"
   }, { hypotheses: [{ id: "pump-supply-condition", label: "Supply issue", evidenceFor: [], evidenceAgainst: [] }] });
   assert.ok(result.hypotheses[0].bayesianRank === 1);
   assert.equal("bayesianEstimate" in result.hypotheses[0], false);
@@ -75,7 +76,7 @@ test("unvalidated posterior remains bounded internally and is not exposed in UI-
 });
 
 test("empty candidate list remains explicitly insufficient", () => {
-  const result = engine.enrich({ machine: "pump", symptom: "low_flow", observations: "" }, { hypotheses: [] });
+  const result = engine.enrich({ machine: "pump", symptom: "low_flow", observations: "", language: "en" }, { hypotheses: [] });
   assert.deepEqual(result.hypotheses, []);
   assert.match(result.reasoningNote, /No candidate hypotheses/i);
 });
