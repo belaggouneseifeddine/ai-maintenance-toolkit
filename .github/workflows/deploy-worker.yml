@@ -46,32 +46,32 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: wrangler deploy --config wrangler.toml
 
-      - name: Check whether optional Gemini secret is supplied
-        id: gemini-secret
+      - name: Check whether optional OpenAI secret is supplied
+        id: openai-secret
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
-          if [ -n "$GEMINI_API_KEY" ]; then
+          if [ -n "$OPENAI_API_KEY" ]; then
             echo "provided=true" >> "$GITHUB_OUTPUT"
           else
             echo "provided=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Update Gemini secret when supplied
-        if: steps.gemini-secret.outputs.provided == 'true'
+      - name: Update OpenAI secret when supplied
+        if: steps.openai-secret.outputs.provided == 'true'
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: printf '%s' "$GEMINI_API_KEY" | wrangler secret put GEMINI_API_KEY --config wrangler.toml
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: printf '%s' "$OPENAI_API_KEY" | wrangler secret put OPENAI_API_KEY --config wrangler.toml
 
-      - name: Verify a provider secret is configured
+      - name: Verify OpenAI secret is configured on the Worker
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           secrets="$(wrangler secret list --config wrangler.toml)"
-          printf '%s' "$secrets" | grep -Eq 'GEMINI_API_KEY|AI_API_KEY' || {
-            echo "No Gemini provider secret found on this Worker. Configure GEMINI_API_KEY in GitHub Actions or add GEMINI_API_KEY/AI_API_KEY directly in Cloudflare."
+          printf '%s' "$secrets" | grep -Eq 'OPENAI_API_KEY' || {
+            echo "OpenAI is selected in wrangler.toml but OPENAI_API_KEY is missing. Add it as a Cloudflare Worker secret or GitHub Actions secret."
             exit 1
           }
