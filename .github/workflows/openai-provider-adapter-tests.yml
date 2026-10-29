@@ -7,6 +7,9 @@ on:
     paths:
       - "providers/openai-provider.mjs"
       - "tests/openai-provider.test.mjs"
+      - "tests/worker-contract.test.cjs"
+      - "worker.js"
+      - "normalization.js"
       - ".github/workflows/openai-provider-adapter-tests.yml"
   pull_request:
     paths:
@@ -32,3 +35,5 @@ jobs:
         run: node --check providers/openai-provider.mjs
       - name: Run adapter contract tests
         run: node --test tests/openai-provider.test.mjs
+      - name: Run Worker contract and provider-routing tests
+        run: node --test tests/worker-contract.test.cjs
