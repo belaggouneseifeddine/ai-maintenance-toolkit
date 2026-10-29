@@ -173,12 +173,112 @@
     }
   }
 
+  const OPENAI_WORKER_ENDPOINT = "https://maintenance-ai-toolkit-api.maintenance-ai-toolkit-api-seif.workers.dev/api/chat";
+
+  async function runOpenAI() {
+    const output = root.document && root.document.getElementById("aiResult");
+    const button = root.document && root.document.getElementById("askOpenAI");
+    const consent = root.document && root.document.getElementById("aiCloudConsent");
+    const machine = root.document && root.document.getElementById("aiMachine");
+    const symptom = root.document && root.document.getElementById("aiSymptom");
+    const code = root.document && root.document.getElementById("aiCode");
+    const observations = root.document && root.document.getElementById("aiObservations");
+    const measurement = root.document && root.document.getElementById("aiMeasurementStatus");
+    const language = root.MaintenanceI18n && typeof root.MaintenanceI18n.getLanguage === "function"
+      ? root.MaintenanceI18n.getLanguage()
+      : (root.document && root.document.documentElement.lang) || "ar";
+    if (!output || !machine || !symptom || !consent) return;
+    output.hidden = false;
+    if (!machine.value.trim() || !symptom.value.trim()) {
+      output.textContent = language === "en" ? "Enter equipment and symptom first."
+        : language === "fr" ? "Saisissez d’abord l’équipement et le symptôme."
+        : "أدخل نوع المعدة والعَرَض أولًا.";
+      return;
+    }
+    if (!consent.checked) {
+      output.textContent = language === "en" ? "Consent is required before sending this case to OpenAI."
+        : language === "fr" ? "Votre accord est requis avant l’envoi du cas à OpenAI."
+        : "يجب الموافقة قبل إرسال بيانات الحالة إلى OpenAI.";
+      return;
+    }
+    if (button) {
+      button.disabled = true;
+      button.textContent = language === "en" ? "Contacting OpenAI…"
+        : language === "fr" ? "Connexion à OpenAI…"
+        : "جارٍ الاتصال بـ OpenAI…";
+    }
+    try {
+      const payload = {
+        machine: machine.value.trim(),
+        symptom: symptom.value.trim(),
+        code: code ? code.value.trim() : "",
+        observations: observations ? observations.value.trim() : "",
+        measurementStatus: measurement ? measurement.value : "unknown",
+        language: ["ar", "en", "fr"].includes(language) ? language : "ar"
+      };
+      const response = await root.fetch(OPENAI_WORKER_ENDPOINT, {
+        method: "POST",
+        mode: "cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      let data;
+      try { data = await response.json(); }
+      catch { throw new Error("invalid_server_response"); }
+      if (!response.ok) {
+        const status = Number.isInteger(data.provider_status) ? " (provider HTTP " + data.provider_status + ")" : "";
+        const message = typeof data.error === "string" ? data.error : "The AI service request failed.";
+        output.textContent = (language === "en" ? "OpenAI diagnosis failed: " : language === "fr" ? "Échec du diagnostic OpenAI : " : "فشل تشخيص OpenAI: ") + message + status;
+        return;
+      }
+      if (typeof data.answer !== "string" || !data.answer.trim()) {
+        output.textContent = language === "en" ? "The service returned no validated diagnosis."
+          : language === "fr" ? "Le service n’a renvoyé aucun diagnostic validé."
+          : "لم تُرجع الخدمة تشخيصًا صالحًا للتحقق.";
+        return;
+      }
+      const lines = [
+        language === "en" ? "OpenAI-assisted preliminary assessment — not a confirmed diagnosis."
+          : language === "fr" ? "Évaluation préliminaire assistée par OpenAI — diagnostic non confirmé."
+          : "تقييم أولي بمساعدة OpenAI — ليس تشخيصًا مؤكدًا.",
+        "",
+        data.answer
+      ];
+      if (Array.isArray(data.citations) && data.citations.length) {
+        lines.push("", language === "en" ? "Retrieved source excerpts:" : language === "fr" ? "Extraits de sources retrouvés :" : "مقاطع المصادر المسترجعة:");
+        data.citations.slice(0, 4).forEach(c => {
+          if (!c || typeof c.source !== "string") return;
+          lines.push("- " + c.source + (c.section ? " — " + c.section : "") +
+            (Number.isInteger(c.startLine) && Number.isInteger(c.endLine) ? " (lines " + c.startLine + "-" + c.endLine + ")" : ""));
+        });
+      }
+      if (data.provider && data.model) lines.push("", "Provider: " + data.provider + " | Model: " + data.model);
+      output.textContent = lines.join("\n");
+    } catch (_) {
+      output.textContent = language === "en"
+        ? "Could not reach the AI service. Check the connection and Worker deployment, or use local diagnosis."
+        : language === "fr"
+          ? "Service IA inaccessible. Vérifiez la connexion et le déploiement du Worker, ou utilisez le diagnostic local."
+          : "تعذر الوصول إلى خدمة الذكاء الاصطناعي. تحقق من الاتصال ونشر الخادم، أو استخدم التشخيص المحلي.";
+    } finally {
+      consent.checked = false;
+      if (button) {
+        button.disabled = false;
+        button.textContent = language === "en" ? "Diagnose with OpenAI"
+          : language === "fr" ? "Diagnostiquer avec OpenAI"
+          : "التشخيص باستخدام OpenAI";
+      }
+    }
+  }
+
   function init() {
     const button = root.document && root.document.getElementById("runLocalAgent");
     if (button) button.addEventListener("click", runLocal);
+    const cloudButton = root.document && root.document.getElementById("askOpenAI");
+    if (cloudButton) cloudButton.addEventListener("click", runOpenAI);
   }
 
-  const api = Object.freeze({ formatResult, formatGuidedEvidence, runLocal, init });
+  const api = Object.freeze({ formatResult, formatGuidedEvidence, runLocal, runOpenAI, init });
   root.MaintenanceAgentUI = api;
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   if (root.document) init();
