@@ -99,3 +99,120 @@ test("local diagnosis loads the bundled fault library without sending form data"
     }
   }
 });
+
+
+test("OpenAI cloud diagnosis sends only after explicit per-request consent and clears consent afterward", async () => {
+  const previous = {
+    document: global.document,
+    fetch: global.fetch,
+    MaintenanceI18n: global.MaintenanceI18n
+  };
+  const elements = {
+    aiResult: { hidden: true, textContent: "" },
+    askOpenAI: { disabled: false, textContent: "" },
+    aiCloudConsent: { checked: true },
+    aiMachine: { value: "centrifugal pump" },
+    aiSymptom: { value: "abnormal vibration and low flow" },
+    aiCode: { value: "E-12" },
+    aiObservations: { value: "Vibration reading already recorded: 6 mm/s" },
+    aiMeasurementStatus: { value: "available" }
+  };
+  let requestUrl = "";
+  let requestOptions;
+  try {
+    global.document = {
+      documentElement: { lang: "en" },
+      getElementById: id => elements[id] || null
+    };
+    global.MaintenanceI18n = { getLanguage: () => "en" };
+    global.fetch = async (url, options) => {
+      requestUrl = url;
+      requestOptions = options;
+      return {
+        ok: true,
+        status: 200,
+        json: async () => ({
+          answer: "SAFETY GATE\\nFollow site LOTO procedures.",
+          provider: "openai",
+          model: "gpt-4.1-mini",
+          model_called: true,
+          citations: [{ id: "S1", source: "knowledge/example.md", section: "Pump checks", startLine: 10, endLine: 14 }]
+        })
+      };
+    };
+    await ui.runOpenAI();
+    assert.equal(requestUrl, "https://maintenance-ai-toolkit-api.maintenance-ai-toolkit-api-seif.workers.dev/api/chat");
+    assert.equal(requestOptions.method, "POST");
+    assert.equal(requestOptions.headers["Content-Type"], "application/json");
+    const body = JSON.parse(requestOptions.body);
+    assert.equal(body.machine, "centrifugal pump");
+    assert.equal(body.symptom, "abnormal vibration and low flow");
+    assert.equal(body.code, "E-12");
+    assert.equal(body.measurementStatus, "available");
+    assert.match(elements.aiResult.textContent, /OpenAI-generated preliminary assessment/);
+    assert.ok(elements.aiResult.textContent.includes("knowledge/example.md"));
+    assert.equal(elements.aiCloudConsent.checked, false);
+    assert.equal(elements.askOpenAI.disabled, false);
+  } finally {
+    for (const [key, value] of Object.entries(previous)) {
+      if (value === undefined) delete global[key];
+      else global[key] = value;
+    }
+  }
+});
+
+test("OpenAI cloud diagnosis does not send a request without consent", async () => {
+  const previous = {
+    document: global.document,
+    fetch: global.fetch,
+    MaintenanceI18n: global.MaintenanceI18n
+  };
+  const elements = {
+    aiResult: { hidden: true, textContent: "" },
+    askOpenAI: { disabled: false, textContent: "" },
+    aiCloudConsent: { checked: false },
+    aiMachine: { value: "pump" },
+    aiSymptom: { value: "low flow" }
+  };
+  let calls = 0;
+  try {
+    global.document = { documentElement: { lang: "en" }, getElementById: id => elements[id] || null };
+    global.MaintenanceI18n = { getLanguage: () => "en" };
+    global.fetch = async () => { calls++; throw new Error("must not be called"); };
+    await ui.runOpenAI();
+    assert.equal(calls, 0);
+    assert.match(elements.aiResult.textContent, /Consent is required/i);
+  } finally {
+    for (const [key, value] of Object.entries(previous)) {
+      if (value === undefined) delete global[key];
+      else global[key] = value;
+    }
+  }
+});
+
+
+test("free UI simulation renders a labelled placeholder without network calls", () => {
+  const previous = { document: global.document, fetch: global.fetch, MaintenanceI18n: global.MaintenanceI18n };
+  const elements = {
+    aiResult: { hidden: true, textContent: "" },
+    aiMachine: { value: "centrifugal pump" },
+    aiSymptom: { value: "low flow" }
+  };
+  let calls = 0;
+  try {
+    global.document = { documentElement: { lang: "en" }, getElementById: id => elements[id] || null };
+    global.MaintenanceI18n = { getLanguage: () => "en" };
+    global.fetch = async () => { calls++; throw new Error("simulation must not make network calls"); };
+    ui.runOpenAIMock();
+    assert.equal(calls, 0);
+    assert.equal(elements.aiResult.hidden, false);
+    assert.match(elements.aiResult.textContent, /SIMULATION ONLY/i);
+    assert.match(elements.aiResult.textContent, /no data was sent/i);
+    assert.match(elements.aiResult.textContent, /not a diagnosis/i);
+  } finally {
+    for (const [key, value] of Object.entries(previous)) {
+      if (value === undefined) delete global[key];
+      else global[key] = value;
+    }
+  }
+});
