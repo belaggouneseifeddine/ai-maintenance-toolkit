@@ -43,7 +43,7 @@ vm.runInNewContext(normalizationSource, engineContext);
 vm.runInNewContext(diagnosticEngineSource, engineContext);
 
 const checks = [
-  ["Local agent core is explicitly loaded and offers a non-network diagnosis action", () => {
+  ["Local diagnosis remains offline and OpenAI cloud diagnosis requires explicit consent", () => {
     assert.ok(html.includes('<script src="./engineering-core.js"></script>'));
     assert.ok(html.includes('<script src="./agent-core.js"></script>'));
     assert.ok(html.includes('<script src="./agent-ui.js"></script>'));
@@ -52,8 +52,12 @@ const checks = [
     assert.ok(html.includes("MaintenanceAgentUI.runLocal()"));
     assert.ok(html.includes('id="askAi" type="submit"'));
     assert.doesNotMatch(html, /id="aiEndpoint"/);
-    assert.doesNotMatch(html, /id="aiConsent" type="checkbox" required/);
+    assert.match(html, /id="aiCloudConsent" type="checkbox"/);
+    assert.match(html, /id="askOpenAI" type="button"/);
     assert.ok(agentUiSource.includes("consent: { sendToAI: false }"));
+    assert.ok(agentUiSource.includes("async function runOpenAI()"));
+    assert.ok(agentUiSource.includes("OPENAI_WORKER_ENDPOINT"));
+    assert.ok(agentUiSource.includes("consent.checked = false"));
     assert.ok(agentUiSource.includes("MaintenanceDiagnosticSessionUI.getPayload"));
     for (const asset of ["engineering-core.js", "agent-core.js", "agent-ui.js", "oem-lookup.js"]) { assert.ok(cloudflareDeployWorkflow.includes(asset), `Cloudflare Pages deploy omits ${asset}`); assert.ok(deployWorkflow.includes(asset), `GitHub Pages deploy omits ${asset}`); }
     assert.ok(sw.includes('"./engineering-core.js"'));
