@@ -1,10 +1,6 @@
 name: Live Worker model smoke test
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - ".github/workflows/openai-live-smoke.yml"
   workflow_dispatch:
 
 permissions:
