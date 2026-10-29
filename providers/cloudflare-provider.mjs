@@ -99,7 +99,14 @@ export async function callCloudflareAI({
   try {
     JSON.parse(outputText);
   } catch {
-    return { ok: false, errorCode: "provider_malformed_output", retryable: true };
+    return {
+      ok: false,
+      errorCode: "provider_malformed_output",
+      retryable: true,
+      outputLength: outputText.length,
+      finishReason: data?.choices?.[0]?.finish_reason || data?.finish_reason || null,
+      usage: data?.usage || null
+    };
   }
   return { ok: true, outputText, model, usage: data?.usage || null };
 }
