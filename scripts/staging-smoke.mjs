@@ -88,6 +88,13 @@ for (const testCase of cases) {
   }
   check(diagnosis?.session_summary?.confirmed_cause === "", testCase.name + ": model asserted a confirmed root cause without proof");
   check(diagnosis?.status !== "needs_clarification" || diagnosis?.clarifying_questions?.length > 0, testCase.name + ": clarification status has no question");
+  check(diagnosis?.status !== "unable_to_assess", testCase.name + ": model failed to provide a useful preliminary assessment");
+  check((diagnosis?.possible_causes?.length || 0) > 0 || (diagnosis?.inspection_steps?.length || 0) > 0, testCase.name + ": no actionable hypotheses or safe inspection steps");
+  for (const cause of diagnosis?.possible_causes || []) {
+    if (cause.evidence_class === "source_supported_hypothesis") {
+      check((cause.source_ids || []).length > 0, testCase.name + ": source-supported cause has no source IDs");
+    }
+  }
   results.push({
     case: testCase.name,
     httpStatus: response.status,
