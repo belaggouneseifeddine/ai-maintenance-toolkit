@@ -31,6 +31,7 @@ export async function callCloudflareAI({
   }
 
   let data;
+  let timeoutId;
   try {
     data = await Promise.race([
       ai.run(model, {
@@ -42,13 +43,17 @@ export async function callCloudflareAI({
         max_tokens: 1800,
         temperature: 0.2
       }),
-      new Promise((_, reject) => setTimeout(() => reject(new Error("timeout")), timeoutMs))
+      new Promise((_, reject) => {
+        timeoutId = setTimeout(() => reject(new Error("timeout")), timeoutMs);
+      })
     ]);
   } catch (error) {
     const message = String(error?.message || error || "").toLowerCase();
     const retryable = message.includes("timeout") || message.includes("busy") ||
       message.includes("capacity") || message.includes("429") || message.includes("503");
     return { ok: false, errorCode: retryable ? "provider_temporarily_unavailable" : "provider_request_failed", retryable };
+  } finally {
+    if (timeoutId) clearTimeout(timeoutId);
   }
 
   const outputText = extractOutputText(data);
