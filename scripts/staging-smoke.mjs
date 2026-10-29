@@ -18,7 +18,7 @@ const cases = [
     name: "pump-low-flow",
     body: {
       machine: "centrifugal pump",
-      symptom: "reduced discharge flow while running",
+      symptom: "low flow while running",
       code: "",
       observations: "Suction tank level appears normal. No pressure or flow readings are available. No recent changes reported. No visible leakage.",
       measurementStatus: "none",
@@ -31,7 +31,7 @@ const cases = [
     name: "motor-fails-start",
     body: {
       machine: "industrial electric motor",
-      symptom: "motor fails to start",
+      symptom: "motor does not start",
       code: "",
       observations: "Start command is reported present. No trip indication is visible on the HMI. Permissive status is unknown. No voltage readings or wiring diagram are available.",
       measurementStatus: "none",
