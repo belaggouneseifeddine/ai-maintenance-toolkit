@@ -1,8 +1,9 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
-const { callCloudflareAI, DEFAULT_MODEL, extractOutputText } = require("../providers/cloudflare-provider.mjs");
+const providerPromise = import("../providers/cloudflare-provider.mjs");
 
 test("Cloudflare provider sends structured JSON request through AI binding", async () => {
+  const { callCloudflareAI, DEFAULT_MODEL } = await providerPromise;
   let received;
   const ai = {
     async run(model, options) {
@@ -26,10 +27,12 @@ test("Cloudflare provider sends structured JSON request through AI binding", asy
 });
 
 test("Cloudflare provider accepts chat-completion JSON content", async () => {
+  const { extractOutputText } = await providerPromise;
   assert.equal(extractOutputText({ choices: [{ message: { content: '{"ok":true}' } }] }), '{"ok":true}');
 });
 
 test("Cloudflare provider fails closed when binding is missing", async () => {
+  const { callCloudflareAI } = await providerPromise;
   const result = await callCloudflareAI({
     ai: null, instructions: "system", input: "case", schema: { type: "object" }
   });
@@ -38,6 +41,7 @@ test("Cloudflare provider fails closed when binding is missing", async () => {
 });
 
 test("Cloudflare provider rejects malformed model output", async () => {
+  const { callCloudflareAI } = await providerPromise;
   const result = await callCloudflareAI({
     ai: { async run() { return { response: "not json" }; } },
     instructions: "system", input: "case", schema: { type: "object" }
