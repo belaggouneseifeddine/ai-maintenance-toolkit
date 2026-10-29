@@ -1,4 +1,4 @@
-name: Live OpenAI Worker smoke test
+name: Live Worker model smoke test
 
 on:
   push:
@@ -47,9 +47,9 @@ jobs:
             }));
             process.exit(1);
           }
-          if (body?.provider !== "openai" || body?.model !== "gpt-4.1-mini" || body?.model_called !== true) {
+          if (!["openai", "gemini"].includes(body?.provider) || typeof body?.model !== "string" || body?.model_called !== true) {
             console.error(JSON.stringify({
-              error: "The response did not confirm a real OpenAI model call",
+              error: "The response did not confirm a real model call through the configured provider",
               provider: body?.provider,
               model: body?.model,
               model_called: body?.model_called
