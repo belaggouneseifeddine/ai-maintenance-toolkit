@@ -189,3 +189,30 @@ test("OpenAI cloud diagnosis does not send a request without consent", async () 
     }
   }
 });
+
+
+test("free UI simulation renders a labelled placeholder without network calls", () => {
+  const previous = { document: global.document, fetch: global.fetch, MaintenanceI18n: global.MaintenanceI18n };
+  const elements = {
+    aiResult: { hidden: true, textContent: "" },
+    aiMachine: { value: "centrifugal pump" },
+    aiSymptom: { value: "low flow" }
+  };
+  let calls = 0;
+  try {
+    global.document = { documentElement: { lang: "en" }, getElementById: id => elements[id] || null };
+    global.MaintenanceI18n = { getLanguage: () => "en" };
+    global.fetch = async () => { calls++; throw new Error("simulation must not make network calls"); };
+    ui.runOpenAIMock();
+    assert.equal(calls, 0);
+    assert.equal(elements.aiResult.hidden, false);
+    assert.match(elements.aiResult.textContent, /SIMULATION ONLY/i);
+    assert.match(elements.aiResult.textContent, /no data was sent/i);
+    assert.match(elements.aiResult.textContent, /not a diagnosis/i);
+  } finally {
+    for (const [key, value] of Object.entries(previous)) {
+      if (value === undefined) delete global[key];
+      else global[key] = value;
+    }
+  }
+});
