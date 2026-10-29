@@ -9,6 +9,7 @@ on:
       - "providers/**"
       - "knowledge/**"
       - "wrangler.staging.toml"
+      - "wrangler.toml"
       - "scripts/staging-smoke.mjs"
       - "tests/cloudflare-provider.test.cjs"
       - "tests/worker-contract.test.cjs"
