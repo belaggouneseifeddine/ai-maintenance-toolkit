@@ -59,7 +59,7 @@ export async function callCloudflareAI({
             { role: "user", content: input }
           ],
           response_format: { type: "json_schema", json_schema: normalizeJsonSchema(schema) },
-          max_tokens: 1500,
+          max_tokens: 1200,
           temperature: 0.1
         }),
         new Promise((_, reject) => {
