@@ -1,8 +1,20 @@
-# Configure the optional Gemini assistant
+# Configure the optional AI assistant (Gemini or OpenAI)
 
 The frontend remains usable without AI. The AI assistant works only after the Cloudflare Worker is deployed, the provider key is configured as a Worker secret, and a real request succeeds.
 
-## Single supported backend
+## Supported providers
+
+Gemini remains the default provider in the currently deployed Worker. OpenAI routing is implemented on the isolated development branch only. Cloudflare now confirms an `OPENAI_API_KEY` Worker secret binding exists (the value was not read), but the branch code has not been deployed and `AI_PROVIDER=openai` has not been enabled in production.
+
+To select OpenAI in a Worker deployment, configure these server-side Worker settings in Cloudflare:
+
+- Secret: `OPENAI_API_KEY` — your OpenAI API key.
+- Variable: `AI_PROVIDER` = `openai`.
+- Optional variable: `OPENAI_MODEL` — defaults to `gpt-4.1-mini`.
+
+If `AI_PROVIDER` is absent, the Worker continues to use Gemini (`GEMINI_API_KEY` or the existing `AI_API_KEY` binding). Selecting OpenAI without `OPENAI_API_KEY` fails closed with a configuration error. A failed OpenAI request does not silently switch providers. Never put a key in the browser, repository, logs, or chat.
+
+## Gemini backend
 
 - Worker source: `worker.js`
 - Worker configuration: `wrangler.toml`
@@ -40,7 +52,8 @@ Saving an endpoint only stores its URL on the current device; it does not verify
 
 ## Integration details
 
-- The Worker calls `POST https://generativelanguage.googleapis.com/v1beta/interactions` and defaults to `gemini-3.8-flash`; set the Worker variable `AI_MODEL` only when intentionally overriding the model.
+- Gemini calls `POST https://generativelanguage.googleapis.com/v1beta/interactions` and defaults to `gemini-3.8-flash`; set the Worker variable `AI_MODEL` only when intentionally overriding the model.
+- The optional OpenAI adapter calls `POST https://api.openai.com/v1/responses`, uses Structured Outputs with a strict JSON Schema, and sets `store: false`.
 - The Worker converts its internal diagnosis schema into standard JSON Schema for Interactions API structured output.
 - The response parser reads the Interactions API model-output steps rather than the legacy `candidates[0].content.parts` response.
 - The API key remains server-side; provider response bodies and secret values are not returned to the browser.
@@ -48,4 +61,4 @@ Saving an endpoint only stores its URL on the current device; it does not verify
 
 ## Verification status
 
-Source files and a deployment workflow are present in the repository. That does not prove the Worker is deployed or the Gemini request succeeds. Only mark AI as live after the health check and a real generic `POST /api/chat` test succeed.
+The current live Worker passed the `/health`, CORS preflight, input-validation, and deterministic safety-gate checks in the repository's live smoke workflow on 2026-10-29. These checks do not prove that a real model-generated diagnosis succeeded. The OpenAI adapter and explicit Worker routing passed their current automated tests on a separate branch. The Worker secret binding exists, but the branch has not been deployed and no real OpenAI model-generated diagnosis has been tested. Only mark a provider as live after a real generic `POST /api/chat` request succeeds and the returned diagnosis passes the Worker validator.
