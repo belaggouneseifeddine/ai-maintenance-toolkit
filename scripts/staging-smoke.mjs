@@ -28,6 +28,17 @@ const cases = [
     }
   },
   {
+    name: "generic-pump-low-flow",
+    body: {
+      machine: "Centrifugal pump; manufacturer and model not provided",
+      symptom: "Reduced discharge flow while the pump is running",
+      code: "",
+      observations: "Pump is running and discharge flow is lower than usual. Suction tank level appears normal. No recent maintenance or operating changes reported. No pressure or flow readings are available. No visible leakage reported.",
+      measurementStatus: "none",
+      language: "en"
+    }
+  },
+  {
     name: "motor-fails-start",
     body: {
       machine: "industrial electric motor",
