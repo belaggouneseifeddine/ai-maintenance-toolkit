@@ -11,6 +11,7 @@ on:
       - "wrangler.staging.toml"
       - "wrangler.toml"
       - "scripts/staging-smoke.mjs"
+      - "scripts/staging-smoke.mjs"
       - "tests/cloudflare-provider.test.cjs"
       - "tests/worker-contract.test.cjs"
       - ".github/workflows/cloudflare-ai-staging.yml"
