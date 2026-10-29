@@ -38,7 +38,7 @@ export async function callCloudflareAI({
   instructions,
   input,
   schema,
-  timeoutMs = 15000
+  timeoutMs = 25000
 }) {
   if (!ai || typeof ai.run !== "function") {
     return { ok: false, errorCode: "provider_not_configured", retryable: false };
@@ -59,8 +59,8 @@ export async function callCloudflareAI({
             { role: "user", content: input }
           ],
           response_format: { type: "json_schema", json_schema: normalizeJsonSchema(schema) },
-          max_tokens: 1800,
-          temperature: 0.2
+          max_tokens: 1500,
+          temperature: 0.1
         }),
         new Promise((_, reject) => {
           timeoutId = setTimeout(() => reject(new Error("timeout")), timeoutMs);
