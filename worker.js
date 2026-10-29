@@ -372,19 +372,19 @@ function buildInsufficientEvidenceDiagnosis({ machine, symptom, evidence, langua
   const text = {
     en: {
       warning: "Do not bypass protective devices. Follow site isolation/LOTO procedures before intervention.",
-      reason: "Evidence is insufficient and no relevant knowledge excerpt was retrieved. No cause is ranked and Gemini was not called.",
+      reason: "Evidence is insufficient and no relevant knowledge excerpt was retrieved. No cause is ranked and the AI model was not called.",
       question1: "What exact alarm text, symptom timing, or operating state is already available?",
       question2: "What are the manufacturer and exact model from the nameplate?"
     },
     fr: {
       warning: "Ne contournez aucune protection. Appliquez la procédure de consignation du site avant toute intervention.",
-      reason: "Les preuves sont insuffisantes et aucun extrait pertinent n’a été retrouvé. Aucune cause n’est classée et Gemini n’a pas été appelé.",
+      reason: "Les preuves sont insuffisantes et aucun extrait pertinent n’a été retrouvé. Aucune cause n’est classée et le modèle IA n’a pas été appelé.",
       question1: "Quel texte d’alarme exact, moment d’apparition ou état de fonctionnement est déjà disponible ?",
       question2: "Quels sont le fabricant et le modèle exacts figurant sur la plaque ?"
     },
     ar: {
       warning: "لا تتجاوز وسائل الحماية. اتبع إجراء الموقع لعزل الطاقة وتأمينها (LOTO) قبل أي تدخل.",
-      reason: "الأدلة غير كافية ولم يُسترجع مقطع معرفة ذي صلة. لم يتم ترتيب أي سبب ولم يُستدعَ Gemini.",
+      reason: "الأدلة غير كافية ولم يُسترجع مقطع معرفة ذي صلة. لم يتم ترتيب أي سبب ولم يُستدعَ نموذج الذكاء الاصطناعي.",
       question1: "ما نص الإنذار حرفيًا أو توقيت ظهور العَرَض أو حالة التشغيل المتاحة لديك؟",
       question2: "ما الشركة المصنّعة والطراز الدقيقان على لوحة البيانات؟"
     }
