@@ -7,12 +7,12 @@ The local diagnostic engine remains available independently of the cloud model. 
 The feature branch is configured to use Cloudflare Workers AI through the native `env.AI` binding:
 
 - Worker variable: `AI_PROVIDER = "cloudflare"`
-- Worker variable: `CLOUDFLARE_AI_MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast"`
+- Worker variable: `CLOUDFLARE_AI_MODEL = "@cf/meta/llama-3.2-3b-instruct"`
 - Wrangler binding: `[ai]` with `binding = "AI"`
 - No separate model API key or secret is required for the native Workers AI binding.
 - Cloudflare documents a free allocation of 10,000 Neurons per day for Workers AI. Actual use depends on model and prompt size; when the allocation is exhausted, requests may stop until it resets. Check the current pricing and model access in your Cloudflare account before production use.
 
-The selected model appears in the connected account's model catalog and its schema endpoint exposes JSON Mode inputs. A live, small JSON-schema request succeeded on 2026-10-29 and returned a valid structured answer (about 6.81 Neurons). This verifies basic model access and JSON-mode behavior, not the full app diagnosis flow or diagnostic quality.
+The selected model appears in the connected account's model catalog and its schema endpoint exposes JSON Mode inputs. The full staging Worker path was verified on 2026-10-29 for two generic cases (pump low flow and motor fails to start). Both returned HTTP 200 with safety/LOTO fields, structured hypotheses, and inspection steps. This is a narrow smoke test, not proof of general diagnostic accuracy; the pump case remains preliminary and uses low-confidence hypotheses without source citations when retrieved excerpts do not support them.
 
 Official references:
 - [Workers AI pricing](https://developers.cloudflare.com/workers-ai/platform/pricing/)
