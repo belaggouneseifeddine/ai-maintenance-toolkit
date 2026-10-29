@@ -3,11 +3,13 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const vm = require("node:vm");
 
-const source = fs.readFileSync(require.resolve("../normalization.js"), "utf8") + "\n" + fs.readFileSync(require.resolve("../worker.js"), "utf8").replace('import "./normalization.js";', "").replace('import { callOpenAI } from "./providers/openai-provider.mjs";', "");
+const source = fs.readFileSync(require.resolve("../normalization.js"), "utf8") + "\n" + fs.readFileSync(require.resolve("../worker.js"), "utf8").replace('import "./normalization.js";', "").replace('import { callOpenAI } from "./providers/openai-provider.mjs";', "").replace('import { callCloudflareAI } from "./providers/cloudflare-provider.mjs";', "");
 let upstreamPayload = null;
 let upstreamCalls = 0;
 let openaiCalls = 0;
 let openaiOptions = null;
+let cloudflareCalls = 0;
+let cloudflareOptions = null;
 let knowledgeCalls = 0;
 let mockIntervention = false;
 let mockUpstreamMode = "success";
@@ -43,6 +45,14 @@ const context = {
     diagnosis.session_summary.equipment = "مضخة طرد مركزي";
     diagnosis.session_summary.symptom = "ضعف تدفق الماء أثناء التشغيل";
     return { ok: true, outputText: JSON.stringify(diagnosis), providerStatus: 200, model: options.model };
+  },
+  callCloudflareAI: async options => {
+    cloudflareCalls++;
+    cloudflareOptions = options;
+    const diagnosis = validDiagnosis();
+    diagnosis.session_summary.equipment = "مضخة طرد مركزي";
+    diagnosis.session_summary.symptom = "ضعف تدفق الماء أثناء التشغيل";
+    return { ok: true, outputText: JSON.stringify(diagnosis), model: options.model || "@cf/meta/llama-3.3-70b-instruct-fp8-fast" };
   }
 };
 const executable = source.replace("export default {", "const workerHandler = {") +
@@ -677,4 +687,30 @@ test("server-owned curated diagnostic allowlists match the local engine contract
   for (const flowId of Object.keys(context.__curatedDiagnosticFlows)) {
     assert.ok(engine.getFlowContract(flowId), "server has unrecognized flow " + flowId);
   }
+});
+
+
+test("Cloudflare provider selection uses AI binding without an API key and preserves validation", async () => {
+  const beforeCalls = cloudflareCalls;
+  const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
+    method: "POST",
+    headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
+    body: JSON.stringify({
+      machine: "مضخة طرد مركزي",
+      symptom: "ضعف تدفق الماء أثناء التشغيل",
+      code: "",
+      observations: "قراءات الضغط والتدفق غير متاحة؛ لا توجد تسربات ظاهرة.",
+      measurementStatus: "none",
+      language: "ar"
+    })
+  }), { AI_PROVIDER: "cloudflare", AI: { run: async () => ({ response: "{}" }) }, CLOUDFLARE_AI_MODEL: "@cf/meta/llama-3.3-70b-instruct-fp8-fast" });
+  const body = await response.json();
+  assert.equal(response.status, 200);
+  assert.equal(body.provider, "cloudflare");
+  assert.equal(body.model, "@cf/meta/llama-3.3-70b-instruct-fp8-fast");
+  assert.equal(body.model_called, true);
+  assert.equal(cloudflareCalls, beforeCalls + 1);
+  assert.equal(cloudflareOptions.ai.run instanceof Function, true);
+  assert.equal(body.diagnosis.safety.gate_required, true);
+  assert.equal(body.diagnosis.safety.loto_required_before_intervention, true);
 });
