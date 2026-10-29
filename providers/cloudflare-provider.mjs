@@ -21,7 +21,7 @@ export async function callCloudflareAI({
   instructions,
   input,
   schema,
-  timeoutMs = 26000
+  timeoutMs = 15000
 }) {
   if (!ai || typeof ai.run !== "function") {
     return { ok: false, errorCode: "provider_not_configured", retryable: false };
@@ -31,29 +31,50 @@ export async function callCloudflareAI({
   }
 
   let data;
-  let timeoutId;
-  try {
-    data = await Promise.race([
-      ai.run(model, {
-        messages: [
-          { role: "system", content: instructions },
-          { role: "user", content: input }
-        ],
-        response_format: { type: "json_schema", json_schema: schema },
-        max_tokens: 1800,
-        temperature: 0.2
-      }),
-      new Promise((_, reject) => {
-        timeoutId = setTimeout(() => reject(new Error("timeout")), timeoutMs);
-      })
-    ]);
-  } catch (error) {
-    const message = String(error?.message || error || "").toLowerCase();
-    const retryable = message.includes("timeout") || message.includes("busy") ||
-      message.includes("capacity") || message.includes("429") || message.includes("503");
-    return { ok: false, errorCode: retryable ? "provider_temporarily_unavailable" : "provider_request_failed", retryable };
-  } finally {
-    if (timeoutId) clearTimeout(timeoutId);
+  let lastError = null;
+  for (let attempt = 0; attempt < 2; attempt++) {
+    let timeoutId;
+    try {
+      data = await Promise.race([
+        ai.run(model, {
+          messages: [
+            { role: "system", content: instructions },
+            { role: "user", content: input }
+          ],
+          response_format: { type: "json_schema", json_schema: schema },
+          max_tokens: 1800,
+          temperature: 0.2
+        }),
+        new Promise((_, reject) => {
+          timeoutId = setTimeout(() => reject(new Error("timeout")), timeoutMs);
+        })
+      ]);
+      lastError = null;
+      break;
+    } catch (error) {
+      lastError = error;
+      const message = String(error?.message || error || "").toLowerCase();
+      const capacityError = message.includes("429") || message.includes("503") ||
+        message.includes("busy") || message.includes("capacity") ||
+        message.includes("temporarily unavailable");
+      if (attempt === 0 && capacityError) {
+        await new Promise(resolve => setTimeout(resolve, 350));
+        continue;
+      }
+      const timedOut = message.includes("timeout");
+      return {
+        ok: false,
+        errorCode: timedOut ? "provider_timeout" : capacityError ? "provider_temporarily_unavailable" : "provider_request_failed",
+        retryable: timedOut || capacityError
+      };
+    } finally {
+      if (timeoutId) clearTimeout(timeoutId);
+    }
+  }
+  if (lastError || !data) {
+    const message = String(lastError?.message || lastError || "").toLowerCase();
+    const timedOut = message.includes("timeout");
+    return { ok: false, errorCode: timedOut ? "provider_timeout" : "provider_request_failed", retryable: true };
   }
 
   const outputText = extractOutputText(data);
