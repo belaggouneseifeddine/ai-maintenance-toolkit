@@ -23,7 +23,7 @@ test("Cloudflare provider sends structured JSON request through AI binding", asy
   assert.equal(received.options.response_format.type, "json_schema");
   assert.equal(received.options.messages[0].role, "system");
   assert.equal(received.options.messages[1].role, "user");
-  assert.equal(received.options.max_tokens, 1500);
+  assert.equal(received.options.max_tokens, 1200);
 });
 
 test("Cloudflare provider accepts chat-completion JSON content", async () => {
