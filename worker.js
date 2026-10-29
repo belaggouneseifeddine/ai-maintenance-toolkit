@@ -735,7 +735,13 @@ Use only the evidence supplied. Rank plausible causes, show how to distinguish t
           : ["provider_temporarily_unavailable", "provider_timeout"].includes(result.errorCode)
             ? "Cloudflare Workers AI is temporarily unavailable or timed out. Please retry shortly."
             : "Cloudflare Workers AI request failed or returned invalid JSON. Check the model configuration and retry.";
-        return json({ error: message, retryable: result.retryable }, 502, origin);
+        const debugDetails = env.AI_DIAGNOSTICS_DEBUG === "true"
+          ? {
+              provider_error_code: result.errorCode,
+              provider_model: env.CLOUDFLARE_AI_MODEL || env.AI_MODEL || "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
+            }
+          : {};
+        return json({ error: message, retryable: result.retryable, ...debugDetails }, 502, origin);
       }
       rawOutput = result.outputText;
     } else {
@@ -806,6 +812,38 @@ Use only the evidence supplied. Rank plausible causes, show how to distinguish t
     try { diagnosis = JSON.parse(rawOutput); } catch { return json({ error: "AI response could not be validated. Please retry or use local diagnostic tools." }, 502, origin); }
     const validSourceIds = new Set(citations.map(c => c.id));
     diagnosis = sanitizeDiagnosisSourceClaims(diagnosis, validSourceIds);
+    // Some models omit questions despite returning needs_clarification. Add one
+    // deterministic, non-hazardous question from the known diagnostic flow rather
+    // than discarding an otherwise schema-valid preliminary response.
+    if (diagnosis && diagnosis.status === "needs_clarification" &&
+        Array.isArray(diagnosis.clarifying_questions) && diagnosis.clarifying_questions.length === 0) {
+      const questionText = diagnosticFlowId === "motor|not_start"
+        ? (language === "fr"
+          ? "Quel état exact l’IHM affiche-t-elle pour les autorisations de démarrage et le défaut du variateur/de la protection ?"
+          : language === "ar"
+            ? "ما الحالة الدقيقة التي تعرضها واجهة HMI لتصاريح التشغيل وإنذار الحماية أو المغير؟"
+            : "What exact status does the HMI show for start permissives and the drive/protection trip?")
+        : diagnosticFlowId === "pump|low_flow"
+          ? (language === "fr"
+            ? "Quelles sont les dernières valeurs disponibles de pression d’aspiration, de pression de refoulement et de débit ?"
+            : language === "ar"
+              ? "ما آخر القراءات المتاحة لضغط السحب وضغط الطرد ومعدل التدفق؟"
+              : "What are the latest available suction-pressure, discharge-pressure, and flow readings?")
+          : (language === "fr"
+            ? "Quel état, code d’alarme ou relevé existant permettrait de préciser le diagnostic ?"
+            : language === "ar"
+              ? "ما الحالة أو رمز الإنذار أو القراءة المتاحة التي تساعد على تحديد التشخيص؟"
+              : "What existing status, alarm code, or reading would best clarify the diagnosis?");
+      diagnosis.clarifying_questions = [{
+        id: "deterministic-required-q1",
+        question: questionText,
+        reason: language === "fr"
+          ? "Cette information permet de distinguer les hypothèses sans demander de mesure dangereuse."
+          : language === "ar"
+            ? "تساعد هذه المعلومة على التمييز بين الفرضيات دون طلب قياس خطير."
+            : "This distinguishes the hypotheses without asking for a hazardous measurement."
+      }];
+    }
     if (!validateDiagnosis(diagnosis, language, validSourceIds)) {
       const debug = env.AI_DIAGNOSTICS_DEBUG === "true" ? { validation: getDiagnosisValidationDiagnostics(diagnosis, language, validSourceIds) } : {};
       return json({ error: "AI response failed safety and structure validation. Please retry or escalate to the maintenance supervisor.", retryable: true, ...debug }, 502, origin);
