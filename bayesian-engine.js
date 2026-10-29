@@ -147,6 +147,24 @@
       en: "Preliminary local Bayesian ranking uses explicitly reported signals. Likelihood parameters are not calibrated against real failure records; no percentages are shown and no cause is confirmed."
     }[language];
 
+    if (!hypotheses.length) {
+      const insufficientNote = {
+        ar: "لا توجد فرضيات مرشحة كافية لتحديثها بايزيًا؛ أضف ملاحظات قابلة للتحقق أو صعّد للمختص.",
+        fr: "Aucune hypothèse candidate suffisante pour une mise à jour bayésienne; ajoutez des observations vérifiables ou escaladez.",
+        en: "No candidate hypotheses are available for a Bayesian update; add verifiable observations or escalate."
+      }[language];
+      return {
+        ...base,
+        hypotheses: [],
+        reasoningModel: MODEL_VERSION,
+        calibrationStatus: CALIBRATION_STATUS,
+        reasoningNote: insufficientNote,
+        bayesianEvidence: observed.map(item => item.label[language]),
+        bayesianEvidenceIds: observed.map(item => item.id),
+        bayesianEvidenceCount: observed.length
+      };
+    }
+
     const ranked = hypotheses.map((hypothesis, index) => {
       const scored = scoreHypothesis(hypothesis, Number.isFinite(hypothesis && hypothesis.prior) ? hypothesis.prior : DEFAULT_PRIOR, observed, input || {});
       return {
