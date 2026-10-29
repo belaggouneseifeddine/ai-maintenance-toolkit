@@ -108,6 +108,25 @@ function validateDiagnosis(v, language, sourceIds) {
   const z = v.session_summary;
   return !!z && typeof z.equipment === "string" && z.equipment.length <= 120 && typeof z.symptom === "string" && z.symptom.length <= 240 && typeof z.confirmed_cause === "string" && z.confirmed_cause.length <= 240 && z.confirmed_cause.trim() === "" && ["open","in_progress","resolved","escalated"].includes(z.work_status);
 }
+function sanitizeDiagnosisSourceClaims(diagnosis, validSourceIds) {
+  if (!diagnosis || typeof diagnosis !== "object" || Array.isArray(diagnosis)) return diagnosis;
+  if (Array.isArray(diagnosis.sources)) {
+    diagnosis.sources = diagnosis.sources.filter(id => typeof id === "string" && validSourceIds.has(id));
+  }
+  if (Array.isArray(diagnosis.possible_causes)) {
+    diagnosis.possible_causes = diagnosis.possible_causes.map(cause => {
+      if (!cause || typeof cause !== "object" || Array.isArray(cause)) return cause;
+      const sourceIds = Array.isArray(cause.source_ids)
+        ? cause.source_ids.filter(id => typeof id === "string" && validSourceIds.has(id))
+        : [];
+      const evidenceClass = sourceIds.length > 0 && cause.evidence_class === "source_supported_hypothesis"
+        ? "source_supported_hypothesis"
+        : "hypothesis_only";
+      return { ...cause, source_ids: evidenceClass === "hypothesis_only" ? [] : sourceIds, evidence_class: evidenceClass };
+    });
+  }
+  return diagnosis;
+}
 function formatDiagnosis(v) {
   const en = v.language === "en", fr = v.language === "fr";
   const confidence = { high: en ? "high" : fr ? "élevée" : "عالية", medium: en ? "medium" : fr ? "moyenne" : "متوسطة", low: en ? "low" : fr ? "faible" : "منخفضة" };
@@ -775,6 +794,7 @@ Use only the evidence supplied. Rank plausible causes, show how to distinguish t
     let diagnosis;
     try { diagnosis = JSON.parse(rawOutput); } catch { return json({ error: "AI response could not be validated. Please retry or use local diagnostic tools." }, 502, origin); }
     const validSourceIds = new Set(citations.map(c => c.id));
+    diagnosis = sanitizeDiagnosisSourceClaims(diagnosis, validSourceIds);
     if (!validateDiagnosis(diagnosis, language, validSourceIds)) {
       const debug = env.AI_DIAGNOSTICS_DEBUG === "true" ? { validation: getDiagnosisValidationDiagnostics(diagnosis, language, validSourceIds) } : {};
       return json({ error: "AI response failed safety and structure validation. Please retry or escalate to the maintenance supervisor.", retryable: true, ...debug }, 502, origin);
