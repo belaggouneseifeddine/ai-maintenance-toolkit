@@ -78,6 +78,22 @@ function extractInteractionText(data) {
   return texts.join("\n").trim();
 }
 function validTextList(v, max, len = 500) { return Array.isArray(v) && v.length <= max && v.every(x => typeof x === "string" && x.length <= len); }
+function getDiagnosisValidationDiagnostics(v, language, sourceIds) {
+  const isObject = !!v && typeof v === "object" && !Array.isArray(v);
+  if (!isObject) return { topLevelObject: false };
+  const checks = {
+    statusLanguage: ["needs_clarification","preliminary_assessment","escalation_required","unable_to_assess"].includes(v.status) && v.language === language,
+    safety: !!v.safety && v.safety.gate_required === true && v.safety.loto_required_before_intervention === true && validTextList(v.safety.warnings,8) && validTextList(v.safety.stop_conditions,8),
+    clarifyingQuestions: Array.isArray(v.clarifying_questions) && v.clarifying_questions.length <= 4 && (v.status !== "needs_clarification" || v.clarifying_questions.length > 0) && v.clarifying_questions.every(q => q && typeof q.id === "string" && q.id.length <= 80 && typeof q.question === "string" && q.question.length <= 500 && typeof q.reason === "string" && q.reason.length <= 400),
+    possibleCauses: Array.isArray(v.possible_causes) && v.possible_causes.length <= 3 && v.possible_causes.every(c => c && typeof c.id === "string" && c.id.length <= 80 && typeof c.label === "string" && c.label.length <= 300 && ["high","medium","low"].includes(c.confidence) && validTextList(c.evidence_for,5) && validTextList(c.evidence_against,5) && validTextList(c.source_ids,4,8) && c.source_ids.every(id => sourceIds.has(id)) && ["source_supported_hypothesis","hypothesis_only"].includes(c.evidence_class) && typeof c.next_check === "string" && c.next_check.length <= 600),
+    inspectionSteps: Array.isArray(v.inspection_steps) && v.inspection_steps.length <= 8 && v.inspection_steps.every(x => x && Number.isInteger(x.order) && x.order >= 1 && x.order <= 8 && typeof x.action === "string" && x.action.length <= 600 && ["observation","intervention"].includes(x.kind) && typeof x.purpose === "string" && x.purpose.length <= 400 && typeof x.requires_loto === "boolean" && typeof x.expected_outcome === "string" && x.expected_outcome.length <= 400),
+    lists: validTextList(v.required_tools,8,160) && validTextList(v.danger_signs,8) && validTextList(v.unknowns,10),
+    escalation: !!v.escalation && typeof v.escalation.required === "boolean" && typeof v.escalation.reason === "string" && v.escalation.reason.length <= 500 && (v.status !== "escalation_required" || v.escalation.required),
+    sources: Array.isArray(v.sources) && v.sources.length <= 4 && v.sources.every(x => typeof x === "string" && sourceIds.has(x)),
+    sessionSummary: !!v.session_summary && typeof v.session_summary.equipment === "string" && v.session_summary.equipment.length <= 120 && typeof v.session_summary.symptom === "string" && v.session_summary.symptom.length <= 240 && typeof v.session_summary.confirmed_cause === "string" && v.session_summary.confirmed_cause.length <= 240 && v.session_summary.confirmed_cause.trim() === "" && ["open","in_progress","resolved","escalated"].includes(v.session_summary.work_status)
+  };
+  return Object.fromEntries(Object.entries(checks).map(([key, passed]) => [key, passed ? "pass" : "fail"]));
+}
 function validateDiagnosis(v, language, sourceIds) {
   if (!v || typeof v !== "object" || Array.isArray(v)) return false;
   if (!["needs_clarification","preliminary_assessment","escalation_required","unable_to_assess"].includes(v.status) || v.language !== language) return false;
@@ -759,7 +775,10 @@ Use only the evidence supplied. Rank plausible causes, show how to distinguish t
     let diagnosis;
     try { diagnosis = JSON.parse(rawOutput); } catch { return json({ error: "AI response could not be validated. Please retry or use local diagnostic tools." }, 502, origin); }
     const validSourceIds = new Set(citations.map(c => c.id));
-    if (!validateDiagnosis(diagnosis, language, validSourceIds)) return json({ error: "AI response failed safety and structure validation. Please retry or escalate to the maintenance supervisor.", retryable: true }, 502, origin);
+    if (!validateDiagnosis(diagnosis, language, validSourceIds)) {
+      const debug = env.AI_DIAGNOSTICS_DEBUG === "true" ? { validation: getDiagnosisValidationDiagnostics(diagnosis, language, validSourceIds) } : {};
+      return json({ error: "AI response failed safety and structure validation. Please retry or escalate to the maintenance supervisor.", retryable: true, ...debug }, 502, origin);
+    }
     if (curatedHypothesisIds && diagnosis.possible_causes.some(cause => !curatedHypothesisIds.includes(cause.id))) {
       return json({ error: "AI response used a hypothesis ID outside the curated diagnostic engine allowlist.", code: "unapproved_hypothesis_id", retryable: true }, 502, origin);
     }
