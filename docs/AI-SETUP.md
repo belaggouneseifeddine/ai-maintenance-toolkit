@@ -4,7 +4,7 @@ The frontend remains usable without AI. The AI assistant works only after the Cl
 
 ## Supported providers
 
-Gemini remains the default provider. OpenAI is available as an explicit opt-in on the isolated development branch; it is not enabled in the currently deployed Worker.
+Gemini remains the default provider in the currently deployed Worker. OpenAI routing is implemented on the isolated development branch only. Cloudflare now confirms an `OPENAI_API_KEY` Worker secret binding exists (the value was not read), but the branch code has not been deployed and `AI_PROVIDER=openai` has not been enabled in production.
 
 To select OpenAI in a Worker deployment, configure these server-side Worker settings in Cloudflare:
 
@@ -61,4 +61,4 @@ Saving an endpoint only stores its URL on the current device; it does not verify
 
 ## Verification status
 
-The current live Worker passed the `/health`, CORS preflight, input-validation, and deterministic safety-gate checks in the repository's live smoke workflow on 2026-10-29. These checks do not prove that a real model-generated diagnosis succeeded. The OpenAI adapter and explicit Worker routing are under test on a separate branch and have not been deployed or tested against a real OpenAI key. Only mark a provider as live after a real generic `POST /api/chat` request succeeds and the returned diagnosis passes the Worker validator.
+The current live Worker passed the `/health`, CORS preflight, input-validation, and deterministic safety-gate checks in the repository's live smoke workflow on 2026-10-29. These checks do not prove that a real model-generated diagnosis succeeded. The OpenAI adapter and explicit Worker routing passed their current automated tests on a separate branch. The Worker secret binding exists, but the branch has not been deployed and no real OpenAI model-generated diagnosis has been tested. Only mark a provider as live after a real generic `POST /api/chat` request succeeds and the returned diagnosis passes the Worker validator.
