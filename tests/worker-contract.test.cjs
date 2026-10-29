@@ -193,6 +193,40 @@ test("OpenAI selection fails closed when OPENAI_API_KEY is absent", async () => 
   assert.equal(openaiCalls, beforeCalls);
 });
 
+test("OpenAI provider failure does not silently fall back to Gemini", async () => {
+  const originalCallOpenAI = context.callOpenAI;
+  const before = { openaiCalls, upstreamCalls };
+  context.callOpenAI = async () => ({
+    ok: false,
+    errorCode: "provider_temporarily_unavailable",
+    providerStatus: 429,
+    retryable: true
+  });
+  try {
+    const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
+      method: "POST",
+      headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
+      body: JSON.stringify({
+        machine: "مضخة طرد مركزي",
+        symptom: "ضعف تدفق الماء أثناء التشغيل",
+        observations: "لا توجد قراءة ضغط أو تدفق متاحة حتى الآن",
+        measurementStatus: "none",
+        language: "ar"
+      })
+    }), { AI_PROVIDER: "openai", OPENAI_API_KEY: "test-only-placeholder", AI_API_KEY: "gemini-test-placeholder" });
+    assert.equal(response.status, 502);
+    const body = await response.json();
+    assert.match(body.error, /OpenAI is temporarily unavailable/i);
+    assert.equal(body.provider_status, 429);
+    assert.equal(openaiCalls, before.openaiCalls);
+    assert.equal(upstreamCalls, before.upstreamCalls);
+    assert.ok(!JSON.stringify(body).includes("test-only-placeholder"));
+    assert.ok(!JSON.stringify(body).includes("gemini-test-placeholder"));
+  } finally {
+    context.callOpenAI = originalCallOpenAI;
+  }
+});
+
 test("Worker rejects a disallowed origin before upstream work", async () => {
   const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
     method: "POST",
