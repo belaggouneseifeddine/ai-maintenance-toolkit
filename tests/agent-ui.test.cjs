@@ -149,7 +149,7 @@ test("OpenAI cloud diagnosis sends only after explicit per-request consent and c
     assert.equal(body.code, "E-12");
     assert.equal(body.measurementStatus, "available");
     assert.match(elements.aiResult.textContent, /OpenAI-assisted preliminary assessment/);
-    assert.match(elements.aiResult.textContent, /knowledge\\/example.md/);
+    assert.ok(elements.aiResult.textContent.includes("knowledge/example.md"));
     assert.equal(elements.aiCloudConsent.checked, false);
     assert.equal(elements.askOpenAI.disabled, false);
   } finally {
