@@ -113,8 +113,8 @@ footer{line-height:1.8}
 </form><div id="diagnosisResult" aria-live="polite"></div></div>
 </section>
 <section id="ai" class="panel">
-<div class="card"><h2>مساعد الصيانة — محرك التشخيص المحلي</h2>
-<p class="hint">يعتمد التحليل على محرك الاستدلال المحلي وقاعدة الأعطال المرفقة. لا تُرسل بيانات العطل إلى خادم خارجي في هذا المسار.</p>
+<div class="card"><h2>مساعد الصيانة — OpenAI والتشخيص المحلي</h2>
+<p class="hint">اختر التشخيص المحلي دون إرسال البيانات، أو وافق صراحةً لإرسال بيانات الحالة إلى OpenAI عبر Cloudflare Worker. لا تُرسل بيانات سرية أو معلومات تشغيلية حساسة.</p>
 <form id="aiForm">
 <label for="aiMachine">نوع المعدة / الموديل إن عُرف</label><input id="aiMachine" required maxlength="120" placeholder="مثال: مضخة طرد مركزي، موديل غير معروف">
 <label for="aiSymptom">العطل أو العرض الرئيسي</label><input id="aiSymptom" required maxlength="240" placeholder="مثال: ضغط الخروج منخفض">
@@ -123,7 +123,9 @@ footer{line-height:1.8}
 <div id="dynamicSessionPanel" class="result" aria-live="polite"><h3>جلسة تشخيص موجّهة</h3><p id="dynamicSessionStatus" class="hint">أدخل نوع المعدة والعَرَض لبدء جلسة محلية إن كان لهما مسار معتمد.</p><p id="dynamicQuestionText"></p><select id="dynamicAnswer" aria-label="إجابة سؤال التشخيص الموجّه" hidden></select><div class="actions"><button id="recordDynamicAnswer" class="btn secondary" type="button" hidden>تسجيل الإجابة التالية</button></div><ol id="dynamicHypotheses"></ol><p class="hint">تُستخدم الأدلة المسجلة محليًا لتوجيه التحليل. الفرضيات أولية وليست سببًا مؤكدًا.</p></div>
 <label for="aiMeasurementStatus">حالة القياسات المتاحة</label><select id="aiMeasurementStatus"><option value="unknown">لا أعرف / لست متأكدًا</option><option value="none">لا توجد قراءة متاحة</option><option value="available">توجد قراءات مسجلة بالفعل</option></select><p class="hint" id="aiMeasurementHint">لا تنفّذ قياسًا حيًا أو تلمس معدات خطرة لمجرد الإجابة. استخدم فقط المعلومات والقراءات المتاحة بالفعل.</p>
 <div class="notice">لا تستخدم اقتراحات الذكاء الاصطناعي وحدها لاتخاذ قرارات تشغيل أو سلامة. طبّق LOTO وإجراءات موقعك، ولا تتجاوز الحمايات أو تفتح الأنظمة المضغوطة.</div>
-<div class="actions"><button class="btn" id="askAi" type="submit">تشخيص بمحركنا المحلي</button></div>
+<div class="actions"><button class="btn secondary" id="askAi" type="submit">التشخيص المحلي — دون إرسال البيانات</button></div>
+<label class="check" for="aiCloudConsent"><input id="aiCloudConsent" type="checkbox"> أوافق على إرسال نوع المعدة والعَرَض ورمز الإنذار والملاحظات وحالة القياسات واللغة إلى خادم Cloudflare لمعالجتها بواسطة OpenAI. أفهم أن النتيجة إرشادية وليست تشخيصًا مؤكدًا.</label>
+<div class="actions"><button class="btn" id="askOpenAI" type="button">التشخيص باستخدام OpenAI</button></div>
 </form>
 <div id="aiResult" class="result" aria-live="polite" hidden></div>
 <div id="aiAnswerTools" class="actions no-print" hidden><button type="button" class="btn secondary" id="speakAiAnswer">قراءة الإجابة صوتيًا</button><button type="button" class="btn secondary" id="stopAiSpeech">إيقاف القراءة</button><button type="button" class="btn secondary" id="clearAiCache">مسح الإجابات المحفوظة</button></div>
