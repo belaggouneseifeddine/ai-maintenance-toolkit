@@ -3,9 +3,11 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const vm = require("node:vm");
 
-const source = fs.readFileSync(require.resolve("../normalization.js"), "utf8") + "\n" + fs.readFileSync(require.resolve("../worker.js"), "utf8").replace('import "./normalization.js";', "");
+const source = fs.readFileSync(require.resolve("../normalization.js"), "utf8") + "\n" + fs.readFileSync(require.resolve("../worker.js"), "utf8").replace('import "./normalization.js";', "").replace('import { callOpenAI } from "./providers/openai-provider.mjs";', "");
 let upstreamPayload = null;
 let upstreamCalls = 0;
+let openaiCalls = 0;
+let openaiOptions = null;
 let knowledgeCalls = 0;
 let mockIntervention = false;
 let mockUpstreamMode = "success";
@@ -33,6 +35,14 @@ const context = {
       return new Response(JSON.stringify({ output: [{ type: "model_output", content: [{ type: "text", text: JSON.stringify(diagnosis) }] }] }), { status: 200, headers: { "content-type": "application/json" } });
     }
     return new Response("not found", { status: 404 });
+  },
+  callOpenAI: async options => {
+    openaiCalls++;
+    openaiOptions = options;
+    const diagnosis = validDiagnosis();
+    diagnosis.session_summary.equipment = "مضخة طرد مركزي";
+    diagnosis.session_summary.symptom = "ضعف تدفق الماء أثناء التشغيل";
+    return { ok: true, outputText: JSON.stringify(diagnosis), providerStatus: 200, model: options.model };
   }
 };
 const executable = source.replace("export default {", "const workerHandler = {") +
@@ -139,6 +149,48 @@ test("Worker health endpoint responds without calling Gemini", async () => {
   assert.equal(response.status, 200);
   const body = await response.json();
   assert.equal(body.ok, true);
+});
+
+
+test("explicit OpenAI provider selection uses the server secret and preserves diagnosis validation", async () => {
+  const beforeCalls = openaiCalls;
+  const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
+    method: "POST",
+    headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
+    body: JSON.stringify({
+      machine: "مضخة طرد مركزي",
+      symptom: "ضعف تدفق الماء أثناء التشغيل",
+      observations: "لا توجد قراءة ضغط أو تدفق متاحة حتى الآن",
+      measurementStatus: "none",
+      language: "ar"
+    })
+  }), { AI_PROVIDER: "openai", OPENAI_API_KEY: "test-only-placeholder" });
+  assert.equal(response.status, 200);
+  const body = await response.json();
+  assert.equal(openaiCalls, beforeCalls + 1);
+  assert.equal(openaiOptions.apiKey, "test-only-placeholder");
+  assert.equal(openaiOptions.model, "gpt-4.1-mini");
+  assert.equal(openaiOptions.schema.type, "object");
+  assert.equal(body.diagnosis.safety.gate_required, true);
+  assert.equal(body.diagnosis.session_summary.confirmed_cause, "");
+  assert.match(body.answer, /بوابة السلامة/);
+});
+
+test("OpenAI selection fails closed when OPENAI_API_KEY is absent", async () => {
+  const beforeCalls = openaiCalls;
+  const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
+    method: "POST",
+    headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
+    body: JSON.stringify({
+      machine: "مضخة طرد مركزي",
+      symptom: "ضعف تدفق الماء أثناء التشغيل",
+      observations: "لا توجد قراءة ضغط أو تدفق متاحة حتى الآن",
+      measurementStatus: "none",
+      language: "ar"
+    })
+  }), { AI_PROVIDER: "openai" });
+  assert.equal(response.status, 503);
+  assert.equal(openaiCalls, beforeCalls);
 });
 
 test("Worker rejects a disallowed origin before upstream work", async () => {
