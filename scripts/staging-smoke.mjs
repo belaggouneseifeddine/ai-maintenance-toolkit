@@ -98,7 +98,9 @@ for (const testCase of cases) {
     questions: (diagnosis?.clarifying_questions || []).length,
     steps: (diagnosis?.inspection_steps || []).length,
     citationCount: (payload?.citations || []).length,
-    retrievalStatus: payload?.retrieval?.status
+    retrievalStatus: payload?.retrieval?.status,
+    validation: payload?.validation,
+    error: payload?.error
   });
 }
 
