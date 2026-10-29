@@ -65,13 +65,35 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: printf '%s' "$OPENAI_API_KEY" | wrangler secret put OPENAI_API_KEY --config wrangler.toml
 
-      - name: Verify OpenAI secret is configured on the Worker
+      - name: Verify selected provider configuration
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
-          secrets="$(wrangler secret list --config wrangler.toml)"
-          printf '%s' "$secrets" | grep -Eq 'OPENAI_API_KEY' || {
-            echo "OpenAI is selected in wrangler.toml but OPENAI_API_KEY is missing. Add it as a Cloudflare Worker secret or GitHub Actions secret."
-            exit 1
-          }
+          provider="$(sed -n 's/^AI_PROVIDER = "\(.*\)"/\1/p' wrangler.toml | head -n 1)"
+          case "$provider" in
+            cloudflare)
+              grep -Eq '^\[ai\]' wrangler.toml
+              grep -Eq '^binding = "AI"' wrangler.toml
+              grep -Eq '^CLOUDFLARE_AI_MODEL = "' wrangler.toml
+              echo "Cloudflare Workers AI selected; no separate provider API key is required."
+              ;;
+            openai)
+              secrets="$(wrangler secret list --config wrangler.toml)"
+              printf '%s' "$secrets" | grep -Eq 'OPENAI_API_KEY' || {
+                echo "OpenAI is selected but OPENAI_API_KEY is missing."
+                exit 1
+              }
+              ;;
+            gemini)
+              secrets="$(wrangler secret list --config wrangler.toml)"
+              printf '%s' "$secrets" | grep -Eq 'GEMINI_API_KEY|AI_API_KEY' || {
+                echo "Gemini is selected but GEMINI_API_KEY / AI_API_KEY is missing."
+                exit 1
+              }
+              ;;
+            *)
+              echo "Unsupported AI_PROVIDER: $provider"
+              exit 1
+              ;;
+          esac
