@@ -4,7 +4,7 @@ The frontend remains usable without AI. The AI assistant works only after the Cl
 
 ## Supported providers
 
-Gemini remains the default provider in the currently deployed Worker. OpenAI routing is implemented on the isolated development branch only. Cloudflare now confirms an `OPENAI_API_KEY` Worker secret binding exists (the value was not read), but the branch code has not been deployed and `AI_PROVIDER=openai` has not been enabled in production.
+Gemini is the configured production provider. OpenAI routing is merged and deployed, but is not currently enabled in production because the first real OpenAI request returned HTTP 429. Cloudflare confirms the `OPENAI_API_KEY` Worker secret binding exists; its value was not read.
 
 To select OpenAI in a Worker deployment, configure these server-side Worker settings in Cloudflare:
 
@@ -61,4 +61,4 @@ Saving an endpoint only stores its URL on the current device; it does not verify
 
 ## Verification status
 
-The current live Worker passed the `/health`, CORS preflight, input-validation, and deterministic safety-gate checks in the repository's live smoke workflow on 2026-10-29. These checks do not prove that a real model-generated diagnosis succeeded. The OpenAI adapter and explicit Worker routing passed their current automated tests on a separate branch. The Worker secret binding exists, but the branch has not been deployed and no real OpenAI model-generated diagnosis has been tested. Only mark a provider as live after a real generic `POST /api/chat` request succeeds and the returned diagnosis passes the Worker validator.
+The deployed Worker passed automated `/health`, CORS preflight, input-validation, deterministic safety-gate, UI, and static-quality checks on 2026-10-29. The merged OpenAI adapter and Worker routing tests passed. A real generic `POST /api/chat` attempt with OpenAI returned HTTP 502 with upstream status 429; the exact cause (quota, billing, or rate limit) is not confirmed. After restoring Gemini as the configured production provider, a real generic model request failed before an upstream HTTP response was received. Therefore, real model-generated diagnosis is not currently verified for either provider. Keep Gemini configured until its network/key path is checked, and verify OpenAI account quota/billing before enabling OpenAI. The manual workflow `.github/workflows/openai-live-smoke.yml` can verify a real request once the selected provider is ready.
