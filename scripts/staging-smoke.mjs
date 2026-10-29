@@ -107,6 +107,8 @@ for (const testCase of cases) {
     citationCount: (payload?.citations || []).length,
     retrievalStatus: payload?.retrieval?.status,
     validation: payload?.validation,
+    providerErrorCode: payload?.provider_error_code,
+    providerModel: payload?.provider_model,
     error: payload?.error
   });
 }
