@@ -38,9 +38,9 @@ https://github.com/belaggouneseifeddine/ai-maintenance-toolkit/actions/workflows
 Required GitHub Actions secrets:
 - `CLOUDFLARE_API_TOKEN`
 - `CLOUDFLARE_ACCOUNT_ID`
-- `GEMINI_API_KEY`
+- `OPENAI_API_KEY` (optional in GitHub if already configured as a Cloudflare Worker secret)
 
-The workflow deploys the root `worker.js` using `wrangler.toml`. It does not configure the frontend endpoint automatically. After a successful deployment, enter the Worker URL ending in `/api/chat` in the app's AI section and save it on the device.
+The workflow deploys the root `worker.js` using `wrangler.toml`, which selects OpenAI as the provider. The published app calls the configured Worker from the OpenAI diagnosis button only after per-request consent. The local diagnosis action remains offline.
 
 Never commit API keys or put them in browser code, local storage, or the public repository. Use generic, non-sensitive test data only and review current provider terms, quotas, and costs.
 
@@ -54,7 +54,7 @@ Never commit API keys or put them in browser code, local storage, or the public 
 - `manifest.json`, `sw.js` — PWA metadata and cache
 - `worker.js`, `wrangler.toml` — Cloudflare Worker API
 - `engineering-core.js` — request normalization, conservative routing, and local diagnostic adapter
-- `agent-core.js` — orchestration core with safety-first routing and explicit tool adapters; `agent-ui.js` connects the local-agent button to the core. This confirms UI wiring in source, not live AI availability or end-to-end production validation.
+- `agent-core.js` — orchestration core with safety-first routing and explicit tool adapters; `agent-ui.js` connects both the local-agent and consent-based OpenAI actions. Source wiring does not prove live AI availability or end-to-end production validation.
 - `tests/agent-core.test.cjs` — agent orchestration behavior tests
 - `docs/AI-AGENT-CORE-V1.md` — orchestration contract, current UI integration, and remaining verification gates
 - `BACKEND_DEPLOYMENT.md`, `docs/AI-SETUP.md` — backend setup
