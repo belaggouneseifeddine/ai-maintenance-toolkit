@@ -1,0 +1,34 @@
+name: OpenAI provider adapter tests
+
+on:
+  push:
+    branches:
+      - feature/openai-provider-adapter-2026-10-29
+    paths:
+      - "providers/openai-provider.mjs"
+      - "tests/openai-provider.test.mjs"
+      - ".github/workflows/openai-provider-adapter-tests.yml"
+  pull_request:
+    paths:
+      - "providers/openai-provider.mjs"
+      - "tests/openai-provider.test.mjs"
+      - ".github/workflows/openai-provider-adapter-tests.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  openai-provider-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Check adapter syntax
+        run: node --check providers/openai-provider.mjs
+      - name: Run adapter contract tests
+        run: node --test tests/openai-provider.test.mjs
