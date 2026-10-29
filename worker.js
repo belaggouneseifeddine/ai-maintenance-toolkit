@@ -732,8 +732,8 @@ Use only the evidence supplied. Rank plausible causes, show how to distinguish t
       if (!result.ok) {
         const message = result.errorCode === "provider_not_configured"
           ? "Cloudflare Workers AI binding is missing. Configure the AI binding on this Worker."
-          : result.errorCode === "provider_temporarily_unavailable"
-            ? "Cloudflare Workers AI is temporarily unavailable or at capacity. Please retry shortly."
+          : ["provider_temporarily_unavailable", "provider_timeout"].includes(result.errorCode)
+            ? "Cloudflare Workers AI is temporarily unavailable or timed out. Please retry shortly."
             : "Cloudflare Workers AI request failed or returned invalid JSON. Check the model configuration and retry.";
         return json({ error: message, retryable: result.retryable }, 502, origin);
       }
