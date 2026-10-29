@@ -1,5 +1,22 @@
 const DEFAULT_MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast";
 
+/** Convert the app's Gemini-style uppercase schema types to standard JSON Schema.
+ * Cloudflare Workers AI expects lowercase JSON Schema type names.
+ */
+export function normalizeJsonSchema(schema) {
+  if (Array.isArray(schema)) return schema.map(normalizeJsonSchema);
+  if (!schema || typeof schema !== "object") return schema;
+  const result = {};
+  for (const [key, value] of Object.entries(schema)) {
+    if (key === "type" && typeof value === "string") {
+      result[key] = value.toLowerCase();
+    } else {
+      result[key] = normalizeJsonSchema(value);
+    }
+  }
+  return result;
+}
+
 function extractOutputText(data) {
   if (typeof data?.response === "string" && data.response.trim()) return data.response.trim();
   if (data?.response && typeof data.response === "object") return JSON.stringify(data.response);
@@ -41,7 +58,7 @@ export async function callCloudflareAI({
             { role: "system", content: instructions },
             { role: "user", content: input }
           ],
-          response_format: { type: "json_schema", json_schema: schema },
+          response_format: { type: "json_schema", json_schema: normalizeJsonSchema(schema) },
           max_tokens: 1800,
           temperature: 0.2
         }),
