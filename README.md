@@ -18,7 +18,7 @@ Mobile-first progressive web app (PWA) for preliminary industrial-maintenance tr
 - Portable maintenance-agent skill specifications, exact-keyword matching, review-required alias hints, and stricter Worker validation that prevents unverified causes from being labelled confirmed.
 - Local maintenance log, draft recovery, filters, CSV export, and printable reports.
 - Responsive interface, language switching, and PWA offline shell.
-- Optional Gemini assistant through a separately deployed Cloudflare Worker.
+- Consent-based OpenAI assistant through a Cloudflare Worker, with a separate local/offline diagnosis action.
 
 ## Current limitations
 
@@ -26,7 +26,7 @@ Mobile-first progressive web app (PWA) for preliminary industrial-maintenance tr
 - Manufacturer links are source-discovery aids; model scope and the exact claim/page must be verified before describing a cause as OEM-supported.
 - Maintenance records are stored in the current browser/device and are not automatically synchronized or backed up.
 - The app is a PWA, not a native Android APK.
-- The AI assistant is **not confirmed live** until the Worker is deployed and a real generic request returns a valid answer.
+- The OpenAI assistant is **not confirmed live** until the OpenAI Worker configuration and a real generic request return a validated model-generated answer.
 - The Worker has a configured Cloudflare rate-limit binding (10 requests per 60 seconds per client key). Runtime enforcement, broader abuse monitoring, and cost controls still require operational verification; CORS is not authentication. The source allowlist must include both the primary Cloudflare Pages origin and the GitHub Pages fallback.
 
 ## AI deployment
