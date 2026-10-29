@@ -22,7 +22,9 @@
 
 - [x] Add an isolated OpenAI Responses API adapter.
 - [x] Add unit tests for request format, strict schema normalization, output extraction, malformed output, missing secret, network failure, and safe error handling.
-- [ ] Run the new unit tests and the existing Worker contract/quality tests in CI.
+- [x] Adapter unit tests passed in [GitHub Actions](https://github.com/belaggouneseifeddine/ai-maintenance-toolkit/actions/runs/40929342318).
+- [x] Worker contract tests and diagnostic engine regression tests passed on the integrated branch: [Worker tests](https://github.com/belaggouneseifeddine/ai-maintenance-toolkit/actions/runs/40929848157), [diagnostic tests](https://github.com/belaggouneseifeddine/ai-maintenance-toolkit/actions/runs/40929668103).
+- [x] Static quality, UI smoke, and published Worker API smoke checks passed: [quality workflow](https://github.com/belaggouneseifeddine/ai-maintenance-toolkit/actions/runs/40929848191).
 - [x] Integrate explicit provider selection into the Worker. Gemini remains the default; OpenAI requires `AI_PROVIDER=openai` and `OPENAI_API_KEY`. Provider failures do not silently switch providers.
 - [ ] Verify that the Cloudflare secret binding `OPENAI_API_KEY` exists without reading its value.
 - [x] Existing live smoke workflow passed health, CORS, input-validation, and deterministic safety-gate checks on the published Worker. It did not exercise a real model-generated diagnosis.
@@ -31,4 +33,4 @@
 
 ## Current status
 
-The adapter is integrated into `worker.js` behind explicit provider selection on the isolated feature branch. CI tests passed for the adapter, Worker contract, and diagnostic engine. The quality workflow is being rechecked after the latest commit. No Worker deployment was performed. The live Worker still uses its deployed configuration; a real OpenAI API request has not been performed because the inspected Cloudflare bindings did not include `OPENAI_API_KEY`.
+The adapter is integrated into `worker.js` behind explicit provider selection on the isolated feature branch. Adapter tests, Worker contract tests, diagnostic engine tests, static checks, UI checks, and the live Worker health/CORS/validation/safety smoke tests passed in GitHub Actions. The live smoke test does not invoke a model-generated diagnosis. No Worker deployment was performed. The inspected Cloudflare bindings did not include `OPENAI_API_KEY`, so a real OpenAI API request remains untested.
