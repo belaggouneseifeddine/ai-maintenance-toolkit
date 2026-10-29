@@ -749,6 +749,6 @@ Use only the evidence supplied. Rank plausible causes, show how to distinguish t
     diagnosis.inspection_steps = diagnosis.inspection_steps.map(step => ({ ...step, requires_loto: step.kind === "intervention" ? true : step.requires_loto }));
     const usedCitations = citations.filter(c => diagnosis.sources.includes(c.id));
     const answer = formatDiagnosis(diagnosis);
-    return json({ answer: answer.slice(0, 12000), diagnosis, citations: usedCitations, retrieval: { status: retrieval.retrievalStatus, matchedChunks: retrieval.chunks.length, availableDocuments: retrieval.availableDocuments, ranking: retrieval.rankingComparison } }, 200, origin);
+    return json({ answer: answer.slice(0, 12000), diagnosis, citations: usedCitations, provider: selectedProvider, model: selectedProvider === "openai" ? (env.OPENAI_MODEL || env.AI_MODEL || "gpt-4.1-mini") : (env.AI_MODEL || "gemini-3.8-flash"), model_called: true, retrieval: { status: retrieval.retrievalStatus, matchedChunks: retrieval.chunks.length, availableDocuments: retrieval.availableDocuments, ranking: retrieval.rankingComparison } }, 200, origin);
   }
 };
