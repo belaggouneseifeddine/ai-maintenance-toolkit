@@ -237,10 +237,15 @@
           : "لم تُرجع الخدمة تشخيصًا صالحًا للتحقق.";
         return;
       }
+      const modelGenerated = data.model_called === true && data.provider === "openai";
       const lines = [
-        language === "en" ? "OpenAI-assisted preliminary assessment — not a confirmed diagnosis."
-          : language === "fr" ? "Évaluation préliminaire assistée par OpenAI — diagnostic non confirmé."
-          : "تقييم أولي بمساعدة OpenAI — ليس تشخيصًا مؤكدًا.",
+        modelGenerated
+          ? (language === "en" ? "OpenAI-generated preliminary assessment — not a confirmed diagnosis."
+            : language === "fr" ? "Évaluation préliminaire générée par OpenAI — diagnostic non confirmé."
+            : "تقييم أولي مولّد بواسطة OpenAI — ليس تشخيصًا مؤكدًا.")
+          : (language === "en" ? "Preliminary cloud safety/evidence assessment — the AI model was not confirmed as called."
+            : language === "fr" ? "Évaluation préliminaire de sécurité/des preuves — l’appel au modèle IA n’est pas confirmé."
+            : "تقييم أولي للسلامة والأدلة — لم يتأكد استدعاء نموذج الذكاء الاصطناعي."),
         "",
         data.answer
       ];
