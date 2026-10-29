@@ -2,7 +2,7 @@ name: Cloudflare AI staging integration test
 
 on:
   push:
-    branches: [feature/openai-primary-provider]
+    branches: [feature/openai-primary-provider, hotfix/generic-diagnosis-live-smoke]
     paths:
       - "worker.js"
       - "normalization.js"
@@ -10,7 +10,6 @@ on:
       - "knowledge/**"
       - "wrangler.staging.toml"
       - "wrangler.toml"
-      - "scripts/staging-smoke.mjs"
       - "scripts/staging-smoke.mjs"
       - "tests/cloudflare-provider.test.cjs"
       - "tests/worker-contract.test.cjs"
