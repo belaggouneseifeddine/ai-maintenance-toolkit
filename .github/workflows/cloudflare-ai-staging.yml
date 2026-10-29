@@ -49,5 +49,5 @@ jobs:
         run: wrangler deploy --config wrangler.staging.toml
       - name: Verify full API path against real Cloudflare model
         env:
-          STAGING_WORKER_URL: https://maintenance-ai-toolkit-staging.${{ vars.CLOUDFLARE_WORKERS_SUBDOMAIN }}.workers.dev
+          STAGING_WORKER_URL: https://maintenance-ai-toolkit-staging.maintenance-ai-toolkit-api-seif.workers.dev
         run: node scripts/staging-smoke.mjs
