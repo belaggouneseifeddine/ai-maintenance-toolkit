@@ -59,7 +59,7 @@ for (const testCase of cases) {
   }
 
   const diagnosis = payload?.diagnosis;
-  check(response.status === 200, testCase.name + ": expected HTTP 200, got " + response.status + "; " + (payload?.error || "no error detail") + (payload?.debug_validation ? " validation=" + JSON.stringify(payload.debug_validation.validation) : ""));
+  check(response.status === 200, testCase.name + ": expected HTTP 200, got " + response.status + "; " + (payload?.error || "no error detail") + (payload?.validation ? " validation=" + JSON.stringify(payload.validation) : ""));
   check(payload?.provider === "cloudflare", testCase.name + ": provider is not cloudflare");
   check(payload?.model_called === true, testCase.name + ": model_called was not true");
   check(typeof payload?.model === "string" && payload.model.length > 0, testCase.name + ": model name missing");
