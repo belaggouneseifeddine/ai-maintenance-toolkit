@@ -276,14 +276,40 @@
     }
   }
 
+  // A deterministic demo path for UI testing when API credits are unavailable.
+  // It never sends case data or represents its output as model-generated.
+  function runOpenAIMock() {
+    const output = root.document && root.document.getElementById("aiResult");
+    const machine = root.document && root.document.getElementById("aiMachine");
+    const symptom = root.document && root.document.getElementById("aiSymptom");
+    const language = root.MaintenanceI18n && typeof root.MaintenanceI18n.getLanguage === "function"
+      ? root.MaintenanceI18n.getLanguage()
+      : (root.document && root.document.documentElement.lang) || "ar";
+    if (!output) return;
+    output.hidden = false;
+    const equipment = machine && machine.value.trim() ? machine.value.trim() : (language === "en" ? "sample equipment" : language === "fr" ? "équipement exemple" : "معدة تجريبية");
+    const issue = symptom && symptom.value.trim() ? symptom.value.trim() : (language === "en" ? "sample symptom" : language === "fr" ? "symptôme exemple" : "عَرَض تجريبي");
+    const title = language === "en" ? "SIMULATION ONLY — no AI model was called and no data was sent."
+      : language === "fr" ? "SIMULATION UNIQUEMENT — aucun modèle IA appelé, aucune donnée envoyée."
+      : "محاكاة فقط — لم يُستدعَ أي نموذج ذكاء اصطناعي ولم تُرسل أي بيانات.";
+    const detail = language === "en"
+      ? "Sample response path: equipment=" + equipment + "; symptom=" + issue + ". This placeholder is not a diagnosis. Use local diagnosis for real rule-based guidance, or enable OpenAI only when API quota is available."
+      : language === "fr"
+        ? "Exemple de réponse : équipement=" + equipment + "; symptôme=" + issue + ". Ce contenu n’est pas un diagnostic. Utilisez le diagnostic local pour des conseils basés sur les règles, ou activez OpenAI avec un quota API disponible."
+        : "مسار الرد التجريبي: المعدة=" + equipment + "؛ العَرَض=" + issue + ". هذا نص تجريبي وليس تشخيصًا. استخدم التشخيص المحلي للإرشادات القائمة على القواعد، ولا تفعّل OpenAI إلا عند توفر حصة API.";
+    output.textContent = title + "\\n\\n" + detail;
+  }
+
   function init() {
     const button = root.document && root.document.getElementById("runLocalAgent");
     if (button) button.addEventListener("click", runLocal);
     const cloudButton = root.document && root.document.getElementById("askOpenAI");
     if (cloudButton) cloudButton.addEventListener("click", runOpenAI);
+    const mockButton = root.document && root.document.getElementById("simulateOpenAI");
+    if (mockButton) mockButton.addEventListener("click", runOpenAIMock);
   }
 
-  const api = Object.freeze({ formatResult, formatGuidedEvidence, runLocal, runOpenAI, init });
+  const api = Object.freeze({ formatResult, formatGuidedEvidence, runLocal, runOpenAI, runOpenAIMock, init });
   root.MaintenanceAgentUI = api;
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   if (root.document) init();
