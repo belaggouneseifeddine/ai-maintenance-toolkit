@@ -326,6 +326,12 @@
       note.textContent = result.reasoningNote;
       card.appendChild(note);
     }
+    if (Array.isArray(result.bayesianEvidence) && result.bayesianEvidence.length) {
+      const signals = doc.createElement("p");
+      signals.className = "hint";
+      signals.textContent = (lang==="ar" ? "الإشارات التي أثرت في الترتيب: " : lang==="fr" ? "Indices ayant influencé le classement : " : "Signals used in ranking: ") + result.bayesianEvidence.join("; ");
+      card.appendChild(signals);
+    }
     if (!result.hypotheses.length) {
       const empty = doc.createElement("p");
       empty.textContent = lang==="ar" ? "لا توجد فرضيات مناسبة لهذا الزوج من المعدة والعَرَض. أضف تفاصيل أو اختر مرجعًا مطابقًا، ثم صعّد إذا بقي الدليل غير كافٍ." : lang==="fr" ? "Aucune hypothèse adaptée à cette combinaison. Ajoutez des détails ou une référence appropriée; escaladez si les preuves restent insuffisantes." : "No suitable hypothesis for this equipment/symptom pair. Add details or a matching reference; escalate if evidence remains insufficient.";
@@ -335,8 +341,15 @@
       const block = doc.createElement("article");
       block.className = "record";
       const heading = doc.createElement("h4");
-      const estimate = Number.isFinite(hypothesis.bayesianEstimate) ? " · " + Math.round(hypothesis.bayesianEstimate * 100) + "% relative estimate" : "";
-      heading.textContent = hypothesis.label + " — " + (lang==="ar" ? "فرضية فقط" : lang==="fr" ? "hypothèse uniquement" : "hypothesis only") + estimate;
+      const rank = Number.isInteger(hypothesis.bayesianRank)
+        ? (lang==="ar" ? " · ترتيب بايزي أولي " : lang==="fr" ? " · rang bayésien initial " : " · initial Bayesian rank ") + hypothesis.bayesianRank
+        : "";
+      const shift = hypothesis.bayesianSupportShift === "increased"
+        ? (lang==="ar" ? " · الدعم النسبي ازداد" : lang==="fr" ? " · soutien relatif accru" : " · relative support increased")
+        : hypothesis.bayesianSupportShift === "decreased"
+          ? (lang==="ar" ? " · الدعم النسبي انخفض" : lang==="fr" ? " · soutien relatif réduit" : " · relative support decreased")
+          : (lang==="ar" ? " · الدعم النسبي لم يتغير" : lang==="fr" ? " · soutien relatif inchangé" : " · relative support unchanged");
+      heading.textContent = hypothesis.label + " — " + (lang==="ar" ? "فرضية فقط" : lang==="fr" ? "hypothèse uniquement" : "hypothesis only") + rank + shift;
       block.appendChild(heading);
       const why = doc.createElement("p"); why.textContent = (lang==="ar" ? "لماذا: " : lang==="fr" ? "Pourquoi : " : "Why: ") + hypothesis.why; block.appendChild(why);
       const evidence = doc.createElement("p");
