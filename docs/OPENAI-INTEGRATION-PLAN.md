@@ -23,11 +23,12 @@
 - [x] Add an isolated OpenAI Responses API adapter.
 - [x] Add unit tests for request format, strict schema normalization, output extraction, malformed output, missing secret, network failure, and safe error handling.
 - [ ] Run the new unit tests and the existing Worker contract/quality tests in CI.
-- [ ] Integrate explicit provider selection into the Worker, retaining Gemini fallback only when configured and explicitly allowed.
+- [x] Integrate explicit provider selection into the Worker. Gemini remains the default; OpenAI requires `AI_PROVIDER=openai` and `OPENAI_API_KEY`. Provider failures do not silently switch providers.
 - [ ] Verify that the Cloudflare secret binding `OPENAI_API_KEY` exists without reading its value.
-- [ ] Run the live health, CORS, input-validation, deterministic safety-gate, and generic diagnosis smoke checks.
+- [x] Existing live smoke workflow passed health, CORS, input-validation, and deterministic safety-gate checks on the published Worker. It did not exercise a real model-generated diagnosis.
+- [ ] Run a live generic model-generated diagnosis test after the OpenAI secret is configured and deployment is explicitly approved.
 - [ ] Review costs, rate limiting, data handling, and output validity before any release decision.
 
 ## Current status
 
-The adapter and tests are committed to the isolated feature branch, but are not yet integrated into `worker.js`, deployed, or proven against a live OpenAI API request.
+The adapter is integrated into `worker.js` behind explicit provider selection on the isolated feature branch. CI tests passed for the adapter, Worker contract, and diagnostic engine. The quality workflow is being rechecked after the latest commit. No Worker deployment was performed. The live Worker still uses its deployed configuration; a real OpenAI API request has not been performed because the inspected Cloudflare bindings did not include `OPENAI_API_KEY`.
