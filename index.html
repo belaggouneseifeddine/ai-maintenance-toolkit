@@ -126,6 +126,8 @@ footer{line-height:1.8}
 <div class="actions"><button class="btn secondary" id="askAi" type="submit">التشخيص المحلي — دون إرسال البيانات</button></div>
 <label class="check" for="aiCloudConsent"><input id="aiCloudConsent" type="checkbox"> أوافق على إرسال نوع المعدة والعَرَض ورمز الإنذار والملاحظات وحالة القياسات واللغة إلى خادم Cloudflare لمعالجتها بواسطة OpenAI. أفهم أن النتيجة إرشادية وليست تشخيصًا مؤكدًا.</label>
 <div class="actions"><button class="btn" id="askOpenAI" type="button">التشخيص باستخدام OpenAI</button></div>
+<div class="actions"><button class="btn secondary" id="simulateOpenAI" type="button">اختبار الواجهة مجانًا — محاكاة فقط</button></div>
+<p class="hint">المحاكاة لا تستدعي نموذجًا ولا تختبر اتصال OpenAI؛ إنها تختبر عرض الرد فقط ولا ترسل بياناتك.</p>
 </form>
 <div id="aiResult" class="result" aria-live="polite" hidden></div>
 <div id="aiAnswerTools" class="actions no-print" hidden><button type="button" class="btn secondary" id="speakAiAnswer">قراءة الإجابة صوتيًا</button><button type="button" class="btn secondary" id="stopAiSpeech">إيقاف القراءة</button><button type="button" class="btn secondary" id="clearAiCache">مسح الإجابات المحفوظة</button></div>
