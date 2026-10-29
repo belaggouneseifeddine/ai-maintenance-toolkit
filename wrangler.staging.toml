@@ -6,6 +6,7 @@ workers_dev = true
 [vars]
 AI_PROVIDER = "cloudflare"
 CLOUDFLARE_AI_MODEL = "@cf/meta/llama-3.2-3b-instruct"
+AI_DIAGNOSTICS_DEBUG = "true"
 
 [[ratelimits]]
 name = "AI_RATE_LIMITER"
