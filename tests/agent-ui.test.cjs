@@ -135,6 +135,7 @@ test("OpenAI cloud diagnosis sends only after explicit per-request consent and c
           answer: "SAFETY GATE\\nFollow site LOTO procedures.",
           provider: "openai",
           model: "gpt-4.1-mini",
+          model_called: true,
           citations: [{ id: "S1", source: "knowledge/example.md", section: "Pump checks", startLine: 10, endLine: 14 }]
         })
       };
@@ -148,7 +149,7 @@ test("OpenAI cloud diagnosis sends only after explicit per-request consent and c
     assert.equal(body.symptom, "abnormal vibration and low flow");
     assert.equal(body.code, "E-12");
     assert.equal(body.measurementStatus, "available");
-    assert.match(elements.aiResult.textContent, /OpenAI-assisted preliminary assessment/);
+    assert.match(elements.aiResult.textContent, /OpenAI-generated preliminary assessment/);
     assert.ok(elements.aiResult.textContent.includes("knowledge/example.md"));
     assert.equal(elements.aiCloudConsent.checked, false);
     assert.equal(elements.askOpenAI.disabled, false);
