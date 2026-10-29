@@ -1,4 +1,4 @@
-const DEFAULT_MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast";
+const DEFAULT_MODEL = "@cf/meta/llama-3.2-3b-instruct";
 
 /** Convert the app's Gemini-style uppercase schema types to standard JSON Schema.
  * Cloudflare Workers AI expects lowercase JSON Schema type names.
@@ -59,7 +59,7 @@ export async function callCloudflareAI({
             { role: "user", content: input }
           ],
           response_format: { type: "json_schema", json_schema: normalizeJsonSchema(schema) },
-          max_tokens: 1200,
+          max_tokens: 1800,
           temperature: 0.1
         }),
         new Promise((_, reject) => {
