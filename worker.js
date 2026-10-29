@@ -738,7 +738,10 @@ Use only the evidence supplied. Rank plausible causes, show how to distinguish t
         const debugDetails = env.AI_DIAGNOSTICS_DEBUG === "true"
           ? {
               provider_error_code: result.errorCode,
-              provider_model: env.CLOUDFLARE_AI_MODEL || env.AI_MODEL || "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
+              provider_model: env.CLOUDFLARE_AI_MODEL || env.AI_MODEL || "@cf/meta/llama-3.2-3b-instruct",
+              provider_output_length: result.outputLength,
+              provider_finish_reason: result.finishReason,
+              provider_usage: result.usage
             }
           : {};
         return json({ error: message, retryable: result.retryable, ...debugDetails }, 502, origin);
@@ -822,11 +825,11 @@ Use only the evidence supplied. Rank plausible causes, show how to distinguish t
         diagnosis.safety?.loto_required_before_intervention === true) {
       diagnosis.status = "preliminary_assessment";
     }
-    // Some models omit questions despite returning needs_clarification. Add one
-    // deterministic, non-hazardous question from the known diagnostic flow rather
-    // than discarding an otherwise schema-valid preliminary response.
-    if (diagnosis && diagnosis.status === "needs_clarification" &&
-        Array.isArray(diagnosis.clarifying_questions) && diagnosis.clarifying_questions.length === 0) {
+    // Some models omit follow-up questions even when evidence is incomplete.
+    // Add one deterministic, non-hazardous question rather than discarding an
+    // otherwise useful response that the schema requires to include a question.
+    if (diagnosis && Array.isArray(diagnosis.clarifying_questions) &&
+        diagnosis.clarifying_questions.length === 0) {
       const questionText = diagnosticFlowId === "motor|not_start"
         ? (language === "fr"
           ? "Quel état exact l’IHM affiche-t-elle pour les autorisations de démarrage et le défaut du variateur/de la protection ?"

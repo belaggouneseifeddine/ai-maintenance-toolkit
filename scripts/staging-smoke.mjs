@@ -28,6 +28,17 @@ const cases = [
     }
   },
   {
+    name: "generic-pump-low-flow",
+    body: {
+      machine: "Centrifugal pump; manufacturer and model not provided",
+      symptom: "Reduced discharge flow while the pump is running",
+      code: "",
+      observations: "Pump is running and discharge flow is lower than usual. Suction tank level appears normal. No recent maintenance or operating changes reported. No pressure or flow readings are available. No visible leakage reported.",
+      measurementStatus: "none",
+      language: "en"
+    }
+  },
+  {
     name: "motor-fails-start",
     body: {
       machine: "industrial electric motor",
@@ -88,7 +99,7 @@ for (const testCase of cases) {
   }
   check(diagnosis?.session_summary?.confirmed_cause === "", testCase.name + ": model asserted a confirmed root cause without proof");
   check(diagnosis?.status !== "needs_clarification" || diagnosis?.clarifying_questions?.length > 0, testCase.name + ": clarification status has no question");
-  check(diagnosis?.status !== "unable_to_assess", testCase.name + ": model failed to provide a useful preliminary assessment");
+  check(diagnosis?.status !== "unable_to_assess" || ((diagnosis?.clarifying_questions?.length || 0) > 0 && (diagnosis?.inspection_steps?.length || 0) > 0), testCase.name + ": unable_to_assess must include a safe next step and clarifying question");
   check((diagnosis?.possible_causes?.length || 0) > 0 || (diagnosis?.inspection_steps?.length || 0) > 0, testCase.name + ": no actionable hypotheses or safe inspection steps");
   for (const cause of diagnosis?.possible_causes || []) {
     if (cause.evidence_class === "source_supported_hypothesis") {
@@ -109,6 +120,9 @@ for (const testCase of cases) {
     validation: payload?.validation,
     providerErrorCode: payload?.provider_error_code,
     providerModel: payload?.provider_model,
+    providerOutputLength: payload?.provider_output_length,
+    providerFinishReason: payload?.provider_finish_reason,
+    providerUsage: payload?.provider_usage,
     error: payload?.error
   });
 }

@@ -2,12 +2,17 @@ name: Live Worker model smoke test
 
 on:
   workflow_dispatch:
+  workflow_run:
+    workflows: ["Deploy Maintenance AI Toolkit API"]
+    types: [completed]
+    branches: [main]
 
 permissions:
   contents: read
 
 jobs:
   live-openai-request:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 3
     steps:
@@ -39,6 +44,7 @@ jobs:
               http_status: response.status,
               error: body?.error || "Worker returned a non-JSON error",
               provider_status: body?.provider_status,
+              provider_error_code: body?.provider_error_code,
               retryable: body?.retryable
             }));
             process.exit(1);
