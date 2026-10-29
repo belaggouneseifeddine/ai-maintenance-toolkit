@@ -714,3 +714,27 @@ test("Cloudflare provider selection uses AI binding without an API key and prese
   assert.equal(body.diagnosis.safety.gate_required, true);
   assert.equal(body.diagnosis.safety.loto_required_before_intervention, true);
 });
+
+
+test("Cloudflare provider normalizes uppercase app schema types to JSON Schema types", async () => {
+  const { normalizeJsonSchema } = await import("../providers/cloudflare-provider.mjs");
+  const normalized = normalizeJsonSchema({
+    type: "OBJECT",
+    properties: {
+      status: { type: "STRING", enum: ["needs_clarification"] },
+      safety: {
+        type: "OBJECT",
+        properties: { gate_required: { type: "BOOLEAN" } },
+        required: ["gate_required"]
+      },
+      items: { type: "ARRAY", items: { type: "INTEGER" } }
+    },
+    required: ["status", "safety", "items"]
+  });
+  assert.equal(normalized.type, "object");
+  assert.equal(normalized.properties.status.type, "string");
+  assert.equal(normalized.properties.safety.properties.gate_required.type, "boolean");
+  assert.equal(normalized.properties.items.type, "array");
+  assert.equal(normalized.properties.items.items.type, "integer");
+  assert.deepEqual(normalized.properties.status.enum, ["needs_clarification"]);
+});
