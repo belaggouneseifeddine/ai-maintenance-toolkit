@@ -738,7 +738,10 @@ Use only the evidence supplied. Rank plausible causes, show how to distinguish t
         const debugDetails = env.AI_DIAGNOSTICS_DEBUG === "true"
           ? {
               provider_error_code: result.errorCode,
-              provider_model: env.CLOUDFLARE_AI_MODEL || env.AI_MODEL || "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
+              provider_model: env.CLOUDFLARE_AI_MODEL || env.AI_MODEL || "@cf/meta/llama-3.2-3b-instruct",
+              provider_output_length: result.outputLength,
+              provider_finish_reason: result.finishReason,
+              provider_usage: result.usage
             }
           : {};
         return json({ error: message, retryable: result.retryable, ...debugDetails }, 502, origin);
