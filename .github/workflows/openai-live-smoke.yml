@@ -43,7 +43,7 @@ jobs:
             }));
             process.exit(1);
           }
-          if (!["openai", "gemini"].includes(body?.provider) || typeof body?.model !== "string" || body?.model_called !== true) {
+          if (!["openai", "gemini", "cloudflare"].includes(body?.provider) || typeof body?.model !== "string" || body?.model_called !== true) {
             console.error(JSON.stringify({
               error: "The response did not confirm a real model call through the configured provider",
               provider: body?.provider,
