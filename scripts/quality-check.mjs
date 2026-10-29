@@ -393,7 +393,7 @@ const checks = [
     assert.match(worker, /startLine/);
     assert.match(worker, /retrievalStatus/);
     assert.match(worker, /Retrieved knowledge excerpts/);
-    assert.match(worker, /citations: usedCitations, retrieval:/);
+    assert.match(worker, /citations: usedCitations, provider: selectedProvider, model: selectedProvider.*retrieval:/);
     assert.match(worker, /Never invent machine details, alarm-code meanings, OEM limits/);
   }],
   ["Every cause is classified and only source-supported hypotheses retain citations", () => {
