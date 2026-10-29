@@ -120,6 +120,9 @@ for (const testCase of cases) {
     validation: payload?.validation,
     providerErrorCode: payload?.provider_error_code,
     providerModel: payload?.provider_model,
+    providerOutputLength: payload?.provider_output_length,
+    providerFinishReason: payload?.provider_finish_reason,
+    providerUsage: payload?.provider_usage,
     error: payload?.error
   });
 }
