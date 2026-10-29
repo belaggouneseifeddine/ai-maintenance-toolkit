@@ -5,7 +5,7 @@
 - The Worker `/health` endpoint responds successfully according to the operator's live check on 2026-10-29.
 - This is not proof that `POST /api/chat` successfully reaches a model.
 - The OpenAI provider adapter and explicit provider routing were merged into `main` and deployed to the Cloudflare Worker on 2026-10-29.
-- Production currently has `AI_PROVIDER=gemini`; `OPENAI_API_KEY` remains configured as a Worker secret but is not read by this task.
+- At the start of this task, production had `AI_PROVIDER=gemini`; this feature branch changes `wrangler.toml` to select OpenAI and adds a consent-based UI request path. The production setting is not changed until this branch is merged and deployed.
 - Cloudflare settings include `OPENAI_API_KEY` and `AI_API_KEY` secret bindings, `AI_RATE_LIMITER`, and `AI_PROVIDER=gemini`. Secret values were not read.
 - A real OpenAI `POST /api/chat` attempt returned HTTP 502 with upstream status 429. The exact cause (quota, billing, or rate limit) is not confirmed.
 - A subsequent real model request with Gemini configured failed before an upstream HTTP response was received. Model-generated diagnosis is therefore not verified in production yet.
@@ -14,7 +14,7 @@
 
 1. Keep all provider secrets in Cloudflare Worker secrets; never expose them to the browser, repository, logs, or responses.
 2. Preserve deterministic safety gates, retrieval, evidence traceability, and the existing diagnosis validation contract.
-3. Keep Gemini configured as the production provider until the live provider path passes; never silently switch providers.
+3. Select OpenAI explicitly for this feature branch; never silently switch providers. Do not merge or deploy until the live OpenAI path and account quota are verified.
 4. Use the OpenAI Responses API with Structured Outputs and `store: false`.
 5. Normalize provider errors into bounded safe codes; never return raw provider response bodies.
 6. A provider-generated answer must still pass the Worker’s existing diagnosis validator and evidence attribution.
