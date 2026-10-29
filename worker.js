@@ -812,6 +812,16 @@ Use only the evidence supplied. Rank plausible causes, show how to distinguish t
     try { diagnosis = JSON.parse(rawOutput); } catch { return json({ error: "AI response could not be validated. Please retry or use local diagnostic tools." }, 502, origin); }
     const validSourceIds = new Set(citations.map(c => c.id));
     diagnosis = sanitizeDiagnosisSourceClaims(diagnosis, validSourceIds);
+    // If the model labels an answer unable_to_assess but supplies ranked hypotheses
+    // and inspection steps, preserve the uncertainty while marking it preliminary.
+    // This never confirms a cause and still passes through the full schema/safety gates.
+    if (diagnosis && diagnosis.status === "unable_to_assess" &&
+        Array.isArray(diagnosis.possible_causes) && diagnosis.possible_causes.length > 0 &&
+        Array.isArray(diagnosis.inspection_steps) && diagnosis.inspection_steps.length > 0 &&
+        diagnosis.safety?.gate_required === true &&
+        diagnosis.safety?.loto_required_before_intervention === true) {
+      diagnosis.status = "preliminary_assessment";
+    }
     // Some models omit questions despite returning needs_clarification. Add one
     // deterministic, non-hazardous question from the known diagnostic flow rather
     // than discarding an otherwise schema-valid preliminary response.
