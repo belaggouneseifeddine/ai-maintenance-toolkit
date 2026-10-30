@@ -20,9 +20,9 @@
     return String(value == null ? "" : value)
       .toLocaleLowerCase()
       .normalize("NFD")
-      .replace(/[\\u0300-\\u036f]/g, "")
+      .replace(/[\u0300-\u036f]/g, "")
       .trim()
-      .replace(/\\s+/g, " ");
+      .replace(/\s+/g, " ");
   }
 
   function inferEvidenceGroup(value) {
