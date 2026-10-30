@@ -89,7 +89,7 @@
       usedGroups += 1;
     }
     return {
-      estimate: logistic(logOdds),
+      estimate: clamp(logistic(logOdds), 0.0001, 0.9999),
       evidenceGroupsUsed: usedGroups,
       evidenceUnknownCount: unknownCount,
       evidenceConflictCount: conflicts
