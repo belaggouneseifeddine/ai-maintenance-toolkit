@@ -17,6 +17,10 @@ const motorCasebook = readFileSync("knowledge/ELECTRIC-MOTOR-AND-VFD-CASEBOOK.md
 const manifest = JSON.parse(readFileSync("manifest.json", "utf8"));
 const sw = readFileSync("sw.js", "utf8");
 const deployWorkflow = readFileSync(".github/workflows/deploy-pages.yml", "utf8");
+const pagesAssetsMatch = deployWorkflow.match(/required_runtime_assets="([^"]+)"/);
+assert.ok(pagesAssetsMatch, "GitHub Pages workflow must declare required runtime assets");
+const pagesRuntimeAssets = new Set(pagesAssetsMatch[1].trim().split(/\\s+/));
+const htmlRuntimeScripts = [...html.matchAll(/<script[^>]+src=["']\\.\\/([^"']+)["']/g)].map(match => match[1]);
 const cloudflareDeployWorkflow = readFileSync(".github/workflows/deploy-cloudflare-pages.yml", "utf8");
 const faults = JSON.parse(readFileSync("faults.json", "utf8"));
 const manufacturerSources = JSON.parse(readFileSync("knowledge/manufacturer-sources.json", "utf8"));
@@ -126,8 +130,9 @@ const checks = [
     assert.match(ux, /maintenance-ai-toolkit-records-v1/);
     assert.match(uxCss, /ux-actions/);
     new vm.Script(ux, { filename: "ux-redesign.js" });
-    assert.ok(deployWorkflow.includes("ux-redesign.js ux-redesign.css"));
-    assert.ok(deployWorkflow.includes("sw.js diagnostic-flows.js"), "GitHub Pages deployment must publish app shell dependencies");
+    for (const asset of ["ux-redesign.js", "ux-redesign.css"]) assert.ok(pagesRuntimeAssets.has(asset));
+    assert.ok(deployWorkflow.includes("cp index.html manifest.json sw.js $required_runtime_assets"), "GitHub Pages deployment must copy the declared app shell dependencies");
+    for (const asset of htmlRuntimeScripts) assert.ok(pagesRuntimeAssets.has(asset), "GitHub Pages artifact omits index.html script " + asset);
     assert.ok(sw.includes("diagnostic-flows.js"), "Service worker app shell must include structured diagnostic flows");
     assert.ok(sw.includes("ux-redesign.js") && sw.includes("ux-redesign.css"));
   }],
@@ -368,7 +373,7 @@ const checks = [
     assert.ok(html.includes("maintenance-v03.js"));
     assert.ok(sw.includes("maintenance-v03.css"));
     assert.ok(sw.includes("decision-trees.json"));
-    assert.ok(deployWorkflow.includes("maintenance-v03.js maintenance-v03.css decision-trees.json"));
+    for (const asset of ["maintenance-v03.js", "maintenance-v03.css", "decision-trees.json"]) assert.ok(pagesRuntimeAssets.has(asset));
     assert.match(html, /maintenance-ai-toolkit-records-v1/);
   }],
   ["Pump decision tree requires LOTO gate and has safe escalation", () => {
