@@ -21,6 +21,7 @@ on:
   pull_request:
     paths:
       - "diagnostic-engine.js"
+      - "bayesian-engine.js"
       - "worker.js"
       - "normalization.js"
       - "knowledge/**"
