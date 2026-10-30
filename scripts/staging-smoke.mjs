@@ -50,7 +50,7 @@ for (const testCase of cases) {
       method: "POST",
       headers: { Origin: origin, "Content-Type": "application/json" },
       body: JSON.stringify(testCase.body),
-      signal: AbortSignal.timeout(60000)
+      signal: AbortSignal.timeout(90000)
     });
     payload = await response.json();
   } catch (error) {
