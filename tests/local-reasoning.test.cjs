@@ -4,6 +4,7 @@ const assert = require("node:assert/strict");
 require("../normalization.js");
 const faults = require("../faults.json");
 global.MAINTENANCE_FAULTS = faults;
+const bayesian = require("../bayesian-engine.js");
 require("../diagnostic-engine.js");
 
 const engine = global.MaintenanceDiagnosticEngine;
@@ -58,4 +59,20 @@ test("local knowledge retrieval returns relevant excerpts with source scope meta
   assert.ok(result.retrievedKnowledge.some(item => item.id === "kb-pump-low-flow"));
   assert.ok(result.retrievedKnowledge.every(item => item.sourceTitle && item.sourceUrl && item.sourceStatus));
   assert.ok(result.retrievedKnowledge.every(item => item.evidenceClass === "general-knowledge-note-not-OEM-verified"));
+});
+
+test("local diagnostic hypotheses are reranked by the qualitative Bayesian network without becoming confirmed", () => {
+  const local = engine.analyse({
+    machine: "pump",
+    symptom: "low_flow",
+    observations: "suction pressure and flow readings are recorded",
+    language: "en"
+  }, { faults: [] });
+  const ranked = bayesian.enrich({}, local);
+  assert.equal(ranked.reasoningModel, "qualitative_bn_v1");
+  assert.equal(ranked.network.calibrated, false);
+  assert.equal(ranked.confirmedCause, "");
+  assert.ok(ranked.hypotheses.every(item => item.status === "hypothesis_only"));
+  assert.ok(ranked.hypotheses.every(item => Number.isFinite(item.relativeSupportScore)));
+  assert.ok(ranked.hypotheses.every(item => !Object.hasOwn(item, "bayesianEstimate")));
 });
