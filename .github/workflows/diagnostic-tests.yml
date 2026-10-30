@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - "diagnostic-engine.js"
+      - "diagnostic-session.js"
       - "bayesian-engine.js"
       - "engineering-core.js"
       - "worker.js"
@@ -21,6 +22,7 @@ on:
   pull_request:
     paths:
       - "diagnostic-engine.js"
+      - "diagnostic-session.js"
       - "bayesian-engine.js"
       - "worker.js"
       - "normalization.js"
