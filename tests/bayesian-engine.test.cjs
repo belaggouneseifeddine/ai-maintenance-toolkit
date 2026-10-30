@@ -2,36 +2,88 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const engine = require("../bayesian-engine.js");
 
-test("supporting evidence raises relative posterior estimate", () => {
+test("supporting evidence raises relative support above the prior", () => {
   const noEvidence = engine.scoreHypothesis({ label: "A", evidenceFor: [], evidenceAgainst: [] });
-  const supported = engine.scoreHypothesis({ label: "A", evidenceFor: ["noise", "vibration"], evidenceAgainst: [] });
-  assert.ok(supported.bayesianEstimate > noEvidence.bayesianEstimate);
+  const supported = engine.scoreHypothesis({ label: "A", evidenceFor: ["noise"], evidenceAgainst: [] });
+  assert.ok(supported.relativeSupportScore > noEvidence.relativeSupportScore);
+  assert.equal(supported.bayesianMethod, engine.NETWORK_VERSION);
 });
 
-test("contrary evidence lowers relative posterior estimate", () => {
-  const balanced = engine.scoreHypothesis({ label: "A", evidenceFor: ["noise"], evidenceAgainst: [] });
-  const contradicted = engine.scoreHypothesis({ label: "A", evidenceFor: ["noise"], evidenceAgainst: ["normal vibration", "normal current"] });
-  assert.ok(contradicted.bayesianEstimate < balanced.bayesianEstimate);
+test("legacy missing-information notes are unknown, not negative evidence", () => {
+  const baseline = engine.scoreHypothesis({ label: "A", evidenceFor: [], evidenceAgainst: [] });
+  const missing = engine.scoreHypothesis({ label: "A", evidenceFor: [], evidenceAgainst: ["No reliable pressure reading"] });
+  assert.equal(missing.relativeSupportScore, baseline.relativeSupportScore);
+  assert.equal(missing.evidenceUnknownCount, 1);
 });
 
-test("scores remain bounded and explicitly marked unvalidated", () => {
-  const result = engine.scoreHypothesis({ label: "A", evidenceFor: Array(100).fill("x"), evidenceAgainst: [] }, 0.99);
-  assert.ok(result.bayesianEstimate > 0 && result.bayesianEstimate < 1);
-  assert.equal(result.bayesianMethod, "heuristic_likelihood_ratio_unvalidated");
+test("only explicit contradictory evidence lowers relative support", () => {
+  const supported = engine.scoreHypothesis({
+    label: "A",
+    evidenceNodes: [{ id: "recorded trip", group: "control", state: "supports" }]
+  });
+  const contradicted = engine.scoreHypothesis({
+    label: "A",
+    evidenceNodes: [{ id: "recorded trip absent with verified log", group: "control", state: "contradicts" }]
+  });
+  assert.ok(contradicted.relativeSupportScore < supported.relativeSupportScore);
 });
 
-test("enrich ranks candidates and preserves uncertainty caveat", () => {
+test("correlated evidence in one group is not counted repeatedly", () => {
+  const one = engine.scoreHypothesis({ label: "A", evidenceFor: ["suction pressure"] });
+  const correlated = engine.scoreHypothesis({ label: "A", evidenceFor: ["suction pressure", "flow", "discharge pressure"] });
+  assert.equal(correlated.relativeSupportScore, one.relativeSupportScore);
+  assert.equal(correlated.evidenceGroupsUsed, 1);
+});
+
+test("independent evidence groups contribute separately and duplicates are ignored", () => {
+  const single = engine.scoreHypothesis({ label: "A", evidenceFor: ["suction pressure"] });
+  const independent = engine.scoreHypothesis({ label: "A", evidenceFor: ["suction pressure", "bearing vibration", "temperature trend"] });
+  const duplicated = engine.scoreHypothesis({ label: "A", evidenceFor: ["suction pressure", "suction pressure", "suction pressure"] });
+  assert.ok(independent.relativeSupportScore > single.relativeSupportScore);
+  assert.equal(duplicated.relativeSupportScore, single.relativeSupportScore);
+});
+
+test("conflicting evidence within one group is reported and does not create a net update", () => {
+  const baseline = engine.scoreHypothesis({ label: "A", evidenceFor: [] });
+  const conflict = engine.scoreHypothesis({
+    label: "A",
+    evidenceNodes: [
+      { id: "pressure low", group: "hydraulic", state: "supports" },
+      { id: "pressure normal", group: "hydraulic", state: "contradicts" }
+    ]
+  });
+  assert.equal(conflict.relativeSupportScore, baseline.relativeSupportScore);
+  assert.equal(conflict.evidenceConflictCount, 1);
+});
+
+test("enrich ranks candidates and exposes network assumptions", () => {
   const result = engine.enrich({}, { hypotheses: [
-    { label: "weak", evidenceFor: [], evidenceAgainst: ["contrary"] },
-    { label: "stronger", evidenceFor: ["noise", "heat"], evidenceAgainst: [] }
+    { label: "unknown", evidenceFor: [], evidenceAgainst: ["missing reading"] },
+    { label: "supported", evidenceFor: ["noise", "temperature trend"], evidenceAgainst: [] }
   ] });
-  assert.equal(result.hypotheses[0].label, "stronger");
+  assert.equal(result.hypotheses[0].label, "supported");
   assert.match(result.reasoningNote, /not calibrated probabilities/i);
-  assert.equal(result.reasoningModel, "bayesian_style_local_v1");
+  assert.equal(result.reasoningModel, "qualitative_bn_v1");
+  assert.equal(result.network.calibrated, false);
+  assert.match(result.network.conditionalIndependenceAssumption, /conditionally independent/i);
+  assert.equal(result.hypotheses[0].supportBand, "higher_relative_support");
 });
 
 test("empty candidate list remains safely empty", () => {
   const result = engine.enrich({}, { hypotheses: [] });
   assert.deepEqual(result.hypotheses, []);
   assert.match(result.reasoningNote, /insufficient evidence/i);
+});
+
+test("posterior estimates remain finite and bounded for extreme evidence counts", () => {
+  const result = engine.scoreHypothesis({
+    label: "A",
+    evidenceNodes: Array.from({ length: 100 }, (_, index) => ({
+      id: "node-" + index,
+      group: "independent-" + index,
+      state: "supports"
+    }))
+  }, 0.99);
+  assert.ok(Number.isFinite(result.relativeSupportScore));
+  assert.ok(result.relativeSupportScore > 0 && result.relativeSupportScore < 1);
 });
