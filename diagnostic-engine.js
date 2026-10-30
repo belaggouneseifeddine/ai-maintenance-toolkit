@@ -335,8 +335,13 @@
       const block = doc.createElement("article");
       block.className = "record";
       const heading = doc.createElement("h4");
-      const estimate = Number.isFinite(hypothesis.bayesianEstimate) ? " · " + Math.round(hypothesis.bayesianEstimate * 100) + "% relative estimate" : "";
-      heading.textContent = hypothesis.label + " — " + (lang==="ar" ? "فرضية فقط" : lang==="fr" ? "hypothèse uniquement" : "hypothesis only") + estimate;
+      const bandLabels = {
+        ar: { higher_relative_support: "دعم نسبي أعلى", moderate_relative_support: "دعم نسبي متوسط", lower_relative_support: "دعم نسبي أقل" },
+        fr: { higher_relative_support: "soutien relatif supérieur", moderate_relative_support: "soutien relatif modéré", lower_relative_support: "soutien relatif inférieur" },
+        en: { higher_relative_support: "higher relative support", moderate_relative_support: "moderate relative support", lower_relative_support: "lower relative support" }
+      };
+      const band = bandLabels[lang][hypothesis.supportBand] || "";
+      heading.textContent = hypothesis.label + " — " + (lang==="ar" ? "فرضية فقط" : lang==="fr" ? "hypothèse uniquement" : "hypothesis only") + (band ? " · " + band : "");
       block.appendChild(heading);
       const why = doc.createElement("p"); why.textContent = (lang==="ar" ? "لماذا: " : lang==="fr" ? "Pourquoi : " : "Why: ") + hypothesis.why; block.appendChild(why);
       const evidence = doc.createElement("p");
