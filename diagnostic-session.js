@@ -1,7 +1,7 @@
 /* Dynamic, evidence-led diagnostic sessions. Offline-first; no calibrated probabilities. */
 (function (root) {
   "use strict";
-  const VERSION = "0.2.0";
+  const VERSION = "0.3.0";
   const FLOWS = {
     "pump|low_flow": {
       equipment: "pump", symptom: "low_flow",
