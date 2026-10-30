@@ -1,3 +1,4 @@
+// Bayesian network regression coverage for relative evidence ranking and uncertainty.
 const test = require("node:test");
 const assert = require("node:assert/strict");
 const engine = require("../bayesian-engine.js");
