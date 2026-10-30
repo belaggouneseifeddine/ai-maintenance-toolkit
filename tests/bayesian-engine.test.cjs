@@ -28,11 +28,26 @@ test("only explicit contradictory evidence lowers relative support", () => {
   assert.ok(contradicted.relativeSupportScore < supported.relativeSupportScore);
 });
 
-test("correlated evidence in one group is not counted repeatedly", () => {
-  const one = engine.scoreHypothesis({ label: "A", evidenceFor: ["suction pressure"] });
-  const correlated = engine.scoreHypothesis({ label: "A", evidenceFor: ["suction pressure", "flow", "discharge pressure"] });
+test("correlated evidence in one explicit network node group is not counted repeatedly", () => {
+  const one = engine.scoreHypothesis({
+    label: "A",
+    evidenceNodes: [{ id: "suction pressure", group: "hydraulic_process", state: "supports" }]
+  });
+  const correlated = engine.scoreHypothesis({
+    label: "A",
+    evidenceNodes: [
+      { id: "suction pressure", group: "hydraulic_process", state: "supports" },
+      { id: "flow", group: "hydraulic_process", state: "supports" },
+      { id: "discharge pressure", group: "hydraulic_process", state: "supports" }
+    ]
+  });
   assert.equal(correlated.relativeSupportScore, one.relativeSupportScore);
   assert.equal(correlated.evidenceGroupsUsed, 1);
+});
+
+test("known correlated hydraulic terms map to one evidence family", () => {
+  const groups = ["suction pressure", "flow", "discharge pressure"].map(engine.inferEvidenceGroup);
+  assert.deepEqual(groups, ["hydraulic_process", "hydraulic_process", "hydraulic_process"]);
 });
 
 test("independent evidence groups contribute separately and duplicates are ignored", () => {
