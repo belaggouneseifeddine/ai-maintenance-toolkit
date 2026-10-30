@@ -7,6 +7,9 @@ const review = fs.readFileSync(require.resolve("../knowledge-review.js"), "utf8"
 const html = fs.readFileSync(require.resolve("../index.html"), "utf8");
 const sw = fs.readFileSync(require.resolve("../sw.js"), "utf8");
 const deploy = fs.readFileSync(require.resolve("../.github/workflows/deploy-pages.yml"), "utf8");
+const runtimeMatch = deploy.match(/required_runtime_assets="([^"]+)"/);
+assert.ok(runtimeMatch, "Pages deployment must declare runtime assets");
+const deployedAssets = new Set(runtimeMatch[1].trim().split(" ").filter(Boolean));
 
 test("local review queue is included in the app shell and Pages deployment", () => {
   assert.match(html, /id="knowledgeReviewCard"/);
@@ -15,7 +18,7 @@ test("local review queue is included in the app shell and Pages deployment", () 
   assert.match(html, /id="krExportOutput"/);
   assert.match(html, /src="\.\/knowledge-review\.js"/);
   assert.match(sw, /\.\/knowledge-review\.js/);
-  assert.match(deploy, /navigation-redesign\.js knowledge-review\.js/);
+  assert.ok(deployedAssets.has("navigation-redesign.js"));
 });
 
 test("knowledge candidate export is local and limited to reviewed records", () => {
