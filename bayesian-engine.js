@@ -116,7 +116,7 @@
       return {
         ...(result || {}),
         reasoningModel: NETWORK_VERSION,
-        reasoningNote: "No candidate hypotheses; evidence is insufficient."
+        reasoningNote: "Insufficient evidence; no candidate hypotheses are available."
       };
     }
     const ranked = result.hypotheses
@@ -143,6 +143,7 @@
   root.MaintenanceBayesianEngine = {
     NETWORK_VERSION,
     collectEvidenceNodes,
+    inferEvidenceGroup,
     updatePosterior,
     scoreHypothesis,
     enrich
