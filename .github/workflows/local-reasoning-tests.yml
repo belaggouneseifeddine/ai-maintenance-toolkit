@@ -12,8 +12,10 @@ on:
   pull_request:
     paths:
       - "diagnostic-engine.js"
+      - "bayesian-engine.js"
       - "knowledge/manufacturer-sources.json"
       - "tests/local-reasoning.test.cjs"
+      - "tests/bayesian-engine.test.cjs"
       - ".github/workflows/local-reasoning-tests.yml"
   workflow_dispatch:
 
