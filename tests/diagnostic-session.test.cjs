@@ -1,5 +1,6 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
+require("../bayesian-engine.js");
 const engine = require("../diagnostic-session.js");
 
 test("curated flow starts with a question, not a ready-made diagnosis", () => {
@@ -79,4 +80,33 @@ test("flow contract is a snapshot and does not expose mutable internal flow defi
   contract.hypothesisIds.push("invented");
   const again = engine.getFlowContract("motor|not_start");
   assert.ok(!again.hypothesisIds.includes("invented"));
+});
+
+test("interactive diagnostic sessions use Bayesian relative support ranking", () => {
+  const s=engine.createSession({equipment:"pump",symptom:"low_flow",language:"en"});
+  const r=engine.answer(s,"source-low");
+  assert.equal(r.ok,true);
+  assert.equal(r.session.hypotheses[0].id,"supply_or_suction");
+  assert.equal(r.session.hypotheses[0].reasoningModel,"qualitative_bn_v1");
+  assert.ok(r.session.hypotheses[0].score > 0.2);
+});
+
+test("unknown interactive answers leave Bayesian ranking unchanged", () => {
+  const s=engine.createSession({equipment:"pump",symptom:"low_flow",language:"en"});
+  const baseline=s.hypotheses.map(h=>[h.id,h.score]);
+  const r=engine.answer(s,"unknown");
+  assert.equal(r.ok,true);
+  assert.deepEqual(r.session.hypotheses.map(h=>[h.id,h.score]),baseline);
+  assert.ok(r.session.hypotheses.every(h=>h.reasoningModel==="qualitative_bn_v1"));
+});
+
+test("multiple signals from one answer are grouped as one observation node", () => {
+  const s=engine.createSession({equipment:"motor",symptom:"not_start",language:"en"});
+  const r=engine.answer(s,"trip-present");
+  assert.equal(r.ok,true);
+  const protection=r.session.hypotheses.find(h=>h.id==="protection_or_drive_trip");
+  const power=r.session.hypotheses.find(h=>h.id==="power_or_mechanical");
+  assert.equal(protection.evidenceGroupsUsed,1);
+  assert.equal(power.evidenceGroupsUsed,1);
+  assert.equal(protection.score,power.score);
 });
