@@ -72,7 +72,7 @@ const checks = [
   ["Shared normalization is loaded by the UI, Worker and Pages deployment", () => {
     assert.match(html, /<script src="\.\/normalization\.js"><\/script>/);
     assert.match(worker, /import "\.\/normalization\.js";/);
-    assert.match(deployWorkflow, /diagnostic-flows\.js normalization\.js diagnostic-engine\.js/);
+    for (const asset of ["diagnostic-flows.js", "normalization.js", "diagnostic-engine.js"]) assert.ok(pagesRuntimeAssets.has(asset));
     assert.ok(engineWindow.MaintenanceNormalization.aliasReviewCount > 0);
     assert.ok(engineWindow.MaintenanceNormalization.getReviewAliases().every(item => item.status === "review_required"));
   }],
@@ -104,7 +104,7 @@ const checks = [
     assert.match(html, /id="speakAiAnswer"/);
     assert.match(answerToolsSource, /speechSynthesis/);
     assert.match(sw, /answer-tools\.js/);
-    assert.match(deployWorkflow, /knowledge-review\.js answer-tools.js/);
+    for (const asset of ["knowledge-review.js", "answer-tools.js"]) assert.ok(pagesRuntimeAssets.has(asset));
   }],
   ["Local knowledge review requires a human review and never publishes automatically", () => {
     assert.match(html, /id="knowledgeReviewCard"/);
@@ -457,7 +457,7 @@ const checks = [
 
   ["Dedicated home screen and six-tab mobile navigation preserve existing feature panels", () => {
     assert.match(html, /navigation-redesign\.js/);
-    assert.match(deployWorkflow, /navigation-redesign\.js/);
+    assert.ok(pagesRuntimeAssets.has("navigation-redesign.js"));
     assert.match(sw, /navigation-redesign\.js/);
     assert.match(navRedesign, /id:'homeDashboard'/);
     assert.match(navRedesign, /id:'diagnose'/);
