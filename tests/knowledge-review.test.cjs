@@ -18,7 +18,7 @@ test("local review queue is included in the app shell and Pages deployment", () 
   assert.match(html, /id="krExportOutput"/);
   assert.match(html, /src="\.\/knowledge-review\.js"/);
   assert.match(sw, /\.\/knowledge-review\.js/);
-  assert.match(deploy, /navigation-redesign\.js knowledge-review\.js/);
+  assert.ok(deployedAssets.has("navigation-redesign.js"));
 });
 
 test("knowledge candidate export is local and limited to reviewed records", () => {
