@@ -19,7 +19,7 @@ const sw = readFileSync("sw.js", "utf8");
 const deployWorkflow = readFileSync(".github/workflows/deploy-pages.yml", "utf8");
 const pagesAssetsMatch = deployWorkflow.match(/required_runtime_assets="([^"]+)"/);
 assert.ok(pagesAssetsMatch, "GitHub Pages workflow must declare required runtime assets");
-const pagesRuntimeAssets = new Set(pagesAssetsMatch[1].trim().split(/\\s+/));
+const pagesRuntimeAssets = new Set(pagesAssetsMatch[1].trim().split(/\s+/));
 const htmlRuntimeScripts = [...html.matchAll(/<script[^>]+src=["']\.\/([^"']+)["']/g)].map(match => match[1]);
 const cloudflareDeployWorkflow = readFileSync(".github/workflows/deploy-cloudflare-pages.yml", "utf8");
 const faults = JSON.parse(readFileSync("faults.json", "utf8"));
