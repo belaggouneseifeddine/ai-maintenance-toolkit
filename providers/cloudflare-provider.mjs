@@ -38,7 +38,7 @@ export async function callCloudflareAI({
   instructions,
   input,
   schema,
-  timeoutMs = 25000
+  timeoutMs = 45000
 }) {
   if (!ai || typeof ai.run !== "function") {
     return { ok: false, errorCode: "provider_not_configured", retryable: false };
