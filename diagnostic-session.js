@@ -91,12 +91,45 @@
     return {id:question.id,text:textFor(question.text,language),options:question.options.map(o=>({id:o.id,label:textFor(o.label,language)}))};
   }
   function rank(flow, evidence, language) {
-    const ids = new Set(evidence.flatMap(e=>e.evidence || []));
-    return flow.hypotheses.map(h=>{
-      const support=(h.evidenceFor||[]).filter(x=>ids.has(x));
-      const contradictions=(h.evidenceAgainst||[]).filter(x=>ids.has(x));
-      return {id:h.id,label:textFor(h.label,language),supportingEvidence:support,contradictingEvidence:contradictions,checks:h.checks,score:support.length-contradictions.length,status:support.length===0&&contradictions.length===0?"unresolved":support.length>contradictions.length?"supported_by_current_evidence":contradictions.length>support.length?"weakened_by_current_evidence":"mixed_evidence"};
-    }).sort((a,b)=>b.score-a.score||a.id.localeCompare(b.id));
+    const observedGroups = new Map();
+    for (const entry of evidence) {
+      const group = "question:" + String(entry.questionId || "unknown");
+      for (const id of Array.isArray(entry.evidence) ? entry.evidence : []) {
+        if (typeof id === "string" && id) observedGroups.set(id, group);
+      }
+    }
+    return flow.hypotheses.map(h => {
+      const support = (h.evidenceFor || []).filter(id => observedGroups.has(id));
+      const contradictions = (h.evidenceAgainst || []).filter(id => observedGroups.has(id));
+      const evidenceNodes = [
+        ...support.map(id => ({ id, group: observedGroups.get(id), state: "supports" })),
+        ...contradictions.map(id => ({ id, group: observedGroups.get(id), state: "contradicts" }))
+      ];
+      const bayesian = root.MaintenanceBayesianEngine &&
+        typeof root.MaintenanceBayesianEngine.scoreHypothesis === "function"
+        ? root.MaintenanceBayesianEngine.scoreHypothesis({ id: h.id, evidenceNodes }, 0.2)
+        : null;
+      const score = bayesian ? bayesian.relativeSupportScore : support.length - contradictions.length;
+      const status = support.length === 0 && contradictions.length === 0
+        ? "unresolved"
+        : support.length > contradictions.length
+          ? "supported_by_current_evidence"
+          : contradictions.length > support.length
+            ? "weakened_by_current_evidence"
+            : "mixed_evidence";
+      return {
+        id: h.id,
+        label: textFor(h.label, language),
+        supportingEvidence: support,
+        contradictingEvidence: contradictions,
+        checks: h.checks,
+        score,
+        supportBand: bayesian ? bayesian.supportBand : "unscored",
+        reasoningModel: bayesian ? bayesian.bayesianMethod : "legacy_evidence_count",
+        evidenceGroupsUsed: bayesian ? bayesian.evidenceGroupsUsed : evidenceNodes.length,
+        status
+      };
+    }).sort((a, b) => b.score - a.score || a.id.localeCompare(b.id));
   }
   function answer(session, answerId) {
     if (!session || session.ok !== true || session.status !== "collecting_evidence") return {ok:false,code:"invalid_session"};
