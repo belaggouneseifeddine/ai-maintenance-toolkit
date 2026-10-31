@@ -1,0 +1,85 @@
+name: Live Worker AI provider smoke test
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Deploy Maintenance AI Toolkit API"]
+    types: [completed]
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  live-ai-provider-request:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Send one generic maintenance diagnosis to the deployed Worker
+        env:
+          WORKER_URL: https://maintenance-ai-toolkit-api.maintenance-ai-toolkit-api-seif.workers.dev
+        run: |
+          node --input-type=module <<'NODE'
+          const controller = AbortSignal.timeout(70000);
+          const response = await fetch(`${process.env.WORKER_URL}/api/chat`, {
+            method: "POST",
+            headers: {
+              "Origin": "https://belaggouneseifeddine.github.io",
+              "Content-Type": "application/json"
+            },
+            signal: controller,
+            body: JSON.stringify({
+              machine: "Centrifugal pump; manufacturer and model not provided",
+              symptom: "Reduced discharge flow while the pump is running",
+              code: "",
+              observations: "Pump is running and discharge flow is lower than usual. Suction tank level appears normal. No recent maintenance or operating changes reported. No pressure or flow readings are available. No visible leakage reported.",
+              measurementStatus: "none",
+              language: "en"
+            })
+          });
+          const body = await response.json().catch(() => null);
+          if (!response.ok) {
+            console.error(JSON.stringify({
+              http_status: response.status,
+              error: body?.error || "Worker returned a non-JSON error",
+              provider_status: body?.provider_status,
+              provider_error_code: body?.provider_error_code,
+              retryable: body?.retryable
+            }));
+            process.exit(1);
+          }
+          if (!["gemini", "cloudflare"].includes(body?.provider) || typeof body?.model !== "string" || body?.model_called !== true) {
+            console.error(JSON.stringify({
+              error: "The response did not confirm a real model call through the configured provider",
+              provider: body?.provider,
+              model: body?.model,
+              model_called: body?.model_called
+            }));
+            process.exit(1);
+          }
+          if (!body?.diagnosis || body.diagnosis?.safety?.gate_required !== true ||
+              body.diagnosis?.safety?.loto_required_before_intervention !== true ||
+              !Array.isArray(body.diagnosis?.possible_causes) ||
+              !Array.isArray(body.diagnosis?.inspection_steps)) {
+            console.error(JSON.stringify({
+              error: "Diagnosis failed the expected safety/structure checks",
+              diagnosis_present: Boolean(body?.diagnosis),
+              safety_gate_required: body?.diagnosis?.safety?.gate_required,
+              loto_required: body?.diagnosis?.safety?.loto_required_before_intervention
+            }));
+            process.exit(1);
+          }
+          console.log(JSON.stringify({
+            result: "PASS",
+            http_status: response.status,
+            provider: body.provider,
+            model: body.model,
+            model_called: body.model_called,
+            diagnosis_status: body.diagnosis.status,
+            matched_knowledge_chunks: body.retrieval?.matchedChunks ?? null,
+            cited_sources: Array.isArray(body.citations) ? body.citations.length : null,
+            safety_gate_required: body.diagnosis.safety.gate_required,
+            loto_required: body.diagnosis.safety.loto_required_before_intervention
+          }));
+          NODE
