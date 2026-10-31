@@ -62,3 +62,14 @@ test("P1 app-shell assets are deployed and cached for offline use", () => {
     assert.ok(html.includes(asset), "index.html must load " + asset);
   }
 });
+
+
+test("P1 navigation contains exactly five requested destinations and defaults to dark mode", () => {
+  const shell = fs.readFileSync(path.join(__dirname, "..", "p1-app-shell.js"), "utf8");
+  const styles = fs.readFileSync(path.join(__dirname, "..", "p1-app-shell.css"), "utf8");
+  for (const id of ["diagnose", "knowledge", "safety", "log", "v03"]) assert.ok(shell.includes("['" + id + "'"), "Missing primary destination: " + id);
+  assert.match(shell, /saved='dark'/);
+  assert.match(shell, /maintenance-ai-toolkit-theme-v1/);
+  assert.match(styles, /:root\[data-theme="dark"\]/);
+  assert.match(styles, /grid-template-columns:repeat\(5,minmax\(0,1fr\)\)/);
+});
