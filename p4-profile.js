@@ -52,37 +52,49 @@
       qualification: $("p4Qualification").value.trim()
     };
     if (!profile.display_name || !profile.professional_title) {
-      setMessage("الاسم والمنصب أو التخصص مطلوبان.", true); return;
+      setMessage("الاسم والمنصب أو التخصص مطلوبان.", true);
+      return;
     }
     if (profile.display_name.length > 100 || profile.professional_title.length > 120 || profile.qualification.length > 160) {
-      setMessage("تجاوز أحد الحقول الحد المسموح.", true); return;
+      setMessage("تجاوز أحد الحقول الحد المسموح.", true);
+      return;
     }
     const previous = readProfile();
-    localStorage.setItem(PROFILE_KEY, JSON.stringify({ ...profile, created_at: previous?.created_at || new Date().toISOString(), updated_at: new Date().toISOString(), self_declared: true }));
+    localStorage.setItem(PROFILE_KEY, JSON.stringify({
+      ...profile,
+      created_at: previous?.created_at || new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+      self_declared: true
+    }));
     showProfile(profile);
     $("p4ProfileForm").hidden = true;
     $("p4ProfileEdit").hidden = false;
+
     if (!previous) {
       const ok = await enroll(profile);
       $("p4ProfileSync").hidden = ok;
       $("p4SessionRevoke").hidden = !ok;
-    } else {
-      const session = JSON.parse(localStorage.getItem(SESSION_KEY) || "null");
-      if (!session?.token) {
-        const ok = await enroll(profile);
-        $("p4ProfileSync").hidden = ok;
-        $("p4SessionRevoke").hidden = !ok;
-      }
-      else {
-        try {
-          const response = await fetch(COMMUNITY_API + "/api/community/profile", {
-            method: "PATCH",
-            headers: { "Content-Type": "application/json", "Authorization": "Bearer " + session.token },
-            body: JSON.stringify(profile)
-          });
-          if (!response.ok) throw new Error("الخادم لم يقبل تحديث الملف.");
-          setMessage("تم تحديث الملف الشخصي.");
-        } catch (error) { setMessage("حُدّث الملف محلياً فقط؛ المزامنة غير متاحة حالياً.", true); }
+      return;
+    }
+
+    const session = JSON.parse(localStorage.getItem(SESSION_KEY) || "null");
+    if (!session?.token) {
+      const ok = await enroll(profile);
+      $("p4ProfileSync").hidden = ok;
+      $("p4SessionRevoke").hidden = !ok;
+      return;
+    }
+
+    try {
+      const response = await fetch(COMMUNITY_API + "/api/community/profile", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json", "Authorization": "Bearer " + session.token },
+        body: JSON.stringify(profile)
+      });
+      if (!response.ok) throw new Error("الخادم لم يقبل تحديث الملف.");
+      setMessage("تم تحديث الملف الشخصي.");
+    } catch (error) {
+      setMessage("حُدّث الملف محلياً فقط؛ المزامنة غير متاحة حالياً. " + error.message, true);
     }
   }
   function startEdit() {
