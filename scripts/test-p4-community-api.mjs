@@ -75,6 +75,7 @@ test("CORS preflight returns a valid empty 204 response and permits session revo
   assert.equal(response.status, 204);
   assert.equal(await response.text(), "");
   assert.match(response.headers.get("access-control-allow-methods"), /DELETE/);
+  assert.match(response.headers.get("access-control-allow-headers"), /X-File-Name/);
 });
 
 test("private upload rejects disallowed origins", async () => {
@@ -101,6 +102,23 @@ test("private upload requires a private R2 binding and rate limiter", async () =
   const h = harness({ storage: false });
   const response = await h.handler(uploadRequest(new TextEncoder().encode("%PDF-1.7")), h.env);
   assert.equal(response.status, 503);
+  assert.equal(h.writes.length, 0);
+});
+
+test("private upload requires a dedicated rate limiter", async () => {
+  const h = harness();
+  delete h.env.P4_UPLOAD_RATE_LIMITER;
+  const response = await h.handler(uploadRequest(new TextEncoder().encode("%PDF-1.7")), h.env);
+  assert.equal(response.status, 503);
+  assert.equal(h.writes.length, 0);
+});
+
+test("private upload enforces the size limit while streaming", async () => {
+  const h = harness();
+  const bytes = new Uint8Array(10 * 1024 * 1024 + 1);
+  bytes.set(new TextEncoder().encode("%PDF-"));
+  const response = await h.handler(uploadRequest(bytes), h.env);
+  assert.equal(response.status, 413);
   assert.equal(h.writes.length, 0);
 });
 
