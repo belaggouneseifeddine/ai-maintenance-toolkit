@@ -18,6 +18,8 @@ if(![homeTab,diagnoseTab,aiTab,faultsTab,safetyTab,historyTab,moreTab].every(Boo
 const home=panel('homeDashboard'), diagnose=panel('diagnose'), ai=panel('ai');
 if(home){home.classList.add('panel');}
 if(ai&&diagnose){ai.classList.remove('panel','active');ai.setAttribute('aria-label','AI maintenance assistant');diagnose.appendChild(ai);}
+/* The AI assistant is embedded inside the Diagnose workspace; remove its old standalone tab. */
+if(aiTab&&aiTab.parentNode===nav)aiTab.remove();
 const tabs=[
  {button:homeTab,id:'homeDashboard',icon:'⌂',labels:{ar:'الرئيسية',fr:'Accueil',en:'Home'}},
  {button:diagnoseTab,id:'diagnose',icon:'⌕',labels:{ar:'التشخيص',fr:'Diagnostic',en:'Diagnose'}},
