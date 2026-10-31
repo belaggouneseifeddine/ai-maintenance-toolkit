@@ -509,6 +509,27 @@ $('clearRecordFilters').addEventListener('click',()=>{$('recordSearch').value=''
 $('diagnosisForm').querySelectorAll('input,select,textarea').forEach(field=>field.addEventListener('input',persistDraft));
 $('diagnosisForm').querySelectorAll('input,select,textarea').forEach(field=>field.addEventListener('change',persistDraft));
 $('diagnosisForm').addEventListener('reset',()=>{setTimeout(()=>{localStorage.removeItem(DRAFT_KEY);lastDiagnosisDraft=null;$('diagnosisResult').innerHTML='';$('safetyGateNotice').style.display='none';updateFollowup();renderDraftSummary();},0);});
+window.saveGuidedDiagnosticReport=function(payload){
+ if(!payload||typeof payload.diagnosticFlowId!=='string'||!payload.diagnosticFlowId||
+    !Array.isArray(payload.diagnosticAnswers)||!payload.diagnosticAnswers.length||
+    !Array.isArray(payload.diagnosticHypotheses)||!payload.diagnosticHypotheses.length){
+   alert('أكمل جمع الأدلة قبل حفظ التقرير.'); return false;
+ }
+ const language=window.MaintenanceI18n?window.MaintenanceI18n.getLanguage():'ar';
+ const labels=language==='en'?{e:'Recorded evidence',a:'Answers',h:'Ranked hypotheses',s:'Supporting',c:'Contradicting',k:'Suggested checks',n:'No items recorded'}:language==='fr'?{e:'Éléments enregistrés',a:'Réponses',h:'Hypothèses classées',s:'Favorables',c:'Contradictoires',k:'Contrôles suggérés',n:'Aucun élément'}:{e:'الأدلة المسجلة',a:'الإجابات',h:'الفرضيات المرتبة',s:'الأدلة المؤيدة',c:'الأدلة المعارضة',k:'الفحوص المقترحة',n:'لا توجد عناصر مسجلة'};
+ const lines=['Guided diagnostic session: '+payload.diagnosticFlowId,labels.a+':'];
+ payload.diagnosticAnswers.forEach((a,i)=>lines.push((i+1)+'. '+a.questionId+' — '+a.answerId+(a.evidence&&a.evidence.length?' ['+a.evidence.join('; ')+']':'')));
+ lines.push('',labels.e+':',...(payload.diagnosticEvidence.length?payload.diagnosticEvidence:['—']),'',labels.h+':');
+ payload.diagnosticHypotheses.forEach((h,i)=>{lines.push((i+1)+'. '+(h.label||h.id)+' — '+(h.status||'unresolved'));lines.push('  '+labels.s+': '+(h.supportingEvidence.join('; ')||labels.n));lines.push('  '+labels.c+': '+(h.contradictingEvidence.join('; ')||labels.n));if(h.checks.length)lines.push('  '+labels.k+': '+h.checks.join('; '));});
+ lines.push('',language==='en'?'Provisional heuristic ranking; not a confirmed root cause.':language==='fr'?'Classement heuristique provisoire ; cause racine non confirmée.':'ترتيب استدلالي أولي؛ لا يؤكد السبب الجذري.');
+ const machine=($('aiMachine').value||'').trim();
+ const record={id:newRecordId(),date:localDateString(),createdAt:new Date().toISOString(),machine:machine+' ('+payload.diagnosticFlowId.split('|')[0]+')',fault:($('aiSymptom').value||'').trim(),action:lines.join('\\n'),status:'under_inspection',guidedSession:payload};
+ const records=getRecords();records.unshift(record);
+ if(!saveRecords(records))return false;
+ renderRecords();
+ alert(language==='en'?'Guided diagnostic report saved locally.':language==='fr'?'Rapport de diagnostic enregistré localement.':'تم حفظ تقرير التشخيص الموجّه محليًا.');
+ return true;
+};
 $('saveDraft').addEventListener('click',()=>{if(!lastDiagnosisDraft)return;const all=getRecords();all.unshift({...lastDiagnosisDraft,id:lastDiagnosisDraft.id||newRecordId()});saveRecords(all);renderRecords();lastDiagnosisDraft=null;persistDraft();renderDraftSummary();$('log').classList.add('active');$('diagnose').classList.remove('active');document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab==='log'));});
 $('clearDraft').addEventListener('click',()=>{localStorage.removeItem(DRAFT_KEY);lastDiagnosisDraft=null;$('diagnosisForm').reset();$('diagnosisResult').innerHTML='';renderDraftSummary();});
 (function initKnowledgeFilters(){const panel=$('knowledge');const card=panel&&panel.querySelector('.card');const search=$('knowledgeSearch');const category=$('knowledgeCategory');const count=$('knowledgeCount');if(!card||!search||!category)return;const headings=[...card.querySelectorAll(':scope > h3')];const groups=headings.map(heading=>{const nodes=[heading];let node=heading.nextElementSibling;while(node&&node.tagName!=='H3'){nodes.push(node);node=node.nextElementSibling;}return{heading,nodes,text:nodes.map(n=>n.innerText||n.textContent||'').join(' ').toLocaleLowerCase()};});const apply=()=>{const q=search.value.trim().toLocaleLowerCase();const cat=category.value;let shown=0;for(const g of groups){const visible=(!q||g.text.includes(q))&&(!cat||g.heading.textContent.trim()===cat);g.nodes.forEach(n=>n.hidden=!visible);if(visible)shown++;}if(count)count.textContent=shown+' / '+groups.length+' أقسام ظاهرة. لا تستبدل هذه المعرفة دليل المصنع الخاص بالموديل.';};search.addEventListener('input',apply);category.addEventListener('change',apply);apply();})();
