@@ -52,11 +52,11 @@ function harness({ session = true, staging = true, storage = true, batchFails = 
 }
 
 const origin = "https://maintenance-ai-toolkit.pages.dev";
-function uploadRequest(bytes, mime = "application/pdf") {
+function uploadRequest(bytes, mime = "application/pdf", requestOrigin = origin) {
   return new Request("https://worker.test/api/community/documents", {
     method: "POST",
     headers: {
-      Origin: origin,
+      Origin: requestOrigin,
       Authorization: "Bearer " + "a".repeat(48),
       "Content-Type": mime,
       "X-File-Name": "../unsafe/manual.pdf"
@@ -68,7 +68,7 @@ function uploadRequest(bytes, mime = "application/pdf") {
 test("private upload rejects disallowed origins", async () => {
   const h = harness();
   const request = uploadRequest(new TextEncoder().encode("%PDF-1.7"));
-  request.headers.set("Origin", "https://attacker.example");
+  const request = uploadRequest(new TextEncoder().encode("%PDF-1.7"), "application/pdf", "https://attacker.example");
   const response = await h.handler(request, h.env);
   assert.equal(response.status, 403);
 });
