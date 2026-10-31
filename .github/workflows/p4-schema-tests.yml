@@ -8,6 +8,7 @@ on:
       - "scripts/test-p4-anonymous-profile.py"
       - "scripts/test-p4-community-api.mjs"
       - "p4-community.js"
+      - "p4-profile.js"
       - ".github/workflows/p4-schema-tests.yml"
   push:
     branches:
@@ -38,4 +39,5 @@ jobs:
         run: |
           python scripts/test-p4-schema.py
           python scripts/test-p4-anonymous-profile.py
+          node --check p4-profile.js
           node --test scripts/test-p4-community-api.mjs
