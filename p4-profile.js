@@ -65,7 +65,8 @@
     if (!previous) await enroll(profile);
     else {
       const session = JSON.parse(localStorage.getItem(SESSION_KEY) || "null");
-      if (session?.token) {
+      if (!session?.token) { await enroll(profile); }
+      else {
         try {
           const response = await fetch(COMMUNITY_API + "/api/community/profile", {
             method: "PATCH",
@@ -102,7 +103,7 @@
           <label for="p4Qualification">الشهادة أو المؤهل (اختياري)</label><input id="p4Qualification" maxlength="160" placeholder="مثال: تقني سامٍ في الإلكترونيات الصناعية">
           <div class="actions"><button class="btn" type="submit">حفظ الملف</button><button class="btn secondary" id="p4ProfileCancel" type="button">إلغاء</button></div>
         </form>
-        <button class="btn secondary" id="p4ProfileEdit" type="button" hidden>تعديل بياناتي</button>
+        <div class="actions"><button class="btn secondary" id="p4ProfileEdit" type="button" hidden>تعديل بياناتي</button><button class="btn secondary" id="p4ProfileSync" type="button" hidden>إعادة محاولة ربط الملف</button><button class="btn secondary" id="p4SessionRevoke" type="button" hidden>إنهاء الجلسة التجريبية</button></div>
         <p id="p4ProfileMessage" class="hint" role="status" aria-live="polite"></p>
       </section>`);
   }
@@ -114,6 +115,8 @@
       $("p4ProfileEdit").hidden = false;
       showProfile(profile);
       setMessage("تم استرجاع ملفك المحفوظ؛ لن نطلب بياناتك عند كل مساهمة.");
+      $("p4ProfileSync").hidden = !!JSON.parse(localStorage.getItem(SESSION_KEY) || "null")?.token;
+      $("p4SessionRevoke").hidden = !JSON.parse(localStorage.getItem(SESSION_KEY) || "null")?.token;
     } else {
       $("p4ProfileForm").hidden = false;
       $("p4ProfileEdit").hidden = true;
@@ -121,6 +124,26 @@
     }
     $("p4ProfileForm").addEventListener("submit", saveProfile);
     $("p4ProfileEdit").addEventListener("click", startEdit);
+    $("p4ProfileSync").addEventListener("click", async () => {
+      const profile = readProfile();
+      if (profile) {
+        const ok = await enroll(profile);
+        if (ok) { $("p4ProfileSync").hidden = true; $("p4SessionRevoke").hidden = false; }
+      }
+    });
+    $("p4SessionRevoke").addEventListener("click", async () => {
+      const session = JSON.parse(localStorage.getItem(SESSION_KEY) || "null");
+      if (!session?.token) return;
+      try {
+        await fetch(COMMUNITY_API + "/api/community/session", {
+          method: "DELETE", headers: { "Authorization": "Bearer " + session.token }
+        });
+      } catch {}
+      localStorage.removeItem(SESSION_KEY);
+      $("p4SessionRevoke").hidden = true;
+      $("p4ProfileSync").hidden = false;
+      setMessage("تم حذف رمز الجلسة من هذا الجهاز؛ قد يتعذر تأكيد الإلغاء على الخادم إذا كان غير متاح.");
+    });
     $("p4ProfileCancel").addEventListener("click", () => {
       $("p4ProfileForm").hidden = true;
       $("p4ProfileEdit").hidden = false;
