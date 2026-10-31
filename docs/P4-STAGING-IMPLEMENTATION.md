@@ -77,6 +77,7 @@ The staging branch now includes `POST /api/community/documents` in `p4-community
 - Requires a private R2 binding named `COMMUNITY_FILES` and a dedicated rate-limit binding named `P4_UPLOAD_RATE_LIMITER`.
 - Accepts PDF, JPEG, PNG, and WebP only; checks file signatures against the declared MIME type.
 - Enforces a 10 MiB limit while streaming the request body, including when Content-Length is absent.
+- Enforces hard staging storage ceilings of 1 GiB for the dedicated staging corpus and 100 MiB per contributor to limit accidental free-tier overuse.
 - Computes SHA-256 server-side and writes to an opaque contributor-scoped key under `private/`.
 - Uses private/no-store object metadata; creates D1 document metadata with `visibility='private'` and `rights_confirmed=0`.
 - Writes the document row and audit event in one D1 batch. If storage or the metadata transaction fails, it attempts to remove the R2 object.
