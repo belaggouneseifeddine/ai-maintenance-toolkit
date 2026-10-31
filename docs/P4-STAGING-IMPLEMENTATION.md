@@ -68,6 +68,24 @@ Use local/browser extraction for text PDFs where possible and offer local OCR as
 
 The profile UI uses the staging Worker URL. Until the staging D1 binding and rate-limit binding are configured, enrollment will remain unavailable and the app will explicitly retain the profile locally only. No real community upload or claim submission endpoints have been implemented yet.
 
+## Private document upload API — implemented in code, not provisioned
+
+The staging branch now includes `POST /api/community/documents` in `p4-community.js`:
+
+- Requires an active server-issued contributor session; owner identity is taken only from that session.
+- Remains disabled unless `P4_STAGING_ENABLED=true`.
+- Requires a private R2 binding named `COMMUNITY_FILES` and a dedicated rate-limit binding named `P4_UPLOAD_RATE_LIMITER`.
+- Accepts PDF, JPEG, PNG, and WebP only; checks file signatures against the declared MIME type.
+- Enforces a 10 MiB limit while streaming the request body, including when Content-Length is absent.
+- Computes SHA-256 server-side and writes to an opaque contributor-scoped key under `private/`.
+- Uses private/no-store object metadata; creates D1 document metadata with `visibility='private'` and `rights_confirmed=0`.
+- Writes the document row and audit event in one D1 batch. If storage or the metadata transaction fails, it attempts to remove the R2 object.
+- Does not issue public URLs, extract content, perform OCR, or publish uploaded documents.
+
+Automated Node tests cover origin/session gates, staging-disabled behavior, missing storage, MIME/signature mismatch, successful private PDF storage/provenance, and R2 cleanup after D1 failure. The GitHub Actions workflow now runs these tests alongside the SQLite migration tests.
+
+Required before an end-to-end staging test: create an isolated D1 database and private R2 bucket, configure the two bindings and a dedicated upload rate limiter in a non-production Wrangler environment, apply migrations only to that staging database, then connect a user-facing upload UI. No resources have been provisioned and no upload has been tested against live Cloudflare infrastructure.
+
 ## Remaining implementation boundary
 
-Not yet implemented: D1/R2 staging bindings/resources, private PDF/image upload, page extraction/OCR, candidate claim creation/review/approval, dispute/withdrawal routes, diagnostic retrieval of approved community claims, and Android device acceptance. No staging resources, secrets, buckets, databases, or deployments have been created. These steps require local/CI tests and separate staging-resource approval before provisioning.
+Not yet implemented: D1/R2 staging bindings/resources, user-facing upload UI, page extraction/OCR, candidate claim creation/review/approval, dispute/withdrawal routes, diagnostic retrieval of approved community claims, and Android device acceptance. The private upload API route exists in code but remains disabled until isolated staging resources and bindings are configured. No staging resources, secrets, buckets, databases, or deployments have been created. These steps require local/CI tests and separate staging-resource approval before provisioning.
