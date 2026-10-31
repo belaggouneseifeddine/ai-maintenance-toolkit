@@ -142,9 +142,10 @@ test("private PDF upload stores a private object and provenance metadata", async
   assert.equal(h.writes.length, 1);
   assert.match(h.writes[0].key, /^private\/contributor-1\//);
   assert.equal(h.writes[0].options.httpMetadata.cacheControl, "private, no-store");
-  assert.equal(h.statements.length, 2);
-  assert.match(h.statements[0].sql, /INSERT INTO source_documents/);
-  assert.match(h.statements[1].sql, /INSERT INTO audit_events/);
+  assert.equal(h.statements.length, 3);
+  assert.match(h.statements[0].sql, /UPDATE contributor_sessions SET last_seen_at/);
+  assert.match(h.statements[1].sql, /INSERT INTO source_documents/);
+  assert.match(h.statements[2].sql, /INSERT INTO audit_events/);
 });
 
 test("failed D1 metadata transaction removes the uploaded R2 object", async () => {
