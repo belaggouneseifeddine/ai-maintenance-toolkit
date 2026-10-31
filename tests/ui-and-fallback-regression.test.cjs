@@ -50,3 +50,12 @@ test("AI adapter failure and timeout keep a stable local fallback path", () => {
   assert.match(agent, /tool_failed/);
   assert.match(agent, /Never return provider\/network exception text/i);
 });
+
+const navigation = readFileSync(join(root, "navigation-redesign.js"), "utf8");
+
+test("mobile navigation does not leave a duplicate standalone AI tab", () => {
+  assert.match(navigation, /if\(aiTab&&aiTab\.parentNode===nav\)aiTab\.remove\(\)/,
+    "the AI assistant is embedded in Diagnose and its old standalone tab must be removed");
+  assert.match(navigation, /const tabs=\[\s*\{button:homeTab[\s\S]*?\{button:moreTab/,
+    "the bottom navigation must retain the six defined primary destinations");
+});
