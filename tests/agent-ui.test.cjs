@@ -101,7 +101,7 @@ test("local diagnosis loads the bundled fault library without sending form data"
 });
 
 
-test("OpenAI cloud diagnosis sends only after explicit per-request consent and clears consent afterward", async () => {
+test("Cloud AI diagnosis sends only after explicit per-request consent and clears consent afterward", async () => {
   const previous = {
     document: global.document,
     fetch: global.fetch,
@@ -109,7 +109,7 @@ test("OpenAI cloud diagnosis sends only after explicit per-request consent and c
   };
   const elements = {
     aiResult: { hidden: true, textContent: "" },
-    askOpenAI: { disabled: false, textContent: "" },
+    askCloudAI: { disabled: false, textContent: "" },
     aiCloudConsent: { checked: true },
     aiMachine: { value: "centrifugal pump" },
     aiSymptom: { value: "abnormal vibration and low flow" },
@@ -133,14 +133,14 @@ test("OpenAI cloud diagnosis sends only after explicit per-request consent and c
         status: 200,
         json: async () => ({
           answer: "SAFETY GATE\\nFollow site LOTO procedures.",
-          provider: "openai",
-          model: "gpt-4.1-mini",
+          provider: "gemini",
+          model: "gemini-3.8-flash",
           model_called: true,
           citations: [{ id: "S1", source: "knowledge/example.md", section: "Pump checks", startLine: 10, endLine: 14 }]
         })
       };
     };
-    await ui.runOpenAI();
+    await ui.runCloudAI();
     assert.equal(requestUrl, "https://maintenance-ai-toolkit-api.maintenance-ai-toolkit-api-seif.workers.dev/api/chat");
     assert.equal(requestOptions.method, "POST");
     assert.equal(requestOptions.headers["Content-Type"], "application/json");
@@ -149,10 +149,10 @@ test("OpenAI cloud diagnosis sends only after explicit per-request consent and c
     assert.equal(body.symptom, "abnormal vibration and low flow");
     assert.equal(body.code, "E-12");
     assert.equal(body.measurementStatus, "available");
-    assert.match(elements.aiResult.textContent, /OpenAI-generated preliminary assessment/);
+    assert.match(elements.aiResult.textContent, /AI-generated preliminary assessment/);
     assert.ok(elements.aiResult.textContent.includes("knowledge/example.md"));
     assert.equal(elements.aiCloudConsent.checked, false);
-    assert.equal(elements.askOpenAI.disabled, false);
+    assert.equal(elements.askCloudAI.disabled, false);
   } finally {
     for (const [key, value] of Object.entries(previous)) {
       if (value === undefined) delete global[key];
@@ -161,7 +161,7 @@ test("OpenAI cloud diagnosis sends only after explicit per-request consent and c
   }
 });
 
-test("OpenAI cloud diagnosis does not send a request without consent", async () => {
+test("Cloud AI diagnosis does not send a request without consent", async () => {
   const previous = {
     document: global.document,
     fetch: global.fetch,
@@ -169,7 +169,7 @@ test("OpenAI cloud diagnosis does not send a request without consent", async () 
   };
   const elements = {
     aiResult: { hidden: true, textContent: "" },
-    askOpenAI: { disabled: false, textContent: "" },
+    askCloudAI: { disabled: false, textContent: "" },
     aiCloudConsent: { checked: false },
     aiMachine: { value: "pump" },
     aiSymptom: { value: "low flow" }
@@ -179,7 +179,7 @@ test("OpenAI cloud diagnosis does not send a request without consent", async () 
     global.document = { documentElement: { lang: "en" }, getElementById: id => elements[id] || null };
     global.MaintenanceI18n = { getLanguage: () => "en" };
     global.fetch = async () => { calls++; throw new Error("must not be called"); };
-    await ui.runOpenAI();
+    await ui.runCloudAI();
     assert.equal(calls, 0);
     assert.match(elements.aiResult.textContent, /Consent is required/i);
   } finally {
@@ -203,7 +203,7 @@ test("free UI simulation renders a labelled placeholder without network calls", 
     global.document = { documentElement: { lang: "en" }, getElementById: id => elements[id] || null };
     global.MaintenanceI18n = { getLanguage: () => "en" };
     global.fetch = async () => { calls++; throw new Error("simulation must not make network calls"); };
-    ui.runOpenAIMock();
+    ui.runCloudAIMock();
     assert.equal(calls, 0);
     assert.equal(elements.aiResult.hidden, false);
     assert.match(elements.aiResult.textContent, /SIMULATION ONLY/i);
