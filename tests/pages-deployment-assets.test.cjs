@@ -4,6 +4,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const html = fs.readFileSync(path.join(__dirname, "..", "index.html"), "utf8");
+const sw = fs.readFileSync(path.join(__dirname, "..", "sw.js"), "utf8");
 const workflow = fs.readFileSync(path.join(__dirname, "..", ".github/workflows/deploy-pages.yml"), "utf8");
 const cloudflareWorkflow = fs.readFileSync(path.join(__dirname, "..", ".github/workflows/deploy-cloudflare-pages.yml"), "utf8");
 const match = workflow.match(/required_runtime_assets="([^"]+)"/);
