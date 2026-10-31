@@ -88,6 +88,16 @@ Automated Node tests cover origin/session gates, staging-disabled behavior, miss
 
 Required before an end-to-end staging test: create an isolated D1 database and private R2 bucket, configure the two bindings and a dedicated upload rate limiter in a non-production Wrangler environment, and apply migrations only to that staging database. The UI and API route are present but cannot complete an upload until these resources and the staging enable flag are configured. No resources have been provisioned and no upload has been tested against live Cloudflare infrastructure.
 
+## Latest automated verification
+
+On 2026-10-31, GitHub Actions P4 schema workflow run #58 completed successfully:
+- 5 knowledge-schema SQLite tests passed.
+- 5 anonymous-profile/session SQLite tests passed.
+- 10 private-upload API tests passed.
+- `node --check p4-profile.js` passed.
+
+The upload API tests use mocked D1/R2 bindings. They validate route behavior and rollback logic but do not prove that real Cloudflare resources, browser CORS, or Android file selection work end to end. Live staging acceptance is still outstanding.
+
 ## Remaining implementation boundary
 
 Not yet implemented: D1/R2 staging bindings/resources, page extraction/OCR, candidate claim creation/review/approval, dispute/withdrawal routes, diagnostic retrieval of approved community claims, and Android device acceptance. The private upload UI and API route exist in code but remain unable to store files until isolated staging resources and bindings are configured. No staging resources, secrets, buckets, databases, or deployments have been created. These steps require local/CI tests and separate staging-resource approval before provisioning.
