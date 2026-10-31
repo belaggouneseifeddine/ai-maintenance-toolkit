@@ -721,3 +721,53 @@ input,select,textarea{min-height:48px}
 :root[data-theme="dark"] #dynamicAnswer{background:#0f1d2a;color:#e5edf5;border-color:#365064}
 :root[data-theme="dark"] #dynamicHypotheses li{background:#142333;border-color:#2b4052}
 :root[data-theme="dark"] #dynamicHypotheses li:before{background:#123b4b;color:#8de6f2}
+
+
+/* Guided diagnosis v2: progress, ranked evidence cards, and clear limitations. */
+#dynamicSessionProgress{
+  display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:11px;
+  background:#eaf2f7;color:#36536a;font-size:.86rem;font-weight:700;
+}
+#dynamicSessionProgress:before{
+  content:"";display:block;flex:0 0 8px;width:8px;height:8px;border-radius:50%;
+  background:#0e8794;box-shadow:0 0 0 4px #0e87941c;
+}
+#dynamicHypotheses{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+#dynamicHypotheses .hypotheses-heading{
+  margin:6px 0 0;font-size:1rem;color:inherit;list-style:none;
+}
+#dynamicHypotheses .hypothesis-card{
+  display:grid;gap:9px;padding:14px;border:1px solid #d7e1ea;border-radius:15px;
+  background:#fff;list-style:none;
+}
+#dynamicHypotheses .hypothesis-card:before{display:none}
+.hypothesis-title{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.hypothesis-title strong{font-size:.97rem;line-height:1.6}
+.hypothesis-rank{
+  flex:0 0 auto;display:grid;place-items:center;min-width:29px;height:29px;
+  border-radius:9px;background:#e8f3f6;color:#075b73;font-size:.8rem;font-weight:850;
+}
+.hypothesis-status{margin:0;color:#37536a;font-size:.88rem;font-weight:700}
+.hypothesis-evidence{padding:9px 11px;border-radius:10px;font-size:.85rem}
+.hypothesis-evidence strong{display:block;margin-bottom:4px}
+.hypothesis-evidence ul{margin:0;padding-inline-start:19px}
+.hypothesis-evidence.supports{background:#eef8f1;color:#24583a}
+.hypothesis-evidence.contradicts{background:#fff4ed;color:#85401e}
+.hypothesis-card details{border-top:1px solid #e5ebf0;padding-top:8px;font-size:.87rem}
+.hypothesis-card summary{font-weight:700;cursor:pointer}
+.hypothesis-card details ul{margin-bottom:0}
+.diagnostic-disclaimer{
+  margin:4px 0 0;padding:11px 12px;border-inline-start:3px solid #c18b35;
+  border-radius:8px;background:#fff9eb;color:#674c20;font-size:.84rem;line-height:1.7;
+}
+:root[data-theme="dark"] #dynamicSessionProgress{background:#203344;color:#c7d7e6}
+:root[data-theme="dark"] #dynamicHypotheses .hypothesis-card{background:#142333;border-color:#2b4052}
+:root[data-theme="dark"] .hypothesis-rank{background:#123b4b;color:#a4e8f1}
+:root[data-theme="dark"] .hypothesis-status{color:#c7d7e6}
+:root[data-theme="dark"] .hypothesis-evidence.supports{background:#17372d;color:#bce8c9}
+:root[data-theme="dark"] .hypothesis-evidence.contradicts{background:#402b24;color:#f3c4ad}
+:root[data-theme="dark"] .diagnostic-disclaimer{background:#3c3320;color:#f0d9a8}
+@media(prefers-reduced-motion:no-preference){
+  #dynamicHypotheses .hypothesis-card{animation:diagnostic-card-in .22s ease-out both}
+  @keyframes diagnostic-card-in{from{opacity:.55;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+}
