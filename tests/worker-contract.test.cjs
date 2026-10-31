@@ -3,7 +3,7 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const vm = require("node:vm");
 
-const source = fs.readFileSync(require.resolve("../normalization.js"), "utf8") + "\n" + fs.readFileSync(require.resolve("../worker.js"), "utf8").replace('import "./normalization.js";', "").replace('import { callCloudflareAI } from "./providers/cloudflare-provider.mjs";', "");
+const source = fs.readFileSync(require.resolve("../normalization.js"), "utf8") + "\n" + fs.readFileSync(require.resolve("../worker.js"), "utf8").replace('import "./normalization.js";', "").replace('import { callCloudflareAI } from "./providers/cloudflare-provider.mjs";', "").replace('import { handleCommunityRequest } from "./p4-community.js";', "");
 let upstreamPayload = null;
 let upstreamCalls = 0;
 let cloudflareCalls = 0;
