@@ -6,6 +6,8 @@ on:
       - "migrations/**"
       - "scripts/test-p4-schema.py"
       - "scripts/test-p4-anonymous-profile.py"
+      - "scripts/test-p4-community-api.mjs"
+      - "p4-community.js"
       - ".github/workflows/p4-schema-tests.yml"
   push:
     branches:
@@ -13,6 +15,9 @@ on:
     paths:
       - "migrations/**"
       - "scripts/test-p4-schema.py"
+      - "scripts/test-p4-anonymous-profile.py"
+      - "scripts/test-p4-community-api.mjs"
+      - "p4-community.js"
       - ".github/workflows/p4-schema-tests.yml"
 
 permissions:
@@ -26,7 +31,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
       - name: Validate P4 migration and workflow invariants
         run: |
           python scripts/test-p4-schema.py
           python scripts/test-p4-anonymous-profile.py
+          node --test scripts/test-p4-community-api.mjs
