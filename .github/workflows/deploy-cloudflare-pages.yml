@@ -65,9 +65,9 @@ jobs:
             if curl --fail --silent --show-error https://maintenance-ai-toolkit.pages.dev/ -o /tmp/maintenance-index.html && curl --fail --silent --show-error https://maintenance-ai-toolkit.pages.dev/diagnostic-engine.js -o /tmp/maintenance-engine.js && curl --fail --silent --show-error https://maintenance-ai-toolkit.pages.dev/bayesian-engine.js -o /tmp/maintenance-bayesian.js && curl --fail --silent --show-error https://maintenance-ai-toolkit.pages.dev/diagnostic-session.js -o /tmp/maintenance-session.js && curl --fail --silent --show-error https://maintenance-ai-toolkit.pages.dev/diagnostic-session-ui.js -o /tmp/maintenance-session-ui.js && curl --fail --silent --show-error https://maintenance-ai-toolkit.pages.dev/knowledge/manufacturer-sources.json -o /tmp/maintenance-sources.json && curl --fail --silent --show-error https://maintenance-ai-toolkit.pages.dev/knowledge/oem-verified-faults.json -o /tmp/maintenance-oem-faults.json; then
               grep -q "maintenance" /tmp/maintenance-index.html
               grep -q "retrieveLocalKnowledge" /tmp/maintenance-engine.js
-              grep -q "MaintenanceBayesian" /tmp/maintenance-bayesian.js
-              grep -q "DiagnosticSession" /tmp/maintenance-session.js
-              grep -q "saveGuidedDiagnosticReport" /tmp/maintenance-session-ui.js
+              grep -q "MaintenanceBayesianEngine" /tmp/maintenance-bayesian.js
+              grep -q "MaintenanceDiagnosticSession" /tmp/maintenance-session.js
+              grep -q "MaintenanceDiagnosticSessionUI" /tmp/maintenance-session-ui.js
               grep -q "grundfos-hydro-en" /tmp/maintenance-sources.json
               node -e 'const d=JSON.parse(require("node:fs").readFileSync("/tmp/maintenance-oem-faults.json","utf8")); if(d.recordCount!==d.records.length || new Set(d.records.map(r=>r.id)).size!==d.records.length || d.records.length<80) process.exit(1)'
               echo "Cloudflare Pages production smoke test passed."
