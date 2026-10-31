@@ -91,10 +91,10 @@ Required before an end-to-end staging test: create an isolated D1 database and p
 
 ## Latest automated verification
 
-On 2026-10-31, GitHub Actions P4 schema workflow run #58 completed successfully:
+On 2026-10-31, GitHub Actions P4 schema workflow run #63 completed successfully:
 - 5 knowledge-schema SQLite tests passed.
 - 5 anonymous-profile/session SQLite tests passed.
-- 10 private-upload API tests passed.
+- 12 private-upload API tests passed, including global and per-contributor storage quotas.
 - `node --check p4-profile.js` passed.
 
 The upload API tests use mocked D1/R2 bindings. They validate route behavior and rollback logic but do not prove that real Cloudflare resources, browser CORS, or Android file selection work end to end. Live staging acceptance is still outstanding.
