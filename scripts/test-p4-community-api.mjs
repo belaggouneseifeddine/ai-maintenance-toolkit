@@ -65,6 +65,18 @@ function uploadRequest(bytes, mime = "application/pdf", requestOrigin = origin) 
   });
 }
 
+test("CORS preflight returns a valid empty 204 response and permits session revocation", async () => {
+  const h = harness();
+  const request = new Request("https://worker.test/api/community/session", {
+    method: "OPTIONS",
+    headers: { Origin: origin, "Access-Control-Request-Method": "DELETE" }
+  });
+  const response = await h.handler(request, h.env);
+  assert.equal(response.status, 204);
+  assert.equal(await response.text(), "");
+  assert.match(response.headers.get("access-control-allow-methods"), /DELETE/);
+});
+
 test("private upload rejects disallowed origins", async () => {
   const h = harness();
   const request = uploadRequest(new TextEncoder().encode("%PDF-1.7"), "application/pdf", "https://attacker.example");
