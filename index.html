@@ -523,7 +523,7 @@ window.saveGuidedDiagnosticReport=function(payload){
  payload.diagnosticHypotheses.forEach((h,i)=>{lines.push((i+1)+'. '+(h.label||h.id)+' — '+(h.status||'unresolved'));lines.push('  '+labels.s+': '+(h.supportingEvidence.join('; ')||labels.n));lines.push('  '+labels.c+': '+(h.contradictingEvidence.join('; ')||labels.n));if(h.checks.length)lines.push('  '+labels.k+': '+h.checks.join('; '));});
  lines.push('',language==='en'?'Provisional heuristic ranking; not a confirmed root cause.':language==='fr'?'Classement heuristique provisoire ; cause racine non confirmée.':'ترتيب استدلالي أولي؛ لا يؤكد السبب الجذري.');
  const machine=($('aiMachine').value||'').trim();
- const record={id:newRecordId(),date:localDateString(),createdAt:new Date().toISOString(),machine:machine+' ('+payload.diagnosticFlowId.split('|')[0]+')',fault:($('aiSymptom').value||'').trim(),action:lines.join('\n'),status:'under_inspection',guidedSession:payload};
+ const record={id:newRecordId(),date:localDateString(),createdAt:new Date().toISOString(),machine:machine+' ('+payload.diagnosticFlowId.split('|')[0]+')',fault:($('aiSymptom').value||'').trim(),action:lines.join('\n'),status:'قيد الفحص',guidedSession:payload};
  const records=getRecords();records.unshift(record);
  if(!saveRecords(records))return false;
  renderRecords();
