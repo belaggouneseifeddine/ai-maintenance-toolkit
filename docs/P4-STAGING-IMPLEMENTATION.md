@@ -1,6 +1,6 @@
 # P4 Staging Implementation Notes
 
-Status: foundation schema committed; no Cloudflare resources provisioned and no production changes made.
+Status: first-use profile UI, anonymous session Worker boundary, and schema migration implemented on the feature branch; no Cloudflare resources provisioned and no production changes made.
 
 ## Staging MVP identity and first-use profile
 
@@ -57,6 +57,17 @@ The migration has not been applied to any database. Before applying:
 
 Use local/browser extraction for text PDFs where possible and offer local OCR as a later opt-in path. Do not silently upload a user's source file to a remote OCR or AI provider. A server-side OCR mode may be added only with an explicit per-upload consent explaining that document bytes leave the device.
 
-## Current implementation boundary
+## Implemented on the feature branch (not deployed)
 
-This branch currently contains the architecture decision, the first D1 schema migration, and this staging checklist. It does not yet include anonymous-session routes, upload routes, OCR workers, frontend first-use profile screens, Cloudflare bindings, secrets, database creation, bucket creation, or deployment. Those are separate implementation steps and must be tested in staging before production.
+- `migrations/0002_p4_anonymous_profiles.sql`: self-declared display name, professional title/specialty, optional qualification, profile-completed flag, and revocable session records. Only a SHA-256 token hash is stored in D1.
+- `p4-community.js`: Worker routes for first-use enrollment, profile read/update, and session revocation. Contributor identity is resolved from the validated bearer session; client-supplied contributor IDs and roles are not used.
+- `p4-profile.js`: first-use form, local profile persistence, profile editing, retry of server enrollment, and session revocation controls. The profile is not re-entered for each contribution.
+- `worker.js`: delegates `/api/community/*` routes to the community module.
+- `scripts/test-p4-anonymous-profile.py`: SQLite behavioral tests for the migration.
+- P4 schema CI now runs the original knowledge workflow tests and anonymous-profile migration tests.
+
+The profile UI uses the staging Worker URL. Until the staging D1 binding and rate-limit binding are configured, enrollment will remain unavailable and the app will explicitly retain the profile locally only. No real community upload or claim submission endpoints have been implemented yet.
+
+## Remaining implementation boundary
+
+Not yet implemented: D1/R2 staging bindings/resources, private PDF/image upload, page extraction/OCR, candidate claim creation/review/approval, dispute/withdrawal routes, diagnostic retrieval of approved community claims, and Android device acceptance. No staging resources, secrets, buckets, databases, or deployments have been created. These steps require local/CI tests and separate staging-resource approval before provisioning.
