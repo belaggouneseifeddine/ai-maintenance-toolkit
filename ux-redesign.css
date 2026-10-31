@@ -670,3 +670,54 @@ input,select,textarea{min-height:48px}
 :root[data-theme="dark"] .author{border-color:#2b4052}
 :root[data-theme="dark"] .author a{color:#8de6f2}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.ux-action{transition:none}}
+
+
+/* Diagnostic workspace v2: clearer question, progress, and provisional result hierarchy. */
+#dynamicSessionPanel{
+  display:grid;
+  gap:12px;
+  margin:18px 0;
+  padding:clamp(16px,3vw,22px);
+  border:1px solid #9bdce8;
+  border-radius:20px;
+  background:linear-gradient(145deg,#f0fbfd 0%,#ffffff 72%);
+  color:#172b3a;
+  box-shadow:0 10px 28px rgba(16,40,63,.055);
+}
+#dynamicSessionPanel h3{margin:0;font-size:1.05rem}
+#dynamicSessionStatus{margin:0;padding:10px 12px;border-radius:12px;background:#e1f5fa;color:#075b73;font-weight:650}
+#dynamicQuestionText{margin:0;font-size:1rem;font-weight:750;line-height:1.7}
+#dynamicAnswer{width:100%;min-height:54px;background:#fff;border:1px solid #9bb8c5;border-radius:13px}
+#recordDynamicAnswer{width:100%;min-height:50px}
+#dynamicHypotheses{display:grid;gap:9px;margin:0;padding:0;list-style:none;counter-reset:hypothesis}
+#dynamicHypotheses li{
+  counter-increment:hypothesis;position:relative;margin:0;padding:13px 14px 13px 48px;
+  border:1px solid #d7e1ea;border-radius:13px;background:#fff;line-height:1.65;
+}
+#dynamicHypotheses li:before{
+  content:counter(hypothesis);position:absolute;left:13px;top:12px;display:grid;place-items:center;
+  width:25px;height:25px;border-radius:8px;background:#e1f5fa;color:#075b73;font-weight:850;
+}
+#dynamicHypotheses:empty{display:none}
+#diagnosisResult{display:grid;gap:14px}
+#diagnosisResult>.result{border-radius:20px;padding:clamp(17px,3vw,24px)}
+#diagnosisResult .result h3{font-size:1.08rem}
+#diagnosisResult .result ul{display:grid;gap:8px}
+#diagnosisResult .result li{padding-inline-start:3px;line-height:1.75}
+#diagnosisResult .result .pill{display:inline-flex;margin:3px 5px 8px 0}
+#diagnosisResult .notice{border-inline-start:4px solid #d69a28}
+#diagnosisResult .actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#diagnosisResult .actions .btn{width:100%;min-width:0}
+@media(max-width:560px){
+  #dynamicSessionPanel{margin-inline:0;border-radius:16px}
+  #dynamicHypotheses li{padding:12px 12px 12px 44px}
+  #diagnosisResult .actions{grid-template-columns:1fr}
+}
+:root[data-theme="dark"] #dynamicSessionPanel{
+  background:linear-gradient(145deg,#12303a 0%,#142333 75%);
+  border-color:#23616b;color:#e5edf5;
+}
+:root[data-theme="dark"] #dynamicSessionStatus{background:#123b4b;color:#b7f1f7}
+:root[data-theme="dark"] #dynamicAnswer{background:#0f1d2a;color:#e5edf5;border-color:#365064}
+:root[data-theme="dark"] #dynamicHypotheses li{background:#142333;border-color:#2b4052}
+:root[data-theme="dark"] #dynamicHypotheses li:before{background:#123b4b;color:#8de6f2}
