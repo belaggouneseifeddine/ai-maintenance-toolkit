@@ -1,0 +1,29 @@
+name: P4 schema tests
+
+on:
+  pull_request:
+    paths:
+      - "migrations/**"
+      - "scripts/test-p4-schema.py"
+      - ".github/workflows/p4-schema-tests.yml"
+  push:
+    branches:
+      - "feature/p4-global-community-knowledge"
+    paths:
+      - "migrations/**"
+      - "scripts/test-p4-schema.py"
+      - ".github/workflows/p4-schema-tests.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  sqlite-schema-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate P4 migration and workflow invariants
+        run: python scripts/test-p4-schema.py
