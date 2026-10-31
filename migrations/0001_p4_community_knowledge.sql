@@ -104,7 +104,6 @@ CREATE TABLE IF NOT EXISTS knowledge_claims (
   diagnostic_eligible INTEGER NOT NULL DEFAULT 0 CHECK (diagnostic_eligible IN (0, 1)),
   created_at TEXT NOT NULL,
   updated_at TEXT NOT NULL,
-  CHECK (diagnostic_eligible = 0 OR review_status = 'community-approved')
 );
 
 CREATE INDEX IF NOT EXISTS idx_knowledge_claims_status
@@ -252,4 +251,33 @@ BEGIN
   UPDATE knowledge_claims
   SET diagnostic_eligible = 0
   WHERE id = NEW.id;
+END;
+
+-- Guard eligibility independently so a dispute can atomically disable a claim.
+CREATE TRIGGER IF NOT EXISTS trg_claim_insert_eligibility_guard
+BEFORE INSERT ON knowledge_claims
+WHEN NEW.diagnostic_eligible = 1 AND NEW.review_status != 'community-approved'
+BEGIN
+  SELECT RAISE(ABORT, 'only community-approved claims can be diagnostic eligible');
+END;
+
+CREATE TRIGGER IF NOT EXISTS trg_claim_eligibility_guard
+BEFORE UPDATE OF diagnostic_eligible ON knowledge_claims
+WHEN NEW.diagnostic_eligible = 1 AND NEW.review_status != 'community-approved'
+BEGIN
+  SELECT RAISE(ABORT, 'only community-approved claims can be diagnostic eligible');
+END;
+
+-- Status cannot be set to community-approved without an approval event
+-- for the exact current revision.
+CREATE TRIGGER IF NOT EXISTS trg_claim_approval_status_guard
+BEFORE UPDATE OF review_status ON knowledge_claims
+WHEN NEW.review_status = 'community-approved'
+ AND NOT EXISTS (
+   SELECT 1 FROM claim_approvals a
+   WHERE a.claim_id = NEW.id
+     AND a.revision_number = NEW.current_revision
+ )
+BEGIN
+  SELECT RAISE(ABORT, 'community approval event required for current revision');
 END;
