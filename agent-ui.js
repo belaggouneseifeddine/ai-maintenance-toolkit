@@ -173,11 +173,11 @@
     }
   }
 
-  const OPENAI_WORKER_ENDPOINT = "https://maintenance-ai-toolkit-api.maintenance-ai-toolkit-api-seif.workers.dev/api/chat";
+  const WORKER_ENDPOINT = "https://maintenance-ai-toolkit-api.maintenance-ai-toolkit-api-seif.workers.dev/api/chat";
 
-  async function runOpenAI() {
+  async function runCloudAI() {
     const output = root.document && root.document.getElementById("aiResult");
-    const button = root.document && root.document.getElementById("askOpenAI");
+    const button = root.document && root.document.getElementById("askCloudAI");
     const consent = root.document && root.document.getElementById("aiCloudConsent");
     const machine = root.document && root.document.getElementById("aiMachine");
     const symptom = root.document && root.document.getElementById("aiSymptom");
@@ -196,16 +196,16 @@
       return;
     }
     if (!consent.checked) {
-      output.textContent = language === "en" ? "Consent is required before sending this case to OpenAI."
-        : language === "fr" ? "Votre accord est requis avant l’envoi du cas à OpenAI."
-        : "يجب الموافقة قبل إرسال بيانات الحالة إلى OpenAI.";
+      output.textContent = language === "en" ? "Consent is required before sending this case to configured AI provider."
+        : language === "fr" ? "Votre accord est requis avant l’envoi du cas à configured AI provider."
+        : "يجب الموافقة قبل إرسال بيانات الحالة إلى configured AI provider.";
       return;
     }
     if (button) {
       button.disabled = true;
-      button.textContent = language === "en" ? "Contacting OpenAI…"
-        : language === "fr" ? "Connexion à OpenAI…"
-        : "جارٍ الاتصال بـ OpenAI…";
+      button.textContent = language === "en" ? "Contacting configured AI provider…"
+        : language === "fr" ? "Connexion à configured AI provider…"
+        : "جارٍ الاتصال بـ configured AI provider…";
     }
     try {
       const payload = {
@@ -216,7 +216,7 @@
         measurementStatus: measurement ? measurement.value : "unknown",
         language: ["ar", "en", "fr"].includes(language) ? language : "ar"
       };
-      const response = await root.fetch(OPENAI_WORKER_ENDPOINT, {
+      const response = await root.fetch(WORKER_ENDPOINT, {
         method: "POST",
         mode: "cors",
         headers: { "Content-Type": "application/json" },
@@ -228,7 +228,7 @@
       if (!response.ok) {
         const status = Number.isInteger(data.provider_status) ? " (provider HTTP " + data.provider_status + ")" : "";
         const message = typeof data.error === "string" ? data.error : "The AI service request failed.";
-        output.textContent = (language === "en" ? "OpenAI diagnosis failed: " : language === "fr" ? "Échec du diagnostic OpenAI : " : "فشل تشخيص OpenAI: ") + message + status;
+        output.textContent = (language === "en" ? "configured AI provider diagnosis failed: " : language === "fr" ? "Échec du diagnostic configured AI provider : " : "فشل تشخيص configured AI provider: ") + message + status;
         return;
       }
       if (typeof data.answer !== "string" || !data.answer.trim()) {
@@ -237,12 +237,12 @@
           : "لم تُرجع الخدمة تشخيصًا صالحًا للتحقق.";
         return;
       }
-      const modelGenerated = data.model_called === true && data.provider === "openai";
+      const modelGenerated = data.model_called === true && ["gemini", "cloudflare"].includes(data.provider);
       const lines = [
         modelGenerated
-          ? (language === "en" ? "OpenAI-generated preliminary assessment — not a confirmed diagnosis."
-            : language === "fr" ? "Évaluation préliminaire générée par OpenAI — diagnostic non confirmé."
-            : "تقييم أولي مولّد بواسطة OpenAI — ليس تشخيصًا مؤكدًا.")
+          ? (language === "en" ? "configured AI provider-generated preliminary assessment — not a confirmed diagnosis."
+            : language === "fr" ? "Évaluation préliminaire générée par configured AI provider — diagnostic non confirmé."
+            : "تقييم أولي مولّد بواسطة configured AI provider — ليس تشخيصًا مؤكدًا.")
           : (language === "en" ? "Preliminary cloud safety/evidence assessment — the AI model was not confirmed as called."
             : language === "fr" ? "Évaluation préliminaire de sécurité/des preuves — l’appel au modèle IA n’est pas confirmé."
             : "تقييم أولي للسلامة والأدلة — لم يتأكد استدعاء نموذج الذكاء الاصطناعي."),
@@ -269,16 +269,16 @@
       consent.checked = false;
       if (button) {
         button.disabled = false;
-        button.textContent = language === "en" ? "Diagnose with OpenAI"
-          : language === "fr" ? "Diagnostiquer avec OpenAI"
-          : "التشخيص باستخدام OpenAI";
+        button.textContent = language === "en" ? "Diagnose with configured AI provider"
+          : language === "fr" ? "Diagnostiquer avec configured AI provider"
+          : "التشخيص باستخدام configured AI provider";
       }
     }
   }
 
   // A deterministic demo path for UI testing when API credits are unavailable.
   // It never sends case data or represents its output as model-generated.
-  function runOpenAIMock() {
+  function runCloudAIMock() {
     const output = root.document && root.document.getElementById("aiResult");
     const machine = root.document && root.document.getElementById("aiMachine");
     const symptom = root.document && root.document.getElementById("aiSymptom");
@@ -293,23 +293,23 @@
       : language === "fr" ? "SIMULATION UNIQUEMENT — aucun modèle IA appelé, aucune donnée envoyée."
       : "محاكاة فقط — لم يُستدعَ أي نموذج ذكاء اصطناعي ولم تُرسل أي بيانات.";
     const detail = language === "en"
-      ? "Sample response path: equipment=" + equipment + "; symptom=" + issue + ". This placeholder is not a diagnosis. Use local diagnosis for real rule-based guidance, or enable OpenAI only when API quota is available."
+      ? "Sample response path: equipment=" + equipment + "; symptom=" + issue + ". This placeholder is not a diagnosis. Use local diagnosis for real rule-based guidance, or enable configured AI provider only when API quota is available."
       : language === "fr"
-        ? "Exemple de réponse : équipement=" + equipment + "; symptôme=" + issue + ". Ce contenu n’est pas un diagnostic. Utilisez le diagnostic local pour des conseils basés sur les règles, ou activez OpenAI avec un quota API disponible."
-        : "مسار الرد التجريبي: المعدة=" + equipment + "؛ العَرَض=" + issue + ". هذا نص تجريبي وليس تشخيصًا. استخدم التشخيص المحلي للإرشادات القائمة على القواعد، ولا تفعّل OpenAI إلا عند توفر حصة API.";
+        ? "Exemple de réponse : équipement=" + equipment + "; symptôme=" + issue + ". Ce contenu n’est pas un diagnostic. Utilisez le diagnostic local pour des conseils basés sur les règles, ou activez configured AI provider avec un quota API disponible."
+        : "مسار الرد التجريبي: المعدة=" + equipment + "؛ العَرَض=" + issue + ". هذا نص تجريبي وليس تشخيصًا. استخدم التشخيص المحلي للإرشادات القائمة على القواعد، ولا تفعّل configured AI provider إلا عند توفر حصة API.";
     output.textContent = title + "\\n\\n" + detail;
   }
 
   function init() {
     const button = root.document && root.document.getElementById("runLocalAgent");
     if (button) button.addEventListener("click", runLocal);
-    const cloudButton = root.document && root.document.getElementById("askOpenAI");
-    if (cloudButton) cloudButton.addEventListener("click", runOpenAI);
-    const mockButton = root.document && root.document.getElementById("simulateOpenAI");
-    if (mockButton) mockButton.addEventListener("click", runOpenAIMock);
+    const cloudButton = root.document && root.document.getElementById("askCloudAI");
+    if (cloudButton) cloudButton.addEventListener("click", runCloudAI);
+    const mockButton = root.document && root.document.getElementById("simulateCloudAI");
+    if (mockButton) mockButton.addEventListener("click", runCloudAIMock);
   }
 
-  const api = Object.freeze({ formatResult, formatGuidedEvidence, runLocal, runOpenAI, runOpenAIMock, init });
+  const api = Object.freeze({ formatResult, formatGuidedEvidence, runLocal, runCloudAI, runCloudAIMock, init });
   root.MaintenanceAgentUI = api;
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   if (root.document) init();
