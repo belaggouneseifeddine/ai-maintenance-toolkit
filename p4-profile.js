@@ -62,10 +62,17 @@
     showProfile(profile);
     $("p4ProfileForm").hidden = true;
     $("p4ProfileEdit").hidden = false;
-    if (!previous) await enroll(profile);
-    else {
+    if (!previous) {
+      const ok = await enroll(profile);
+      $("p4ProfileSync").hidden = ok;
+      $("p4SessionRevoke").hidden = !ok;
+    } else {
       const session = JSON.parse(localStorage.getItem(SESSION_KEY) || "null");
-      if (!session?.token) { await enroll(profile); }
+      if (!session?.token) {
+        const ok = await enroll(profile);
+        $("p4ProfileSync").hidden = ok;
+        $("p4SessionRevoke").hidden = !ok;
+      }
       else {
         try {
           const response = await fetch(COMMUNITY_API + "/api/community/profile", {
