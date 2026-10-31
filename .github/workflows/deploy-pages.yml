@@ -31,7 +31,7 @@ jobs:
       - name: Prepare static site
         run: |
           mkdir -p _site
-          required_runtime_assets="diagnostic-flows.js normalization.js bayesian-engine.js diagnostic-engine.js engineering-core.js agent-core.js evidence-reasoning.js evidence-reasoning-ui.js diagnostic-evidence-register.json agent-ui.js diagnostic-session.js diagnostic-session-ui.js oem-lookup.js faults.json i18n.js maintenance-v03.js maintenance-v03.css decision-trees.json knowledge-review.js answer-tools.js ux-redesign.js ux-redesign.css navigation-redesign.js"
+          required_runtime_assets="p1-app-shell.css p1-app-shell.js diagnostic-flows.js normalization.js bayesian-engine.js diagnostic-engine.js engineering-core.js agent-core.js evidence-reasoning.js evidence-reasoning-ui.js diagnostic-evidence-register.json agent-ui.js diagnostic-session.js diagnostic-session-ui.js oem-lookup.js faults.json i18n.js maintenance-v03.js maintenance-v03.css decision-trees.json knowledge-review.js answer-tools.js ux-redesign.js ux-redesign.css navigation-redesign.js"
           for asset in $required_runtime_assets; do
             test -f "$asset" || { echo "Missing required runtime asset: $asset"; exit 1; }
           done

@@ -54,7 +54,8 @@ try {
   await page.locator('.tab[data-tab="diagnose"]').click();
   await page.locator("#diagnosisForm").waitFor({ state: "visible" });
 
-  const panels = ["homeDashboard", "diagnose", "knowledge", "safety", "log", "v03"];
+  const panels = ["diagnose", "knowledge", "safety", "log", "v03"];
+  assert.equal(await page.locator("#homeDashboard").evaluate(el => el.closest("#diagnose") !== null), true, "Dashboard must live inside the Assistant workspace, not be a sixth destination");
   for (const panel of panels) {
     await page.locator(`.tab[data-tab="${panel}"]`).click();
     assert.equal(await page.locator(`#${panel}`).evaluate(el => el.classList.contains("active")), true, `Navigation must open the ${panel} panel`);
@@ -68,16 +69,16 @@ try {
     assert.equal(await page.locator("html").getAttribute("lang"), language, `Language switch must apply ${language}`);
     const direction = await page.locator("html").getAttribute("dir");
     assert.equal(direction, language === "ar" ? "rtl" : "ltr", `Direction must match ${language}`);
-    for (const expectedTheme of ["dark", "light"]) {
-      await page.evaluate(theme => {
-        document.documentElement.dataset.theme = theme === "dark" ? "light" : "dark";
-      }, expectedTheme);
-      await toggle.click();
-      assert.equal(await page.locator("html").getAttribute("data-theme"), expectedTheme, `${language}: theme toggle must apply ${expectedTheme}`);
-      assert.equal(await toggle.getAttribute("aria-pressed"), String(expectedTheme === "dark"), "Theme toggle aria-pressed must match theme state");
-      const label = (await toggle.innerText()).trim();
-      assert.ok(label.length > 0, `${language}: theme toggle needs a localized label`);
-    }
+    const startingTheme = await page.locator("html").getAttribute("data-theme");
+    const oppositeTheme = startingTheme === "dark" ? "light" : "dark";
+    await toggle.click();
+    assert.equal(await page.locator("html").getAttribute("data-theme"), oppositeTheme, `${language}: theme toggle must switch themes`);
+    assert.equal(await toggle.getAttribute("aria-pressed"), String(oppositeTheme === "dark"), "Theme toggle aria-pressed must match switched theme");
+    await toggle.click();
+    assert.equal(await page.locator("html").getAttribute("data-theme"), startingTheme, `${language}: theme toggle must switch back`);
+    assert.equal(await toggle.getAttribute("aria-pressed"), String(startingTheme === "dark"), "Theme toggle aria-pressed must match restored theme");
+    const label = (await toggle.innerText()).trim();
+    assert.ok(label.length > 0, `${language}: theme toggle needs a localized label`);
   }
 
   for (const width of [320, 390, 560, 768, 1280]) {

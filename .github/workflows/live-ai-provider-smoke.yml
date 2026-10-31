@@ -1,4 +1,4 @@
-name: Live Worker model smoke test
+name: Live Worker AI provider smoke test
 
 on:
   workflow_dispatch:
@@ -11,7 +11,7 @@ permissions:
   contents: read
 
 jobs:
-  live-openai-request:
+  live-ai-provider-request:
     if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 3
@@ -49,7 +49,7 @@ jobs:
             }));
             process.exit(1);
           }
-          if (!["openai", "gemini", "cloudflare"].includes(body?.provider) || typeof body?.model !== "string" || body?.model_called !== true) {
+          if (!["gemini", "cloudflare"].includes(body?.provider) || typeof body?.model !== "string" || body?.model_called !== true) {
             console.error(JSON.stringify({
               error: "The response did not confirm a real model call through the configured provider",
               provider: body?.provider,

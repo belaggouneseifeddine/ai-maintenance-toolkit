@@ -4,6 +4,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const html = fs.readFileSync(path.join(__dirname, "..", "index.html"), "utf8");
+const sw = fs.readFileSync(path.join(__dirname, "..", "sw.js"), "utf8");
 const workflow = fs.readFileSync(path.join(__dirname, "..", ".github/workflows/deploy-pages.yml"), "utf8");
 const cloudflareWorkflow = fs.readFileSync(path.join(__dirname, "..", ".github/workflows/deploy-cloudflare-pages.yml"), "utf8");
 const match = workflow.match(/required_runtime_assets="([^"]+)"/);
@@ -51,4 +52,25 @@ test("Cloudflare Pages validates the guided diagnostic runtime assets before dep
   assert.match(cloudflareWorkflow, /MaintenanceBayesianEngine/);
   assert.match(cloudflareWorkflow, /MaintenanceDiagnosticSession/);
   assert.match(cloudflareWorkflow, /MaintenanceDiagnosticSessionUI/);
+});
+
+
+test("P1 app-shell assets are deployed and cached for offline use", () => {
+  for (const asset of ["p1-app-shell.css", "p1-app-shell.js"]) {
+    assert.ok(assets.has(asset), "GitHub Pages artifact must include " + asset);
+    assert.ok(cloudflareAssets.has(asset), "Cloudflare Pages artifact must include " + asset);
+    assert.ok(sw.includes('"./' + asset + '"'), "Service worker must cache " + asset);
+    assert.ok(html.includes(asset), "index.html must load " + asset);
+  }
+});
+
+
+test("P1 navigation contains exactly five requested destinations and defaults to dark mode", () => {
+  const shell = fs.readFileSync(path.join(__dirname, "..", "p1-app-shell.js"), "utf8");
+  const styles = fs.readFileSync(path.join(__dirname, "..", "p1-app-shell.css"), "utf8");
+  for (const id of ["diagnose", "knowledge", "safety", "log", "v03"]) assert.ok(shell.includes("['" + id + "'"), "Missing primary destination: " + id);
+  assert.match(shell, /saved='dark'/);
+  assert.match(shell, /maintenance-ai-toolkit-theme-v1/);
+  assert.match(styles, /:root\[data-theme="dark"\]/);
+  assert.match(styles, /grid-template-columns:repeat\(5,minmax\(0,1fr\)\)/);
 });
