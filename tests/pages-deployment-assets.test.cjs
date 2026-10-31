@@ -52,3 +52,13 @@ test("Cloudflare Pages validates the guided diagnostic runtime assets before dep
   assert.match(cloudflareWorkflow, /MaintenanceDiagnosticSession/);
   assert.match(cloudflareWorkflow, /MaintenanceDiagnosticSessionUI/);
 });
+
+
+test("P1 app-shell assets are deployed and cached for offline use", () => {
+  for (const asset of ["p1-app-shell.css", "p1-app-shell.js"]) {
+    assert.ok(assets.has(asset), "GitHub Pages artifact must include " + asset);
+    assert.ok(cloudflareAssets.has(asset), "Cloudflare Pages artifact must include " + asset);
+    assert.ok(sw.includes('"./' + asset + '"'), "Service worker must cache " + asset);
+    assert.ok(html.includes(asset), "index.html must load " + asset);
+  }
+});
