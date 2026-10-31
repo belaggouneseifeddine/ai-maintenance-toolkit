@@ -132,9 +132,9 @@ const checks = [
     new vm.Script(ux, { filename: "ux-redesign.js" });
     for (const asset of ["ux-redesign.js", "ux-redesign.css"]) assert.ok(pagesRuntimeAssets.has(asset));
     assert.ok(deployWorkflow.includes("cp index.html manifest.json sw.js $required_runtime_assets"), "GitHub Pages deployment must copy the declared app shell dependencies");
-    const cloudflareCopy = cloudflareDeployWorkflow.match(/cp index\\.html ([^\\n]+)/);
+    const cloudflareCopy = cloudflareDeployWorkflow.match(/cp index\.html ([^\n]+)/);
     assert.ok(cloudflareCopy, "Cloudflare Pages must declare its runtime asset copy list");
-    const cloudflareAssets = new Set(cloudflareCopy[1].trim().split(/\\s+/));
+    const cloudflareAssets = new Set(cloudflareCopy[1].trim().split(/\s+/));
     for (const asset of htmlRuntimeScripts) assert.ok(cloudflareAssets.has(asset), "Cloudflare Pages artifact omits index.html script " + asset);
     for (const asset of htmlRuntimeScripts) assert.ok(pagesRuntimeAssets.has(asset), "GitHub Pages artifact omits index.html script " + asset);
     assert.ok(sw.includes("diagnostic-flows.js"), "Service worker app shell must include structured diagnostic flows");
