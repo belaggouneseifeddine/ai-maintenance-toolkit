@@ -123,16 +123,33 @@ export async function handleCommunityRequest(request, env) {
       return response({ error: "File must be between 1 byte and 10 MiB." }, 413, origin);
     }
     const filename = (request.headers.get("X-File-Name") || "upload").replace(/[\\/\\\\\\u0000-\\u001f\\u007f]/g, "_").slice(0, 180);
-    let bytes;
+    const reader = request.body?.getReader();
+    if (!reader) return response({ error: "Upload body is missing." }, 400, origin);
+    const chunks = [];
+    let totalBytes = 0;
     try {
-      bytes = await request.arrayBuffer();
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        totalBytes += value.byteLength;
+        if (totalBytes > maxBytes) {
+          await reader.cancel();
+          return response({ error: "File exceeds the 10 MiB limit." }, 413, origin);
+        }
+        chunks.push(value);
+      }
     } catch {
+      try { await reader.cancel(); } catch {}
       return response({ error: "Could not read uploaded file." }, 400, origin);
     }
-    if (bytes.byteLength === 0 || bytes.byteLength > maxBytes || (declaredSize !== null && declaredSize !== bytes.byteLength)) {
-      return response({ error: "File size is invalid or exceeds the 10 MiB limit." }, 413, origin);
+    if (totalBytes === 0 || (declaredSize !== null && declaredSize !== totalBytes)) {
+      return response({ error: "File size is invalid or does not match Content-Length." }, 413, origin);
     }
-    const data = new Uint8Array(bytes);
+    const fileData = new Uint8Array(totalBytes);
+    let offset = 0;
+    for (const chunk of chunks) { fileData.set(chunk, offset); offset += chunk.byteLength; }
+    const bytes = fileData.buffer;
+    const data = fileData;
     const starts = (...values) => values.every((value, index) => data[index] === value);
     const signatureValid =
       (mime === "application/pdf" && data.length >= 5 && String.fromCharCode(...data.slice(0, 5)) === "%PDF-") ||
@@ -151,18 +168,20 @@ export async function handleCommunityRequest(request, env) {
         httpMetadata: { contentType: mime, cacheControl: "private, no-store" },
         customMetadata: { sha256: sha256Hex, contributorId: session.contributor_id, documentId }
       });
-      await env.COMMUNITY_DB.prepare(`INSERT INTO source_documents
-        (id,owner_contributor_id,original_filename,mime_type,byte_size,sha256,r2_object_key,visibility,rights_confirmed,processing_status,created_at,updated_at)
-        VALUES (?,?,?,?,?,?,?,'private',0,'uploaded',?,?)`)
-        .bind(documentId, session.contributor_id, filename || "upload", mime, bytes.byteLength, sha256Hex, objectKey, created, created).run();
+      await env.COMMUNITY_DB.batch([
+        env.COMMUNITY_DB.prepare(`INSERT INTO source_documents
+          (id,owner_contributor_id,original_filename,mime_type,byte_size,sha256,r2_object_key,visibility,rights_confirmed,processing_status,created_at,updated_at)
+          VALUES (?,?,?,?,?,?,?,'private',0,'uploaded',?,?)`)
+          .bind(documentId, session.contributor_id, filename || "upload", mime, bytes.byteLength, sha256Hex, objectKey, created, created),
+        env.COMMUNITY_DB.prepare(`INSERT INTO audit_events
+          (id,actor_contributor_id,action,target_type,target_id,metadata_json,created_at)
+          VALUES (?,?,'document.uploaded','source_document',?,?,?)`)
+          .bind(uuid(), session.contributor_id, documentId, JSON.stringify({ mime_type: mime, byte_size: bytes.byteLength, visibility: "private" }), created)
+      ]);
     } catch {
       try { await env.COMMUNITY_FILES.delete(objectKey); } catch {}
       return response({ error: "Document could not be stored. No document record was created." }, 500, origin);
     }
-    await env.COMMUNITY_DB.prepare(`INSERT INTO audit_events
-      (id,actor_contributor_id,action,target_type,target_id,metadata_json,created_at)
-      VALUES (?,?,'document.uploaded','source_document',?,?,?)`)
-      .bind(uuid(), session.contributor_id, documentId, JSON.stringify({ mime_type: mime, byte_size: bytes.byteLength, visibility: "private" }), created).run();
     return response({
       document: { id: documentId, filename, mime_type: mime, byte_size: bytes.byteLength, sha256: sha256Hex, visibility: "private", processing_status: "uploaded", created_at: created }
     }, 201, origin);
