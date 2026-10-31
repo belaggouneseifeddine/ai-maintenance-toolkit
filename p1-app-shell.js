@@ -46,7 +46,7 @@ function init(){
   updateLabels();
  }
  const toggle=$('#themeToggle');
- if(toggle&&!toggle.dataset.p1Bound){toggle.dataset.p1Bound='1';toggle.addEventListener('click',()=>setTheme(root.dataset.theme==='dark'?'light':'dark'));}
+ if(toggle){toggle.onclick=()=>setTheme(root.dataset.theme==='dark'?'light':'dark');}
  const language=$('#languageSwitcher');
  if(language&&!language.dataset.p1Bound){language.dataset.p1Bound='1';language.addEventListener('change',updateLabels);}
  nav.setAttribute('aria-label',lang()==='en'?'Main navigation':lang()==='fr'?'Navigation principale':'التنقل الرئيسي');
