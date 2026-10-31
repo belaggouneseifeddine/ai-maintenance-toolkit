@@ -47,7 +47,7 @@ vm.runInNewContext(normalizationSource, engineContext);
 vm.runInNewContext(diagnosticEngineSource, engineContext);
 
 const checks = [
-  ["Local diagnosis remains offline and OpenAI cloud diagnosis requires explicit consent", () => {
+  ["Local diagnosis remains offline and configured Gemini/Cloudflare AI requires explicit consent", () => {
     assert.ok(html.includes('<script src="./engineering-core.js"></script>'));
     assert.ok(html.includes('<script src="./agent-core.js"></script>'));
     assert.ok(html.includes('<script src="./agent-ui.js"></script>'));
@@ -57,10 +57,14 @@ const checks = [
     assert.ok(html.includes('id="askAi" type="submit"'));
     assert.doesNotMatch(html, /id="aiEndpoint"/);
     assert.match(html, /id="aiCloudConsent" type="checkbox"/);
-    assert.match(html, /id="askOpenAI" type="button"/);
+    assert.match(html, /id="askCloudAI" type="button"/);
     assert.ok(agentUiSource.includes("consent: { sendToAI: false }"));
-    assert.ok(agentUiSource.includes("async function runOpenAI()"));
-    assert.ok(agentUiSource.includes("OPENAI_WORKER_ENDPOINT"));
+    assert.ok(agentUiSource.includes("async function runCloudAI()"));
+    assert.ok(agentUiSource.includes("WORKER_ENDPOINT"));
+    assert.doesNotMatch(html + agentUiSource + worker, /OpenAI|OPENAI|openai|callOpenAI/);
+    assert.match(worker, /\["gemini", "cloudflare"\]/);
+    assert.match(worker, /callCloudflareAI/);
+    assert.match(worker, /generativelanguage\.googleapis\.com/);
     assert.ok(agentUiSource.includes("consent.checked = false"));
     assert.ok(agentUiSource.includes("MaintenanceDiagnosticSessionUI.getPayload"));
     for (const asset of ["engineering-core.js", "agent-core.js", "agent-ui.js", "oem-lookup.js"]) { assert.ok(cloudflareDeployWorkflow.includes(asset), `Cloudflare Pages deploy omits ${asset}`); assert.ok(deployWorkflow.includes(asset), `GitHub Pages deploy omits ${asset}`); }
