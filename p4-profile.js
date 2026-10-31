@@ -83,7 +83,6 @@
           if (!response.ok) throw new Error("الخادم لم يقبل تحديث الملف.");
           setMessage("تم تحديث الملف الشخصي.");
         } catch (error) { setMessage("حُدّث الملف محلياً فقط؛ المزامنة غير متاحة حالياً.", true); }
-      } else setMessage("تم تحديث الملف على هذا الجهاز فقط. ستتم المزامنة عند تفعيل الخادم التجريبي.", true);
     }
   }
   function startEdit() {
