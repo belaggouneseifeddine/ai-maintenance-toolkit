@@ -5,6 +5,7 @@ on:
     paths:
       - "migrations/**"
       - "scripts/test-p4-schema.py"
+      - "scripts/test-p4-anonymous-profile.py"
       - ".github/workflows/p4-schema-tests.yml"
   push:
     branches:
@@ -26,4 +27,6 @@ jobs:
         with:
           python-version: "3.12"
       - name: Validate P4 migration and workflow invariants
-        run: python scripts/test-p4-schema.py
+        run: |
+          python scripts/test-p4-schema.py
+          python scripts/test-p4-anonymous-profile.py
