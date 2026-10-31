@@ -240,9 +240,9 @@
       const modelGenerated = data.model_called === true && ["gemini", "cloudflare"].includes(data.provider);
       const lines = [
         modelGenerated
-          ? (language === "en" ? "configured AI provider-generated preliminary assessment — not a confirmed diagnosis."
-            : language === "fr" ? "Évaluation préliminaire générée par configured AI provider — diagnostic non confirmé."
-            : "تقييم أولي مولّد بواسطة configured AI provider — ليس تشخيصًا مؤكدًا.")
+          ? (language === "en" ? "AI-generated preliminary assessment — not a confirmed diagnosis."
+            : language === "fr" ? "Évaluation préliminaire générée par le service IA — diagnostic non confirmé."
+            : "تقييم أولي مولّد بواسطة الذكاء الاصطناعي — ليس تشخيصًا مؤكدًا.")
           : (language === "en" ? "Preliminary cloud safety/evidence assessment — the AI model was not confirmed as called."
             : language === "fr" ? "Évaluation préliminaire de sécurité/des preuves — l’appel au modèle IA n’est pas confirmé."
             : "تقييم أولي للسلامة والأدلة — لم يتأكد استدعاء نموذج الذكاء الاصطناعي."),
