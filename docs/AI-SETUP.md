@@ -22,7 +22,6 @@ Official references:
 
 ## Alternative providers
 
-- OpenAI remains available by setting `AI_PROVIDER = "openai"`, adding the `OPENAI_API_KEY` Worker secret, and optionally setting `OPENAI_MODEL`. API billing/credits are separate from a ChatGPT subscription.
 - Gemini remains available by setting `AI_PROVIDER = "gemini"` and configuring `GEMINI_API_KEY` (or the legacy `AI_API_KEY`) as a Worker secret.
 - There is no silent fallback between providers. Select a provider explicitly so failures are visible and testable.
 
@@ -43,7 +42,6 @@ The frontend sends equipment, symptom, alarm code, observations, measurement sta
 - Worker source: `worker.js`
 - Worker configuration: `wrangler.toml`
 - Cloudflare provider adapter: `providers/cloudflare-provider.mjs`
-- OpenAI provider adapter: `providers/openai-provider.mjs`
 - The Worker validates the response structure and mandatory safety fields, and maps source IDs to retrieved excerpts. Structured JSON does not guarantee technical correctness.
 - Source excerpts support traceability but do not prove every claim is correct. Never invent a source, page number, alarm meaning, or OEM limit.
 - If the provider is unavailable, at capacity, or returns invalid JSON, the request must fail closed; use the local diagnostic engine or escalate rather than treating a failed cloud response as a diagnosis.
