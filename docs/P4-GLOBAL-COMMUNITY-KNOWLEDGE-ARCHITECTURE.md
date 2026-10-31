@@ -8,14 +8,15 @@ Status: product decisions recorded; architecture proposal; implementation not ye
 ## Confirmed product decisions
 
 1. A single contributor may approve a candidate and publish it as community knowledge. A second approval is not mandatory.
-2. The product will use a central database and global synchronization, not device-only storage.
-3. Extracted information is retained in the knowledge data store. Unreviewed extraction remains visibly marked as a candidate and is excluded from verified diagnostic evidence.
-4. The app retains Gemini and Cloudflare AI as optional providers; uploaded source files and extracted text must not be sent to either provider without separate, explicit consent.
-5. Existing curated `knowledge/` assets and diagnostic safety/evidence validation must remain intact.
+2. Login is deferred for the staging MVP. The user enters a profile once on first use; subsequent submissions reuse that profile automatically. Profile fields: display name and professional title/specialty required; qualification/certificate optional. The user can edit the profile in settings.
+3. The product will use a central database and global synchronization, not device-only storage.
+4. Extracted information is retained in the knowledge data store. Unreviewed extraction remains visibly marked as a candidate and is excluded from verified diagnostic evidence.
+5. The app retains Gemini and Cloudflare AI as optional providers; uploaded source files and extracted text must not be sent to either provider without separate, explicit consent.
+6. Existing curated `knowledge/` assets and diagnostic safety/evidence validation must remain intact.
 
 ## Proposed architecture (Cloudflare-aligned; subject to staging validation)
 
-- **Cloudflare Worker API**: authenticated endpoints for document registration, uploads, extraction jobs, candidate claims, review/approval, community search, corrections, reports, and sync.
+- **Cloudflare Worker API**: staging endpoints for first-use anonymous enrollment, document registration, private uploads, extraction jobs, candidate claims, review/approval, community search, corrections, reports, and sync. Writes require a server-issued, revocable anonymous session token; a client-generated contributor ID alone is never trusted.
 - **Cloudflare D1**: relational metadata and workflow state: users, contributor profiles, documents, document pages, extraction runs, claims, claim versions, approvals, source citations, revisions, reports, flags, and audit events.
 - **Cloudflare R2**: original PDF/image objects and derived page previews. Store object keys and checksums in D1; do not put binary files in D1 or localStorage.
 - **Browser local cache**: IndexedDB for offline drafts, upload queue, and recently used knowledge. D1 remains the canonical shared source after successful sync.
@@ -26,7 +27,7 @@ This uses Cloudflare products already present in the project, but D1/R2 resource
 
 ## Community approval model
 
-A single authenticated contributor can approve a candidate. The system must not imply that approval is equivalent to OEM certification or independent scientific validation.
+For the staging MVP, a single contributor with a valid server-issued anonymous session can approve a candidate under the one-contributor test policy. This is a limited staging trust model, not proof of real-world identity or suitable protection for an open public community. The system must not imply that approval is equivalent to OEM certification or independent scientific validation.
 
 Required visible states:
 - `candidate`: extracted/submitted; not eligible as verified diagnostic evidence.
@@ -76,7 +77,7 @@ Approval status and evidence class are separate fields. A community-approved cla
 
 ## Staged implementation plan
 
-1. **P4.0 foundation**: D1 schema/migrations, R2 object lifecycle, Worker auth boundary, contributor identity/roles, audit events, staging-only resources.
+1. **P4.0 foundation**: D1 schema/migrations, R2 object lifecycle, first-use profile and anonymous session boundary, contributor roles, audit events, staging-only resources.
 2. **P4.1 ingestion**: PDF/image validation, private upload, checksums, embedded PDF text extraction, page records and previews.
 3. **P4.2 OCR and candidate extraction**: Arabic/English/French OCR, confidence thresholds, raw-text retention, structured claims linked to original pages.
 4. **P4.3 review and community publication**: single-contributor approval, revision history, evidence classes, flags/disputes/withdrawals, consent controls.
@@ -85,7 +86,8 @@ Approval status and evidence class are separate fields. A community-approved cla
 
 ## Decisions still needed before production implementation
 
-- **Authentication provider — DECIDED**: support both Google sign-in and email one-time verification code. Contributors may choose either method. Do not ship public write endpoints without verified identity. Implementation must use a maintained identity provider or a carefully reviewed authentication flow; never store raw passwords or trust client-supplied identity/role claims.
+- **Login — DEFERRED**: Google sign-in and email OTP are out of the staging MVP. Revisit identity-provider selection before opening public contribution at scale. Anonymous sessions are a temporary staging mechanism, not a substitute for verified identity.
+- **First-use profile — DECIDED**: collect display name and professional title/specialty once; qualification/certificate is optional. Persist the profile and reuse it automatically for later contributions. Provide an edit-profile screen; do not ask for the same data on every upload or submission. Clearly label these fields as self-declared, not verified credentials.
 - **Community visibility default**: private until explicitly shared is recommended.
 - **Moderation authority and abuse response**: define who can suspend accounts, handle takedowns, and resolve disputes.
 - **Retention/deletion policy** for original uploads and personal data.
@@ -96,7 +98,7 @@ Approval status and evidence class are separate fields. A community-approved cla
 
 - Every extracted page/text fragment is retained with source-document and page provenance.
 - Unreviewed candidates never appear as verified diagnostic evidence.
-- One authenticated contributor can approve a specific immutable claim revision.
+- One enrolled staging contributor with a valid server-issued anonymous session can approve a specific immutable claim revision.
 - Approval never changes evidence class or invents model specificity.
 - Corrections create new revisions; disputed/withdrawn claims are visibly flagged and excluded according to policy.
 - Documents are private by default and public sharing requires explicit consent.
