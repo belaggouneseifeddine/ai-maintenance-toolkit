@@ -198,7 +198,6 @@
       });
       panel.appendChild(saveButton);
     }
-    const completed = session.status === "evidence_review";
     saveButton.hidden = !completed;
     saveButton.disabled = false;
     saveButton.textContent = copy("إنشاء تقرير وحفظه في سجل الصيانة", "Create report and save to maintenance log", "Créer un rapport et l’enregistrer");
