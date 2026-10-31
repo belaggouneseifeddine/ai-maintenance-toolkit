@@ -184,3 +184,72 @@ CREATE TABLE IF NOT EXISTS community_reports (
 
 CREATE INDEX IF NOT EXISTS idx_community_reports_visibility
   ON community_reports(visibility, created_at DESC);
+
+
+-- Enforce append-only provenance and review history.
+CREATE TRIGGER IF NOT EXISTS trg_claim_revisions_no_update
+BEFORE UPDATE ON claim_revisions
+BEGIN
+  SELECT RAISE(ABORT, 'claim revisions are immutable; create a new revision');
+END;
+
+CREATE TRIGGER IF NOT EXISTS trg_claim_revisions_no_delete
+BEFORE DELETE ON claim_revisions
+BEGIN
+  SELECT RAISE(ABORT, 'claim revisions are immutable');
+END;
+
+CREATE TRIGGER IF NOT EXISTS trg_claim_approvals_no_update
+BEFORE UPDATE ON claim_approvals
+BEGIN
+  SELECT RAISE(ABORT, 'approval events are immutable');
+END;
+
+CREATE TRIGGER IF NOT EXISTS trg_claim_approvals_no_delete
+BEFORE DELETE ON claim_approvals
+BEGIN
+  SELECT RAISE(ABORT, 'approval events are immutable');
+END;
+
+CREATE TRIGGER IF NOT EXISTS trg_audit_events_no_update
+BEFORE UPDATE ON audit_events
+BEGIN
+  SELECT RAISE(ABORT, 'audit events are append-only');
+END;
+
+CREATE TRIGGER IF NOT EXISTS trg_audit_events_no_delete
+BEFORE DELETE ON audit_events
+BEGIN
+  SELECT RAISE(ABORT, 'audit events are append-only');
+END;
+
+-- An approval only applies to the current immutable revision.
+CREATE TRIGGER IF NOT EXISTS trg_approval_current_revision
+BEFORE INSERT ON claim_approvals
+WHEN NEW.revision_number != (
+  SELECT current_revision FROM knowledge_claims WHERE id = NEW.claim_id
+)
+BEGIN
+  SELECT RAISE(ABORT, 'approval must target the current claim revision');
+END;
+
+-- A valid approval makes this revision community-approved, without changing
+-- its evidence class. Disputes and withdrawals can later disable eligibility.
+CREATE TRIGGER IF NOT EXISTS trg_approval_updates_claim
+AFTER INSERT ON claim_approvals
+BEGIN
+  UPDATE knowledge_claims
+  SET review_status = 'community-approved',
+      diagnostic_eligible = 1,
+      updated_at = NEW.approved_at
+  WHERE id = NEW.claim_id;
+END;
+
+CREATE TRIGGER IF NOT EXISTS trg_dispute_disables_diagnostics
+AFTER UPDATE OF review_status ON knowledge_claims
+WHEN NEW.review_status IN ('disputed', 'rejected', 'withdrawn', 'candidate')
+BEGIN
+  UPDATE knowledge_claims
+  SET diagnostic_eligible = 0
+  WHERE id = NEW.id;
+END;
