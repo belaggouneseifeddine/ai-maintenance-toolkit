@@ -8,7 +8,7 @@ const source = fs.readFileSync(new URL("../p4-community.js", import.meta.url), "
   .replace("export async function handleCommunityRequest", "async function handleCommunityRequest")
   + "\nglobalThis.__handleCommunityRequest = handleCommunityRequest;";
 
-function harness({ session = true, staging = true, storage = true, batchFails = false } = {}) {
+function harness({ session = true, staging = true, storage = true, batchFails = false, totalBytes = 0, contributorBytes = 0 } = {}) {
   const writes = [];
   const deletes = [];
   const statements = [];
@@ -22,7 +22,11 @@ function harness({ session = true, staging = true, storage = true, batchFails = 
       const statement = {
         sql, args: [],
         bind(...args) { this.args = args; return this; },
-        async first() { return sql.includes("SELECT s.id AS session_id") ? sessionRow : null; },
+        async first() {
+          if (sql.includes("SELECT s.id AS session_id")) return sessionRow;
+          if (sql.includes("SUM(byte_size)")) return { total_bytes: totalBytes, contributor_bytes: contributorBytes };
+          return null;
+        },
         async run() { statements.push({ sql, args: this.args }); return { success: true }; }
       };
       return statement;
@@ -126,6 +130,20 @@ test("private upload rejects MIME/signature mismatches before storage", async ()
   const h = harness();
   const response = await h.handler(uploadRequest(new TextEncoder().encode("not a PDF")), h.env);
   assert.equal(response.status, 415);
+  assert.equal(h.writes.length, 0);
+});
+
+test("private upload enforces the global staging storage cap", async () => {
+  const h = harness({ totalBytes: 1024 * 1024 * 1024 });
+  const response = await h.handler(uploadRequest(new TextEncoder().encode("%PDF-1.7")), h.env);
+  assert.equal(response.status, 507);
+  assert.equal(h.writes.length, 0);
+});
+
+test("private upload enforces the contributor storage cap", async () => {
+  const h = harness({ contributorBytes: 100 * 1024 * 1024 });
+  const response = await h.handler(uploadRequest(new TextEncoder().encode("%PDF-1.7")), h.env);
+  assert.equal(response.status, 507);
   assert.equal(h.writes.length, 0);
 });
 
