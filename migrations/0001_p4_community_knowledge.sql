@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS document_pages (
     CHECK (extraction_method IN ('pending', 'embedded_text', 'ocr', 'manual', 'mixed')),
   language TEXT CHECK (language IN ('ar', 'en', 'fr', 'und')),
   ocr_confidence REAL CHECK (ocr_confidence IS NULL OR (ocr_confidence >= 0 AND ocr_confidence <= 1)),
-  raw_text TEXT,
+  raw_text_object_key TEXT,
   extraction_status TEXT NOT NULL DEFAULT 'pending'
     CHECK (extraction_status IN ('pending', 'complete', 'low_confidence', 'failed', 'not_applicable')),
   created_at TEXT NOT NULL,
