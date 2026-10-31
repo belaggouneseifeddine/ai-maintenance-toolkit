@@ -12,7 +12,7 @@ function response(data, status, origin) {
     "cache-control": "no-store",
     "access-control-allow-origin": ALLOWED_ORIGINS.has(origin) ? origin : "null",
     "access-control-allow-methods": "GET, POST, PATCH, DELETE, OPTIONS",
-    "access-control-allow-headers": "Content-Type, Authorization",
+    "access-control-allow-headers": "Content-Type, Authorization, X-File-Name",
     "vary": "Origin"
   }});
 }
