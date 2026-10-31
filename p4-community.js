@@ -105,6 +105,69 @@ export async function handleCommunityRequest(request, env) {
   const session = await getSession(request, env.COMMUNITY_DB);
   if (!session) return response({ error: "A valid staging session is required." }, 401, origin);
 
+  if (url.pathname === "/api/community/documents" && request.method === "POST") {
+    if (env.P4_STAGING_ENABLED !== "true") return response({ error: "Staging uploads are disabled." }, 404, origin);
+    if (!env.COMMUNITY_FILES) return response({ error: "Private community file storage is not configured." }, 503, origin);
+    if (!env.P4_UPLOAD_RATE_LIMITER) return response({ error: "Staging upload rate limiter is not configured." }, 503, origin);
+    const rateKey = "upload:" + session.contributor_id;
+    const limit = await env.P4_UPLOAD_RATE_LIMITER.limit({ key: rateKey });
+    if (!limit.success) return response({ error: "Upload limit reached. Try later." }, 429, origin);
+
+    const allowedTypes = new Set(["application/pdf", "image/jpeg", "image/png", "image/webp"]);
+    const mime = (request.headers.get("Content-Type") || "").split(";")[0].trim().toLowerCase();
+    if (!allowedTypes.has(mime)) return response({ error: "Only PDF, JPEG, PNG, and WebP files are accepted." }, 415, origin);
+    const sizeHeader = request.headers.get("Content-Length");
+    const declaredSize = sizeHeader === null ? null : Number(sizeHeader);
+    const maxBytes = 10 * 1024 * 1024;
+    if (declaredSize !== null && (!Number.isSafeInteger(declaredSize) || declaredSize <= 0 || declaredSize > maxBytes)) {
+      return response({ error: "File must be between 1 byte and 10 MiB." }, 413, origin);
+    }
+    const filename = (request.headers.get("X-File-Name") || "upload").replace(/[\\/\\\\\\u0000-\\u001f\\u007f]/g, "_").slice(0, 180);
+    let bytes;
+    try {
+      bytes = await request.arrayBuffer();
+    } catch {
+      return response({ error: "Could not read uploaded file." }, 400, origin);
+    }
+    if (bytes.byteLength === 0 || bytes.byteLength > maxBytes || (declaredSize !== null && declaredSize !== bytes.byteLength)) {
+      return response({ error: "File size is invalid or exceeds the 10 MiB limit." }, 413, origin);
+    }
+    const data = new Uint8Array(bytes);
+    const starts = (...values) => values.every((value, index) => data[index] === value);
+    const signatureValid =
+      (mime === "application/pdf" && data.length >= 5 && String.fromCharCode(...data.slice(0, 5)) === "%PDF-") ||
+      (mime === "image/jpeg" && data.length >= 3 && starts(0xff, 0xd8, 0xff)) ||
+      (mime === "image/png" && data.length >= 8 && starts(0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a)) ||
+      (mime === "image/webp" && data.length >= 12 && String.fromCharCode(...data.slice(0, 4)) === "RIFF" && String.fromCharCode(...data.slice(8, 12)) === "WEBP");
+    if (!signatureValid) return response({ error: "File content does not match the declared type." }, 415, origin);
+
+    const digest = await crypto.subtle.digest("SHA-256", bytes);
+    const sha256Hex = [...new Uint8Array(digest)].map(x => x.toString(16).padStart(2, "0")).join("");
+    const documentId = uuid();
+    const objectKey = "private/" + session.contributor_id + "/" + documentId;
+    const created = nowIso();
+    try {
+      await env.COMMUNITY_FILES.put(objectKey, bytes, {
+        httpMetadata: { contentType: mime, cacheControl: "private, no-store" },
+        customMetadata: { sha256: sha256Hex, contributorId: session.contributor_id, documentId }
+      });
+      await env.COMMUNITY_DB.prepare(`INSERT INTO source_documents
+        (id,owner_contributor_id,original_filename,mime_type,byte_size,sha256,r2_object_key,visibility,rights_confirmed,processing_status,created_at,updated_at)
+        VALUES (?,?,?,?,?,?,?,'private',0,'uploaded',?,?)`)
+        .bind(documentId, session.contributor_id, filename || "upload", mime, bytes.byteLength, sha256Hex, objectKey, created, created).run();
+    } catch {
+      try { await env.COMMUNITY_FILES.delete(objectKey); } catch {}
+      return response({ error: "Document could not be stored. No document record was created." }, 500, origin);
+    }
+    await env.COMMUNITY_DB.prepare(`INSERT INTO audit_events
+      (id,actor_contributor_id,action,target_type,target_id,metadata_json,created_at)
+      VALUES (?,?,'document.uploaded','source_document',?,?,?)`)
+      .bind(uuid(), session.contributor_id, documentId, JSON.stringify({ mime_type: mime, byte_size: bytes.byteLength, visibility: "private" }), created).run();
+    return response({
+      document: { id: documentId, filename, mime_type: mime, byte_size: bytes.byteLength, sha256: sha256Hex, visibility: "private", processing_status: "uploaded", created_at: created }
+    }, 201, origin);
+  }
+
   if (url.pathname === "/api/community/profile" && request.method === "GET") {
     return response({ profile: {
       id: session.contributor_id, display_name: session.display_name,
