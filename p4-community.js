@@ -1,5 +1,7 @@
 const MAX_PROFILE = { name: 100, title: 120, qualification: 160 };
 const SESSION_DAYS = 30;
+const MAX_STAGING_STORAGE_BYTES = 1024 * 1024 * 1024;
+const MAX_CONTRIBUTOR_STORAGE_BYTES = 100 * 1024 * 1024;
 const ALLOWED_ORIGINS = new Set([
   "https://maintenance-ai-toolkit.pages.dev",
   "https://belaggouneseifeddine.github.io"
@@ -157,6 +159,20 @@ export async function handleCommunityRequest(request, env) {
       (mime === "image/png" && data.length >= 8 && starts(0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a)) ||
       (mime === "image/webp" && data.length >= 12 && String.fromCharCode(...data.slice(0, 4)) === "RIFF" && String.fromCharCode(...data.slice(8, 12)) === "WEBP");
     if (!signatureValid) return response({ error: "File content does not match the declared type." }, 415, origin);
+
+    const quota = await env.COMMUNITY_DB.prepare(`SELECT
+      COALESCE(SUM(byte_size), 0) AS total_bytes,
+      COALESCE(SUM(CASE WHEN owner_contributor_id = ? THEN byte_size ELSE 0 END), 0) AS contributor_bytes
+      FROM source_documents WHERE deleted_at IS NULL`)
+      .bind(session.contributor_id).first();
+    const totalStored = Number(quota?.total_bytes || 0);
+    const contributorStored = Number(quota?.contributor_bytes || 0);
+    if (totalStored + bytes.byteLength > MAX_STAGING_STORAGE_BYTES) {
+      return response({ error: "Staging storage quota reached. No file was stored.", code: "staging_storage_quota" }, 507, origin);
+    }
+    if (contributorStored + bytes.byteLength > MAX_CONTRIBUTOR_STORAGE_BYTES) {
+      return response({ error: "Your staging upload quota is 100 MiB. Remove an existing document or contact the maintainer.", code: "contributor_storage_quota" }, 507, origin);
+    }
 
     const digest = await crypto.subtle.digest("SHA-256", bytes);
     const sha256Hex = [...new Uint8Array(digest)].map(x => x.toString(16).padStart(2, "0")).join("");
