@@ -54,7 +54,8 @@ try {
   await page.locator('.tab[data-tab="diagnose"]').click();
   await page.locator("#diagnosisForm").waitFor({ state: "visible" });
 
-  const panels = ["homeDashboard", "diagnose", "knowledge", "safety", "log", "v03"];
+  const panels = ["diagnose", "knowledge", "safety", "log", "v03"];
+  assert.equal(await page.locator("#homeDashboard").evaluate(el => el.closest("#diagnose") !== null), true, "Dashboard must live inside the Assistant workspace, not be a sixth destination");
   for (const panel of panels) {
     await page.locator(`.tab[data-tab="${panel}"]`).click();
     assert.equal(await page.locator(`#${panel}`).evaluate(el => el.classList.contains("active")), true, `Navigation must open the ${panel} panel`);
