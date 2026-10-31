@@ -70,7 +70,7 @@ The profile UI uses the staging Worker URL. Until the staging D1 binding and rat
 
 ## Private document upload API — implemented in code, not provisioned
 
-The staging branch now includes `POST /api/community/documents` in `p4-community.js`:
+The staging branch now includes `POST /api/community/documents` in `p4-community.js` and a private upload form in `p4-profile.js`:
 
 - Requires an active server-issued contributor session; owner identity is taken only from that session.
 - Remains disabled unless `P4_STAGING_ENABLED=true`.
@@ -82,10 +82,12 @@ The staging branch now includes `POST /api/community/documents` in `p4-community
 - Writes the document row and audit event in one D1 batch. If storage or the metadata transaction fails, it attempts to remove the R2 object.
 - Does not issue public URLs, extract content, perform OCR, or publish uploaded documents.
 
-Automated Node tests cover origin/session gates, staging-disabled behavior, missing storage, MIME/signature mismatch, successful private PDF storage/provenance, and R2 cleanup after D1 failure. The GitHub Actions workflow now runs these tests alongside the SQLite migration tests.
+The contributor UI now lets a signed-in staging contributor choose and explicitly upload a PDF/image from the browser. It reports the returned document ID and states that the file remains private and unprocessed. The CORS preflight supports the custom filename header and DELETE session revocation. A syntax error in the profile script was corrected and a Node syntax check was added to CI.
 
-Required before an end-to-end staging test: create an isolated D1 database and private R2 bucket, configure the two bindings and a dedicated upload rate limiter in a non-production Wrangler environment, apply migrations only to that staging database, then connect a user-facing upload UI. No resources have been provisioned and no upload has been tested against live Cloudflare infrastructure.
+Automated Node tests cover origin/session gates, staging-disabled behavior, missing storage, MIME/signature mismatch, successful private PDF storage/provenance, CORS preflight, and R2 cleanup after D1 failure. The GitHub Actions workflow now runs these tests alongside the SQLite migration tests.
+
+Required before an end-to-end staging test: create an isolated D1 database and private R2 bucket, configure the two bindings and a dedicated upload rate limiter in a non-production Wrangler environment, and apply migrations only to that staging database. The UI and API route are present but cannot complete an upload until these resources and the staging enable flag are configured. No resources have been provisioned and no upload has been tested against live Cloudflare infrastructure.
 
 ## Remaining implementation boundary
 
-Not yet implemented: D1/R2 staging bindings/resources, user-facing upload UI, page extraction/OCR, candidate claim creation/review/approval, dispute/withdrawal routes, diagnostic retrieval of approved community claims, and Android device acceptance. The private upload API route exists in code but remains disabled until isolated staging resources and bindings are configured. No staging resources, secrets, buckets, databases, or deployments have been created. These steps require local/CI tests and separate staging-resource approval before provisioning.
+Not yet implemented: D1/R2 staging bindings/resources, page extraction/OCR, candidate claim creation/review/approval, dispute/withdrawal routes, diagnostic retrieval of approved community claims, and Android device acceptance. The private upload UI and API route exist in code but remain unable to store files until isolated staging resources and bindings are configured. No staging resources, secrets, buckets, databases, or deployments have been created. These steps require local/CI tests and separate staging-resource approval before provisioning.
