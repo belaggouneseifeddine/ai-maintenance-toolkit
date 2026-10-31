@@ -71,10 +71,12 @@ export async function handleCommunityRequest(request, env) {
 
   if (url.pathname === "/api/community/enroll" && request.method === "POST") {
     if (env.P4_STAGING_ENABLED !== "true") return response({ error: "Staging enrollment is disabled." }, 404, origin);
-    if (env.P4_RATE_LIMITER) {
-      const key = request.headers.get("cf-connecting-ip") || "unknown";
-      const limit = await env.P4_RATE_LIMITER.limit({ key });
-      if (!limit.success) return response({ error: "Too many enrollment attempts. Try later." }, 429, origin);
+    if (!env.P4_RATE_LIMITER) return response({ error: "Staging enrollment rate limiter is not configured." }, 503, origin);
+    const key = request.headers.get("cf-connecting-ip") || "unknown";
+    const limit = await env.P4_RATE_LIMITER.limit({ key });
+    if (!limit.success) return response({ error: "Too many enrollment attempts. Try later." }, 429, origin);
+    if (!(request.headers.get("content-type") || "").toLowerCase().includes("application/json")) {
+      return response({ error: "Content-Type must be application/json." }, 415, origin);
     }
     const profile = normalizeProfile(await parseJson(request));
     if (!profile) return response({ error: "Name and professional title are required; fields exceed allowed lengths or are invalid." }, 400, origin);
