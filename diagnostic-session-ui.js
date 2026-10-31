@@ -178,6 +178,29 @@
       "Classement relatif heuristique, pas une probabilité calibrée. Il ne confirme pas une panne ; vérifiez le manuel constructeur et les procédures du site."
     );
     hypotheses.appendChild(note);
+
+    let saveButton = $("saveGuidedDiagnosticReport");
+    if (!saveButton) {
+      saveButton = root.document.createElement("button");
+      saveButton.id = "saveGuidedDiagnosticReport";
+      saveButton.type = "button";
+      saveButton.className = "btn";
+      saveButton.addEventListener("click", () => {
+        const save = root.saveGuidedDiagnosticReport;
+        if (typeof save !== "function") {
+          status.textContent = copy("تعذّر الوصول إلى وظيفة حفظ التقرير.", "The maintenance report saver is unavailable.", "La fonction d’enregistrement du rapport est indisponible.");
+          return;
+        }
+        if (save(getPayload())) {
+          saveButton.disabled = true;
+          saveButton.textContent = copy("تم حفظ التقرير في سجل الصيانة", "Report saved to maintenance log", "Rapport enregistré dans le journal");
+        }
+      });
+      panel.appendChild(saveButton);
+    }
+    saveButton.hidden = !completed;
+    saveButton.disabled = false;
+    saveButton.textContent = copy("إنشاء تقرير وحفظه في سجل الصيانة", "Create report and save to maintenance log", "Créer un rapport et l’enregistrer");
   }
 
   function start() {
@@ -205,8 +228,8 @@
     if (!session) return {};
     return {
       diagnosticFlowId: session.flowId,
-      diagnosticEvidence: [...new Set(session.evidence.flatMap(entry => Array.isArray(entry.evidence) ? entry.evidence : []))],
-      diagnosticAnswers: session.evidence.map(entry => ({
+      diagnosticEvidence: [...new Set((Array.isArray(session.evidence) ? session.evidence : []).flatMap(entry => Array.isArray(entry.evidence) ? entry.evidence : []))],
+      diagnosticAnswers: (Array.isArray(session.evidence) ? session.evidence : []).map(entry => ({
         questionId: entry.questionId,
         answerId: entry.answerId,
         evidence: Array.isArray(entry.evidence) ? entry.evidence.slice() : []
@@ -216,9 +239,9 @@
         label: hypothesis.label,
         status: hypothesis.status,
         score: hypothesis.score,
-        supportingEvidence: hypothesis.supportingEvidence.slice(),
-        contradictingEvidence: hypothesis.contradictingEvidence.slice(),
-        checks: hypothesis.checks
+        supportingEvidence: Array.isArray(hypothesis.supportingEvidence) ? hypothesis.supportingEvidence.slice() : [],
+        contradictingEvidence: Array.isArray(hypothesis.contradictingEvidence) ? hypothesis.contradictingEvidence.slice() : [],
+        checks: Array.isArray(hypothesis.checks) ? hypothesis.checks.slice() : []
       }))
     };
   }
