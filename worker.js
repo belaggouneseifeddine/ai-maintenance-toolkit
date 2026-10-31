@@ -530,8 +530,10 @@ export default {
   async fetch(request, env) {
     const origin = request.headers.get("Origin") || "";
     const url = new URL(request.url);
-    const communityResponse = await handleCommunityRequest(request, env);
-    if (communityResponse) return communityResponse;
+    if (typeof handleCommunityRequest === "function") {
+      const communityResponse = await handleCommunityRequest(request, env);
+      if (communityResponse) return communityResponse;
+    }
 
     if (url.pathname === "/health" && request.method === "GET") {
       return json({ ok: true, service: "maintenance-ai-toolkit-api" }, 200, origin);
