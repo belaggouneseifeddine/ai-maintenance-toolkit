@@ -103,3 +103,39 @@ test("posterior estimates remain finite and bounded for extreme evidence counts"
   assert.ok(Number.isFinite(result.relativeSupportScore));
   assert.ok(result.relativeSupportScore > 0 && result.relativeSupportScore < 1);
 });
+
+test("evidence order does not change the relative support score", () => {
+  const nodes = [
+    { id: "suction pressure", group: "hydraulic", state: "supports" },
+    { id: "bearing vibration", group: "mechanical", state: "supports" },
+    { id: "verified command absent", group: "control", state: "contradicts" }
+  ];
+  const forward = engine.scoreHypothesis({ label: "A", evidenceNodes: nodes });
+  const reversed = engine.scoreHypothesis({ label: "A", evidenceNodes: [...nodes].reverse() });
+  assert.equal(forward.relativeSupportScore, reversed.relativeSupportScore);
+  assert.equal(forward.evidenceGroupsUsed, reversed.evidenceGroupsUsed);
+});
+
+test("explicit unknown observations do not move the relative support score", () => {
+  const baseline = engine.scoreHypothesis({ label: "A", evidenceNodes: [] });
+  const withUnknown = engine.scoreHypothesis({
+    label: "A",
+    evidenceNodes: [
+      { id: "pressure unavailable", group: "hydraulic", state: "unknown" },
+      { id: "no reliable alarm history", group: "control", state: "unknown" }
+    ]
+  });
+  assert.equal(withUnknown.relativeSupportScore, baseline.relativeSupportScore);
+  assert.equal(withUnknown.evidenceGroupsUsed, 0);
+  assert.equal(withUnknown.evidenceUnknownCount, 2);
+});
+
+test("invalid evidence states are ignored rather than treated as support", () => {
+  const baseline = engine.scoreHypothesis({ label: "A", evidenceNodes: [] });
+  const invalid = engine.scoreHypothesis({
+    label: "A",
+    evidenceNodes: [{ id: "untrusted label", group: "other", state: "confirmed" }]
+  });
+  assert.equal(invalid.relativeSupportScore, baseline.relativeSupportScore);
+  assert.equal(invalid.evidenceGroupsUsed, 0);
+});

@@ -30,6 +30,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Run Bayesian engine regression tests
+        run: node --test tests/bayesian-engine.test.cjs
       - name: Run local reasoning regression tests
         run: node --test tests/local-reasoning.test.cjs
       - name: Run existing diagnostic engine tests

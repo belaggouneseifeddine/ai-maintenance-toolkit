@@ -48,35 +48,44 @@
     }
   };
   function textFor(value, language) { return value && (value[language] || value.en || value.ar) || ""; }
-  // Select the next question by expected hypothesis discrimination, not source order.
-  // This is a heuristic information-gain proxy, not a calibrated probability.
+  // Rank unanswered questions by pairwise hypothesis separation.
+  // This is an equal-outcome heuristic, not Bayesian expected information gain:
+  // no empirical answer frequencies are available for these curated flows.
   function chooseNextQuestion(flow, evidence, answered, language) {
     const candidates = flow.questions.filter(q => !answered.includes(q.id));
     if (!candidates.length) return null;
-    const currentIds = new Set(evidence.flatMap(e => e.evidence || []));
-    const entropy = counts => {
-      const total = counts.reduce((a, b) => a + b, 0);
-      if (!total) return 0;
-      return -counts.reduce((sum, n) => {
-        if (!n) return sum;
-        const p = n / total;
-        return sum + p * Math.log2(p);
-      }, 0);
-    };
-    const classify = ids => flow.hypotheses.map(h => {
-      const s = (h.evidenceFor || []).filter(x => ids.has(x)).length;
-      const a = (h.evidenceAgainst || []).filter(x => ids.has(x)).length;
-      return s > a ? 1 : a > s ? 2 : 0;
+    const currentIds = new Set(evidence.flatMap(entry =>
+      Array.isArray(entry.evidence) ? entry.evidence : []
+    ));
+    const classify = ids => flow.hypotheses.map(hypothesis => {
+      const support = (hypothesis.evidenceFor || []).some(id => ids.has(id));
+      const contradiction = (hypothesis.evidenceAgainst || []).some(id => ids.has(id));
+      if (support && !contradiction) return "supports";
+      if (contradiction && !support) return "contradicts";
+      if (support && contradiction) return "mixed";
+      return "unresolved";
     });
-    const counts = buckets => buckets.reduce((result, bucket) => { result[bucket]++; return result; }, [0, 0, 0]);
-    // Expected entropy across answer outcomes is a heuristic proxy for discrimination.
+    const pairwiseSeparation = states => {
+      let separated = 0;
+      let comparable = 0;
+      for (let i = 0; i < states.length; i++) {
+        for (let j = i + 1; j < states.length; j++) {
+          comparable++;
+          if (states[i] !== states[j]) separated++;
+        }
+      }
+      return comparable ? separated / comparable : 0;
+    };
     return candidates.map((question, index) => {
-      const outcomeEntropies = question.options.map(option => {
-        if (!option.evidence || !option.evidence.length) return 0;
-        const ids = new Set([...currentIds, ...option.evidence]);
-        return entropy(counts(classify(ids)));
+      const outcomeScores = question.options.map(option => {
+        const added = Array.isArray(option.evidence) ? option.evidence : [];
+        if (!added.length) return 0; // unknown/no reading adds no discrimination
+        const ids = new Set([...currentIds, ...added]);
+        return pairwiseSeparation(classify(ids));
       });
-      return { question, score: outcomeEntropies.reduce((a, b) => a + b, 0) / Math.max(1, outcomeEntropies.length), index };
+      const score = outcomeScores.reduce((sum, value) => sum + value, 0) /
+        Math.max(1, outcomeScores.length);
+      return { question, score, index };
     }).sort((a, b) => b.score - a.score || a.index - b.index)[0].question;
   }
   function createSession(input) {
