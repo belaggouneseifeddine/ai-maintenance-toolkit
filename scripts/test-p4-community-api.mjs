@@ -67,7 +67,6 @@ function uploadRequest(bytes, mime = "application/pdf", requestOrigin = origin) 
 
 test("private upload rejects disallowed origins", async () => {
   const h = harness();
-  const request = uploadRequest(new TextEncoder().encode("%PDF-1.7"));
   const request = uploadRequest(new TextEncoder().encode("%PDF-1.7"), "application/pdf", "https://attacker.example");
   const response = await h.handler(request, h.env);
   assert.equal(response.status, 403);
