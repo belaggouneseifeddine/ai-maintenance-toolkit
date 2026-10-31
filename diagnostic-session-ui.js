@@ -1,13 +1,262 @@
-(function(root){"use strict";
-const $=id=>root.document&&root.document.getElementById(id);
-let session=null,flowKey="";
-function lang(){const l=root.MaintenanceI18n&&root.MaintenanceI18n.getLanguage?root.MaintenanceI18n.getLanguage():"ar";return ["ar","en","fr"].includes(l)?l:"ar";}
-function resolve(){const m=($("aiMachine")?.value||"").toLowerCase(),s=($("aiSymptom")?.value||"").toLowerCase();if(/pump|مضخ|pompe/.test(m)&&/low flow|low pressure|تدفق ضعيف|ضغط.*منخفض|débit faible|pression faible/.test(s))return "pump|low_flow";if(/motor|محرك|محرّك|moteur/.test(m)&&/not start|won.t start|لا تبدأ|لا يعمل|لا تعمل|ne démarre pas/.test(s))return "motor|not_start";return "";}
-function render(){const status=$("dynamicSessionStatus"),q=$("dynamicQuestionText"),sel=$("dynamicAnswer"),btn=$("recordDynamicAnswer"),list=$("dynamicHypotheses");if(!status||!q||!sel||!btn||!list)return;const l=lang();sel.replaceChildren();list.replaceChildren();if(!session){status.textContent=l==="en"?"No curated flow matches; the general local engine remains available.":l==="fr"?"Aucun parcours validé ; le moteur local général reste disponible.":"لا يوجد مسار معتمد لهذه المدخلات؛ يمكنك متابعة التحليل بالمحرك المحلي العام.";q.textContent="";sel.hidden=btn.hidden=true;return;}const done=session.status==="evidence_review";status.textContent=done?(l==="en"?"Evidence collected; hypotheses remain provisional.":l==="fr"?"Éléments recueillis ; hypothèses provisoires.":"اكتمل جمع الأدلة؛ الفرضيات لا تزال أولية."):(l==="en"?"Local session. Answers remain local and guide the local diagnostic engine.":l==="fr"?"Session locale. Les réponses restent locales et guident le moteur de diagnostic local.":"جلسة محلية؛ تظل الإجابات محلية وتوجّه محرك التشخيص.");q.textContent=session.nextQuestion?session.nextQuestion.text:(session.summary?.message||"");if(session.nextQuestion){const p=root.document.createElement("option");p.value="";p.textContent=l==="en"?"Select known answer":l==="fr"?"Choisir une réponse connue":"اختر إجابة معلومة";sel.appendChild(p);session.nextQuestion.options.forEach(o=>{const e=root.document.createElement("option");e.value=o.id;e.textContent=o.label;sel.appendChild(e)});sel.hidden=btn.hidden=false;}else sel.hidden=btn.hidden=true;session.hypotheses.forEach(h=>{const e=root.document.createElement("li");const state=h.status==="supported_by_current_evidence"?(l==="en"?"supported":l==="fr"?"étayée":"تدعمها الأدلة"):h.status==="weakened_by_current_evidence"?(l==="en"?"weakened":l==="fr"?"affaiblie":"تضعفها الأدلة"):h.status==="mixed_evidence"?(l==="en"?"mixed evidence":l==="fr"?"indices mixtes":"أدلة متعارضة"):(l==="en"?"unresolved":l==="fr"?"non résolue":"غير محسومة");const band=h.supportBand==="higher_relative_support"?(l==="en"?"higher relative support":l==="fr"?"soutien relatif supérieur":"دعم نسبي أعلى"):h.supportBand==="moderate_relative_support"?(l==="en"?"moderate relative support":l==="fr"?"soutien relatif modéré":"دعم نسبي متوسط"):h.supportBand==="lower_relative_support"?(l==="en"?"lower relative support":l==="fr"?"soutien relatif inférieur":"دعم نسبي أقل"):"";e.textContent=h.label+" — "+state+(band?" · "+band:"");list.appendChild(e)});}
-function start(){const key=resolve();if(key===flowKey)return;flowKey=key;session=null;if(key&&root.MaintenanceDiagnosticSession){const [equipment,symptom]=key.split("|");const r=root.MaintenanceDiagnosticSession.createSession({equipment,symptom,language:lang()});if(r.ok)session=r;}render();}
-function answer(){const sel=$("dynamicAnswer");if(!session||!sel||!sel.value)return;const r=root.MaintenanceDiagnosticSession.answer(session,sel.value);if(r.ok)session=r.session;render();}
-function getPayload(){if(!session)return {};return {diagnosticFlowId:session.flowId,diagnosticEvidence:[...new Set(session.evidence.flatMap(e=>Array.isArray(e.evidence)?e.evidence:[]))],diagnosticAnswers:session.evidence.map(e=>({questionId:e.questionId,answerId:e.answerId,evidence:Array.isArray(e.evidence)?e.evidence.slice():[]})),diagnosticHypotheses:session.hypotheses.map(h=>({id:h.id,label:h.label,status:h.status,score:h.score,supportingEvidence:h.supportingEvidence.slice(),contradictingEvidence:h.contradictingEvidence.slice(),checks:h.checks}))};}
-function onLanguageChanged(){if(!flowKey||!root.MaintenanceDiagnosticSession)return;const previous=session;const parts=flowKey.split("|");const fresh=root.MaintenanceDiagnosticSession.createSession({equipment:parts[0],symptom:parts[1],language:lang()});if(!fresh.ok){session=null;render();return;}session=fresh;if(previous&&Array.isArray(previous.evidence)){for(const item of previous.evidence){const next=root.MaintenanceDiagnosticSession.answer(session,item.answerId);if(!next.ok)break;session=next.session;}}render();}
-function init(){["aiMachine","aiSymptom"].forEach(id=>{const e=$(id);if(e){e.addEventListener("input",start);e.addEventListener("change",start)}});$("recordDynamicAnswer")?.addEventListener("click",answer);root.document?.addEventListener("maintenance-language-changed",onLanguageChanged);start();}
-root.MaintenanceDiagnosticSessionUI=Object.freeze({getPayload,init});if(typeof module!=="undefined"&&module.exports)module.exports=root.MaintenanceDiagnosticSessionUI;if(root.document)init();
-})(typeof globalThis!=="undefined"?globalThis:this);
+(function(root) {
+  "use strict";
+  const $ = id => root.document && root.document.getElementById(id);
+  let session = null;
+  let flowKey = "";
+
+  function lang() {
+    const value = root.MaintenanceI18n && root.MaintenanceI18n.getLanguage
+      ? root.MaintenanceI18n.getLanguage() : "ar";
+    return ["ar", "en", "fr"].includes(value) ? value : "ar";
+  }
+
+  function copy(ar, en, fr) {
+    const language = lang();
+    return language === "en" ? en : language === "fr" ? fr : ar;
+  }
+
+  function resolve() {
+    const machine = ($("aiMachine")?.value || "").toLowerCase();
+    const symptom = ($("aiSymptom")?.value || "").toLowerCase();
+    if (/pump|مضخ|pompe/.test(machine) &&
+        /low flow|low pressure|تدفق ضعيف|ضغط.*منخفض|débit faible|pression faible/.test(symptom)) {
+      return "pump|low_flow";
+    }
+    if (/motor|محرك|محرّك|moteur/.test(machine) &&
+        /not start|won.t start|لا تبدأ|لا يعمل|لا تعمل|ne démarre pas/.test(symptom)) {
+      return "motor|not_start";
+    }
+    return "";
+  }
+
+  function ensureProgress(panel) {
+    let progress = $("dynamicSessionProgress");
+    if (progress) return progress;
+    progress = root.document.createElement("div");
+    progress.id = "dynamicSessionProgress";
+    progress.className = "diagnostic-progress";
+    progress.setAttribute("role", "status");
+    progress.setAttribute("aria-live", "polite");
+    const status = $("dynamicSessionStatus");
+    panel.insertBefore(progress, status ? status.nextSibling : panel.firstChild);
+    return progress;
+  }
+
+  function addEvidenceList(parent, label, values, className) {
+    if (!Array.isArray(values) || !values.length) return;
+    const section = root.document.createElement("div");
+    section.className = "hypothesis-evidence " + className;
+    const heading = root.document.createElement("strong");
+    heading.textContent = label;
+    section.appendChild(heading);
+    const list = root.document.createElement("ul");
+    values.forEach(value => {
+      const item = root.document.createElement("li");
+      item.textContent = value;
+      list.appendChild(item);
+    });
+    section.appendChild(list);
+    parent.appendChild(section);
+  }
+
+  function render() {
+    const panel = $("dynamicSessionPanel");
+    const status = $("dynamicSessionStatus");
+    const question = $("dynamicQuestionText");
+    const select = $("dynamicAnswer");
+    const button = $("recordDynamicAnswer");
+    const hypotheses = $("dynamicHypotheses");
+    if (!panel || !status || !question || !select || !button || !hypotheses) return;
+
+    const progress = ensureProgress(panel);
+    select.replaceChildren();
+    hypotheses.replaceChildren();
+
+    if (!session) {
+      status.textContent = copy(
+        "لا يوجد مسار تشخيص موجّه معتمد لهذه المدخلات؛ يمكنك استخدام التحليل المحلي العام.",
+        "No curated guided flow matches these inputs; the general local engine remains available.",
+        "Aucun parcours guidé validé ne correspond ; le moteur local général reste disponible."
+      );
+      progress.textContent = copy("أدخل المعدة والعَرَض لبدء المسار عند توفره.", "Enter equipment and symptom to start a matching flow.", "Saisissez l’équipement et le symptôme pour lancer un parcours adapté.");
+      question.textContent = "";
+      select.hidden = button.hidden = true;
+      return;
+    }
+
+    const answered = Array.isArray(session.answeredQuestionIds) ? session.answeredQuestionIds.length : 0;
+    const completed = session.status === "evidence_review";
+    status.textContent = completed
+      ? copy("اكتمل جمع الأدلة — الفرضيات لا تزال أولية.", "Evidence collection complete — hypotheses remain provisional.", "Collecte terminée — les hypothèses restent provisoires.")
+      : copy("جلسة محلية: الإجابات تبقى على الجهاز وتوجّه ترتيب الفرضيات.", "Local session: answers stay on this device and guide hypothesis ranking.", "Session locale : les réponses restent sur cet appareil et orientent les hypothèses.");
+    progress.textContent = copy(
+      "الإجابات المسجلة: " + answered + " · " + (completed ? "مراجعة الأدلة" : "جمع الأدلة"),
+      "Answers recorded: " + answered + " · " + (completed ? "Evidence review" : "Evidence collection"),
+      "Réponses enregistrées : " + answered + " · " + (completed ? "Revue des indices" : "Collecte des indices")
+    );
+
+    question.textContent = session.nextQuestion
+      ? session.nextQuestion.text
+      : (session.summary?.message || copy("لا توجد أسئلة إضافية في هذا المسار.", "No further questions in this flow.", "Aucune autre question dans ce parcours."));
+
+    if (session.nextQuestion) {
+      const placeholder = root.document.createElement("option");
+      placeholder.value = "";
+      placeholder.textContent = copy("اختر إجابة معروفة", "Select a known answer", "Choisissez une réponse connue");
+      select.appendChild(placeholder);
+      session.nextQuestion.options.forEach(option => {
+        const item = root.document.createElement("option");
+        item.value = option.id;
+        item.textContent = option.label;
+        select.appendChild(item);
+      });
+      select.hidden = button.hidden = false;
+      button.textContent = copy("تسجيل الإجابة والمتابعة", "Record answer and continue", "Enregistrer et continuer");
+    } else {
+      select.hidden = button.hidden = true;
+    }
+
+    const heading = root.document.createElement("h4");
+    heading.className = "hypotheses-heading";
+    heading.textContent = copy("الفرضيات الحالية", "Current hypotheses", "Hypothèses actuelles");
+    hypotheses.appendChild(heading);
+
+    session.hypotheses.forEach((hypothesis, index) => {
+      const item = root.document.createElement("li");
+      item.className = "hypothesis-card";
+      const title = root.document.createElement("div");
+      title.className = "hypothesis-title";
+      const name = root.document.createElement("strong");
+      name.textContent = hypothesis.label;
+      const rank = root.document.createElement("span");
+      rank.className = "hypothesis-rank";
+      rank.textContent = "#" + (index + 1);
+      title.append(name, rank);
+      item.appendChild(title);
+
+      const state = hypothesis.status === "supported_by_current_evidence"
+        ? copy("تدعمها الأدلة الحالية", "Supported by current evidence", "Étayée par les indices actuels")
+        : hypothesis.status === "weakened_by_current_evidence"
+          ? copy("تضعفها الأدلة الحالية", "Weakened by current evidence", "Affaiblie par les indices actuels")
+          : hypothesis.status === "mixed_evidence"
+            ? copy("أدلة متعارضة", "Mixed evidence", "Indices contradictoires")
+            : copy("لم تُحسم بعد", "Not yet resolved", "Pas encore déterminée");
+      const band = hypothesis.supportBand === "higher_relative_support"
+        ? copy("دعم نسبي أعلى", "Higher relative support", "Soutien relatif supérieur")
+        : hypothesis.supportBand === "moderate_relative_support"
+          ? copy("دعم نسبي متوسط", "Moderate relative support", "Soutien relatif modéré")
+          : hypothesis.supportBand === "lower_relative_support"
+            ? copy("دعم نسبي أقل", "Lower relative support", "Soutien relatif inférieur") : "";
+      const summary = root.document.createElement("p");
+      summary.className = "hypothesis-status";
+      summary.textContent = state + (band ? " · " + band : "");
+      item.appendChild(summary);
+
+      addEvidenceList(item, copy("أدلة مؤيدة", "Supporting evidence", "Indices favorables"), hypothesis.supportingEvidence, "supports");
+      addEvidenceList(item, copy("أدلة معارضة", "Contradicting evidence", "Indices défavorables"), hypothesis.contradictingEvidence, "contradicts");
+      if (Array.isArray(hypothesis.checks) && hypothesis.checks.length) {
+        const details = root.document.createElement("details");
+        const summaryNode = root.document.createElement("summary");
+        summaryNode.textContent = copy("فحوص مقترحة", "Suggested checks", "Contrôles suggérés");
+        const list = root.document.createElement("ul");
+        hypothesis.checks.forEach(check => {
+          const line = root.document.createElement("li");
+          line.textContent = typeof check === "string" ? check : JSON.stringify(check);
+          list.appendChild(line);
+        });
+        details.append(summaryNode, list);
+        item.appendChild(details);
+      }
+      hypotheses.appendChild(item);
+    });
+
+    const note = root.document.createElement("p");
+    note.className = "diagnostic-disclaimer";
+    note.textContent = copy(
+      "ترتيب نسبي استدلالي وليس احتمالاً معايراً. لا يثبت سبب العطل؛ تحقّق من دليل المصنع وإجراءات الموقع قبل أي تدخل.",
+      "This is a heuristic relative ranking, not calibrated probability. It does not confirm a fault; verify the OEM manual and site procedures before intervention.",
+      "Classement relatif heuristique, pas une probabilité calibrée. Il ne confirme pas une panne ; vérifiez le manuel constructeur et les procédures du site."
+    );
+    hypotheses.appendChild(note);
+  }
+
+  function start() {
+    const key = resolve();
+    if (key === flowKey) return;
+    flowKey = key;
+    session = null;
+    if (key && root.MaintenanceDiagnosticSession) {
+      const [equipment, symptom] = key.split("|");
+      const result = root.MaintenanceDiagnosticSession.createSession({ equipment, symptom, language: lang() });
+      if (result.ok) session = result;
+    }
+    render();
+  }
+
+  function answer() {
+    const select = $("dynamicAnswer");
+    if (!session || !select || !select.value) return;
+    const result = root.MaintenanceDiagnosticSession.answer(session, select.value);
+    if (result.ok) session = result.session;
+    render();
+  }
+
+  function getPayload() {
+    if (!session) return {};
+    return {
+      diagnosticFlowId: session.flowId,
+      diagnosticEvidence: [...new Set(session.evidence.flatMap(entry => Array.isArray(entry.evidence) ? entry.evidence : []))],
+      diagnosticAnswers: session.evidence.map(entry => ({
+        questionId: entry.questionId,
+        answerId: entry.answerId,
+        evidence: Array.isArray(entry.evidence) ? entry.evidence.slice() : []
+      })),
+      diagnosticHypotheses: session.hypotheses.map(hypothesis => ({
+        id: hypothesis.id,
+        label: hypothesis.label,
+        status: hypothesis.status,
+        score: hypothesis.score,
+        supportingEvidence: hypothesis.supportingEvidence.slice(),
+        contradictingEvidence: hypothesis.contradictingEvidence.slice(),
+        checks: hypothesis.checks
+      }))
+    };
+  }
+
+  function onLanguageChanged() {
+    if (!flowKey || !root.MaintenanceDiagnosticSession) return;
+    const previous = session;
+    const [equipment, symptom] = flowKey.split("|");
+    const fresh = root.MaintenanceDiagnosticSession.createSession({ equipment, symptom, language: lang() });
+    if (!fresh.ok) {
+      session = null;
+      render();
+      return;
+    }
+    session = fresh;
+    if (previous && Array.isArray(previous.evidence)) {
+      previous.evidence.forEach(entry => {
+        const result = root.MaintenanceDiagnosticSession.answer(session, entry.answerId);
+        if (result.ok) session = result.session;
+      });
+    }
+    render();
+  }
+
+  function init() {
+    ["aiMachine", "aiSymptom"].forEach(id => {
+      const field = $(id);
+      if (field) {
+        field.addEventListener("input", start);
+        field.addEventListener("change", start);
+      }
+    });
+    $("recordDynamicAnswer")?.addEventListener("click", answer);
+    root.document?.addEventListener("maintenance-language-changed", onLanguageChanged);
+    start();
+  }
+
+  root.MaintenanceDiagnosticSessionUI = Object.freeze({ getPayload, init });
+  if (typeof module !== "undefined" && module.exports) module.exports = root.MaintenanceDiagnosticSessionUI;
+  if (root.document) init();
+})(typeof globalThis !== "undefined" ? globalThis : this);
