@@ -86,7 +86,27 @@
     $("p4ProfileEdit").hidden = true;
     $("p4DisplayName").focus();
   }
+  function ensureUI() {
+    if ($("p4ContributorProfile")) return;
+    const nav = document.querySelector("main .nav");
+    if (!nav) return;
+    nav.insertAdjacentHTML("beforebegin", `
+      <section class="card" id="p4ContributorProfile" aria-labelledby="p4ProfileTitle">
+        <h2 id="p4ProfileTitle">ملف المساهم — مرة واحدة فقط</h2>
+        <p class="hint">أدخل اسمك ومجالك المهني عند أول استخدام. ستُستخدم البيانات تلقائياً في المساهمات اللاحقة. الشهادة اختيارية. هذه بيانات يصرّح بها المستخدم وليست مؤهلات موثّقة.</p>
+        <p id="p4ProfileSummary" class="hint" aria-live="polite"></p>
+        <form id="p4ProfileForm">
+          <label for="p4DisplayName">الاسم</label><input id="p4DisplayName" maxlength="100" autocomplete="name" required>
+          <label for="p4ProfessionalTitle">المنصب أو التخصص المهني</label><input id="p4ProfessionalTitle" maxlength="120" placeholder="مثال: تقني صيانة صناعية، مهندس كهرباء" required>
+          <label for="p4Qualification">الشهادة أو المؤهل (اختياري)</label><input id="p4Qualification" maxlength="160" placeholder="مثال: تقني سامٍ في الإلكترونيات الصناعية">
+          <div class="actions"><button class="btn" type="submit">حفظ الملف</button><button class="btn secondary" id="p4ProfileCancel" type="button">إلغاء</button></div>
+        </form>
+        <button class="btn secondary" id="p4ProfileEdit" type="button" hidden>تعديل بياناتي</button>
+        <p id="p4ProfileMessage" class="hint" role="status" aria-live="polite"></p>
+      </section>`);
+  }
   function init() {
+    ensureUI();
     const profile = readProfile();
     if (profile) {
       $("p4ProfileForm").hidden = true;
