@@ -7,7 +7,7 @@ const ALLOWED_ORIGINS = new Set([
 const nowIso = () => new Date().toISOString();
 const uuid = () => crypto.randomUUID();
 function response(data, status, origin) {
-  return new Response(JSON.stringify(data), { status, headers: {
+  return new Response(status === 204 ? null : JSON.stringify(data), { status, headers: {
     "content-type": "application/json; charset=utf-8",
     "cache-control": "no-store",
     "access-control-allow-origin": ALLOWED_ORIGINS.has(origin) ? origin : "null",
