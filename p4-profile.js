@@ -111,7 +111,57 @@
         </form>
         <div class="actions"><button class="btn secondary" id="p4ProfileEdit" type="button" hidden>تعديل بياناتي</button><button class="btn secondary" id="p4ProfileSync" type="button" hidden>إعادة محاولة ربط الملف</button><button class="btn secondary" id="p4SessionRevoke" type="button" hidden>إنهاء الجلسة التجريبية</button></div>
         <p id="p4ProfileMessage" class="hint" role="status" aria-live="polite"></p>
+        <hr>
+        <h3>رفع وثيقة فنية — مساحة خاصة</h3>
+        <p class="hint">ارفع PDF أو صورة حتى 10 ميغابايت. تُحفظ الوثيقة خاصة ولا تُشارك مع المجتمع أو تُرسل إلى مزود ذكاء اصطناعي تلقائياً.</p>
+        <form id="p4DocumentForm">
+          <label for="p4DocumentFile">الوثيقة الفنية</label>
+          <input id="p4DocumentFile" type="file" accept=".pdf,application/pdf,image/jpeg,image/png,image/webp" required>
+          <div class="actions"><button class="btn" id="p4DocumentUpload" type="submit">رفع الوثيقة بشكل خاص</button></div>
+        </form>
+        <p id="p4DocumentMessage" class="hint" role="status" aria-live="polite"></p>
       </section>`);
+  }
+  async function uploadDocument(event) {
+    event.preventDefault();
+    const file = $("p4DocumentFile").files?.[0];
+    const message = $("p4DocumentMessage");
+    const button = $("p4DocumentUpload");
+    if (!file) { message.textContent = "اختر ملفاً أولاً."; return; }
+    if (file.size <= 0 || file.size > 10 * 1024 * 1024) {
+      message.textContent = "حجم الملف يجب أن يكون أكبر من صفر ولا يتجاوز 10 ميغابايت.";
+      return;
+    }
+    const session = JSON.parse(localStorage.getItem(SESSION_KEY) || "null");
+    if (!session?.token) {
+      message.textContent = "أنشئ ملف المساهم واربطه بالجلسة التجريبية أولاً.";
+      return;
+    }
+    if (!["application/pdf", "image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+      message.textContent = "نوع الملف غير مدعوم. استخدم PDF أو JPEG أو PNG أو WebP.";
+      return;
+    }
+    button.disabled = true;
+    message.textContent = "جارٍ رفع الوثيقة إلى مساحة التخزين الخاصة...";
+    try {
+      const response = await fetch(COMMUNITY_API + "/api/community/documents", {
+        method: "POST",
+        headers: {
+          "Authorization": "Bearer " + session.token,
+          "Content-Type": file.type,
+          "X-File-Name": file.name
+        },
+        body: file
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "تعذر رفع الوثيقة.");
+      message.textContent = "تم رفع الوثيقة وحفظها بشكل خاص. لم تُستخرج معلوماتها ولم تُشارك. رقم الوثيقة: " + data.document.id;
+      $("p4DocumentFile").value = "";
+    } catch (error) {
+      message.textContent = "لم يكتمل الرفع: " + error.message;
+    } finally {
+      button.disabled = false;
+    }
   }
   function init() {
     ensureUI();
@@ -129,6 +179,7 @@
       setMessage("أدخل هذه البيانات مرة واحدة. يمكنك تعديلها لاحقاً.");
     }
     $("p4ProfileForm").addEventListener("submit", saveProfile);
+    $("p4DocumentForm").addEventListener("submit", uploadDocument);
     $("p4ProfileEdit").addEventListener("click", startEdit);
     $("p4ProfileSync").addEventListener("click", async () => {
       const profile = readProfile();
