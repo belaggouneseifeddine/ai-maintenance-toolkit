@@ -21,6 +21,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Test local evidence reasoning and UI provenance
+        run: node --test tests/evidence-reasoning.test.cjs tests/evidence-reasoning-ui.test.cjs
       - name: Validate app and backend guardrails
         run: node scripts/quality-check.mjs
       - name: Install browser test dependencies

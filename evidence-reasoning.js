@@ -1,145 +1,113 @@
-/* Evidence-aware local reasoning primitives.
- * This module is opt-in and does not replace the production diagnostic engine.
- * It never infers source applicability from free-text notes or marks a fault confirmed.
+/* Offline evidence-grounded reasoning primitives.
+ * Opt-in module: does not replace the production diagnostic engine.
+ * A link is never evidence by itself; source scope and claim-level review must match.
  */
 (function (root) {
   "use strict";
-
-  const VERIFIED = "verified";
-  const SAFE_STATUSES = new Set(["verified", "review-needed", "source-not-recorded"]);
-
-  function asList(value) {
-    return Array.isArray(value) ? value : [];
-  }
-
-  function clean(value) {
-    return typeof value === "string" ? value.trim() : "";
-  }
-
-  function indexEvidence(evidence) {
-    const map = new Map();
-    for (const item of asList(evidence)) {
+  const ALLOWED_STATUSES = new Set(["verified", "review-needed", "source-not-recorded"]);
+  function list(value) { return Array.isArray(value) ? value : []; }
+  function text(value) { return typeof value === "string" ? value.trim() : ""; }
+  function normalized(value) { return text(value).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase(); }
+  function indexEvidence(items) {
+    const index = new Map();
+    for (const item of list(items)) {
       if (!item || typeof item !== "object") continue;
-      const id = clean(item.id);
-      if (!id || map.has(id)) continue;
-      if (!SAFE_STATUSES.has(item.status)) continue;
-      map.set(id, item);
+      const id = text(item.id);
+      if (!id || index.has(id) || !ALLOWED_STATUSES.has(item.status)) continue;
+      index.set(id, item);
     }
-    return map;
+    return index;
   }
-
   function scopeMatches(source, equipment) {
-    const requestedModel = clean(equipment && equipment.model).toLowerCase();
-    const requestedManufacturer = clean(equipment && equipment.manufacturer).toLowerCase();
     const scope = source && source.scope;
     if (!scope || typeof scope !== "object") return false;
-    const models = asList(scope.models).map(value => clean(value).toLowerCase());
-    const manufacturers = asList(scope.manufacturers).map(value => clean(value).toLowerCase());
-    if (!requestedModel || !requestedManufacturer) return false;
-    return models.includes(requestedModel) && manufacturers.includes(requestedManufacturer);
+    const manufacturer = normalized(equipment && equipment.manufacturer);
+    const model = normalized(equipment && equipment.model);
+    if (!manufacturer || !model) return false;
+    return list(scope.manufacturers).some(x => normalized(x) === manufacturer) &&
+      list(scope.models).some(x => normalized(x) === model);
   }
-
-  function traceEvidence(ids, evidenceById, equipment) {
-    return asList(ids).map(id => {
-      const source = evidenceById.get(clean(id));
-      if (!source) {
-        return { sourceId: clean(id), status: "missing-source", applicable: false, reason: "No matching evidence record." };
-      }
+  function validHttpsUrl(value) {
+    try { const url = new URL(text(value)); return url.protocol === "https:" && Boolean(url.hostname); }
+    catch (_) { return false; }
+  }
+  function traceEvidence(ids, evidenceIndex, equipment, hypothesisId) {
+    return list(ids).map(rawId => {
+      const id = text(rawId), source = evidenceIndex.get(id);
+      if (!source) return { sourceId: id, status: "missing-source", applicable: false, reason: "No matching evidence record." };
       const exactScope = scopeMatches(source, equipment);
-      const claimVerified = source.status === VERIFIED &&
-        Array.isArray(source.verifiedClaims) &&
-        source.verifiedClaims.some(claim => clean(claim) !== "");
-      const applicable = exactScope && claimVerified;
+      const claim = list(source.verifiedClaims).find(item => item && typeof item === "object" &&
+        text(item.hypothesisId) === hypothesisId && item.reviewed === true && text(item.claim) !== "");
+      const validSource = validHttpsUrl(source.url) && text(source.title) !== "";
+      const applicable = source.status === "verified" && exactScope && Boolean(claim) && validSource;
+      let reason = "Source is not verified for this specific hypothesis and equipment.";
+      if (!validSource) reason = "Source metadata is incomplete or URL is not HTTPS.";
+      else if (!exactScope) reason = "Exact manufacturer and model scope was not established.";
+      else if (!claim) reason = "No reviewed claim is linked to this hypothesis.";
+      else if (source.status !== "verified") reason = "Source review is not complete.";
+      else reason = "Reviewed claim and exact equipment scope are recorded; confirm applicability before maintenance.";
       return {
-        sourceId: source.id,
-        title: clean(source.title),
-        url: clean(source.url),
-        section: clean(source.section),
-        page: Number.isInteger(source.page) && source.page > 0 ? source.page : null,
-        claim: clean(source.claim),
-        verificationLimit: clean(source.verificationLimit),
-        status: source.status,
-        applicable,
-        reason: applicable
-          ? "Exact equipment scope and at least one reviewed claim are recorded."
-          : !exactScope
-            ? "Exact manufacturer and model scope was not established."
-            : "The source claim is not recorded as verified."
+        sourceId: id, title: text(source.title), url: validHttpsUrl(source.url) ? text(source.url) : "",
+        section: text(source.section), page: Number.isInteger(source.page) && source.page > 0 ? source.page : null,
+        status: source.status, applicable, claim: claim ? text(claim.claim) : text(source.claim),
+        verificationLimit: text(source.verificationLimit), reason
       };
     });
   }
-
-  function followUpFor(hypothesis, answers) {
-    const questions = asList(hypothesis && hypothesis.followUps);
+  function nextStepFor(hypothesis, answers) {
+    const questions = list(hypothesis && hypothesis.followUps);
     const answerMap = answers && typeof answers === "object" && !Array.isArray(answers) ? answers : {};
     for (const question of questions) {
-      const answer = answerMap[clean(question.id)];
-      if (answer == null || answer === "") continue;
-      const route = question.routes && question.routes[String(answer)];
-      if (route) {
-        return {
-          questionId: clean(route.nextQuestionId),
-          action: clean(route.action),
-          rationale: clean(route.rationale),
-          basedOnAnswer: String(answer)
-        };
-      }
+      const id = text(question && question.id);
+      if (!id || answerMap[id] == null || answerMap[id] === "") continue;
+      const routes = question.routes && typeof question.routes === "object" ? question.routes : {};
+      const route = routes[String(answerMap[id])];
+      if (route && typeof route === "object") return {
+        questionId: text(route.nextQuestionId) || null, action: text(route.action) || "collect-information",
+        rationale: text(route.rationale) || "Follow the documented site procedure.", basedOnAnswer: String(answerMap[id])
+      };
     }
-    const firstUnanswered = questions.find(question => answerMap[clean(question.id)] == null || answerMap[clean(question.id)] === "");
-    return firstUnanswered ? {
-      questionId: clean(firstUnanswered.id),
-      prompt: clean(firstUnanswered.prompt),
-      action: "collect-information",
+    const unanswered = questions.find(question => {
+      const id = text(question && question.id);
+      return id && (answerMap[id] == null || answerMap[id] === "");
+    });
+    return unanswered ? {
+      questionId: text(unanswered.id), prompt: text(unanswered.prompt), action: "collect-information",
       rationale: "No structured answer has been recorded for this question."
     } : null;
   }
-
   function analyse(input) {
     const request = input && typeof input === "object" ? input : {};
-    const evidenceById = indexEvidence(request.evidence);
     const equipment = request.equipment && typeof request.equipment === "object" ? request.equipment : {};
+    const evidenceIndex = indexEvidence(request.evidence);
     const answers = request.answers && typeof request.answers === "object" ? request.answers : {};
-    const hypotheses = asList(request.hypotheses).filter(item => item && typeof item === "object");
-
+    const hypotheses = list(request.hypotheses).filter(item => item && typeof item === "object");
     const results = hypotheses.map(hypothesis => {
-      const support = traceEvidence(hypothesis.supportEvidenceIds, evidenceById, equipment);
-      const contradiction = traceEvidence(hypothesis.contradictionEvidenceIds, evidenceById, equipment);
-      const applicableSupport = support.filter(item => item.applicable);
-      const applicableContradiction = contradiction.filter(item => item.applicable);
-      const evidenceState = applicableSupport.length && applicableContradiction.length
-        ? "mixed-evidence"
-        : applicableSupport.length
-          ? "source-supported-hypothesis"
-          : applicableContradiction.length
-            ? "contradictory-evidence"
-            : "insufficient-verified-evidence";
+      const id = text(hypothesis.id);
+      const supportingEvidence = traceEvidence(hypothesis.supportEvidenceIds, evidenceIndex, equipment, id);
+      const contradictingEvidence = traceEvidence(hypothesis.contradictionEvidenceIds, evidenceIndex, equipment, id);
+      const supportCount = supportingEvidence.filter(item => item.applicable).length;
+      const contradictionCount = contradictingEvidence.filter(item => item.applicable).length;
+      const evidenceState = supportCount && contradictionCount ? "mixed-evidence"
+        : supportCount ? "source-supported-hypothesis"
+        : contradictionCount ? "contradictory-evidence" : "insufficient-verified-evidence";
       return {
-        hypothesisId: clean(hypothesis.id),
-        label: clean(hypothesis.label),
-        status: "exploratory-hypothesis",
-        evidenceState,
-        supportingEvidence: support,
-        contradictingEvidence: contradiction,
+        hypothesisId: id, label: text(hypothesis.label), status: "exploratory-hypothesis", evidenceState,
+        supportingEvidence, contradictingEvidence, nextStep: nextStepFor(hypothesis, answers),
         limitations: [
           "This is a preliminary hypothesis, not a confirmed fault.",
-          "A source link alone does not establish that it supports this claim."
-        ],
-        nextStep: followUpFor(hypothesis, answers)
+          "A source URL or a claim about another hypothesis does not count as supporting evidence.",
+          "Check the exact equipment model, revision, site procedure and operating conditions."
+        ]
       };
     });
-
     return {
       status: "preliminary",
-      equipment: {
-        manufacturer: clean(equipment.manufacturer),
-        model: clean(equipment.model)
-      },
-      results,
-      confirmedFault: null,
-      evidencePolicy: "Only explicitly verified claims with exact manufacturer and model scope count as source-applicable evidence."
+      equipment: { manufacturer: text(equipment.manufacturer), model: text(equipment.model) },
+      results, confirmedFault: null,
+      evidencePolicy: "Only reviewed, hypothesis-linked claims from verified HTTPS sources with exact manufacturer and model scope count as applicable evidence."
     };
   }
-
   const api = Object.freeze({ analyse, scopeMatches });
   root.MaintenanceEvidenceReasoning = api;
   if (typeof module !== "undefined" && module.exports) module.exports = api;
