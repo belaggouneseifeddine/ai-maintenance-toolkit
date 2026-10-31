@@ -2,6 +2,7 @@
   "use strict";
   const PROFILE_KEY = "maintenance-p4-profile-v1";
   const SESSION_KEY = "maintenance-p4-session-v1";
+  const COMMUNITY_API = "https://maintenance-ai-toolkit-staging.maintenance-ai-toolkit-api-seif.workers.dev";
   const $ = id => document.getElementById(id);
   const copy = value => JSON.parse(JSON.stringify(value));
   function readProfile() {
@@ -27,7 +28,7 @@
   }
   async function enroll(profile) {
     try {
-      const response = await fetch("/api/community/enroll", {
+      const response = await fetch(COMMUNITY_API + "/api/community/enroll", {
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify(profile)
       });
@@ -66,7 +67,7 @@
       const session = JSON.parse(localStorage.getItem(SESSION_KEY) || "null");
       if (session?.token) {
         try {
-          const response = await fetch("/api/community/profile", {
+          const response = await fetch(COMMUNITY_API + "/api/community/profile", {
             method: "PATCH",
             headers: { "Content-Type": "application/json", "Authorization": "Bearer " + session.token },
             body: JSON.stringify(profile)
