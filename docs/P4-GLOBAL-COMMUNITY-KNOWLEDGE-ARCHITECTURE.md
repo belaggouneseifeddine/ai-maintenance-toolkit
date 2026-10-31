@@ -85,7 +85,7 @@ Approval status and evidence class are separate fields. A community-approved cla
 
 ## Decisions still needed before production implementation
 
-- **Authentication provider** for worldwide contributors (e.g. Google/GitHub OAuth or email one-time code). Do not ship public write endpoints without verified identity.
+- **Authentication provider — DECIDED**: support both Google sign-in and email one-time verification code. Contributors may choose either method. Do not ship public write endpoints without verified identity. Implementation must use a maintained identity provider or a carefully reviewed authentication flow; never store raw passwords or trust client-supplied identity/role claims.
 - **Community visibility default**: private until explicitly shared is recommended.
 - **Moderation authority and abuse response**: define who can suspend accounts, handle takedowns, and resolve disputes.
 - **Retention/deletion policy** for original uploads and personal data.
