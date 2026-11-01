@@ -119,6 +119,14 @@ class P4SchemaTests(unittest.TestCase):
         ))
 
     def test_page_text_size_is_bounded(self):
+        self.db.execute("""
+            INSERT INTO source_documents
+              (id, owner_contributor_id, original_filename, mime_type, byte_size,
+               sha256, r2_object_key, storage_backend, github_path, created_at, updated_at)
+            VALUES ('doc-limit', 'u1', 'limit.pdf', 'application/pdf', 123,
+                    'sha', 'github://repo/limit.pdf', 'github',
+                    'knowledge/documents/limit.pdf', 'now', 'now')
+        """)
         with self.assertRaises(sqlite3.IntegrityError):
             self.db.execute("""
                 INSERT INTO document_pages
