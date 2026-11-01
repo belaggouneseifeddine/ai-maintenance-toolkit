@@ -5,16 +5,23 @@ import sqlite3
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
-MIGRATION = ROOT / "migrations" / "0001_p4_community_knowledge.sql"
+MIGRATIONS = [
+    ROOT / "migrations" / "0001_p4_community_knowledge.sql",
+    ROOT / "migrations" / "0002_p4_anonymous_profiles.sql",
+    ROOT / "migrations" / "0003_github_document_index.sql",
+]
 
 
 class P4SchemaTests(unittest.TestCase):
     def setUp(self):
         self.db = sqlite3.connect(":memory:")
         self.db.execute("PRAGMA foreign_keys = ON")
-        self.db.executescript(MIGRATION.read_text(encoding="utf-8"))
+        for migration in MIGRATIONS:
+            self.db.executescript(migration.read_text(encoding="utf-8"))
         self.db.execute(
-            "INSERT INTO contributors VALUES (?, ?, 'active', ?, ?)",
+            """INSERT INTO contributors
+               (id, display_name, status, created_at, updated_at)
+               VALUES (?, ?, 'active', ?, ?)""",
             ("u1", "Technician One", "2026-10-31T00:00:00Z", "2026-10-31T00:00:00Z"),
         )
         self.db.execute("""
@@ -78,6 +85,46 @@ class P4SchemaTests(unittest.TestCase):
         """)
         with self.assertRaises(sqlite3.IntegrityError):
             self.db.execute("DELETE FROM audit_events WHERE id='e1'")
+
+    def test_github_document_and_page_text_are_indexable(self):
+        self.db.execute("""
+            INSERT INTO source_documents
+              (id, owner_contributor_id, original_filename, mime_type, byte_size,
+               sha256, r2_object_key, storage_backend, github_path, github_blob_sha,
+               source_url, created_at, updated_at)
+            VALUES
+              ('doc1', 'u1', 'manual.pdf', 'application/pdf', 123,
+               'a' || printf('%063d', 0), 'github://repo/knowledge/documents/manual.pdf',
+               'github', 'knowledge/documents/manual.pdf', 'blobsha',
+               'https://github.com/example/repo/blob/branch/knowledge/documents/manual.pdf',
+               'now', 'now')
+        """)
+        self.db.execute("""
+            INSERT INTO document_pages
+              (id, document_id, page_number, extraction_method, extraction_status,
+               extracted_text, text_sha256, text_char_count, table_extraction_status, created_at)
+            VALUES ('page1', 'doc1', 1, 'embedded_text', 'complete',
+                    'Check pump suction pressure', 'textsha', 28,
+                    'manual_review_required', 'now')
+        """)
+        row = self.db.execute("""
+            SELECT d.storage_backend, d.github_path, p.page_number, p.extracted_text,
+                   p.table_extraction_status
+            FROM source_documents d JOIN document_pages p ON p.document_id=d.id
+            WHERE d.id='doc1'
+        """).fetchone()
+        self.assertEqual(row, (
+            'github', 'knowledge/documents/manual.pdf', 1,
+            'Check pump suction pressure', 'manual_review_required'
+        ))
+
+    def test_page_text_size_is_bounded(self):
+        with self.assertRaises(sqlite3.IntegrityError):
+            self.db.execute("""
+                INSERT INTO document_pages
+                  (id, document_id, page_number, extracted_text, created_at)
+                VALUES ('page-too-large', 'doc1', 1, ?, 'now')
+            """, ("x" * 80001,))
 
 
 if __name__ == "__main__":
