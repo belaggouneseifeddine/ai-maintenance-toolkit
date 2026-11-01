@@ -8,6 +8,7 @@ on:
       - "scripts/test-p4-anonymous-profile.py"
       - "scripts/test-p4-community-api.mjs"
       - "scripts/test-p4-pdf-extraction.py"
+      - "scripts/extract-pdf-pages.py"
       - "p4-community.js"
       - "p4-profile.js"
       - ".github/workflows/p4-schema-tests.yml"
