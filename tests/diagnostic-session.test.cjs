@@ -110,3 +110,52 @@ test("multiple signals from one answer are grouped as one observation node", () 
   assert.equal(power.evidenceGroupsUsed,1);
   assert.equal(protection.score,power.score);
 });
+
+
+test("valve no-movement flow starts with structured evidence collection", () => {
+  const s=engine.createSession({equipment:"valve",symptom:"not_move",language:"ar"});
+  assert.equal(s.ok,true);
+  assert.equal(s.flowId,"valve|not_move");
+  assert.equal(s.status,"collecting_evidence");
+  assert.match(s.nextQuestion.text,/أمر الحركة/);
+  assert.equal(s.hypotheses.length,4);
+  assert.ok(s.hypotheses.every(h=>h.reasoningModel==="qualitative_bn_v1"));
+  assert.ok(s.hypotheses.every(h=>h.status==="unresolved"));
+});
+
+test("valve flow distinguishes control, supply, feedback and mechanical hypotheses", () => {
+  let s=engine.createSession({equipment:"valve",symptom:"not_move",language:"en"});
+  for (const answer of ["valve-command-present","valve-supply-fault-indicated","valve-feedback-mismatch"]) {
+    const result=engine.answer(s,answer);
+    assert.equal(result.ok,true);
+    s=result.session;
+  }
+  assert.equal(s.status,"evidence_review");
+  assert.equal(s.summary.confirmedCause,"");
+  assert.ok(s.hypotheses.find(h=>h.id==="actuator_energy_supply").supportingEvidence.includes("valve-supply-fault-indicated"));
+  assert.ok(s.hypotheses.find(h=>h.id==="position_feedback").supportingEvidence.includes("valve-feedback-mismatch"));
+  assert.ok(s.hypotheses.every(h=>h.reasoningModel==="qualitative_bn_v1"));
+});
+
+test("unknown valve readings do not count as negative evidence", () => {
+  let s=engine.createSession({equipment:"valve",symptom:"not_move",language:"en"});
+  for (const answer of ["unknown","unknown","unknown"]) s=engine.answer(s,answer).session;
+  assert.ok(s.hypotheses.every(h=>h.supportingEvidence.length===0&&h.contradictingEvidence.length===0));
+  assert.equal(s.summary.confirmedCause,"");
+});
+
+test("valve flow contract exposes only its curated evidence vocabulary", () => {
+  const contract=engine.getFlowContract("valve|not_move");
+  assert.ok(contract.hypothesisIds.includes("actuator_energy_supply"));
+  assert.ok(contract.evidenceIds.includes("valve-feedback-mismatch"));
+  assert.ok(!contract.evidenceIds.includes("invented-evidence"));
+});
+
+test("UI resolver maps Arabic, English and French valve/actuator phrases to the curated flow", () => {
+  const ui=require("../diagnostic-session-ui.js");
+  assert.equal(ui.resolveFlowKey("صمام كهربائي","الصمام لا يتحرك"),"valve|not_move");
+  assert.equal(ui.resolveFlowKey("pneumatic actuator","stuck / no movement"),"valve|not_move");
+  assert.equal(ui.resolveFlowKey("vanne motorisée","ne bouge pas"),"valve|not_move");
+  assert.equal(ui.resolveFlowKey("pump","low flow"),"pump|low_flow");
+  assert.equal(ui.resolveFlowKey("unknown","unknown"),"");
+});
