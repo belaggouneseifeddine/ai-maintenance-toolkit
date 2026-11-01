@@ -15,9 +15,9 @@
     return language === "en" ? en : language === "fr" ? fr : ar;
   }
 
-  function resolve() {
-    const machine = ($("aiMachine")?.value || "").toLowerCase();
-    const symptom = ($("aiSymptom")?.value || "").toLowerCase();
+  function resolveFlowKey(machineValue, symptomValue) {
+    const machine = String(machineValue || "").toLowerCase();
+    const symptom = String(symptomValue || "").toLowerCase();
     if (/pump|مضخ|pompe/.test(machine) &&
         /low flow|low pressure|تدفق ضعيف|ضغط.*منخفض|débit faible|pression faible/.test(symptom)) {
       return "pump|low_flow";
@@ -26,7 +26,15 @@
         /not start|won.t start|لا تبدأ|لا يعمل|لا تعمل|ne démarre pas/.test(symptom)) {
       return "motor|not_start";
     }
+    if (/valve|actuator|vanne|actionneur|صمام|مشغل|مُشغل/.test(machine) &&
+        /not move|no movement|stuck|position mismatch|لا يتحرك|لا تستجيب|لا يستجيب|عالق|موضع غير مطابق|ne bouge pas|bloqu/.test(symptom)) {
+      return "valve|not_move";
+    }
     return "";
+  }
+
+  function resolve() {
+    return resolveFlowKey($("aiMachine")?.value, $("aiSymptom")?.value);
   }
 
   function ensureProgress(panel) {
@@ -279,7 +287,7 @@
     start();
   }
 
-  root.MaintenanceDiagnosticSessionUI = Object.freeze({ getPayload, init });
+  root.MaintenanceDiagnosticSessionUI = Object.freeze({ getPayload, init, resolveFlowKey });
   if (typeof module !== "undefined" && module.exports) module.exports = root.MaintenanceDiagnosticSessionUI;
   if (root.document) init();
 })(typeof globalThis !== "undefined" ? globalThis : this);
