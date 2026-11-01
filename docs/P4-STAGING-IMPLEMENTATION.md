@@ -111,7 +111,7 @@ The isolated Cloudflare D1 database `maintenance-community-staging` has now been
 - Database UUID: `6d8edd48-85dd-48a5-be63-fa031af9f18a`.
 - Applied `0001_p4_community_knowledge.sql` and `0002_p4_anonymous_profiles.sql` directly through the D1 SQL API, sequentially.
 - Created the standard `d1_migrations` ledger and recorded both migration filenames so subsequent Wrangler migration commands do not attempt to reapply the already-executed schema changes.
-- Remote read-only verification returned 14 application tables, 12 triggers, 2 migration ledger entries, 0 contributors, and 0 uploaded documents.
+- Remote read-only verification returned 12 domain tables, the migration ledger, Cloudflare's internal `_cf_KV` table (14 tables total), 12 triggers, 2 migration ledger entries, 0 contributors, and 0 uploaded documents.
 - The schema and migration ledger are present in this isolated staging database. No production database or Worker deployment was changed.
 - `wrangler.staging.toml` now binds `COMMUNITY_DB` to this database, enables the staging feature flag, and declares separate enrollment and upload rate-limit bindings. These are repository configuration changes only; the Worker has not been deployed, so those bindings are not active yet.
 - Cloudflare R2 is still not enabled on the account. The private document-upload path cannot be tested end to end until the user enables R2 and a private staging bucket/binding is configured.
