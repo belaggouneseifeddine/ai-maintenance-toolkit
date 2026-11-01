@@ -118,3 +118,22 @@ The isolated Cloudflare D1 database `maintenance-community-staging` has now been
 - GitHub Actions for the updated branch are running; their final conclusions are not yet known.
 
 The D1 API rejected a combined diagnostic request containing SQLite PRAGMA commands with `SQLITE_AUTH`; no schema changes resulted from that read-only diagnostic attempt. Verification was repeated with ordinary SELECT queries and succeeded. A full integrity/foreign-key PRAGMA check therefore remains outstanding.
+
+
+## GitHub document library fallback — 2026-11-01
+
+Cloudflare R2 remains disabled by user choice. A GitHub-backed public-document path has been added on this feature branch:
+
+- Public PDFs belong under `knowledge/documents/<manufacturer>/<equipment-family>/<model>/`.
+- `.github/workflows/extract-pdf-pages.yml` runs on PDF changes to the staging branch and creates page-numbered JSON sidecars under `knowledge/extracted/`.
+- `scripts/extract-pdf-pages.py` uses pypdf, records the source SHA-256 and page numbers, and marks image-only pages as `ocr_required`.
+- Text extraction does not perform OCR, structure tables, verify technical accuracy, or grant OEM/community approval. Table-bearing pages are explicitly marked for manual review.
+- `migrations/0003_github_document_index.sql` adds GitHub storage provenance and bounded page-text fields. It was applied to the isolated D1 staging database on 2026-11-01 and recorded as migration 3.
+- D1 verification confirmed the new columns and migration ledger entries 1–3. No document records or page text have been imported yet.
+- The legacy `r2_object_key` column remains for schema compatibility; GitHub-backed rows will use a documented opaque `github://` locator until a later storage-schema cleanup. This does not create or enable R2.
+
+**Public-repository warning:** the GitHub repository is public. Any PDF committed to this folder is publicly downloadable. Only documents with explicit public redistribution permission may be uploaded. Do not upload confidential, internal, customer, or personal-data documents.
+
+### Current implementation boundary
+
+The GitHub upload instructions and automatic PDF-to-page-text extraction pipeline are present. The D1 schema can now store GitHub document metadata and extracted page text. The authenticated import endpoint that transfers generated sidecars into D1, the searchable knowledge API, and diagnostic citation integration are still outstanding. No Worker has been deployed; no PDF has been uploaded or processed in this turn; no R2 resource, production setting, or live site was changed.
