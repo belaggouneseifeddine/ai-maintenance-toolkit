@@ -102,3 +102,19 @@ The upload API tests use mocked D1/R2 bindings. They validate route behavior and
 ## Remaining implementation boundary
 
 Not yet implemented: D1/R2 staging bindings/resources, page extraction/OCR, candidate claim creation/review/approval, dispute/withdrawal routes, diagnostic retrieval of approved community claims, and Android device acceptance. The private upload UI and API route exist in code but remain unable to store files until isolated staging resources and bindings are configured. No staging resources, secrets, buckets, databases, or deployments have been created. These steps require local/CI tests and separate staging-resource approval before provisioning.
+
+
+## Cloudflare staging provisioning update — 2026-11-01
+
+The isolated Cloudflare D1 database `maintenance-community-staging` has now been created in the EU jurisdiction. It is separate from production and has read replication disabled.
+
+- Database UUID: `6d8edd48-85dd-48a5-be63-fa031af9f18a`.
+- Applied `0001_p4_community_knowledge.sql` and `0002_p4_anonymous_profiles.sql` directly through the D1 SQL API, sequentially.
+- Created the standard `d1_migrations` ledger and recorded both migration filenames so subsequent Wrangler migration commands do not attempt to reapply the already-executed schema changes.
+- Remote read-only verification returned 14 application tables, 12 triggers, 2 migration ledger entries, 0 contributors, and 0 uploaded documents.
+- The schema and migration ledger are present in this isolated staging database. No production database or Worker deployment was changed.
+- `wrangler.staging.toml` now binds `COMMUNITY_DB` to this database, enables the staging feature flag, and declares separate enrollment and upload rate-limit bindings. These are repository configuration changes only; the Worker has not been deployed, so those bindings are not active yet.
+- Cloudflare R2 is still not enabled on the account. The private document-upload path cannot be tested end to end until the user enables R2 and a private staging bucket/binding is configured.
+- GitHub Actions for the updated branch are running; their final conclusions are not yet known.
+
+The D1 API rejected a combined diagnostic request containing SQLite PRAGMA commands with `SQLITE_AUTH`; no schema changes resulted from that read-only diagnostic attempt. Verification was repeated with ordinary SELECT queries and succeeded. A full integrity/foreign-key PRAGMA check therefore remains outstanding.
