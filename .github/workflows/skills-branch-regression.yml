@@ -1,0 +1,53 @@
+name: Maintenance Skills Branch Regression
+
+on:
+  push:
+    branches:
+      - "research/**"
+    paths:
+      - "agent-skills/**"
+      - "skills.sh.json"
+      - "scripts/validate-agent-skills.mjs"
+      - "scripts/knowledge-audit.mjs"
+      - "knowledge/**"
+      - "tests/**"
+      - ".github/workflows/skills-branch-regression.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "agent-skills/**"
+      - "skills.sh.json"
+      - "scripts/validate-agent-skills.mjs"
+      - "scripts/knowledge-audit.mjs"
+      - "knowledge/**"
+      - "tests/**"
+      - ".github/workflows/skills-branch-regression.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: skills-branch-regression-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  skills-and-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out research branch
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Validate Agent Skills structure and guardrails
+        run: node scripts/validate-agent-skills.mjs
+
+      - name: Run Bayesian and diagnostic regression tests
+        run: node --test tests/*.test.cjs
+
+      - name: Verify knowledge audit is current
+        run: node scripts/knowledge-audit.mjs --check
