@@ -45,7 +45,37 @@
           {id:"unknown",label:{ar:"غير معروف",en:"Unknown",fr:"Inconnu"},evidence:[]}
         ]}
       ]
-    }
+    },
+
+    "valve|not_move": {
+      equipment:"valve", symptom:"not_move",
+      hypotheses:[
+        {id:"command_or_interlock",label:{ar:"أمر التحكم أو شرط السماح",en:"Control command or permissive",fr:"Commande ou autorisation de commande"},evidenceFor:["valve-command-absent","valve-permissive-block"],evidenceAgainst:["valve-command-present"],checks:["راجع حالة الأمر وشروط السماح والإنذارات من واجهة التحكم المعتمدة؛ لا تتجاوز interlocks أو وسائل الحماية."]},
+        {id:"actuator_energy_supply",label:{ar:"تغذية المشغّل الكهربائية أو الهوائية أو الهيدروليكية",en:"Electrical, pneumatic or hydraulic actuator supply",fr:"Alimentation électrique, pneumatique ou hydraulique de l’actionneur"},evidenceFor:["valve-supply-fault-indicated"],evidenceAgainst:["valve-supply-normal-indicated"],checks:["راجع مؤشرات التغذية والإنذارات المتاحة فقط. فحص التغذية أو التوصيلات أو الضغط يتطلب شخصًا مؤهلًا وعزلًا وفق إجراء الموقع."]},
+        {id:"position_feedback",label:{ar:"إشارة الموضع أو حساس نهاية المشوار",en:"Position feedback or limit-switch signal",fr:"Retour de position ou fin de course"},evidenceFor:["valve-feedback-mismatch","valve-limit-signal-fault"],evidenceAgainst:["valve-feedback-consistent"],checks:["قارن أمر الموضع مع إشارة الموضع المعروضة وسجل الإنذارات؛ لا تفصل الحساسات أو تغيّر إعداداتها أثناء التشغيل."]},
+        {id:"valve_mechanical_or_process",label:{ar:"مشكلة ميكانيكية بالصمام أو ظروف العملية",en:"Valve mechanical issue or process conditions",fr:"Problème mécanique de vanne ou conditions du procédé"},evidenceFor:["valve-obstruction-alarm","valve-travel-abnormal"],evidenceAgainst:["valve-no-obstruction-indicated"],checks:["وثّق إنذار العائق أو حدود الحركة. لا تحاول تحريك الصمام يدويًا أو فكّه؛ يلزم عزل العملية والطاقة والتحقق من الضغط بواسطة مختص."]}
+      ],
+      questions:[
+        {id:"valve-control-state",text:{ar:"ماذا تعرض واجهة التحكم عن أمر الحركة وشرط السماح؟",en:"What does the control interface show about the movement command and permissive?",fr:"Que montre l’interface de commande concernant l’ordre de mouvement et l’autorisation ?"},options:[
+          {id:"valve-command-absent",label:{ar:"لا يظهر أمر حركة",en:"No movement command is shown",fr:"Aucun ordre de mouvement affiché"},evidence:["valve-command-absent"]},
+          {id:"valve-permissive-block",label:{ar:"الأمر مطلوب لكن شرط السماح غير متحقق",en:"Command requested but a permissive is not satisfied",fr:"Ordre demandé mais autorisation non satisfaite"},evidence:["valve-permissive-block"]},
+          {id:"valve-command-present",label:{ar:"الأمر ظاهر",en:"Command is shown",fr:"Ordre affiché"},evidence:["valve-command-present"]},
+          {id:"unknown",label:{ar:"غير معروف / لا توجد بيانات",en:"Unknown / no data available",fr:"Inconnu / aucune donnée"},evidence:[]}
+        ]},
+        {id:"valve-actuator-supply",text:{ar:"ما حالة تغذية المشغّل كما تظهر في المؤشرات أو الإنذارات المتاحة؟ لا تُجرِ قياسًا أو تدخلًا جديدًا.",en:"What do available indicators or alarms show about actuator supply? Do not perform a new measurement or intervention.",fr:"Que montrent les indicateurs ou alarmes disponibles concernant l’alimentation de l’actionneur ? N’effectuez aucune nouvelle mesure ni intervention."},options:[
+          {id:"valve-supply-fault-indicated",label:{ar:"يوجد إنذار أو مؤشر خلل بالتغذية",en:"A supply fault or alarm is indicated",fr:"Un défaut ou une alarme d’alimentation est indiqué"},evidence:["valve-supply-fault-indicated"]},
+          {id:"valve-supply-normal-indicated",label:{ar:"لا يظهر خلل بالتغذية حسب المؤشرات",en:"No supply fault is indicated",fr:"Aucun défaut d’alimentation n’est indiqué"},evidence:["valve-supply-normal-indicated"]},
+          {id:"unknown",label:{ar:"لا توجد معلومة موثوقة",en:"No reliable information",fr:"Aucune information fiable"},evidence:[]}
+        ]},
+        {id:"valve-position-feedback",text:{ar:"هل تتوافق إشارة الموضع المعروضة مع الأمر، وهل يوجد إنذار نهاية مشوار أو عائق؟",en:"Does displayed position feedback agree with the command, and is any limit or obstruction alarm present?",fr:"Le retour de position affiché correspond-il à l’ordre, et existe-t-il une alarme de fin de course ou d’obstruction ?"},options:[
+          {id:"valve-feedback-mismatch",label:{ar:"إشارة الموضع لا تتوافق مع الأمر",en:"Position feedback does not match the command",fr:"Le retour de position ne correspond pas à l’ordre"},evidence:["valve-feedback-mismatch"]},
+          {id:"valve-limit-signal-fault",label:{ar:"يوجد إنذار حساس أو نهاية مشوار",en:"A sensor or limit-switch alarm is present",fr:"Une alarme de capteur ou de fin de course est présente"},evidence:["valve-limit-signal-fault"]},
+          {id:"valve-obstruction-alarm",label:{ar:"يوجد إنذار عائق أو حركة غير طبيعية",en:"An obstruction or abnormal-travel alarm is present",fr:"Une alarme d’obstruction ou de course anormale est présente"},evidence:["valve-obstruction-alarm"]},
+          {id:"valve-feedback-consistent",label:{ar:"إشارة الموضع متوافقة ولا يظهر إنذار",en:"Feedback is consistent and no alarm is shown",fr:"Le retour est cohérent et aucune alarme n’est affichée"},evidence:["valve-feedback-consistent","valve-no-obstruction-indicated"]},
+          {id:"unknown",label:{ar:"غير معروف",en:"Unknown",fr:"Inconnu"},evidence:[]}
+        ]}
+      ]
+    },
   };
   function textFor(value, language) { return value && (value[language] || value.en || value.ar) || ""; }
   // Rank unanswered questions by pairwise hypothesis separation.
