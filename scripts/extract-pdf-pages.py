@@ -26,7 +26,11 @@ def sha256_file(path: Path) -> str:
 
 
 def safe_relative(path: Path, root: Path) -> str:
-    return path.relative_to(root).as_posix()
+    try:
+        return path.resolve().relative_to(root.resolve()).as_posix()
+    except ValueError:
+        # Unit-test fixtures may live outside the repository.
+        return path.name
 
 
 def extract_one(pdf_path: Path, reader_type) -> dict:
