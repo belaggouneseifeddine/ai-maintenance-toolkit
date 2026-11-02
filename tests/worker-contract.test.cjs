@@ -29,6 +29,7 @@ const context = {
       const diagnosis = validDiagnosis();
       if (upstreamPayload.input.includes("Curated diagnostic engine contract: flow ID pump|low_flow")) diagnosis.possible_causes[0].id = "supply_or_suction";
       if (upstreamPayload.input.includes("Curated diagnostic engine contract: flow ID motor|not_start")) diagnosis.possible_causes[0].id = "command_or_permissive";
+      if (upstreamPayload.input.includes("Curated diagnostic engine contract: flow ID valve|not_move")) diagnosis.possible_causes[0].id = "actuator_energy_supply";
       if (mockIntervention) diagnosis.inspection_steps[0].kind = "intervention";
       diagnosis.session_summary.equipment = "مضخة طرد مركزي";
       diagnosis.session_summary.symptom = "ضعف تدفق الماء أثناء التشغيل";
@@ -652,4 +653,62 @@ test("Cloudflare provider normalizes uppercase app schema types to JSON Schema t
   assert.equal(normalized.properties.items.type, "array");
   assert.equal(normalized.properties.items.items.type, "integer");
   assert.deepEqual(normalized.properties.status.enum, ["needs_clarification"]);
+});
+
+
+test("valve curated diagnostic flow rejects a mismatched equipment family", async () => {
+  const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
+    method: "POST",
+    headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
+    body: JSON.stringify({ machine: "industrial motor", symptom: "valve not moving", diagnosticFlowId: "valve|not_move", language: "en" })
+  }), { AI_API_KEY: "test-only-placeholder" });
+  assert.equal(response.status, 400);
+  assert.equal((await response.json()).code, "diagnostic_flow_mismatch");
+});
+
+test("valve curated diagnostic flow rejects evidence IDs outside its server allowlist", async () => {
+  const before = { upstreamCalls, knowledgeCalls };
+  const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
+    method: "POST",
+    headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
+    body: JSON.stringify({
+      machine: "electric valve actuator",
+      symptom: "valve not moving",
+      diagnosticFlowId: "valve|not_move",
+      diagnosticEvidence: ["trip-present"],
+      language: "en"
+    })
+  }), { AI_API_KEY: "test-only-placeholder" });
+  assert.equal(response.status, 400);
+  assert.equal((await response.json()).code, "unknown_diagnostic_evidence");
+  assert.deepEqual({ upstreamCalls, knowledgeCalls }, before);
+});
+
+test("server allowlist and local valve flow share identical hypothesis and evidence IDs", () => {
+  const local = require("../diagnostic-session.js").getFlowContract("valve|not_move");
+  const server = context.__curatedDiagnosticFlows["valve|not_move"];
+  assert.ok(server);
+  assert.deepEqual(Object.keys(server.hypotheses).sort(), local.hypothesisIds.slice().sort());
+  assert.deepEqual(Array.from(server.evidence).sort(), Array.from(local.evidenceIds).sort());
+});
+
+test("valve flow contract is included in the AI prompt and permits only approved cause IDs", async () => {
+  const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
+    method: "POST",
+    headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
+    body: JSON.stringify({
+      machine: "electric valve actuator",
+      symptom: "valve not moving after command",
+      observations: "HMI indicates movement command present, actuator supply fault alarm, and position feedback mismatch; existing alarm history and baseline are available.",
+      measurementStatus: "available",
+      diagnosticFlowId: "valve|not_move",
+      diagnosticEvidence: ["valve-command-present", "valve-supply-fault-indicated", "valve-feedback-mismatch"],
+      language: "en"
+    })
+  }), { AI_API_KEY: "test-only-placeholder" });
+  assert.equal(response.status, 200);
+  const body = await response.json();
+  assert.equal(body.diagnosis.possible_causes[0].id, "actuator_energy_supply");
+  assert.match(upstreamPayload.input, /only authorized hypothesis IDs and meanings are: command_or_interlock = Control command or permissive; actuator_energy_supply = Electrical, pneumatic or hydraulic actuator supply; position_feedback = Position feedback or limit-switch signal; valve_mechanical_or_process = Valve mechanical issue or process conditions/);
+  assert.match(upstreamPayload.input, /valve-supply-fault-indicated = actuator energy supply fault indicated on existing interface/);
 });
