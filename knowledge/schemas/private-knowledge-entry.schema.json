@@ -1,0 +1,196 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://belaggouneseifeddine.github.io/ai-maintenance-toolkit/schemas/private-knowledge-entry.schema.json",
+  "title": "Private Maintenance Knowledge Entry",
+  "description": "Public schema contract only. Do not commit private, copyrighted, confidential, or extracted source content to this repository.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "topic",
+    "statement",
+    "evidence_type",
+    "source",
+    "applicability",
+    "safety",
+    "publication"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]{2,79}$"
+    },
+    "topic": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 120
+    },
+    "statement": {
+      "description": "An original, concise technical statement; do not store copied passages or tables.",
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 1200
+    },
+    "language": {
+      "type": "string",
+      "pattern": "^[a-z]{2,3}(-[A-Z]{2})?$"
+    },
+    "evidence_type": {
+      "type": "string",
+      "enum": ["SOURCE", "INFERENCE", "OEM_REQUIRED"]
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "source_type", "title", "locator", "rights_status"],
+      "properties": {
+        "source_id": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 120
+        },
+        "source_type": {
+          "type": "string",
+          "enum": ["manufacturer_manual", "technical_book", "standard", "field_report", "other"]
+        },
+        "title": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 240
+        },
+        "manufacturer": {
+          "type": "string",
+          "maxLength": 120
+        },
+        "equipment_family": {
+          "type": "string",
+          "maxLength": 120
+        },
+        "model": {
+          "type": "string",
+          "maxLength": 120
+        },
+        "revision": {
+          "type": "string",
+          "maxLength": 80
+        },
+        "locator": {
+          "description": "Private file identifier or stable source locator; do not expose private source paths publicly.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "printed_pages": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "integer", "minimum": 1 },
+          "maxItems": 30
+        },
+        "rights_status": {
+          "type": "string",
+          "enum": ["public_redistribution_permitted", "private_internal_use_only", "permission_pending", "unknown"]
+        }
+      }
+    },
+    "applicability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scope", "limitations"],
+      "properties": {
+        "scope": {
+          "type": "string",
+          "enum": ["general_principle", "equipment_family", "exact_model", "example_only"]
+        },
+        "manufacturer": { "type": "string", "maxLength": 120 },
+        "equipment_family": { "type": "string", "maxLength": 120 },
+        "model": { "type": "string", "maxLength": 120 },
+        "limitations": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 3, "maxLength": 400 },
+          "maxItems": 20
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["hazard_level", "requires_isolation", "prohibited_actions", "qualified_person_required"],
+      "properties": {
+        "hazard_level": {
+          "type": "string",
+          "enum": ["informational", "caution", "high", "critical", "not_assessed"]
+        },
+        "requires_isolation": { "type": "boolean" },
+        "qualified_person_required": { "type": "boolean" },
+        "prohibited_actions": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 3, "maxLength": 240 },
+          "maxItems": 20
+        },
+        "safe_checks_only": { "type": "boolean", "default": true }
+      }
+    },
+    "publication": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["visibility", "diagnostic_eligible"],
+      "properties": {
+        "visibility": {
+          "type": "string",
+          "enum": ["private", "public"]
+        },
+        "diagnostic_eligible": { "type": "boolean" },
+        "review_status": {
+          "type": "string",
+          "enum": ["draft", "review_required", "community_reviewed", "independently_verified", "rejected"]
+        }
+      }
+    },
+    "derived_from": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 3, "maxLength": 120 },
+      "maxItems": 30
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "review_notes": {
+      "type": "string",
+      "maxLength": 1000
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "evidence_type": { "const": "OEM_REQUIRED" } }, "required": ["evidence_type"] },
+      "then": {
+        "properties": {
+          "publication": {
+            "properties": { "diagnostic_eligible": { "const": false } }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "applicability": { "properties": { "scope": { "const": "example_only" } }, "required": ["scope"] } }, "required": ["applicability"] },
+      "then": {
+        "properties": {
+          "publication": {
+            "properties": { "diagnostic_eligible": { "const": false } }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "source": { "properties": { "rights_status": { "enum": ["private_internal_use_only", "permission_pending", "unknown"] } }, "required": ["rights_status"] } }, "required": ["source"] },
+      "then": {
+        "properties": {
+          "publication": {
+            "properties": { "visibility": { "const": "private" } }
+          }
+        }
+      }
+    }
+  ]
+}
