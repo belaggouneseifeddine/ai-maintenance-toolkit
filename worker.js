@@ -27,6 +27,21 @@ const CURATED_DIAGNOSTIC_FLOWS = Object.freeze({
       power_or_mechanical: "Power circuit or mechanical load requiring qualified inspection"
     }),
     evidence: Object.freeze(["no-start-command", "permissive-block", "command-present", "trip-present", "no-trip-indicated"])
+  }),
+  "valve|not_move": Object.freeze({
+    hypotheses: Object.freeze({
+      command_or_interlock: "Control command or permissive",
+      actuator_energy_supply: "Electrical, pneumatic or hydraulic actuator supply",
+      position_feedback: "Position feedback or limit-switch signal",
+      valve_mechanical_or_process: "Valve mechanical issue or process conditions"
+    }),
+    evidence: Object.freeze([
+      "valve-command-absent", "valve-permissive-block", "valve-command-present",
+      "valve-supply-fault-indicated", "valve-supply-normal-indicated",
+      "valve-feedback-mismatch", "valve-limit-signal-fault",
+      "valve-obstruction-alarm", "valve-feedback-consistent",
+      "valve-no-obstruction-indicated"
+    ])
   })
 });
 
@@ -591,7 +606,17 @@ export default {
       "permissive-block": "start permissive not satisfied",
       "command-present": "start command shown",
       "trip-present": "protection or drive trip shown",
-      "no-trip-indicated": "no trip indicated on available interface"
+      "no-trip-indicated": "no trip indicated on available interface",
+      "valve-command-absent": "no valve movement command shown",
+      "valve-permissive-block": "valve movement permissive not satisfied",
+      "valve-command-present": "valve movement command shown",
+      "valve-supply-fault-indicated": "actuator energy supply fault indicated on existing interface",
+      "valve-supply-normal-indicated": "no actuator energy supply fault indicated on existing interface",
+      "valve-feedback-mismatch": "displayed valve position feedback does not match the command",
+      "valve-limit-signal-fault": "limit switch or position sensor alarm shown",
+      "valve-obstruction-alarm": "obstruction or abnormal valve travel alarm shown",
+      "valve-feedback-consistent": "displayed position feedback is consistent with the command",
+      "valve-no-obstruction-indicated": "no obstruction alarm indicated on available interface"
     };
     const curatedEvidenceContext = curatedFlow
       ? diagnosticEvidence.map(id => id + " = " + curatedEvidenceMeanings[id]).join("; ")
@@ -603,11 +628,14 @@ export default {
     const normalizedSymptom = normalizeEvidenceText(symptom);
     const pumpMachine = normalizedMachine.includes("pump") || normalizedMachine.includes("مضخه");
     const motorMachine = normalizedMachine.includes("motor") || normalizedMachine.includes("محرك");
+    const valveMachine = /\\b(valve|actuator|vanne|actionneur)\\b/.test(normalizedMachine) || normalizedMachine.includes("صمام") || normalizedMachine.includes("مشغل");
     const lowFlowSymptom = normalizedSymptom.includes("low flow") || normalizedSymptom.includes("low_flow") || normalizedSymptom.includes("ضعف تدفق") || normalizedSymptom.includes("ضعف التدفق") || normalizedSymptom.includes("faible debit");
     const motorStartSymptom = normalizedSymptom.includes("not start") || normalizedSymptom.includes("not_start") || normalizedSymptom.includes("won't start") || normalizedSymptom.includes("does not start") || normalizedSymptom.includes("لا يبدا") || normalizedSymptom.includes("لا يبدأ") || normalizedSymptom.includes("ne demarre pas");
+    const valveMovementSymptom = /\\b(not move|not moving|no movement|stuck|position mismatch|does not move)\\b/.test(normalizedSymptom) || normalizedSymptom.includes("لا يتحرك") || normalizedSymptom.includes("لا تستجيب") || normalizedSymptom.includes("لا يستجيب") || normalizedSymptom.includes("عالق") || normalizedSymptom.includes("ne bouge pas") || normalizedSymptom.includes("bloque");
     if (diagnosticFlowId && (
       (diagnosticFlowId === "pump|low_flow" && (!pumpMachine || !lowFlowSymptom)) ||
-      (diagnosticFlowId === "motor|not_start" && (!motorMachine || !motorStartSymptom))
+      (diagnosticFlowId === "motor|not_start" && (!motorMachine || !motorStartSymptom)) ||
+      (diagnosticFlowId === "valve|not_move" && (!valveMachine || !valveMovementSymptom))
     )) {
       return json({ error: "Curated flow does not match the equipment and symptom.", code: "diagnostic_flow_mismatch" }, 400, origin);
     }
