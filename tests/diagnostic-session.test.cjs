@@ -151,7 +151,14 @@ test("paint-furnace overheat session updates Bayesian relative support but never
 test("unknown furnace observations do not change relative support scores", () => {
   let s = engine.createSession({equipment:"furnace",symptom:"overheat",language:"ar"});
   const baseline = s.hypotheses.map(h=>[h.id,h.score]);
-  for (const answerId of ["heater-state-unknown","zone-reading-unknown","air-status-unknown"]) {
+  const unknownByQuestion = {
+    heating_state:"heater-state-unknown",
+    zone_temperature_pattern:"zone-reading-unknown",
+    air_system_status:"air-status-unknown"
+  };
+  while (s.nextQuestion) {
+    const answerId = unknownByQuestion[s.nextQuestion.id];
+    assert.ok(answerId, "unexpected follow-up question: " + s.nextQuestion.id);
     const r = engine.answer(s,answerId);
     assert.equal(r.ok,true);
     s = r.session;
