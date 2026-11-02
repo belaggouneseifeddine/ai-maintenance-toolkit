@@ -706,8 +706,8 @@ test("valve flow contract is included in the AI prompt and permits only approved
       language: "en"
     })
   }), { AI_API_KEY: "test-only-placeholder" });
-  assert.equal(response.status, 200);
   const body = await response.json();
+  assert.equal(response.status, 200, JSON.stringify(body));
   assert.equal(body.diagnosis.possible_causes[0].id, "actuator_energy_supply");
   assert.match(upstreamPayload.input, /only authorized hypothesis IDs and meanings are: command_or_interlock = Control command or permissive; actuator_energy_supply = Electrical, pneumatic or hydraulic actuator supply; position_feedback = Position feedback or limit-switch signal; valve_mechanical_or_process = Valve mechanical issue or process conditions/);
   assert.match(upstreamPayload.input, /valve-supply-fault-indicated = actuator energy supply fault indicated on existing interface/);
