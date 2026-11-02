@@ -125,7 +125,13 @@ test("valve no-movement flow starts with structured evidence collection", () => 
 
 test("valve flow distinguishes control, supply, feedback and mechanical hypotheses", () => {
   let s=engine.createSession({equipment:"valve",symptom:"not_move",language:"en"});
-  for (const answer of ["valve-command-present","valve-supply-fault-indicated","valve-feedback-mismatch"]) {
+  const answersByQuestion = {
+    "valve-control-state": "valve-command-present",
+    "valve-actuator-supply": "valve-supply-fault-indicated",
+    "valve-position-feedback": "valve-feedback-mismatch"
+  };
+  while (s.nextQuestion) {
+    const answer = answersByQuestion[s.nextQuestion.id] || "unknown";
     const result=engine.answer(s,answer);
     assert.equal(result.ok,true);
     s=result.session;
