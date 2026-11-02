@@ -70,7 +70,7 @@
         {id:"valve-position-feedback",text:{ar:"هل تتوافق إشارة الموضع المعروضة مع الأمر، وهل يوجد إنذار نهاية مشوار أو عائق؟",en:"Does displayed position feedback agree with the command, and is any limit or obstruction alarm present?",fr:"Le retour de position affiché correspond-il à l’ordre, et existe-t-il une alarme de fin de course ou d’obstruction ?"},options:[
           {id:"valve-feedback-mismatch",label:{ar:"إشارة الموضع لا تتوافق مع الأمر",en:"Position feedback does not match the command",fr:"Le retour de position ne correspond pas à l’ordre"},evidence:["valve-feedback-mismatch"]},
           {id:"valve-limit-signal-fault",label:{ar:"يوجد إنذار حساس أو نهاية مشوار",en:"A sensor or limit-switch alarm is present",fr:"Une alarme de capteur ou de fin de course est présente"},evidence:["valve-limit-signal-fault"]},
-          {id:"valve-obstruction-alarm",label:{ar:"يوجد إنذار عائق أو حركة غير طبيعية",en:"An obstruction or abnormal-travel alarm is present",fr:"Une alarme d’obstruction ou de course anormale est présente"},evidence:["valve-obstruction-alarm"]},
+          {id:"valve-obstruction-alarm",label:{ar:"يوجد إنذار عائق أو حركة غير طبيعية",en:"An obstruction or abnormal-travel alarm is present",fr:"Une alarme d’obstruction ou de course anormale est présente"},evidence:["valve-obstruction-alarm","valve-travel-abnormal"]},
           {id:"valve-feedback-consistent",label:{ar:"إشارة الموضع متوافقة ولا يظهر إنذار",en:"Feedback is consistent and no alarm is shown",fr:"Le retour est cohérent et aucune alarme n’est affichée"},evidence:["valve-feedback-consistent","valve-no-obstruction-indicated"]},
           {id:"unknown",label:{ar:"غير معروف",en:"Unknown",fr:"Inconnu"},evidence:[]}
         ]}
