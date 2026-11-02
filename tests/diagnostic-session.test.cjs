@@ -165,3 +165,21 @@ test("UI resolver maps Arabic, English and French valve/actuator phrases to the 
   assert.equal(ui.resolveFlowKey("pump","low flow"),"pump|low_flow");
   assert.equal(ui.resolveFlowKey("unknown","unknown"),"");
 });
+
+
+test("valve abnormal-travel answer emits every evidence ID used by its hypothesis", () => {
+  let s=engine.createSession({equipment:"valve",symptom:"not_move",language:"en"});
+  const answersByQuestion = {
+    "valve-control-state": "unknown",
+    "valve-actuator-supply": "unknown",
+    "valve-position-feedback": "valve-obstruction-alarm"
+  };
+  while (s.nextQuestion) {
+    const result=engine.answer(s,answersByQuestion[s.nextQuestion.id] || "unknown");
+    assert.equal(result.ok,true);
+    s=result.session;
+  }
+  const mechanical=s.hypotheses.find(h=>h.id==="valve_mechanical_or_process");
+  assert.ok(mechanical.supportingEvidence.includes("valve-obstruction-alarm"));
+  assert.ok(mechanical.supportingEvidence.includes("valve-travel-abnormal"));
+});
