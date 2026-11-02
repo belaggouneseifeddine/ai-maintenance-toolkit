@@ -216,3 +216,45 @@ test("free UI simulation renders a labelled placeholder without network calls", 
     }
   }
 });
+
+test("cloud AI consent guidance is fully localized in Arabic, French, and English", async () => {
+  const previous = {
+    document: global.document,
+    fetch: global.fetch,
+    MaintenanceI18n: global.MaintenanceI18n
+  };
+  const elements = {
+    aiResult: { hidden: true, textContent: "" },
+    askCloudAI: { disabled: false, textContent: "" },
+    aiCloudConsent: { checked: false },
+    aiMachine: { value: "pump" },
+    aiSymptom: { value: "low flow" }
+  };
+  const cases = [
+    { language: "en", expected: /configured AI service/i },
+    { language: "fr", expected: /service d’IA configuré/i },
+    { language: "ar", expected: /مزود الذكاء الاصطناعي المحدد/ }
+  ];
+  let calls = 0;
+  try {
+    global.document = {
+      documentElement: { lang: "en" },
+      getElementById: id => elements[id] || null
+    };
+    global.fetch = async () => { calls++; throw new Error("consent is absent"); };
+    for (const item of cases) {
+      global.MaintenanceI18n = { getLanguage: () => item.language };
+      elements.aiResult.textContent = "";
+      await ui.runCloudAI();
+      assert.match(elements.aiResult.textContent, item.expected);
+      assert.doesNotMatch(elements.aiResult.textContent, /configured AI provider/i);
+    }
+    assert.equal(calls, 0);
+  } finally {
+    for (const [key, value] of Object.entries(previous)) {
+      if (value === undefined) delete global[key];
+      else global[key] = value;
+    }
+  }
+});
+
