@@ -26,6 +26,10 @@
         /not start|won.t start|لا تبدأ|لا يعمل|لا تعمل|ne démarre pas/.test(symptom)) {
       return "motor|not_start";
     }
+    if (/furnace|oven|paint oven|curing oven|فرن|أفران|four|étuve/.test(machine) &&
+        /over.?heat|over.?temperature|high temperature|temperature high|حرارة.*مرتفعة|ارتفاع.*الحرارة|سخونة.*الفرن|four.*surchauffe|surchauffe|température élevée/.test(symptom)) {
+      return "furnace|overheat";
+    }
     return "";
   }
 
