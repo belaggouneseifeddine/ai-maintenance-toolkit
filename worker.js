@@ -39,7 +39,7 @@ const CURATED_DIAGNOSTIC_FLOWS = Object.freeze({
       "valve-command-absent", "valve-permissive-block", "valve-command-present",
       "valve-supply-fault-indicated", "valve-supply-normal-indicated",
       "valve-feedback-mismatch", "valve-limit-signal-fault",
-      "valve-obstruction-alarm", "valve-feedback-consistent",
+      "valve-obstruction-alarm", "valve-travel-abnormal", "valve-feedback-consistent",
       "valve-no-obstruction-indicated"
     ])
   })
@@ -614,7 +614,8 @@ export default {
       "valve-supply-normal-indicated": "no actuator energy supply fault indicated on existing interface",
       "valve-feedback-mismatch": "displayed valve position feedback does not match the command",
       "valve-limit-signal-fault": "limit switch or position sensor alarm shown",
-      "valve-obstruction-alarm": "obstruction or abnormal valve travel alarm shown",
+      "valve-obstruction-alarm": "obstruction alarm shown",
+      "valve-travel-abnormal": "abnormal valve travel indicated",
       "valve-feedback-consistent": "displayed position feedback is consistent with the command",
       "valve-no-obstruction-indicated": "no obstruction alarm indicated on available interface"
     };
