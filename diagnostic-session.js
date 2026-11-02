@@ -46,8 +46,43 @@
         ]}
       ]
     }
-  };
-  function textFor(value, language) { return value && (value[language] || value.en || value.ar) || ""; }
+  ,
+    "furnace|overheat": {
+      equipment:"furnace", symptom:"overheat",
+      hypotheses:[
+        {id:"temperature_measurement_or_sensor",label:{ar:"خلل في قياس الحرارة أو حساس المنطقة",en:"Temperature measurement or zone sensor fault",fr:"Défaut de mesure ou de sonde de zone"},evidenceFor:["zone-reading-implausible","zone-reading-unstable","zone-reading-disagreement"],evidenceAgainst:["zone-readings-consistent"],checks:[
+          {ar:"قارن قراءة كل منطقة مع نقطة الضبط وسجل التشغيل، مع تدوين الوحدة ومكان الحساس. لا تعتمد على رقم منفرد دون معرفة ما إذا كان PV أو SP.",en:"Compare each zone reading with its setpoint and operating log; record units and sensor location. Do not interpret a number until PV versus SP is known.",fr:"Comparez chaque zone à sa consigne et à l’historique; notez l’unité et l’emplacement de la sonde. Ne confondez pas PV et SP."},
+          {ar:"بعد العزل والتبريد ووفق إجراء المصنع، اطلب من فني مؤهل فحص الحساس والتوصيلات ومقارنة القياس بأداة معايرة مناسبة.",en:"After isolation and cooldown, have a qualified technician inspect the sensor and wiring and compare against a suitable calibrated instrument.",fr:"Après consignation et refroidissement, faites contrôler la sonde et le câblage par une personne qualifiée avec un instrument étalonné adapté."}
+        ]},
+        {id:"heater_output_stuck_on",label:{ar:"استمرار خرج التسخين رغم أمر الإيقاف أو بلوغ الضبط",en:"Heating output remains energized despite stop or setpoint",fr:"La chauffe reste alimentée malgré l’arrêt ou la consigne"},evidenceFor:["heat-continues-after-stop","zone-rises-above-setpoint","heater-output-indicated-on"],evidenceAgainst:["heating-cutoff-indicated"],checks:[
+          {ar:"راجع سجل الحالة ومؤشر خرج التسخين على HMI فقط؛ لا تفتح لوحة كهربائية حية ولا تختبر الكونتاكتور أو SSR تحت الجهد.",en:"Review event history and the HMI heating-output indication only; do not open a live electrical panel or test a contactor/SSR energized.",fr:"Consultez uniquement l’historique et l’indication de sortie de chauffe sur HMI; n’ouvrez pas une armoire sous tension."},
+          {ar:"بعد العزل والتحقق من انعدام الطاقة، يفحص كهربائي مؤهل SSR/Contactor ودائرة التحكم وفق مخطط الطراز.",en:"After isolation and verification of absence of energy, a qualified electrician should inspect the SSR/contactor and control circuit against the model schematic.",fr:"Après consignation et vérification d’absence d’énergie, un électricien qualifié contrôle le SSR/contacteur et la commande selon le schéma du modèle."}
+        ]},
+        {id:"air_circulation_or_exhaust",label:{ar:"خلل دوران الهواء أو التهوية/العادم",en:"Air circulation or exhaust/ventilation fault",fr:"Défaut de circulation d’air ou d’extraction"},evidenceFor:["circulation-fan-alarm","exhaust-airflow-alarm","airflow-interlock-open"],evidenceAgainst:["airflow-status-normal"],checks:[
+          {ar:"راجع حالة مراوح التدوير والعادم وإنذارات تدفق الهواء أو interlocks الظاهرة على الشاشة؛ لا تفتح الأغطية أثناء التشغيل.",en:"Review circulation/exhaust fan status and any airflow or interlock alarms shown on the HMI; do not open covers while running.",fr:"Vérifiez sur l’HMI l’état des ventilateurs, de l’extraction et des alarmes de débit ou interverrouillage; n’ouvrez pas les capots en marche."},
+          {ar:"في أفران الطلاء، لا تتجاوز أي interlock للتهوية أو العادم؛ قد تتراكم أبخرة قابلة للاشتعال. اتبع إجراء الطوارئ ومصنع الفرن.",en:"On paint ovens, never bypass ventilation or exhaust interlocks; flammable vapours may accumulate. Follow the oven maker's and site emergency procedures.",fr:"Sur un four de peinture, ne shuntez jamais les interverrouillages de ventilation/extraction; des vapeurs inflammables peuvent s’accumuler."}
+        ]}
+      ],
+      questions:[
+        {id:"heating_state",text:{ar:"بحسب مؤشرات الشاشة فقط، ماذا حدث لخرج التسخين بعد ظهور إنذار Over Heat؟",en:"Based only on the display, what happened to the heating output after the Over Heat alarm?",fr:"D’après l’écran uniquement, que montre la sortie de chauffe après l’alarme Over Heat ?"},options:[
+          {id:"heat-continues-after-stop",label:{ar:"يظهر أن التسخين مستمر رغم الإنذار/أمر الإيقاف",en:"Heating appears to continue despite alarm/stop command",fr:"La chauffe semble continuer malgré l’alarme/l’arrêt"},evidence:["heat-continues-after-stop"]},
+          {id:"heating-cutoff-indicated",label:{ar:"تظهر الشاشة أن التسخين فُصل",en:"Display indicates heating was cut off",fr:"L’écran indique que la chauffe a été coupée"},evidence:["heating-cutoff-indicated"]},
+          {id:"heater-state-unknown",label:{ar:"لا يظهر ذلك أو لا أعرف",en:"Not shown / unknown",fr:"Non affiché / inconnu"},evidence:[]}
+        ]},
+        {id:"zone_temperature_pattern",text:{ar:"ما نمط قراءات المناطق (Zones) مقارنة بنقاط الضبط؟ لا تخمّن إذا لم تكن القيم واضحة.",en:"How do the zone readings compare with their setpoints? Do not guess if the values are unclear.",fr:"Comment les mesures des zones se comparent-elles aux consignes ? Ne devinez pas si les valeurs sont ambiguës."},options:[
+          {id:"zone-rises-above-setpoint",label:{ar:"منطقة واحدة أو أكثر أعلى من نقطة الضبط",en:"One or more zones are above setpoint",fr:"Une ou plusieurs zones dépassent la consigne"},evidence:["zone-rises-above-setpoint"]},
+          {id:"zone-reading-implausible",label:{ar:"قراءة غير منطقية أو لا تتوافق مع سجل التشغيل",en:"A reading is implausible or conflicts with the operating log",fr:"Une mesure est incohérente ou contredit l’historique"},evidence:["zone-reading-implausible"]},
+          {id:"zone-readings-consistent",label:{ar:"القراءات متقاربة ومتسقة مع السجل",en:"Readings are consistent with the log",fr:"Les mesures sont cohérentes avec l’historique"},evidence:["zone-readings-consistent"]},
+          {id:"zone-reading-unknown",label:{ar:"لا أعرف؛ أحتاج توضيح PV وSP والوحدات",en:"Unknown; PV, SP, or units need clarification",fr:"Inconnu; PV, SP ou unités à clarifier"},evidence:[]}
+        ]},
+        {id:"air_system_status",text:{ar:"ما حالة مراوح تدوير الهواء والعادم وإنذارات تدفق الهواء كما تظهر على الشاشة؟",en:"What do the display indicators show for circulation fans, exhaust, and airflow alarms?",fr:"Que montrent les indicateurs des ventilateurs, de l’extraction et du débit d’air ?"},options:[
+          {id:"circulation-fan-alarm",label:{ar:"إنذار مروحة تدوير الهواء",en:"Circulation fan alarm",fr:"Alarme ventilateur de circulation"},evidence:["circulation-fan-alarm"]},
+          {id:"exhaust-airflow-alarm",label:{ar:"إنذار عادم أو تدفق هواء",en:"Exhaust or airflow alarm",fr:"Alarme d’extraction ou de débit d’air"},evidence:["exhaust-airflow-alarm"]},
+          {id:"airflow-status-normal",label:{ar:"الحالة طبيعية حسب المؤشرات",en:"Indicators show normal status",fr:"Les indicateurs montrent un état normal"},evidence:["airflow-status-normal"]},
+          {id:"air-status-unknown",label:{ar:"لا توجد معلومات ظاهرة",en:"No status information shown",fr:"Aucune information affichée"},evidence:[]}
+        ]}
+      ]
+    }\n  };\n  function textFor(value, language) { return value && (value[language] || value.en || value.ar) || ""; }
   // Rank unanswered questions by pairwise hypothesis separation.
   // This is an equal-outcome heuristic, not Bayesian expected information gain:
   // no empirical answer frequencies are available for these curated flows.
