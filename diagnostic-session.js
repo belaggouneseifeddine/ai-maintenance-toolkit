@@ -45,8 +45,7 @@
           {id:"unknown",label:{ar:"غير معروف",en:"Unknown",fr:"Inconnu"},evidence:[]}
         ]}
       ]
-    }
-  ,
+    },
     "furnace|overheat": {
       equipment:"furnace", symptom:"overheat",
       hypotheses:[
