@@ -703,9 +703,9 @@ test("valve flow contract is included in the AI prompt and permits only approved
       measurementStatus: "available",
       diagnosticFlowId: "valve|not_move",
       diagnosticEvidence: ["valve-command-present", "valve-supply-fault-indicated", "valve-feedback-mismatch"],
-      language: "en"
+      language: "ar"
     })
-  }), { AI_API_KEY: "test-only-placeholder", AI_DIAGNOSTICS_DEBUG: "true" });
+  }), { AI_API_KEY: "test-only-placeholder" });
   const body = await response.json();
   assert.equal(response.status, 200, JSON.stringify(body));
   assert.equal(body.diagnosis.possible_causes[0].id, "actuator_energy_supply");
