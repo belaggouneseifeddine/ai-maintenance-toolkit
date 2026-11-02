@@ -81,7 +81,9 @@
           {id:"air-status-unknown",label:{ar:"لا توجد معلومات ظاهرة",en:"No status information shown",fr:"Aucune information affichée"},evidence:[]}
         ]}
       ]
-    }\n  };\n  function textFor(value, language) { return value && (value[language] || value.en || value.ar) || ""; }
+    }
+  };
+  function textFor(value, language) { return value && (value[language] || value.en || value.ar) || ""; }
   // Rank unanswered questions by pairwise hypothesis separation.
   // This is an equal-outcome heuristic, not Bayesian expected information gain:
   // no empirical answer frequencies are available for these curated flows.
