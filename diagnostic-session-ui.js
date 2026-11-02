@@ -73,6 +73,23 @@
     if (!panel || !status || !question || !select || !button || !hypotheses) return;
 
     const progress = ensureProgress(panel);
+    let safetyNotice = $("dynamicSessionSafetyNotice");
+    if (!safetyNotice) {
+      safetyNotice = root.document.createElement("div");
+      safetyNotice.id = "dynamicSessionSafetyNotice";
+      safetyNotice.className = "notice";
+      safetyNotice.setAttribute("role", "alert");
+      panel.insertBefore(safetyNotice, question);
+    }
+    const furnaceOverheat = !!(session && session.flowId === "furnace|overheat");
+    safetyNotice.hidden = !furnaceOverheat;
+    if (furnaceOverheat) {
+      safetyNotice.textContent = copy(
+        "سلامة أولاً: لا تضغط OK لمجرد مسح الإنذار، ولا تعاود التشغيل أو تتجاوز أي interlock. اتبع إجراء الإيقاف والطوارئ بالموقع إذا استمر ارتفاع الحرارة أو ظهرت علامات خطر. لا تفتح الفرن أو اللوحات؛ أفران الطلاء قد تتضمن أبخرة قابلة للاشتعال.",
+        "Safety first: do not press OK merely to clear the alarm, restart the oven, or bypass any interlock. Follow the site's shutdown/emergency procedure if overheating continues or danger signs appear. Do not open the oven or electrical panels; paint ovens may involve flammable vapours.",
+        "Sécurité d’abord : n’appuyez pas sur OK uniquement pour effacer l’alarme, ne redémarrez pas le four et ne shuntez aucun interverrouillage. Suivez la procédure d’arrêt/d’urgence du site si la surchauffe persiste. N’ouvrez ni le four ni les armoires électriques; des vapeurs inflammables peuvent être présentes."
+      );
+    }
     select.replaceChildren();
     hypotheses.replaceChildren();
 
