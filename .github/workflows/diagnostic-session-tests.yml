@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - feature/dynamic-diagnostic-agent-knowledge-v1
+      - feature/valve-actuator-diagnostic-flow-2026-11-02
   pull_request:
     branches:
       - main
