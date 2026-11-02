@@ -110,3 +110,58 @@ test("multiple signals from one answer are grouped as one observation node", () 
   assert.equal(power.evidenceGroupsUsed,1);
   assert.equal(protection.score,power.score);
 });
+
+
+test("paint-furnace overheat flow is curated, localized, and starts with evidence collection", () => {
+  assert.ok(engine.availableFlows.includes("furnace|overheat"));
+  const s = engine.createSession({equipment:"furnace",symptom:"overheat",language:"en"});
+  assert.equal(s.ok,true);
+  assert.equal(s.status,"collecting_evidence");
+  assert.equal(s.nextQuestion.id,"heating_state");
+  assert.equal(s.hypotheses.length,3);
+  assert.ok(s.hypotheses.every(h=>h.reasoningModel==="qualitative_bn_v1"));
+  const fr = engine.createSession({equipment:"furnace",symptom:"overheat",language:"fr"});
+  assert.match(fr.nextQuestion.text,/sortie de chauffe/i);
+});
+
+test("paint-furnace overheat session updates Bayesian relative support but never confirms cause", () => {
+  let s = engine.createSession({equipment:"furnace",symptom:"overheat",language:"en"});
+  let r = engine.answer(s,"heat-continues-after-stop");
+  assert.equal(r.ok,true);
+  s = r.session;
+  assert.equal(s.hypotheses[0].id,"heater_output_stuck_on");
+  assert.equal(s.hypotheses[0].reasoningModel,"qualitative_bn_v1");
+
+  const answers = {
+    zone_temperature_pattern:"zone-rises-above-setpoint",
+    air_system_status:"airflow-status-normal"
+  };
+  while (s.nextQuestion) {
+    const answerId = answers[s.nextQuestion.id];
+    assert.ok(answerId, "unexpected follow-up question: " + s.nextQuestion.id);
+    r = engine.answer(s,answerId);
+    assert.equal(r.ok,true);
+    s = r.session;
+  }
+  assert.equal(s.status,"evidence_review");
+  assert.equal(s.summary.confirmedCause,"");
+  assert.equal(s.summary.requiresMoreEvidence,true);
+});
+
+test("unknown furnace observations do not change relative support scores", () => {
+  let s = engine.createSession({equipment:"furnace",symptom:"overheat",language:"ar"});
+  const baseline = s.hypotheses.map(h=>[h.id,h.score]);
+  for (const answerId of ["heater-state-unknown","zone-reading-unknown","air-status-unknown"]) {
+    const r = engine.answer(s,answerId);
+    assert.equal(r.ok,true);
+    s = r.session;
+  }
+  assert.deepEqual(s.hypotheses.map(h=>[h.id,h.score]),baseline);
+  assert.equal(s.summary.confirmedCause,"");
+});
+
+test("unsupported furnace symptoms do not invent a diagnostic flow", () => {
+  const s = engine.createSession({equipment:"furnace",symptom:"vibration",language:"en"});
+  assert.equal(s.ok,false);
+  assert.equal(s.code,"flow_not_curated");
+});
