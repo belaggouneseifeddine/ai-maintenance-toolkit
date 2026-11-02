@@ -629,10 +629,10 @@ export default {
     const normalizedSymptom = normalizeEvidenceText(symptom);
     const pumpMachine = normalizedMachine.includes("pump") || normalizedMachine.includes("مضخه");
     const motorMachine = normalizedMachine.includes("motor") || normalizedMachine.includes("محرك");
-    const valveMachine = /\b(valve|actuator|vanne|actionneur)\\b/.test(normalizedMachine) || normalizedMachine.includes("صمام") || normalizedMachine.includes("مشغل");
+    const valveMachine = /\b(valve|actuator|vanne|actionneur)\b/.test(normalizedMachine) || normalizedMachine.includes("صمام") || normalizedMachine.includes("مشغل");
     const lowFlowSymptom = normalizedSymptom.includes("low flow") || normalizedSymptom.includes("low_flow") || normalizedSymptom.includes("ضعف تدفق") || normalizedSymptom.includes("ضعف التدفق") || normalizedSymptom.includes("faible debit");
     const motorStartSymptom = normalizedSymptom.includes("not start") || normalizedSymptom.includes("not_start") || normalizedSymptom.includes("won't start") || normalizedSymptom.includes("does not start") || normalizedSymptom.includes("لا يبدا") || normalizedSymptom.includes("لا يبدأ") || normalizedSymptom.includes("ne demarre pas");
-    const valveMovementSymptom = /\b(not move|not moving|no movement|stuck|position mismatch|does not move)\\b/.test(normalizedSymptom) || normalizedSymptom.includes("لا يتحرك") || normalizedSymptom.includes("لا تستجيب") || normalizedSymptom.includes("لا يستجيب") || normalizedSymptom.includes("عالق") || normalizedSymptom.includes("ne bouge pas") || normalizedSymptom.includes("bloque");
+    const valveMovementSymptom = /\b(not move|not moving|no movement|stuck|position mismatch|does not move)\b/.test(normalizedSymptom) || normalizedSymptom.includes("لا يتحرك") || normalizedSymptom.includes("لا تستجيب") || normalizedSymptom.includes("لا يستجيب") || normalizedSymptom.includes("عالق") || normalizedSymptom.includes("ne bouge pas") || normalizedSymptom.includes("bloque");
     if (diagnosticFlowId && (
       (diagnosticFlowId === "pump|low_flow" && (!pumpMachine || !lowFlowSymptom)) ||
       (diagnosticFlowId === "motor|not_start" && (!motorMachine || !motorStartSymptom)) ||
