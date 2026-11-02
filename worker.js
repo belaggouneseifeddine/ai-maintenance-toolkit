@@ -27,6 +27,18 @@ const CURATED_DIAGNOSTIC_FLOWS = Object.freeze({
       power_or_mechanical: "Power circuit or mechanical load requiring qualified inspection"
     }),
     evidence: Object.freeze(["no-start-command", "permissive-block", "command-present", "trip-present", "no-trip-indicated"])
+  }),
+  "furnace|overheat": Object.freeze({
+    hypotheses: Object.freeze({
+      temperature_measurement_or_sensor: "Temperature measurement or zone sensor fault",
+      heater_output_stuck_on: "Heating output remains energized despite stop or setpoint",
+      air_circulation_or_exhaust: "Air circulation or exhaust/ventilation fault"
+    }),
+    evidence: Object.freeze([
+      "zone-reading-implausible", "zone-reading-unstable", "zone-reading-disagreement", "zone-readings-consistent",
+      "heat-continues-after-stop", "zone-rises-above-setpoint", "heater-output-indicated-on", "heating-cutoff-indicated",
+      "circulation-fan-alarm", "exhaust-airflow-alarm", "airflow-interlock-open", "airflow-status-normal"
+    ])
   })
 });
 
