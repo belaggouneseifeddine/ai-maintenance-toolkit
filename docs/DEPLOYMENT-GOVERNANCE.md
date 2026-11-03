@@ -13,7 +13,7 @@ Production publishing and live AI-provider requests must be explicit, human-trig
 - `.github/workflows/deploy-worker.yml`: production Worker deployment is manual-only through `workflow_dispatch`.
 - `.github/workflows/live-ai-provider-smoke.yml`: a real model request is manual-only. It no longer runs automatically after Worker deployment because it may consume provider quota or paid usage.
 
-Staging workflows are not changed by this proposal. The three deployment workflows and the primary test workflow now use Node.js 24 instead of Node.js 20/22. Node.js 20 reached end of life on 2026-04-30; other test workflows that already use supported Node.js 22 are left unchanged for now.
+Staging workflows are not changed by this proposal. The three deployment workflows and the primary test workflow now use Node.js 24, with `actions/checkout@v5` and `actions/setup-node@v5` (the Node 24-compatible releases). Node.js 20 reached end of life on 2026-04-30; other test workflows that already use supported Node.js 22 are left unchanged for now.
 
 ## Operational boundaries
 
