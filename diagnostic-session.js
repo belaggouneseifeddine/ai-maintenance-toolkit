@@ -88,12 +88,35 @@
       return { question, score, index };
     }).sort((a, b) => b.score - a.score || a.index - b.index)[0].question;
   }
+  function createRegistrySession(key, flow, language) {
+    if (!flow || !flow.question || !flow.question.id || typeof flow.question.text !== "string" ||
+        !Array.isArray(flow.answers) || flow.answers.length < 2 ||
+        flow.answers.some(answer => !answer || !answer.id || typeof answer.label !== "string" || typeof answer.guidance !== "string")) {
+      return {ok:false, code:"invalid_registry_flow", message:"The curated flow definition is incomplete."};
+    }
+    return {
+      ok:true, version:VERSION, flowId:key, flowMode:"registry_single_step",
+      equipment:flow.equipmentId, symptom:flow.symptomId, language,
+      evidence:[], answeredQuestionIds:[], status:"collecting_evidence",
+      nextQuestion:{id:flow.question.id,text:flow.question.text,options:flow.answers.map(answer=>({id:answer.id,label:answer.label}))},
+      hypotheses:[],
+      limitations:["This is a single-step curated check, not a ranked hypothesis model.","No likelihoods or calibrated probabilities are inferred.","The selected guidance does not confirm a root cause."]
+    };
+  }
+
   function createSession(input) {
     input = input || {};
     const key = String(input.equipment || "") + "|" + String(input.symptom || "");
-    const flow = FLOWS[key];
-    if (!flow) return {ok:false, code:"flow_not_curated", message:"No curated dynamic flow is available for this equipment/symptom pair. Collect more information or use the general knowledge route; do not guess."};
     const language = ["ar","en","fr"].includes(input.language) ? input.language : "ar";
+    const flow = FLOWS[key];
+    if (!flow) {
+      const registryFlow = root.MAINTENANCE_DIAGNOSTIC_FLOWS &&
+        root.MAINTENANCE_DIAGNOSTIC_FLOWS.flows &&
+        root.MAINTENANCE_DIAGNOSTIC_FLOWS.flows[key];
+      if (!registryFlow) return {ok:false, code:"flow_not_curated", message:"No curated dynamic flow is available for this equipment/symptom pair. Collect more information or use the general knowledge route; do not guess."};
+      if (language !== "ar") return {ok:false, code:"flow_translation_pending", message:"This curated check is currently available in Arabic only. Switch to Arabic rather than relying on an unreviewed translation."};
+      return createRegistrySession(key, registryFlow, language);
+    }
     return {ok:true, version:VERSION, flowId:key, equipment:flow.equipment, symptom:flow.symptom, language, evidence:[], answeredQuestionIds:[], status:"collecting_evidence", nextQuestion:questionView(flow.questions[0],language), hypotheses:rank(flow,[],language), limitations:["This is a heuristic evidence ranking, not a calibrated probability.","Unknown answers do not count for or against a hypothesis.","No cause is confirmed by this session alone."]};
   }
   function questionView(question, language) {
@@ -142,6 +165,22 @@
   }
   function answer(session, answerId) {
     if (!session || session.ok !== true || session.status !== "collecting_evidence") return {ok:false,code:"invalid_session"};
+    if (session.flowMode === "registry_single_step") {
+      const flow = root.MAINTENANCE_DIAGNOSTIC_FLOWS &&
+        root.MAINTENANCE_DIAGNOSTIC_FLOWS.flows &&
+        root.MAINTENANCE_DIAGNOSTIC_FLOWS.flows[session.flowId];
+      if (!flow || !session.nextQuestion || session.nextQuestion.id !== flow.question.id) return {ok:false,code:"flow_not_curated"};
+      const option = flow.answers.find(answer => answer.id === answerId);
+      if (!option) return {ok:false,code:"invalid_answer"};
+      const evidence = session.evidence.concat([{questionId:flow.question.id,answerId:option.id,evidence:[]}]);
+      const updated = {
+        ...session, evidence, answeredQuestionIds:session.answeredQuestionIds.concat([flow.question.id]),
+        status:"evidence_review", nextQuestion:null,
+        selectedAnswer:{id:option.id,label:option.label,guidance:option.guidance},
+        summary:{message:"تم تسجيل الملاحظة. الإرشاد التالي مرتبط بالإجابة المختارة فقط ولا يثبت سبب العطل.",confirmedCause:"",requiresMoreEvidence:true}
+      };
+      return {ok:true,session:updated};
+    }
     const flow=FLOWS[session.flowId]; if(!flow) return {ok:false,code:"flow_not_curated"};
     const next=session.nextQuestion ? flow.questions.find(q=>q.id===session.nextQuestion.id) : null;
     if(!next) return {ok:false,code:"no_question_pending"};
