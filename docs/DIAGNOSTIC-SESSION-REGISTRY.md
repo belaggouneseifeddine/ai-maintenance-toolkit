@@ -2,12 +2,13 @@
 
 ## Scope
 
-The browser loads `diagnostic-flows.js` before `diagnostic-session.js`. The shared registry currently contains 11 equipment/symptom definitions.
+The browser loads `diagnostic-flows.js` before `diagnostic-session.js`. The shared registry currently contains 12 equipment/symptom definitions.
 
 The adaptive session engine continues to own the two multi-question hypothesis workflows:
 
 - `pump|low_flow`
 - `motor|not_start`
+- `compressor|low_pressure`
 
 For the other nine registry entries, the session engine now exposes a bounded single-step guided check using the registry's existing question, answer labels, and answer-specific guidance.
 
