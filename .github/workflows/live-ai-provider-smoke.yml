@@ -1,18 +1,14 @@
 name: Live Worker AI provider smoke test
 
 on:
+  # This sends a real model request and may consume provider quota.
   workflow_dispatch:
-  workflow_run:
-    workflows: ["Deploy Maintenance AI Toolkit API"]
-    types: [completed]
-    branches: [main]
 
 permissions:
   contents: read
 
 jobs:
   live-ai-provider-request:
-    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 3
     steps:
