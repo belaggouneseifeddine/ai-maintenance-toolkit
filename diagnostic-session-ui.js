@@ -145,7 +145,9 @@
     const heading = root.document.createElement("h4");
     heading.className = "hypotheses-heading";
     heading.textContent = session.flowMode === "registry_single_step"
-      ? copy("الإجابة المسجلة والإرشاد المرتبط بها", "Recorded answer and related guidance", "Réponse enregistrée et consigne associée")
+      ? (session.selectedAnswer
+        ? copy("الإجابة المسجلة والإرشاد المرتبط بها", "Recorded answer and related guidance", "Réponse enregistrée et consigne associée")
+        : copy("المسار الموجّه", "Guided check", "Contrôle guidé"))
       : copy("الفرضيات الحالية", "Current hypotheses", "Hypothèses actuelles");
     hypotheses.appendChild(heading);
     if (session.selectedAnswer) {
