@@ -34,7 +34,7 @@ const CURATED_DIAGNOSTIC_FLOWS = Object.freeze({
       distribution_leak_or_demand: "Distribution network, leakage, or changed demand",
       air_treatment_restriction: "Filter or air-treatment restriction"
     }),
-    evidence: Object.freeze(["compressor-outlet-low", "outlet-normal-point-low", "pressures-similar", "unloaded-or-trip", "compressor-control-abnormal", "loaded-no-trip", "treatment-dp-high", "filter-alert", "dryer-restriction", "treatment-indicators-normal"])
+    evidence: Object.freeze(["compressor-outlet-low", "outlet-normal-point-low", "outlet-normal", "pressures-similar", "unloaded-or-trip", "compressor-control-abnormal", "loaded-no-trip", "demand-high", "demand-baseline", "leak-indicated", "treatment-dp-high", "filter-alert", "dryer-restriction", "treatment-indicators-normal"])
   })
 });
 
@@ -602,6 +602,10 @@ export default {
       "no-trip-indicated": "no trip indicated on available interface",
       "compressor-outlet-low": "compressor outlet pressure low",
       "outlet-normal-point-low": "compressor outlet normal but point-of-use pressure low",
+      "outlet-normal": "compressor outlet pressure normal against baseline",
+      "demand-high": "operating demand above baseline",
+      "demand-baseline": "operating demand remains at baseline",
+      "leak-indicated": "external leak indication observed from a safe location",
       "pressures-similar": "no clear pressure difference between available points",
       "unloaded-or-trip": "compressor unloaded or trip/alarm present",
       "compressor-control-abnormal": "compressor control state or sequence appears abnormal",
