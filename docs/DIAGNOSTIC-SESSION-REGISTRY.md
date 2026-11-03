@@ -22,9 +22,9 @@ The existing adaptive pump and motor flows retain their current evidence ranking
 
 ## Language boundary
 
-The current registry question, answer, and guidance text is authored in Arabic only. The adapter therefore refuses to display these nine single-step flows in French or English and returns `flow_translation_pending`. The UI explains that the technical wording has not yet been reviewed in those languages.
+The current registry question, answer, and guidance text is authored in Arabic only. The adapter therefore refuses to display these eight single-step flows in French or English and returns `flow_translation_pending`. The UI explains that the technical wording has not yet been reviewed in those languages.
 
-This is intentional: untranslated technical safety instructions must not silently appear as reviewed translations. The existing pump and motor adaptive flows remain available in Arabic, French, and English.
+This is intentional: untranslated technical safety instructions must not silently appear as reviewed translations. The adaptive pump, motor, and compressor flows remain available in Arabic, French, and English.
 
 ## Input matching
 
