@@ -196,16 +196,16 @@
       return;
     }
     if (!consent.checked) {
-      output.textContent = language === "en" ? "Consent is required before sending this case to configured AI provider."
-        : language === "fr" ? "Votre accord est requis avant l’envoi du cas à configured AI provider."
-        : "يجب الموافقة قبل إرسال بيانات الحالة إلى configured AI provider.";
+      output.textContent = language === "en" ? "Consent is required before sending this case to the configured AI service."
+        : language === "fr" ? "Votre accord est requis avant l’envoi du cas au service d’IA configuré."
+        : "يجب الموافقة قبل إرسال بيانات الحالة إلى مزود الذكاء الاصطناعي المحدد.";
       return;
     }
     if (button) {
       button.disabled = true;
-      button.textContent = language === "en" ? "Contacting configured AI provider…"
-        : language === "fr" ? "Connexion à configured AI provider…"
-        : "جارٍ الاتصال بـ configured AI provider…";
+      button.textContent = language === "en" ? "Contacting the configured AI service…"
+        : language === "fr" ? "Connexion au service d’IA configuré…"
+        : "جارٍ الاتصال بمزود الذكاء الاصطناعي المحدد…";
     }
     try {
       const payload = {
@@ -228,7 +228,7 @@
       if (!response.ok) {
         const status = Number.isInteger(data.provider_status) ? " (provider HTTP " + data.provider_status + ")" : "";
         const message = typeof data.error === "string" ? data.error : "The AI service request failed.";
-        output.textContent = (language === "en" ? "configured AI provider diagnosis failed: " : language === "fr" ? "Échec du diagnostic configured AI provider : " : "فشل تشخيص configured AI provider: ") + message + status;
+        output.textContent = (language === "en" ? "The configured AI service diagnosis failed: " : language === "fr" ? "Échec du diagnostic par le service d’IA configuré : " : "فشل التشخيص عبر مزود الذكاء الاصطناعي المحدد: ") + message + status;
         return;
       }
       if (typeof data.answer !== "string" || !data.answer.trim()) {
@@ -269,9 +269,9 @@
       consent.checked = false;
       if (button) {
         button.disabled = false;
-        button.textContent = language === "en" ? "Diagnose with configured AI provider"
-          : language === "fr" ? "Diagnostiquer avec configured AI provider"
-          : "التشخيص باستخدام configured AI provider";
+        button.textContent = language === "en" ? "Diagnose with the configured AI service"
+          : language === "fr" ? "Diagnostiquer avec le service d’IA configuré"
+          : "التشخيص باستخدام مزود الذكاء الاصطناعي المحدد";
       }
     }
   }
@@ -293,10 +293,10 @@
       : language === "fr" ? "SIMULATION UNIQUEMENT — aucun modèle IA appelé, aucune donnée envoyée."
       : "محاكاة فقط — لم يُستدعَ أي نموذج ذكاء اصطناعي ولم تُرسل أي بيانات.";
     const detail = language === "en"
-      ? "Sample response path: equipment=" + equipment + "; symptom=" + issue + ". This placeholder is not a diagnosis. Use local diagnosis for real rule-based guidance, or enable configured AI provider only when API quota is available."
+      ? "Sample response path: equipment=" + equipment + "; symptom=" + issue + ". This placeholder is not a diagnosis. Use local diagnosis for real rule-based guidance, or enable the configured AI service only when API quota is available."
       : language === "fr"
-        ? "Exemple de réponse : équipement=" + equipment + "; symptôme=" + issue + ". Ce contenu n’est pas un diagnostic. Utilisez le diagnostic local pour des conseils basés sur les règles, ou activez configured AI provider avec un quota API disponible."
-        : "مسار الرد التجريبي: المعدة=" + equipment + "؛ العَرَض=" + issue + ". هذا نص تجريبي وليس تشخيصًا. استخدم التشخيص المحلي للإرشادات القائمة على القواعد، ولا تفعّل configured AI provider إلا عند توفر حصة API.";
+        ? "Exemple de réponse : équipement=" + equipment + "; symptôme=" + issue + ". Ce contenu n’est pas un diagnostic. Utilisez le diagnostic local pour des conseils basés sur les règles, ou activez le service d’IA configuré avec un quota API disponible."
+        : "مسار الرد التجريبي: المعدة=" + equipment + "؛ العَرَض=" + issue + ". هذا نص تجريبي وليس تشخيصًا. استخدم التشخيص المحلي للإرشادات القائمة على القواعد، ولا تفعّل مزود الذكاء الاصطناعي المحدد إلا عند توفر حصة API.";
     output.textContent = title + "\\n\\n" + detail;
   }
 
