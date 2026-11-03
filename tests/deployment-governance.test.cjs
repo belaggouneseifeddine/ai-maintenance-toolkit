@@ -47,3 +47,17 @@ test("deployment and primary test workflows do not use the end-of-life Node.js 2
     assert.doesNotMatch(source, /node-version:\s*["']?20["']?/, relativePath + " must not use end-of-life Node.js 20");
   }
 });
+
+test("production and primary test workflows use Node 24-compatible first-party actions", () => {
+  const runtimeWorkflows = [
+    ".github/workflows/deploy-cloudflare-pages.yml",
+    ".github/workflows/deploy-pages.yml",
+    ".github/workflows/deploy-worker.yml",
+    ".github/workflows/test.yml"
+  ];
+  for (const relativePath of runtimeWorkflows) {
+    const source = fs.readFileSync(path.join(root, relativePath), "utf8");
+    assert.match(source, /uses:\s*actions\/checkout@v5/, relativePath + " must use checkout v5");
+    assert.match(source, /uses:\s*actions\/setup-node@v5/, relativePath + " must use setup-node v5");
+  }
+});
