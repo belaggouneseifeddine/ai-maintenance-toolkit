@@ -644,12 +644,6 @@ export default {
     }
     if (!machine.trim() || !symptom.trim()) return json({ error: "Equipment and symptom are required." }, 400, origin);
 
-    if (env.AI_RATE_LIMITER) {
-      const key = request.headers.get("cf-connecting-ip") || "unknown-client";
-      const decision = await env.AI_RATE_LIMITER.limit({ key });
-      if (!decision.success) return json({ error: "Request limit reached. Please wait and try again." }, 429, origin);
-    }
-
     const safetyTrigger = detectSafetyGate({ machine, symptom, code, observations });
     if (safetyTrigger) {
       const diagnosis = buildSafetyGateDiagnosis({ trigger: safetyTrigger, machine, symptom, language });
@@ -659,6 +653,14 @@ export default {
         safety_gate: { trigger: safetyTrigger, source: "deterministic", model_called: false, retrieval_called: false },
         retrieval: { status: "not_run", matchedChunks: 0, availableDocuments: [] }
       }, 200, origin);
+    }
+
+    // Rate-limit only requests that proceed to retrieval/model work. The deterministic
+    // safety response must remain available even when the AI quota is exhausted.
+    if (env.AI_RATE_LIMITER) {
+      const key = request.headers.get("cf-connecting-ip") || "unknown-client";
+      const decision = await env.AI_RATE_LIMITER.limit({ key });
+      if (!decision.success) return json({ error: "Request limit reached. Please wait and try again." }, 429, origin);
     }
 
     const evidence = assessEvidence({ machine, symptom, code, observations, language });
