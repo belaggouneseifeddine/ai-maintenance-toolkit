@@ -442,6 +442,36 @@ test("rate limiter denial returns 429 before retrieval or Gemini", async () => {
   assert.deepEqual({ upstreamCalls, knowledgeCalls }, before);
 });
 
+test("deterministic safety gate remains available when the AI rate limiter denies requests", async () => {
+  const before = { upstreamCalls, knowledgeCalls };
+  let limiterCalls = 0;
+  const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
+    method: "POST",
+    headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
+    body: JSON.stringify({
+      machine: "مضخة صناعية",
+      symptom: "تجاوز الانترلوك لتعطيل الحماية",
+      observations: "المعدة تستمر في العمل",
+      language: "ar"
+    })
+  }), {
+    AI_RATE_LIMITER: {
+      limit: async () => {
+        limiterCalls++;
+        return { success: false };
+      }
+    }
+  });
+  assert.equal(response.status, 200);
+  const body = await response.json();
+  assert.equal(body.diagnosis.status, "escalation_required");
+  assert.equal(body.safety_gate.trigger, "protection_bypass");
+  assert.equal(body.model_called, false);
+  assert.equal(body.retrieval.status, "not_run");
+  assert.equal(limiterCalls, 0);
+  assert.deepEqual({ upstreamCalls, knowledgeCalls }, before);
+});
+
 test("non-POST diagnosis requests are rejected with no-store and no provider details", async () => {
   const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
     method: "GET",
