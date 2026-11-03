@@ -27,6 +27,14 @@ const CURATED_DIAGNOSTIC_FLOWS = Object.freeze({
       power_or_mechanical: "Power circuit or mechanical load requiring qualified inspection"
     }),
     evidence: Object.freeze(["no-start-command", "permissive-block", "command-present", "trip-present", "no-trip-indicated"])
+  }),
+  "compressor|low_pressure": Object.freeze({
+    hypotheses: Object.freeze({
+      compressor_capacity_or_control: "Compressor capacity or control/protection state",
+      distribution_leak_or_demand: "Distribution network, leakage, or changed demand",
+      air_treatment_restriction: "Filter or air-treatment restriction"
+    }),
+    evidence: Object.freeze(["compressor-outlet-low", "outlet-normal-point-low", "pressures-similar", "unloaded-or-trip", "compressor-control-abnormal", "loaded-no-trip", "treatment-dp-high", "filter-alert", "dryer-restriction", "treatment-indicators-normal"])
   })
 });
 
@@ -591,7 +599,17 @@ export default {
       "permissive-block": "start permissive not satisfied",
       "command-present": "start command shown",
       "trip-present": "protection or drive trip shown",
-      "no-trip-indicated": "no trip indicated on available interface"
+      "no-trip-indicated": "no trip indicated on available interface",
+      "compressor-outlet-low": "compressor outlet pressure low",
+      "outlet-normal-point-low": "compressor outlet normal but point-of-use pressure low",
+      "pressures-similar": "no clear pressure difference between available points",
+      "unloaded-or-trip": "compressor unloaded or trip/alarm present",
+      "compressor-control-abnormal": "compressor control state or sequence appears abnormal",
+      "loaded-no-trip": "compressor loaded with no alarm shown",
+      "treatment-dp-high": "air-treatment differential pressure above baseline",
+      "filter-alert": "filter alarm or maintenance indication present",
+      "dryer-restriction": "abnormal dryer indication",
+      "treatment-indicators-normal": "air-treatment indicators normal against baseline"
     };
     const curatedEvidenceContext = curatedFlow
       ? diagnosticEvidence.map(id => id + " = " + curatedEvidenceMeanings[id]).join("; ")
@@ -603,11 +621,14 @@ export default {
     const normalizedSymptom = normalizeEvidenceText(symptom);
     const pumpMachine = normalizedMachine.includes("pump") || normalizedMachine.includes("مضخه");
     const motorMachine = normalizedMachine.includes("motor") || normalizedMachine.includes("محرك");
+    const compressorMachine = normalizedMachine.includes("compressor") || normalizedMachine.includes("ضاغط");
     const lowFlowSymptom = normalizedSymptom.includes("low flow") || normalizedSymptom.includes("low_flow") || normalizedSymptom.includes("ضعف تدفق") || normalizedSymptom.includes("ضعف التدفق") || normalizedSymptom.includes("faible debit");
+    const lowPressureSymptom = normalizedSymptom.includes("low pressure") || normalizedSymptom.includes("low_pressure") || normalizedSymptom.includes("ضغط منخفض") || normalizedSymptom.includes("pression basse") || normalizedSymptom.includes("pression faible");
     const motorStartSymptom = normalizedSymptom.includes("not start") || normalizedSymptom.includes("not_start") || normalizedSymptom.includes("won't start") || normalizedSymptom.includes("does not start") || normalizedSymptom.includes("لا يبدا") || normalizedSymptom.includes("لا يبدأ") || normalizedSymptom.includes("ne demarre pas");
     if (diagnosticFlowId && (
       (diagnosticFlowId === "pump|low_flow" && (!pumpMachine || !lowFlowSymptom)) ||
-      (diagnosticFlowId === "motor|not_start" && (!motorMachine || !motorStartSymptom))
+      (diagnosticFlowId === "motor|not_start" && (!motorMachine || !motorStartSymptom)) ||
+      (diagnosticFlowId === "compressor|low_pressure" && (!compressorMachine || !lowPressureSymptom))
     )) {
       return json({ error: "Curated flow does not match the equipment and symptom.", code: "diagnostic_flow_mismatch" }, 400, origin);
     }
