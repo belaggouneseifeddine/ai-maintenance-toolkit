@@ -166,7 +166,7 @@ This section supersedes the older baseline where the two differ. It distinguishe
 
 ### Draft changes awaiting review
 
-- PR #122 adds a third adaptive session for compressor low pressure and moves the deterministic safety gate ahead of the AI rate limiter. Its latest reported GitHub Actions checks passed; it is not merged or deployed.
+- PR #122 adds a third adaptive session for compressor low pressure and moves the deterministic safety gate ahead of the AI rate limiter. The code changes passed GitHub Actions on head `1f127ccb`; this roadmap-only follow-up commit is awaiting its own CI run. It is not merged or deployed.
 - PR #123 proposes manual-only production deployment and manual-only live AI smoke testing. Its latest reported checks passed; it is not merged. Repository-level branch protection remains a separate settings task.
 
 ### Updated priority order
