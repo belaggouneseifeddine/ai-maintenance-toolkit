@@ -45,6 +45,35 @@
           {id:"unknown",label:{ar:"غير معروف",en:"Unknown",fr:"Inconnu"},evidence:[]}
         ]}
       ]
+    },
+    "compressor|low_pressure": {
+      equipment:"compressor", symptom:"low_pressure",
+      hypotheses:[
+        {id:"compressor_capacity_or_control",label:{ar:"أداء الضاغط أو حالة التحكم/الحماية",en:"Compressor capacity or control/protection state",fr:"Capacité du compresseur ou état de commande/protection"},evidenceFor:["compressor-outlet-low","unloaded-or-trip","compressor-control-abnormal"],evidenceAgainst:["outlet-normal","loaded-no-trip"],checks:["راجع سجل الضغط والإنذارات وحالة التحميل من المؤشرات المتاحة؛ لا تغيّر نقاط الضبط أو وسائل الحماية. أي فحص داخلي أو كهربائي يتطلب عزلًا وشخصًا مؤهلًا."]},
+        {id:"distribution_leak_or_demand",label:{ar:"شبكة التوزيع أو تسرب أو تغير الطلب",en:"Distribution network, leakage, or changed demand",fr:"Réseau de distribution, fuite ou variation de la demande"},evidenceFor:["outlet-normal-point-low","demand-high","leak-indicated"],evidenceAgainst:["pressures-similar","demand-baseline"],checks:["قارن الضغط عند نقاط قياس معتمدة وفي ظروف حمل متقاربة؛ وثّق مؤشرات التسرب من الخارج فقط. لا تفك خطوطًا أو وصلات مضغوطة."]},
+        {id:"air_treatment_restriction",label:{ar:"تقييد في المرشحات أو معالجة الهواء",en:"Filter or air-treatment restriction",fr:"Restriction des filtres ou du traitement d’air"},evidenceFor:["treatment-dp-high","filter-alert","dryer-restriction"],evidenceAgainst:["treatment-indicators-normal"],checks:["راجع مؤشرات فرق الضغط والإنذارات وسجل الصيانة للمرشحات والمجفف؛ لا تفتح أوعية الضغط أو تصرّف المكثفات إلا وفق إجراء المصنع والعزل."]}
+      ],
+      questions:[
+        {id:"compressor_pressure_comparison",text:{ar:"أين تظهر قراءة الضغط المنخفض مقارنة بقراءات موثوقة في ظروف حمل متقاربة؟",en:"Where is low pressure observed compared with reliable readings under similar load conditions?",fr:"Où la basse pression est-elle observée par rapport à des mesures fiables sous une charge comparable ?"},options:[
+          {id:"compressor-outlet-low",label:{ar:"ضغط مخرج الضاغط منخفض",en:"Compressor outlet pressure is low",fr:"La pression de sortie du compresseur est basse"},evidence:["compressor-outlet-low"]},
+          {id:"outlet-normal-point-low",label:{ar:"ضغط المخرج طبيعي لكن نقطة الاستخدام منخفضة",en:"Outlet pressure is normal but point-of-use pressure is low",fr:"La pression de sortie est normale mais celle au point d’utilisation est basse"},evidence:["outlet-normal-point-low"]},
+          {id:"pressures-similar",label:{ar:"القراءات متقاربة ولا يظهر فرق واضح",en:"Readings are similar; no clear pressure drop is observed",fr:"Les mesures sont similaires, sans chute nette observée"},evidence:["pressures-similar"]},
+          {id:"unknown",label:{ar:"لا توجد قراءات مقارنة موثوقة",en:"No reliable comparative readings are available",fr:"Aucune mesure comparative fiable n’est disponible"},evidence:[]}
+        ]},
+        {id:"compressor_operating_state",text:{ar:"ماذا تُظهر واجهة الضاغط عن حالة التحميل والإنذارات؟",en:"What does the compressor interface show about load state and alarms?",fr:"Que montre l’interface du compresseur concernant la charge et les alarmes ?"},options:[
+          {id:"unloaded-or-trip",label:{ar:"الضاغط غير محمّل أو يوجد فصل/إنذار",en:"Compressor is unloaded or a trip/alarm is present",fr:"Le compresseur est déchargé ou une alarme/un déclenchement est présent"},evidence:["unloaded-or-trip"]},
+          {id:"compressor-control-abnormal",label:{ar:"حالة التحكم أو التسلسل غير طبيعية",en:"Control state or sequencing appears abnormal",fr:"L’état de commande ou la séquence semble anormal"},evidence:["compressor-control-abnormal"]},
+          {id:"loaded-no-trip",label:{ar:"الضاغط محمّل ولا يظهر إنذار",en:"Compressor is loaded and no alarm is shown",fr:"Le compresseur est en charge et aucune alarme n’est affichée"},evidence:["loaded-no-trip"]},
+          {id:"unknown",label:{ar:"الحالة غير معروفة",en:"State is unknown",fr:"État inconnu"},evidence:[]}
+        ]},
+        {id:"air_treatment_indicators",text:{ar:"ما حالة مؤشرات المرشحات والمجفف ومعالجة الهواء؟",en:"What do the available filter, dryer, and air-treatment indicators show?",fr:"Que montrent les indicateurs disponibles des filtres, du sécheur et du traitement d’air ?"},options:[
+          {id:"treatment-dp-high",label:{ar:"فرق الضغط أعلى من خط الأساس",en:"Differential pressure is above baseline",fr:"La pression différentielle dépasse la référence"},evidence:["treatment-dp-high"]},
+          {id:"filter-alert",label:{ar:"يوجد إنذار مرشح أو صيانة مستحقة",en:"A filter alarm or maintenance indication is present",fr:"Une alarme de filtre ou une indication de maintenance est présente"},evidence:["filter-alert"]},
+          {id:"dryer-restriction",label:{ar:"يوجد مؤشر غير طبيعي في المجفف",en:"An abnormal dryer indication is present",fr:"Une indication anormale du sécheur est présente"},evidence:["dryer-restriction"]},
+          {id:"treatment-indicators-normal",label:{ar:"المؤشرات طبيعية حسب خط الأساس",en:"Indicators are normal against baseline",fr:"Les indicateurs sont normaux par rapport à la référence"},evidence:["treatment-indicators-normal"]},
+          {id:"unknown",label:{ar:"لا توجد مؤشرات موثوقة",en:"No reliable indicators are available",fr:"Aucun indicateur fiable n’est disponible"},evidence:[]}
+        ]}
+      ]
     }
   };
   function textFor(value, language) { return value && (value[language] || value.en || value.ar) || ""; }
