@@ -47,10 +47,17 @@ test("compressor outlet evidence distinguishes compressor-side from distribution
 
 test("compressor multi-step session records evidence and never confirms a root cause", () => {
   let session = engine.createSession({equipment:"compressor",symptom:"low_pressure",language:"ar"});
-  const answers = ["outlet-normal-point-low","loaded-no-trip","treatment-dp-high"];
-  for (const answer of answers) {
-    const result = engine.answer(session,answer);
-    assert.equal(result.ok,true);
+  const answerByQuestion = {
+    compressor_pressure_comparison:"outlet-normal-point-low",
+    compressor_operating_state:"loaded-no-trip",
+    air_treatment_indicators:"treatment-dp-high"
+  };
+  for (let step = 0; step < 3; step++) {
+    const questionId = session.nextQuestion.id;
+    const answerId = answerByQuestion[questionId];
+    assert.ok(answerId, "unexpected or repeated question: " + questionId);
+    const result = engine.answer(session,answerId);
+    assert.equal(result.ok,true,questionId);
     session = result.session;
   }
   assert.equal(session.status,"evidence_review");
