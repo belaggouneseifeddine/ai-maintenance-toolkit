@@ -43,8 +43,6 @@
     };
     const equipment = Object.keys(equipmentAliases).find(id => equipmentAliases[id].some(pattern => pattern.test(machine)));
     let symptomId = Object.keys(symptomAliases).find(id => symptomAliases[id].some(pattern => pattern.test(symptom)));
-    if (["pump", "pneumatic"].includes(equipment) && symptomId === "low_pressure") symptomId = "low_flow";
-    if (equipment === "compressor" && symptomId === "low_flow") symptomId = "low_pressure";
     const key = equipment && symptomId ? equipment + "|" + symptomId : "";
     const registry = root.MAINTENANCE_DIAGNOSTIC_FLOWS && root.MAINTENANCE_DIAGNOSTIC_FLOWS.flows;
     return key && registry && registry[key] ? key : "";

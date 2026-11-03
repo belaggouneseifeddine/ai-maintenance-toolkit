@@ -69,7 +69,7 @@ test("all 11 equipment/symptom combinations are resolved from supported language
     ["VFD", "trip", "vfd|trip"],
     ["compressor", "low pressure", "compressor|low_pressure"],
     ["صمام", "لا يستجيب", "valve|not_start"],
-    ["pneumatic system", "low pressure", "pneumatic|low_flow"],
+    ["pneumatic system", "low flow", "pneumatic|low_flow"],
     ["gearbox", "overheat", "gearbox|overheat"],
     ["bearing", "vibration", "bearing|vibration"],
     ["PLC", "not starting", "plc|not_start"],
@@ -79,6 +79,12 @@ test("all 11 equipment/symptom combinations are resolved from supported language
   for (const [machine, symptom, expected] of cases) {
     assert.equal(ui.resolveInput(machine, symptom), expected, machine + " / " + symptom);
   }
+});
+
+test("symptom resolver does not silently reinterpret pressure as flow or vice versa", () => {
+  assert.equal(ui.resolveInput("pump", "low pressure"), "");
+  assert.equal(ui.resolveInput("pneumatic system", "low pressure"), "");
+  assert.equal(ui.resolveInput("compressor", "low flow"), "");
 });
 
 test("existing adaptive pump and motor sessions remain available", () => {
