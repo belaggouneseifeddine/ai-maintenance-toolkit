@@ -2,15 +2,15 @@
 
 ## Scope
 
-The browser loads `diagnostic-flows.js` before `diagnostic-session.js`. The shared registry currently contains 12 equipment/symptom definitions.
+The browser loads `diagnostic-flows.js` before `diagnostic-session.js`. The shared registry currently contains 11 equipment/symptom definitions.
 
-The adaptive session engine continues to own the two multi-question hypothesis workflows:
+The adaptive session engine owns three multi-question hypothesis workflows:
 
 - `pump|low_flow`
 - `motor|not_start`
 - `compressor|low_pressure`
 
-For the other nine registry entries, the session engine now exposes a bounded single-step guided check using the registry's existing question, answer labels, and answer-specific guidance.
+For the other eight registry entries, the session engine now exposes a bounded single-step guided check using the registry's existing question, answer labels, and answer-specific guidance.
 
 ## Evidence and reasoning boundaries
 
@@ -35,8 +35,8 @@ The UI resolves equipment and symptom text against a bounded alias map, then che
 `tests/diagnostic-session-registry.test.cjs` covers:
 
 - All 11 registry keys can start a session.
-- The two existing adaptive sessions remain adaptive.
-- The other nine entries use the single-step adapter.
+- All three adaptive sessions remain adaptive.
+- The other eight entries use the single-step adapter.
 - Curated guidance is returned exactly for the selected answer.
 - Single-step answers do not fabricate Bayesian evidence or a confirmed cause.
 - Invalid answers do not mutate the session.
