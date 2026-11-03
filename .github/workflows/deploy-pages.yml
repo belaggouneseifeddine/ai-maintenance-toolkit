@@ -1,8 +1,7 @@
 name: Deploy Maintenance AI Toolkit to GitHub Pages
 
 on:
-  push:
-    branches: ["main"]
+  # Production deployment requires an explicit manual run.
   workflow_dispatch:
 
 permissions:
