@@ -16,9 +16,9 @@
     return language === "en" ? en : language === "fr" ? fr : ar;
   }
 
-  function resolve() {
-    const machine = ($("aiMachine")?.value || "").trim().toLowerCase();
-    const symptom = ($("aiSymptom")?.value || "").trim().toLowerCase();
+  function resolveInput(machineValue, symptomValue) {
+    const machine = String(machineValue || "").trim().toLowerCase();
+    const symptom = String(symptomValue || "").trim().toLowerCase();
     const equipmentAliases = {
       pump:[/pump|مضخ|pompe/],
       motor:[/motor|محرك|محرّك|moteur/],
@@ -39,15 +39,19 @@
       low_flow:[/low[\s-]?flow|weak flow|تدفق ضعيف|débit faible/],
       overheat:[/overheat|overheating|high temperature|ارتفاع الحرارة|حرارة مرتفعة|surchauffe|température élevée/],
       vibration:[/vibration|اهتزاز|vibrations/],
-      tracking:[/tracking|belt drift|انحراف السير|dérive.*bande|déport.*bande/]
+      tracking:[/tracking|belt drift|belt misalignment|انحراف السير|سير منحرف|حزام منحرف|dérive.*bande|déport.*bande/]
     };
     const equipment = Object.keys(equipmentAliases).find(id => equipmentAliases[id].some(pattern => pattern.test(machine)));
     let symptomId = Object.keys(symptomAliases).find(id => symptomAliases[id].some(pattern => pattern.test(symptom)));
-    if (equipment === "pump" && symptomId === "low_pressure") symptomId = "low_flow";
+    if (["pump", "pneumatic"].includes(equipment) && symptomId === "low_pressure") symptomId = "low_flow";
     if (equipment === "compressor" && symptomId === "low_flow") symptomId = "low_pressure";
     const key = equipment && symptomId ? equipment + "|" + symptomId : "";
     const registry = root.MAINTENANCE_DIAGNOSTIC_FLOWS && root.MAINTENANCE_DIAGNOSTIC_FLOWS.flows;
     return key && registry && registry[key] ? key : "";
+  }
+
+  function resolve() {
+    return resolveInput($("aiMachine")?.value, $("aiSymptom")?.value);
   }
 
   function ensureProgress(panel) {
@@ -325,7 +329,7 @@
     start();
   }
 
-  root.MaintenanceDiagnosticSessionUI = Object.freeze({ getPayload, init });
+  root.MaintenanceDiagnosticSessionUI = Object.freeze({ getPayload, init, resolveInput });
   if (typeof module !== "undefined" && module.exports) module.exports = root.MaintenanceDiagnosticSessionUI;
   if (root.document) init();
 })(typeof globalThis !== "undefined" ? globalThis : this);
