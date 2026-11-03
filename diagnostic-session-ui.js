@@ -33,7 +33,7 @@
       thermal:[/thermal|heat exchanger|مبادل حراري|échangeur thermique/]
     };
     const symptomAliases = {
-      not_start:[/not[\s-]?start|won.?t start|doesn.?t start|لا يعمل|لا تعمل|لا تبدأ|لا يبدأ|ne démarre pas/],
+      not_start:[/not[\s-]?start|won.?t start|doesn.?t start|no response|not respond|لا يعمل|لا تعمل|لا تبدأ|لا يبدأ|لا يستجيب|لا تستجيب|لا تتحرك|ne démarre pas|ne répond pas/],
       trip:[/\btrip(?:ped)?\b|overload|فصل|إنذار|déclenchement|défaut/],
       low_pressure:[/low[\s-]?pressure|ضغط منخفض|pression basse|pression faible/],
       low_flow:[/low[\s-]?flow|weak flow|تدفق ضعيف|débit faible/],
