@@ -61,3 +61,24 @@ test("production and primary test workflows use Node 24-compatible first-party a
     assert.match(source, /uses:\s*actions\/setup-node@v5/, relativePath + " must use setup-node v5");
   }
 });
+
+test("all repository workflows avoid Node 20-era checkout and setup-node v4 releases", () => {
+  const workflowFiles = [
+    ".github/workflows/deploy-cloudflare-pages.yml",
+    ".github/workflows/deploy-pages.yml",
+    ".github/workflows/quality-checks.yml",
+    ".github/workflows/validate-knowledge.yml",
+    ".github/workflows/deploy-worker.yml",
+    ".github/workflows/cloudflare-ai-staging.yml",
+    ".github/workflows/maintenance-toolkit-quality.yml",
+    ".github/workflows/test.yml",
+    ".github/workflows/diagnostic-tests.yml",
+    ".github/workflows/local-reasoning-tests.yml",
+    ".github/workflows/diagnostic-session-tests.yml"
+  ];
+  for (const relativePath of workflowFiles) {
+    const source = fs.readFileSync(path.join(root, relativePath), "utf8");
+    assert.doesNotMatch(source, /uses:\s*actions\/checkout@v4/, relativePath);
+    assert.doesNotMatch(source, /uses:\s*actions\/setup-node@v4/, relativePath);
+  }
+});
