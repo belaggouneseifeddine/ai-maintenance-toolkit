@@ -1,8 +1,7 @@
 name: Deploy Maintenance AI Toolkit to Cloudflare Pages
 
 on:
-  push:
-    branches: ["main"]
+  # Production deployment requires an explicit manual run.
   workflow_dispatch:
 
 permissions:
