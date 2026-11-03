@@ -518,6 +518,18 @@ test("curated diagnostic flow must match the equipment family", async () => {
   assert.equal((await response.json()).code, "diagnostic_flow_mismatch");
 });
 
+test("compressor curated flow rejects low-flow symptom text as a mismatch", async () => {
+  const before = { upstreamCalls, knowledgeCalls };
+  const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
+    method: "POST",
+    headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
+    body: JSON.stringify({ machine: "industrial compressor", symptom: "low flow", diagnosticFlowId: "compressor|low_pressure", language: "ar" })
+  }), { AI_API_KEY: "test-only-placeholder" });
+  assert.equal(response.status, 400);
+  assert.equal((await response.json()).code, "diagnostic_flow_mismatch");
+  assert.deepEqual({ upstreamCalls, knowledgeCalls }, before);
+});
+
 test("curated flow restricts Gemini output to server-approved hypothesis IDs", async () => {
   const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
     method: "POST",
