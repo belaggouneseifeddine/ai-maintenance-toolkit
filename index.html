@@ -125,10 +125,10 @@ footer{line-height:1.8}
 <label for="aiMeasurementStatus">حالة القياسات المتاحة</label><select id="aiMeasurementStatus"><option value="unknown">لا أعرف / لست متأكدًا</option><option value="none">لا توجد قراءة متاحة</option><option value="available">توجد قراءات مسجلة بالفعل</option></select><p class="hint" id="aiMeasurementHint">لا تنفّذ قياسًا حيًا أو تلمس معدات خطرة لمجرد الإجابة. استخدم فقط المعلومات والقراءات المتاحة بالفعل.</p>
 <div class="notice">لا تستخدم اقتراحات الذكاء الاصطناعي وحدها لاتخاذ قرارات تشغيل أو سلامة. طبّق LOTO وإجراءات موقعك، ولا تتجاوز الحمايات أو تفتح الأنظمة المضغوطة.</div>
 <div class="actions"><button class="btn secondary" id="askAi" type="submit">التشخيص المحلي — دون إرسال البيانات</button></div>
-<label class="check" for="aiCloudConsent"><input id="aiCloudConsent" type="checkbox"> أوافق على إرسال نوع المعدة والعَرَض ورمز الإنذار والملاحظات وحالة القياسات واللغة إلى خادم Cloudflare لمعالجتها بواسطة مزوّد الذكاء الاصطناعي المحدد على الخادم. أفهم أن النتيجة إرشادية وليست تشخيصًا مؤكدًا.</label>
+<label class="check" for="aiCloudConsent"><input id="aiCloudConsent" type="checkbox"><span id="aiCloudConsentText">أوافق على إرسال نوع المعدة والعَرَض ورمز الإنذار والملاحظات وحالة القياسات واللغة إلى خادم Cloudflare ومعالجتها بواسطة مزوّد الذكاء الاصطناعي المهيأ على الخادم (Cloudflare Workers AI أو Google Gemini بحسب الإعداد). النتيجة إرشادية وليست تشخيصًا مؤكدًا، وتخضع المعالجة لشروط وسياسة المزوّد. لا ترسل بيانات شخصية أو أسرارًا أو معلومات تشغيلية حساسة.</span></label>
 <div class="actions"><button class="btn" id="askCloudAI" type="button">التشخيص عبر الخادم</button></div>
 <div class="actions"><button class="btn secondary" id="simulateCloudAI" type="button">اختبار الواجهة مجانًا — محاكاة فقط</button></div>
-<p class="hint">المحاكاة لا تستدعي نموذجًا ولا تختبر اتصال الخادم؛ إنها تختبر عرض الرد فقط ولا ترسل بياناتك.</p>
+<p class="hint" id="aiSimulationHint">المحاكاة لا تستدعي نموذجًا ولا تختبر اتصال الخادم؛ إنها تعرض ردًا تجريبيًا فقط ولا ترسل بياناتك.</p>
 </form>
 <div id="aiResult" class="result" aria-live="polite" hidden></div>
 <div id="aiAnswerTools" class="actions no-print" hidden><button type="button" class="btn secondary" id="speakAiAnswer">قراءة الإجابة صوتيًا</button><button type="button" class="btn secondary" id="stopAiSpeech">إيقاف القراءة</button><button type="button" class="btn secondary" id="clearAiCache">مسح الإجابات المحفوظة</button></div>
