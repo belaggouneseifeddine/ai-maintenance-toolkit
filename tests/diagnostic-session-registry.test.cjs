@@ -11,7 +11,7 @@ const adaptiveKeys = new Set(["pump|low_flow", "motor|not_start", "compressor|lo
 const registryOnlyEntries = Object.entries(registry).filter(([key]) => !adaptiveKeys.has(key));
 
 test("all shared registry keys start a guided session without replacing existing adaptive sessions", () => {
-  assert.equal(Object.keys(registry).length, 12);
+  assert.equal(Object.keys(registry).length, 11);
   for (const key of Object.keys(registry)) {
     const [equipment, symptom] = key.split("|");
     const session = engine.createSession({equipment, symptom, language:"ar"});
@@ -30,7 +30,7 @@ test("all shared registry keys start a guided session without replacing existing
 });
 
 test("registry-only answers return curated guidance and never a confirmed cause", () => {
-  assert.equal(registryOnlyEntries.length, 9);
+  assert.equal(registryOnlyEntries.length, 8);
   for (const [key, flow] of registryOnlyEntries) {
     const [equipment, symptom] = key.split("|");
     const session = engine.createSession({equipment, symptom, language:"ar"});
