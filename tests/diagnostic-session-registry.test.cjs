@@ -7,11 +7,11 @@ require("../bayesian-engine.js");
 const engine = require("../diagnostic-session.js");
 const ui = require("../diagnostic-session-ui.js");
 const registry = global.MAINTENANCE_DIAGNOSTIC_FLOWS.flows;
-const adaptiveKeys = new Set(["pump|low_flow", "motor|not_start"]);
+const adaptiveKeys = new Set(["pump|low_flow", "motor|not_start", "compressor|low_pressure"]);
 const registryOnlyEntries = Object.entries(registry).filter(([key]) => !adaptiveKeys.has(key));
 
 test("all shared registry keys start a guided session without replacing existing adaptive sessions", () => {
-  assert.equal(Object.keys(registry).length, 11);
+  assert.equal(Object.keys(registry).length, 12);
   for (const key of Object.keys(registry)) {
     const [equipment, symptom] = key.split("|");
     const session = engine.createSession({equipment, symptom, language:"ar"});
