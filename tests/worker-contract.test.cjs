@@ -395,7 +395,7 @@ test("weak evidence plus no relevant retrieval abstains before Gemini", async ()
   assert.equal(response.status, 200);
   const body = await response.json();
   assert.equal(body.diagnosis.status, "unable_to_assess");
-  assert.equal(body.safety_gate.model_called, false);
+  assert.equal(body.model_called, false);
   assert.equal(body.retrieval.status, "no-match");
   assert.equal(upstreamCalls, before);
   assert.match(body.answer, /Evidence is insufficient/i);
@@ -466,7 +466,7 @@ test("deterministic safety gate remains available when the AI rate limiter denie
   const body = await response.json();
   assert.equal(body.diagnosis.status, "escalation_required");
   assert.equal(body.safety_gate.trigger, "protection_bypass");
-  assert.equal(body.model_called, false);
+  assert.equal(body.safety_gate.model_called, false);
   assert.equal(body.retrieval.status, "not_run");
   assert.equal(limiterCalls, 0);
   assert.deepEqual({ upstreamCalls, knowledgeCalls }, before);
