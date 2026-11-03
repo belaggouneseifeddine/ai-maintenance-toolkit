@@ -1,14 +1,8 @@
 name: Deploy Maintenance AI Toolkit API
 
 on:
+  # Production Worker deployment requires an explicit manual run.
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - 'worker.js'
-      - 'providers/**/*.mjs'
-      - 'wrangler.toml'
-      - '.github/workflows/deploy-worker.yml'
 
 permissions:
   contents: read
