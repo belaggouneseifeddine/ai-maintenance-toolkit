@@ -395,7 +395,7 @@ test("weak evidence plus no relevant retrieval abstains before Gemini", async ()
   assert.equal(response.status, 200);
   const body = await response.json();
   assert.equal(body.diagnosis.status, "unable_to_assess");
-  assert.equal(body.model_called, false);
+  assert.equal(body.safety_gate.model_called, false);
   assert.equal(body.retrieval.status, "no-match");
   assert.equal(upstreamCalls, before);
   assert.match(body.answer, /Evidence is insufficient/i);
