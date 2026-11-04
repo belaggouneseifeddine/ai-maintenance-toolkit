@@ -574,6 +574,25 @@ export default {
     if (!body || typeof body !== "object" || Array.isArray(body)) return json({ error: "Invalid JSON request." }, 400, origin);
 
     const { machine, symptom, code = "", observations = "", measurementStatus = "unknown", language = "ar", diagnosticFlowId = "", diagnosticEvidence = [] } = body;
+    if (![machine, symptom, code, observations, measurementStatus, language].every(v => typeof v === "string")) {
+      return json({ error: "All fields must be text." }, 400, origin);
+    }
+    if (machine.length > 120 || symptom.length > 240 || code.length > 300 || observations.length > 3000 || !["unknown", "none", "available"].includes(measurementStatus) || !LANGUAGES.has(language)) {
+      return json({ error: "Input too long or language unsupported." }, 413, origin);
+    }
+    if (!machine.trim() || !symptom.trim()) return json({ error: "Equipment and symptom are required." }, 400, origin);
+
+    const safetyTrigger = detectSafetyGate({ machine, symptom, code, observations });
+    if (safetyTrigger) {
+      const diagnosis = buildSafetyGateDiagnosis({ trigger: safetyTrigger, machine, symptom, language });
+      return json({
+        answer: formatDiagnosis(diagnosis),
+        diagnosis,
+        safety_gate: { trigger: safetyTrigger, source: "deterministic", model_called: false, retrieval_called: false },
+        retrieval: { status: "not_run", matchedChunks: 0, availableDocuments: [] }
+      }, 200, origin);
+    }
+
     if (diagnosticFlowId !== "" && (typeof diagnosticFlowId !== "string" || !Object.hasOwn(CURATED_DIAGNOSTIC_FLOWS, diagnosticFlowId))) {
       return json({ error: "Unknown curated diagnostic flow.", code: "unknown_diagnostic_flow" }, 400, origin);
     }
@@ -636,25 +655,6 @@ export default {
     )) {
       return json({ error: "Curated flow does not match the equipment and symptom.", code: "diagnostic_flow_mismatch" }, 400, origin);
     }
-    if (![machine, symptom, code, observations, measurementStatus, language].every(v => typeof v === "string")) {
-      return json({ error: "All fields must be text." }, 400, origin);
-    }
-    if (machine.length > 120 || symptom.length > 240 || code.length > 300 || observations.length > 3000 || !["unknown", "none", "available"].includes(measurementStatus) || !LANGUAGES.has(language)) {
-      return json({ error: "Input too long or language unsupported." }, 413, origin);
-    }
-    if (!machine.trim() || !symptom.trim()) return json({ error: "Equipment and symptom are required." }, 400, origin);
-
-    const safetyTrigger = detectSafetyGate({ machine, symptom, code, observations });
-    if (safetyTrigger) {
-      const diagnosis = buildSafetyGateDiagnosis({ trigger: safetyTrigger, machine, symptom, language });
-      return json({
-        answer: formatDiagnosis(diagnosis),
-        diagnosis,
-        safety_gate: { trigger: safetyTrigger, source: "deterministic", model_called: false, retrieval_called: false },
-        retrieval: { status: "not_run", matchedChunks: 0, availableDocuments: [] }
-      }, 200, origin);
-    }
-
     // Rate-limit only requests that proceed to retrieval/model work. The deterministic
     // safety response must remain available even when the AI quota is exhausted.
     if (env.AI_RATE_LIMITER) {
