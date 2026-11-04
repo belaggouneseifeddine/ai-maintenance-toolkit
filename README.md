@@ -7,7 +7,7 @@ Mobile-first progressive web app (PWA) for preliminary industrial-maintenance tr
 - **Repository:** https://github.com/belaggouneseifeddine/ai-maintenance-toolkit
 - **Default branch:** `main`
 - **Languages:** Arabic, French, English
-- **Frontend hosting:** Cloudflare Pages, deployed from `main` by `.github/workflows/deploy-cloudflare-pages.yml`
+- **Frontend hosting:** Cloudflare Pages, manually deployed from `main` by `.github/workflows/deploy-cloudflare-pages.yml`
 - **Backend target:** Cloudflare Workers only
 
 ## Features
@@ -39,6 +39,8 @@ Required GitHub Actions secrets:
 - `CLOUDFLARE_API_TOKEN`
 - `CLOUDFLARE_ACCOUNT_ID`
 - `GEMINI_API_KEY` (Cloudflare Worker secret; `AI_API_KEY` is a legacy fallback)
+
+Production Pages and Worker workflows are manual-only (`workflow_dispatch`); commits to `main` do not publish automatically. The live AI-provider smoke test is also manual-only because it sends a real model request and may consume provider quota. See [deployment governance](docs/DEPLOYMENT-GOVERNANCE.md).
 
 The workflow deploys the root `worker.js` using `wrangler.toml`. Set `AI_PROVIDER` to `gemini` or `cloudflare`; the published app calls the configured Worker only after per-request consent. The local diagnosis action remains offline.
 
