@@ -3,12 +3,19 @@ name: Live Worker AI provider smoke test
 on:
   # This sends a real model request and may consume provider quota.
   workflow_dispatch:
+    inputs:
+      confirm_live_request:
+        description: 'Confirm one real request to the deployed AI provider'
+        required: true
+        type: boolean
+        default: false
 
 permissions:
   contents: read
 
 jobs:
   live-ai-provider-request:
+    if: github.ref == 'refs/heads/main' && inputs.confirm_live_request == true
     runs-on: ubuntu-latest
     timeout-minutes: 3
     steps:
