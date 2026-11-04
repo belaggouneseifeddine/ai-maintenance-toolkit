@@ -169,3 +169,32 @@ test("keyword matching does not match a term embedded inside another word", () =
       "substring 'oil' must not match inside 'boiler'");
   }
 });
+
+test("low-flow and low-pressure do not cross-match fault records", () => {
+  const scopedFaults = {
+    faults: [
+      {
+        id: "pump-low-flow",
+        equipmentType: "pump",
+        symptoms: ["low_flow"],
+        title: { en: "Pump low flow" },
+        keywords: {},
+        causes: []
+      },
+      {
+        id: "pump-low-pressure",
+        equipmentType: "pump",
+        symptoms: ["low_pressure"],
+        title: { en: "Pump low pressure" },
+        keywords: {},
+        causes: []
+      }
+    ]
+  };
+
+  const lowFlow = diagnose({ equipmentType: "pump", symptom: "low_flow", language: "en" }, scopedFaults);
+  const lowPressure = diagnose({ equipmentType: "pump", symptom: "low_pressure", language: "en" }, scopedFaults);
+
+  assert.deepEqual(lowFlow.results.map(item => item.id), ["pump-low-flow"]);
+  assert.deepEqual(lowPressure.results.map(item => item.id), ["pump-low-pressure"]);
+});
