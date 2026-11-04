@@ -18,7 +18,9 @@ test("confirmed equipment and symptom aliases map consistently across languages"
     assert.equal(normalization.canonicalize(value, "symptom").canonical, "not_start", value);
   }
   assert.equal(normalization.canonicalize("bruit", "symptom").canonical, "noise_vibration");
-  assert.equal(normalization.canonicalize("faible débit", "symptom").canonical, "low_flow_pressure");
+  assert.equal(normalization.canonicalize("faible débit", "symptom").canonical, "low_flow");
+  assert.equal(normalization.canonicalize("low pressure", "symptom").canonical, "low_pressure");
+  assert.equal(normalization.canonicalize("ضغط منخفض", "symptom").canonical, "low_pressure");
 });
 
 test("uncertain colloquial and Arabizi aliases are explicitly marked for review, not auto-mapped", () => {

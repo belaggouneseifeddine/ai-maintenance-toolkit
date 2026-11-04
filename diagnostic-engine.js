@@ -93,7 +93,7 @@
     const notes = normalizeText(input && input.observations);
     const results = data.faults.map(fault => {
       const equipmentMatch = canonicalEquipment(fault.equipmentType) === equipment;
-      const symptomMatch = (fault.symptoms || []).some(item => { const candidate = canonicalSymptom(item); return candidate === symptom || (symptom === "noise_vibration" && ["noise","vibration"].includes(candidate)) || (symptom === "low_flow_pressure" && ["low_flow","low_pressure"].includes(candidate)); });
+      const symptomMatch = (fault.symptoms || []).some(item => { const candidate = canonicalSymptom(item); return candidate === symptom || (symptom === "noise_vibration" && ["noise","vibration"].includes(candidate)); });
       const allKeywords = Object.values(fault.keywords || {}).flat();
       const keywordMatches = findMatches(notes, allKeywords);
       const distinctHits = Math.min(keywordMatches.length, 3);
@@ -231,9 +231,7 @@
     const rawSymptom = String(value.symptom || "").toLocaleLowerCase();
     const catalogSymptom = symptom === "noise_vibration"
       ? (/vibration|اهتزاز|رجة/.test(rawSymptom) ? "vibration" : "noise")
-      : symptom === "low_flow_pressure"
-        ? (/pressure|ضغط/.test(rawSymptom) ? "low_pressure" : "low_flow")
-        : symptom;
+      : symptom;
     const observations = String(value.observations || "");
     const key = equipment + "|" + catalogSymptom;
     const local = diagnose({ equipmentType: value.machine || value.equipmentType, symptom: value.symptom, observations, language }, library);
