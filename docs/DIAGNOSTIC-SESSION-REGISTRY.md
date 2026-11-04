@@ -4,12 +4,13 @@
 
 The browser loads `diagnostic-flows.js` before `diagnostic-session.js`. The shared registry currently contains 11 equipment/symptom definitions.
 
-The adaptive session engine continues to own the two multi-question hypothesis workflows:
+The adaptive session engine owns three multi-question hypothesis workflows:
 
 - `pump|low_flow`
 - `motor|not_start`
+- `compressor|low_pressure`
 
-For the other nine registry entries, the session engine now exposes a bounded single-step guided check using the registry's existing question, answer labels, and answer-specific guidance.
+For the other eight registry entries, the session engine now exposes a bounded single-step guided check using the registry's existing question, answer labels, and answer-specific guidance.
 
 ## Evidence and reasoning boundaries
 
@@ -21,9 +22,9 @@ The existing adaptive pump and motor flows retain their current evidence ranking
 
 ## Language boundary
 
-The current registry question, answer, and guidance text is authored in Arabic only. The adapter therefore refuses to display these nine single-step flows in French or English and returns `flow_translation_pending`. The UI explains that the technical wording has not yet been reviewed in those languages.
+The current registry question, answer, and guidance text is authored in Arabic only. The adapter therefore refuses to display these eight single-step flows in French or English and returns `flow_translation_pending`. The UI explains that the technical wording has not yet been reviewed in those languages.
 
-This is intentional: untranslated technical safety instructions must not silently appear as reviewed translations. The existing pump and motor adaptive flows remain available in Arabic, French, and English.
+This is intentional: untranslated technical safety instructions must not silently appear as reviewed translations. The adaptive pump, motor, and compressor flows remain available in Arabic, French, and English.
 
 ## Input matching
 
@@ -34,8 +35,8 @@ The UI resolves equipment and symptom text against a bounded alias map, then che
 `tests/diagnostic-session-registry.test.cjs` covers:
 
 - All 11 registry keys can start a session.
-- The two existing adaptive sessions remain adaptive.
-- The other nine entries use the single-step adapter.
+- All three adaptive sessions remain adaptive.
+- The other eight entries use the single-step adapter.
 - Curated guidance is returned exactly for the selected answer.
 - Single-step answers do not fabricate Bayesian evidence or a confirmed cause.
 - Invalid answers do not mutate the session.

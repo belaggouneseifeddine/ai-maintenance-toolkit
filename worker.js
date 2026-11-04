@@ -27,6 +27,14 @@ const CURATED_DIAGNOSTIC_FLOWS = Object.freeze({
       power_or_mechanical: "Power circuit or mechanical load requiring qualified inspection"
     }),
     evidence: Object.freeze(["no-start-command", "permissive-block", "command-present", "trip-present", "no-trip-indicated"])
+  }),
+  "compressor|low_pressure": Object.freeze({
+    hypotheses: Object.freeze({
+      compressor_capacity_or_control: "Compressor capacity or control/protection state",
+      distribution_leak_or_demand: "Distribution network, leakage, or changed demand",
+      air_treatment_restriction: "Filter or air-treatment restriction"
+    }),
+    evidence: Object.freeze(["compressor-outlet-low", "outlet-normal-point-low", "outlet-normal", "pressures-similar", "unloaded-or-trip", "compressor-control-abnormal", "loaded-no-trip", "demand-high", "demand-baseline", "leak-indicated", "treatment-dp-high", "filter-alert", "dryer-restriction", "treatment-indicators-normal"])
   })
 });
 
@@ -566,6 +574,25 @@ export default {
     if (!body || typeof body !== "object" || Array.isArray(body)) return json({ error: "Invalid JSON request." }, 400, origin);
 
     const { machine, symptom, code = "", observations = "", measurementStatus = "unknown", language = "ar", diagnosticFlowId = "", diagnosticEvidence = [] } = body;
+    if (![machine, symptom, code, observations, measurementStatus, language].every(v => typeof v === "string")) {
+      return json({ error: "All fields must be text." }, 400, origin);
+    }
+    if (machine.length > 120 || symptom.length > 240 || code.length > 300 || observations.length > 3000 || !["unknown", "none", "available"].includes(measurementStatus) || !LANGUAGES.has(language)) {
+      return json({ error: "Input too long or language unsupported." }, 413, origin);
+    }
+    if (!machine.trim() || !symptom.trim()) return json({ error: "Equipment and symptom are required." }, 400, origin);
+
+    const safetyTrigger = detectSafetyGate({ machine, symptom, code, observations });
+    if (safetyTrigger) {
+      const diagnosis = buildSafetyGateDiagnosis({ trigger: safetyTrigger, machine, symptom, language });
+      return json({
+        answer: formatDiagnosis(diagnosis),
+        diagnosis,
+        safety_gate: { trigger: safetyTrigger, source: "deterministic", model_called: false, retrieval_called: false },
+        retrieval: { status: "not_run", matchedChunks: 0, availableDocuments: [] }
+      }, 200, origin);
+    }
+
     if (diagnosticFlowId !== "" && (typeof diagnosticFlowId !== "string" || !Object.hasOwn(CURATED_DIAGNOSTIC_FLOWS, diagnosticFlowId))) {
       return json({ error: "Unknown curated diagnostic flow.", code: "unknown_diagnostic_flow" }, 400, origin);
     }
@@ -591,7 +618,21 @@ export default {
       "permissive-block": "start permissive not satisfied",
       "command-present": "start command shown",
       "trip-present": "protection or drive trip shown",
-      "no-trip-indicated": "no trip indicated on available interface"
+      "no-trip-indicated": "no trip indicated on available interface",
+      "compressor-outlet-low": "compressor outlet pressure low",
+      "outlet-normal-point-low": "compressor outlet normal but point-of-use pressure low",
+      "outlet-normal": "compressor outlet pressure normal against baseline",
+      "demand-high": "operating demand above baseline",
+      "demand-baseline": "operating demand remains at baseline",
+      "leak-indicated": "external leak indication observed from a safe location",
+      "pressures-similar": "no clear pressure difference between available points",
+      "unloaded-or-trip": "compressor unloaded or trip/alarm present",
+      "compressor-control-abnormal": "compressor control state or sequence appears abnormal",
+      "loaded-no-trip": "compressor loaded with no alarm shown",
+      "treatment-dp-high": "air-treatment differential pressure above baseline",
+      "filter-alert": "filter alarm or maintenance indication present",
+      "dryer-restriction": "abnormal dryer indication",
+      "treatment-indicators-normal": "air-treatment indicators normal against baseline"
     };
     const curatedEvidenceContext = curatedFlow
       ? diagnosticEvidence.map(id => id + " = " + curatedEvidenceMeanings[id]).join("; ")
@@ -603,37 +644,23 @@ export default {
     const normalizedSymptom = normalizeEvidenceText(symptom);
     const pumpMachine = normalizedMachine.includes("pump") || normalizedMachine.includes("مضخه");
     const motorMachine = normalizedMachine.includes("motor") || normalizedMachine.includes("محرك");
+    const compressorMachine = normalizedMachine.includes("compressor") || normalizedMachine.includes("ضاغط");
     const lowFlowSymptom = normalizedSymptom.includes("low flow") || normalizedSymptom.includes("low_flow") || normalizedSymptom.includes("ضعف تدفق") || normalizedSymptom.includes("ضعف التدفق") || normalizedSymptom.includes("faible debit");
+    const lowPressureSymptom = normalizedSymptom.includes("low pressure") || normalizedSymptom.includes("low_pressure") || normalizedSymptom.includes("ضغط منخفض") || normalizedSymptom.includes("pression basse") || normalizedSymptom.includes("pression faible");
     const motorStartSymptom = normalizedSymptom.includes("not start") || normalizedSymptom.includes("not_start") || normalizedSymptom.includes("won't start") || normalizedSymptom.includes("does not start") || normalizedSymptom.includes("لا يبدا") || normalizedSymptom.includes("لا يبدأ") || normalizedSymptom.includes("ne demarre pas");
     if (diagnosticFlowId && (
       (diagnosticFlowId === "pump|low_flow" && (!pumpMachine || !lowFlowSymptom)) ||
-      (diagnosticFlowId === "motor|not_start" && (!motorMachine || !motorStartSymptom))
+      (diagnosticFlowId === "motor|not_start" && (!motorMachine || !motorStartSymptom)) ||
+      (diagnosticFlowId === "compressor|low_pressure" && (!compressorMachine || !lowPressureSymptom))
     )) {
       return json({ error: "Curated flow does not match the equipment and symptom.", code: "diagnostic_flow_mismatch" }, 400, origin);
     }
-    if (![machine, symptom, code, observations, measurementStatus, language].every(v => typeof v === "string")) {
-      return json({ error: "All fields must be text." }, 400, origin);
-    }
-    if (machine.length > 120 || symptom.length > 240 || code.length > 300 || observations.length > 3000 || !["unknown", "none", "available"].includes(measurementStatus) || !LANGUAGES.has(language)) {
-      return json({ error: "Input too long or language unsupported." }, 413, origin);
-    }
-    if (!machine.trim() || !symptom.trim()) return json({ error: "Equipment and symptom are required." }, 400, origin);
-
+    // Rate-limit only requests that proceed to retrieval/model work. The deterministic
+    // safety response must remain available even when the AI quota is exhausted.
     if (env.AI_RATE_LIMITER) {
       const key = request.headers.get("cf-connecting-ip") || "unknown-client";
       const decision = await env.AI_RATE_LIMITER.limit({ key });
       if (!decision.success) return json({ error: "Request limit reached. Please wait and try again." }, 429, origin);
-    }
-
-    const safetyTrigger = detectSafetyGate({ machine, symptom, code, observations });
-    if (safetyTrigger) {
-      const diagnosis = buildSafetyGateDiagnosis({ trigger: safetyTrigger, machine, symptom, language });
-      return json({
-        answer: formatDiagnosis(diagnosis),
-        diagnosis,
-        safety_gate: { trigger: safetyTrigger, source: "deterministic", model_called: false, retrieval_called: false },
-        retrieval: { status: "not_run", matchedChunks: 0, availableDocuments: [] }
-      }, 200, origin);
     }
 
     const evidence = assessEvidence({ machine, symptom, code, observations, language });

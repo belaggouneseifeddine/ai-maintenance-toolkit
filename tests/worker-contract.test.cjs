@@ -442,6 +442,36 @@ test("rate limiter denial returns 429 before retrieval or Gemini", async () => {
   assert.deepEqual({ upstreamCalls, knowledgeCalls }, before);
 });
 
+test("deterministic safety gate remains available when the AI rate limiter denies requests", async () => {
+  const before = { upstreamCalls, knowledgeCalls };
+  let limiterCalls = 0;
+  const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
+    method: "POST",
+    headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
+    body: JSON.stringify({
+      machine: "مضخة صناعية",
+      symptom: "تجاوز الانترلوك لتعطيل الحماية",
+      observations: "المعدة تستمر في العمل",
+      language: "ar"
+    })
+  }), {
+    AI_RATE_LIMITER: {
+      limit: async () => {
+        limiterCalls++;
+        return { success: false };
+      }
+    }
+  });
+  assert.equal(response.status, 200);
+  const body = await response.json();
+  assert.equal(body.diagnosis.status, "escalation_required");
+  assert.equal(body.safety_gate.trigger, "protection_bypass");
+  assert.equal(body.safety_gate.model_called, false);
+  assert.equal(body.retrieval.status, "not_run");
+  assert.equal(limiterCalls, 0);
+  assert.deepEqual({ upstreamCalls, knowledgeCalls }, before);
+});
+
 test("non-POST diagnosis requests are rejected with no-store and no provider details", async () => {
   const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
     method: "GET",
@@ -516,6 +546,18 @@ test("curated diagnostic flow must match the equipment family", async () => {
   }), { AI_API_KEY: "test-only-placeholder" });
   assert.equal(response.status, 400);
   assert.equal((await response.json()).code, "diagnostic_flow_mismatch");
+});
+
+test("compressor curated flow rejects low-flow symptom text as a mismatch", async () => {
+  const before = { upstreamCalls, knowledgeCalls };
+  const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
+    method: "POST",
+    headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
+    body: JSON.stringify({ machine: "industrial compressor", symptom: "low flow", diagnosticFlowId: "compressor|low_pressure", language: "ar" })
+  }), { AI_API_KEY: "test-only-placeholder" });
+  assert.equal(response.status, 400);
+  assert.equal((await response.json()).code, "diagnostic_flow_mismatch");
+  assert.deepEqual({ upstreamCalls, knowledgeCalls }, before);
 });
 
 test("curated flow restricts Gemini output to server-approved hypothesis IDs", async () => {
@@ -652,4 +694,48 @@ test("Cloudflare provider normalizes uppercase app schema types to JSON Schema t
   assert.equal(normalized.properties.items.type, "array");
   assert.equal(normalized.properties.items.items.type, "integer");
   assert.deepEqual(normalized.properties.status.enum, ["needs_clarification"]);
+});
+
+
+test("deterministic safety gate takes priority over an invalid curated diagnostic flow", async () => {
+  const before = { upstreamCalls, knowledgeCalls };
+  const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
+    method: "POST",
+    headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
+    body: JSON.stringify({
+      machine: "industrial pump",
+      symptom: "bypass the safety interlock",
+      diagnosticFlowId: "pump|stale-flow",
+      diagnosticEvidence: ["not-a-real-evidence-id"],
+      language: "en"
+    })
+  }), { AI_API_KEY: "test-only-placeholder" });
+  assert.equal(response.status, 200);
+  const body = await response.json();
+  assert.equal(body.safety_gate.trigger, "protection_bypass");
+  assert.equal(body.diagnosis.status, "escalation_required");
+  assert.equal(body.safety_gate.model_called, false);
+  assert.equal(body.retrieval.status, "not_run");
+  assert.deepEqual({ upstreamCalls, knowledgeCalls }, before);
+});
+
+test("deterministic safety gate takes priority over curated flow equipment or symptom mismatch", async () => {
+  const before = { upstreamCalls, knowledgeCalls };
+  const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
+    method: "POST",
+    headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
+    body: JSON.stringify({
+      machine: "industrial hydraulic pump",
+      symptom: "high pressure hydraulic leak",
+      diagnosticFlowId: "compressor|low_pressure",
+      language: "en"
+    })
+  }), { AI_API_KEY: "test-only-placeholder" });
+  assert.equal(response.status, 200);
+  const body = await response.json();
+  assert.equal(body.safety_gate.trigger, "high_pressure_leak");
+  assert.equal(body.diagnosis.status, "escalation_required");
+  assert.equal(body.safety_gate.model_called, false);
+  assert.equal(body.retrieval.status, "not_run");
+  assert.deepEqual({ upstreamCalls, knowledgeCalls }, before);
 });

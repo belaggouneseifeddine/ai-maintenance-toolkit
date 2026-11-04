@@ -149,3 +149,48 @@ Only after timestamped, quality-controlled history exists, explore trend analysi
 - Printable inspection report suitable for the browser's “Save as PDF” print flow.
 - The report separates user-entered observations from suggested checks and explicitly states that it is not an engineering approval or work permit.
 - The selected priority is carried into the local log status; this is a user selection, not an automatic risk assessment.
+
+
+## 2026-11-03 verified status and priority update
+
+This section supersedes the older baseline where the two differ. It distinguishes code already on `main` from work that remains in draft pull requests.
+
+### Verified implementation on `main` (commit `f22880f`)
+
+- The shared diagnostic registry contains 11 equipment/symptom definitions.
+- Two flows are multi-step adaptive sessions (pump low-flow and motor no-start); the other nine registry entries use the single-step adapter.
+- Local diagnosis is deterministic/rule-based with a qualitative Bayesian-style ranking layer. The probabilities are explicitly not calibrated from field failure data.
+- The PWA caches its app shell. Maintenance records remain browser-local; there is no cross-device synchronization or conflict resolution.
+- The Cloudflare Worker health endpoint is reachable, but a successful health response does not verify the live generative-model path.
+- The knowledge audit report in the repository was last modified on 2026-10-25. Its counts are a historical snapshot until the audit script is rerun.
+
+### Draft changes awaiting review
+
+- PR #122 adds a third adaptive session for compressor low pressure and moves the deterministic safety gate ahead of the AI rate limiter. The code changes passed GitHub Actions on head `1f127ccb`; this roadmap-only follow-up commit is awaiting its own CI run. It is not merged or deployed.
+- PR #123 proposes manual-only production deployment and manual-only live AI smoke testing. Its latest reported checks passed; it is not merged. Repository-level branch protection remains a separate settings task.
+
+### Updated priority order
+
+| Priority | Work | Exit condition |
+|---|---|---|
+| P0 | Release governance | Protect `main` with required PR review/checks; keep Pages and Worker production deploys manual-only; keep live model smoke tests explicitly approved |
+| P1 | Complete adaptive diagnosis | Review PR #122; put local guided diagnosis on the primary diagnosis path; expand equipment coverage without changing stable flows |
+| P1 | Replace heuristic confidence with calibrated reasoning | Define per-equipment priors and likelihoods from reviewed cases; model dependencies explicitly; rank tests using expected information gain adjusted for test risk, time, and availability; validate calibration against recorded outcomes |
+| P1 | Knowledge provenance | Regenerate the audit report; approve source/license records; verify exact manufacturer/model/revision applicability; return page/section citations for every model-specific claim |
+| P2 | Safety assurance | Expand multilingual hazard/negation/contradiction tests; keep deterministic stop-work guidance independent of model availability and AI quotas |
+| P2 | Offline and mobile reliability | Persist guided-session state locally; test cache recovery and data loss on Android; add explicit sync/conflict semantics before any cloud synchronization |
+| P2 | Performance | Lazy-load equipment-specific knowledge bundles; measure real first-load transfer and mobile performance rather than relying only on repository file sizes |
+| P3 | Collaboration and CMMS integration | Add authenticated contributions, roles, review/version/dispute history, and an asset/work-order integration boundary before enabling public writes |
+| P3 | Condition monitoring | Add read-only, timestamped sensor ingestion only after units, calibration, asset identity, and data quality are defined |
+
+### Reasoning and product boundary
+
+The current product should remain a diagnostic-first tool, not attempt to reproduce a full EAM/CMMS. The strongest product direction is a local, evidence-traceable troubleshooting layer that can export a defensible report and later connect to existing work-order, asset, and inventory systems. Do not claim predictive maintenance until timestamped field data and measured validation exist.
+
+### Non-negotiable release gates
+
+- No merge, production deployment, paid provider request, or public knowledge write without explicit approval.
+- No model-specific limit, setpoint, or repair instruction without an exact applicable source.
+- Unknown and contradictory evidence must remain visible; do not convert absence of data into a negative finding.
+- A model suggestion must never override the deterministic safety gate.
+- Report automated CI, live provider checks, and physical Android/offline acceptance as separate evidence categories.
