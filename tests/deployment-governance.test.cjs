@@ -23,7 +23,24 @@ test("production deployment workflows are manual-only", () => {
   }
 });
 
-test("live AI provider smoke test requires a manual run", () => {
+test("production deployment jobs are restricted to main", () => {
+  for (const relativePath of productionWorkflows) {
+    const source = fs.readFileSync(path.join(root, relativePath), "utf8");
+    assert.match(source, /^\s+if: github\.ref == ['"]refs\/heads\/main['"]\s*$/m, relativePath + " must block deployment from non-main refs");
+  }
+});
+
+test("Cloudflare Pages and Worker production jobs use the protected production environment", () => {
+  for (const relativePath of [
+    ".github/workflows/deploy-cloudflare-pages.yml",
+    ".github/workflows/deploy-worker.yml"
+  ]) {
+    const source = fs.readFileSync(path.join(root, relativePath), "utf8");
+    assert.match(source, /^\s+environment: production\s*$/m, relativePath + " must use the protected production environment");
+  }
+});
+
+test("live AI smoke requires manual dispatch, main ref, and explicit boolean confirmation", () => {
   const relativePath = ".github/workflows/live-ai-provider-smoke.yml";
   const source = fs.readFileSync(path.join(root, relativePath), "utf8");
   const triggerStart = source.indexOf("\non:");
@@ -32,6 +49,8 @@ test("live AI provider smoke test requires a manual run", () => {
   const triggerBlock = source.slice(triggerStart + 1, permissionsStart);
   assert.match(triggerBlock, /^\s+workflow_dispatch:\s*$/m);
   assert.doesNotMatch(triggerBlock, /^\s+(?:push|workflow_run):/m);
+  assert.match(triggerBlock, /confirm_live_request:[\s\S]*?required: true[\s\S]*?type: boolean[\s\S]*?default: false/);
+  assert.match(source, /^\s+if: github\.ref == ['"]refs\/heads\/main['"] && inputs\.confirm_live_request == true\s*$/m);
 });
 
 test("deployment and primary test workflows do not use the end-of-life Node.js 20 line", () => {
