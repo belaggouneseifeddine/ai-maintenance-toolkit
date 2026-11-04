@@ -53,7 +53,6 @@
     if (confirmedLookup[domain].has(normalized)) {
       let canonical = confirmedLookup[domain].get(normalized);
       if (domain === "symptom" && ["noise","vibration"].includes(canonical)) canonical = "noise_vibration";
-      if (domain === "symptom" && ["low_flow","low_pressure"].includes(canonical)) canonical = "low_flow_pressure";
       return { canonical, normalized, status:"confirmed", alias:normalized };
     }
     if (reviewLookup[domain].has(normalized)) return { canonical:null, normalized, status:"review_required", suggestedCanonical:reviewLookup[domain].get(normalized), alias:normalized };
