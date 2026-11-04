@@ -695,3 +695,47 @@ test("Cloudflare provider normalizes uppercase app schema types to JSON Schema t
   assert.equal(normalized.properties.items.items.type, "integer");
   assert.deepEqual(normalized.properties.status.enum, ["needs_clarification"]);
 });
+
+
+test("deterministic safety gate takes priority over an invalid curated diagnostic flow", async () => {
+  const before = { upstreamCalls, knowledgeCalls };
+  const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
+    method: "POST",
+    headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
+    body: JSON.stringify({
+      machine: "industrial pump",
+      symptom: "bypass the safety interlock",
+      diagnosticFlowId: "pump|stale-flow",
+      diagnosticEvidence: ["not-a-real-evidence-id"],
+      language: "en"
+    })
+  }), { AI_API_KEY: "test-only-placeholder" });
+  assert.equal(response.status, 200);
+  const body = await response.json();
+  assert.equal(body.safety_gate.trigger, "protection_bypass");
+  assert.equal(body.diagnosis.status, "escalation_required");
+  assert.equal(body.safety_gate.model_called, false);
+  assert.equal(body.retrieval.status, "not_run");
+  assert.deepEqual({ upstreamCalls, knowledgeCalls }, before);
+});
+
+test("deterministic safety gate takes priority over curated flow equipment or symptom mismatch", async () => {
+  const before = { upstreamCalls, knowledgeCalls };
+  const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
+    method: "POST",
+    headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
+    body: JSON.stringify({
+      machine: "industrial hydraulic pump",
+      symptom: "high pressure hydraulic leak",
+      diagnosticFlowId: "compressor|low_pressure",
+      language: "en"
+    })
+  }), { AI_API_KEY: "test-only-placeholder" });
+  assert.equal(response.status, 200);
+  const body = await response.json();
+  assert.equal(body.safety_gate.trigger, "high_pressure_leak");
+  assert.equal(body.diagnosis.status, "escalation_required");
+  assert.equal(body.safety_gate.model_called, false);
+  assert.equal(body.retrieval.status, "not_run");
+  assert.deepEqual({ upstreamCalls, knowledgeCalls }, before);
+});
