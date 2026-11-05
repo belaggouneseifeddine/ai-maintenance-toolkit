@@ -22,6 +22,10 @@ Staging workflows are not changed by this proposal. The three deployment workflo
 - GitHub Pages retains the canonical `github-pages` environment; configure its required reviewers and branch restrictions in repository settings.
 - The live AI smoke job requires both `main` and the explicit boolean input `confirm_live_request=true`; the default is false.
 
+## Deployment audit note — 2026-11-04
+
+Immediately before this manual-only policy merged, the PR #122 merge to `main` triggered the then-configured automatic production deployment workflows. GitHub Actions reported successful Cloudflare Pages, GitHub Pages, and production Worker deployment jobs. The Cloudflare Pages smoke test passed; the GitHub Pages post-deploy smoke test passed for the published app and Worker API; the Worker provider-configuration verification passed. This event preceded this governance change; the PR #123 governance merge itself did not deploy production assets. The workflows on current `main` now require manual dispatch.
+
 ## Operational boundaries
 
 - This branch does not deploy, merge, provision, or modify any production resource.

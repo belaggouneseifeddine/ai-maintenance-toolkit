@@ -28,6 +28,14 @@ const CURATED_DIAGNOSTIC_FLOWS = Object.freeze({
     }),
     evidence: Object.freeze(["no-start-command", "permissive-block", "command-present", "trip-present", "no-trip-indicated"])
   }),
+  "vfd|trip": Object.freeze({
+    hypotheses: Object.freeze({
+      input_supply_or_dc_bus: "Drive input supply or DC-bus condition",
+      motor_cable_or_load: "Motor, output cable, or driven load",
+      control_feedback_or_external_fault: "Control, feedback, or external fault signal"
+    }),
+    evidence: Object.freeze(["input-supply-fault-indicated", "input-voltage-alarm", "phase-loss-indicated", "input-supply-indicators-normal", "motor-output-fault-indicated", "overcurrent-trip", "earth-fault-trip", "motor-overload-indicated", "motor-load-indicators-normal", "control-feedback-fault-indicated", "external-fault-active", "permissive-not-met", "control-status-normal"])
+  }),
   "compressor|low_pressure": Object.freeze({
     hypotheses: Object.freeze({
       compressor_capacity_or_control: "Compressor capacity or control/protection state",
@@ -620,6 +628,19 @@ export default {
       "command-present": "start command shown",
       "trip-present": "protection or drive trip shown",
       "no-trip-indicated": "no trip indicated on available interface",
+      "input-supply-fault-indicated": "exact-model manual classifies the saved trip code as input supply or DC-bus fault",
+      "input-voltage-alarm": "drive interface displays an input-voltage alarm",
+      "phase-loss-indicated": "drive interface or exact-model manual indicates input phase loss",
+      "input-supply-indicators-normal": "available input-supply indicators appear normal against baseline",
+      "motor-output-fault-indicated": "exact-model manual classifies the saved trip code as motor or output fault",
+      "overcurrent-trip": "exact-model manual classifies the saved trip code as overcurrent",
+      "earth-fault-trip": "exact-model manual classifies the saved trip code as earth or ground fault",
+      "motor-overload-indicated": "drive interface indicates motor overload or high motor temperature",
+      "motor-load-indicators-normal": "available motor/load indicators appear normal against baseline",
+      "control-feedback-fault-indicated": "exact-model manual classifies the saved trip code as control or external-signal fault",
+      "external-fault-active": "external-fault input is active on the authorized control interface",
+      "permissive-not-met": "drive enable or permissive condition is not satisfied",
+      "control-status-normal": "available command, enable, and permissive indicators appear normal",
       "compressor-outlet-low": "compressor outlet pressure low",
       "outlet-normal-point-low": "compressor outlet normal but point-of-use pressure low",
       "outlet-normal": "compressor outlet pressure normal against baseline",
@@ -646,12 +667,15 @@ export default {
     const pumpMachine = normalizedMachine.includes("pump") || normalizedMachine.includes("مضخه");
     const motorMachine = normalizedMachine.includes("motor") || normalizedMachine.includes("محرك");
     const compressorMachine = normalizedMachine.includes("compressor") || normalizedMachine.includes("ضاغط");
+    const vfdMachine = normalizedMachine.includes("vfd") || normalizedMachine.includes("variable frequency") || normalizedMachine.includes("variator") || normalizedMachine.includes("variateur") || normalizedMachine.includes("variador") || normalizedMachine.includes("مغير السرعة") || normalizedMachine.includes("مغير التردد");
     const lowFlowSymptom = normalizedSymptom.includes("low flow") || normalizedSymptom.includes("low_flow") || normalizedSymptom.includes("ضعف تدفق") || normalizedSymptom.includes("ضعف التدفق") || normalizedSymptom.includes("faible debit");
     const lowPressureSymptom = normalizedSymptom.includes("low pressure") || normalizedSymptom.includes("low_pressure") || normalizedSymptom.includes("ضغط منخفض") || normalizedSymptom.includes("pression basse") || normalizedSymptom.includes("pression faible");
     const motorStartSymptom = normalizedSymptom.includes("not start") || normalizedSymptom.includes("not_start") || normalizedSymptom.includes("won't start") || normalizedSymptom.includes("does not start") || normalizedSymptom.includes("لا يبدا") || normalizedSymptom.includes("لا يبدأ") || normalizedSymptom.includes("ne demarre pas");
+    const vfdTripSymptom = normalizedSymptom.split(/\s+/).some(token => ["trip", "tripping", "fault", "overcurrent", "فصل", "انذار", "عطل", "declenchement", "defaut"].includes(token));
     if (diagnosticFlowId && (
       (diagnosticFlowId === "pump|low_flow" && (!pumpMachine || !lowFlowSymptom)) ||
       (diagnosticFlowId === "motor|not_start" && (!motorMachine || !motorStartSymptom)) ||
+      (diagnosticFlowId === "vfd|trip" && (!vfdMachine || !vfdTripSymptom)) ||
       (diagnosticFlowId === "compressor|low_pressure" && (!compressorMachine || !lowPressureSymptom))
     )) {
       return json({ error: "Curated flow does not match the equipment and symptom.", code: "diagnostic_flow_mismatch" }, 400, origin);

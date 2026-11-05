@@ -560,6 +560,24 @@ test("compressor curated flow rejects low-flow symptom text as a mismatch", asyn
   assert.deepEqual({ upstreamCalls, knowledgeCalls }, before);
 });
 
+test("VFD curated flow rejects a motor-only or non-trip request before retrieval or model work", async () => {
+  const before = { upstreamCalls, knowledgeCalls };
+  const mismatches = [
+    { machine: "industrial motor", symptom: "trip" },
+    { machine: "VFD", symptom: "low pressure" }
+  ];
+  for (const item of mismatches) {
+    const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
+      method: "POST",
+      headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
+      body: JSON.stringify({ ...item, diagnosticFlowId: "vfd|trip", language: "en" })
+    }), { AI_API_KEY: "test-only-placeholder" });
+    assert.equal(response.status, 400);
+    assert.equal((await response.json()).code, "diagnostic_flow_mismatch");
+  }
+  assert.deepEqual({ upstreamCalls, knowledgeCalls }, before);
+});
+
 test("curated flow restricts Gemini output to server-approved hypothesis IDs", async () => {
   const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
     method: "POST",
