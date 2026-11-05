@@ -10,7 +10,7 @@ const productionWorkflows = [
   ".github/workflows/deploy-worker.yml"
 ];
 
-test("GitHub Pages auto-deploys on main while other production deployments remain manual-only", () => {
+test("all production deployment workflows are manual-only", () => {
   for (const relativePath of productionWorkflows) {
     const source = fs.readFileSync(path.join(root, relativePath), "utf8");
     const triggerStart = source.indexOf("\non:");
@@ -19,13 +19,8 @@ test("GitHub Pages auto-deploys on main while other production deployments remai
     const triggerBlock = source.slice(triggerStart + 1, permissionsStart);
     assert.match(triggerBlock, /^on:\s*$/m, relativePath);
     assert.match(triggerBlock, /^\s+workflow_dispatch:\s*$/m, relativePath);
-
-    if (relativePath === ".github/workflows/deploy-pages.yml") {
-      assert.match(triggerBlock, /^\s+push:\s*\n\s+branches:\s*\n\s+- main\s*$/m,
-        relativePath + " must auto-deploy only after pushes to main");
-    } else {
-      assert.doesNotMatch(triggerBlock, /^\s+(?:push|workflow_run):/m, relativePath);
-    }
+    assert.doesNotMatch(triggerBlock, /^\s+(?:push|workflow_run):/m,
+      relativePath + " must not deploy automatically after a push or workflow run");
   }
 });
 
