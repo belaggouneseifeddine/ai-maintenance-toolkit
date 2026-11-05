@@ -40,6 +40,9 @@
 - The three multi-step flows rank hypotheses from grouped evidence. The ranking explicitly states that its scores are not calibrated probabilities.
 - The next-question selector uses pairwise hypothesis separation with equal outcome weighting. This is a heuristic, not entropy-based expected information gain.
 - `bayesian-engine.js` uses default prior 0.2 and fixed likelihood ratios 1.5 / 1÷1.5. It reports `calibrated: false`. There are no field-failure datasets or learned conditional probability tables in this implementation.
+- The offline local diagnosis path loads the cached `faults.json` and uses deterministic equipment/symptom matching plus bounded keyword hits. It does not run a local embedding model or semantic/vector index.
+- The optional Worker retrieval path uses BM25 lexical ranking with a legacy lexical fallback. It fetches 10 Markdown documents from the repository's raw-content endpoint, keeps a 5-minute per-isolate cache, and returns up to four matching sections. This is stronger than simple exact-keyword search, but it is still lexical retrieval, not embeddings/semantic search; cache misses depend on network availability.
+- The Worker attaches source excerpts using lexical overlap heuristics. A retrieved passage or matching token set is not proof that the passage entails every generated claim.
 - `evidence-reasoning.js` requires explicit verified claims and exact manufacturer/model scope before treating a source as applicable. A source URL by itself is insufficient.
 
 ### Critical critique
@@ -112,6 +115,7 @@ The child branch is still 10 commits behind and 81 commits ahead of `main`, beca
 - The app is a static, mobile-first PWA with a local deterministic engine, local maintenance records, CSV/report export, multilingual UI, and app-shell caching.
 - The service worker does not provide a full offline work-order sync system. Maintenance records remain browser-local; no cross-device synchronization or conflict resolution is present.
 - Guided diagnostic-session state is held in the UI session object and is not persisted as a resumable offline session.
+- The service worker caches `faults.json` and the app shell, but not the 10 Worker-fetched Markdown knowledge files. Consequently, the local rule-based diagnosis remains usable offline, while the Worker BM25 retrieval path does not become an offline knowledge index.
 - There is no demonstrated local upload queue for community documents.
 - The UI has Arabic RTL, English/French support, keyboard focus and reduced-motion checks, and a six-tab mobile navigation. CI passed the automated viewport/language/theme browser checks on main commit `63d219c`; physical Android acceptance remains unverified.
 - The static multi-script architecture is low-cost and avoids bundler/runtime overhead, but large knowledge assets are loaded as part of the app shell. Measure actual mobile transfer and memory before optimizing by guesswork.
