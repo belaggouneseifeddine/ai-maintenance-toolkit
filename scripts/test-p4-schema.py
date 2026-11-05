@@ -9,6 +9,7 @@ MIGRATIONS = [
     ROOT / "migrations" / "0001_p4_community_knowledge.sql",
     ROOT / "migrations" / "0002_p4_anonymous_profiles.sql",
     ROOT / "migrations" / "0003_github_document_index.sql",
+    ROOT / "migrations" / "0004_p4_storage_quota_reservations.sql",
 ]
 
 
@@ -40,6 +41,72 @@ class P4SchemaTests(unittest.TestCase):
 
     def tearDown(self):
         self.db.close()
+
+    def insert_document(self, document_id, byte_size, storage_backend="r2", deleted_at=None):
+        object_key = (
+            "github://repo/" + document_id + ".pdf"
+            if storage_backend == "github"
+            else "private/" + document_id
+        )
+        self.db.execute(
+            """INSERT INTO source_documents
+               (id, owner_contributor_id, original_filename, mime_type, byte_size,
+                sha256, r2_object_key, storage_backend, created_at, updated_at, deleted_at)
+               VALUES (?, 'u1', ?, 'application/pdf', ?, ?, ?, ?, '2026-11-05T19:00:00.000Z',
+                       '2026-11-05T19:00:00.000Z', ?)""",
+            (document_id, document_id + ".pdf", byte_size, "a" * 64,
+             object_key, storage_backend, deleted_at),
+        )
+
+    def insert_reservation(self, reservation_id, byte_size, created_at="2026-11-05T19:00:00.000Z",
+                           expires_at="2026-11-05T19:30:00.000Z"):
+        self.db.execute(
+            """INSERT INTO source_document_reservations
+               (id, owner_contributor_id, byte_size, created_at, expires_at)
+               VALUES (?, 'u1', ?, ?, ?)""",
+            (reservation_id, byte_size, created_at, expires_at),
+        )
+
+    def test_global_r2_quota_is_enforced_by_atomic_reservation_trigger(self):
+        self.insert_document("global-full", 1024 * 1024 * 1024)
+        with self.assertRaises(sqlite3.IntegrityError) as error:
+            self.insert_reservation("global-over", 1)
+        self.assertIn("staging_storage_quota", str(error.exception))
+
+    def test_per_contributor_r2_quota_is_enforced_by_atomic_reservation_trigger(self):
+        self.insert_document("contributor-full", 100 * 1024 * 1024)
+        with self.assertRaises(sqlite3.IntegrityError) as error:
+            self.insert_reservation("contributor-over", 1)
+        self.assertIn("contributor_storage_quota", str(error.exception))
+
+    def test_active_reservations_are_counted_before_uploads_finish(self):
+        for index in range(10):
+            self.insert_reservation("active-" + str(index), 10 * 1024 * 1024)
+        with self.assertRaises(sqlite3.IntegrityError) as error:
+            self.insert_reservation("active-over", 1)
+        self.assertIn("contributor_storage_quota", str(error.exception))
+
+    def test_github_documents_and_expired_reservations_do_not_consume_r2_quota(self):
+        self.insert_document("github-large", 1024 * 1024 * 1024, storage_backend="github")
+        self.insert_reservation(
+            "expired", 10 * 1024 * 1024,
+            created_at="2026-11-05T18:00:00.000Z",
+            expires_at="2026-11-05T18:30:00.000Z",
+        )
+        self.insert_reservation("current", 10 * 1024 * 1024)
+        active = self.db.execute(
+            "SELECT COUNT(*) FROM source_document_reservations WHERE expires_at > ?",
+            ("2026-11-05T19:00:00.000Z",),
+        ).fetchone()[0]
+        self.assertEqual(active, 1)
+
+    def test_deleted_r2_documents_do_not_consume_quota(self):
+        self.insert_document("deleted-doc", 100 * 1024 * 1024, deleted_at="2026-11-05T18:00:00.000Z")
+        self.insert_reservation("after-delete", 10 * 1024 * 1024)
+
+    def test_reservation_size_cannot_exceed_single_upload_limit(self):
+        with self.assertRaises(sqlite3.IntegrityError):
+            self.insert_reservation("too-large", 10 * 1024 * 1024 + 1)
 
     def test_approval_activates_current_revision_without_upgrading_evidence(self):
         self.db.execute("""
