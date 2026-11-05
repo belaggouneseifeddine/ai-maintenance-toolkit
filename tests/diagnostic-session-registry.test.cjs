@@ -7,7 +7,7 @@ require("../bayesian-engine.js");
 const engine = require("../diagnostic-session.js");
 const ui = require("../diagnostic-session-ui.js");
 const registry = global.MAINTENANCE_DIAGNOSTIC_FLOWS.flows;
-const adaptiveKeys = new Set(["pump|low_flow", "motor|not_start", "compressor|low_pressure"]);
+const adaptiveKeys = new Set(["pump|low_flow", "motor|not_start", "compressor|low_pressure", "vfd|trip"]);
 const registryOnlyEntries = Object.entries(registry).filter(([key]) => !adaptiveKeys.has(key));
 
 test("all shared registry keys start a guided session without replacing existing adaptive sessions", () => {
@@ -30,7 +30,7 @@ test("all shared registry keys start a guided session without replacing existing
 });
 
 test("registry-only answers return curated guidance and never a confirmed cause", () => {
-  assert.equal(registryOnlyEntries.length, 8);
+  assert.equal(registryOnlyEntries.length, 7);
   for (const [key, flow] of registryOnlyEntries) {
     const [equipment, symptom] = key.split("|");
     const session = engine.createSession({equipment, symptom, language:"ar"});
@@ -87,10 +87,12 @@ test("symptom resolver does not silently reinterpret pressure as flow or vice ve
   assert.equal(ui.resolveInput("compressor", "low flow"), "");
 });
 
-test("existing adaptive pump and motor sessions remain available", () => {
+test("all existing adaptive pump, motor, compressor, and VFD sessions remain available", () => {
   for (const input of [
     {equipment:"pump",symptom:"low_flow"},
-    {equipment:"motor",symptom:"not_start"}
+    {equipment:"motor",symptom:"not_start"},
+    {equipment:"compressor",symptom:"low_pressure"},
+    {equipment:"vfd",symptom:"trip"}
   ]) {
     const session = engine.createSession(input);
     assert.equal(session.ok, true);
