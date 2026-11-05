@@ -87,6 +87,8 @@ Branch: `fix/p4-atomic-storage-quotas-2026-11-05`
 - Successful document metadata, audit event, and reservation release are committed in one D1 batch. R2/D1 failures attempt object deletion and reservation release.
 - If migration 0004 is absent, upload fails closed with HTTP 503 rather than reverting to the non-atomic quota check.
 - Updated schema and API tests, added the branch to the P4 test workflow, documented the migration boundary, and pinned the Playwright test dependency to a published stable version.
+- Reconciled the child branch's deployment workflows with current `main`: Pages retains the approved main-branch trigger, Cloudflare Pages/Worker and live-AI smoke remain manual-only, and older Node/action versions were updated. Added the missing `p4-profile.js` asset to both Pages artifact lists and to the Cloudflare smoke check.
+- The first post-sync CI run exposed these real integration gaps: stale live-AI workflow triggers, Node 20/checkout v4 workflows, and the missing `p4-profile.js` deployment asset. They were corrected on the child branch; the latest full regression run is pending.
 
 Commits on the isolated branch:
 - `33d04e4` — atomic reservation before R2 upload
