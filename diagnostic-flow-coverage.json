@@ -65,6 +65,18 @@
       "status": "gap-needs-review",
       "matchingFaultIds": [],
       "note": "No exact equipmentType=thermal record found. Review whether this is intended as an equipment type or a diagnostic domain."
+    },
+    "motor|overheat": {
+      "status": "covered-exact",
+      "matchingFaultIds": [
+        "motor-overheating"
+      ]
+    },
+    "compressor|overheat": {
+      "status": "covered-exact",
+      "matchingFaultIds": [
+        "compressor-high-temperature"
+      ]
     }
   }
 }
