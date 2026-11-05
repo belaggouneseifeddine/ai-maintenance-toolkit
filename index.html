@@ -385,7 +385,7 @@ $('aiForm').addEventListener('submit',async e=>{
 
 const DRAFT_KEY='maintenance-ai-toolkit-draft-v1';
 let lastDiagnosisDraft=null;
-const faultLibraryPromise=fetch('./faults.json').then(response=>{if(!response.ok)throw new Error('Fault library unavailable');return response.json();}).then(data=>{window.MAINTENANCE_FAULTS=data;return data;}).catch(()=>null);
+const faultLibraryPromise=fetch('./faults.json').then(response=>{if(!response.ok)throw new Error('Fault library unavailable');return response.json();}).then(async data=>{let supplement={faults:[]};try{const response=await fetch('./knowledge/faults-supplement.json');if(response.ok)supplement=await response.json();}catch(_error){}const existing=new Set((data.faults||[]).map(item=>item.id));const additions=(supplement.faults||[]).filter(item=>item&&typeof item.id==='string'&&!existing.has(item.id));window.MAINTENANCE_FAULTS={...data,faults:[...(data.faults||[]),...additions]};return window.MAINTENANCE_FAULTS;}).catch(()=>null);
 function tr(key){return window.MaintenanceI18n?window.MaintenanceI18n.t(key):key;}
 function renderEngineResults(result){
 const lang=result.language||'ar';
