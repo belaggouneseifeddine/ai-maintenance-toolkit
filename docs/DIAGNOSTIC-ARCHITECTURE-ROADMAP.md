@@ -194,3 +194,74 @@ The current product should remain a diagnostic-first tool, not attempt to reprod
 - Unknown and contradictory evidence must remain visible; do not convert absence of data into a negative finding.
 - A model suggestion must never override the deterministic safety gate.
 - Report automated CI, live provider checks, and physical Android/offline acceptance as separate evidence categories.
+
+## 2026-11-05 verified status and roadmap correction
+
+This section supersedes the 2026-11-03 status above. The older section is retained as history, not as the current state.
+
+### Main branch and release status
+
+- Current `main`: `63d219c4667f858515354f76d68b2ec46cb43c0a`.
+- Merged: PR #122 (compressor adaptive flow and safety-gate ordering), PR #123 (deployment governance), PR #124 (separate low-flow from low-pressure), PR #128 (restore GitHub Pages auto-deploy on main), and PR #129 (align governance tests with Pages-only automation).
+- GitHub Pages now deploys automatically on pushes to `main`; the 2026-11-05 Pages run #42072822648 succeeded, including the published-app/Worker smoke-test step. This is a deliberate exception to the older manual-only policy.
+- Cloudflare Pages and the Worker remain `workflow_dispatch` only. Their latest confirmed successful production deployment remains commit `ec06e75c75d6242dd1349b14e9f03fc11912d73c` from 2026-11-04; this run made no production deployment.
+- Main-branch diagnostic tests and quality checks passed on `63d219c`. No live generative-model request or physical Android acceptance is implied by those CI results.
+- Vercel GitHub checks and preview comments are still being created automatically on PRs. This is an integration-policy conflict with the project's no-Vercel preference; no Vercel action was initiated by this audit.
+- The GitHub rulesets endpoint returned an empty list. The direct branch-protection endpoint denied access to the integration, so active branch protection could not be re-verified in this run.
+
+### Diagnostic engine: corrected implementation count
+
+- The registry contains 11 equipment/symptom flows. Three are multi-step sessions with ranked hypotheses: pump low-flow, motor no-start, and compressor low-pressure. The other eight use the `registry_single_step` adapter and return one curated check without a ranked hypothesis set.
+- The multi-step selector ranks unanswered questions by pairwise hypothesis separation and assumes equal outcome weighting. It is a useful heuristic, but it is **not** Bayesian expected information gain or entropy reduction.
+- The Bayesian-style engine uses a fixed default prior of 0.2 and fixed support/contradiction likelihood ratios of 1.5 and 1/1.5. The engine explicitly marks itself uncalibrated. It has no field-failure calibration dataset or learned conditional probability tables; describe outputs as relative evidence support, not real-world failure probabilities.
+- The exact-scope evidence gate remains a strong constraint: source applicability requires an explicit verified claim plus exact manufacturer and model scope. A URL alone is not proof.
+- The next diagnostic priority is to expand true multi-step flows, improve test selection using reviewed outcome frequencies, and keep confidence labels explicitly uncalibrated until field validation exists.
+
+### Knowledge inventory — latest committed audit snapshot
+
+The generated inventory was refreshed in commit `e7934bc95075303ce4b476847425422f6ab93237` on 2026-11-05:
+
+- 10 Worker-referenced Markdown documents; 3,862 lines and 55,772 whitespace-separated words.
+- 284 structured fault records, 36 equipment labels, 767 cause entries, and alarm/error-code arrays in 31 records.
+- 60 model/manual-scoped fault records are manually reviewed, not field-verified.
+- 63 manufacturer/support discovery records and 29 OEM platform-index entries; 0 platform entries are model-verified.
+- 99 structured OEM diagnostic records are claim-reviewed with exact source scope and page references; this is source-claim review, not field-performance validation.
+- The separate license-tracked research source registry contains 2 candidate entries and 0 approved entries. Five reference-only portals are not allowlisted for automated fetching.
+
+The digital-electronics reference index added on 2026-11-05 is a locator/index only. It does not republish the book's copyrighted chapter content.
+
+### Community P4 status and isolated hardening work
+
+- PR #117 remains Draft/open and is not merge-ready. Its branch is 10 commits behind and 74 commits ahead of current `main`; it modifies deployment workflows.
+- Merging PR #117 unchanged would reintroduce push-to-main deployment triggers for Cloudflare Pages and the Worker, reversing the current manual-only production policy.
+- A separate child branch, `fix/p4-atomic-storage-quotas-2026-11-05`, adds D1 reservation-based quota enforcement and migration 0004. Its P4 schema/API/PDF test workflow passed 35 tests on code commit `26729bf1ccc1b0c9f3da4f93e42dcbeed8c9a7d6`.
+- The quota migration has **not** been applied to remote staging D1 and R2 has **not** been enabled. The branch is 10 commits behind and 81 ahead of `main`; it is an isolated implementation branch, not merge-ready. No PR was opened.
+- Remaining P4 blockers: list/read/delete document APIs and UI, localStorage bearer-token exposure review, cross-contributor access tests, and reconciliation of R2 orphan objects after an abrupt Worker crash. The new reservation lease expires after 30 minutes; this limits stale quota holds but does not make R2 and D1 a distributed transaction.
+
+### Competitive signals and product boundary
+
+The 2026-11-05 competitor review is recorded in `docs/DAILY-AUDIT-2026-11-05.md`. CMMS products such as MaintainX, Limble, and Fiix document offline work-order caching/sync, work-order and PM workflows, assets, and parts capabilities. AI-focused products such as YAFEX, InduQT, and Diagster publicly describe manual/work-order ingestion, guided evidence-based troubleshooting, history feedback, live data/OPC connections, or read-only PLC analysis. These are vendor-published feature claims, not independent accuracy benchmarks.
+
+Keep the Toolkit diagnostic-first. Its differentiator should be local-first troubleshooting, explicit uncertainty, model-scoped evidence, and a safety gate. Integrate with existing asset/work-order systems rather than attempting to recreate a full CMMS before the diagnostic engine is validated.
+
+### Revised priority order
+
+| Priority | Work | Exit condition |
+|---|---|---|
+| P0 | Release governance | Preserve manual-only Cloudflare Pages/Worker and live-AI workflows; verify main protection/review rules; remove or explicitly approve Vercel GitHub integration; document the Pages auto-deploy exception |
+| P1 | Complete adaptive diagnosis | Convert the eight single-step adapters into reviewed multi-step flows; test contradictory/missing readings, equipment switching, language switching, and safety priority |
+| P1 | Validate reasoning | Replace equal-outcome pairwise scoring with an evidence-weighted test-selection method; collect technician-reviewed outcomes; calibrate only after enough representative cases; never label current scores as calibrated probabilities |
+| P1 | Knowledge provenance | Maintain exact model/firmware/manual/page scope; distinguish portal discovery, manual-claim review, and field validation; approve the source/licence registry before automated ingestion |
+| P1 | P4 security and storage | Reconcile PR #117 with current `main`; apply migration 0004 only to isolated staging after review; verify R2 binding; add document listing/deletion and ownership/session/XSS tests before public writes |
+| P2 | Offline/mobile reliability | Persist guided-session state locally; make cache completeness observable; test offline startup and data recovery on Android; define sync/conflict handling before cloud sync |
+| P2 | Asset and work-order workflow | Add a local equipment passport, QR/asset lookup, structured work-order export, PM checklist templates, and integration boundaries for existing CMMS platforms |
+| P2 | Performance and UX | Measure real mobile first-load and memory use; lazy-load equipment knowledge; test Arabic/French/English and narrow-screen workflows on a physical Android device |
+| P3 | Condition monitoring | Add read-only timestamped sensor/OPC ingestion only after asset identity, units, calibration, retention, and data-quality controls are defined |
+
+### Non-negotiable release gates
+
+- No merge, production deployment, remote migration, paid provider request, or public knowledge write without explicit approval.
+- No model-specific limit, alarm interpretation, or repair instruction without exact applicable source evidence.
+- Unknown and contradictory readings remain visible; absence of a reading is not a negative finding.
+- The deterministic safety gate takes precedence over local ranking and cloud output.
+- Automated CI, live provider checks, remote database migration, and physical Android/offline acceptance must be reported as separate evidence categories.
