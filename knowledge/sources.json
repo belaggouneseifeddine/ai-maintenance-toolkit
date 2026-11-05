@@ -124,5 +124,21 @@
       "fetch_allowed": false,
       "usage": "Reference manuals by product range; do not republish content without permission."
     }
+  ],
+  "reference_only_books": [
+    {
+      "id": "mastering-digital-electronics-ward-2024",
+      "title": "Mastering Digital Electronics: An Ultimate Guide to Logic Circuits and Advanced Circuitry",
+      "author": "Hubert Henry Ward",
+      "publisher": "Apress",
+      "year": 2024,
+      "doi": "https://doi.org/10.1007/978-1-4842-9878-7",
+      "electronic_isbn": "978-1-4842-9878-7",
+      "copyright": "© 2024 Hubert Henry Ward",
+      "reuse_status": "reference_only_no_open_license_recorded",
+      "fetch_allowed": false,
+      "repository_index": "knowledge/REFERENCE-ONLY-MASTERING-DIGITAL-ELECTRONICS.md",
+      "notes": "Bibliographic metadata and chapter locator only. Do not store or republish PDF text, figures, tables, or extensive paraphrases. Not an OEM or model-specific source."
+    }
   ]
 }
