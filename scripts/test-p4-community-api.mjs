@@ -8,7 +8,7 @@ const source = fs.readFileSync(new URL("../p4-community.js", import.meta.url), "
   .replace("export async function handleCommunityRequest", "async function handleCommunityRequest")
   + "\nglobalThis.__handleCommunityRequest = handleCommunityRequest;";
 
-function harness({ session = true, staging = true, storage = true, batchFails = false, totalBytes = 0, contributorBytes = 0 } = {}) {
+function harness({ session = true, staging = true, storage = true, batchFails = false, reservationError = null, putFails = false } = {}) {
   const writes = [];
   const deletes = [];
   const statements = [];
@@ -24,10 +24,15 @@ function harness({ session = true, staging = true, storage = true, batchFails = 
         bind(...args) { this.args = args; return this; },
         async first() {
           if (sql.includes("SELECT s.id AS session_id")) return sessionRow;
-          if (sql.includes("SUM(byte_size)")) return { total_bytes: totalBytes, contributor_bytes: contributorBytes };
           return null;
         },
-        async run() { statements.push({ sql, args: this.args }); return { success: true }; }
+        async run() {
+          statements.push({ sql, args: this.args });
+          if (sql.includes("INSERT INTO source_document_reservations") && reservationError) {
+            throw new Error(reservationError);
+          }
+          return { success: true };
+        }
       };
       return statement;
     },
@@ -43,7 +48,10 @@ function harness({ session = true, staging = true, storage = true, batchFails = 
     P4_UPLOAD_RATE_LIMITER: { async limit() { return { success: true }; } }
   };
   if (storage) env.COMMUNITY_FILES = {
-    async put(key, value, options) { writes.push({ key, size: value.byteLength, options }); },
+    async put(key, value, options) {
+      if (putFails) throw new Error("simulated R2 put failure");
+      writes.push({ key, size: value.byteLength, options });
+    },
     async delete(key) { deletes.push(key); }
   };
   const context = {
@@ -133,17 +141,24 @@ test("private upload rejects MIME/signature mismatches before storage", async ()
   assert.equal(h.writes.length, 0);
 });
 
-test("private upload enforces the global staging storage cap", async () => {
-  const h = harness({ totalBytes: 1024 * 1024 * 1024 });
+test("private upload maps the atomic global quota reservation failure", async () => {
+  const h = harness({ reservationError: "staging_storage_quota" });
   const response = await h.handler(uploadRequest(new TextEncoder().encode("%PDF-1.7")), h.env);
   assert.equal(response.status, 507);
   assert.equal(h.writes.length, 0);
 });
 
-test("private upload enforces the contributor storage cap", async () => {
-  const h = harness({ contributorBytes: 100 * 1024 * 1024 });
+test("private upload maps the atomic contributor quota reservation failure", async () => {
+  const h = harness({ reservationError: "contributor_storage_quota" });
   const response = await h.handler(uploadRequest(new TextEncoder().encode("%PDF-1.7")), h.env);
   assert.equal(response.status, 507);
+  assert.equal(h.writes.length, 0);
+});
+
+test("private upload fails closed when the quota reservation migration is missing", async () => {
+  const h = harness({ reservationError: "no such table: source_document_reservations" });
+  const response = await h.handler(uploadRequest(new TextEncoder().encode("%PDF-1.7")), h.env);
+  assert.equal(response.status, 503);
   assert.equal(h.writes.length, 0);
 });
 
@@ -160,10 +175,12 @@ test("private PDF upload stores a private object and provenance metadata", async
   assert.equal(h.writes.length, 1);
   assert.match(h.writes[0].key, /^private\/contributor-1\//);
   assert.equal(h.writes[0].options.httpMetadata.cacheControl, "private, no-store");
-  assert.equal(h.statements.length, 3);
-  assert.match(h.statements[0].sql, /UPDATE contributor_sessions SET last_seen_at/);
-  assert.match(h.statements[1].sql, /INSERT INTO source_documents/);
-  assert.match(h.statements[2].sql, /INSERT INTO audit_events/);
+  const reserveIndex = h.statements.findIndex(item => item.sql.includes("INSERT INTO source_document_reservations"));
+  const documentIndex = h.statements.findIndex(item => item.sql.includes("INSERT INTO source_documents"));
+  const releaseIndex = h.statements.findIndex(item => item.sql.includes("DELETE FROM source_document_reservations WHERE id"));
+  assert.ok(h.statements.some(item => item.sql.includes("UPDATE contributor_sessions SET last_seen_at")));
+  assert.ok(reserveIndex >= 0 && reserveIndex < documentIndex, "quota must be reserved before the R2 object is committed");
+  assert.ok(releaseIndex > documentIndex, "reservation must be released in the metadata batch");
 });
 
 test("failed D1 metadata transaction removes the uploaded R2 object", async () => {
@@ -173,4 +190,14 @@ test("failed D1 metadata transaction removes the uploaded R2 object", async () =
   assert.equal(h.writes.length, 1);
   assert.equal(h.deletes.length, 1);
   assert.equal(h.deletes[0], h.writes[0].key);
+  assert.ok(h.statements.some(item => item.sql.includes("DELETE FROM source_document_reservations WHERE id")));
+});
+
+test("R2 upload failure releases the reserved quota", async () => {
+  const h = harness({ putFails: true });
+  const response = await h.handler(uploadRequest(new TextEncoder().encode("%PDF-1.7")), h.env);
+  assert.equal(response.status, 500);
+  assert.equal(h.writes.length, 0);
+  assert.ok(h.statements.some(item => item.sql.includes("INSERT INTO source_document_reservations")));
+  assert.ok(h.statements.some(item => item.sql.includes("DELETE FROM source_document_reservations WHERE id")));
 });
