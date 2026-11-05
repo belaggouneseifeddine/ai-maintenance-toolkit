@@ -25,7 +25,7 @@ jobs:
         run: node scripts/quality-check.mjs
       - name: Install browser test dependencies
         run: |
-          npm install --no-save playwright
+          npm install --no-save playwright@1.64.1
           npx playwright install --with-deps chromium
       - name: Test UI across languages, themes, and viewport sizes
         run: node scripts/ui-smoke-test.mjs
