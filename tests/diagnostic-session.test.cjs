@@ -141,18 +141,24 @@ test("bearing vibration flow distinguishes lubrication, mounting and bearing/ext
 });
 
 test("new adaptive flows preserve unknown evidence and never confirm a cause", () => {
-  for (const [equipment,symptom,unknown] of [
-    ["motor","overheat","unknown"],
-    ["compressor","overheat","unknown"],
-    ["bearing","vibration","unknown"]
+  for (const [equipment,symptom] of [
+    ["motor","overheat"],
+    ["compressor","overheat"],
+    ["bearing","vibration"]
   ]) {
-    let s=engine.createSession({equipment,symptom,language:"en"});
-    const baseline=s.hypotheses.map(h=>[h.id,h.score]);
-    const r=engine.answer(s,unknown);
-    assert.equal(r.ok,true);
-    assert.deepEqual(r.session.hypotheses.map(h=>[h.id,h.score]),baseline);
-    while (r.session.nextQuestion) break;
-    assert.equal(r.session.summary,undefined);
+    let session=engine.createSession({equipment,symptom,language:"en"});
+    const baseline=session.hypotheses.map(h=>[h.id,h.score]);
+    while (session.nextQuestion) {
+      const unknown=session.nextQuestion.options.find(option=>option.id==="unknown");
+      assert.ok(unknown, equipment+" / "+symptom+" must provide an explicit unknown option");
+      const result=engine.answer(session,unknown.id);
+      assert.equal(result.ok,true);
+      session=result.session;
+      assert.deepEqual(session.hypotheses.map(h=>[h.id,h.score]),baseline);
+    }
+    assert.equal(session.status,"evidence_review");
+    assert.equal(session.summary.confirmedCause,"");
+    assert.equal(session.summary.requiresMoreEvidence,true);
   }
 });
 
