@@ -155,26 +155,28 @@ Only after timestamped, quality-controlled history exists, explore trend analysi
 
 This section supersedes the older baseline where the two differ. It distinguishes code already on `main` from work that remains in draft pull requests.
 
-### Verified implementation on `main` (commit `f22880f`)
+### Verified implementation on `main` (commit `d459952`)
 
 - The shared diagnostic registry contains 11 equipment/symptom definitions.
-- Two flows are multi-step adaptive sessions (pump low-flow and motor no-start); the other nine registry entries use the single-step adapter.
+- Three flows are multi-step adaptive sessions (pump low-flow, motor no-start, and compressor low pressure); the other eight registry entries use the single-step adapter.
 - Local diagnosis is deterministic/rule-based with a qualitative Bayesian-style ranking layer. The probabilities are explicitly not calibrated from field failure data.
 - The PWA caches its app shell. Maintenance records remain browser-local; there is no cross-device synchronization or conflict resolution.
 - The Cloudflare Worker health endpoint is reachable, but a successful health response does not verify the live generative-model path.
 - The knowledge audit report in the repository was last modified on 2026-10-25. Its counts are a historical snapshot until the audit script is rerun.
 
-### Draft changes awaiting review
+### Merged changes and current branch work
 
-- PR #122 adds a third adaptive session for compressor low pressure and moves the deterministic safety gate ahead of the AI rate limiter. The code changes passed GitHub Actions on head `1f127ccb`; this roadmap-only follow-up commit is awaiting its own CI run. It is not merged or deployed.
-- PR #123 proposes manual-only production deployment and manual-only live AI smoke testing. Its latest reported checks passed; it is not merged. Repository-level branch protection remains a separate settings task.
+- PR #122 merged as `ec06e75` on 2026-11-04. Its final merge-commit checks passed, including diagnostic tests, primary tests, static safety/integrity checks, and build/deploy workflows.
+- The PR #122 merge triggered the then-existing automatic Cloudflare Pages and GitHub Pages production workflows; both deployment jobs and their smoke tests reported success at 2026-11-04 23:19 UTC. This occurred before the governance change below.
+- PR #123 merged as `d459952` on 2026-11-04. Production Pages/Worker deploys and live AI-provider smoke tests are now manual-only in workflow YAML. Repository environment reviewers and branch protection still require separate settings verification.
+- The current feature branch proposes a fourth adaptive workflow for `vfd|trip`; it is not yet merged or deployed. It requires exact-model manual confirmation before classifying a saved drive fault code.
 
 ### Updated priority order
 
 | Priority | Work | Exit condition |
 |---|---|---|
 | P0 | Release governance | Protect `main` with required PR review/checks; keep Pages and Worker production deploys manual-only; keep live model smoke tests explicitly approved |
-| P1 | Complete adaptive diagnosis | Review PR #122; put local guided diagnosis on the primary diagnosis path; expand equipment coverage without changing stable flows |
+| P1 | Complete adaptive diagnosis | Review the VFD adaptive-flow branch; preserve existing flows; add coverage only with contract tests and safety boundaries |
 | P1 | Replace heuristic confidence with calibrated reasoning | Define per-equipment priors and likelihoods from reviewed cases; model dependencies explicitly; rank tests using expected information gain adjusted for test risk, time, and availability; validate calibration against recorded outcomes |
 | P1 | Knowledge provenance | Regenerate the audit report; approve source/license records; verify exact manufacturer/model/revision applicability; return page/section citations for every model-specific claim |
 | P2 | Safety assurance | Expand multilingual hazard/negation/contradiction tests; keep deterministic stop-work guidance independent of model availability and AI quotas |
