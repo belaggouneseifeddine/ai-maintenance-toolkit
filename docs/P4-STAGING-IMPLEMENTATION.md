@@ -1,6 +1,6 @@
 # P4 Staging Implementation Notes
 
-Status: first-use profile UI, anonymous session Worker boundary, and schema migration implemented on the feature branch; no Cloudflare resources provisioned and no production changes made.
+Status: first-use profile UI, anonymous session Worker boundary, and migrations 0001–0003 are implemented on the feature branch. The recorded 2026-11-01 staging update reports an isolated D1 database with migrations 0001–0003 applied; R2 remains disabled, no Worker deployment or production changes were made, and no live upload has been tested.
 
 ## Staging MVP identity and first-use profile
 
@@ -34,7 +34,7 @@ Raw extracted page text is referenced by an R2 object key rather than stored as 
 
 Before implementing anonymous sessions, update the migration to store profile fields (display name, professional title/specialty, optional qualification) and revocable session-token hashes. Never store raw session tokens in D1. Remove or defer provider-specific identity records until login is implemented. Add tests for session issuance, expiry, revocation, profile reuse, and rejection of client-supplied identity/role fields.
 
-The migration has not been applied to any database. Before applying:
+The original pre-provisioning checklist below is historical: the 2026-11-01 staging update records that migrations 0001 and 0002 were applied to the isolated staging D1. Apply any later migration only after reviewing its SQL and confirming the target is the isolated staging database:
 1. Create a named staging D1 database.
 2. Add its ID and binding to a non-production Wrangler environment.
 3. Run migration locally against a clean SQLite/D1-compatible test database.
@@ -87,7 +87,7 @@ The contributor UI now lets a signed-in staging contributor choose and explicitl
 
 Automated Node tests cover origin/session gates, staging-disabled behavior, missing storage, MIME/signature mismatch, successful private PDF storage/provenance, CORS preflight, and R2 cleanup after D1 failure. The GitHub Actions workflow now runs these tests alongside the SQLite migration tests.
 
-Required before an end-to-end staging test: create an isolated D1 database and private R2 bucket, configure the two bindings and a dedicated upload rate limiter in a non-production Wrangler environment, and apply migrations only to that staging database. The UI and API route are present but cannot complete an upload until these resources and the staging enable flag are configured. No resources have been provisioned and no upload has been tested against live Cloudflare infrastructure.
+Required before an end-to-end staging test: confirm the existing isolated D1 database and its migration ledger, enable R2 only after explicit approval, create a private staging bucket, configure the COMMUNITY_FILES and P4_UPLOAD_RATE_LIMITER bindings in the non-production Wrangler environment, and apply any pending reviewed migration (including 0004) to staging only. The UI and API route are present but cannot complete an upload until the private R2 binding and staging enable flag are configured. No live R2 upload has been tested.
 
 ## Atomic private-storage quota reservation — 2026-11-05
 
@@ -116,7 +116,7 @@ The upload API tests use mocked D1/R2 bindings. They validate route behavior and
 
 ## Remaining implementation boundary
 
-Not yet implemented: D1/R2 staging bindings/resources, page extraction/OCR, candidate claim creation/review/approval, dispute/withdrawal routes, diagnostic retrieval of approved community claims, and Android device acceptance. The private upload UI and API route exist in code but remain unable to store files until isolated staging resources and bindings are configured. No staging resources, secrets, buckets, databases, or deployments have been created. These steps require local/CI tests and separate staging-resource approval before provisioning.
+Not yet implemented: private R2 staging bucket/binding, OCR, structured table extraction, candidate claim creation/review/approval, dispute/withdrawal routes, diagnostic retrieval of approved community claims, and Android device acceptance. The isolated D1 staging database is recorded as provisioned with migrations 0001–0003; migration 0004 is not applied. The upload UI/API still cannot store files until R2 is enabled and the private staging binding is configured. No Worker deployment or live upload has been performed. Any further staging resource change requires separate approval.
 
 
 ## Cloudflare staging provisioning update — 2026-11-01
