@@ -15,6 +15,7 @@ on:
   push:
     branches:
       - "feature/p4-global-community-knowledge"
+      - "fix/p4-atomic-storage-quotas-2026-11-05"
     paths:
       - "migrations/**"
       - "scripts/test-p4-schema.py"
