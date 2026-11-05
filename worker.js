@@ -36,6 +36,23 @@ const CURATED_DIAGNOSTIC_FLOWS = Object.freeze({
     }),
     evidence: Object.freeze(["compressor-outlet-low", "outlet-normal-point-low", "outlet-normal", "pressures-similar", "unloaded-or-trip", "compressor-control-abnormal", "loaded-no-trip", "demand-high", "demand-baseline", "leak-indicated", "treatment-dp-high", "filter-alert", "dryer-restriction", "treatment-indicators-normal"])
   })
+  ,
+  "motor|overheat": Object.freeze({
+    hypotheses: Object.freeze({
+      motor_overload_or_application: "Mechanical overload or unsuitable operating conditions",
+      motor_cooling_or_ventilation: "Inadequate cooling or restricted ventilation",
+      motor_bearing_or_electrical: "Possible bearing or electrical condition requiring qualified inspection"
+    }),
+    evidence: Object.freeze(["motor-load-high","duty-cycle-exceeded","process-demand-changed","motor-load-baseline","cooling-path-obstructed","fan-fault-indicated","ambient-temperature-high","cooling-indicators-normal","bearing-noise-or-vibration","bearing-temperature-rise","current-imbalance-indicated","bearing-and-current-trends-normal"])
+  }),
+  "compressor|overheat": Object.freeze({
+    hypotheses: Object.freeze({
+      compressor_cooling_air_or_water: "Insufficient cooling air or cooling-water flow",
+      compressor_oil_or_lubrication: "Oil level, filtration, or lubrication condition",
+      compressor_load_or_operating_environment: "High load or adverse operating/environmental conditions"
+    }),
+    evidence: Object.freeze(["cooler-airflow-restricted","cooling-water-flow-low","hot-air-recirculation","cooling-system-baseline","oil-level-low-indicated","oil-filter-alert","oil-temperature-rise","oil-status-baseline","demand-or-load-high","ambient-temperature-high","frequent-cycling","load-and-ambient-baseline"])
+  })
 });
 
 const DIAGNOSIS_SCHEMA = {
