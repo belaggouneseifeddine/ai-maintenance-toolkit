@@ -75,6 +75,100 @@
         ]}
       ]
     }
+
+    "motor|overheat": {
+      equipment:"motor", symptom:"overheat",
+      hypotheses:[
+        {id:"motor_overload_or_application",label:{ar:"حمل ميكانيكي أو ظروف تشغيل غير مناسبة",en:"Mechanical overload or unsuitable operating conditions",fr:"Surcharge mécanique ou conditions d’exploitation inadaptées"},evidenceFor:["motor-load-high","duty-cycle-exceeded","process-demand-changed"],evidenceAgainst:["motor-load-baseline"],checks:["قارن الحمل والتيار والسرعة ودورة التشغيل بخط الأساس ولوحة البيانات ودليل المحرك؛ لا تغيّر إعدادات الحماية."]},
+        {id:"motor_cooling_or_ventilation",label:{ar:"ضعف التبريد أو انسداد مسار التهوية",en:"Inadequate cooling or restricted ventilation",fr:"Refroidissement insuffisant ou ventilation obstruée"},evidenceFor:["cooling-path-obstructed","fan-fault-indicated","ambient-temperature-high"],evidenceAgainst:["cooling-indicators-normal"],checks:["راجع مؤشرات المروحة وفتحات التهوية وحرارة المحيط من الخارج وفي حالة آمنة؛ لا تزل الحواجز أثناء الدوران."]},
+        {id:"motor_bearing_or_electrical",label:{ar:"محامل أو خلل كهربائي محتمل — فحص مؤهل",en:"Possible bearing or electrical condition — qualified inspection",fr:"Défaut possible de roulement ou électrique — contrôle qualifié"},evidenceFor:["bearing-noise-or-vibration","current-imbalance-indicated","bearing-temperature-rise"],evidenceAgainst:["bearing-and-current-trends-normal"],checks:["وثّق اتجاهات الاهتزاز والحرارة والتيار من أنظمة القياس المعتمدة؛ الاختبارات الكهربائية والميكانيكية الداخلية تتطلب عزلًا وتحققًا من انعدام الطاقة بواسطة مختص."]}
+      ],
+      questions:[
+        {id:"motor_heat_load",text:{ar:"هل تغيّر الحمل أو دورة التشغيل أو التيار مقارنة بخط الأساس؟",en:"Have load, duty cycle, or current changed from baseline?",fr:"La charge, le cycle de service ou le courant ont-ils changé par rapport à la référence ?"},options:[
+          {id:"motor-load-high",label:{ar:"الحمل أو التيار أعلى من خط الأساس",en:"Load or current is above baseline",fr:"La charge ou le courant dépasse la référence"},evidence:["motor-load-high"]},
+          {id:"duty-cycle-exceeded",label:{ar:"دورة التشغيل أو عدد مرات البدء أعلى من المعتاد",en:"Duty cycle or start frequency is higher than usual",fr:"Le cycle de service ou la fréquence de démarrage est supérieur à l’habitude"},evidence:["duty-cycle-exceeded"]},
+          {id:"process-demand-changed",label:{ar:"تغيّر طلب العملية أو الحمل المقاد",en:"Process demand or driven load has changed",fr:"La demande du procédé ou la charge entraînée a changé"},evidence:["process-demand-changed"]},
+          {id:"motor-load-baseline",label:{ar:"الحمل والتيار ضمن خط الأساس الموثق",en:"Load and current are within documented baseline",fr:"La charge et le courant restent dans la référence documentée"},evidence:["motor-load-baseline"]},
+          {id:"unknown",label:{ar:"لا توجد بيانات موثوقة",en:"No reliable data available",fr:"Aucune donnée fiable disponible"},evidence:[]}
+        ]},
+        {id:"motor_cooling_status",text:{ar:"ما حالة التهوية والتبريد ودرجة حرارة المحيط حسب المؤشرات المتاحة؟",en:"What do available ventilation, cooling, and ambient-temperature indicators show?",fr:"Que montrent les indicateurs disponibles de ventilation, de refroidissement et de température ambiante ?"},options:[
+          {id:"cooling-path-obstructed",label:{ar:"يوجد انسداد أو اتساخ ظاهر لمسار التهوية من الخارج",en:"External cooling path appears obstructed or dirty",fr:"Le circuit de refroidissement semble obstrué ou encrassé à l’extérieur"},evidence:["cooling-path-obstructed"]},
+          {id:"fan-fault-indicated",label:{ar:"يوجد إنذار مروحة أو تبريد",en:"Fan or cooling alarm is present",fr:"Une alarme de ventilateur ou de refroidissement est présente"},evidence:["fan-fault-indicated"]},
+          {id:"ambient-temperature-high",label:{ar:"حرارة المحيط أعلى من ظروف خط الأساس",en:"Ambient temperature is above baseline conditions",fr:"La température ambiante dépasse les conditions de référence"},evidence:["ambient-temperature-high"]},
+          {id:"cooling-indicators-normal",label:{ar:"مؤشرات التبريد طبيعية",en:"Cooling indicators appear normal",fr:"Les indicateurs de refroidissement semblent normaux"},evidence:["cooling-indicators-normal"]},
+          {id:"unknown",label:{ar:"غير معروف",en:"Unknown",fr:"Inconnu"},evidence:[]}
+        ]},
+        {id:"motor_bearing_electrical",text:{ar:"هل توجد مؤشرات مسجلة على اهتزاز/ضجيج محامل أو ارتفاع حرارة موضعي أو عدم توازن تيار؟",en:"Are there recorded signs of bearing vibration/noise, localized temperature rise, or current imbalance?",fr:"Existe-t-il des signes enregistrés de vibration/bruit de roulement, de hausse locale de température ou de déséquilibre du courant ?"},options:[
+          {id:"bearing-noise-or-vibration",label:{ar:"اهتزاز أو ضجيج غير معتاد",en:"Unusual vibration or noise",fr:"Vibration ou bruit inhabituel"},evidence:["bearing-noise-or-vibration"]},
+          {id:"bearing-temperature-rise",label:{ar:"ارتفاع حرارة المحمل مقارنة بخط الأساس",en:"Bearing temperature has risen against baseline",fr:"La température du roulement a augmenté par rapport à la référence"},evidence:["bearing-temperature-rise"]},
+          {id:"current-imbalance-indicated",label:{ar:"عدم توازن تيار ظاهر في سجل موثوق",en:"Current imbalance appears in a reliable record",fr:"Un déséquilibre du courant apparaît dans un relevé fiable"},evidence:["current-imbalance-indicated"]},
+          {id:"bearing-and-current-trends-normal",label:{ar:"لا توجد هذه المؤشرات في السجلات المتاحة",en:"These indicators are absent from available records",fr:"Ces indicateurs sont absents des relevés disponibles"},evidence:["bearing-and-current-trends-normal"]},
+          {id:"unknown",label:{ar:"لا توجد سجلات أو قياسات موثوقة",en:"No reliable records or measurements",fr:"Aucun relevé ni mesure fiable"},evidence:[]}
+        ]}
+      ]
+    },
+    "compressor|overheat": {
+      equipment:"compressor", symptom:"overheat",
+      hypotheses:[
+        {id:"compressor_cooling_air_or_water",label:{ar:"ضعف تبريد الهواء أو ماء التبريد",en:"Insufficient air or cooling-water flow",fr:"Débit d’air ou d’eau de refroidissement insuffisant"},evidenceFor:["cooler-airflow-restricted","cooling-water-flow-low","hot-air-recirculation"],evidenceAgainst:["cooling-system-baseline"],checks:["راجع إنذارات التبريد ومؤشرات تدفق/حرارة ماء التبريد والتهوية من الواجهة أو نقاط القياس المعتمدة؛ لا تفتح مبردًا ساخنًا أو دائرة مضغوطة."]},
+        {id:"compressor_oil_or_lubrication",label:{ar:"مستوى الزيت أو الترشيح أو التزييت",en:"Oil level, filtration, or lubrication condition",fr:"Niveau d’huile, filtration ou lubrification"},evidenceFor:["oil-level-low-indicated","oil-filter-alert","oil-temperature-rise"],evidenceAgainst:["oil-status-baseline"],checks:["راجع مستوى الزيت والإنذارات وسجل الصيانة وفق إجراء المصنع والطراز؛ لا تضف زيتًا قبل التحقق من المواصفة والحالة الآمنة."]},
+        {id:"compressor_load_or_operating_environment",label:{ar:"حمل مرتفع أو ظروف تشغيل/محيط",en:"High load or operating/environmental conditions",fr:"Charge élevée ou conditions d’exploitation/d’environnement"},evidenceFor:["demand-or-load-high","ambient-temperature-high","frequent-cycling"],evidenceAgainst:["load-and-ambient-baseline"],checks:["قارن الطلب ودورات التحميل وحرارة غرفة الضاغط بخط الأساس؛ لا تعدّل الضغط أو صمام الأمان أو حدود الفصل."]}
+      ],
+      questions:[
+        {id:"compressor_cooling",text:{ar:"ماذا تظهر مؤشرات التبريد والتهوية؟",en:"What do cooling and ventilation indicators show?",fr:"Que montrent les indicateurs de refroidissement et de ventilation ?"},options:[
+          {id:"cooler-airflow-restricted",label:{ar:"تدفق هواء التبريد ضعيف أو المبرد متسخ/مسدود ظاهريًا",en:"Cooling airflow is low or cooler appears dirty/blocked",fr:"Le débit d’air de refroidissement est faible ou le refroidisseur semble encrassé/obstrué"},evidence:["cooler-airflow-restricted"]},
+          {id:"cooling-water-flow-low",label:{ar:"يوجد إنذار/قراءة تدفق ماء تبريد منخفضة",en:"Cooling-water flow alarm or low reading is present",fr:"Une alarme ou une mesure de faible débit d’eau de refroidissement est présente"},evidence:["cooling-water-flow-low"]},
+          {id:"hot-air-recirculation",label:{ar:"هواء ساخن يعاد تدويره إلى مدخل التبريد",en:"Hot air appears to recirculate to the cooling inlet",fr:"L’air chaud semble recirculer vers l’entrée de refroidissement"},evidence:["hot-air-recirculation"]},
+          {id:"cooling-system-baseline",label:{ar:"مؤشرات التبريد ضمن خط الأساس",en:"Cooling indicators are within baseline",fr:"Les indicateurs de refroidissement sont dans la référence"},evidence:["cooling-system-baseline"]},
+          {id:"unknown",label:{ar:"غير معروف",en:"Unknown",fr:"Inconnu"},evidence:[]}
+        ]},
+        {id:"compressor_oil",text:{ar:"ما حالة مستوى الزيت وإنذارات المرشح ودرجة حرارة الزيت حسب السجلات؟",en:"What do records show for oil level, filter alarms, and oil temperature?",fr:"Que montrent les relevés concernant le niveau d’huile, les alarmes de filtre et la température d’huile ?"},options:[
+          {id:"oil-level-low-indicated",label:{ar:"مؤشر مستوى الزيت منخفض",en:"Low oil-level indication",fr:"Indication de niveau d’huile bas"},evidence:["oil-level-low-indicated"]},
+          {id:"oil-filter-alert",label:{ar:"إنذار مرشح زيت أو صيانة مستحقة",en:"Oil-filter alarm or service indication",fr:"Alarme de filtre à huile ou entretien requis"},evidence:["oil-filter-alert"]},
+          {id:"oil-temperature-rise",label:{ar:"حرارة الزيت ترتفع مقارنة بخط الأساس",en:"Oil temperature is rising against baseline",fr:"La température d’huile augmente par rapport à la référence"},evidence:["oil-temperature-rise"]},
+          {id:"oil-status-baseline",label:{ar:"المؤشرات ضمن خط الأساس",en:"Indicators are within baseline",fr:"Les indicateurs sont dans la référence"},evidence:["oil-status-baseline"]},
+          {id:"unknown",label:{ar:"لا توجد قراءة موثوقة",en:"No reliable reading",fr:"Aucune mesure fiable"},evidence:[]}
+        ]},
+        {id:"compressor_load",text:{ar:"هل تغيّر الحمل أو الطلب أو عدد دورات التحميل/التفريغ أو حرارة المحيط؟",en:"Have load, demand, load/unload cycling, or ambient temperature changed?",fr:"La charge, la demande, les cycles charge/décharge ou la température ambiante ont-ils changé ?"},options:[
+          {id:"demand-or-load-high",label:{ar:"الطلب أو الحمل أعلى من المعتاد",en:"Demand or load is higher than usual",fr:"La demande ou la charge est supérieure à l’habitude"},evidence:["demand-or-load-high"]},
+          {id:"ambient-temperature-high",label:{ar:"حرارة المحيط أعلى من خط الأساس",en:"Ambient temperature is above baseline",fr:"La température ambiante dépasse la référence"},evidence:["ambient-temperature-high"]},
+          {id:"frequent-cycling",label:{ar:"تكرار التحميل والتفريغ أعلى من المعتاد",en:"Load/unload cycling is more frequent than usual",fr:"Les cycles charge/décharge sont plus fréquents que d’habitude"},evidence:["frequent-cycling"]},
+          {id:"load-and-ambient-baseline",label:{ar:"الحمل والمحيط مستقران",en:"Load and ambient conditions are stable",fr:"La charge et les conditions ambiantes sont stables"},evidence:["load-and-ambient-baseline"]},
+          {id:"unknown",label:{ar:"غير معروف",en:"Unknown",fr:"Inconnu"},evidence:[]}
+        ]}
+      ]
+    },
+    "bearing|vibration": {
+      equipment:"bearing", symptom:"vibration",
+      hypotheses:[
+        {id:"bearing_lubrication_or_contamination",label:{ar:"تزييت غير مناسب أو تلوث",en:"Unsuitable lubrication or contamination",fr:"Lubrification inadaptée ou contamination"},evidenceFor:["lubrication-alert","contamination-indicated","lubricant-change-recent"],evidenceAgainst:["lubrication-record-normal"],checks:["راجع نوع وكمية وفترة التزييت وسجل التلوث وفق مواصفة المصنع؛ لا تخلط شحومًا أو تضف مادة دون التحقق من التوافق."]},
+        {id:"bearing_mounting_or_alignment",label:{ar:"تركيب أو محاذاة أو تثبيت",en:"Mounting, alignment, or looseness",fr:"Montage, alignement ou desserrage"},evidenceFor:["alignment-deviation-recorded","looseness-indicated","recent-maintenance"],evidenceAgainst:["alignment-and-mounting-verified"],checks:["راجع تقرير المحاذاة والتثبيت وتاريخ الصيانة؛ الفحص الميكانيكي قرب الأجزاء الدوارة يتطلب إيقافًا وعزلًا والتحقق من الطاقة المخزنة."]},
+        {id:"bearing_damage_or_external_excitation",label:{ar:"تلف محمل أو اهتزاز من المعدة/المصدر المجاور",en:"Bearing damage or vibration transmitted from adjacent equipment",fr:"Dommage du roulement ou vibration transmise par un équipement voisin"},evidenceFor:["bearing-frequency-pattern","bearing-temperature-rise","adjacent-machine-vibration"],evidenceAgainst:["bearing-spectrum-no-fault-pattern"],checks:["قارن طيف الاهتزاز واتجاهاته عند نقاط قياس ثابتة مع خط الأساس؛ لا تشخّص تلف المحمل من قيمة إجمالية واحدة أو من الصوت فقط."]}
+      ],
+      questions:[
+        {id:"bearing_lubrication",text:{ar:"هل توجد تغييرات أو إنذارات في التزييت أو مؤشرات تلوث؟",en:"Are there lubrication changes/alarms or contamination indicators?",fr:"Existe-t-il des changements ou alarmes de lubrification ou des indices de contamination ?"},options:[
+          {id:"lubrication-alert",label:{ar:"إنذار تزييت أو نقص موثق",en:"Lubrication alarm or documented shortage",fr:"Alarme de lubrification ou manque documenté"},evidence:["lubrication-alert"]},
+          {id:"contamination-indicated",label:{ar:"مؤشر تلوث أو دخول ماء/جسيمات",en:"Contamination or water/particle ingress indicated",fr:"Contamination ou pénétration d’eau/particules indiquée"},evidence:["contamination-indicated"]},
+          {id:"lubricant-change-recent",label:{ar:"تم تغيير نوع/دفعة مادة التزييت مؤخرًا",en:"Lubricant type or batch changed recently",fr:"Le type ou le lot de lubrifiant a changé récemment"},evidence:["lubricant-change-recent"]},
+          {id:"lubrication-record-normal",label:{ar:"السجل لا يظهر تغيرًا أو إنذارًا",en:"Records show no change or alarm",fr:"Les relevés ne montrent aucun changement ni alarme"},evidence:["lubrication-record-normal"]},
+          {id:"unknown",label:{ar:"لا توجد سجلات موثوقة",en:"No reliable records",fr:"Aucun relevé fiable"},evidence:[]}
+        ]},
+        {id:"bearing_alignment",text:{ar:"هل حدثت صيانة أو محاذاة أو تغيير تثبيت قبل ظهور الاهتزاز؟",en:"Was maintenance, alignment, or mounting changed before vibration appeared?",fr:"Une maintenance, un alignement ou un montage a-t-il été modifié avant l’apparition des vibrations ?"},options:[
+          {id:"alignment-deviation-recorded",label:{ar:"تقرير المحاذاة يظهر انحرافًا",en:"Alignment report records a deviation",fr:"Le rapport d’alignement indique un écart"},evidence:["alignment-deviation-recorded"]},
+          {id:"looseness-indicated",label:{ar:"يوجد مؤشر موثق على ارتخاء/تثبيت",en:"A documented looseness or mounting issue exists",fr:"Un desserrage ou problème de fixation est documenté"},evidence:["looseness-indicated"]},
+          {id:"recent-maintenance",label:{ar:"بدأ الاهتزاز بعد صيانة أو فك/تركيب",en:"Vibration began after maintenance or disassembly/reassembly",fr:"Les vibrations ont commencé après maintenance ou démontage/remontage"},evidence:["recent-maintenance"]},
+          {id:"alignment-and-mounting-verified",label:{ar:"المحاذاة والتثبيت موثقان ضمن الحدود المعتمدة",en:"Alignment and mounting are documented within approved limits",fr:"L’alignement et le montage sont documentés dans les limites approuvées"},evidence:["alignment-and-mounting-verified"]},
+          {id:"unknown",label:{ar:"غير معروف",en:"Unknown",fr:"Inconnu"},evidence:[]}
+        ]},
+        {id:"bearing_spectrum",text:{ar:"هل تتوفر قراءة طيف اهتزاز واتجاهات حرارة للمحمل والمعدة المجاورة؟",en:"Are vibration spectra and bearing/adjacent-machine temperature trends available?",fr:"Dispose-t-on de spectres vibratoires et de tendances de température du roulement et de la machine voisine ?"},options:[
+          {id:"bearing-frequency-pattern",label:{ar:"الطيف يظهر نمط ترددات مرتبطًا بالمحمل وفق التحليل",en:"Spectrum analysis identifies a bearing-related frequency pattern",fr:"L’analyse spectrale identifie un motif de fréquence lié au roulement"},evidence:["bearing-frequency-pattern"]},
+          {id:"bearing-temperature-rise",label:{ar:"حرارة المحمل ترتفع عن خط الأساس",en:"Bearing temperature is rising above baseline",fr:"La température du roulement augmente au-dessus de la référence"},evidence:["bearing-temperature-rise"]},
+          {id:"adjacent-machine-vibration",label:{ar:"اهتزاز مماثل موجود في معدة مجاورة",en:"Similar vibration is present on adjacent equipment",fr:"Une vibration similaire est présente sur un équipement voisin"},evidence:["adjacent-machine-vibration"]},
+          {id:"bearing-spectrum-no-fault-pattern",label:{ar:"لا يظهر نمط تلف محمل في التحليل المتاح",en:"Available analysis shows no bearing-fault pattern",fr:"L’analyse disponible ne montre aucun motif de défaut de roulement"},evidence:["bearing-spectrum-no-fault-pattern"]},
+          {id:"unknown",label:{ar:"لا تتوفر بيانات طيفية",en:"No spectrum data available",fr:"Aucune donnée spectrale disponible"},evidence:[]}
+        ]}
+      ]
+    },
   };
   function textFor(value, language) { return value && (value[language] || value.en || value.ar) || ""; }
   // Rank unanswered questions by pairwise hypothesis separation.
