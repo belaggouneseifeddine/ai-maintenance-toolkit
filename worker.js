@@ -1,5 +1,6 @@
 import "./normalization.js";
 import { callCloudflareAI } from "./providers/cloudflare-provider.mjs";
+import { handleCommunityRequest } from "./p4-community.js";
 const ALLOWED_ORIGINS = new Set([
   "https://maintenance-ai-toolkit.pages.dev",
   "https://belaggouneseifeddine.github.io"
@@ -538,6 +539,10 @@ export default {
   async fetch(request, env) {
     const origin = request.headers.get("Origin") || "";
     const url = new URL(request.url);
+    if (typeof handleCommunityRequest === "function") {
+      const communityResponse = await handleCommunityRequest(request, env);
+      if (communityResponse) return communityResponse;
+    }
 
     if (url.pathname === "/health" && request.method === "GET") {
       return json({ ok: true, service: "maintenance-ai-toolkit-api" }, 200, origin);
