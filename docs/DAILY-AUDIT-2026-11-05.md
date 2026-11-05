@@ -110,12 +110,25 @@ The child branch is still 10 commits behind and 81 commits ahead of `main`, beca
 
 **Residual risk:** a Worker crash after R2.put but before the D1 metadata batch can leave an orphan R2 object. The reservation expires after 30 minutes, so quota accounting recovers, but object reconciliation remains a separate task.
 
-## 5. Offline, UX, architecture, and performance
+## 5. Security, offline, UX, architecture, and performance
+
+### Security
+
+- The main UI asks for explicit consent before sending a case to the optional Worker AI path; the provider key is intended to remain server-side. The local diagnosis path explicitly sends no case data to the cloud.
+- CORS origin restrictions and rate limiting are useful controls, but CORS is not authentication. The AI endpoint remains a public network surface and must be monitored for abuse and provider-cost exposure.
+- The main `index.html` head has no Content-Security-Policy meta/header visible in the repository source. The page contains inline styling and multiple script modules; adding CSP requires a deliberate nonce/hash or refactor rather than a blind restrictive policy.
+- The app stores maintenance records in browser storage. That is local-first, but same-origin scripts can access the data and there is no at-rest encryption. Storage quota/security failures and shared-device privacy need explicit UX handling.
+- The P4 bearer token in `localStorage` is an additional risk on the unmerged PR branch. No token theft or exploit was observed; the risk is exposure if an XSS flaw is introduced.
+- File MIME/signature checks and size limits reduce accidental invalid uploads, but they are not malware scanning or document-content sanitization.
+
+### Offline, UX, architecture, and performance
 
 - The app is a static, mobile-first PWA with a local deterministic engine, local maintenance records, CSV/report export, multilingual UI, and app-shell caching.
 - The service worker does not provide a full offline work-order sync system. Maintenance records remain browser-local; no cross-device synchronization or conflict resolution is present.
 - Guided diagnostic-session state is held in the UI session object and is not persisted as a resumable offline session.
 - The service worker caches `faults.json` and the app shell, but not the 10 Worker-fetched Markdown knowledge files. Consequently, the local rule-based diagnosis remains usable offline, while the Worker BM25 retrieval path does not become an offline knowledge index.
+- The service worker catches an `APP_SHELL` `cache.addAll` failure and still allows installation. That is resilient online, but can leave an incomplete offline shell; add an explicit required-vs-optional asset strategy and an offline-upgrade regression test.
+- Cold Worker isolates may fetch all 10 Markdown files in parallel before the five-minute in-memory cache is populated. The per-isolate cache reduces repeated work but is not a shared durable cache; measure cold-start latency and upstream failure behavior.
 - There is no demonstrated local upload queue for community documents.
 - The UI has Arabic RTL, English/French support, keyboard focus and reduced-motion checks, and a six-tab mobile navigation. CI passed the automated viewport/language/theme browser checks on main commit `63d219c`; physical Android acceptance remains unverified.
 - The static multi-script architecture is low-cost and avoids bundler/runtime overhead, but large knowledge assets are loaded as part of the app shell. Measure actual mobile transfer and memory before optimizing by guesswork.
