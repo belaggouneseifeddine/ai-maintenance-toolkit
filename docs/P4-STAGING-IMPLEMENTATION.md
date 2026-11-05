@@ -89,6 +89,21 @@ Automated Node tests cover origin/session gates, staging-disabled behavior, miss
 
 Required before an end-to-end staging test: create an isolated D1 database and private R2 bucket, configure the two bindings and a dedicated upload rate limiter in a non-production Wrangler environment, and apply migrations only to that staging database. The UI and API route are present but cannot complete an upload until these resources and the staging enable flag are configured. No resources have been provisioned and no upload has been tested against live Cloudflare infrastructure.
 
+## Atomic private-storage quota reservation — 2026-11-05
+
+The isolated quota-hardening branch adds migration `0004_p4_storage_quota_reservations.sql` and changes the upload path:
+
+- A D1 reservation row is inserted before any R2 write.
+- A SQLite/D1 `BEFORE INSERT` trigger checks the global 1 GiB ceiling and the 100 MiB per-contributor ceiling in the same serialized database write.
+- Only active R2-backed documents and unexpired reservations count. GitHub-backed public documents do not consume the private R2 staging quota.
+- Each reservation has a 30-minute lease. Expired reservations are ignored by the trigger and cleaned opportunistically on later uploads.
+- Successful document metadata, audit event, and reservation release are committed in one D1 batch. R2 or D1 failure attempts to delete the object and release the reservation.
+- If migration 0004 is absent, the upload route fails closed with HTTP 503; it does not fall back to the previous non-atomic quota query.
+
+**Deployment boundary:** this is code and a local SQLite test change only. Migration 0004 has not been applied to the remote staging D1; R2 remains unavailable until the owner enables and binds a private bucket. Do not enable staging uploads until the migration is applied and verified.
+
+**Residual distributed-failure window:** a Worker crash after the R2 put but before the D1 metadata batch can leave an orphan R2 object. The reservation expires after 30 minutes, so quota accounting recovers, but orphan-object reconciliation/cleanup remains a separate required task. The database trigger prevents concurrent requests from exceeding recorded quota; it cannot make R2 and D1 one distributed transaction.
+
 ## Latest automated verification
 
 On 2026-10-31, GitHub Actions P4 schema workflow run #63 completed successfully:
