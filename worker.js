@@ -670,7 +670,7 @@ export default {
     const lowFlowSymptom = normalizedSymptom.includes("low flow") || normalizedSymptom.includes("low_flow") || normalizedSymptom.includes("ضعف تدفق") || normalizedSymptom.includes("ضعف التدفق") || normalizedSymptom.includes("faible debit");
     const lowPressureSymptom = normalizedSymptom.includes("low pressure") || normalizedSymptom.includes("low_pressure") || normalizedSymptom.includes("ضغط منخفض") || normalizedSymptom.includes("pression basse") || normalizedSymptom.includes("pression faible");
     const motorStartSymptom = normalizedSymptom.includes("not start") || normalizedSymptom.includes("not_start") || normalizedSymptom.includes("won't start") || normalizedSymptom.includes("does not start") || normalizedSymptom.includes("لا يبدا") || normalizedSymptom.includes("لا يبدأ") || normalizedSymptom.includes("ne demarre pas");
-    const vfdTripSymptom = normalizedSymptom.includes("trip") || normalizedSymptom.includes("fault") || normalizedSymptom.includes("overcurrent") || normalizedSymptom.includes("فصل") || normalizedSymptom.includes("انذار") || normalizedSymptom.includes("عطل") || normalizedSymptom.includes("declenchement") || normalizedSymptom.includes("defaut") || normalizedSymptom.includes("déclenchement") || normalizedSymptom.includes("défaut");
+    const vfdTripSymptom = normalizedSymptom.split(/\\s+/).some(token => ["trip", "tripping", "fault", "overcurrent", "فصل", "انذار", "عطل", "declenchement", "defaut"].includes(token));
     if (diagnosticFlowId && (
       (diagnosticFlowId === "pump|low_flow" && (!pumpMachine || !lowFlowSymptom)) ||
       (diagnosticFlowId === "motor|not_start" && (!motorMachine || !motorStartSymptom)) ||
