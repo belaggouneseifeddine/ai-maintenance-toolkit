@@ -89,6 +89,19 @@ Automated Node tests cover origin/session gates, staging-disabled behavior, miss
 
 Required before an end-to-end staging test: confirm the existing isolated D1 database and its migration ledger, enable R2 only after explicit approval, create a private staging bucket, configure the COMMUNITY_FILES and P4_UPLOAD_RATE_LIMITER bindings in the non-production Wrangler environment, and apply any pending reviewed migration (including 0004) to staging only. The UI and API route are present but cannot complete an upload until the private R2 binding and staging enable flag are configured. No live R2 upload has been tested.
 
+## Deployment workflow reconciliation — 2026-11-05
+
+The original P4 branch was behind the current deployment-governance changes. Its workflow files would have restored automatic Cloudflare Pages and Worker deployment and retained older Node/action versions. The isolated child branch now copies the current `main` deployment workflows and governance test:
+
+- GitHub Pages follows the current approved policy: push to `main` plus manual recovery dispatch.
+- Cloudflare Pages and Worker remain manual-only.
+- The live AI provider smoke workflow remains manual-only with explicit confirmation.
+- Primary workflows use current supported first-party actions and Node 24; the P4-only workflows were updated to checkout v5, setup-node v5, and setup-python v6.
+- `p4-profile.js` is now included in both GitHub Pages and Cloudflare Pages runtime asset lists; the Cloudflare build verifies the file and smoke-tests its public asset path.
+- Playwright is pinned to `1.64.1` in the isolated quality workflow to avoid the observed unresolved `playwright-core@1.65.0` install.
+
+These are branch-only changes. No Pages, Cloudflare Pages, Worker, or Vercel deployment was initiated. The deployment workflow reconciliation is not a reason to merge the old PR wholesale; the branch remains divergent and requires a fresh review against current `main`.
+
 ## Atomic private-storage quota reservation — 2026-11-05
 
 The isolated quota-hardening branch adds migration `0004_p4_storage_quota_reservations.sql` and changes the upload path:
