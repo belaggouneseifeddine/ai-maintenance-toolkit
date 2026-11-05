@@ -37,7 +37,7 @@ jobs:
       - name: Prepare static site
         run: |
           mkdir -p _site
-          cp index.html p1-app-shell.css p1-app-shell.js manifest.json sw.js diagnostic-flows.js normalization.js bayesian-engine.js diagnostic-session.js diagnostic-session-ui.js diagnostic-engine.js engineering-core.js agent-core.js evidence-reasoning.js evidence-reasoning-ui.js diagnostic-evidence-register.json agent-ui.js oem-lookup.js faults.json i18n.js icon.svg maintenance-v03.js maintenance-v03.css decision-trees.json ux-redesign.js ux-redesign.css navigation-redesign.js knowledge-review.js answer-tools.js _site/
+          cp index.html p4-profile.js p1-app-shell.css p1-app-shell.js manifest.json sw.js diagnostic-flows.js normalization.js bayesian-engine.js diagnostic-session.js diagnostic-session-ui.js diagnostic-engine.js engineering-core.js agent-core.js evidence-reasoning.js evidence-reasoning-ui.js diagnostic-evidence-register.json agent-ui.js oem-lookup.js faults.json i18n.js icon.svg maintenance-v03.js maintenance-v03.css decision-trees.json ux-redesign.js ux-redesign.css navigation-redesign.js knowledge-review.js answer-tools.js _site/
           if [ -f cv.html ]; then cp cv.html _site/; fi
           if [ -d docs ]; then cp -R docs _site/; fi
           if [ -d knowledge ]; then cp -R knowledge _site/; fi
@@ -45,6 +45,7 @@ jobs:
           if [ -f icon-192.png ]; then cp icon-192.png _site/; fi
           if [ -f icon-512.png ]; then cp icon-512.png _site/; fi
           test -s _site/index.html
+          test -s _site/p4-profile.js
           test -s _site/diagnostic-engine.js
           test -s _site/bayesian-engine.js
           test -s _site/diagnostic-session.js
@@ -63,8 +64,9 @@ jobs:
       - name: Smoke-test Cloudflare Pages production URL
         run: |
           for attempt in 1 2 3 4 5 6; do
-            if curl --fail --silent --show-error https://maintenance-ai-toolkit.pages.dev/ -o /tmp/maintenance-index.html && curl --fail --silent --show-error https://maintenance-ai-toolkit.pages.dev/diagnostic-engine.js -o /tmp/maintenance-engine.js && curl --fail --silent --show-error https://maintenance-ai-toolkit.pages.dev/bayesian-engine.js -o /tmp/maintenance-bayesian.js && curl --fail --silent --show-error https://maintenance-ai-toolkit.pages.dev/diagnostic-session.js -o /tmp/maintenance-session.js && curl --fail --silent --show-error https://maintenance-ai-toolkit.pages.dev/diagnostic-session-ui.js -o /tmp/maintenance-session-ui.js && curl --fail --silent --show-error https://maintenance-ai-toolkit.pages.dev/knowledge/manufacturer-sources.json -o /tmp/maintenance-sources.json && curl --fail --silent --show-error https://maintenance-ai-toolkit.pages.dev/knowledge/oem-verified-faults.json -o /tmp/maintenance-oem-faults.json; then
+            if curl --fail --silent --show-error https://maintenance-ai-toolkit.pages.dev/ -o /tmp/maintenance-index.html && curl --fail --silent --show-error https://maintenance-ai-toolkit.pages.dev/p4-profile.js -o /tmp/maintenance-p4-profile.js && curl --fail --silent --show-error https://maintenance-ai-toolkit.pages.dev/diagnostic-engine.js -o /tmp/maintenance-engine.js && curl --fail --silent --show-error https://maintenance-ai-toolkit.pages.dev/bayesian-engine.js -o /tmp/maintenance-bayesian.js && curl --fail --silent --show-error https://maintenance-ai-toolkit.pages.dev/diagnostic-session.js -o /tmp/maintenance-session.js && curl --fail --silent --show-error https://maintenance-ai-toolkit.pages.dev/diagnostic-session-ui.js -o /tmp/maintenance-session-ui.js && curl --fail --silent --show-error https://maintenance-ai-toolkit.pages.dev/knowledge/manufacturer-sources.json -o /tmp/maintenance-sources.json && curl --fail --silent --show-error https://maintenance-ai-toolkit.pages.dev/knowledge/oem-verified-faults.json -o /tmp/maintenance-oem-faults.json; then
               grep -q "maintenance" /tmp/maintenance-index.html
+              grep -q "MaintenanceP4Profile" /tmp/maintenance-p4-profile.js
               grep -q "retrieveLocalKnowledge" /tmp/maintenance-engine.js
               grep -q "MaintenanceBayesianEngine" /tmp/maintenance-bayesian.js
               grep -q "MaintenanceDiagnosticSession" /tmp/maintenance-session.js
