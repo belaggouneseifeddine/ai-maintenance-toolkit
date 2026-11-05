@@ -39,3 +39,11 @@ At the time of this audit, the GitHub API reported the `main` branch as unprotec
 `tests/deployment-governance.test.cjs` asserts that the three production deployment workflows and the live AI smoke workflow expose manual dispatch without automatic `push` or `workflow_run` triggers; production deploy jobs are restricted to `main`; Cloudflare Pages and Worker use the `production` environment; and live AI smoke requires explicit boolean confirmation.
 
 No deployment or live model request is performed by the tests.
+
+## 2026-11-05 — restore explicit approval for GitHub Pages
+
+The merge of PRs #128 and #129 reintroduced a `push: main` trigger for GitHub Pages. The resulting Pages workflow run #42072822648 completed successfully on commit `63d219c`. This means a merge to `main` could publish the site without a separate deployment approval.
+
+This branch removes that automatic trigger and restores `workflow_dispatch` as the only production Pages trigger. The job remains restricted to `main`; the change does not deploy, roll back, or alter the currently published site. Cloudflare Pages, Worker, and live-AI smoke remain manual-only.
+
+This is a repository workflow correction only. It does not create GitHub environment reviewers or branch protection. Those settings still require separate repository administration.
