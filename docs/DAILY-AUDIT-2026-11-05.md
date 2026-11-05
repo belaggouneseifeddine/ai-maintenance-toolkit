@@ -150,10 +150,11 @@ This was a documentation/product-page review, not a hands-on trial or independen
 ### Competitive product opportunities
 
 1. Build a robust offline diagnostic session with cached selected manuals, resumable state, and a clear sync/export queue.
-2. Add QR/asset passport lookup and structured work-order export before building a full CMMS.
-3. Capture technician-confirmed cause, test results, repair, and recurrence so future ranking can be calibrated from reviewed cases.
-4. Add read-only data ingestion (CSV first; OPC only after security, units, calibration, and network isolation design).
-5. Preserve a differentiator competitors also claim but the Toolkit can enforce more transparently: exact model scope, evidence citations, uncertainty, and a safety gate that AI cannot override.
+2. Add a local hybrid retrieval prototype: retain exact-code/BM25 matching, add a lightweight embedding index only after recall tests, and do not add an Ollama runtime dependency. Keep the index usable offline and preserve model/source filters.
+3. Add QR/asset passport lookup and structured work-order export before building a full CMMS.
+4. Capture technician-confirmed cause, test results, repair, and recurrence so future ranking can be calibrated from reviewed cases.
+5. Add read-only data ingestion (CSV first; OPC only after security, units, calibration, and network isolation design).
+6. Preserve a differentiator competitors also claim but the Toolkit can enforce more transparently: exact model scope, evidence citations, uncertainty, and a safety gate that AI cannot override.
 
 ## 7. Ranked roadmap
 
