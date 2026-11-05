@@ -167,7 +167,7 @@ This section supersedes the older baseline where the two differ. It distinguishe
 ### Merged changes and current branch work
 
 - PR #122 merged as `ec06e75` on 2026-11-04. Its final merge-commit checks passed, including diagnostic tests, primary tests, static safety/integrity checks, and build/deploy workflows.
-- The PR #122 merge triggered the then-existing automatic Cloudflare Pages and GitHub Pages production workflows; both deployment jobs and their smoke tests reported success at 2026-11-04 23:19 UTC. This occurred before the governance change below.
+- The PR #122 merge triggered the then-existing automatic Cloudflare Pages, GitHub Pages, and Worker production workflows. All three deployment jobs reported success at 2026-11-04 23:19 UTC; the Cloudflare Pages smoke test, GitHub Pages app/Worker smoke test, and Worker provider-configuration check passed. This occurred before the governance change below.
 - PR #123 merged as `d459952` on 2026-11-04. Production Pages/Worker deploys and live AI-provider smoke tests are now manual-only in workflow YAML. Repository environment reviewers and branch protection still require separate settings verification.
 - The current feature branch proposes a fourth adaptive workflow for `vfd|trip`; it is not yet merged or deployed. It requires exact-model manual confirmation before classifying a saved drive fault code.
 
