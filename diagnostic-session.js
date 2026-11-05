@@ -74,8 +74,7 @@
           {id:"unknown",label:{ar:"لا توجد مؤشرات موثوقة",en:"No reliable indicators are available",fr:"Aucun indicateur fiable n’est disponible"},evidence:[]}
         ]}
       ]
-    }
-
+    },
     "motor|overheat": {
       equipment:"motor", symptom:"overheat",
       hypotheses:[
