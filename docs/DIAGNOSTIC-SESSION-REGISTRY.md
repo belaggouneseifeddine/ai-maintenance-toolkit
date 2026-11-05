@@ -4,13 +4,14 @@
 
 The browser loads `diagnostic-flows.js` before `diagnostic-session.js`. The shared registry currently contains 11 equipment/symptom definitions.
 
-The adaptive session engine owns three multi-question hypothesis workflows:
+The adaptive session engine owns four multi-question hypothesis workflows:
 
 - `pump|low_flow`
 - `motor|not_start`
 - `compressor|low_pressure`
+- `vfd|trip`
 
-For the other eight registry entries, the session engine now exposes a bounded single-step guided check using the registry's existing question, answer labels, and answer-specific guidance.
+For the other seven registry entries, the session engine now exposes a bounded single-step guided check using the registry's existing question, answer labels, and answer-specific guidance.
 
 ## Evidence and reasoning boundaries
 
@@ -18,13 +19,13 @@ A single-step registry answer is stored with an empty evidence-token array. The 
 
 The selected guidance is shown as guidance associated with the recorded answer. It is not a confirmed root cause, and it is not added to the adaptive hypothesis ranking.
 
-The existing adaptive pump and motor flows retain their current evidence ranking and question-selection behavior.
+The adaptive pump, motor, compressor, and VFD flows use evidence-linked qualitative ranking and adaptive question selection. Their relative support is not calibrated probability.
 
 ## Language boundary
 
 The current registry question, answer, and guidance text is authored in Arabic only. The adapter therefore refuses to display these eight single-step flows in French or English and returns `flow_translation_pending`. The UI explains that the technical wording has not yet been reviewed in those languages.
 
-This is intentional: untranslated technical safety instructions must not silently appear as reviewed translations. The adaptive pump, motor, and compressor flows remain available in Arabic, French, and English.
+This is intentional: untranslated technical safety instructions must not silently appear as reviewed translations. The adaptive pump, motor, compressor, and VFD flows remain available in Arabic, French, and English. VFD fault categories must be selected only after checking the exact drive model manual; unverified codes add no evidence.
 
 ## Input matching
 
@@ -36,7 +37,7 @@ The UI resolves equipment and symptom text against a bounded alias map, then che
 
 - All 11 registry keys can start a session.
 - All three adaptive sessions remain adaptive.
-- The other eight entries use the single-step adapter.
+- The other seven entries use the single-step adapter.
 - Curated guidance is returned exactly for the selected answer.
 - Single-step answers do not fabricate Bayesian evidence or a confirmed cause.
 - Invalid answers do not mutate the session.
