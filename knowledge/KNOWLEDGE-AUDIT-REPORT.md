@@ -5,7 +5,7 @@ Deterministic inventory of the current repository. This report adds no technical
 ## Snapshot
 
 - Worker-referenced Markdown documents: **10**
-- Markdown inventory: **3,862 lines**, **55,772 whitespace-separated words**, **282 headings**
+- Markdown inventory: **3,920 lines**, **56,670 whitespace-separated words**, **288 headings**
 - Structured fault records: **284**
 - Model-specific manual-reviewed fault records (not field-verified): **60**
 - Distinct equipment-type labels in the fault library: **36**
@@ -13,7 +13,7 @@ Deterministic inventory of the current repository. This report adds no technical
 - Fault records with an alarmCodes or errorCodes array: **31/284**
 - Chinese/European OEM manufacturer profiles: **28**
 - Structured OEM symptom templates: **38**
-- Official manufacturer/support portal records: **63**
+- Official manufacturer/support portal records: **67**
 - Structured OEM platform index entries: **29**; model-verified: **0**
 - Structured source-linked OEM diagnostic records: **99**; claim-reviewed: **99**; pending claim-level review: **0**; records missing a printed/PDF page reference: **0**; records missing firmware/applicability scope: **0**; records with a missing manufacturer-source registry entry: **0**
 
@@ -21,7 +21,7 @@ Deterministic inventory of the current repository. This report adds no technical
 
 | Worker-loaded document | Lines | Words | Headings |
 |---|---:|---:|---:|
-| knowledge/INDUSTRIAL-FAULT-KNOWLEDGE-BASE.md | 296 | 4,738 | 40 |
+| knowledge/INDUSTRIAL-FAULT-KNOWLEDGE-BASE.md | 354 | 5,636 | 46 |
 | knowledge/ELECTRIC-MOTOR-AND-VFD-CASEBOOK.md | 129 | 1,429 | 11 |
 | knowledge/INGERSOLL-RAND-COMPRESSOR-CASEBOOK.md | 107 | 1,203 | 14 |
 | knowledge/CENTRIFUGAL-PUMP-TROUBLESHOOTING-DRAFT.md | 114 | 1,024 | 9 |
@@ -60,7 +60,7 @@ This is a conservative string-presence check only. It does not prove that a topi
 - The OEM matrix maps 28 manufacturer/controller families to official documentation routes and contains 38 structured symptom templates.
 - The OEM platform index lists 29 machine builders and component OEMs; 0 are model-verified. These entries are discovery routes only until exact model/manual evidence is reviewed.
 - These templates are not verified alarm-code definitions. A verified case requires exact model, controller/drive, firmware, manual revision, page/section, supported claim, and human review.
-- The 63-entry OEM source-discovery registry is separate from the 2 license-tracked research sources above. Its URLs do not prove that a particular fault cause applies.
+- The 67-entry OEM source-discovery registry is separate from the 2 license-tracked research sources above. Its URLs do not prove that a particular fault cause applies.
 - OEM record registry references are checked against the manufacturer-source registry; missing references: none. The source link alone is not evidence unless the recorded manual section supports the claim.
 - The structured OEM file contains 99 claim-reviewed records and 0 records pending claim-level review. Pending records must not be presented as source-verified.
 
