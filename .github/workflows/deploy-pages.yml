@@ -1,7 +1,11 @@
 name: Deploy Maintenance AI Toolkit to GitHub Pages
 
 on:
-  # Production deployment requires an explicit manual run.
+  # Deploy automatically after every update to the production branch.
+  push:
+    branches:
+      - main
+  # Keep manual deployment available for recovery or intentional redeploys.
   workflow_dispatch:
 
 permissions:
