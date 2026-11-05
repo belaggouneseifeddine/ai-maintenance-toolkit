@@ -648,6 +648,46 @@
       "scope": "Syntec CNC alarm manual; supported software versions listed in the manual include 10.118.86L, 10.120.16L, 10.120.24B, 10.120.27 and previous versions. Exact CNC/drive integration and machine-builder settings must be matched.",
       "status": "manual-content-reviewed-for-listed-records",
       "redistribution": "link-and-concise-original-summaries-only"
+    },
+    {
+      "id": "atlas-copco-compressor-overheating",
+      "publisher": "Atlas Copco",
+      "title": "Causes of compressor overheating and how to prevent it",
+      "url": "https://www.atlascopco.com/en-ie/compressors/air-compressor-blog/compressor-overheating",
+      "type": "manufacturer-general-troubleshooting-article",
+      "scope": "General ventilation, cooling, oil and maintenance factors; exact model and configuration still govern",
+      "status": "reference-listed-general-scope-not-model-verified",
+      "redistribution": "link-only; check terms before copying"
+    },
+    {
+      "id": "atlas-copco-xas-38-48-manual",
+      "publisher": "Atlas Copco",
+      "title": "XAS 38–48 User Manual",
+      "url": "https://www.atlascopco.com/content/dam/atlas-copco/local-countries/france/documents/power-technique-france/ape/page-web-liens-utiles-compresseurs/petits-compresseurs-2-%C3%A0-5m%C2%B3/manuels-d%27utilisateurs/Manuel%20Utilisateur%20XAS%2038-48.pdf",
+      "type": "manufacturer-manual",
+      "scope": "XAS 38–48 mobile compressor family only; verify exact model and manual revision before use",
+      "status": "reference-listed-family-specific-not-claim-verified",
+      "redistribution": "reference-link-only; redistribution rights not reviewed"
+    },
+    {
+      "id": "skf-bearing-damage-troubleshooting",
+      "publisher": "SKF",
+      "title": "Bearing damage and troubleshooting",
+      "url": "https://cdn.skfmediahub.skf.com/api/public/0901d1968064c148/pdf_preview_medium/0901d1968064c148_pdf_preview_medium.pdf",
+      "type": "manufacturer-technical-reference",
+      "scope": "General bearing troubleshooting including lubrication, contamination, seals and operating conditions; exact bearing/application requirements govern",
+      "status": "reference-listed-general-scope-not-model-verified",
+      "redistribution": "reference-link-only; follow SKF document terms"
+    },
+    {
+      "id": "skf-iso-15243-bearing-analysis",
+      "publisher": "SKF Evolution",
+      "title": "How to understand ISO 15243 bearing damage analysis",
+      "url": "https://evolution.skf.com/us/bearing-damage-analysis-iso-15243-is-here-to-help-you/",
+      "type": "manufacturer-technical-article",
+      "scope": "General bearing damage categories and analysis context; does not establish a cause for an individual failure",
+      "status": "reference-listed-general-scope-not-model-verified",
+      "redistribution": "link-only; follow publisher terms"
     }
   ]
 }
