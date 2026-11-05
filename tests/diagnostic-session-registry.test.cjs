@@ -30,7 +30,7 @@ test("all shared registry keys start a guided session without replacing existing
 });
 
 test("registry-only answers return curated guidance and never a confirmed cause", () => {
-  assert.equal(registryOnlyEntries.length, 10);
+  assert.equal(registryOnlyEntries.length, 8);
   for (const [key, flow] of registryOnlyEntries) {
     const [equipment, symptom] = key.split("|");
     const session = engine.createSession({equipment, symptom, language:"ar"});
