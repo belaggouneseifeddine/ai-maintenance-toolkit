@@ -10,23 +10,29 @@ const productionWorkflows = [
   ".github/workflows/deploy-worker.yml"
 ];
 
-test("production deployment workflows are manual-only", () => {
+test("GitHub Pages auto-deploys on main while other production deployments remain manual-only", () => {
   for (const relativePath of productionWorkflows) {
     const source = fs.readFileSync(path.join(root, relativePath), "utf8");
-    const triggerStart = source.indexOf("\non:");
-    const permissionsStart = source.indexOf("\npermissions:", triggerStart);
+    const triggerStart = source.indexOf("\\non:");
+    const permissionsStart = source.indexOf("\\npermissions:", triggerStart);
     assert.ok(triggerStart >= 0 && permissionsStart > triggerStart, relativePath + " must have a readable trigger block");
     const triggerBlock = source.slice(triggerStart + 1, permissionsStart);
-    assert.match(triggerBlock, /^on:\s*$/m, relativePath);
-    assert.match(triggerBlock, /^\s+workflow_dispatch:\s*$/m, relativePath);
-    assert.doesNotMatch(triggerBlock, /^\s+(?:push|workflow_run):/m, relativePath);
+    assert.match(triggerBlock, /^on:\\s*$/m, relativePath);
+    assert.match(triggerBlock, /^\\s+workflow_dispatch:\\s*$/m, relativePath);
+
+    if (relativePath === ".github/workflows/deploy-pages.yml") {
+      assert.match(triggerBlock, /^\\s+push:\\s*\\n\\s+branches:\\s*\\n\\s+- main\\s*$/m,
+        relativePath + " must auto-deploy only after pushes to main");
+    } else {
+      assert.doesNotMatch(triggerBlock, /^\\s+(?:push|workflow_run):/m, relativePath);
+    }
   }
 });
 
 test("production deployment jobs are restricted to main", () => {
   for (const relativePath of productionWorkflows) {
     const source = fs.readFileSync(path.join(root, relativePath), "utf8");
-    assert.match(source, /^\s+if: github\.ref == ['"]refs\/heads\/main['"]\s*$/m, relativePath + " must block deployment from non-main refs");
+    assert.match(source, /^\\s+if: github\\.ref == ['"]refs\\/heads\\/main['"]\\s*$/m, relativePath + " must block deployment from non-main refs");
   }
 });
 
@@ -36,21 +42,21 @@ test("Cloudflare Pages and Worker production jobs use the protected production e
     ".github/workflows/deploy-worker.yml"
   ]) {
     const source = fs.readFileSync(path.join(root, relativePath), "utf8");
-    assert.match(source, /^\s+environment: production\s*$/m, relativePath + " must use the protected production environment");
+    assert.match(source, /^\\s+environment: production\\s*$/m, relativePath + " must use the protected production environment");
   }
 });
 
 test("live AI smoke requires manual dispatch, main ref, and explicit boolean confirmation", () => {
   const relativePath = ".github/workflows/live-ai-provider-smoke.yml";
   const source = fs.readFileSync(path.join(root, relativePath), "utf8");
-  const triggerStart = source.indexOf("\non:");
-  const permissionsStart = source.indexOf("\npermissions:", triggerStart);
+  const triggerStart = source.indexOf("\\non:");
+  const permissionsStart = source.indexOf("\\npermissions:", triggerStart);
   assert.ok(triggerStart >= 0 && permissionsStart > triggerStart, relativePath + " must have a readable trigger block");
   const triggerBlock = source.slice(triggerStart + 1, permissionsStart);
-  assert.match(triggerBlock, /^\s+workflow_dispatch:\s*$/m);
-  assert.doesNotMatch(triggerBlock, /^\s+(?:push|workflow_run):/m);
-  assert.match(triggerBlock, /confirm_live_request:[\s\S]*?required: true[\s\S]*?type: boolean[\s\S]*?default: false/);
-  assert.match(source, /^\s+if: github\.ref == ['"]refs\/heads\/main['"] && inputs\.confirm_live_request == true\s*$/m);
+  assert.match(triggerBlock, /^\\s+workflow_dispatch:\\s*$/m);
+  assert.doesNotMatch(triggerBlock, /^\\s+(?:push|workflow_run):/m);
+  assert.match(triggerBlock, /confirm_live_request:[\\s\\S]*?required: true[\\s\\S]*?type: boolean[\\s\\S]*?default: false/);
+  assert.match(source, /^\\s+if: github\\.ref == ['"]refs\\/heads\\/main['"] && inputs\\.confirm_live_request == true\\s*$/m);
 });
 
 test("deployment and primary test workflows do not use the end-of-life Node.js 20 line", () => {
@@ -62,8 +68,8 @@ test("deployment and primary test workflows do not use the end-of-life Node.js 2
   ];
   for (const relativePath of runtimeWorkflows) {
     const source = fs.readFileSync(path.join(root, relativePath), "utf8");
-    assert.match(source, /node-version:\s*["']?24["']?/, relativePath + " must use Node.js 24");
-    assert.doesNotMatch(source, /node-version:\s*["']?20["']?/, relativePath + " must not use end-of-life Node.js 20");
+    assert.match(source, /node-version:\\s*["']?24["']?/, relativePath + " must use Node.js 24");
+    assert.doesNotMatch(source, /node-version:\\s*["']?20["']?/, relativePath + " must not use end-of-life Node.js 20");
   }
 });
 
@@ -76,8 +82,8 @@ test("production and primary test workflows use Node 24-compatible first-party a
   ];
   for (const relativePath of runtimeWorkflows) {
     const source = fs.readFileSync(path.join(root, relativePath), "utf8");
-    assert.match(source, /uses:\s*actions\/checkout@v5/, relativePath + " must use checkout v5");
-    assert.match(source, /uses:\s*actions\/setup-node@v5/, relativePath + " must use setup-node v5");
+    assert.match(source, /uses:\\s*actions\\/checkout@v5/, relativePath + " must use checkout v5");
+    assert.match(source, /uses:\\s*actions\\/setup-node@v5/, relativePath + " must use setup-node v5");
   }
 });
 
@@ -97,7 +103,7 @@ test("all repository workflows avoid Node 20-era checkout and setup-node v4 rele
   ];
   for (const relativePath of workflowFiles) {
     const source = fs.readFileSync(path.join(root, relativePath), "utf8");
-    assert.doesNotMatch(source, /uses:\s*actions\/checkout@v4/, relativePath);
-    assert.doesNotMatch(source, /uses:\s*actions\/setup-node@v4/, relativePath);
+    assert.doesNotMatch(source, /uses:\\s*actions\\/checkout@v4/, relativePath);
+    assert.doesNotMatch(source, /uses:\\s*actions\\/setup-node@v4/, relativePath);
   }
 });
