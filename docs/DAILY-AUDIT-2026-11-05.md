@@ -74,7 +74,7 @@ The 2026-11-05 digital-electronics reference index is a locator/index only; it d
 - The PR branch changes `deploy-cloudflare-pages.yml` and `deploy-worker.yml` to add push-to-main triggers. Merging it unchanged would restore automatic Cloudflare Pages and Worker production deployment, contrary to current manual-only policy.
 - The current P4 API exposes document upload, profile read/update, and session revocation. It does not expose document listing or deletion; the UI cannot manage uploaded documents after upload.
 - `p4-profile.js` stores the bearer session token in `localStorage`. This is a credible XSS exposure path, not evidence that a token has been stolen.
-- The staging documentation and PR description are inconsistent about whether the D1 staging database and migration 0003 have already been provisioned. Verify the actual D1 migration ledger before any enablement.
+- The original PR #117 staging document contained contradictory stale statements about D1 provisioning. The child branch corrects those statements to match the recorded 2026-11-01 D1 update; the live D1 migration ledger was not re-read during this audit, so verify it before applying migration 0004 or enabling uploads.
 - R2 is not enabled for end-to-end upload testing. No Android upload test or cross-contributor storage test was demonstrated.
 
 ### Safe implementation on an isolated child branch
