@@ -146,6 +146,31 @@ test("fault library exposes source-backed OEM alarm-code records", () => {
   assert.ok(g120c.sourceRefs.length > 0);
 });
 
+
+test("supplemental fault cases are merged with stable records and retain source/evidence boundaries", () => {
+  const supplement = require("../knowledge/faults-supplement.json");
+  assert.equal(supplement.schemaVersion, 1);
+  assert.equal(supplement.faults.length, 3);
+  const merged = { ...faults, faults: faults.faults.concat(supplement.faults) };
+  for (const [equipmentType,symptom,id] of [
+    ["motor","overheat","supplement-motor-overheat-general"],
+    ["compressor","overheat","supplement-compressor-overheat-general"],
+    ["bearing","vibration","supplement-bearing-vibration-general"]
+  ]) {
+    const record=supplement.faults.find(item=>item.id===id);
+    assert.ok(record);
+    assert.equal(record.evidenceStatus,"source-informed-general-reference-not-model-verified");
+    for (const language of ["ar","en","fr"]) {
+      assert.ok(record.title[language]);
+      assert.ok(record.escalation[language]);
+      assert.ok(record.safeChecks.some(item=>item[language]));
+    }
+    const result=diagnose({equipmentType,symptom,observations:"",language:"en"},merged);
+    assert.equal(result.matched,true,equipmentType+" / "+symptom);
+    assert.ok(result.results.some(item=>item.id===id));
+  }
+});
+
 test("unreviewed aliases are flagged and not mapped automatically", () => {
   const aliases = global.MaintenanceNormalization.getReviewAliases();
   assert.ok(aliases.length > 0);
