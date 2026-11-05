@@ -110,3 +110,57 @@ test("multiple signals from one answer are grouped as one observation node", () 
   assert.equal(power.evidenceGroupsUsed,1);
   assert.equal(protection.score,power.score);
 });
+
+test("motor overheating adaptive flow ranks load, cooling and bearing/electrical hypotheses", () => {
+  const s=engine.createSession({equipment:"motor",symptom:"overheat",language:"en"});
+  assert.equal(s.ok,true);
+  assert.equal(s.nextQuestion.id,"motor_heat_load");
+  const r=engine.answer(s,"motor-load-high");
+  assert.equal(r.ok,true);
+  assert.equal(r.session.hypotheses[0].id,"motor_overload_or_application");
+  assert.ok(r.session.nextQuestion);
+  assert.equal(r.session.summary,undefined);
+});
+
+test("compressor overheating flow separates cooling, lubrication and operating conditions", () => {
+  const s=engine.createSession({equipment:"compressor",symptom:"overheat",language:"fr"});
+  assert.equal(s.ok,true);
+  assert.equal(s.nextQuestion.id,"compressor_cooling");
+  const r=engine.answer(s,"cooler-airflow-restricted");
+  assert.equal(r.ok,true);
+  assert.equal(r.session.hypotheses[0].id,"compressor_cooling_air_or_water");
+});
+
+test("bearing vibration flow distinguishes lubrication, mounting and bearing/external vibration", () => {
+  const s=engine.createSession({equipment:"bearing",symptom:"vibration",language:"ar"});
+  assert.equal(s.ok,true);
+  assert.equal(s.nextQuestion.id,"bearing_lubrication");
+  const r=engine.answer(s,"contamination-indicated");
+  assert.equal(r.ok,true);
+  assert.equal(r.session.hypotheses[0].id,"bearing_lubrication_or_contamination");
+});
+
+test("new adaptive flows preserve unknown evidence and never confirm a cause", () => {
+  for (const [equipment,symptom,unknown] of [
+    ["motor","overheat","unknown"],
+    ["compressor","overheat","unknown"],
+    ["bearing","vibration","unknown"]
+  ]) {
+    let s=engine.createSession({equipment,symptom,language:"en"});
+    const baseline=s.hypotheses.map(h=>[h.id,h.score]);
+    const r=engine.answer(s,unknown);
+    assert.equal(r.ok,true);
+    assert.deepEqual(r.session.hypotheses.map(h=>[h.id,h.score]),baseline);
+    while (r.session.nextQuestion) break;
+    assert.equal(r.session.summary,undefined);
+  }
+});
+
+test("new adaptive flow contracts expose bounded evidence identifiers", () => {
+  for (const key of ["motor|overheat","compressor|overheat","bearing|vibration"]) {
+    const contract=engine.getFlowContract(key);
+    assert.ok(contract);
+    assert.equal(contract.hypothesisIds.length,3);
+    assert.ok(contract.evidenceIds.length>=8);
+  }
+});
