@@ -1,7 +1,5 @@
 const MAX_PROFILE = { name: 100, title: 120, qualification: 160 };
 const SESSION_DAYS = 30;
-const MAX_STAGING_STORAGE_BYTES = 1024 * 1024 * 1024;
-const MAX_CONTRIBUTOR_STORAGE_BYTES = 100 * 1024 * 1024;
 const ALLOWED_ORIGINS = new Set([
   "https://maintenance-ai-toolkit.pages.dev",
   "https://belaggouneseifeddine.github.io"
@@ -160,25 +158,46 @@ export async function handleCommunityRequest(request, env) {
       (mime === "image/webp" && data.length >= 12 && String.fromCharCode(...data.slice(0, 4)) === "RIFF" && String.fromCharCode(...data.slice(8, 12)) === "WEBP");
     if (!signatureValid) return response({ error: "File content does not match the declared type." }, 415, origin);
 
-    const quota = await env.COMMUNITY_DB.prepare(`SELECT
-      COALESCE(SUM(byte_size), 0) AS total_bytes,
-      COALESCE(SUM(CASE WHEN owner_contributor_id = ? THEN byte_size ELSE 0 END), 0) AS contributor_bytes
-      FROM source_documents WHERE deleted_at IS NULL`)
-      .bind(session.contributor_id).first();
-    const totalStored = Number(quota?.total_bytes || 0);
-    const contributorStored = Number(quota?.contributor_bytes || 0);
-    if (totalStored + bytes.byteLength > MAX_STAGING_STORAGE_BYTES) {
-      return response({ error: "Staging storage quota reached. No file was stored.", code: "staging_storage_quota" }, 507, origin);
-    }
-    if (contributorStored + bytes.byteLength > MAX_CONTRIBUTOR_STORAGE_BYTES) {
-      return response({ error: "Your staging upload quota is 100 MiB. Remove an existing document or contact the maintainer.", code: "contributor_storage_quota" }, 507, origin);
-    }
-
     const digest = await crypto.subtle.digest("SHA-256", bytes);
     const sha256Hex = [...new Uint8Array(digest)].map(x => x.toString(16).padStart(2, "0")).join("");
     const documentId = uuid();
+    const reservationId = uuid();
     const objectKey = "private/" + session.contributor_id + "/" + documentId;
     const created = nowIso();
+    // The reservation trigger enforces global and per-contributor limits atomically
+    // before any R2 write. Expired reservations are ignored by the trigger and
+    // opportunistically removed here.
+    const reservationExpiresAt = new Date(Date.now() + 30 * 60 * 1000).toISOString();
+    try {
+      await env.COMMUNITY_DB.prepare(
+        "DELETE FROM source_document_reservations WHERE expires_at <= ?"
+      ).bind(created).run();
+      await env.COMMUNITY_DB.prepare(`INSERT INTO source_document_reservations
+        (id,owner_contributor_id,byte_size,created_at,expires_at)
+        VALUES (?,?,?,?,?)`)
+        .bind(reservationId, session.contributor_id, bytes.byteLength, created, reservationExpiresAt).run();
+    } catch (error) {
+      const message = String(error && error.message || error);
+      if (message.includes("staging_storage_quota")) {
+        return response({ error: "Staging storage quota reached. No file was stored.", code: "staging_storage_quota" }, 507, origin);
+      }
+      if (message.includes("contributor_storage_quota")) {
+        return response({ error: "Your staging upload quota is 100 MiB. Remove an existing document or contact the maintainer.", code: "contributor_storage_quota" }, 507, origin);
+      }
+      return response({
+        error: "Storage quota reservation is unavailable. Apply migration 0004 before enabling uploads.",
+        code: "storage_reservation_unavailable"
+      }, 503, origin);
+    }
+
+    const releaseReservation = async () => {
+      try {
+        await env.COMMUNITY_DB.prepare(
+          "DELETE FROM source_document_reservations WHERE id=?"
+        ).bind(reservationId).run();
+      } catch {}
+    };
+
     try {
       await env.COMMUNITY_FILES.put(objectKey, bytes, {
         httpMetadata: { contentType: mime, cacheControl: "private, no-store" },
@@ -192,10 +211,14 @@ export async function handleCommunityRequest(request, env) {
         env.COMMUNITY_DB.prepare(`INSERT INTO audit_events
           (id,actor_contributor_id,action,target_type,target_id,metadata_json,created_at)
           VALUES (?,?,'document.uploaded','source_document',?,?,?)`)
-          .bind(uuid(), session.contributor_id, documentId, JSON.stringify({ mime_type: mime, byte_size: bytes.byteLength, visibility: "private" }), created)
+          .bind(uuid(), session.contributor_id, documentId, JSON.stringify({ mime_type: mime, byte_size: bytes.byteLength, visibility: "private" }), created),
+        env.COMMUNITY_DB.prepare(
+          "DELETE FROM source_document_reservations WHERE id=?"
+        ).bind(reservationId)
       ]);
     } catch {
       try { await env.COMMUNITY_FILES.delete(objectKey); } catch {}
+      await releaseReservation();
       return response({ error: "Document could not be stored. No document record was created." }, 500, origin);
     }
     return response({
