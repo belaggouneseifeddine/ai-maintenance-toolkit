@@ -1,8 +1,11 @@
 name: Deploy Maintenance AI Toolkit to GitHub Pages
 
 on:
+  # Deploy automatically after every update to the production branch.
   push:
-    branches: ["main"]
+    branches:
+      - main
+  # Keep manual deployment available for recovery or intentional redeploys.
   workflow_dispatch:
 
 permissions:
@@ -19,11 +22,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Set up Node.js for diagnostic tests
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: '20'
+          node-version: "24"
       - name: Test local diagnostic engine
         run: node --test tests/*.test.cjs
       - name: Configure Pages
@@ -31,7 +34,7 @@ jobs:
       - name: Prepare static site
         run: |
           mkdir -p _site
-          required_runtime_assets="p4-profile.js p1-app-shell.css p1-app-shell.js diagnostic-flows.js normalization.js bayesian-engine.js diagnostic-engine.js engineering-core.js agent-core.js evidence-reasoning.js evidence-reasoning-ui.js diagnostic-evidence-register.json agent-ui.js diagnostic-session.js diagnostic-session-ui.js oem-lookup.js faults.json i18n.js maintenance-v03.js maintenance-v03.css decision-trees.json knowledge-review.js answer-tools.js ux-redesign.js ux-redesign.css navigation-redesign.js"
+          required_runtime_assets="p1-app-shell.css p1-app-shell.js diagnostic-flows.js normalization.js bayesian-engine.js diagnostic-engine.js engineering-core.js agent-core.js evidence-reasoning.js evidence-reasoning-ui.js diagnostic-evidence-register.json agent-ui.js diagnostic-session.js diagnostic-session-ui.js oem-lookup.js faults.json i18n.js maintenance-v03.js maintenance-v03.css decision-trees.json knowledge-review.js answer-tools.js ux-redesign.js ux-redesign.css navigation-redesign.js"
           for asset in $required_runtime_assets; do
             test -f "$asset" || { echo "Missing required runtime asset: $asset"; exit 1; }
           done
@@ -47,6 +50,7 @@ jobs:
         with:
           path: _site
   deploy:
+    if: github.ref == 'refs/heads/main'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -58,7 +62,7 @@ jobs:
         uses: actions/deploy-pages@v4
 
       - name: Checkout source for live smoke test
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Smoke-test published app and Worker
         run: node scripts/smoke-test-live.mjs
