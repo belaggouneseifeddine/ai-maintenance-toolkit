@@ -69,6 +69,21 @@ const oemVerifiedSourceIds = new Set((oemVerifiedFaults.records || []).map(recor
 const missingOemSources = [...oemVerifiedSourceIds].filter(id => !(manufacturerSources.sources || []).some(source => source.id === id));
 const supplementalSourceIds = new Set(supplementalFaults.flatMap(fault => Array.isArray(fault.sourceRefs) ? fault.sourceRefs : []));
 const missingSupplementSources = [...supplementalSourceIds].filter(id => !(manufacturerSources.sources || []).some(source => source.id === id));
+const supplementalCauses = supplementalFaults.flatMap(fault => Array.isArray(fault.causes) ? fault.causes : []);
+const supplementalCausesWithSourceRefs = supplementalCauses.filter(cause => Array.isArray(cause.sourceRefs) && cause.sourceRefs.length > 0).length;
+const supplementalCauseSourceIds = new Set(supplementalCauses.flatMap(cause => Array.isArray(cause.sourceRefs) ? cause.sourceRefs : []));
+const missingSupplementCauseSources = [...supplementalCauseSourceIds].filter(id => !(manufacturerSources.sources || []).some(source => source.id === id));
+const supplementalSourcesContentReviewed = [...supplementalSourceIds].filter(id => {
+  const source = (manufacturerSources.sources || []).find(item => item.id === id);
+  return source && source.reviewStatus === "content_reviewed";
+}).length;
+const supplementalRelatedManualIds = new Set(supplementalFaults.flatMap(fault =>
+  Array.isArray(fault.sourceScopeNotes?.relatedManualRefs) ? fault.sourceScopeNotes.relatedManualRefs : []
+));
+const unreviewedRelatedManualIds = [...supplementalRelatedManualIds].filter(id => {
+  const source = (manufacturerSources.sources || []).find(item => item.id === id);
+  return !source || source.reviewStatus !== "content_reviewed";
+});
 const fmt = value => Number(value).toLocaleString("en-US");
 
 const report = [
@@ -107,6 +122,8 @@ const report = [
   "- Reference-only portals: **" + referencePortals.length + "**; permitted for automated fetching by registry: **" + fetchablePortals + "/" + referencePortals.length + "**",
   "- Reference-only books: **" + referenceOnlyBooks.length + "**; permitted for automated fetching by registry: **" + fetchableBooks + "/" + referenceOnlyBooks.length + "**",
   "- Supplemental fault source references registered in the manufacturer-source registry: **" + supplementalSourceIds.size + "**; missing registry entries: **" + missingSupplementSources.length + "**",
+  "- Supplemental causes with explicit sourceRefs: **" + supplementalCausesWithSourceRefs + "/" + supplementalCauses.length + "**; missing cause-level source registry entries: **" + missingSupplementCauseSources.length + "**",
+  "- Supplemental evidence sources content-reviewed in this pass: **" + supplementalSourcesContentReviewed + "/" + supplementalSourceIds.size + "**; related manuals not content-reviewed and excluded from supporting sourceRefs: **" + unreviewedRelatedManualIds.length + "**",
   "- Accepted licenses declared by policy: " + ((registry.policy && registry.policy.accepted_licenses) || []).join(", "),
   "- Human review before knowledge publication required by policy: **" + (registry.policy && registry.policy.require_human_review_before_knowledge_publication === true ? "yes" : "not specified") + "**",
   "",
@@ -124,7 +141,7 @@ const report = [
   "3. " + literalMissing.length + " equipment labels lack a literal name match in the Worker-loaded documents. Review this list with a subject-matter expert; do not automatically fill the gaps with generated technical content.",
   "4. " + (referencePortals.length - fetchablePortals) + " reference-only portals are not allowlisted for automated fetching. Keep this restriction until reuse permissions are documented in the registry.",
   "5. " + (referenceOnlyBooks.length - fetchableBooks) + " reference-only books are not allowlisted for automated fetching. Keep them as metadata and original navigation indexes until reuse permissions are documented.",
-  "6. Supplemental fault records are general-reference candidates, not model-verified cases; missing source registry entries: " + (missingSupplementSources.join(", ") || "none") + ". Human review is still required before operational use.",
+  "6. Supplemental fault records are general-reference candidates, not model-verified cases; missing record-level source registry entries: " + (missingSupplementSources.join(", ") || "none") + "; missing cause-level source registry entries: " + (missingSupplementCauseSources.join(", ") || "none") + ". Unreviewed related manuals must remain excluded from supporting sourceRefs.",
   "",
   "## Manufacturer-specific case coverage and limits",
   "",
