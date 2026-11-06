@@ -79,6 +79,21 @@ class KnowledgeAssetsTests(unittest.TestCase):
             self.assertTrue(set(fault["sourceRefs"]).issubset(source_ids), fault["id"] + " has an unregistered source reference")
             self.assertFalse(fault.get("modelSpecificEvidence"), fault["id"] + " must not claim model-specific evidence")
 
+    def test_general_faults_do_not_cite_family_only_manuals(self):
+        supplement = json.loads((ROOT / "knowledge" / "faults-supplement.json").read_text(encoding="utf-8"))
+        manufacturer_sources = json.loads((ROOT / "knowledge" / "manufacturer-sources.json").read_text(encoding="utf-8"))
+        source_by_id = {source["id"]: source for source in manufacturer_sources.get("sources", [])}
+        for fault in supplement.get("faults", []):
+            if fault.get("evidenceStatus") != "source-informed-general-reference-not-model-verified":
+                continue
+            for source_id in fault.get("sourceRefs", []):
+                source = source_by_id[source_id]
+                scope = source.get("scope", "").lower()
+                self.assertFalse(
+                    source.get("type") == "manufacturer-manual" and ("only" in scope or "family" in scope),
+                    f"{fault['id']} is general but cites family-scoped manual {source_id}",
+                )
+
     def test_pump_draft_has_multilingual_terms_safety_and_attribution(self):
         text = PUMP_DRAFT.read_text(encoding="utf-8")
         for term in ("العربية", "Français", "English", "LOTO", "راجع دليل المصنع",
