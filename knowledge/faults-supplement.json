@@ -146,7 +146,7 @@
         "fr": "Arrêtez et escaladez en cas de fumée, odeur de brûlé, vibration forte/soudaine, dépassement d'une limite constructeur ou déclenchements répétés. Ne redémarrez pas uniquement parce qu'une alarme disparaît."
       },
       "sourceRefs": [
-        "abb-motor-troubleshooting",
+        "abb-vfd-motor-effects",
         "skf-bearing-damage-troubleshooting"
       ],
       "evidenceStatus": "source-informed-general-reference-not-model-verified",
