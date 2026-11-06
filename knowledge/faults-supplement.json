@@ -71,7 +71,7 @@
             "courant élevé"
           ],
           "sourceRefs": [
-            "abb-motor-troubleshooting"
+            "abb-vfd-motor-effects"
           ]
         },
         {
@@ -94,7 +94,7 @@
             "débit d'air"
           ],
           "sourceRefs": [
-            "abb-motor-troubleshooting"
+            "abb-vfd-motor-effects"
           ]
         },
         {
@@ -118,7 +118,7 @@
             "déséquilibre"
           ],
           "sourceRefs": [
-            "abb-motor-troubleshooting",
+            "abb-vfd-motor-effects",
             "skf-bearing-damage-troubleshooting"
           ]
         }
@@ -151,7 +151,7 @@
       ],
       "evidenceStatus": "source-informed-general-reference-not-model-verified",
       "sourceScopeNotes": {
-        "abb-motor-troubleshooting": "Baldor-Reliance AC/DC mine motors only; the cited troubleshooting chart is a family-specific example, not a universal motor limit or procedure.",
+        "abb-vfd-motor-effects": "Applies only to VFD-fed motors; supports low-speed self-cooling, overload/load-capacity and VFD-related bearing-current considerations. Do not apply to direct-on-line motors or model-specific thresholds.",
         "skf-bearing-damage-troubleshooting": "Supports bearing-related condition indicators and damage mechanisms only; it does not substantiate every electrical or load-related motor-overheating cause."
       }
     },
