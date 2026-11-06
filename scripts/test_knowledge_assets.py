@@ -56,7 +56,7 @@ class KnowledgeAssetsTests(unittest.TestCase):
             index_path = ROOT / book["repository_index"]
             self.assertTrue(index_path.is_file(), f"missing reference index: {index_path}")
             index_text = index_path.read_text(encoding="utf-8")
-            self.assertIn("not an OEM", index_text.lower())
+            self.assertIn("not an oem", index_text.lower())
             self.assertIn("printed page numbers", index_text.lower())
         bolton = next(book for book in books if book["id"] == "automates-programmables-industriels-bolton-2015")
         self.assertEqual(bolton["french_isbn"], "978-2-10-074219-6")
