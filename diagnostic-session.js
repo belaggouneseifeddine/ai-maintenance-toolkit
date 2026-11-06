@@ -78,9 +78,9 @@
     "motor|overheat": {
       equipment:"motor", symptom:"overheat",
       hypotheses:[
-        {id:"motor_overload_or_application",label:{ar:"حمل ميكانيكي أو ظروف تشغيل غير مناسبة",en:"Mechanical overload or unsuitable operating conditions",fr:"Surcharge mécanique ou conditions d’exploitation inadaptées"},evidenceFor:["motor-load-high","duty-cycle-exceeded","process-demand-changed"],evidenceAgainst:["motor-load-baseline"],checks:["قارن الحمل والتيار والسرعة ودورة التشغيل بخط الأساس ولوحة البيانات ودليل المحرك؛ لا تغيّر إعدادات الحماية."]},
-        {id:"motor_cooling_or_ventilation",label:{ar:"ضعف التبريد أو انسداد مسار التهوية",en:"Inadequate cooling or restricted ventilation",fr:"Refroidissement insuffisant ou ventilation obstruée"},evidenceFor:["cooling-path-obstructed","fan-fault-indicated","ambient-temperature-high"],evidenceAgainst:["cooling-indicators-normal"],checks:["راجع مؤشرات المروحة وفتحات التهوية وحرارة المحيط من الخارج وفي حالة آمنة؛ لا تزل الحواجز أثناء الدوران."]},
-        {id:"motor_bearing_or_electrical",label:{ar:"محامل أو خلل كهربائي محتمل — فحص مؤهل",en:"Possible bearing or electrical condition — qualified inspection",fr:"Défaut possible de roulement ou électrique — contrôle qualifié"},evidenceFor:["bearing-noise-or-vibration","current-imbalance-indicated","bearing-temperature-rise"],evidenceAgainst:["bearing-and-current-trends-normal"],checks:["وثّق اتجاهات الاهتزاز والحرارة والتيار من أنظمة القياس المعتمدة؛ الاختبارات الكهربائية والميكانيكية الداخلية تتطلب عزلًا وتحققًا من انعدام الطاقة بواسطة مختص."]}
+        {id:"motor_overload_or_application",knowledgeRecordId:"supplement-motor-overheat-general",sourceRefs:["epr-motor-overheating-guide"],label:{ar:"حمل ميكانيكي أو ظروف تشغيل غير مناسبة",en:"Mechanical overload or unsuitable operating conditions",fr:"Surcharge mécanique ou conditions d’exploitation inadaptées"},evidenceFor:["motor-load-high","duty-cycle-exceeded","process-demand-changed"],evidenceAgainst:["motor-load-baseline"],checks:["قارن الحمل والتيار والسرعة ودورة التشغيل بخط الأساس ولوحة البيانات ودليل المحرك؛ لا تغيّر إعدادات الحماية."]},
+        {id:"motor_cooling_or_ventilation",knowledgeRecordId:"supplement-motor-overheat-general",sourceRefs:["epr-motor-overheating-guide"],label:{ar:"ضعف التبريد أو انسداد مسار التهوية",en:"Inadequate cooling or restricted ventilation",fr:"Refroidissement insuffisant ou ventilation obstruée"},evidenceFor:["cooling-path-obstructed","fan-fault-indicated","ambient-temperature-high"],evidenceAgainst:["cooling-indicators-normal"],checks:["راجع مؤشرات المروحة وفتحات التهوية وحرارة المحيط من الخارج وفي حالة آمنة؛ لا تزل الحواجز أثناء الدوران."]},
+        {id:"motor_bearing_or_electrical",knowledgeRecordId:"supplement-motor-overheat-general",sourceRefs:["epr-motor-overheating-guide","skf-bearing-damage-troubleshooting"],label:{ar:"محامل أو خلل كهربائي محتمل — فحص مؤهل",en:"Possible bearing or electrical condition — qualified inspection",fr:"Défaut possible de roulement ou électrique — contrôle qualifié"},evidenceFor:["bearing-noise-or-vibration","current-imbalance-indicated","bearing-temperature-rise"],evidenceAgainst:["bearing-and-current-trends-normal"],checks:["وثّق اتجاهات الاهتزاز والحرارة والتيار من أنظمة القياس المعتمدة؛ الاختبارات الكهربائية والميكانيكية الداخلية تتطلب عزلًا وتحققًا من انعدام الطاقة بواسطة مختص."]}
       ],
       questions:[
         {id:"motor_heat_load",text:{ar:"هل تغيّر الحمل أو دورة التشغيل أو التيار مقارنة بخط الأساس؟",en:"Have load, duty cycle, or current changed from baseline?",fr:"La charge, le cycle de service ou le courant ont-ils changé par rapport à la référence ?"},options:[
@@ -109,9 +109,9 @@
     "compressor|overheat": {
       equipment:"compressor", symptom:"overheat",
       hypotheses:[
-        {id:"compressor_cooling_air_or_water",label:{ar:"ضعف تبريد الهواء أو ماء التبريد",en:"Insufficient air or cooling-water flow",fr:"Débit d’air ou d’eau de refroidissement insuffisant"},evidenceFor:["cooler-airflow-restricted","cooling-water-flow-low","hot-air-recirculation"],evidenceAgainst:["cooling-system-baseline"],checks:["راجع إنذارات التبريد ومؤشرات تدفق/حرارة ماء التبريد والتهوية من الواجهة أو نقاط القياس المعتمدة؛ لا تفتح مبردًا ساخنًا أو دائرة مضغوطة."]},
-        {id:"compressor_oil_or_lubrication",label:{ar:"مستوى الزيت أو الترشيح أو التزييت",en:"Oil level, filtration, or lubrication condition",fr:"Niveau d’huile, filtration ou lubrification"},evidenceFor:["oil-level-low-indicated","oil-filter-alert","oil-temperature-rise"],evidenceAgainst:["oil-status-baseline"],checks:["راجع مستوى الزيت والإنذارات وسجل الصيانة وفق إجراء المصنع والطراز؛ لا تضف زيتًا قبل التحقق من المواصفة والحالة الآمنة."]},
-        {id:"compressor_load_or_operating_environment",label:{ar:"حمل مرتفع أو ظروف تشغيل/محيط",en:"High load or operating/environmental conditions",fr:"Charge élevée ou conditions d’exploitation/d’environnement"},evidenceFor:["demand-or-load-high","ambient-temperature-high","frequent-cycling"],evidenceAgainst:["load-and-ambient-baseline"],checks:["قارن الطلب ودورات التحميل وحرارة غرفة الضاغط بخط الأساس؛ لا تعدّل الضغط أو صمام الأمان أو حدود الفصل."]}
+        {id:"compressor_cooling_air_or_water",knowledgeRecordId:"supplement-compressor-overheat-general",sourceRefs:["atlas-copco-compressor-troubleshooting","atlas-copco-compressor-overheating"],label:{ar:"ضعف تبريد الهواء أو ماء التبريد",en:"Insufficient air or cooling-water flow",fr:"Débit d’air ou d’eau de refroidissement insuffisant"},evidenceFor:["cooler-airflow-restricted","cooling-water-flow-low","hot-air-recirculation"],evidenceAgainst:["cooling-system-baseline"],checks:["راجع إنذارات التبريد ومؤشرات تدفق/حرارة ماء التبريد والتهوية من الواجهة أو نقاط القياس المعتمدة؛ لا تفتح مبردًا ساخنًا أو دائرة مضغوطة."]},
+        {id:"compressor_oil_or_lubrication",knowledgeRecordId:"supplement-compressor-overheat-general",sourceRefs:["atlas-copco-compressor-overheating"],label:{ar:"مستوى الزيت أو الترشيح أو التزييت",en:"Oil level, filtration, or lubrication condition",fr:"Niveau d’huile, filtration ou lubrification"},evidenceFor:["oil-level-low-indicated","oil-filter-alert","oil-temperature-rise"],evidenceAgainst:["oil-status-baseline"],checks:["راجع مستوى الزيت والإنذارات وسجل الصيانة وفق إجراء المصنع والطراز؛ لا تضف زيتًا قبل التحقق من المواصفة والحالة الآمنة."]},
+        {id:"compressor_load_or_operating_environment",knowledgeRecordId:"supplement-compressor-overheat-general",sourceRefs:["atlas-copco-compressor-overheating"],label:{ar:"حمل مرتفع أو ظروف تشغيل/محيط",en:"High load or operating/environmental conditions",fr:"Charge élevée ou conditions d’exploitation/d’environnement"},evidenceFor:["demand-or-load-high","ambient-temperature-high","frequent-cycling"],evidenceAgainst:["load-and-ambient-baseline"],checks:["قارن الطلب ودورات التحميل وحرارة غرفة الضاغط بخط الأساس؛ لا تعدّل الضغط أو صمام الأمان أو حدود الفصل."]}
       ],
       questions:[
         {id:"compressor_cooling",text:{ar:"ماذا تظهر مؤشرات التبريد والتهوية؟",en:"What do cooling and ventilation indicators show?",fr:"Que montrent les indicateurs de refroidissement et de ventilation ?"},options:[
@@ -140,9 +140,9 @@
     "bearing|vibration": {
       equipment:"bearing", symptom:"vibration",
       hypotheses:[
-        {id:"bearing_lubrication_or_contamination",label:{ar:"تزييت غير مناسب أو تلوث",en:"Unsuitable lubrication or contamination",fr:"Lubrification inadaptée ou contamination"},evidenceFor:["lubrication-alert","contamination-indicated","lubricant-change-recent"],evidenceAgainst:["lubrication-record-normal"],checks:["راجع نوع وكمية وفترة التزييت وسجل التلوث وفق مواصفة المصنع؛ لا تخلط شحومًا أو تضف مادة دون التحقق من التوافق."]},
-        {id:"bearing_mounting_or_alignment",label:{ar:"تركيب أو محاذاة أو تثبيت",en:"Mounting, alignment, or looseness",fr:"Montage, alignement ou desserrage"},evidenceFor:["alignment-deviation-recorded","looseness-indicated","recent-maintenance"],evidenceAgainst:["alignment-and-mounting-verified"],checks:["راجع تقرير المحاذاة والتثبيت وتاريخ الصيانة؛ الفحص الميكانيكي قرب الأجزاء الدوارة يتطلب إيقافًا وعزلًا والتحقق من الطاقة المخزنة."]},
-        {id:"bearing_damage_or_external_excitation",label:{ar:"تلف محمل أو اهتزاز من المعدة/المصدر المجاور",en:"Bearing damage or vibration transmitted from adjacent equipment",fr:"Dommage du roulement ou vibration transmise par un équipement voisin"},evidenceFor:["bearing-frequency-pattern","bearing-temperature-rise","adjacent-machine-vibration"],evidenceAgainst:["bearing-spectrum-no-fault-pattern"],checks:["قارن طيف الاهتزاز واتجاهاته عند نقاط قياس ثابتة مع خط الأساس؛ لا تشخّص تلف المحمل من قيمة إجمالية واحدة أو من الصوت فقط."]}
+        {id:"bearing_lubrication_or_contamination",knowledgeRecordId:"supplement-bearing-vibration-general",sourceRefs:["skf-bearing-damage-troubleshooting","skf-iso-15243-bearing-analysis"],label:{ar:"تزييت غير مناسب أو تلوث",en:"Unsuitable lubrication or contamination",fr:"Lubrification inadaptée ou contamination"},evidenceFor:["lubrication-alert","contamination-indicated","lubricant-change-recent"],evidenceAgainst:["lubrication-record-normal"],checks:["راجع نوع وكمية وفترة التزييت وسجل التلوث وفق مواصفة المصنع؛ لا تخلط شحومًا أو تضف مادة دون التحقق من التوافق."]},
+        {id:"bearing_mounting_or_alignment",knowledgeRecordId:"supplement-bearing-vibration-general",sourceRefs:["skf-bearing-damage-troubleshooting","skf-iso-15243-bearing-analysis"],label:{ar:"تركيب أو محاذاة أو تثبيت",en:"Mounting, alignment, or looseness",fr:"Montage, alignement ou desserrage"},evidenceFor:["alignment-deviation-recorded","looseness-indicated","recent-maintenance"],evidenceAgainst:["alignment-and-mounting-verified"],checks:["راجع تقرير المحاذاة والتثبيت وتاريخ الصيانة؛ الفحص الميكانيكي قرب الأجزاء الدوارة يتطلب إيقافًا وعزلًا والتحقق من الطاقة المخزنة."]},
+        {id:"bearing_damage_or_external_excitation",knowledgeRecordId:"supplement-bearing-vibration-general",sourceRefs:["skf-bearing-damage-troubleshooting","skf-iso-15243-bearing-analysis"],label:{ar:"تلف محمل أو اهتزاز من المعدة/المصدر المجاور",en:"Bearing damage or vibration transmitted from adjacent equipment",fr:"Dommage du roulement ou vibration transmise par un équipement voisin"},evidenceFor:["bearing-frequency-pattern","bearing-temperature-rise","adjacent-machine-vibration"],evidenceAgainst:["bearing-spectrum-no-fault-pattern"],checks:["قارن طيف الاهتزاز واتجاهاته عند نقاط قياس ثابتة مع خط الأساس؛ لا تشخّص تلف المحمل من قيمة إجمالية واحدة أو من الصوت فقط."]}
       ],
       questions:[
         {id:"bearing_lubrication",text:{ar:"هل توجد تغييرات أو إنذارات في التزييت أو مؤشرات تلوث؟",en:"Are there lubrication changes/alarms or contamination indicators?",fr:"Existe-t-il des changements ou alarmes de lubrification ou des indices de contamination ?"},options:[
@@ -245,6 +245,13 @@
     return {id:question.id,text:textFor(question.text,language),options:question.options.map(o=>({id:o.id,label:textFor(o.label,language)}))};
   }
   function rank(flow, evidence, language) {
+    const evidenceLabels = new Map();
+    flow.questions.forEach(question => question.options.forEach(option => {
+      const label = textFor(option.label, language);
+      (Array.isArray(option.evidence) ? option.evidence : []).forEach(id => {
+        if (typeof id === "string" && id && !evidenceLabels.has(id)) evidenceLabels.set(id, label);
+      });
+    }));
     const observedGroups = new Map();
     for (const entry of evidence) {
       const group = "question:" + String(entry.questionId || "unknown");
@@ -276,6 +283,10 @@
         label: textFor(h.label, language),
         supportingEvidence: support,
         contradictingEvidence: contradictions,
+        supportingEvidenceLabels: support.map(id => evidenceLabels.get(id) || id),
+        contradictingEvidenceLabels: contradictions.map(id => evidenceLabels.get(id) || id),
+        knowledgeRecordId: h.knowledgeRecordId || "",
+        sourceRefs: Array.isArray(h.sourceRefs) ? h.sourceRefs.slice() : [],
         checks: h.checks,
         score,
         supportBand: bayesian ? bayesian.supportBand : "unscored",
@@ -314,7 +325,22 @@
     if(!following) updated.summary={message:session.language==="ar"?"هذه فرضيات مرتبة حسب الأدلة المسجلة، وليست سببًا مؤكدًا. إذا كانت الأدلة غير كافية، اجمع قياسات موثوقة أو صعّد لفني مؤهل.":"These are hypotheses ranked against recorded evidence, not a confirmed cause. If evidence is insufficient, collect reliable measurements or escalate to a qualified technician.",confirmedCause:"",requiresMoreEvidence:true};
     return {ok:true,session:updated};
   }
-  function getFlowContract(flowId) { const flow = FLOWS[flowId]; if (!flow) return null; return { flowId, equipment:flow.equipment, symptom:flow.symptom, hypothesisIds:flow.hypotheses.map(h=>h.id), evidenceIds:[...new Set([...flow.questions.flatMap(q=>q.options.flatMap(o=>o.evidence||[])),...flow.hypotheses.flatMap(h=>[...(h.evidenceFor||[]),...(h.evidenceAgainst||[])])])] }; }
+  function getFlowContract(flowId) {
+    const flow = FLOWS[flowId];
+    if (!flow) return null;
+    return {
+      flowId,
+      equipment:flow.equipment,
+      symptom:flow.symptom,
+      hypothesisIds:flow.hypotheses.map(h=>h.id),
+      hypothesisKnowledge:flow.hypotheses.map(h=>({
+        id:h.id,
+        knowledgeRecordId:h.knowledgeRecordId || "",
+        sourceRefs:Array.isArray(h.sourceRefs) ? h.sourceRefs.slice() : []
+      })),
+      evidenceIds:[...new Set([...flow.questions.flatMap(q=>q.options.flatMap(o=>o.evidence||[])),...flow.hypotheses.flatMap(h=>[...(h.evidenceFor||[]),...(h.evidenceAgainst||[])])])]
+    };
+  }
   root.MaintenanceDiagnosticSession = Object.freeze({version:VERSION,createSession,answer,availableFlows:Object.keys(FLOWS),getFlowContract});
   if(typeof module!=="undefined"&&module.exports) module.exports=root.MaintenanceDiagnosticSession;
 })(typeof globalThis!=="undefined"?globalThis:this);

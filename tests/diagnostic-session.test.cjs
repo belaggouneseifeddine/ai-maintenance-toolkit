@@ -170,3 +170,48 @@ test("new adaptive flow contracts expose bounded evidence identifiers", () => {
     assert.ok(contract.evidenceIds.length>=8);
   }
 });
+
+
+test("adaptive hypotheses expose source mappings without promoting general references to model-verified evidence", () => {
+  const supplement = require("../knowledge/faults-supplement.json");
+  const registry = require("../diagnostic-evidence-register.json");
+  const expected = [
+    ["motor|overheat","motor_overload_or_application","supplement-motor-overheat-general","motor-overload-duty"],
+    ["motor|overheat","motor_cooling_or_ventilation","supplement-motor-overheat-general","motor-cooling-restriction"],
+    ["motor|overheat","motor_bearing_or_electrical","supplement-motor-overheat-general","motor-bearing-electrical"],
+    ["compressor|overheat","compressor_cooling_air_or_water","supplement-compressor-overheat-general","compressor-cooling"],
+    ["compressor|overheat","compressor_oil_or_lubrication","supplement-compressor-overheat-general","compressor-oil-filtration"],
+    ["compressor|overheat","compressor_load_or_operating_environment","supplement-compressor-overheat-general","compressor-load-ambient"],
+    ["bearing|vibration","bearing_lubrication_or_contamination","supplement-bearing-vibration-general","bearing-lubrication-contamination"],
+    ["bearing|vibration","bearing_mounting_or_alignment","supplement-bearing-vibration-general","bearing-mounting-alignment"],
+    ["bearing|vibration","bearing_damage_or_external_excitation","supplement-bearing-vibration-general","bearing-damage-transmitted"]
+  ];
+  for (const [flowId,hypothesisId,recordId,causeId] of expected) {
+    const contract = engine.getFlowContract(flowId);
+    const mapping = contract.hypothesisKnowledge.find(item => item.id === hypothesisId);
+    const record = registry.records[recordId];
+    const fault = supplement.faults.find(item => item.id === recordId);
+    const cause = fault.causes.find(item => item.id === causeId);
+    assert.ok(mapping, flowId + " / " + hypothesisId);
+    assert.equal(mapping.knowledgeRecordId, recordId);
+    assert.deepEqual(mapping.sourceRefs, cause.sourceRefs);
+    assert.equal(record.status, "review-needed");
+    assert.equal(record.scope.scopeType, "general-reference");
+    assert.ok(mapping.sourceRefs.every(id => record.references.some(ref => ref.id === id)));
+    assert.ok(record.references.filter(ref => mapping.sourceRefs.includes(ref.id)).every(ref => Array.isArray(ref.verifiedClaims) && ref.verifiedClaims.length === 0));
+  }
+});
+
+test("adaptive evidence keeps stable IDs while returning localized labels for the UI", () => {
+  const english = engine.createSession({equipment:"motor",symptom:"overheat",language:"en"});
+  const enResult = engine.answer(english,"motor-load-high");
+  const enHypothesis = enResult.session.hypotheses.find(item => item.id === "motor_overload_or_application");
+  assert.ok(enHypothesis.supportingEvidence.includes("motor-load-high"));
+  assert.ok(enHypothesis.supportingEvidenceLabels.includes("Load or current is above baseline"));
+
+  const arabic = engine.createSession({equipment:"motor",symptom:"overheat",language:"ar"});
+  const arResult = engine.answer(arabic,"motor-load-high");
+  const arHypothesis = arResult.session.hypotheses.find(item => item.id === "motor_overload_or_application");
+  assert.ok(arHypothesis.supportingEvidence.includes("motor-load-high"));
+  assert.ok(arHypothesis.supportingEvidenceLabels.includes("الحمل أو التيار أعلى من خط الأساس"));
+});
