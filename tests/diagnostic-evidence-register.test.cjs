@@ -49,7 +49,7 @@ test("supplemental general cases expose references without treating them as mode
     }));
     const result = reasoning.analyse({
       equipment: {
-        manufacturer: record.scope.manufacturers[0],
+        manufacturer: record.scope.manufacturers[0] || "Unverified manufacturer",
         model: "unverified-model"
       },
       evidence: evidenceItems,
