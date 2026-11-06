@@ -52,9 +52,21 @@ const CURATED_DIAGNOSTIC_FLOWS = Object.freeze({
       compressor_load_or_operating_environment: "High load or adverse operating/environmental conditions"
     }),
     evidence: Object.freeze(["cooler-airflow-restricted","cooling-water-flow-low","hot-air-recirculation","cooling-system-baseline","oil-level-low-indicated","oil-filter-alert","oil-temperature-rise","oil-status-baseline","demand-or-load-high","ambient-temperature-high","frequent-cycling","load-and-ambient-baseline"])
+  }),
+  "bearing|vibration": Object.freeze({
+    hypotheses: Object.freeze({
+      bearing_lubrication_or_contamination: "Unsuitable lubrication or contamination",
+      bearing_mounting_or_alignment: "Mounting, alignment, or looseness",
+      bearing_damage_or_external_excitation: "Bearing damage or vibration transmitted from adjacent equipment"
+    }),
+    evidence: Object.freeze([
+      "lubrication-alert","contamination-indicated","lubricant-change-recent","lubrication-record-normal",
+      "alignment-deviation-recorded","looseness-indicated","recent-maintenance","alignment-and-mounting-verified",
+      "bearing-frequency-pattern","bearing-temperature-rise","adjacent-machine-vibration","bearing-spectrum-no-fault-pattern"
+    ])
   })
 });
-
+  
 const DIAGNOSIS_SCHEMA = {
   type: "OBJECT",
   properties: {
