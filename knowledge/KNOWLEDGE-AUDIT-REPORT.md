@@ -15,7 +15,7 @@ Deterministic inventory of the current repository. This report adds no technical
 - Fault records with an alarmCodes or errorCodes array: **31/287**
 - Chinese/European OEM manufacturer profiles: **28**
 - Structured OEM symptom templates: **38**
-- Official manufacturer/support portal records: **67**
+- Official manufacturer/support portal records: **68**
 - Structured OEM platform index entries: **29**; model-verified: **0**
 - Structured source-linked OEM diagnostic records: **99**; claim-reviewed: **99**; pending claim-level review: **0**; records missing a printed/PDF page reference: **0**; records missing firmware/applicability scope: **0**; records with a missing manufacturer-source registry entry: **0**
 
@@ -69,7 +69,7 @@ This is a conservative string-presence check only. It does not prove that a topi
 - The OEM matrix maps 28 manufacturer/controller families to official documentation routes and contains 38 structured symptom templates.
 - The OEM platform index lists 29 machine builders and component OEMs; 0 are model-verified. These entries are discovery routes only until exact model/manual evidence is reviewed.
 - These templates are not verified alarm-code definitions. A verified case requires exact model, controller/drive, firmware, manual revision, page/section, supported claim, and human review.
-- The 67-entry OEM source-discovery registry is separate from the 2 license-tracked research sources above. Its URLs do not prove that a particular fault cause applies.
+- The 68-entry OEM source-discovery registry is separate from the 2 license-tracked research sources above. Its URLs do not prove that a particular fault cause applies.
 - OEM record registry references are checked against the manufacturer-source registry; missing references: none. The source link alone is not evidence unless the recorded manual section supports the claim.
 - The structured OEM file contains 99 claim-reviewed records and 0 records pending claim-level review. Pending records must not be presented as source-verified.
 
@@ -86,4 +86,3 @@ This is a conservative string-presence check only. It does not prove that a topi
 - Word counts use whitespace-separated tokens; they are inventory measures, not measures of quality.
 - This audit does not validate technical correctness, OEM applicability, or the evidentiary support of every statement.
 - No source text is fetched by this script and no new technical content is generated.
-
