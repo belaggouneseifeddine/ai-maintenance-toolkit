@@ -86,8 +86,13 @@ class KnowledgeAssetsTests(unittest.TestCase):
             self.assertFalse(fault.get("modelSpecificEvidence"), fault["id"] + " must not claim model-specific evidence")
             for related_id in fault["sourceScopeNotes"].get("relatedManualRefs", []):
                 self.assertIn(related_id, source_map)
-                self.assertNotIn(related_id, fault["sourceRefs"], "unreviewed related manual must not be used as supporting evidence")
-                self.assertEqual(source_map[related_id].get("reviewStatus"), "not_content_reviewed_file_size_limit")
+                self.assertNotIn(related_id, fault["sourceRefs"], "related model-scoped manual must not be used as supporting evidence")
+                related = source_map[related_id]
+                if related.get("reviewStatus") == "not_content_reviewed_file_size_limit":
+                    self.assertTrue(related.get("scopeNotes"))
+                else:
+                    self.assertEqual(related.get("reviewStatus"), "content_reviewed")
+                    self.assertTrue(related.get("modelScope"))
         abb = source_map["abb-motor-troubleshooting"]
         self.assertIn("Baldor-Reliance", abb.get("modelScope", ""))
         self.assertIn("3-2", abb.get("verifiedPages", []))
@@ -95,6 +100,10 @@ class KnowledgeAssetsTests(unittest.TestCase):
         skf = source_map["skf-bearing-damage-troubleshooting"]
         self.assertIn("?trk=", skf.get("url", ""))
         self.assertEqual(skf.get("reviewStatus"), "content_reviewed")
+        epr = source_map["epr-motor-overheating-guide"]
+        self.assertEqual(epr.get("sourceClass"), "secondary_industry_reference")
+        self.assertEqual(epr.get("reviewStatus"), "content_reviewed")
+        self.assertFalse(epr.get("fetch_allowed", True))
 
     def test_general_faults_do_not_cite_model_scoped_manuals(self):
         supplement = json.loads((ROOT / "knowledge" / "faults-supplement.json").read_text(encoding="utf-8"))
