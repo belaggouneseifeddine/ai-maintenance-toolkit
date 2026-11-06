@@ -42,12 +42,22 @@
     {
       "id": "abb-motor-troubleshooting",
       "publisher": "ABB",
-      "title": "Maintenance and troubleshooting reference for motors",
-      "url": "https://library.e.abb.com/public/c553f9f2138646fbbe2321456a02de51/MN404.pdf",
-      "type": "manufacturer-reference",
+      "title": "Baldor-Reliance AC and DC Mine Motors — Installation and Operation Manual (MN404)",
+      "url": "https://library.e.abb.com/public/816b6a7333804bf7b59ff42688dbc50e/MN404.pdf",
+      "type": "manufacturer_manual",
       "scope": "Check the exact motor family and document applicability before relying on it",
       "status": "reference-listed; exact claim/model match not recorded",
-      "redistribution": "reference-link-only; verify terms before copying material"
+      "redistribution": "reference-link-only; verify terms before copying material",
+      "sourceType": "manufacturer_manual",
+      "revision": "MN404, June 2022",
+      "modelScope": "Baldor-Reliance AC and DC Mine Motors; not a universal motor manual",
+      "reviewStatus": "content_reviewed",
+      "reviewedAt": "2026-11-06",
+      "verifiedPages": [
+        "2-7",
+        "3-2"
+      ],
+      "scopeNotes": "The manual is specific to Baldor-Reliance AC/DC mine motors. Its printed p. 3-2 troubleshooting chart lists motor-overheating causes; p. 2-7 describes operating conditions that can raise surface temperature. Do not generalize its nameplate limits, hazardous-area rules or procedures to other motor families."
     },
     {
       "id": "doe-compressed-air-sourcebook",
@@ -92,12 +102,15 @@
     {
       "id": "atlas-copco-compressor-troubleshooting",
       "publisher": "Atlas Copco",
-      "title": "How to troubleshoot an air compressor",
+      "title": "Air compressor troubleshooting guide (Atlas Copco)",
       "url": "https://www.atlascopco.com/en-sa/compressors/air-compressor-blog/air-compressor-troubleshooting",
       "type": "manufacturer-troubleshooting-guide",
       "scope": "General Atlas Copco compressor troubleshooting examples; model/controller applicability must be checked",
       "status": "official-general-guide-model-match-required",
-      "redistribution": "link-only; check terms before copying"
+      "redistribution": "link-only; check terms before copying",
+      "reviewStatus": "content_reviewed",
+      "reviewedAt": "2026-11-06",
+      "scopeNotes": "General manufacturer troubleshooting guidance. It emphasizes isolation and pressure release before opening panels or inspecting internal components; exact model manual and site procedures remain controlling."
     },
     {
       "id": "atlas-copco-manuals",
@@ -652,12 +665,15 @@
     {
       "id": "atlas-copco-compressor-overheating",
       "publisher": "Atlas Copco",
-      "title": "Causes of compressor overheating and how to prevent it",
+      "title": "Compressor overheating: common causes and checks (Atlas Copco)",
       "url": "https://www.atlascopco.com/en-ie/compressors/air-compressor-blog/compressor-overheating",
       "type": "manufacturer-general-troubleshooting-article",
       "scope": "General ventilation, cooling, oil and maintenance factors; exact model and configuration still govern",
       "status": "reference-listed-general-scope-not-model-verified",
-      "redistribution": "link-only; check terms before copying"
+      "redistribution": "link-only; check terms before copying",
+      "reviewStatus": "content_reviewed",
+      "reviewedAt": "2026-11-06",
+      "scopeNotes": "General guidance on cooling airflow, ambient conditions, cooler condition, oil and operating load. Do not transfer thresholds or maintenance intervals to a different compressor model."
     },
     {
       "id": "atlas-copco-xas-38-48-manual",
@@ -667,27 +683,44 @@
       "type": "manufacturer-manual",
       "scope": "XAS 38–48 mobile compressor family only; verify exact model and manual revision before use",
       "status": "reference-listed-family-specific-not-claim-verified",
-      "redistribution": "reference-link-only; redistribution rights not reviewed"
+      "redistribution": "reference-link-only; redistribution rights not reviewed",
+      "reviewStatus": "not_content_reviewed_file_size_limit",
+      "reviewedAt": "2026-11-06",
+      "scopeNotes": "Model-specific XAS 38-48 manual. The PDF exceeded the accessible review limit in this pass, so its contents were not verified and it is not used as supporting evidence in the general compressor-overheat record."
     },
     {
       "id": "skf-bearing-damage-troubleshooting",
       "publisher": "SKF",
-      "title": "Bearing damage and troubleshooting",
-      "url": "https://cdn.skfmediahub.skf.com/api/public/0901d1968064c148/pdf_preview_medium/0901d1968064c148_pdf_preview_medium.pdf",
-      "type": "manufacturer-technical-reference",
+      "title": "Bearing damage and failure analysis (SKF)",
+      "url": "https://cdn.skfmediahub.skf.com/api/public/0901d1968064c148/pdf_preview_medium/0901d1968064c148_pdf_preview_medium.pdf?trk=public_post_comment-text",
+      "type": "manufacturer_reference_guide",
       "scope": "General bearing troubleshooting including lubrication, contamination, seals and operating conditions; exact bearing/application requirements govern",
       "status": "reference-listed-general-scope-not-model-verified",
-      "redistribution": "reference-link-only; follow SKF document terms"
+      "redistribution": "reference-link-only; follow SKF document terms",
+      "sourceType": "manufacturer_reference",
+      "reviewStatus": "content_reviewed",
+      "reviewedAt": "2026-11-06",
+      "verifiedPages": [
+        "11",
+        "19-20",
+        "23",
+        "54",
+        "65-71"
+      ],
+      "scopeNotes": "General rolling-bearing damage and condition-monitoring guide. Printed pp. 11, 19-20, 23, 54 and 65-71 discuss monitoring, misalignment, imbalance, vibration and damage mechanisms. It supplies no model-specific vibration limits or alarm thresholds."
     },
     {
       "id": "skf-iso-15243-bearing-analysis",
       "publisher": "SKF Evolution",
-      "title": "How to understand ISO 15243 bearing damage analysis",
+      "title": "Bearing damage analysis — ISO 15243 (SKF Evolution)",
       "url": "https://evolution.skf.com/us/bearing-damage-analysis-iso-15243-is-here-to-help-you/",
       "type": "manufacturer-technical-article",
       "scope": "General bearing damage categories and analysis context; does not establish a cause for an individual failure",
       "status": "reference-listed-general-scope-not-model-verified",
-      "redistribution": "link-only; follow publisher terms"
+      "redistribution": "link-only; follow publisher terms",
+      "reviewStatus": "content_reviewed",
+      "reviewedAt": "2026-11-06",
+      "scopeNotes": "General bearing damage taxonomy and failure-analysis guidance; not a model-specific vibration limit or maintenance interval."
     }
   ]
 }
