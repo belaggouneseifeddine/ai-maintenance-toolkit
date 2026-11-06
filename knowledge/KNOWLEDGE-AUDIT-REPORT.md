@@ -31,7 +31,7 @@ Deterministic inventory of the current repository. This report adds no technical
 | knowledge/UNIVERSAL-INDUSTRIAL-FAULT-ATLAS-AR-FR-EN.md | 120 | 1,737 | 14 |
 | knowledge/CHINESE-EUROPEAN-OEM-FAULT-MATRIX-AR-FR-EN.md | 432 | 4,549 | 45 |
 | knowledge/OEM-MANUFACTURER-INDEX-AR-FR-EN.md | 139 | 1,606 | 12 |
-| knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md | 2,308 | 36,793 | 109 |
+| knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md | 2308 | 36,793 | 109 |
 | knowledge/REFERENCE-ONLY-MASTERING-DIGITAL-ELECTRONICS.md | 61 | 747 | 7 |
 | knowledge/REFERENCE-ONLY-AUTOMATES-PROGRAMMABLES-INDUSTRIELS.md | 102 | 1,470 | 9 |
 
