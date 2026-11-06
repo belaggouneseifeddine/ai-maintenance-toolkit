@@ -103,7 +103,9 @@ class KnowledgeAssetsTests(unittest.TestCase):
         for fault in supplement.get("faults", []):
             if fault.get("evidenceStatus") != "source-informed-general-reference-not-model-verified":
                 continue
-            for source_id in fault.get("sourceRefs", []):
+            cause_refs = [source_id for cause in fault.get("causes", []) for source_id in cause.get("sourceRefs", [])]
+            all_refs = set(fault.get("sourceRefs", [])) | set(cause_refs)
+            for source_id in all_refs:
                 source = source_by_id[source_id]
                 source_type = (source.get("type", "") + " " + source.get("sourceType", "")).lower()
                 scope = (source.get("scope", "") + " " + source.get("modelScope", "")).lower()
