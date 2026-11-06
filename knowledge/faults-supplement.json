@@ -71,7 +71,7 @@
             "courant élevé"
           ],
           "sourceRefs": [
-            "abb-vfd-motor-effects"
+            "epr-motor-overheating-guide"
           ]
         },
         {
@@ -94,7 +94,7 @@
             "débit d'air"
           ],
           "sourceRefs": [
-            "abb-vfd-motor-effects"
+            "epr-motor-overheating-guide"
           ]
         },
         {
@@ -118,7 +118,7 @@
             "déséquilibre"
           ],
           "sourceRefs": [
-            "abb-vfd-motor-effects",
+            "epr-motor-overheating-guide",
             "skf-bearing-damage-troubleshooting"
           ]
         }
@@ -146,13 +146,17 @@
         "fr": "Arrêtez et escaladez en cas de fumée, odeur de brûlé, vibration forte/soudaine, dépassement d'une limite constructeur ou déclenchements répétés. Ne redémarrez pas uniquement parce qu'une alarme disparaît."
       },
       "sourceRefs": [
-        "abb-vfd-motor-effects",
+        "epr-motor-overheating-guide",
         "skf-bearing-damage-troubleshooting"
       ],
       "evidenceStatus": "source-informed-general-reference-not-model-verified",
       "sourceScopeNotes": {
-        "abb-vfd-motor-effects": "Applies only to VFD-fed motors; supports low-speed self-cooling, overload/load-capacity and VFD-related bearing-current considerations. Do not apply to direct-on-line motors or model-specific thresholds.",
-        "skf-bearing-damage-troubleshooting": "Supports bearing-related condition indicators and damage mechanisms only; it does not substantiate every electrical or load-related motor-overheating cause."
+        "epr-motor-overheating-guide": "Independent secondary technical article; supports general causes and diagnostic sequence only. It is not an OEM manual and supplies no model-specific temperature, current or protection limits.",
+        "skf-bearing-damage-troubleshooting": "Supports the bearing-related branch only; it does not substantiate every electrical, overload or cooling cause.",
+        "relatedManualRefs": [
+          "abb-motor-troubleshooting"
+        ],
+        "relatedManualNote": "ABB MN404 was reviewed but is limited to Baldor-Reliance AC/DC mine motors. Keep it as a family-specific follow-up route, not as evidence for this general case."
       }
     },
     {
