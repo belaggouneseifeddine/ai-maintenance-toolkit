@@ -2190,94 +2190,90 @@
     "supplement-motor-overheat-general": {
       "status": "review-needed",
       "scope": {
-        "manufacturers": [
-          "ABB",
-          "SKF"
-        ],
-        "models": []
+        "manufacturers": [],
+        "models": [],
+        "scopeType": "general-reference"
       },
       "references": [
         {
-          "id": "abb-vfd-motor-effects",
-          "title": "Understanding the effects of variable speed drives on motors",
-          "url": "https://new.abb.com/drives/branchen-und-applikationen/motors-and-drives-in-potentially-explosive-atmospheres/effects-of-variable-speed-drives-to-motors",
-          "section": "VFD-fed motor cooling, overload and bearing-current considerations",
+          "id": "epr-motor-overheating-guide",
+          "title": "Electric motor overheating: causes and diagnostic workflow (EPR)",
+          "url": "https://www.epr.com.ua/ua/support/async-motor/causes-electric-motor-overheating/",
+          "section": "General causes and staged diagnostic workflow",
           "page": null,
-          "claim": "ABB discusses reduced self-cooling at lower speed, overload/load-capacity considerations and VFD-related bearing currents.",
-          "verificationLimit": "Applies only when a variable-speed drive is confirmed; no exact motor/drive model or operating limit is verified.",
+          "claim": "Secondary reference discusses overload, supply, cooling, bearing and winding-related contributors to motor overheating.",
+          "verificationLimit": "Not an OEM source; no model-specific limits or service procedures verified.",
           "verifiedClaims": []
         },
         {
           "id": "skf-bearing-damage-troubleshooting",
           "title": "Bearing damage and failure analysis (SKF)",
           "url": "https://cdn.skfmediahub.skf.com/api/public/0901d1968064c148/pdf_preview_medium/0901d1968064c148_pdf_preview_medium.pdf?trk=public_post_comment-text",
-          "section": "General bearing damage and condition-monitoring guidance",
-          "page": null,
-          "claim": "General rolling-bearing guidance covers lubrication, contamination, vibration and operating-condition investigation.",
-          "verificationLimit": "Supports only the bearing-related branch; it does not establish an electrical or overload cause for this motor.",
+          "section": "Bearing condition and damage analysis",
+          "page": "11, 19-20, 23, 54, 65-71",
+          "claim": "Supports the bearing-related contributor only, including vibration, temperature and damage mechanisms.",
+          "verificationLimit": "Does not establish the cause of all motor overheating or any motor-specific limit.",
           "verifiedClaims": []
         }
       ],
-      "reviewNote": "General exploratory case only. ABB guidance is limited to VFD-fed motor applications; SKF guidance supports only the bearing-related branch. No exact motor model or field outcome is verified."
+      "reviewNote": "General-reference case only. The independent article is secondary guidance; SKF supports only the bearing branch. ABB MN404 is retained as a related Baldor-Reliance mine-motor route, not as supporting evidence. No exact motor model or field outcome is verified."
     },
     "supplement-compressor-overheat-general": {
       "status": "review-needed",
       "scope": {
-        "manufacturers": [
-          "Atlas Copco"
-        ],
-        "models": []
+        "manufacturers": [],
+        "models": [],
+        "scopeType": "general-reference"
       },
       "references": [
         {
           "id": "atlas-copco-compressor-troubleshooting",
           "title": "Air compressor troubleshooting guide (Atlas Copco)",
-          "url": "https://www.atlascopco.com/en-sa/compressors/air-compressor-blog/air-compressor-troubleshooting",
-          "section": "General compressor troubleshooting",
+          "url": "https://www.atlascopco.com/en-us/compressors/air-compressor-blog/air-compressor-troubleshooting",
+          "section": "General compressor troubleshooting and safety framing",
           "page": null,
-          "claim": "General troubleshooting guidance emphasizes checking the exact compressor model and applicable manual before acting.",
-          "verificationLimit": "General guide only; exact model, controller, limits and service procedure are not verified.",
+          "claim": "The page requires isolation and pressure release before opening panels or inspecting internal components.",
+          "verificationLimit": "General guidance only; exact model, controller and service procedure remain unverified.",
           "verifiedClaims": []
         },
         {
           "id": "atlas-copco-compressor-overheating",
           "title": "Compressor overheating: common causes and checks (Atlas Copco)",
-          "url": "https://www.atlascopco.com/en-ie/compressors/air-compressor-blog/compressor-overheating",
-          "section": "Common overheating factors",
+          "url": "https://www.atlascopco.com/en-au/compressors/air-compressor-blog/compressor-overheating",
+          "section": "Common compressor overheating contributors",
           "page": null,
-          "claim": "General factors include ventilation, cooling, oil and maintenance conditions.",
-          "verificationLimit": "Explanatory article only; it does not establish model-specific thresholds or service procedures.",
+          "claim": "General guidance discusses ventilation, cooling, oil and operating conditions.",
+          "verificationLimit": "No model-specific temperature threshold or service interval verified.",
           "verifiedClaims": []
         }
       ],
-      "reviewNote": "General-reference case only. Both Atlas Copco references require confirmation against the exact compressor model, controller and manual revision."
+      "reviewNote": "General-reference case only. Both Atlas Copco articles are general guidance; the XAS 38-48 manual remains a related model-specific route only and was not content-reviewed in this pass."
     },
     "supplement-bearing-vibration-general": {
       "status": "review-needed",
       "scope": {
-        "manufacturers": [
-          "SKF"
-        ],
-        "models": []
+        "manufacturers": [],
+        "models": [],
+        "scopeType": "general-reference"
       },
       "references": [
         {
           "id": "skf-bearing-damage-troubleshooting",
           "title": "Bearing damage and failure analysis (SKF)",
           "url": "https://cdn.skfmediahub.skf.com/api/public/0901d1968064c148/pdf_preview_medium/0901d1968064c148_pdf_preview_medium.pdf?trk=public_post_comment-text",
-          "section": "General bearing damage and condition monitoring guidance",
-          "page": null,
-          "claim": "General guidance covers lubrication, contamination, seals, vibration and operating conditions.",
-          "verificationLimit": "No exact bearing model, fit, clearance, lubrication specification or alarm threshold is verified.",
+          "section": "General bearing damage and condition-monitoring guidance",
+          "page": "11, 19-20, 23, 54, 65-71",
+          "claim": "Supports general bearing condition indicators and damage mechanisms, including vibration, lubrication and contamination.",
+          "verificationLimit": "No exact bearing designation, fit, clearance, lubrication specification or alarm threshold verified.",
           "verifiedClaims": []
         },
         {
           "id": "skf-iso-15243-bearing-analysis",
           "title": "Bearing damage analysis — ISO 15243 (SKF Evolution)",
           "url": "https://evolution.skf.com/us/bearing-damage-analysis-iso-15243-is-here-to-help-you/",
-          "section": "General bearing damage taxonomy",
+          "section": "General ISO 15243 damage taxonomy",
           "page": null,
-          "claim": "Describes a general classification framework for bearing damage analysis.",
+          "claim": "Provides a general classification framework for bearing damage analysis.",
           "verificationLimit": "Taxonomy only; it does not diagnose the installed bearing or establish application-specific limits.",
           "verifiedClaims": []
         }
