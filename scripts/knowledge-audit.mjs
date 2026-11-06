@@ -141,7 +141,7 @@ const report = [
   "3. " + literalMissing.length + " equipment labels lack a literal name match in the Worker-loaded documents. Review this list with a subject-matter expert; do not automatically fill the gaps with generated technical content.",
   "4. " + (referencePortals.length - fetchablePortals) + " reference-only portals are not allowlisted for automated fetching. Keep this restriction until reuse permissions are documented in the registry.",
   "5. " + (referenceOnlyBooks.length - fetchableBooks) + " reference-only books are not allowlisted for automated fetching. Keep them as metadata and original navigation indexes until reuse permissions are documented.",
-  "6. Supplemental fault records are general-reference candidates, not model-verified cases; missing record-level source registry entries: " + (missingSupplementSources.join(", ") || "none") + "; missing cause-level source registry entries: " + (missingSupplementCauseSources.join(", ") || "none") + ". Unreviewed related manuals must remain excluded from supporting sourceRefs.",
+  "6. Supplemental fault records are general-reference candidates, not model-verified cases; missing record-level source registry entries: " + (missingSupplementSources.join(", ") || "none") + "; missing cause-level source registry entries: " + (missingSupplementCauseSources.join(", ") || "none") + ". Human review remains required before operational use; unreviewed related manuals must remain excluded from supporting sourceRefs.",
   "",
   "## Manufacturer-specific case coverage and limits",
   "",
