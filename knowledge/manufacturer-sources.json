@@ -751,7 +751,8 @@
       "scope": "General asynchronous electric motor overheating causes and diagnostic observations; no model-specific limits",
       "notes": "Published 17 August 2026. Secondary technical reference covering overload, supply, cooling, bearing and winding-related causes and a staged diagnostic workflow. Do not use for OEM limits, wiring instructions or model-specific procedures. No article text copied into the repository.",
       "fetch_allowed": false,
-      "reuseStatus": "reference_only_no_open_license_recorded"
+      "reuseStatus": "reference_only_no_open_license_recorded",
+      "status": "secondary-reference-reviewed-general-scope-only"
     }
   ]
 }
