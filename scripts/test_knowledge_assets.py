@@ -96,6 +96,24 @@ class KnowledgeAssetsTests(unittest.TestCase):
         self.assertIn("?trk=", skf.get("url", ""))
         self.assertEqual(skf.get("reviewStatus"), "content_reviewed")
 
+    def test_general_faults_do_not_cite_model_scoped_manuals(self):
+        supplement = json.loads((ROOT / "knowledge" / "faults-supplement.json").read_text(encoding="utf-8"))
+        manufacturer_sources = json.loads((ROOT / "knowledge" / "manufacturer-sources.json").read_text(encoding="utf-8"))
+        source_by_id = {source["id"]: source for source in manufacturer_sources.get("sources", [])}
+        for fault in supplement.get("faults", []):
+            if fault.get("evidenceStatus") != "source-informed-general-reference-not-model-verified":
+                continue
+            for source_id in fault.get("sourceRefs", []):
+                source = source_by_id[source_id]
+                source_type = (source.get("type", "") + " " + source.get("sourceType", "")).lower()
+                scope = (source.get("scope", "") + " " + source.get("modelScope", "")).lower()
+                is_manual = "manual" in source_type
+                is_model_scoped = any(term in scope for term in ("family", "only", "not a universal", "specific model"))
+                self.assertFalse(
+                    is_manual and is_model_scoped,
+                    f"{fault['id']} is general but cites model-scoped manual {source_id}",
+                )
+
     def test_pump_draft_has_multilingual_terms_safety_and_attribution(self):
         text = PUMP_DRAFT.read_text(encoding="utf-8")
         for term in ("العربية", "Français", "English", "LOTO", "راجع دليل المصنع",
