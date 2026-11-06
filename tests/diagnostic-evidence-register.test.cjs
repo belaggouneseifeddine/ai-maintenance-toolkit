@@ -36,6 +36,9 @@ test("supplemental general cases expose references without treating them as mode
     const record = evidence.records[fault.id];
     assert.ok(record, "missing evidence record for supplemental fault: " + fault.id);
     assert.equal(record.status, "review-needed");
+    assert.equal(record.scope.scopeType, "general-reference");
+    assert.deepEqual(record.scope.manufacturers, []);
+    assert.deepEqual(record.scope.models, []);
     assert.deepEqual(
       record.references.map(ref => ref.id).sort(),
       fault.sourceRefs.slice().sort(),
