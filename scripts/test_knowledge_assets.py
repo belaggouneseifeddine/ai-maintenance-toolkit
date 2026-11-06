@@ -62,6 +62,23 @@ class KnowledgeAssetsTests(unittest.TestCase):
         self.assertEqual(bolton["french_isbn"], "978-2-10-074219-6")
         self.assertEqual(bolton["page_count"], 440)
 
+    def test_supplemental_faults_have_registered_sources_and_no_model_verified_claims(self):
+        supplement = json.loads((ROOT / "knowledge" / "faults-supplement.json").read_text(encoding="utf-8"))
+        manufacturer_sources = json.loads((ROOT / "knowledge" / "manufacturer-sources.json").read_text(encoding="utf-8"))
+        source_ids = {source["id"] for source in manufacturer_sources.get("sources", [])}
+        faults = supplement.get("faults", [])
+        self.assertEqual(len(faults), 3)
+        self.assertEqual({fault["id"] for fault in faults}, {
+            "supplement-motor-overheat-general",
+            "supplement-compressor-overheat-general",
+            "supplement-bearing-vibration-general",
+        })
+        for fault in faults:
+            self.assertEqual(fault.get("evidenceStatus"), "source-informed-general-reference-not-model-verified")
+            self.assertTrue(fault.get("sourceRefs"), fault["id"] + " missing source references")
+            self.assertTrue(set(fault["sourceRefs"]).issubset(source_ids), fault["id"] + " has an unregistered source reference")
+            self.assertFalse(fault.get("modelSpecificEvidence"), fault["id"] + " must not claim model-specific evidence")
+
     def test_pump_draft_has_multilingual_terms_safety_and_attribution(self):
         text = PUMP_DRAFT.read_text(encoding="utf-8")
         for term in ("العربية", "Français", "English", "LOTO", "راجع دليل المصنع",
