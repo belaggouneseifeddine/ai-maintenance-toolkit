@@ -46,6 +46,8 @@ const structuredAlarmIndexCount = faults.filter(fault =>
   Array.isArray(fault.alarmCodes) || Array.isArray(fault.errorCodes)
 ).length;
 const referencePortals = registry.reference_only_portals || [];
+const referenceOnlyBooks = registry.reference_only_books || [];
+const fetchableBooks = referenceOnlyBooks.filter(book => book.fetch_allowed === true).length;
 const fetchablePortals = referencePortals.filter(portal => portal.fetch_allowed === true).length;
 const approvedCount = statusCounts.approved || 0;
 const nonApprovedCount = (registry.sources || []).length - approvedCount;
@@ -96,6 +98,7 @@ const report = [
   "- Source status counts: " + (Object.entries(statusCounts).sort(([a], [b]) => a.localeCompare(b)).map(([status, count]) => status + ": " + count).join(", ") || "none"),
   "- License counts: " + (Object.entries(licenseCounts).sort(([a], [b]) => a.localeCompare(b)).map(([license, count]) => license + ": " + count).join(", ") || "none"),
   "- Reference-only portals: **" + referencePortals.length + "**; permitted for automated fetching by registry: **" + fetchablePortals + "/" + referencePortals.length + "**",
+  "- Reference-only books: **" + referenceOnlyBooks.length + "**; permitted for automated fetching by registry: **" + fetchableBooks + "/" + referenceOnlyBooks.length + "**",
   "- Accepted licenses declared by policy: " + ((registry.policy && registry.policy.accepted_licenses) || []).join(", "),
   "- Human review before knowledge publication required by policy: **" + (registry.policy && registry.policy.require_human_review_before_knowledge_publication === true ? "yes" : "not specified") + "**",
   "",
