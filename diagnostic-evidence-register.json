@@ -2202,7 +2202,7 @@
           "section": "General causes and staged diagnostic workflow",
           "page": null,
           "claim": "Secondary reference discusses overload, supply, cooling, bearing and winding-related contributors to motor overheating.",
-          "verificationLimit": "Not an OEM source; no model-specific temperature, current, winding or protection limits are verified.",
+          "verificationLimit": "Not an OEM source; no model-specific limits or service procedures verified.",
           "verifiedClaims": []
         },
         {
@@ -2216,7 +2216,7 @@
           "verifiedClaims": []
         }
       ],
-      "reviewNote": "General-reference case only. EPR is a secondary technical reference; SKF supports only the bearing branch. ABB MN404 is a related Baldor-Reliance mine-motor manual, not evidence for this general record. No exact motor model or field outcome is verified."
+      "reviewNote": "General-reference case only. EPR is a secondary industry source, not an OEM manual; SKF supports only the bearing branch. ABB MN404 is a related Baldor-Reliance mine-motor route, not evidence for this general case. No exact motor model or field outcome is verified."
     },
     "supplement-compressor-overheat-general": {
       "status": "review-needed",
