@@ -2196,13 +2196,13 @@
       },
       "references": [
         {
-          "id": "epr-motor-overheating-guide",
-          "title": "Electric motor overheating: causes and diagnostic workflow (EPR)",
-          "url": "https://www.epr.com.ua/ua/support/async-motor/causes-electric-motor-overheating/",
-          "section": "General causes and staged diagnostic workflow",
+          "id": "abb-vfd-motor-effects",
+          "title": "Understanding the effects of variable speed drives on motors",
+          "url": "https://new.abb.com/drives/branchen-und-applikationen/motors-and-drives-in-potentially-explosive-atmospheres/effects-of-variable-speed-drives-to-motors",
+          "section": "VFD-fed motor cooling, overload and bearing-current considerations",
           "page": null,
-          "claim": "Secondary reference discusses overload, supply, cooling, bearing and winding-related contributors to motor overheating.",
-          "verificationLimit": "Not an OEM source; no model-specific limits or service procedures verified.",
+          "claim": "ABB discusses reduced self-cooling at lower speed, overload/load-capacity considerations and VFD-related bearing currents.",
+          "verificationLimit": "Applies only when a variable-speed drive is confirmed; no exact motor/drive model or operating limit is verified.",
           "verifiedClaims": []
         },
         {
@@ -2216,7 +2216,7 @@
           "verifiedClaims": []
         }
       ],
-      "reviewNote": "General-reference case only. The independent article is secondary guidance; SKF supports only the bearing branch. ABB MN404 is retained as a related Baldor-Reliance mine-motor route, not as supporting evidence. No exact motor model or field outcome is verified."
+      "reviewNote": "General-reference case only. ABB applies only to VFD-fed motors; SKF supports only the bearing branch. No exact motor model or field outcome is verified."
     },
     "supplement-compressor-overheat-general": {
       "status": "review-needed",
