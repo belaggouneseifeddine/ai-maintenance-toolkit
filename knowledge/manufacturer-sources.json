@@ -103,14 +103,14 @@
       "id": "atlas-copco-compressor-troubleshooting",
       "publisher": "Atlas Copco",
       "title": "Air compressor troubleshooting guide (Atlas Copco)",
-      "url": "https://www.atlascopco.com/en-sa/compressors/air-compressor-blog/air-compressor-troubleshooting",
+      "url": "https://www.atlascopco.com/en-us/compressors/air-compressor-blog/air-compressor-troubleshooting",
       "type": "manufacturer-troubleshooting-guide",
       "scope": "General Atlas Copco compressor troubleshooting examples; model/controller applicability must be checked",
       "status": "official-general-guide-model-match-required",
       "redistribution": "link-only; check terms before copying",
       "reviewStatus": "content_reviewed",
       "reviewedAt": "2026-11-06",
-      "scopeNotes": "General manufacturer troubleshooting guidance. It emphasizes isolation and pressure release before opening panels or inspecting internal components; exact model manual and site procedures remain controlling."
+      "scopeNotes": "General Atlas Copco troubleshooting chart. The page explicitly requires power isolation and release of system pressure before opening panels or inspecting internal components; follow the exact model instruction book."
     },
     {
       "id": "atlas-copco-manuals",
@@ -666,14 +666,14 @@
       "id": "atlas-copco-compressor-overheating",
       "publisher": "Atlas Copco",
       "title": "Compressor overheating: common causes and checks (Atlas Copco)",
-      "url": "https://www.atlascopco.com/en-ie/compressors/air-compressor-blog/compressor-overheating",
+      "url": "https://www.atlascopco.com/en-au/compressors/air-compressor-blog/compressor-overheating",
       "type": "manufacturer-general-troubleshooting-article",
       "scope": "General ventilation, cooling, oil and maintenance factors; exact model and configuration still govern",
       "status": "reference-listed-general-scope-not-model-verified",
       "redistribution": "link-only; check terms before copying",
       "reviewStatus": "content_reviewed",
       "reviewedAt": "2026-11-06",
-      "scopeNotes": "General guidance on cooling airflow, ambient conditions, cooler condition, oil and operating load. Do not transfer thresholds or maintenance intervals to a different compressor model."
+      "scopeNotes": "General Atlas Copco overheating article, dated 25 March 2024; discusses ambient temperature, ventilation/recirculation, oil level/type and cooler maintenance. Do not transfer thresholds or service intervals to another model."
     },
     {
       "id": "atlas-copco-xas-38-48-manual",
