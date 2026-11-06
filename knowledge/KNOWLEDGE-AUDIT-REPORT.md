@@ -42,7 +42,7 @@ Deterministic inventory of the current repository. This report adds no technical
 - License counts: CC-BY-4.0: 2
 - Reference-only portals: **5**; permitted for automated fetching by registry: **0/5**
 - Reference-only books: **2**; permitted for automated fetching by registry: **0/2**
-- Supplemental fault source references registered in the manufacturer-source registry: **6**; missing registry entries: **0**
+- Supplemental fault source references registered in the manufacturer-source registry: **5**; missing registry entries: **0**
 - Accepted licenses declared by policy: CC-BY-4.0, MIT
 - Human review before knowledge publication required by policy: **yes**
 
