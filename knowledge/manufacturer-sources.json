@@ -736,6 +736,20 @@
       "reviewStatus": "content_reviewed",
       "reviewedAt": "2026-11-06",
       "scopeNotes": "Discusses VFD-related voltage stress, bearing currents, reduced self-cooling at low speed, and overload/load-capacity considerations. Use only when a VFD is confirmed; exact motor and drive manuals govern ratings, thresholds and procedures."
+    },
+    {
+      "id": "epr-motor-overheating-guide",
+      "title": "Electric motor overheating: causes and diagnostic workflow (EPR)",
+      "url": "https://www.epr.com.ua/ua/support/async-motor/causes-electric-motor-overheating/",
+      "manufacturer": "EPR — independent repair and service publisher",
+      "type": "independent_technical_article",
+      "sourceType": "secondary_industry_reference",
+      "sourceClass": "secondary_industry_reference",
+      "language": "uk",
+      "reviewStatus": "content_reviewed",
+      "reviewedAt": "2026-11-06",
+      "scope": "General asynchronous electric motor overheating causes and diagnostic observations; no model-specific limits",
+      "notes": "Published 17 August 2026. Secondary technical reference covering overload, supply, cooling, bearing and winding-related causes and a staged diagnostic workflow. Do not use for OEM limits, wiring instructions or model-specific procedures. No article text copied into the repository."
     }
   ]
 }
