@@ -43,6 +43,25 @@ class KnowledgeAssetsTests(unittest.TestCase):
         self.assertIn('if len(text) < 300:', fetcher)
         self.assertIn('"application/xml", "text/xml"', fetcher)
 
+    def test_reference_only_books_have_indexes_and_are_not_fetchable(self):
+        registry = json.loads(REGISTRY_PATH.read_text(encoding="utf-8"))
+        books = registry.get("reference_only_books", [])
+        self.assertGreaterEqual(len(books), 2)
+        ids = set()
+        for book in books:
+            self.assertNotIn(book["id"], ids, "duplicate reference-only book id")
+            ids.add(book["id"])
+            self.assertFalse(book.get("fetch_allowed", False))
+            self.assertEqual(book.get("reuse_status"), "reference_only_no_open_license_recorded")
+            index_path = ROOT / book["repository_index"]
+            self.assertTrue(index_path.is_file(), f"missing reference index: {index_path}")
+            index_text = index_path.read_text(encoding="utf-8")
+            self.assertIn("not an OEM", index_text.lower())
+            self.assertIn("printed page numbers", index_text.lower())
+        bolton = next(book for book in books if book["id"] == "automates-programmables-industriels-bolton-2015")
+        self.assertEqual(bolton["french_isbn"], "978-2-10-074219-6")
+        self.assertEqual(bolton["page_count"], 440)
+
     def test_pump_draft_has_multilingual_terms_safety_and_attribution(self):
         text = PUMP_DRAFT.read_text(encoding="utf-8")
         for term in ("العربية", "Français", "English", "LOTO", "راجع دليل المصنع",
