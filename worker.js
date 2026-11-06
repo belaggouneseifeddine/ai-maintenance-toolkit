@@ -586,7 +586,7 @@ export default {
     // Actual diagnosis requests must still be POSTs from an explicitly allowlisted published app origin.
     if (request.method !== "POST") return json({ error: "Use POST." }, 405, origin);
     if (!isAllowedOrigin(origin)) return json({ error: "Origin not allowed. Open the published Maintenance AI Toolkit app and submit the diagnosis form; /api/chat is not a browser page and requires a POST request from the allowed app origin." }, 403, origin);
-    const selectedProvider = env.AI_PROVIDER || "gemini";
+    const selectedProvider = env.AI_PROVIDER || "cloudflare";
     const apiKey = selectedProvider === "gemini" ? (env.GEMINI_API_KEY || env.AI_API_KEY) : null;
     if (!(request.headers.get("content-type") || "").toLowerCase().includes("application/json")) {
       return json({ error: "Content-Type must be application/json." }, 415, origin);
