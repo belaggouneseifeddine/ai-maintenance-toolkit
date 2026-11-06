@@ -55,7 +55,8 @@ const fetchablePortals = referencePortals.filter(portal => portal.fetch_allowed 
 const approvedCount = statusCounts.approved || 0;
 const nonApprovedCount = (registry.sources || []).length - approvedCount;
 const modelReviewedFaultCount = allFaults.filter(fault => fault.evidenceStatus === "model-specific-manual-reviewed").length;
-const manufacturerPortalCount = (manufacturerSources.sources || []).length;
+const manufacturerPortalCount = (manufacturerSources.sources || []).filter(source => source.sourceClass !== "secondary_industry_reference").length;
+const independentSecondaryReferenceCount = (manufacturerSources.sources || []).filter(source => source.sourceClass === "secondary_industry_reference").length;
 const manufacturerProfileCount = (manufacturerMatrix.manufacturerProfiles || []).length;
 const manufacturerTemplateCount = (manufacturerMatrix.caseTemplates || []).length;
 const oemPlatformCount = (oemPlatformIndex.manufacturers || []).length;
@@ -84,6 +85,16 @@ const unreviewedRelatedManualIds = [...supplementalRelatedManualIds].filter(id =
   const source = (manufacturerSources.sources || []).find(item => item.id === id);
   return !source || source.reviewStatus !== "content_reviewed";
 });
+const modelScopedRelatedManualIds = [...supplementalRelatedManualIds].filter(id => {
+  const source = (manufacturerSources.sources || []).find(item => item.id === id);
+  const type = String(source?.type || "") + " " + String(source?.sourceType || "");
+  const scope = String(source?.modelScope || "") + " " + String(source?.scope || "");
+  return /manual/i.test(type) && /Baldor-Reliance|XAS 38-48|family|only|specific model/i.test(scope);
+});
+const modelScopedRelatedManualsContentReviewed = modelScopedRelatedManualIds.filter(id => {
+  const source = (manufacturerSources.sources || []).find(item => item.id === id);
+  return source && source.reviewStatus === "content_reviewed";
+}).length;
 const fmt = value => Number(value).toLocaleString("en-US");
 
 const report = [
@@ -105,6 +116,7 @@ const report = [
   "- Chinese/European OEM manufacturer profiles: **" + manufacturerProfileCount + "**",
   "- Structured OEM symptom templates: **" + manufacturerTemplateCount + "**",
   "- Official manufacturer/support portal records: **" + manufacturerPortalCount + "**",
+  "- Independent secondary technical references in the source registry: **" + independentSecondaryReferenceCount + "**; permitted for automated fetching: **" + (manufacturerSources.sources || []).filter(source => source.sourceClass === "secondary_industry_reference" && source.fetch_allowed === true).length + "/" + independentSecondaryReferenceCount + "**",
   "- Structured OEM platform index entries: **" + oemPlatformCount + "**; model-verified: **" + modelVerifiedPlatformCount + "**",
   "- Structured source-linked OEM diagnostic records: **" + oemVerifiedRecordCount + "**; claim-reviewed: **" + oemClaimReviewedCount + "**; pending claim-level review: **" + oemPendingClaimReviewCount + "**; records missing a printed/PDF page reference: **" + oemRecordsMissingPageRef + "**; records missing firmware/applicability scope: **" + oemRecordsMissingFirmwareScope + "**; records with a missing manufacturer-source registry entry: **" + missingOemSources.length + "**",
   "",
@@ -124,6 +136,7 @@ const report = [
   "- Supplemental fault source references registered in the manufacturer-source registry: **" + supplementalSourceIds.size + "**; missing registry entries: **" + missingSupplementSources.length + "**",
   "- Supplemental causes with explicit sourceRefs: **" + supplementalCausesWithSourceRefs + "/" + supplementalCauses.length + "**; missing cause-level source registry entries: **" + missingSupplementCauseSources.length + "**",
   "- Supplemental evidence sources content-reviewed in this pass: **" + supplementalSourcesContentReviewed + "/" + supplementalSourceIds.size + "**; related manuals not content-reviewed and excluded from supporting sourceRefs: **" + unreviewedRelatedManualIds.length + "**",
+  "- Related model-scoped manuals excluded from general-case supporting sourceRefs: **" + modelScopedRelatedManualIds.length + "**; content-reviewed: **" + modelScopedRelatedManualsContentReviewed + "**; not content-reviewed: **" + unreviewedRelatedManualIds.length + "**",
   "- Accepted licenses declared by policy: " + ((registry.policy && registry.policy.accepted_licenses) || []).join(", "),
   "- Human review before knowledge publication required by policy: **" + (registry.policy && registry.policy.require_human_review_before_knowledge_publication === true ? "yes" : "not specified") + "**",
   "",
@@ -141,7 +154,7 @@ const report = [
   "3. " + literalMissing.length + " equipment labels lack a literal name match in the Worker-loaded documents. Review this list with a subject-matter expert; do not automatically fill the gaps with generated technical content.",
   "4. " + (referencePortals.length - fetchablePortals) + " reference-only portals are not allowlisted for automated fetching. Keep this restriction until reuse permissions are documented in the registry.",
   "5. " + (referenceOnlyBooks.length - fetchableBooks) + " reference-only books are not allowlisted for automated fetching. Keep them as metadata and original navigation indexes until reuse permissions are documented.",
-  "6. Supplemental fault records are general-reference candidates, not model-verified cases; missing record-level source registry entries: " + (missingSupplementSources.join(", ") || "none") + "; missing cause-level source registry entries: " + (missingSupplementCauseSources.join(", ") || "none") + ". Human review remains required before operational use; unreviewed related manuals must remain excluded from supporting sourceRefs.",
+  "6. Supplemental fault records are general-reference candidates, not model-verified cases; missing record-level source registry entries: " + (missingSupplementSources.join(", ") || "none") + "; missing cause-level source registry entries: " + (missingSupplementCauseSources.join(", ") || "none") + ". Human review remains required before operational use; model-scoped or unreviewed related manuals must remain excluded from supporting sourceRefs.",
   "",
   "## Manufacturer-specific case coverage and limits",
   "",
