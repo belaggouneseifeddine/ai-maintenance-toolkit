@@ -144,7 +144,7 @@ test("wrong response language is rejected", () => {
   assert.equal(context.__validateDiagnosis(validDiagnosis(), "en", new Set(["S1"])), false);
 });
 
-test("Worker health endpoint responds without calling Gemini", async () => {
+test("Worker health endpoint responds without calling an AI provider", async () => {
   const response = await context.__worker.fetch(new Request("https://worker.test/health"));
   assert.equal(response.status, 200);
   const body = await response.json();
@@ -157,7 +157,7 @@ test("Worker rejects a disallowed origin before upstream work", async () => {
     method: "POST",
     headers: { Origin: "https://attacker.example", "Content-Type": "application/json" },
     body: JSON.stringify({ machine: "pump", symptom: "low flow" })
-  }), { AI_API_KEY: "test-only-placeholder" });
+  }), { AI_PROVIDER: "gemini", AI_API_KEY: "test-only-placeholder" });
   assert.equal(response.status, 403);
 });
 
@@ -173,7 +173,7 @@ test("Worker returns validated structured diagnosis and accepts missing readings
       measurementStatus: "none",
       language: "ar"
     })
-  }), { AI_API_KEY: "test-only-placeholder" });
+  }), { AI_PROVIDER: "gemini", AI_API_KEY: "test-only-placeholder" });
   assert.equal(response.status, 200);
   const body = await response.json();
   assert.equal(body.diagnosis.status, "preliminary_assessment");
@@ -206,7 +206,7 @@ test("retrieved prompt-injection text remains untrusted reference data", async (
         measurementStatus: "none",
         language: "ar"
       })
-    }), { AI_API_KEY: "test-only-placeholder" });
+    }), { AI_PROVIDER: "gemini", AI_API_KEY: "test-only-placeholder" });
     assert.equal(response.status, 200);
     const systemText = upstreamPayload.system_instruction;
     const userText = upstreamPayload.input;
@@ -220,7 +220,7 @@ test("retrieved prompt-injection text remains untrusted reference data", async (
   }
 });
 
-test("interlock-bypass requests are stopped deterministically before retrieval or Gemini", async () => {
+test("interlock-bypass requests are stopped deterministically before retrieval or an AI provider", async () => {
   const before = { upstreamCalls, knowledgeCalls };
   const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
     method: "POST",
@@ -243,7 +243,7 @@ test("interlock-bypass requests are stopped deterministically before retrieval o
   assert.deepEqual({ upstreamCalls, knowledgeCalls }, before);
 });
 
-test("hydraulic high-pressure leak is escalated without retrieval or Gemini", async () => {
+test("hydraulic high-pressure leak is escalated without retrieval or an AI provider", async () => {
   const before = { upstreamCalls, knowledgeCalls };
   const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
     method: "POST",
@@ -368,7 +368,7 @@ test("Worker forces LOTO on every intervention step even when Gemini omits it", 
         observations: "existing alarm history is available",
         language: "ar"
       })
-    }), { AI_API_KEY: "test-only-placeholder" });
+    }), { AI_PROVIDER: "gemini", AI_API_KEY: "test-only-placeholder" });
     assert.equal(response.status, 200);
     const body = await response.json();
     assert.equal(body.diagnosis.inspection_steps[0].kind, "intervention");
@@ -379,7 +379,7 @@ test("Worker forces LOTO on every intervention step even when Gemini omits it", 
   }
 });
 
-test("weak evidence plus no relevant retrieval abstains before Gemini", async () => {
+test("weak evidence plus no relevant retrieval abstains before an AI provider", async () => {
   const before = upstreamCalls;
   const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
     method: "POST",
@@ -391,7 +391,7 @@ test("weak evidence plus no relevant retrieval abstains before Gemini", async ()
       code: "",
       language: "en"
     })
-  }), { AI_API_KEY: "test-only-placeholder" });
+  }), { AI_PROVIDER: "gemini", AI_API_KEY: "test-only-placeholder" });
   assert.equal(response.status, 200);
   const body = await response.json();
   assert.equal(body.diagnosis.status, "unable_to_assess");
@@ -430,7 +430,7 @@ test("CORS preflight does not call the AI provider", async () => {
 });
 
 
-test("rate limiter denial returns 429 before retrieval or Gemini", async () => {
+test("rate limiter denial returns 429 before retrieval or an AI provider", async () => {
   const before = { upstreamCalls, knowledgeCalls };
   const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
     method: "POST",
@@ -476,7 +476,7 @@ test("non-POST diagnosis requests are rejected with no-store and no provider det
   const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
     method: "GET",
     headers: { Origin: "https://belaggouneseifeddine.github.io" }
-  }), { AI_API_KEY: "secret-must-not-appear" });
+  }), { AI_PROVIDER: "gemini", AI_API_KEY: "secret-must-not-appear" });
   assert.equal(response.status, 405);
   assert.match(response.headers.get("cache-control"), /no-store/i);
   const text = await response.text();
@@ -489,14 +489,14 @@ test("JSON content type is required before diagnosis processing", async () => {
     method: "POST",
     headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "text/plain" },
     body: "machine=pump"
-  }), { AI_API_KEY: "test-only-placeholder" });
+  }), { AI_PROVIDER: "gemini", AI_API_KEY: "test-only-placeholder" });
   assert.equal(response.status, 415);
   assert.deepEqual({ upstreamCalls, knowledgeCalls }, before);
 });
 
-test("malformed JSON request is rejected before retrieval or Gemini", async () => {
+test("malformed JSON request is rejected before retrieval or an AI provider", async () => {
   const before = { upstreamCalls, knowledgeCalls };
-  const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", { method: "POST", headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" }, body: "{bad-json" }), { AI_API_KEY: "test-only-placeholder" });
+  const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", { method: "POST", headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" }, body: "{bad-json" }), { AI_PROVIDER: "gemini", AI_API_KEY: "test-only-placeholder" });
   assert.equal(response.status, 400);
   assert.deepEqual({ upstreamCalls, knowledgeCalls }, before);
 });
@@ -504,7 +504,7 @@ test("malformed JSON request is rejected before retrieval or Gemini", async () =
 test("Gemini 429 and 503 exhaust bounded retries and return a retryable provider error", async () => {
   const previous = mockUpstreamStatuses; mockUpstreamStatuses = [429, 503, 503];
   try {
-    const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", { method: "POST", headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" }, body: JSON.stringify({ machine: "centrifugal pump", symptom: "low flow during operation", observations: "existing alarm history and baseline are available", measurementStatus: "available", language: "ar" }) }), { AI_API_KEY: "test-only-placeholder" });
+    const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", { method: "POST", headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" }, body: JSON.stringify({ machine: "centrifugal pump", symptom: "low flow during operation", observations: "existing alarm history and baseline are available", measurementStatus: "available", language: "ar" }) }), { AI_PROVIDER: "gemini", AI_API_KEY: "test-only-placeholder" });
     assert.equal(response.status, 502); const body = await response.json(); assert.equal(body.provider_status, 503); assert.equal(body.retryable, true); assert.equal(mockUpstreamStatuses.length, 0);
   } finally { mockUpstreamStatuses = previous; }
 });
@@ -512,7 +512,7 @@ test("Gemini 429 and 503 exhaust bounded retries and return a retryable provider
 test("Gemini network failure returns bounded retryable error without leaking secrets", async () => {
   mockNetworkFailure = true;
   try {
-    const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", { method: "POST", headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" }, body: JSON.stringify({ machine: "centrifugal pump", symptom: "low flow during operation", observations: "existing alarm history and baseline are available", measurementStatus: "available", language: "ar" }) }), { AI_API_KEY: "test-only-placeholder" });
+    const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", { method: "POST", headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" }, body: JSON.stringify({ machine: "centrifugal pump", symptom: "low flow during operation", observations: "existing alarm history and baseline are available", measurementStatus: "available", language: "ar" }) }), { AI_PROVIDER: "gemini", AI_API_KEY: "test-only-placeholder" });
     assert.equal(response.status, 502); const body = await response.json(); assert.equal(body.retryable, true); assert.doesNotMatch(JSON.stringify(body), /test-only-placeholder|simulated upstream/);
   } finally { mockNetworkFailure = false; }
 });
@@ -521,18 +521,18 @@ test("malformed and empty Gemini responses are rejected as upstream errors", asy
   const previous = mockUpstreamMode;
   try { for (const mode of ["malformed-json", "empty-output"]) {
     mockUpstreamMode = mode;
-    const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", { method: "POST", headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" }, body: JSON.stringify({ machine: "centrifugal pump", symptom: "low flow during operation", observations: "existing alarm history and baseline are available", measurementStatus: "available", language: "ar" }) }), { AI_API_KEY: "test-only-placeholder" });
+    const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", { method: "POST", headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" }, body: JSON.stringify({ machine: "centrifugal pump", symptom: "low flow during operation", observations: "existing alarm history and baseline are available", measurementStatus: "available", language: "ar" }) }), { AI_PROVIDER: "gemini", AI_API_KEY: "test-only-placeholder" });
     assert.equal(response.status, 502);
   } } finally { mockUpstreamMode = previous; }
 });
 
-test("curated diagnostic flow rejects unknown IDs before retrieval or Gemini", async () => {
+test("curated diagnostic flow rejects unknown IDs before retrieval or an AI provider", async () => {
   const before = { upstreamCalls, knowledgeCalls };
   const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
     method: "POST",
     headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
     body: JSON.stringify({ machine: "pump", symptom: "low flow", diagnosticFlowId: "pump|unknown", language: "ar" })
-  }), { AI_API_KEY: "test-only-placeholder" });
+  }), { AI_PROVIDER: "gemini", AI_API_KEY: "test-only-placeholder" });
   assert.equal(response.status, 400);
   assert.equal((await response.json()).code, "unknown_diagnostic_flow");
   assert.deepEqual({ upstreamCalls, knowledgeCalls }, before);
@@ -543,7 +543,7 @@ test("curated diagnostic flow must match the equipment family", async () => {
     method: "POST",
     headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
     body: JSON.stringify({ machine: "industrial motor", symptom: "low flow", diagnosticFlowId: "pump|low_flow", language: "ar" })
-  }), { AI_API_KEY: "test-only-placeholder" });
+  }), { AI_PROVIDER: "gemini", AI_API_KEY: "test-only-placeholder" });
   assert.equal(response.status, 400);
   assert.equal((await response.json()).code, "diagnostic_flow_mismatch");
 });
@@ -554,7 +554,7 @@ test("compressor curated flow rejects low-flow symptom text as a mismatch", asyn
     method: "POST",
     headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
     body: JSON.stringify({ machine: "industrial compressor", symptom: "low flow", diagnosticFlowId: "compressor|low_pressure", language: "ar" })
-  }), { AI_API_KEY: "test-only-placeholder" });
+  }), { AI_PROVIDER: "gemini", AI_API_KEY: "test-only-placeholder" });
   assert.equal(response.status, 400);
   assert.equal((await response.json()).code, "diagnostic_flow_mismatch");
   assert.deepEqual({ upstreamCalls, knowledgeCalls }, before);
@@ -571,7 +571,7 @@ test("curated flow restricts Gemini output to server-approved hypothesis IDs", a
       diagnosticFlowId: "pump|low_flow",
       language: "ar"
     })
-  }), { AI_API_KEY: "test-only-placeholder" });
+  }), { AI_PROVIDER: "gemini", AI_API_KEY: "test-only-placeholder" });
   assert.equal(response.status, 200);
   assert.ok(["supply_or_suction", "flow_path_restriction", "operating_condition"].includes((await response.json()).diagnosis.possible_causes[0].id));
   assert.match(upstreamPayload.input, /only authorized hypothesis IDs and meanings are: supply_or_suction = Supply or suction conditions; flow_path_restriction = Flow-path restriction or abnormal valve position; operating_condition = Unusual operating condition or demand/);
@@ -604,7 +604,7 @@ test("curated flow rejects a model-invented hypothesis ID", async () => {
         diagnosticFlowId: "pump|low_flow",
         language: "ar"
       })
-    }), { AI_API_KEY: "test-only-placeholder" });
+    }), { AI_PROVIDER: "gemini", AI_API_KEY: "test-only-placeholder" });
     assert.equal(response.status, 502);
     assert.equal((await response.json()).code, "unapproved_hypothesis_id");
   } finally {
@@ -625,7 +625,7 @@ test("curated diagnostic flow rejects evidence IDs from another flow", async () 
       diagnosticEvidence: ["trip-present"],
       language: "ar"
     })
-  }), { AI_API_KEY: "test-only-placeholder" });
+  }), { AI_PROVIDER: "gemini", AI_API_KEY: "test-only-placeholder" });
   assert.equal(response.status, 400);
   assert.equal((await response.json()).code, "unknown_diagnostic_evidence");
   assert.deepEqual({ upstreamCalls, knowledgeCalls }, before);
@@ -673,6 +673,26 @@ test("Cloudflare provider selection uses AI binding without an API key and prese
 });
 
 
+test("Cloudflare is the default provider when AI_PROVIDER is unset", async () => {
+  const beforeCalls = cloudflareCalls;
+  const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
+    method: "POST",
+    headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
+    body: JSON.stringify({
+      machine: "مضخة طرد مركزي",
+      symptom: "ضعف تدفق الماء أثناء التشغيل",
+      observations: "existing readings only",
+      measurementStatus: "none",
+      language: "ar"
+    })
+  }), { AI: { run: async () => ({ response: "{}" }) }, CLOUDFLARE_AI_MODEL: "@cf/meta/llama-3.2-3b-instruct" });
+  const body = await response.json();
+  assert.equal(response.status, 200);
+  assert.equal(body.provider, "cloudflare");
+  assert.equal(body.model, "@cf/meta/llama-3.2-3b-instruct");
+  assert.equal(cloudflareCalls, beforeCalls + 1);
+});
+
 test("Cloudflare provider normalizes uppercase app schema types to JSON Schema types", async () => {
   const { normalizeJsonSchema } = await import("../providers/cloudflare-provider.mjs");
   const normalized = normalizeJsonSchema({
@@ -709,7 +729,7 @@ test("deterministic safety gate takes priority over an invalid curated diagnosti
       diagnosticEvidence: ["not-a-real-evidence-id"],
       language: "en"
     })
-  }), { AI_API_KEY: "test-only-placeholder" });
+  }), { AI_PROVIDER: "gemini", AI_API_KEY: "test-only-placeholder" });
   assert.equal(response.status, 200);
   const body = await response.json();
   assert.equal(body.safety_gate.trigger, "protection_bypass");
@@ -730,7 +750,7 @@ test("deterministic safety gate takes priority over curated flow equipment or sy
       diagnosticFlowId: "compressor|low_pressure",
       language: "en"
     })
-  }), { AI_API_KEY: "test-only-placeholder" });
+  }), { AI_PROVIDER: "gemini", AI_API_KEY: "test-only-placeholder" });
   assert.equal(response.status, 200);
   const body = await response.json();
   assert.equal(body.safety_gate.trigger, "high_pressure_leak");
