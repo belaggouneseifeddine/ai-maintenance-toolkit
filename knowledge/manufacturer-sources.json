@@ -721,6 +721,21 @@
       "reviewStatus": "content_reviewed",
       "reviewedAt": "2026-11-06",
       "scopeNotes": "General bearing damage taxonomy and failure-analysis guidance; not a model-specific vibration limit or maintenance interval."
+    },
+    {
+      "id": "abb-vfd-motor-effects",
+      "publisher": "ABB",
+      "title": "Understanding the effects of variable speed drives on motors",
+      "url": "https://new.abb.com/drives/branchen-und-applikationen/motors-and-drives-in-potentially-explosive-atmospheres/effects-of-variable-speed-drives-to-motors",
+      "type": "manufacturer-technical-article",
+      "scope": "General VFD-fed motor considerations; only applicable when a variable-speed drive is part of the confirmed asset context",
+      "status": "reference-listed-general-scope-not-model-verified",
+      "redistribution": "link-only; check terms before copying",
+      "sourceType": "manufacturer_technical_article",
+      "modelScope": "No exact motor/drive model scope; VFD-fed applications only",
+      "reviewStatus": "content_reviewed",
+      "reviewedAt": "2026-11-06",
+      "scopeNotes": "Discusses VFD-related voltage stress, bearing currents, reduced self-cooling at low speed, and overload/load-capacity considerations. Use only when a VFD is confirmed; exact motor and drive manuals govern ratings, thresholds and procedures."
     }
   ]
 }
