@@ -43,6 +43,8 @@ Deterministic inventory of the current repository. This report adds no technical
 - Reference-only portals: **5**; permitted for automated fetching by registry: **0/5**
 - Reference-only books: **2**; permitted for automated fetching by registry: **0/2**
 - Supplemental fault source references registered in the manufacturer-source registry: **5**; missing registry entries: **0**
+- Supplemental causes with explicit sourceRefs: **9/9**; missing cause-level source registry entries: **0**
+- Supplemental evidence sources content-reviewed in this pass: **5/5**; related manuals not content-reviewed and excluded from supporting sourceRefs: **1**
 - Accepted licenses declared by policy: CC-BY-4.0, MIT
 - Human review before knowledge publication required by policy: **yes**
 
@@ -60,7 +62,7 @@ This is a conservative string-presence check only. It does not prove that a topi
 3. 7 equipment labels lack a literal name match in the Worker-loaded documents. Review this list with a subject-matter expert; do not automatically fill the gaps with generated technical content.
 4. 5 reference-only portals are not allowlisted for automated fetching. Keep this restriction until reuse permissions are documented in the registry.
 5. 2 reference-only books are not allowlisted for automated fetching. Keep them as metadata and original navigation indexes until reuse permissions are documented.
-6. Supplemental fault records are general-reference candidates, not model-verified cases; missing record-level source registry entries: none; missing cause-level source registry entries: none. Human review remains required before operational use; the unreviewed XAS 38-48 manual remains excluded from supporting sourceRefs.
+6. Supplemental fault records are general-reference candidates, not model-verified cases; missing record-level source registry entries: none; missing cause-level source registry entries: none. Human review remains required before operational use; unreviewed related manuals must remain excluded from supporting sourceRefs.
 
 ## Manufacturer-specific case coverage and limits
 
@@ -83,6 +85,5 @@ This is a conservative string-presence check only. It does not prove that a topi
 - Fault counts include the core faults.json file and the separately loaded knowledge/faults-supplement.json file; model-specific status remains distinct from general-reference evidence.
 - Word counts use whitespace-separated tokens; they are inventory measures, not measures of quality.
 - This audit does not validate technical correctness, OEM applicability, or the evidentiary support of every statement.
-- The audit checks source registry linkage and review-status fields; it does not make live HTTP requests or validate every technical claim.
-- Source reachability and selected-page review were performed separately in this review; the unreviewed XAS 38-48 PDF remains a discovery route only.
 - No source text is fetched by this script and no new technical content is generated.
+
