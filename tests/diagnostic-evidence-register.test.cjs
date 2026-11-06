@@ -31,6 +31,39 @@ test("evidence register covers every fault without silently claiming verificatio
   assert.equal(registerIds.size, faultIds.size, "register and fault library must stay in sync");
 });
 
+test("supplemental general cases expose references without treating them as model-verified", () => {
+  for (const fault of supplement.faults) {
+    const record = evidence.records[fault.id];
+    assert.ok(record, "missing evidence record for supplemental fault: " + fault.id);
+    assert.equal(record.status, "review-needed");
+    assert.deepEqual(
+      record.references.map(ref => ref.id).sort(),
+      fault.sourceRefs.slice().sort(),
+      fault.id + ": evidence panel references must match the fault sourceRefs"
+    );
+    const evidenceItems = record.references.map(ref => ({
+      ...ref,
+      status: record.status,
+      scope: record.scope || ref.scope || {},
+      verifiedClaims: ref.verifiedClaims || []
+    }));
+    const result = reasoning.analyse({
+      equipment: {
+        manufacturer: record.scope.manufacturers[0],
+        model: "unverified-model"
+      },
+      evidence: evidenceItems,
+      hypotheses: [{
+        id: fault.id,
+        label: fault.id,
+        supportEvidenceIds: evidenceItems.map(ref => ref.id)
+      }]
+    });
+    assert.equal(result.results[0].evidenceState, "insufficient-verified-evidence");
+    assert.ok(result.results[0].supportingEvidence.every(ref => !ref.applicable));
+  }
+});
+
 test("current evidence gaps are explicit rather than silently marked verified", () => {
   for (const [id, record] of Object.entries(evidence.records)) {
     if (record.references.length === 0) {
