@@ -62,10 +62,10 @@ class KnowledgeAssetsTests(unittest.TestCase):
         self.assertEqual(bolton["french_isbn"], "978-2-10-074219-6")
         self.assertEqual(bolton["page_count"], 440)
 
-    def test_supplemental_faults_have_registered_sources_and_no_model_verified_claims(self):
+    def test_supplemental_faults_have_cause_level_sources_and_scope_limits(self):
         supplement = json.loads((ROOT / "knowledge" / "faults-supplement.json").read_text(encoding="utf-8"))
         manufacturer_sources = json.loads((ROOT / "knowledge" / "manufacturer-sources.json").read_text(encoding="utf-8"))
-        source_ids = {source["id"] for source in manufacturer_sources.get("sources", [])}
+        source_map = {source["id"]: source for source in manufacturer_sources.get("sources", [])}
         faults = supplement.get("faults", [])
         self.assertEqual(len(faults), 3)
         self.assertEqual({fault["id"] for fault in faults}, {
@@ -75,24 +75,26 @@ class KnowledgeAssetsTests(unittest.TestCase):
         })
         for fault in faults:
             self.assertEqual(fault.get("evidenceStatus"), "source-informed-general-reference-not-model-verified")
-            self.assertTrue(fault.get("sourceRefs"), fault["id"] + " missing source references")
-            self.assertTrue(set(fault["sourceRefs"]).issubset(source_ids), fault["id"] + " has an unregistered source reference")
+            self.assertTrue(fault.get("sourceRefs"), fault["id"] + " missing record source references")
+            self.assertTrue(fault.get("sourceScopeNotes"), fault["id"] + " missing source-scope notes")
+            cause_source_union = set()
+            for cause in fault.get("causes", []):
+                self.assertTrue(cause.get("sourceRefs"), fault["id"] + "/" + cause["id"] + " missing cause-level source references")
+                self.assertTrue(set(cause["sourceRefs"]).issubset(source_map), fault["id"] + "/" + cause["id"] + " has an unregistered source reference")
+                cause_source_union.update(cause["sourceRefs"])
+            self.assertEqual(set(fault["sourceRefs"]), cause_source_union, fault["id"] + " record references must equal the union of cause references")
             self.assertFalse(fault.get("modelSpecificEvidence"), fault["id"] + " must not claim model-specific evidence")
-
-    def test_general_faults_do_not_cite_family_only_manuals(self):
-        supplement = json.loads((ROOT / "knowledge" / "faults-supplement.json").read_text(encoding="utf-8"))
-        manufacturer_sources = json.loads((ROOT / "knowledge" / "manufacturer-sources.json").read_text(encoding="utf-8"))
-        source_by_id = {source["id"]: source for source in manufacturer_sources.get("sources", [])}
-        for fault in supplement.get("faults", []):
-            if fault.get("evidenceStatus") != "source-informed-general-reference-not-model-verified":
-                continue
-            for source_id in fault.get("sourceRefs", []):
-                source = source_by_id[source_id]
-                scope = source.get("scope", "").lower()
-                self.assertFalse(
-                    source.get("type") == "manufacturer-manual" and ("only" in scope or "family" in scope),
-                    f"{fault['id']} is general but cites family-scoped manual {source_id}",
-                )
+            for related_id in fault["sourceScopeNotes"].get("relatedManualRefs", []):
+                self.assertIn(related_id, source_map)
+                self.assertNotIn(related_id, fault["sourceRefs"], "unreviewed related manual must not be used as supporting evidence")
+                self.assertEqual(source_map[related_id].get("reviewStatus"), "not_content_reviewed_file_size_limit")
+        abb = source_map["abb-motor-troubleshooting"]
+        self.assertIn("Baldor-Reliance", abb.get("modelScope", ""))
+        self.assertIn("3-2", abb.get("verifiedPages", []))
+        self.assertEqual(abb.get("reviewStatus"), "content_reviewed")
+        skf = source_map["skf-bearing-damage-troubleshooting"]
+        self.assertIn("?trk=", skf.get("url", ""))
+        self.assertEqual(skf.get("reviewStatus"), "content_reviewed")
 
     def test_pump_draft_has_multilingual_terms_safety_and_attribution(self):
         text = PUMP_DRAFT.read_text(encoding="utf-8")
