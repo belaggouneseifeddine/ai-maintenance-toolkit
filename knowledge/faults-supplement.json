@@ -69,6 +69,9 @@
             "دورة التشغيل",
             "surcharge",
             "courant élevé"
+          ],
+          "sourceRefs": [
+            "abb-motor-troubleshooting"
           ]
         },
         {
@@ -89,6 +92,9 @@
             "تبريد",
             "ventilateur",
             "débit d'air"
+          ],
+          "sourceRefs": [
+            "abb-motor-troubleshooting"
           ]
         },
         {
@@ -110,6 +116,10 @@
             "roulement",
             "vibration",
             "déséquilibre"
+          ],
+          "sourceRefs": [
+            "abb-motor-troubleshooting",
+            "skf-bearing-damage-troubleshooting"
           ]
         }
       ],
@@ -139,7 +149,11 @@
         "abb-motor-troubleshooting",
         "skf-bearing-damage-troubleshooting"
       ],
-      "evidenceStatus": "source-informed-general-reference-not-model-verified"
+      "evidenceStatus": "source-informed-general-reference-not-model-verified",
+      "sourceScopeNotes": {
+        "abb-motor-troubleshooting": "Baldor-Reliance AC/DC mine motors only; the cited troubleshooting chart is a family-specific example, not a universal motor limit or procedure.",
+        "skf-bearing-damage-troubleshooting": "Supports bearing-related condition indicators and damage mechanisms only; it does not substantiate every electrical or load-related motor-overheating cause."
+      }
     },
     {
       "id": "supplement-compressor-overheat-general",
@@ -201,6 +215,10 @@
             "تهوية",
             "refroidissement",
             "refroidisseur"
+          ],
+          "sourceRefs": [
+            "atlas-copco-compressor-troubleshooting",
+            "atlas-copco-compressor-overheating"
           ]
         },
         {
@@ -222,6 +240,9 @@
             "niveau d'huile",
             "filtre à huile",
             "lubrification"
+          ],
+          "sourceRefs": [
+            "atlas-copco-compressor-overheating"
           ]
         },
         {
@@ -242,6 +263,9 @@
             "cycles",
             "demande élevée",
             "température ambiante"
+          ],
+          "sourceRefs": [
+            "atlas-copco-compressor-overheating"
           ]
         }
       ],
@@ -271,7 +295,15 @@
         "atlas-copco-compressor-troubleshooting",
         "atlas-copco-compressor-overheating"
       ],
-      "evidenceStatus": "source-informed-general-reference-not-model-verified"
+      "evidenceStatus": "source-informed-general-reference-not-model-verified",
+      "sourceScopeNotes": {
+        "atlas-copco-compressor-troubleshooting": "General Atlas Copco guidance; use for safe diagnostic framing and verify the exact compressor model manual.",
+        "atlas-copco-compressor-overheating": "General Atlas Copco overheating guidance; do not transfer model-specific thresholds or maintenance intervals.",
+        "relatedManualRefs": [
+          "atlas-copco-xas-38-48-manual"
+        ],
+        "relatedManualNote": "The XAS 38-48 manual is a model-specific follow-up route only. Its contents were not reviewed in this pass and it is not counted as evidence for this general record."
+      }
     },
     {
       "id": "supplement-bearing-vibration-general",
@@ -335,6 +367,10 @@
             "lubrification",
             "graisse",
             "contamination"
+          ],
+          "sourceRefs": [
+            "skf-bearing-damage-troubleshooting",
+            "skf-iso-15243-bearing-analysis"
           ]
         },
         {
@@ -356,6 +392,10 @@
             "alignement",
             "montage",
             "desserrage"
+          ],
+          "sourceRefs": [
+            "skf-bearing-damage-troubleshooting",
+            "skf-iso-15243-bearing-analysis"
           ]
         },
         {
@@ -378,6 +418,10 @@
             "spectre",
             "température",
             "machine voisine"
+          ],
+          "sourceRefs": [
+            "skf-bearing-damage-troubleshooting",
+            "skf-iso-15243-bearing-analysis"
           ]
         }
       ],
@@ -407,7 +451,11 @@
         "skf-bearing-damage-troubleshooting",
         "skf-iso-15243-bearing-analysis"
       ],
-      "evidenceStatus": "source-informed-general-reference-not-model-verified"
+      "evidenceStatus": "source-informed-general-reference-not-model-verified",
+      "sourceScopeNotes": {
+        "skf-bearing-damage-troubleshooting": "General SKF bearing damage guide; printed page references are recorded in the source registry.",
+        "skf-iso-15243-bearing-analysis": "General ISO 15243 damage taxonomy; no machine-specific vibration threshold is supplied."
+      }
     }
   ]
 }
