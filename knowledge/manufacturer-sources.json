@@ -42,12 +42,22 @@
     {
       "id": "abb-motor-troubleshooting",
       "publisher": "ABB",
-      "title": "Maintenance and troubleshooting reference for motors",
-      "url": "https://library.e.abb.com/public/c553f9f2138646fbbe2321456a02de51/MN404.pdf",
-      "type": "manufacturer-reference",
+      "title": "Baldor-Reliance AC and DC Mine Motors — Installation and Operation Manual (MN404)",
+      "url": "https://library.e.abb.com/public/816b6a7333804bf7b59ff42688dbc50e/MN404.pdf",
+      "type": "manufacturer_manual",
       "scope": "Check the exact motor family and document applicability before relying on it",
       "status": "reference-listed; exact claim/model match not recorded",
-      "redistribution": "reference-link-only; verify terms before copying material"
+      "redistribution": "reference-link-only; verify terms before copying material",
+      "sourceType": "manufacturer_manual",
+      "revision": "MN404, June 2022",
+      "modelScope": "Baldor-Reliance AC and DC Mine Motors; not a universal motor manual",
+      "reviewStatus": "content_reviewed",
+      "reviewedAt": "2026-11-06",
+      "verifiedPages": [
+        "2-7",
+        "3-2"
+      ],
+      "scopeNotes": "The manual is specific to Baldor-Reliance AC/DC mine motors. Its printed p. 3-2 troubleshooting chart lists motor-overheating causes; p. 2-7 describes operating conditions that can raise surface temperature. Do not generalize its nameplate limits, hazardous-area rules or procedures to other motor families."
     },
     {
       "id": "doe-compressed-air-sourcebook",
@@ -92,12 +102,15 @@
     {
       "id": "atlas-copco-compressor-troubleshooting",
       "publisher": "Atlas Copco",
-      "title": "How to troubleshoot an air compressor",
-      "url": "https://www.atlascopco.com/en-sa/compressors/air-compressor-blog/air-compressor-troubleshooting",
+      "title": "Air compressor troubleshooting guide (Atlas Copco)",
+      "url": "https://www.atlascopco.com/en-us/compressors/air-compressor-blog/air-compressor-troubleshooting",
       "type": "manufacturer-troubleshooting-guide",
       "scope": "General Atlas Copco compressor troubleshooting examples; model/controller applicability must be checked",
       "status": "official-general-guide-model-match-required",
-      "redistribution": "link-only; check terms before copying"
+      "redistribution": "link-only; check terms before copying",
+      "reviewStatus": "content_reviewed",
+      "reviewedAt": "2026-11-06",
+      "scopeNotes": "General Atlas Copco troubleshooting chart. The page explicitly requires power isolation and release of system pressure before opening panels or inspecting internal components; follow the exact model instruction book."
     },
     {
       "id": "atlas-copco-manuals",
@@ -648,6 +661,98 @@
       "scope": "Syntec CNC alarm manual; supported software versions listed in the manual include 10.118.86L, 10.120.16L, 10.120.24B, 10.120.27 and previous versions. Exact CNC/drive integration and machine-builder settings must be matched.",
       "status": "manual-content-reviewed-for-listed-records",
       "redistribution": "link-and-concise-original-summaries-only"
+    },
+    {
+      "id": "atlas-copco-compressor-overheating",
+      "publisher": "Atlas Copco",
+      "title": "Compressor overheating: common causes and checks (Atlas Copco)",
+      "url": "https://www.atlascopco.com/en-au/compressors/air-compressor-blog/compressor-overheating",
+      "type": "manufacturer-general-troubleshooting-article",
+      "scope": "General ventilation, cooling, oil and maintenance factors; exact model and configuration still govern",
+      "status": "reference-listed-general-scope-not-model-verified",
+      "redistribution": "link-only; check terms before copying",
+      "reviewStatus": "content_reviewed",
+      "reviewedAt": "2026-11-06",
+      "scopeNotes": "General Atlas Copco overheating article, dated 25 March 2024; discusses ambient temperature, ventilation/recirculation, oil level/type and cooler maintenance. Do not transfer thresholds or service intervals to another model."
+    },
+    {
+      "id": "atlas-copco-xas-38-48-manual",
+      "publisher": "Atlas Copco",
+      "title": "XAS 38–48 User Manual",
+      "url": "https://www.atlascopco.com/content/dam/atlas-copco/local-countries/france/documents/power-technique-france/ape/page-web-liens-utiles-compresseurs/petits-compresseurs-2-%C3%A0-5m%C2%B3/manuels-d%27utilisateurs/Manuel%20Utilisateur%20XAS%2038-48.pdf",
+      "type": "manufacturer-manual",
+      "scope": "XAS 38–48 mobile compressor family only; verify exact model and manual revision before use",
+      "status": "reference-listed-family-specific-not-claim-verified",
+      "redistribution": "reference-link-only; redistribution rights not reviewed",
+      "reviewStatus": "not_content_reviewed_file_size_limit",
+      "reviewedAt": "2026-11-06",
+      "scopeNotes": "Model-specific XAS 38-48 manual. The PDF exceeded the accessible review limit in this pass, so its contents were not verified and it is not used as supporting evidence in the general compressor-overheat record."
+    },
+    {
+      "id": "skf-bearing-damage-troubleshooting",
+      "publisher": "SKF",
+      "title": "Bearing damage and failure analysis (SKF)",
+      "url": "https://cdn.skfmediahub.skf.com/api/public/0901d1968064c148/pdf_preview_medium/0901d1968064c148_pdf_preview_medium.pdf?trk=public_post_comment-text",
+      "type": "manufacturer_reference_guide",
+      "scope": "General bearing troubleshooting including lubrication, contamination, seals and operating conditions; exact bearing/application requirements govern",
+      "status": "reference-listed-general-scope-not-model-verified",
+      "redistribution": "reference-link-only; follow SKF document terms",
+      "sourceType": "manufacturer_reference",
+      "reviewStatus": "content_reviewed",
+      "reviewedAt": "2026-11-06",
+      "verifiedPages": [
+        "11",
+        "19-20",
+        "23",
+        "54",
+        "65-71"
+      ],
+      "scopeNotes": "General rolling-bearing damage and condition-monitoring guide. Printed pp. 11, 19-20, 23, 54 and 65-71 discuss monitoring, misalignment, imbalance, vibration and damage mechanisms. It supplies no model-specific vibration limits or alarm thresholds."
+    },
+    {
+      "id": "skf-iso-15243-bearing-analysis",
+      "publisher": "SKF Evolution",
+      "title": "Bearing damage analysis — ISO 15243 (SKF Evolution)",
+      "url": "https://evolution.skf.com/us/bearing-damage-analysis-iso-15243-is-here-to-help-you/",
+      "type": "manufacturer-technical-article",
+      "scope": "General bearing damage categories and analysis context; does not establish a cause for an individual failure",
+      "status": "reference-listed-general-scope-not-model-verified",
+      "redistribution": "link-only; follow publisher terms",
+      "reviewStatus": "content_reviewed",
+      "reviewedAt": "2026-11-06",
+      "scopeNotes": "General bearing damage taxonomy and failure-analysis guidance; not a model-specific vibration limit or maintenance interval."
+    },
+    {
+      "id": "abb-vfd-motor-effects",
+      "publisher": "ABB",
+      "title": "Understanding the effects of variable speed drives on motors",
+      "url": "https://new.abb.com/drives/branchen-und-applikationen/motors-and-drives-in-potentially-explosive-atmospheres/effects-of-variable-speed-drives-to-motors",
+      "type": "manufacturer-technical-article",
+      "scope": "General VFD-fed motor considerations; only applicable when a variable-speed drive is part of the confirmed asset context",
+      "status": "reference-listed-general-scope-not-model-verified",
+      "redistribution": "link-only; check terms before copying",
+      "sourceType": "manufacturer_technical_article",
+      "modelScope": "No exact motor/drive model scope; VFD-fed applications only",
+      "reviewStatus": "content_reviewed",
+      "reviewedAt": "2026-11-06",
+      "scopeNotes": "Discusses VFD-related voltage stress, bearing currents, reduced self-cooling at low speed, and overload/load-capacity considerations. Use only when a VFD is confirmed; exact motor and drive manuals govern ratings, thresholds and procedures."
+    },
+    {
+      "id": "epr-motor-overheating-guide",
+      "title": "Electric motor overheating: causes and diagnostic workflow (EPR)",
+      "url": "https://www.epr.com.ua/ua/support/async-motor/causes-electric-motor-overheating/",
+      "manufacturer": "EPR — independent repair and service publisher",
+      "type": "independent_technical_article",
+      "sourceType": "secondary_industry_reference",
+      "sourceClass": "secondary_industry_reference",
+      "language": "uk",
+      "reviewStatus": "content_reviewed",
+      "reviewedAt": "2026-11-06",
+      "scope": "General asynchronous electric motor overheating causes and diagnostic observations; no model-specific limits",
+      "notes": "Published 17 August 2026. Secondary technical reference covering overload, supply, cooling, bearing and winding-related causes and a staged diagnostic workflow. Do not use for OEM limits, wiring instructions or model-specific procedures. No article text copied into the repository.",
+      "fetch_allowed": false,
+      "reuseStatus": "reference_only_no_open_license_recorded",
+      "status": "secondary-reference-reviewed-general-scope-only"
     }
   ]
 }

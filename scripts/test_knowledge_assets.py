@@ -43,6 +43,88 @@ class KnowledgeAssetsTests(unittest.TestCase):
         self.assertIn('if len(text) < 300:', fetcher)
         self.assertIn('"application/xml", "text/xml"', fetcher)
 
+    def test_reference_only_books_have_indexes_and_are_not_fetchable(self):
+        registry = json.loads(REGISTRY_PATH.read_text(encoding="utf-8"))
+        books = registry.get("reference_only_books", [])
+        self.assertGreaterEqual(len(books), 2)
+        ids = set()
+        for book in books:
+            self.assertNotIn(book["id"], ids, "duplicate reference-only book id")
+            ids.add(book["id"])
+            self.assertFalse(book.get("fetch_allowed", False))
+            self.assertEqual(book.get("reuse_status"), "reference_only_no_open_license_recorded")
+            index_path = ROOT / book["repository_index"]
+            self.assertTrue(index_path.is_file(), f"missing reference index: {index_path}")
+            index_text = index_path.read_text(encoding="utf-8")
+            self.assertIn("not an oem", index_text.lower())
+            self.assertIn("printed page numbers", index_text.lower())
+        bolton = next(book for book in books if book["id"] == "automates-programmables-industriels-bolton-2015")
+        self.assertEqual(bolton["french_isbn"], "978-2-10-074219-6")
+        self.assertEqual(bolton["page_count"], 440)
+
+    def test_supplemental_faults_have_cause_level_sources_and_scope_limits(self):
+        supplement = json.loads((ROOT / "knowledge" / "faults-supplement.json").read_text(encoding="utf-8"))
+        manufacturer_sources = json.loads((ROOT / "knowledge" / "manufacturer-sources.json").read_text(encoding="utf-8"))
+        source_map = {source["id"]: source for source in manufacturer_sources.get("sources", [])}
+        faults = supplement.get("faults", [])
+        self.assertEqual(len(faults), 3)
+        self.assertEqual({fault["id"] for fault in faults}, {
+            "supplement-motor-overheat-general",
+            "supplement-compressor-overheat-general",
+            "supplement-bearing-vibration-general",
+        })
+        for fault in faults:
+            self.assertEqual(fault.get("evidenceStatus"), "source-informed-general-reference-not-model-verified")
+            self.assertTrue(fault.get("sourceRefs"), fault["id"] + " missing record source references")
+            self.assertTrue(fault.get("sourceScopeNotes"), fault["id"] + " missing source-scope notes")
+            cause_source_union = set()
+            for cause in fault.get("causes", []):
+                self.assertTrue(cause.get("sourceRefs"), fault["id"] + "/" + cause["id"] + " missing cause-level source references")
+                self.assertTrue(set(cause["sourceRefs"]).issubset(source_map), fault["id"] + "/" + cause["id"] + " has an unregistered source reference")
+                cause_source_union.update(cause["sourceRefs"])
+            self.assertEqual(set(fault["sourceRefs"]), cause_source_union, fault["id"] + " record references must equal the union of cause references")
+            self.assertFalse(fault.get("modelSpecificEvidence"), fault["id"] + " must not claim model-specific evidence")
+            for related_id in fault["sourceScopeNotes"].get("relatedManualRefs", []):
+                self.assertIn(related_id, source_map)
+                self.assertNotIn(related_id, fault["sourceRefs"], "related model-scoped manual must not be used as supporting evidence")
+                related = source_map[related_id]
+                if related.get("reviewStatus") == "not_content_reviewed_file_size_limit":
+                    self.assertTrue(related.get("scopeNotes"))
+                else:
+                    self.assertEqual(related.get("reviewStatus"), "content_reviewed")
+                    self.assertTrue(related.get("modelScope"))
+        abb = source_map["abb-motor-troubleshooting"]
+        self.assertIn("Baldor-Reliance", abb.get("modelScope", ""))
+        self.assertIn("3-2", abb.get("verifiedPages", []))
+        self.assertEqual(abb.get("reviewStatus"), "content_reviewed")
+        skf = source_map["skf-bearing-damage-troubleshooting"]
+        self.assertIn("?trk=", skf.get("url", ""))
+        self.assertEqual(skf.get("reviewStatus"), "content_reviewed")
+        epr = source_map["epr-motor-overheating-guide"]
+        self.assertEqual(epr.get("sourceClass"), "secondary_industry_reference")
+        self.assertEqual(epr.get("reviewStatus"), "content_reviewed")
+        self.assertFalse(epr.get("fetch_allowed", True))
+
+    def test_general_faults_do_not_cite_model_scoped_manuals(self):
+        supplement = json.loads((ROOT / "knowledge" / "faults-supplement.json").read_text(encoding="utf-8"))
+        manufacturer_sources = json.loads((ROOT / "knowledge" / "manufacturer-sources.json").read_text(encoding="utf-8"))
+        source_by_id = {source["id"]: source for source in manufacturer_sources.get("sources", [])}
+        for fault in supplement.get("faults", []):
+            if fault.get("evidenceStatus") != "source-informed-general-reference-not-model-verified":
+                continue
+            cause_refs = [source_id for cause in fault.get("causes", []) for source_id in cause.get("sourceRefs", [])]
+            all_refs = set(fault.get("sourceRefs", [])) | set(cause_refs)
+            for source_id in all_refs:
+                source = source_by_id[source_id]
+                source_type = (source.get("type", "") + " " + source.get("sourceType", "")).lower()
+                scope = (source.get("scope", "") + " " + source.get("modelScope", "")).lower()
+                is_manual = "manual" in source_type
+                is_model_scoped = any(term in scope for term in ("family", "only", "not a universal", "specific model"))
+                self.assertFalse(
+                    is_manual and is_model_scoped,
+                    f"{fault['id']} is general but cites model-scoped manual {source_id}",
+                )
+
     def test_pump_draft_has_multilingual_terms_safety_and_attribution(self):
         text = PUMP_DRAFT.read_text(encoding="utf-8")
         for term in ("العربية", "Français", "English", "LOTO", "راجع دليل المصنع",

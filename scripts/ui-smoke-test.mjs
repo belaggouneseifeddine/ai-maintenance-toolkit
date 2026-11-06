@@ -62,6 +62,21 @@ try {
   }
   await page.locator('.tab[data-tab="diagnose"]').click();
   await page.locator("#aiForm").waitFor({ state: "visible" });
+  await page.locator("#aiMachine").fill("motor");
+  await page.locator("#aiSymptom").fill("overheat");
+  await page.waitForFunction(() => Boolean(document.querySelector("#dynamicQuestionText")?.textContent.trim()));
+  await page.locator("#dynamicAnswer").selectOption("motor-load-high");
+  await page.locator("#recordDynamicAnswer").click();
+  const firstHypothesis = page.locator("#dynamicHypotheses .hypothesis-card").first();
+  await firstHypothesis.waitFor();
+  const sourceDetails = firstHypothesis.locator("details.hypothesis-sources");
+  await sourceDetails.waitFor({ state: "attached" });
+  await sourceDetails.locator("summary").click();
+  const sourceText = await sourceDetails.innerText();
+  assert.ok(sourceText.includes("Electric motor overheating") || sourceText.includes("EPR"), "Adaptive hypotheses must expose their traceable general source.");
+  assert.ok(sourceText.includes("Not an OEM source"), "Adaptive source panel must preserve the non-OEM/model-scope limitation.");
+  const hypothesisText = await firstHypothesis.innerText();
+  assert.ok(hypothesisText.includes("الحمل أو التيار أعلى من خط الأساس"), "Evidence should be displayed as localized text, not internal evidence IDs.");
 
   const toggle = page.locator("#themeToggle");
   for (const language of ["ar", "fr", "en"]) {

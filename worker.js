@@ -36,8 +36,37 @@ const CURATED_DIAGNOSTIC_FLOWS = Object.freeze({
     }),
     evidence: Object.freeze(["compressor-outlet-low", "outlet-normal-point-low", "outlet-normal", "pressures-similar", "unloaded-or-trip", "compressor-control-abnormal", "loaded-no-trip", "demand-high", "demand-baseline", "leak-indicated", "treatment-dp-high", "filter-alert", "dryer-restriction", "treatment-indicators-normal"])
   })
+  ,
+  "motor|overheat": Object.freeze({
+    hypotheses: Object.freeze({
+      motor_overload_or_application: "Mechanical overload or unsuitable operating conditions",
+      motor_cooling_or_ventilation: "Inadequate cooling or restricted ventilation",
+      motor_bearing_or_electrical: "Possible bearing or electrical condition requiring qualified inspection"
+    }),
+    evidence: Object.freeze(["motor-load-high","duty-cycle-exceeded","process-demand-changed","motor-load-baseline","cooling-path-obstructed","fan-fault-indicated","ambient-temperature-high","cooling-indicators-normal","bearing-noise-or-vibration","bearing-temperature-rise","current-imbalance-indicated","bearing-and-current-trends-normal"])
+  }),
+  "compressor|overheat": Object.freeze({
+    hypotheses: Object.freeze({
+      compressor_cooling_air_or_water: "Insufficient cooling air or cooling-water flow",
+      compressor_oil_or_lubrication: "Oil level, filtration, or lubrication condition",
+      compressor_load_or_operating_environment: "High load or adverse operating/environmental conditions"
+    }),
+    evidence: Object.freeze(["cooler-airflow-restricted","cooling-water-flow-low","hot-air-recirculation","cooling-system-baseline","oil-level-low-indicated","oil-filter-alert","oil-temperature-rise","oil-status-baseline","demand-or-load-high","ambient-temperature-high","frequent-cycling","load-and-ambient-baseline"])
+  }),
+  "bearing|vibration": Object.freeze({
+    hypotheses: Object.freeze({
+      bearing_lubrication_or_contamination: "Unsuitable lubrication or contamination",
+      bearing_mounting_or_alignment: "Mounting, alignment, or looseness",
+      bearing_damage_or_external_excitation: "Bearing damage or vibration transmitted from adjacent equipment"
+    }),
+    evidence: Object.freeze([
+      "lubrication-alert","contamination-indicated","lubricant-change-recent","lubrication-record-normal",
+      "alignment-deviation-recorded","looseness-indicated","recent-maintenance","alignment-and-mounting-verified",
+      "bearing-frequency-pattern","bearing-temperature-rise","adjacent-machine-vibration","bearing-spectrum-no-fault-pattern"
+    ])
+  })
 });
-
+  
 const DIAGNOSIS_SCHEMA = {
   type: "OBJECT",
   properties: {
@@ -286,7 +315,8 @@ const KNOWLEDGE_FILES = [
   "knowledge/CHINESE-EUROPEAN-OEM-FAULT-MATRIX-AR-FR-EN.md",
   "knowledge/OEM-MANUFACTURER-INDEX-AR-FR-EN.md",
   "knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md",
-  "knowledge/REFERENCE-ONLY-MASTERING-DIGITAL-ELECTRONICS.md"
+  "knowledge/REFERENCE-ONLY-MASTERING-DIGITAL-ELECTRONICS.md",
+  "knowledge/REFERENCE-ONLY-AUTOMATES-PROGRAMMABLES-INDUSTRIELS.md"
 ];
 const REPO_RAW_BASE = "https://raw.githubusercontent.com/belaggouneseifeddine/ai-maintenance-toolkit/main/";
 // Short per-isolate cache avoids refetching every knowledge file on each diagnosis.
@@ -556,7 +586,7 @@ export default {
     // Actual diagnosis requests must still be POSTs from an explicitly allowlisted published app origin.
     if (request.method !== "POST") return json({ error: "Use POST." }, 405, origin);
     if (!isAllowedOrigin(origin)) return json({ error: "Origin not allowed. Open the published Maintenance AI Toolkit app and submit the diagnosis form; /api/chat is not a browser page and requires a POST request from the allowed app origin." }, 403, origin);
-    const selectedProvider = env.AI_PROVIDER || "gemini";
+    const selectedProvider = env.AI_PROVIDER || "cloudflare";
     const apiKey = selectedProvider === "gemini" ? (env.GEMINI_API_KEY || env.AI_API_KEY) : null;
     if (!(request.headers.get("content-type") || "").toLowerCase().includes("application/json")) {
       return json({ error: "Content-Type must be application/json." }, 415, origin);

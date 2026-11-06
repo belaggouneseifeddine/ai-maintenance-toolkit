@@ -1,0 +1,465 @@
+{
+  "schemaVersion": 1,
+  "metadata": {
+    "title": "Supplemental general fault cases",
+    "language": [
+      "ar",
+      "en",
+      "fr"
+    ],
+    "evidenceStatus": "source-informed-general-reference-not-model-verified",
+    "note": "General candidate hypotheses only. Exact OEM model documentation and site procedures take precedence."
+  },
+  "faults": [
+    {
+      "id": "supplement-motor-overheat-general",
+      "equipmentType": "motor",
+      "symptoms": [
+        "overheat"
+      ],
+      "title": {
+        "ar": "ارتفاع حرارة المحرك الكهربائي — حالة عامة",
+        "en": "Electric motor overheating — general case",
+        "fr": "Surchauffe du moteur électrique — cas général"
+      },
+      "keywords": {
+        "ar": [
+          "ارتفاع الحرارة",
+          "سخونة المحرك",
+          "حمل زائد",
+          "تهوية",
+          "مروحة",
+          "محمل",
+          "عدم توازن التيار"
+        ],
+        "en": [
+          "motor overheating",
+          "high temperature",
+          "overload",
+          "ventilation",
+          "cooling fan",
+          "bearing",
+          "current imbalance"
+        ],
+        "fr": [
+          "surchauffe moteur",
+          "température élevée",
+          "surcharge",
+          "ventilation",
+          "ventilateur",
+          "roulement",
+          "déséquilibre du courant"
+        ]
+      },
+      "causes": [
+        {
+          "id": "motor-overload-duty",
+          "label": {
+            "ar": "حمل ميكانيكي أو دورة تشغيل غير مناسبة",
+            "en": "Mechanical overload or unsuitable duty cycle",
+            "fr": "Surcharge mécanique ou cycle de service inadapté"
+          },
+          "keywords": [
+            "overload",
+            "load increase",
+            "high current",
+            "duty cycle",
+            "حمل زائد",
+            "تيار مرتفع",
+            "دورة التشغيل",
+            "surcharge",
+            "courant élevé"
+          ],
+          "sourceRefs": [
+            "epr-motor-overheating-guide"
+          ]
+        },
+        {
+          "id": "motor-cooling-restriction",
+          "label": {
+            "ar": "ضعف التبريد أو انسداد التهوية",
+            "en": "Inadequate cooling or restricted ventilation",
+            "fr": "Refroidissement insuffisant ou ventilation obstruée"
+          },
+          "keywords": [
+            "cooling",
+            "fan",
+            "airflow",
+            "ventilation",
+            "blocked",
+            "مروحة",
+            "تهوية",
+            "تبريد",
+            "ventilateur",
+            "débit d'air"
+          ],
+          "sourceRefs": [
+            "epr-motor-overheating-guide"
+          ]
+        },
+        {
+          "id": "motor-bearing-electrical",
+          "label": {
+            "ar": "مشكلة محامل أو خلل كهربائي محتمل",
+            "en": "Possible bearing or electrical condition",
+            "fr": "Défaut possible de roulement ou électrique"
+          },
+          "keywords": [
+            "bearing",
+            "vibration",
+            "noise",
+            "current imbalance",
+            "محمل",
+            "اهتزاز",
+            "ضجيج",
+            "عدم توازن التيار",
+            "roulement",
+            "vibration",
+            "déséquilibre"
+          ],
+          "sourceRefs": [
+            "epr-motor-overheating-guide",
+            "skf-bearing-damage-troubleshooting"
+          ]
+        }
+      ],
+      "safeChecks": [
+        {
+          "ar": "قارن الحمل والتيار والسرعة ودورة التشغيل بخط الأساس ولوحة البيانات ودليل المحرك الدقيق؛ لا تغيّر إعدادات الحماية.",
+          "en": "Compare load, current, speed, and duty with baseline, nameplate, and exact motor documentation; do not change protection settings.",
+          "fr": "Comparez charge, courant, vitesse et cycle de service à la référence, à la plaque et à la documentation exacte; ne modifiez pas les protections."
+        },
+        {
+          "ar": "راجع مؤشرات التهوية والمروحة وحرارة المحيط من الخارج وفي حالة آمنة؛ لا تزل الحواجز أثناء الدوران.",
+          "en": "Review external ventilation, fan, and ambient indicators in a safe state; do not remove guards while rotating.",
+          "fr": "Vérifiez les indicateurs externes de ventilation, de ventilateur et d’ambiance dans un état sûr; ne retirez pas les protecteurs en rotation."
+        },
+        {
+          "ar": "وثّق اتجاهات الاهتزاز والحرارة والتيار؛ الاختبارات الكهربائية أو الفحص الداخلي يتطلبان مختصًا وعزلًا والتحقق من انعدام الطاقة.",
+          "en": "Record vibration, temperature, and current trends; electrical tests or internal inspection require qualified personnel, isolation, and verified absence of energy.",
+          "fr": "Consignez les tendances de vibration, température et courant; les essais électriques ou inspections internes exigent un personnel qualifié, la consignation et la vérification d’absence d’énergie."
+        }
+      ],
+      "escalation": {
+        "ar": "أوقف وصعّد عند دخان أو رائحة احتراق أو اهتزاز شديد/مفاجئ أو تجاوز حد المصنع أو تكرار الفصل. لا تعاود التشغيل لمجرد اختفاء الإنذار.",
+        "en": "Stop and escalate for smoke, burning smell, severe/sudden vibration, manufacturer-limit exceedance, or repeated trips. Do not restart merely because an alarm clears.",
+        "fr": "Arrêtez et escaladez en cas de fumée, odeur de brûlé, vibration forte/soudaine, dépassement d'une limite constructeur ou déclenchements répétés. Ne redémarrez pas uniquement parce qu'une alarme disparaît."
+      },
+      "sourceRefs": [
+        "epr-motor-overheating-guide",
+        "skf-bearing-damage-troubleshooting"
+      ],
+      "evidenceStatus": "source-informed-general-reference-not-model-verified",
+      "sourceScopeNotes": {
+        "epr-motor-overheating-guide": "Independent secondary technical article; supports general causes and diagnostic sequence only. It is not an OEM manual and supplies no model-specific temperature, current or protection limits.",
+        "skf-bearing-damage-troubleshooting": "Supports the bearing-related branch only; it does not substantiate every electrical, overload or cooling cause.",
+        "relatedManualRefs": [
+          "abb-motor-troubleshooting"
+        ],
+        "relatedManualNote": "ABB MN404 was reviewed but is limited to Baldor-Reliance AC/DC mine motors. Keep it as a family-specific follow-up route, not as evidence for this general case."
+      }
+    },
+    {
+      "id": "supplement-compressor-overheat-general",
+      "equipmentType": "compressor",
+      "symptoms": [
+        "overheat"
+      ],
+      "title": {
+        "ar": "ارتفاع حرارة ضاغط الهواء — حالة عامة",
+        "en": "Air compressor overheating — general case",
+        "fr": "Surchauffe du compresseur d’air — cas général"
+      },
+      "keywords": {
+        "ar": [
+          "ارتفاع حرارة الضاغط",
+          "حرارة المخرج",
+          "مبرد الزيت",
+          "تهوية",
+          "مستوى الزيت",
+          "مرشح الزيت",
+          "حمل مرتفع"
+        ],
+        "en": [
+          "compressor overheating",
+          "discharge temperature",
+          "oil cooler",
+          "ventilation",
+          "low oil level",
+          "oil filter",
+          "high demand"
+        ],
+        "fr": [
+          "surchauffe compresseur",
+          "température de refoulement",
+          "refroidisseur d'huile",
+          "ventilation",
+          "niveau d'huile bas",
+          "filtre à huile",
+          "demande élevée"
+        ]
+      },
+      "causes": [
+        {
+          "id": "compressor-cooling",
+          "label": {
+            "ar": "ضعف تدفق هواء/ماء التبريد أو اتساخ المبرد",
+            "en": "Insufficient cooling air/water or fouled cooler",
+            "fr": "Débit d’air/eau de refroidissement insuffisant ou refroidisseur encrassé"
+          },
+          "keywords": [
+            "cooling air",
+            "cooling water",
+            "cooler",
+            "ventilation",
+            "recirculation",
+            "ماء التبريد",
+            "هواء التبريد",
+            "المبرد",
+            "تهوية",
+            "refroidissement",
+            "refroidisseur"
+          ],
+          "sourceRefs": [
+            "atlas-copco-compressor-troubleshooting",
+            "atlas-copco-compressor-overheating"
+          ]
+        },
+        {
+          "id": "compressor-oil-filtration",
+          "label": {
+            "ar": "مستوى الزيت أو ترشيحه أو التزييت",
+            "en": "Oil level, filtration, or lubrication condition",
+            "fr": "Niveau d’huile, filtration ou lubrification"
+          },
+          "keywords": [
+            "oil level",
+            "oil filter",
+            "lubrication",
+            "oil temperature",
+            "مستوى الزيت",
+            "مرشح الزيت",
+            "التزييت",
+            "حرارة الزيت",
+            "niveau d'huile",
+            "filtre à huile",
+            "lubrification"
+          ],
+          "sourceRefs": [
+            "atlas-copco-compressor-overheating"
+          ]
+        },
+        {
+          "id": "compressor-load-ambient",
+          "label": {
+            "ar": "حمل أو طلب مرتفع وظروف محيطية",
+            "en": "High load/demand or adverse ambient conditions",
+            "fr": "Charge/demande élevée ou conditions ambiantes défavorables"
+          },
+          "keywords": [
+            "high demand",
+            "load unload",
+            "ambient temperature",
+            "cycling",
+            "طلب مرتفع",
+            "تحميل وتفريغ",
+            "حرارة المحيط",
+            "cycles",
+            "demande élevée",
+            "température ambiante"
+          ],
+          "sourceRefs": [
+            "atlas-copco-compressor-overheating"
+          ]
+        }
+      ],
+      "safeChecks": [
+        {
+          "ar": "راجع إنذارات التبريد ومؤشرات تدفق/حرارة ماء التبريد والتهوية من الواجهة أو نقاط القياس المعتمدة؛ لا تفتح دائرة ساخنة أو مضغوطة.",
+          "en": "Review cooling alarms and installed cooling-water flow/temperature and ventilation indicators; do not open hot or pressurized circuits.",
+          "fr": "Consultez les alarmes et indicateurs installés de débit/température d’eau et de ventilation; n’ouvrez pas un circuit chaud ou sous pression."
+        },
+        {
+          "ar": "راجع مستوى الزيت والمرشح وسجل الصيانة وفق دليل الطراز؛ تحقق من مواصفة الزيت قبل أي تدخل.",
+          "en": "Review oil level, filter status, and service history against the exact model manual; verify oil specification before intervention.",
+          "fr": "Vérifiez le niveau d’huile, le filtre et l’historique selon le manuel exact; confirmez la spécification d’huile avant toute intervention."
+        },
+        {
+          "ar": "قارن الطلب ودورات التحميل/التفريغ وحرارة غرفة الضاغط بخط الأساس؛ لا تعدّل الضغط أو صمام الأمان أو حدود الفصل.",
+          "en": "Compare demand, load/unload cycling, and compressor-room temperature with baseline; do not change pressure, relief-valve, or shutdown settings.",
+          "fr": "Comparez la demande, les cycles charge/décharge et la température du local à la référence; ne modifiez pas la pression, la soupape de sûreté ou les seuils d’arrêt."
+        }
+      ],
+      "escalation": {
+        "ar": "أوقف وصعّد عند إنذار فصل حراري، دخان، تسرب زيت كبير، اهتزاز شديد أو تفريغ صمام الأمان. لا تعطل الحماية أو تكرر إعادة الضبط.",
+        "en": "Stop and escalate for thermal shutdown, smoke, major oil leak, severe vibration, or safety-valve discharge. Never defeat protection or repeatedly reset.",
+        "fr": "Arrêtez et escaladez en cas d’arrêt thermique, fumée, fuite d’huile importante, vibration sévère ou décharge de soupape. Ne neutralisez jamais les protections et ne réinitialisez pas à répétition."
+      },
+      "sourceRefs": [
+        "atlas-copco-compressor-troubleshooting",
+        "atlas-copco-compressor-overheating"
+      ],
+      "evidenceStatus": "source-informed-general-reference-not-model-verified",
+      "sourceScopeNotes": {
+        "atlas-copco-compressor-troubleshooting": "General Atlas Copco guidance; use for safe diagnostic framing and verify the exact compressor model manual.",
+        "atlas-copco-compressor-overheating": "General Atlas Copco overheating guidance; do not transfer model-specific thresholds or maintenance intervals.",
+        "relatedManualRefs": [
+          "atlas-copco-xas-38-48-manual"
+        ],
+        "relatedManualNote": "The XAS 38-48 manual is a model-specific follow-up route only. Its contents were not reviewed in this pass and it is not counted as evidence for this general record."
+      }
+    },
+    {
+      "id": "supplement-bearing-vibration-general",
+      "equipmentType": "bearing",
+      "symptoms": [
+        "vibration"
+      ],
+      "title": {
+        "ar": "اهتزاز أو ضجيج المحمل — حالة عامة",
+        "en": "Bearing vibration or abnormal noise — general case",
+        "fr": "Vibration ou bruit anormal de roulement — cas général"
+      },
+      "keywords": {
+        "ar": [
+          "اهتزاز المحمل",
+          "ضجيج المحمل",
+          "تزييت",
+          "شحوم",
+          "تلوث",
+          "محاذاة",
+          "ارتخاء"
+        ],
+        "en": [
+          "bearing vibration",
+          "bearing noise",
+          "lubrication",
+          "grease",
+          "contamination",
+          "alignment",
+          "looseness"
+        ],
+        "fr": [
+          "vibration roulement",
+          "bruit roulement",
+          "lubrification",
+          "graisse",
+          "contamination",
+          "alignement",
+          "desserrage"
+        ]
+      },
+      "causes": [
+        {
+          "id": "bearing-lubrication-contamination",
+          "label": {
+            "ar": "تزييت غير مناسب أو تلوث",
+            "en": "Unsuitable lubrication or contamination",
+            "fr": "Lubrification inadaptée ou contamination"
+          },
+          "keywords": [
+            "lubrication",
+            "grease",
+            "oil",
+            "contamination",
+            "water ingress",
+            "تزييت",
+            "شحوم",
+            "زيت",
+            "تلوث",
+            "دخول الماء",
+            "lubrification",
+            "graisse",
+            "contamination"
+          ],
+          "sourceRefs": [
+            "skf-bearing-damage-troubleshooting",
+            "skf-iso-15243-bearing-analysis"
+          ]
+        },
+        {
+          "id": "bearing-mounting-alignment",
+          "label": {
+            "ar": "محاذاة أو تثبيت أو ارتخاء",
+            "en": "Alignment, mounting, or looseness",
+            "fr": "Alignement, montage ou desserrage"
+          },
+          "keywords": [
+            "alignment",
+            "mounting",
+            "loose",
+            "recent maintenance",
+            "محاذاة",
+            "تثبيت",
+            "ارتخاء",
+            "صيانة حديثة",
+            "alignement",
+            "montage",
+            "desserrage"
+          ],
+          "sourceRefs": [
+            "skf-bearing-damage-troubleshooting",
+            "skf-iso-15243-bearing-analysis"
+          ]
+        },
+        {
+          "id": "bearing-damage-transmitted",
+          "label": {
+            "ar": "تلف محمل أو اهتزاز من مصدر مجاور",
+            "en": "Bearing damage or vibration transmitted from adjacent equipment",
+            "fr": "Dommage du roulement ou vibration transmise par un équipement voisin"
+          },
+          "keywords": [
+            "bearing frequency",
+            "spectrum",
+            "temperature rise",
+            "adjacent machine",
+            "تردد المحمل",
+            "طيف الاهتزاز",
+            "ارتفاع الحرارة",
+            "معدة مجاورة",
+            "fréquence roulement",
+            "spectre",
+            "température",
+            "machine voisine"
+          ],
+          "sourceRefs": [
+            "skf-bearing-damage-troubleshooting",
+            "skf-iso-15243-bearing-analysis"
+          ]
+        }
+      ],
+      "safeChecks": [
+        {
+          "ar": "راجع هوية مادة التزييت وتوافقها وسجل الكميات والفترات والتلوث؛ لا تخلط شحومًا أو تضف مادة قبل التحقق من مواصفة المصنع.",
+          "en": "Review lubricant identity, compatibility, quantities, intervals, and contamination history; do not mix or add lubricant before checking OEM requirements.",
+          "fr": "Vérifiez l’identité et la compatibilité du lubrifiant, les quantités, intervalles et la contamination; ne mélangez ni n’ajoutez de lubrifiant sans vérifier les exigences OEM."
+        },
+        {
+          "ar": "قارن تقارير المحاذاة والتثبيت وسجل الصيانة؛ أي فحص ميكانيكي يتطلب إيقافًا وعزلًا والتحكم في الطاقة المخزنة.",
+          "en": "Compare alignment, mounting, and maintenance records; mechanical inspection requires shutdown, isolation, and control of stored energy.",
+          "fr": "Comparez les rapports d’alignement, de montage et de maintenance; l’inspection mécanique exige arrêt, consignation et maîtrise des énergies stockées."
+        },
+        {
+          "ar": "قارن طيف الاهتزاز واتجاهاته عند نقاط ثابتة مع خط الأساس؛ لا تشخّص تلف المحمل من الصوت أو قيمة اهتزاز إجمالية واحدة.",
+          "en": "Compare vibration spectra and trends at repeatable points against baseline; do not diagnose bearing damage from sound or one overall vibration value.",
+          "fr": "Comparez les spectres et tendances vibratoires à des points répétables avec la référence; ne diagnostiquez pas un roulement à partir du bruit ou d’une seule valeur globale."
+        }
+      ],
+      "escalation": {
+        "ar": "أوقف وصعّد عند اهتزاز مفاجئ أو شديد أو سخونة متسارعة أو صوت احتكاك/طرق أو خطر انهيار ميكانيكي. لا تقترب من الأجزاء الدوارة.",
+        "en": "Stop and escalate for sudden/severe vibration, rapidly rising temperature, rubbing/knocking, or suspected mechanical failure. Keep clear of rotating parts.",
+        "fr": "Arrêtez et escaladez en cas de vibration soudaine/sévère, hausse rapide de température, frottement/choc ou défaillance mécanique suspectée. Restez à l’écart des pièces tournantes."
+      },
+      "sourceRefs": [
+        "skf-bearing-damage-troubleshooting",
+        "skf-iso-15243-bearing-analysis"
+      ],
+      "evidenceStatus": "source-informed-general-reference-not-model-verified",
+      "sourceScopeNotes": {
+        "skf-bearing-damage-troubleshooting": "General SKF bearing damage guide; printed page references are recorded in the source registry.",
+        "skf-iso-15243-bearing-analysis": "General ISO 15243 damage taxonomy; no machine-specific vibration threshold is supplied."
+      }
+    }
+  ]
+}

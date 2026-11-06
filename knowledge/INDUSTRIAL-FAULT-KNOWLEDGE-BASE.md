@@ -293,3 +293,61 @@ Each new record is a structured troubleshooting hypothesis, not a confirmed diag
 Manufacturer portals in `manufacturer-sources.json` are source-discovery routes only. An entry can be promoted to **OEM-verified** only after a reviewer records the exact equipment model, document title and revision, relevant section/page, claim supported by the document, and review date. A general support page does not establish that a suspected cause applies to a particular machine.
 
 **Important implementation note:** the library count alone does not prove that every record is reachable through the current UI's equipment selectors or diagnostic ranking. UI discoverability and representative matching tests must be checked before release.
+
+
+## 9. Expanded troubleshooting cases — evidence-led, not model-specific
+
+The following additions broaden the symptom-to-hypothesis map. They are **general troubleshooting patterns**, not universal failure probabilities, OEM alarm definitions, or repair instructions. A manufacturer manual and approved site procedure take precedence. The references below support the listed candidate mechanisms only within their stated scope.
+
+### 9.1 Electric motor overheating
+
+| Candidate hypothesis | Evidence that may support investigation | Evidence that may weaken it | Safe next information |
+|---|---|---|---|
+| Mechanical overload or changed duty | Higher recorded load/current, changed process demand, excessive starts or duty relative to the motor's rating | Load/current trend remains at its documented baseline | Compare load, current, speed, duty, nameplate and the exact motor documentation |
+| Cooling or ventilation restriction | Fan/cooling alarm, blocked external airflow path, hot-air recirculation, elevated ambient temperature | Cooling indicators and ambient conditions remain at baseline | Review external airflow and installed indicators; inspect only under an approved safe state |
+| Bearing or electrical condition | Bearing noise/vibration trend, localized bearing-temperature rise, recorded current imbalance | Available bearing and current trends show no abnormal change | Compare repeatable vibration/temperature/current trends; electrical tests and internal inspection require qualified personnel and isolation |
+
+Do not assign a temperature or current limit from a generic reference. Use the exact motor and insulation/drive application documentation. A single temperature reading does not identify the cause.
+
+### 9.2 Compressor overheating
+
+| Candidate hypothesis | Evidence that may support investigation | Evidence that may weaken it | Safe next information |
+|---|---|---|---|
+| Cooling airflow or cooling-water problem | Cooler airflow restriction, cooler fouling, low cooling-water flow/abnormal temperature, hot-air recirculation | Cooling indicators remain within the machine's documented baseline | Review controller alarms, installed flow/temperature indications, ventilation and service history |
+| Oil level, oil filter or lubrication issue | Low-oil indication, oil-filter alarm, rising oil temperature, overdue service | Oil status and service records remain within the exact model's requirements | Review oil status and service history; verify lubricant specification before any intervention |
+| High load or adverse operating environment | Higher demand, frequent load/unload cycling, high ambient temperature | Load and ambient conditions remain stable against baseline | Compare demand, operating hours, cycle history and room conditions |
+
+Atlas Copco's general troubleshooting guidance lists insufficient cooling air, restricted/dirty coolers, low oil, cooling-water issues, and high demand among possible causes of high outlet temperature or low pressure. Its XAS 38–48 manual is model-specific to that mobile compressor family and must not be generalized to stationary or other models. See the references below.
+
+### 9.3 Bearing vibration or abnormal noise
+
+| Candidate hypothesis | Evidence that may support investigation | Evidence that may weaken it | Safe next information |
+|---|---|---|---|
+| Lubrication or contamination | Lubrication alarm/history change, water or particle contamination, lubricant mismatch, rising temperature/noise | Verified lubricant and contamination controls remain within the manufacturer's requirements | Review lubricant identity, compatibility, relubrication history and condition-monitoring trends |
+| Mounting, alignment or looseness | Recent maintenance, recorded alignment deviation, looseness indication, repeatable change after reassembly | Current alignment and mounting records are within approved limits | Compare alignment/mounting reports and vibration at repeatable points; inspect only after isolation |
+| Bearing damage or transmitted vibration | Bearing-frequency pattern in a competent spectrum analysis, rising bearing temperature, similar vibration at adjacent equipment | Available spectrum has no bearing-fault pattern and adjacent equipment remains stable | Compare spectra and trends at consistent locations; do not diagnose bearing damage from sound or one overall vibration value alone |
+
+SKF's troubleshooting material identifies lubrication, lubricant selection, contamination, seals and operating conditions as factors to investigate in bearing problems. Its guidance supports investigation categories, not a diagnosis from a single symptom.
+
+### 9.4 Evidence capture required for every case
+
+Record the asset tag, manufacturer, exact model, serial/configuration where appropriate, firmware/controller revision, operating state, load, timestamp, alarm exactly as displayed, units, measurement point, instrument/source, baseline, recent maintenance/change, and whether the observation is measured, inferred, or unknown.
+
+Use these evidence states consistently:
+- `observed`: directly displayed or measured, with source and timestamp.
+- `reported`: reported by an operator, not independently measured.
+- `inferred`: a hypothesis derived from other evidence; never count it as a direct measurement.
+- `unknown`: unavailable or unreliable; contributes neither support nor contradiction.
+- `contradictory`: credible observations conflict; preserve both and request a discriminating check.
+
+### 9.5 Source register for this expansion
+
+| Source | Scope used | Limitation |
+|---|---|---|
+| Atlas Copco, [Air compressor troubleshooting guide](https://www.atlascopco.com/en-eg/compressors/air-compressor-maintenance-tips/air-compressor-troubleshooting-guide) | General candidate causes for low pressure and high outlet temperature | Manufacturer guidance; exact model and configuration still govern |
+| Atlas Copco, [Causes of compressor overheating](https://www.atlascopco.com/en-ie/compressors/air-compressor-blog/compressor-overheating) | Ventilation, oil/cooling and maintenance factors | General explanatory article, not a model-specific service procedure |
+| Atlas Copco, [XAS 38–48 user manual](https://www.atlascopco.com/content/dam/atlas-copco/local-countries/france/documents/power-technique-france/ape/page-web-liens-utiles-compresseurs/petits-compresseurs-2-%C3%A0-5m%C2%B3/manuels-d%27utilisateurs/Manuel%20Utilisateur%20XAS%2038-48.pdf) | Specific fault table for the XAS 38–48 family | Applies only after exact model/family and manual revision are confirmed |
+| SKF, [Bearing damage and troubleshooting](https://cdn.skfmediahub.skf.com/api/public/0901d1968064c148/pdf_preview_medium/0901d1968064c148_pdf_preview_medium.pdf) | Lubrication, contamination, seals and operating-condition investigation | General bearing guidance; application-specific limits and procedures remain OEM-controlled |
+| SKF, [Bearing damage analysis and ISO 15243](https://evolution.skf.com/us/bearing-damage-analysis-iso-15243-is-here-to-help-you/) | Common categories of bearing damage and evidence investigation | Does not establish the cause of an individual bearing failure |
+
+**Evidence classification:** these are source-informed general hypotheses. They are not OEM model-verified cases, not field-verified outcomes, and not calibrated Bayesian priors.

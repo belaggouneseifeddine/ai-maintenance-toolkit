@@ -46,9 +46,10 @@
       ]
     },
     "bearing|vibration": {
-      "status": "gap-needs-review",
-      "matchingFaultIds": [],
-      "note": "No exact equipmentType=bearing record found. Do not assume mechanical is equivalent without an explicit reviewed mapping."
+      "status": "covered-exact",
+      "matchingFaultIds": [
+        "supplement-bearing-vibration-general"
+      ]
     },
     "plc|not_start": {
       "status": "covered-exact",
@@ -65,6 +66,18 @@
       "status": "gap-needs-review",
       "matchingFaultIds": [],
       "note": "No exact equipmentType=thermal record found. Review whether this is intended as an equipment type or a diagnostic domain."
+    },
+    "motor|overheat": {
+      "status": "covered-exact",
+      "matchingFaultIds": [
+        "supplement-motor-overheat-general"
+      ]
+    },
+    "compressor|overheat": {
+      "status": "covered-exact",
+      "matchingFaultIds": [
+        "supplement-compressor-overheat-general"
+      ]
     }
   }
 }

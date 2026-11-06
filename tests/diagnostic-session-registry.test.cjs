@@ -7,11 +7,11 @@ require("../bayesian-engine.js");
 const engine = require("../diagnostic-session.js");
 const ui = require("../diagnostic-session-ui.js");
 const registry = global.MAINTENANCE_DIAGNOSTIC_FLOWS.flows;
-const adaptiveKeys = new Set(["pump|low_flow", "motor|not_start", "compressor|low_pressure"]);
+const adaptiveKeys = new Set(["pump|low_flow", "motor|not_start", "compressor|low_pressure", "motor|overheat", "compressor|overheat", "bearing|vibration"]);
 const registryOnlyEntries = Object.entries(registry).filter(([key]) => !adaptiveKeys.has(key));
 
 test("all shared registry keys start a guided session without replacing existing adaptive sessions", () => {
-  assert.equal(Object.keys(registry).length, 11);
+  assert.equal(Object.keys(registry).length, 13);
   for (const key of Object.keys(registry)) {
     const [equipment, symptom] = key.split("|");
     const session = engine.createSession({equipment, symptom, language:"ar"});
@@ -30,7 +30,7 @@ test("all shared registry keys start a guided session without replacing existing
 });
 
 test("registry-only answers return curated guidance and never a confirmed cause", () => {
-  assert.equal(registryOnlyEntries.length, 8);
+  assert.equal(registryOnlyEntries.length, 7);
   for (const [key, flow] of registryOnlyEntries) {
     const [equipment, symptom] = key.split("|");
     const session = engine.createSession({equipment, symptom, language:"ar"});
@@ -62,7 +62,7 @@ test("unreviewed registry wording is not shown as if translated into French or E
   }
 });
 
-test("all 11 equipment/symptom combinations are resolved from supported language aliases", () => {
+test("all 13 equipment/symptom combinations are resolved from supported language aliases", () => {
   const cases = [
     ["centrifugal pump", "low flow", "pump|low_flow"],
     ["moteur", "ne démarre pas", "motor|not_start"],
@@ -74,7 +74,9 @@ test("all 11 equipment/symptom combinations are resolved from supported language
     ["bearing", "vibration", "bearing|vibration"],
     ["PLC", "not starting", "plc|not_start"],
     ["conveyor", "belt tracking", "conveyor|tracking"],
-    ["heat exchanger", "overheat", "thermal|overheat"]
+    ["heat exchanger", "overheat", "thermal|overheat"],
+    ["electric motor", "overheating", "motor|overheat"],
+    ["air compressor", "overheating", "compressor|overheat"]
   ];
   for (const [machine, symptom, expected] of cases) {
     assert.equal(ui.resolveInput(machine, symptom), expected, machine + " / " + symptom);
