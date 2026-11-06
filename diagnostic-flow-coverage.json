@@ -46,9 +46,10 @@
       ]
     },
     "bearing|vibration": {
-      "status": "gap-needs-review",
-      "matchingFaultIds": [],
-      "note": "No exact equipmentType=bearing record found. Do not assume mechanical is equivalent without an explicit reviewed mapping."
+      "status": "covered-exact",
+      "matchingFaultIds": [
+        "supplement-bearing-vibration-general"
+      ]
     },
     "plc|not_start": {
       "status": "covered-exact",
@@ -69,13 +70,13 @@
     "motor|overheat": {
       "status": "covered-exact",
       "matchingFaultIds": [
-        "motor-overheating"
+        "supplement-motor-overheat-general"
       ]
     },
     "compressor|overheat": {
       "status": "covered-exact",
       "matchingFaultIds": [
-        "compressor-high-temperature"
+        "supplement-compressor-overheat-general"
       ]
     }
   }
