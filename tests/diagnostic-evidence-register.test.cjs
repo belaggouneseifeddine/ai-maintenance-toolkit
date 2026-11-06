@@ -2,12 +2,14 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 
 const library = require("../faults.json");
+const supplement = require("../knowledge/faults-supplement.json");
 const evidence = require("../diagnostic-evidence-register.json");
+const reasoning = require("../evidence-reasoning.js");
 
 test("evidence register covers every fault without silently claiming verification", () => {
   assert.equal(evidence.schemaVersion, 1);
   assert.ok(evidence.records && typeof evidence.records === "object");
-  const faultIds = new Set(library.faults.map(fault => fault.id));
+  const faultIds = new Set([...library.faults, ...supplement.faults].map(fault => fault.id));
   const registerIds = new Set(Object.keys(evidence.records));
 
   for (const id of faultIds) {
