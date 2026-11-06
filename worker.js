@@ -315,7 +315,8 @@ const KNOWLEDGE_FILES = [
   "knowledge/CHINESE-EUROPEAN-OEM-FAULT-MATRIX-AR-FR-EN.md",
   "knowledge/OEM-MANUFACTURER-INDEX-AR-FR-EN.md",
   "knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md",
-  "knowledge/REFERENCE-ONLY-MASTERING-DIGITAL-ELECTRONICS.md"
+  "knowledge/REFERENCE-ONLY-MASTERING-DIGITAL-ELECTRONICS.md",
+  "knowledge/REFERENCE-ONLY-AUTOMATES-PROGRAMMABLES-INDUSTRIELS.md"
 ];
 const REPO_RAW_BASE = "https://raw.githubusercontent.com/belaggouneseifeddine/ai-maintenance-toolkit/main/";
 // Short per-isolate cache avoids refetching every knowledge file on each diagnosis.
