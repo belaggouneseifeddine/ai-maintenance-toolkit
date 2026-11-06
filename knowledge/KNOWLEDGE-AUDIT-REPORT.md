@@ -4,13 +4,15 @@ Deterministic inventory of the current repository. This report adds no technical
 
 ## Snapshot
 
-- Worker-referenced Markdown documents: **10**
-- Markdown inventory: **3,920 lines**, **56,670 whitespace-separated words**, **288 headings**
-- Structured fault records: **284**
+- Worker-referenced Markdown documents: **11**
+- Markdown inventory: **4,022 lines**, **58,140 whitespace-separated words**, **297 headings**
+- Core structured fault records: **284**
+- Supplemental general fault records (not model-verified): **3**
+- Combined local fault records: **287**
 - Model-specific manual-reviewed fault records (not field-verified): **60**
-- Distinct equipment-type labels in the fault library: **36**
-- Cause entries across fault records: **767**
-- Fault records with an alarmCodes or errorCodes array: **31/284**
+- Distinct equipment-type labels across core and supplemental fault records: **37**
+- Cause entries across core and supplemental fault records: **776**
+- Fault records with an alarmCodes or errorCodes array: **31/287**
 - Chinese/European OEM manufacturer profiles: **28**
 - Structured OEM symptom templates: **38**
 - Official manufacturer/support portal records: **67**
@@ -29,8 +31,9 @@ Deterministic inventory of the current repository. This report adds no technical
 | knowledge/UNIVERSAL-INDUSTRIAL-FAULT-ATLAS-AR-FR-EN.md | 120 | 1,737 | 14 |
 | knowledge/CHINESE-EUROPEAN-OEM-FAULT-MATRIX-AR-FR-EN.md | 432 | 4,549 | 45 |
 | knowledge/OEM-MANUFACTURER-INDEX-AR-FR-EN.md | 139 | 1,606 | 12 |
-| knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md | 2308 | 36,793 | 109 |
+| knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md | 2,308 | 36,793 | 109 |
 | knowledge/REFERENCE-ONLY-MASTERING-DIGITAL-ELECTRONICS.md | 61 | 747 | 7 |
+| knowledge/REFERENCE-ONLY-AUTOMATES-PROGRAMMABLES-INDUSTRIELS.md | 102 | 1,470 | 9 |
 
 ## Source registry and licensing
 
@@ -38,13 +41,15 @@ Deterministic inventory of the current repository. This report adds no technical
 - Source status counts: candidate: 2
 - License counts: CC-BY-4.0: 2
 - Reference-only portals: **5**; permitted for automated fetching by registry: **0/5**
+- Reference-only books: **2**; permitted for automated fetching by registry: **0/2**
+- Supplemental fault source references registered in the manufacturer-source registry: **6**; missing registry entries: **0**
 - Accepted licenses declared by policy: CC-BY-4.0, MIT
 - Human review before knowledge publication required by policy: **yes**
 
 ## Literal equipment-name coverage proxy
 
-- Equipment-type labels literally present in the concatenated Worker-loaded Markdown: **27/36**.
-- Labels with no literal match: boiler, electrical_control, electrical_panel, fan-blower, filtration, fire_safety, industrial_network, power_supply, refrigeration.
+- Equipment-type labels literally present in the concatenated Worker-loaded Markdown: **30/37**.
+- Labels with no literal match: boiler, electrical_control, electrical_panel, fan-blower, filtration, fire_safety, refrigeration.
 
 This is a conservative string-presence check only. It does not prove that a topic is technically covered when a label is present, or absent when a synonym or different wording is used.
 
@@ -52,8 +57,10 @@ This is a conservative string-presence check only. It does not prove that a topi
 
 1. Model-specific manual-reviewed records summarize selected manual claims but are not field-verified; confirm the exact machine-builder configuration and applicable manual before using them operationally.
 2. 2 source-registry entries are not marked approved (approved count: 0). Candidate sources must not be treated as approved technical authority.
-3. 9 equipment labels lack a literal name match in the Worker-loaded documents. Review this list with a subject-matter expert; do not automatically fill the gaps with generated technical content.
+3. 7 equipment labels lack a literal name match in the Worker-loaded documents. Review this list with a subject-matter expert; do not automatically fill the gaps with generated technical content.
 4. 5 reference-only portals are not allowlisted for automated fetching. Keep this restriction until reuse permissions are documented in the registry.
+5. 2 reference-only books are not allowlisted for automated fetching. Keep them as metadata and original navigation indexes until reuse permissions are documented.
+6. Supplemental fault records are general-reference candidates, not model-verified cases; missing source registry entries: none. Human review is still required before operational use.
 
 ## Manufacturer-specific case coverage and limits
 
@@ -73,6 +80,7 @@ This is a conservative string-presence check only. It does not prove that a topi
 ## Method and limits
 
 - The document inventory is derived from the Worker KNOWLEDGE_FILES list, not from every Markdown file in the repository.
+- Fault counts include the core faults.json file and the separately loaded knowledge/faults-supplement.json file; model-specific status remains distinct from general-reference evidence.
 - Word counts use whitespace-separated tokens; they are inventory measures, not measures of quality.
 - This audit does not validate technical correctness, OEM applicability, or the evidentiary support of every statement.
 - No source text is fetched by this script and no new technical content is generated.
