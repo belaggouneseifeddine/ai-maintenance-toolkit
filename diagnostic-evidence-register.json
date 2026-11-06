@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "purpose": "Track evidence provenance without claiming technical verification. This registry is documentation/QA metadata; the current app does not yet consume it at runtime.",
+  "purpose": "The evidence review panel reads this registry to display source provenance and applicability limits. It does not change diagnostic ranking or confirm a cause; only explicitly reviewed claims with exact manufacturer and model scope count as applicable evidence.",
   "statusDefinitions": {
     "source-not-recorded": "No traceable source is recorded in the repository; technical correctness has not been verified by this registry.",
     "review-needed": "A reviewer has identified a candidate source but has not completed scope/claim verification.",
@@ -2186,6 +2186,103 @@
           "verificationLimit": "Applies only to the X-NET/XINJEConfig remote-connection diagnostic table in the cited manual. These are not PLC ladder, servo-drive or machine-builder alarm codes. No printed page number was available in the reviewed extracted text."
         }
       ]
+    },
+    "supplement-motor-overheat-general": {
+      "status": "review-needed",
+      "scope": {
+        "manufacturers": [
+          "ABB",
+          "SKF"
+        ],
+        "models": []
+      },
+      "references": [
+        {
+          "id": "abb-vfd-motor-effects",
+          "title": "Understanding the effects of variable speed drives on motors",
+          "url": "https://new.abb.com/drives/branchen-und-applikationen/motors-and-drives-in-potentially-explosive-atmospheres/effects-of-variable-speed-drives-to-motors",
+          "section": "VFD-fed motor cooling, overload and bearing-current considerations",
+          "page": null,
+          "claim": "ABB discusses reduced self-cooling at lower speed, overload/load-capacity considerations and VFD-related bearing currents.",
+          "verificationLimit": "Applies only when a variable-speed drive is confirmed; no exact motor/drive model or operating limit is verified.",
+          "verifiedClaims": []
+        },
+        {
+          "id": "skf-bearing-damage-troubleshooting",
+          "title": "Bearing damage and failure analysis (SKF)",
+          "url": "https://cdn.skfmediahub.skf.com/api/public/0901d1968064c148/pdf_preview_medium/0901d1968064c148_pdf_preview_medium.pdf?trk=public_post_comment-text",
+          "section": "General bearing damage and condition-monitoring guidance",
+          "page": null,
+          "claim": "General rolling-bearing guidance covers lubrication, contamination, vibration and operating-condition investigation.",
+          "verificationLimit": "Supports only the bearing-related branch; it does not establish an electrical or overload cause for this motor.",
+          "verifiedClaims": []
+        }
+      ],
+      "reviewNote": "General exploratory case only. ABB guidance is limited to VFD-fed motor applications; SKF guidance supports only the bearing-related branch. No exact motor model or field outcome is verified."
+    },
+    "supplement-compressor-overheat-general": {
+      "status": "review-needed",
+      "scope": {
+        "manufacturers": [
+          "Atlas Copco"
+        ],
+        "models": []
+      },
+      "references": [
+        {
+          "id": "atlas-copco-compressor-troubleshooting",
+          "title": "Air compressor troubleshooting guide (Atlas Copco)",
+          "url": "https://www.atlascopco.com/en-sa/compressors/air-compressor-blog/air-compressor-troubleshooting",
+          "section": "General compressor troubleshooting",
+          "page": null,
+          "claim": "General troubleshooting guidance emphasizes checking the exact compressor model and applicable manual before acting.",
+          "verificationLimit": "General guide only; exact model, controller, limits and service procedure are not verified.",
+          "verifiedClaims": []
+        },
+        {
+          "id": "atlas-copco-compressor-overheating",
+          "title": "Compressor overheating: common causes and checks (Atlas Copco)",
+          "url": "https://www.atlascopco.com/en-ie/compressors/air-compressor-blog/compressor-overheating",
+          "section": "Common overheating factors",
+          "page": null,
+          "claim": "General factors include ventilation, cooling, oil and maintenance conditions.",
+          "verificationLimit": "Explanatory article only; it does not establish model-specific thresholds or service procedures.",
+          "verifiedClaims": []
+        }
+      ],
+      "reviewNote": "General-reference case only. Both Atlas Copco references require confirmation against the exact compressor model, controller and manual revision."
+    },
+    "supplement-bearing-vibration-general": {
+      "status": "review-needed",
+      "scope": {
+        "manufacturers": [
+          "SKF"
+        ],
+        "models": []
+      },
+      "references": [
+        {
+          "id": "skf-bearing-damage-troubleshooting",
+          "title": "Bearing damage and failure analysis (SKF)",
+          "url": "https://cdn.skfmediahub.skf.com/api/public/0901d1968064c148/pdf_preview_medium/0901d1968064c148_pdf_preview_medium.pdf?trk=public_post_comment-text",
+          "section": "General bearing damage and condition monitoring guidance",
+          "page": null,
+          "claim": "General guidance covers lubrication, contamination, seals, vibration and operating conditions.",
+          "verificationLimit": "No exact bearing model, fit, clearance, lubrication specification or alarm threshold is verified.",
+          "verifiedClaims": []
+        },
+        {
+          "id": "skf-iso-15243-bearing-analysis",
+          "title": "Bearing damage analysis — ISO 15243 (SKF Evolution)",
+          "url": "https://evolution.skf.com/us/bearing-damage-analysis-iso-15243-is-here-to-help-you/",
+          "section": "General bearing damage taxonomy",
+          "page": null,
+          "claim": "Describes a general classification framework for bearing damage analysis.",
+          "verificationLimit": "Taxonomy only; it does not diagnose the installed bearing or establish application-specific limits.",
+          "verifiedClaims": []
+        }
+      ],
+      "reviewNote": "General bearing-reference case only. Exact bearing designation, arrangement, lubrication, fit, load, speed and application-specific limits remain unverified."
     }
   },
   "generalSafetyReferences": [
