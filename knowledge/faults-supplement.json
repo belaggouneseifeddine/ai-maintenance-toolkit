@@ -269,8 +269,7 @@
       },
       "sourceRefs": [
         "atlas-copco-compressor-troubleshooting",
-        "atlas-copco-compressor-overheating",
-        "atlas-copco-xas-38-48-manual"
+        "atlas-copco-compressor-overheating"
       ],
       "evidenceStatus": "source-informed-general-reference-not-model-verified"
     },
