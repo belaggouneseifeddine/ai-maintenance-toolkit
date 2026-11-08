@@ -309,7 +309,8 @@ function splitKnowledgeDocument(markdown, path) {
     if (/^#{1,4}\s+/.test(line)) {
       flush(i);
       heading = line.replace(/^#{1,4}\s+/, "").trim();
-      startLine = i + 2;
+      // The chunk buffer starts with this heading, whose 1-based line is i + 1.
+      startLine = i + 1;
       buffer = [line];
     } else {
       buffer.push(line);
