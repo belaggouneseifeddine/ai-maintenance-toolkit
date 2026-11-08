@@ -74,6 +74,7 @@ The book's safety chapter discusses risk assessment, emergency-stop architecture
 - The app must never advise bypassing guards, interlocks, trips, emergency stops or safety relays.
 - A standard PLC application or an AI-generated diagnostic sequence must not be treated as a safety function.
 - Do not disconnect inputs one by one, force I/O, or test an actuator in a running production process as a casual troubleshooting step. Such work requires an approved test plan, qualified personnel, a safe machine state and site energy-control procedures.
+- The commissioning section warns that a forced input/output can change machine behaviour and that an element may remain in its imposed state after forcing is stopped. Before return to service, authorized personnel must verify that all force/override states are cleared and confirm the machine's safe state (printed p. 317). This is a safety boundary, not a procedure for forcing I/O.
 - Electrical measurements at live I/O or actuator terminals are not ordinary user checks. They require the correct risk assessment, PPE, instruments, isolation/verification where applicable and qualified electrical personnel.
 - Use current applicable regulations/standards and the exact machine-builder and component-OEM documentation. The book's 2015 examples do not replace current standards.
 
