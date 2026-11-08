@@ -322,7 +322,15 @@
     const answered=session.answeredQuestionIds.concat([next.id]);
     const following=chooseNextQuestion(flow,evidence,answered,session.language);
     const updated={...session,evidence,answeredQuestionIds:answered,status:following?"collecting_evidence":"evidence_review",nextQuestion:following?questionView(following,session.language):null,hypotheses:rank(flow,evidence,session.language)};
-    if(!following) updated.summary={message:session.language==="ar"?"هذه فرضيات مرتبة حسب الأدلة المسجلة، وليست سببًا مؤكدًا. إذا كانت الأدلة غير كافية، اجمع قياسات موثوقة أو صعّد لفني مؤهل.":"These are hypotheses ranked against recorded evidence, not a confirmed cause. If evidence is insufficient, collect reliable measurements or escalate to a qualified technician.",confirmedCause:"",requiresMoreEvidence:true};
+    if(!following) updated.summary={
+      message:session.language==="ar"
+        ?"هذه فرضيات مرتبة حسب الأدلة المسجلة، وليست سببًا مؤكدًا. إذا كانت الأدلة غير كافية، اجمع قياسات موثوقة أو صعّد لفني مؤهل."
+        :session.language==="fr"
+          ?"Ces hypothèses sont classées selon les éléments enregistrés et ne constituent pas une cause confirmée. Si les éléments sont insuffisants, recueillez des mesures fiables ou faites appel à un technicien qualifié."
+          :"These are hypotheses ranked against recorded evidence, not a confirmed cause. If evidence is insufficient, collect reliable measurements or escalate to a qualified technician.",
+      confirmedCause:"",
+      requiresMoreEvidence:true
+    };
     return {ok:true,session:updated};
   }
   function getFlowContract(flowId) {
