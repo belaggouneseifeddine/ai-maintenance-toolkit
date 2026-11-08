@@ -130,22 +130,150 @@ window.MAINTENANCE_DIAGNOSTIC_FLOWS = {
       },
 
       "motor|overheat": {
-        "id":"motor-overheat-v1","equipmentId":"motor","symptomId":"overheat",
-        "question":{"id":"motor-overheat-baseline","text":"هل توجد قراءات موثوقة للحمل والتيار والحرارة مقارنة بخط الأساس؟"},
-        "answers":[
-          {"id":"motor-overheat-change","label":"يوجد تغير عن خط الأساس","guidance":"سجّل الحمل والتيار والحرارة ومكان القياس وقارنها ببيانات المصنع؛ لا تغيّر إعدادات الحماية."},
-          {"id":"motor-overheat-no-change","label":"لا يظهر تغير واضح","guidance":"راجع مؤشرات التبريد وسجل المحامل من مصادر معتمدة؛ لا تفتح لوحة حية."},
-          {"id":"motor-overheat-unknown","label":"لا توجد بيانات موثوقة","guidance":"لا تستنتج السبب دون قياس موثوق؛ اطلب فحصًا مؤهلًا عند الحاجة."}
-        ]
+        "id": "motor-overheat-v1",
+        "equipmentId": "motor",
+        "symptomId": "overheat",
+        "question": {
+          "id": "motor-overheat-baseline",
+          "text": "هل توجد قراءات موثوقة للحمل والتيار والحرارة مقارنة بخط الأساس؟",
+          "translations": {
+            "ar": "هل توجد قراءات موثوقة للحمل والتيار والحرارة مقارنة بخط الأساس؟",
+            "en": "Are reliable load, current, and temperature readings available for comparison with the baseline?",
+            "fr": "Dispose-t-on de mesures fiables de charge, de courant et de température à comparer à la référence ?"
+          }
+        },
+        "answers": [
+          {
+            "id": "motor-overheat-change",
+            "label": "يوجد تغير عن خط الأساس",
+            "labelTranslations": {
+              "ar": "يوجد تغير عن خط الأساس",
+              "en": "A change from baseline is recorded",
+              "fr": "Un écart par rapport à la référence est constaté"
+            },
+            "guidance": "سجّل الحمل والتيار والحرارة ومكان القياس وقارنها ببيانات المصنع؛ لا تغيّر إعدادات الحماية.",
+            "guidanceTranslations": {
+              "ar": "سجّل الحمل والتيار والحرارة ومكان القياس وقارنها ببيانات المصنع؛ لا تغيّر إعدادات الحماية.",
+              "en": "Record load, current, temperature, and measurement location; compare them with manufacturer data. Do not change protection settings.",
+              "fr": "Consignez la charge, le courant, la température et le point de mesure, puis comparez-les aux données du fabricant. Ne modifiez pas les réglages de protection."
+            }
+          },
+          {
+            "id": "motor-overheat-no-change",
+            "label": "لا يظهر تغير واضح",
+            "labelTranslations": {
+              "ar": "لا يظهر تغير واضح",
+              "en": "No clear change is indicated",
+              "fr": "Aucun changement net n’est indiqué"
+            },
+            "guidance": "راجع مؤشرات التبريد وسجل المحامل من مصادر معتمدة؛ لا تفتح لوحة حية.",
+            "guidanceTranslations": {
+              "ar": "راجع مؤشرات التبريد وسجل المحامل من مصادر معتمدة؛ لا تفتح لوحة حية.",
+              "en": "Review cooling indicators and bearing history from approved sources; do not open an energized panel.",
+              "fr": "Consultez les indicateurs de refroidissement et l’historique des roulements à partir de sources approuvées ; n’ouvrez pas une armoire sous tension."
+            }
+          },
+          {
+            "id": "motor-overheat-unknown",
+            "label": "لا توجد بيانات موثوقة",
+            "labelTranslations": {
+              "ar": "لا توجد بيانات موثوقة",
+              "en": "No reliable data is available",
+              "fr": "Aucune donnée fiable n’est disponible"
+            },
+            "guidance": "لا تستنتج السبب دون قياس موثوق؛ اطلب فحصًا مؤهلًا عند الحاجة.",
+            "guidanceTranslations": {
+              "ar": "لا تستنتج السبب دون قياس موثوق؛ اطلب فحصًا مؤهلًا عند الحاجة.",
+              "en": "Do not infer a cause without reliable measurements; request a qualified inspection when needed.",
+              "fr": "Ne déduisez pas de cause sans mesures fiables ; demandez une inspection par une personne qualifiée si nécessaire."
+            }
+          }
+        ],
+        "uiText": {
+          "answerPlaceholder": {
+            "ar": "اختر الإجابة إن كانت معلومة",
+            "en": "Select an answer if known",
+            "fr": "Sélectionnez une réponse si elle est connue"
+          },
+          "emptyMessage": {
+            "ar": "لا يوجد سؤال متخصص لهذا الاختيار بعد؛ سجّل القياسات والإنذار كما هي.",
+            "en": "No dedicated follow-up is available for this selection yet; record readings and alarms as observed.",
+            "fr": "Aucune question de suivi dédiée n’est encore disponible pour ce choix ; consignez les mesures et alarmes telles qu’observées."
+          }
+        }
       },
       "compressor|overheat": {
-        "id":"compressor-overheat-v1","equipmentId":"compressor","symptomId":"overheat",
-        "question":{"id":"compressor-overheat-indicators","text":"ما حالة مؤشرات التبريد والزيت والحمل؟"},
-        "answers":[
-          {"id":"compressor-overheat-cooling","label":"يوجد إنذار تبريد أو تهوية","guidance":"راجع مؤشرات التبريد والتهوية من الواجهة؛ لا تفتح دائرة ساخنة أو مضغوطة."},
-          {"id":"compressor-overheat-oil","label":"يوجد إنذار زيت أو مرشح","guidance":"راجع مستوى الزيت والمرشح وسجل الصيانة وفق دليل الطراز."},
-          {"id":"compressor-overheat-unknown","label":"لا توجد مؤشرات موثوقة","guidance":"لا تخمّن السبب؛ احفظ الإنذار والقراءات واطلب فحصًا مؤهلًا."}
-        ]
+        "id": "compressor-overheat-v1",
+        "equipmentId": "compressor",
+        "symptomId": "overheat",
+        "question": {
+          "id": "compressor-overheat-indicators",
+          "text": "ما حالة مؤشرات التبريد والزيت والحمل؟",
+          "translations": {
+            "ar": "ما حالة مؤشرات التبريد والزيت والحمل؟",
+            "en": "What do the cooling, oil, and load indicators show?",
+            "fr": "Que montrent les indicateurs de refroidissement, d’huile et de charge ?"
+          }
+        },
+        "answers": [
+          {
+            "id": "compressor-overheat-cooling",
+            "label": "يوجد إنذار تبريد أو تهوية",
+            "labelTranslations": {
+              "ar": "يوجد إنذار تبريد أو تهوية",
+              "en": "A cooling or ventilation alarm is present",
+              "fr": "Une alarme de refroidissement ou de ventilation est présente"
+            },
+            "guidance": "راجع مؤشرات التبريد والتهوية من الواجهة؛ لا تفتح دائرة ساخنة أو مضغوطة.",
+            "guidanceTranslations": {
+              "ar": "راجع مؤشرات التبريد والتهوية من الواجهة؛ لا تفتح دائرة ساخنة أو مضغوطة.",
+              "en": "Review cooling and ventilation indicators on the interface; do not open a hot or pressurized circuit.",
+              "fr": "Consultez les indicateurs de refroidissement et de ventilation sur l’interface ; n’ouvrez pas un circuit chaud ou sous pression."
+            }
+          },
+          {
+            "id": "compressor-overheat-oil",
+            "label": "يوجد إنذار زيت أو مرشح",
+            "labelTranslations": {
+              "ar": "يوجد إنذار زيت أو مرشح",
+              "en": "An oil or filter alarm is present",
+              "fr": "Une alarme d’huile ou de filtre est présente"
+            },
+            "guidance": "راجع مستوى الزيت والمرشح وسجل الصيانة وفق دليل الطراز.",
+            "guidanceTranslations": {
+              "ar": "راجع مستوى الزيت والمرشح وسجل الصيانة وفق دليل الطراز.",
+              "en": "Review oil level, filter status, and maintenance history against the exact model manual.",
+              "fr": "Vérifiez le niveau d’huile, l’état du filtre et l’historique d’entretien selon le manuel du modèle exact."
+            }
+          },
+          {
+            "id": "compressor-overheat-unknown",
+            "label": "لا توجد مؤشرات موثوقة",
+            "labelTranslations": {
+              "ar": "لا توجد مؤشرات موثوقة",
+              "en": "No reliable indicators are available",
+              "fr": "Aucun indicateur fiable n’est disponible"
+            },
+            "guidance": "لا تخمّن السبب؛ احفظ الإنذار والقراءات واطلب فحصًا مؤهلًا.",
+            "guidanceTranslations": {
+              "ar": "لا تخمّن السبب؛ احفظ الإنذار والقراءات واطلب فحصًا مؤهلًا.",
+              "en": "Do not guess the cause; save the alarm and readings and request a qualified inspection.",
+              "fr": "Ne devinez pas la cause ; enregistrez l’alarme et les mesures et demandez une inspection qualifiée."
+            }
+          }
+        ],
+        "uiText": {
+          "answerPlaceholder": {
+            "ar": "اختر الإجابة إن كانت معلومة",
+            "en": "Select an answer if known",
+            "fr": "Sélectionnez une réponse si elle est connue"
+          },
+          "emptyMessage": {
+            "ar": "لا يوجد سؤال متخصص لهذا الاختيار بعد؛ سجّل القياسات والإنذار كما هي.",
+            "en": "No dedicated follow-up is available for this selection yet; record readings and alarms as observed.",
+            "fr": "Aucune question de suivi dédiée n’est encore disponible pour ce choix ; consignez les mesures et alarmes telles qu’observées."
+          }
+        }
       },
       "thermal|overheat": {
         "id": "thermal-overheat-v1",
@@ -159,4 +287,37 @@ window.MAINTENANCE_DIAGNOSTIC_FLOWS = {
         ]
       }
     }
+};
+
+/**
+ * Returns a backwards-compatible, language-resolved view of a legacy follow-up flow.
+ * Existing string fields remain intact for older consumers.
+ */
+window.MAINTENANCE_DIAGNOSTIC_FLOWS.getLocalizedFollowup = function (key, language) {
+  const flow = this.flows && this.flows[key];
+  if (!flow) return null;
+  const lang = ["ar", "en", "fr"].includes(language) ? language : "ar";
+  const resolve = (translations, fallback) => {
+    if (translations && typeof translations === "object" && !Array.isArray(translations)) {
+      return translations[lang] || translations.ar || translations.en || fallback || "";
+    }
+    return typeof fallback === "string" ? fallback : "";
+  };
+  const question = flow.question || {};
+  const uiText = flow.uiText || {};
+  return {
+    question: resolve(question.translations, question.text),
+    answers: Array.isArray(flow.answers) ? flow.answers.map(answer => ({
+      ...answer,
+      label: resolve(answer && answer.labelTranslations, answer && answer.label),
+      guidance: resolve(answer && answer.guidanceTranslations, answer && answer.guidance)
+    })) : [],
+    placeholder: resolve(uiText.answerPlaceholder, lang === "en"
+      ? "Select an answer if known"
+      : lang === "fr" ? "Sélectionnez une réponse si elle est connue" : "اختر الإجابة إن كانت معلومة"),
+    emptyMessage: resolve(uiText.emptyMessage, lang === "en"
+      ? "No dedicated follow-up is available for this selection yet; record readings and alarms as observed."
+      : lang === "fr" ? "Aucune question de suivi dédiée n’est encore disponible pour ce choix ; consignez les mesures et alarmes telles qu’observées."
+      : "لا يوجد سؤال متخصص لهذا الاختيار بعد؛ سجّل القياسات والإنذار كما هي.")
+  };
 };
