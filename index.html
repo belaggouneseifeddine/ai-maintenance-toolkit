@@ -362,8 +362,38 @@ const rules={
 const answers=rules[machine+"|"+symptom];
 return answers&&answers[answer]||[];
 }
-function updateFollowup(){const key=$("machine").value+"|"+$("symptom").value;const flow=window.MAINTENANCE_DIAGNOSTIC_FLOWS?.flows?.[key];const item=followupBank[key];const question=flow?.question?.text||item?.q;$("followupPrompt").textContent=question||"لا يوجد سؤال متخصص لهذا الاختيار بعد؛ سجّل القياسات والإنذار كما هي.";const answers=flow?.answers?.map(answer=>answer.label)||item?.a||[];const sel=$("followupAnswer");sel.innerHTML='<option value="">اختر الإجابة إن كانت معلومة</option>';answers.forEach(a=>{const o=document.createElement("option");o.value=a;o.textContent=a;sel.appendChild(o);});}
-$("machine").addEventListener("change",updateFollowup);$("symptom").addEventListener("change",updateFollowup);updateFollowup();
+function updateFollowup(){
+ const key=$("machine").value+"|"+$("symptom").value;
+ const flow=window.MAINTENANCE_DIAGNOSTIC_FLOWS?.flows?.[key];
+ const item=followupBank[key];
+ const language=window.MaintenanceI18n?.getLanguage?.()||"ar";
+ const localized=window.MAINTENANCE_DIAGNOSTIC_FLOWS?.getLocalizedFollowup?.(key,language);
+ const defaults={
+  ar:{question:"لا يوجد سؤال متخصص لهذا الاختيار بعد؛ سجّل القياسات والإنذار كما هي.",placeholder:"اختر الإجابة إن كانت معلومة"},
+  en:{question:"No dedicated follow-up is available for this selection yet; record readings and alarms as observed.",placeholder:"Select an answer if known"},
+  fr:{question:"Aucune question de suivi dédiée n’est encore disponible pour ce choix ; consignez les mesures et alarmes telles qu’observées.",placeholder:"Sélectionnez une réponse si elle est connue"}
+ };
+ const copy=defaults[language]||defaults.ar;
+ const question=localized?.question||flow?.question?.text||item?.q||copy.question;
+ $("followupPrompt").textContent=question;
+ const answers=localized?.answers?.map(answer=>answer.label)||flow?.answers?.map(answer=>answer.label)||item?.a||[];
+ const sel=$("followupAnswer");
+ sel.replaceChildren();
+ const placeholder=document.createElement("option");
+ placeholder.value="";
+ placeholder.textContent=localized?.placeholder||copy.placeholder;
+ sel.appendChild(placeholder);
+ answers.forEach(answer=>{
+  const option=document.createElement("option");
+  option.value=answer;
+  option.textContent=answer;
+  sel.appendChild(option);
+ });
+}
+$("machine").addEventListener("change",updateFollowup);
+$("symptom").addEventListener("change",updateFollowup);
+document.addEventListener("maintenance-language-changed",updateFollowup);
+updateFollowup();
 const symptomGeneral={
 slow_cycle:['قارن زمن الدورة أو سرعة الحركة بخط الأساس؛ راجع الحمل وإشارات الأمر ومؤشرات الطاقة/الضغط المتاحة قبل افتراض سبب ميكانيكي.'],
 intermittent:['سجّل وقت العطل والظروف المصاحبة والإنذارات وتسلسل الأحداث؛ لا تستبدل مكوّنًا قبل وجود دليل قابل للتحقق.'],
