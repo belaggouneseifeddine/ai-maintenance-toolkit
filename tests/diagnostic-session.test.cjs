@@ -215,3 +215,23 @@ test("adaptive evidence keeps stable IDs while returning localized labels for th
   assert.ok(arHypothesis.supportingEvidence.includes("motor-load-high"));
   assert.ok(arHypothesis.supportingEvidenceLabels.includes("الحمل أو التيار أعلى من خط الأساس"));
 });
+
+test("completed diagnostic-session summaries stay in the selected Arabic, French, or English language", () => {
+  const cases = [
+    { language: "ar", expected: "هذه فرضيات مرتبة حسب الأدلة المسجلة" },
+    { language: "fr", expected: "Ces hypothèses sont classées selon les éléments enregistrés" },
+    { language: "en", expected: "These are hypotheses ranked against recorded evidence" }
+  ];
+  for (const item of cases) {
+    let session = engine.createSession({ equipment: "pump", symptom: "low_flow", language: item.language });
+    for (const answer of ["source-low", "restriction-indicated", "demand-changed"]) {
+      const result = engine.answer(session, answer);
+      assert.equal(result.ok, true);
+      session = result.session;
+    }
+    assert.equal(session.status, "evidence_review");
+    assert.match(session.summary.message, new RegExp(item.expected));
+    assert.equal(session.summary.confirmedCause, "");
+    assert.equal(session.summary.requiresMoreEvidence, true);
+  }
+});
