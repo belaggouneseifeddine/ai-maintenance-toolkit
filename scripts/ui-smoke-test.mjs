@@ -54,6 +54,24 @@ try {
   await page.locator('.tab[data-tab="diagnose"]').click();
   await page.locator("#diagnosisForm").waitFor({ state: "visible" });
 
+  const localizedFollowups = [
+    { machine: "motor", language: "ar", question: "هل توجد قراءات موثوقة", answer: "يوجد تغير عن خط الأساس" },
+    { machine: "motor", language: "en", question: "Are reliable load, current, and temperature readings", answer: "A change from baseline is recorded" },
+    { machine: "motor", language: "fr", question: "Dispose-t-on de mesures fiables", answer: "Un écart par rapport à la référence est constaté" },
+    { machine: "compressor", language: "ar", question: "ما حالة مؤشرات التبريد والزيت والحمل", answer: "يوجد إنذار تبريد أو تهوية" },
+    { machine: "compressor", language: "en", question: "What do the cooling, oil, and load indicators show", answer: "A cooling or ventilation alarm is present" },
+    { machine: "compressor", language: "fr", question: "Que montrent les indicateurs de refroidissement", answer: "Une alarme de refroidissement ou de ventilation est présente" }
+  ];
+  for (const item of localizedFollowups) {
+    await page.locator("#machine").selectOption(item.machine);
+    await page.locator("#symptom").selectOption("overheat");
+    await page.locator("#languageSwitcher").selectOption(item.language);
+    await page.waitForFunction(expected => document.querySelector("#followupPrompt")?.textContent.includes(expected), item.question);
+    const options = await page.locator("#followupAnswer option").allTextContents();
+    assert.ok(options[1]?.includes(item.answer), `${item.machine} follow-up answer must be localized in ${item.language}`);
+  }
+  await page.locator("#languageSwitcher").selectOption("ar");
+
   const panels = ["diagnose", "knowledge", "safety", "log", "v03"];
   assert.equal(await page.locator("#homeDashboard").evaluate(el => el.closest("#diagnose") !== null), true, "Dashboard must live inside the Assistant workspace, not be a sixth destination");
   for (const panel of panels) {
@@ -109,7 +127,7 @@ try {
   }
 
   assert.deepEqual(errors, [], `Unexpected uncaught browser errors: ${errors.join("; ")}`);
-  console.log("UI_SMOKE_OK: navigation, Arabic/RTL + French/English LTR, theme toggle, ARIA state, 320–1280px overflow, no uncaught page errors.");
+  console.log("UI_SMOKE_OK: navigation, localized motor/compressor follow-ups in AR/EN/FR, Arabic/RTL + French/English LTR, theme toggle, ARIA state, 320–1280px overflow, no uncaught page errors.");
 } finally {
   if (browser) await browser.close();
   await new Promise(resolveClose => server.close(resolveClose));
