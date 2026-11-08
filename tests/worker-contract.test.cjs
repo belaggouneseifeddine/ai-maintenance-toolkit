@@ -98,7 +98,7 @@ test("knowledge retrieval line ranges include each section heading line", () => 
     "Intro paragraph long enough to be retained by the chunker and provide a reliable line-range regression test.",
     "## Motor overheating",
     "Motor paragraph long enough to be retained by the chunker and provide a reliable line-range regression test."
-  ].join("\\n");
+  ].join("\n");
   const chunks = context.__splitKnowledgeDocument(fixture, "fixture.md");
   assert.equal(chunks.length, 2);
   assert.equal(chunks[0].heading, "Introduction");
