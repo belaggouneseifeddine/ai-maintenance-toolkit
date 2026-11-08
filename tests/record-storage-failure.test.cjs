@@ -4,7 +4,6 @@ const fs = require("node:fs");
 const vm = require("node:vm");
 
 const html = fs.readFileSync(require.resolve("../index.html"), "utf8");
-const agentUi = fs.readFileSync(require.resolve("../agent-ui.js"), "utf8");
 
 test("saveRecords reports a local-storage write failure instead of claiming success", () => {
   const start = html.indexOf("function saveRecords(a){");
@@ -51,7 +50,11 @@ test("failed record persistence aborts form reset, draft deletion, list refresh 
     "JSON import must not display success when local persistence fails"
   );
   assert.ok(
-    agentUi.includes("if(!saveRecords(records))return false;"),
+    html.includes("if(!saveRecords(records))return false;"),
     "the saved-draft conversion path must also abort on persistence failure"
+  );
+  assert.ok(
+    html.includes("all.unshift({...lastDiagnosisDraft,id:lastDiagnosisDraft.id||newRecordId()});if(!saveRecords(all))return;renderRecords();lastDiagnosisDraft=null;"),
+    "the saved draft must not be cleared when conversion to a maintenance record fails"
   );
 });
