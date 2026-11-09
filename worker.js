@@ -323,6 +323,34 @@ const REPO_RAW_BASE = "https://raw.githubusercontent.com/belaggouneseifeddine/ai
 const KNOWLEDGE_CACHE_TTL_MS = 5 * 60 * 1000;
 let knowledgeCache = { expiresAt: 0, documents: null };
 
+async function readRequestBodyLimited(request, maxBytes) {
+  const reader = request.body?.getReader();
+  if (!reader) return { ok: true, text: "" };
+  const chunks = [];
+  let totalBytes = 0;
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      totalBytes += value.byteLength;
+      if (totalBytes > maxBytes) {
+        try { await reader.cancel(); } catch {}
+        return { ok: false, tooLarge: true };
+      }
+      chunks.push(value);
+    }
+  } finally {
+    reader.releaseLock();
+  }
+  const bytes = new Uint8Array(totalBytes);
+  let offset = 0;
+  for (const chunk of chunks) {
+    bytes.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  return { ok: true, text: new TextDecoder().decode(bytes) };
+}
+
 function splitKnowledgeDocument(markdown, path) {
   const lines = String(markdown || "").split(/\r?\n/);
   const chunks = [];
@@ -596,9 +624,9 @@ export default {
     if (length > MAX_BODY_BYTES) return json({ error: "Request body too large." }, 413, origin);
     let body;
     try {
-      const raw = await request.text();
-      if (new TextEncoder().encode(raw).byteLength > MAX_BODY_BYTES) return json({ error: "Request body too large." }, 413, origin);
-      body = JSON.parse(raw);
+      const rawBody = await readRequestBodyLimited(request, MAX_BODY_BYTES);
+      if (!rawBody.ok && rawBody.tooLarge) return json({ error: "Request body too large." }, 413, origin);
+      body = JSON.parse(rawBody.text);
     } catch {
       return json({ error: "Invalid JSON request." }, 400, origin);
     }
