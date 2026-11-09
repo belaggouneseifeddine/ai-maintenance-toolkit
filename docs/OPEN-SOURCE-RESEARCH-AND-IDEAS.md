@@ -165,3 +165,59 @@ For each alert, show baseline, deviation, affected signals, data quality, operat
 - https://github.com/edgeimpulse/expert-projects
 - https://awesome-industrial.github.io/awesome-industrial-automation/
 - https://github.com/ishandutta2007/Awesome-Industrial-AI
+
+
+## 8. Causal and probabilistic reasoning projects
+
+These projects are especially relevant to the longer-term goal of moving from symptom correlation toward explicit causal reasoning. They are research/engineering references, not ready-made industrial fault diagnosis systems.
+
+### 8.1 pgmpy — Bayesian networks and causal reasoning
+- Repository: https://github.com/pgmpy/pgmpy
+- License shown by GitHub: MIT.
+- Capabilities described by the project: Bayesian and dynamic Bayesian networks, causal graphs, structure learning with expert knowledge, parameter estimation, probabilistic inference, causal identification, simulation, and model validation.
+- Potential value: represent relationships such as operating condition → component stress → failure mechanism → observed symptom; update posterior beliefs when new evidence is observed; simulate expected observations.
+- Recommended use: prototype small expert-authored Bayesian networks for one equipment family (for example centrifugal pumps or induction motors). Keep priors and conditional probabilities traceable to engineering evidence or clearly labelled expert assumptions.
+- Caution: structure learned from observational data is not automatically causal. Hidden confounders, operating regime, sensor bias, and small datasets can produce misleading graphs. Do not generate production probabilities from uncalibrated or synthetic-only data.
+
+### 8.2 DoWhy — causal assumptions, refutation, and root-cause analysis
+- Repository: https://github.com/py-why/dowhy
+- License shown by GitHub: MIT.
+- Capabilities described by the project: explicit causal models, estimation, sensitivity analysis, refutation/falsification of assumptions, counterfactuals, and root-cause attribution for changes in distributions.
+- Potential value: encourage a disciplined "what evidence would refute this explanation?" workflow; evaluate causal assumptions instead of accepting a model's explanation at face value.
+- Recommended use: study its refutation and causal-model workflow for offline research and for test design. Consider it for post-event analysis only after the app has a well-defined data model.
+- Caution: many DoWhy examples concern treatment effects or non-industrial domains. It is not an equipment diagnostic knowledge base; transfer requires a valid causal graph and domain-specific validation.
+
+### 8.3 pyAgrum — probabilistic graphical models and decision support
+- Project site: https://pyagrum.gitlab.io/
+- License: dual LGPL-3.0 / MIT according to project documentation; confirm which license applies to the exact component and distribution.
+- Capabilities described by the project: Bayesian networks, probabilistic prediction, causal analysis, influence diagrams, and decision-making under uncertainty.
+- Potential value: influence diagrams may help formalize the trade-off between test value, test cost, downtime, and risk.
+- Recommended use: compare its decision-network abstractions with the proposed information-gain test selector; do not add the dependency to the browser app without a deployment/runtime study.
+
+## 9. Important theoretical distinction
+
+The product should maintain four separate reasoning layers:
+
+1. **Anomaly detection:** "This signal or behavior differs from an expected baseline."
+2. **Fault diagnosis:** "These failure mechanisms plausibly explain the observations."
+3. **Causal analysis:** "This mechanism is supported by a causal model and survives stated assumption checks."
+4. **Prognosis:** "Given a validated degradation model and relevant history, this is a qualified estimate of future condition or remaining life."
+
+A causal graph or Bayesian network can make assumptions explicit, but it does not make them true. Field confirmation, calibration, source traceability, and validation remain mandatory.
+
+## 10. Additional recommended experiment
+
+Create a small synthetic pump fault graph with causes such as suction restriction, air ingress, cavitation, speed reduction, impeller wear, and discharge restriction. Generate cases with known hidden causes and deliberately inject:
+- missing flow or pressure readings,
+- sensor bias and unit mistakes,
+- changes in speed/load,
+- two simultaneous faults,
+- contradictory measurements,
+- a confounding process-demand change.
+
+Compare three strategies:
+- static symptom matching,
+- transparent rule/evidence ranking,
+- Bayesian network plus information-gain test selection.
+
+Evaluate top-k cause ranking, false confidence, number of tests needed, unsafe test proposals, and abstention when evidence is inadequate. Keep synthetic results labelled as simulation only. This experiment can show whether the added reasoning complexity improves decisions before any real-world claim is made.
