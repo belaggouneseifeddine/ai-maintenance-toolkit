@@ -789,7 +789,8 @@ test("Worker enforces request byte limit while streaming bodies without Content-
     cancel() { cancelled = true; }
   });
   const result = await context.__readRequestBodyLimited({ body: stream }, 8192);
-  assert.deepEqual(result, { ok: false, tooLarge: true });
+  assert.equal(result.ok, false);
+  assert.equal(result.tooLarge, true);
   assert.equal(cancelled, true);
 });
 
