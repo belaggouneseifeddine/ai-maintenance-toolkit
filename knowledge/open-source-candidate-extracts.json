@@ -23,60 +23,79 @@
         "id": "centrifugal_pump",
         "sourceName": "离心泵",
         "category": "rotating_equipment",
-        "faultRecordCount": 9
+        "faultRecordCount": 9,
+        "proposedAppEquipmentType": "pump",
+        "mappingStatus": "candidate_mapping_not_verified"
       },
       {
         "id": "three_phase_induction_motor",
         "sourceName": "三相异步电动机",
         "category": "electrical_equipment",
-        "faultRecordCount": 7
+        "faultRecordCount": 7,
+        "proposedAppEquipmentType": "motor",
+        "mappingStatus": "candidate_mapping_not_verified"
       },
       {
         "id": "control_valve",
         "sourceName": "调节阀",
         "category": "valve_and_actuator",
-        "faultRecordCount": 5
+        "faultRecordCount": 5,
+        "proposedAppEquipmentType": "valve",
+        "mappingStatus": "candidate_mapping_not_verified"
       },
       {
         "id": "air_compressor",
         "sourceName": "空气压缩机",
         "category": "rotating_equipment",
-        "faultRecordCount": 8
+        "faultRecordCount": 8,
+        "proposedAppEquipmentType": "compressor",
+        "mappingStatus": "candidate_mapping_not_verified"
       },
       {
         "id": "shell_and_tube_heat_exchanger",
         "sourceName": "管壳式换热器",
         "category": "static_process_equipment",
-        "faultRecordCount": 6
+        "faultRecordCount": 6,
+        "proposedAppEquipmentType": "heat_exchanger",
+        "mappingStatus": "candidate_mapping_not_verified"
       },
       {
         "id": "centrifugal_fan",
         "sourceName": "离心风机",
         "category": "rotating_equipment",
-        "faultRecordCount": 6
+        "faultRecordCount": 6,
+        "proposedAppEquipmentType": "fan-blower",
+        "mappingStatus": "candidate_mapping_not_verified"
       },
       {
         "id": "cooling_tower",
         "sourceName": "冷却塔",
         "category": "thermal_process_equipment",
-        "faultRecordCount": 5
+        "faultRecordCount": 5,
+        "proposedAppEquipmentType": "cooling",
+        "mappingStatus": "candidate_mapping_not_verified"
       },
       {
         "id": "safety_valve",
         "sourceName": "安全阀",
         "category": "pressure_protection_equipment",
-        "faultRecordCount": 4
+        "faultRecordCount": 4,
+        "proposedAppEquipmentType": "valve",
+        "mappingStatus": "candidate_mapping_not_verified"
       },
       {
         "id": "gear_reducer",
         "sourceName": "减速机",
         "category": "rotating_equipment",
-        "faultRecordCount": 5
+        "faultRecordCount": 5,
+        "proposedAppEquipmentType": "gearbox",
+        "mappingStatus": "candidate_mapping_not_verified"
       }
     ],
     "totalFaultRecords": 55,
     "caseHistoryRecords": 1,
-    "genericMaintenanceSchedulesPresent": true
+    "genericMaintenanceSchedulesPresent": true,
+    "mappingNote": "Mappings are proposed aliases to existing app equipmentType vocabulary for gap analysis only; they have not been reconciled against all 60 core/supplemental records or approved diagnostic flows and must not be used by runtime."
   },
   "qualityFindings": {
     "diagnosisStepsIdenticalToPossibleCauses": 42,
