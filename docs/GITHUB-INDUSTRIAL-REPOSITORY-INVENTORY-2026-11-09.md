@@ -71,3 +71,10 @@ No third-party fault text, maintenance schedule, raw case history, numeric signa
 ## Review limits
 
 This is a first-pass inventory on 2026-11-09. The MIMII baseline repository tree and license, NASA NOSA PDF terms, exact UCI landing-page terms at the time of reuse, and individual BearingDatasets source licenses remain open checks. No production code or runtime knowledge was changed by this inventory.
+
+
+## Proposed mapping to the current app taxonomy (not approved)
+
+The nine equipment labels above can be tentatively mapped to the app's existing vocabulary for a future gap comparison: centrifugal pump → `pump`; induction motor → `motor`; control valve and safety valve → `valve`; air compressor → `compressor`; shell-and-tube exchanger → `heat_exchanger`; centrifugal fan → `fan-blower`; cooling tower → `cooling`; gear reducer → `gearbox`.
+
+These are **candidate aliases only**. The app's allowed equipment vocabulary includes these categories, but a category match does not prove that the corresponding fault records, symptoms or diagnostic flows are already covered. The core `faults.json` is a large file and was not fully parsed through the current connector response; therefore no claim of complete deduplication or gap closure is made. Reconcile the aliases against all fault IDs, the supplemental records and `diagnostic-flow-coverage.json` before changing runtime behavior.
