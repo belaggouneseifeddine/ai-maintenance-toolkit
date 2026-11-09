@@ -33,6 +33,12 @@ class OpenSourceCandidateExtractTests(unittest.TestCase):
         )
         self.assertEqual(self.extract["extraction"]["totalFaultRecords"], 55)
 
+    def test_equipment_mappings_are_present_but_unapproved(self):
+        for item in self.extract["extraction"]["equipmentTypes"]:
+            self.assertTrue(item["proposedAppEquipmentType"])
+            self.assertEqual(item["mappingStatus"], "candidate_mapping_not_verified")
+        self.assertIn("not been reconciled", self.extract["extraction"]["mappingNote"])
+
     def test_extract_contains_no_operational_fault_instructions(self):
         for item in self.extract["extraction"]["equipmentTypes"]:
             self.assertNotIn("possible_causes", item)
