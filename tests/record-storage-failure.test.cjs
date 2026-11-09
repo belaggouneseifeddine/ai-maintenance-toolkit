@@ -16,7 +16,7 @@ test("saveRecords reports a local-storage write failure instead of claiming succ
     window: { MaintenanceI18n: null, alert(message) { alerts.push(String(message)); } },
     console: { error(...args) { errors.push(args); } }
   };
-  vm.runInNewContext(html.slice(start, end) + "\\nglobalThis.__saveRecords = saveRecords;", context);
+  vm.runInNewContext(html.slice(start, end) + "\nglobalThis.__saveRecords = saveRecords;", context);
   assert.equal(context.__saveRecords([]), false);
   assert.equal(alerts.length, 1);
   assert.match(alerts[0], /تعذّر حفظ|Could not save|Impossible/);
