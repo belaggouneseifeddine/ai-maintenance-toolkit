@@ -57,6 +57,128 @@
       "licenseStatus": "MIT reported in repository review; re-check exact commit before copying",
       "accessStatus": "public repository",
       "decision": "architecture-reference-only-no-cloud-dependency"
+    },
+    {
+      "id": "industrial-ops-rag-agent",
+      "title": "Industrial Ops RAG Agent — multi-equipment fault catalogue",
+      "url": "https://github.com/yilin-2511/industrial-ops-rag-agent",
+      "type": "structured-fault-catalogue-and-rag-example",
+      "potentialUse": "Coverage discovery and schema study only; reviewed data contains 9 equipment types and 55 fault records.",
+      "reportedScope": "Centrifugal pump, induction motor, control valve, air compressor, shell-and-tube heat exchanger, centrifugal fan, cooling tower, safety valve, gear reducer.",
+      "licenseStatus": "repository-code-MIT; no separate data license found; several records cite GB/T standards or generic manual without page/revision/model claim traceability",
+      "accessStatus": "LICENSE, data/knowledge_base.json, data/fault_cases.json and requirements.txt reviewed",
+      "decision": "discovery-only-no-fault-text-import",
+      "qualityNotes": "42/55 records repeat possible_causes as diagnosis_steps; one case record only; generic maintenance schedules lack scope. Do not treat these as validated tests or instructions."
+    },
+    {
+      "id": "bearing-datasets",
+      "title": "BearingDatasets — normalized bearing and rotating machinery datasets",
+      "url": "https://github.com/VictorBauler/BearingDatasets",
+      "type": "dataset-tooling-catalogue",
+      "potentialUse": "Offline research benchmark adapter for bearings and rotating machinery.",
+      "reportedScope": "README reports 69 datasets; common metadata format; vibration/acoustic signals, labels and operating metadata. Each dataset is downloaded from original source.",
+      "licenseStatus": "repository code MIT; every dataset retains its own original license and must be checked separately",
+      "accessStatus": "README and LICENSE reviewed; package requires Python >=3.10; data not bundled in repository",
+      "decision": "offline-evaluation-only-per-dataset-license-review"
+    },
+    {
+      "id": "awesome-industrial-datasets",
+      "title": "Awesome Industrial Datasets",
+      "url": "https://github.com/jonathanwvd/awesome-industrial-datasets",
+      "type": "dataset-catalog",
+      "potentialUse": "Discover original datasets across industrial domains; not a fault database.",
+      "reportedScope": "README reports 199 datasets across manufacturing, chemical/process, mechanical, oil/gas, energy, robotics and OT security.",
+      "licenseStatus": "catalogue CC-BY-NC-4.0; each linked dataset has separate terms",
+      "accessStatus": "README and LICENSE reviewed",
+      "decision": "discovery-index-only-noncommercial-license"
+    },
+    {
+      "id": "aas-metamodel",
+      "title": "IDTA Asset Administration Shell Metamodel",
+      "url": "https://github.com/admin-shell-io/aas-specs-metamodel",
+      "type": "industrial-asset-ontology-and-schema",
+      "potentialUse": "Reference for normalized equipment identity, properties, relationships and documents; map a compact subset to local app schema.",
+      "reportedScope": "IDTA-01001 metamodel with JSON, RDF and XML schemas.",
+      "licenseStatus": "README declares CC-BY-4.0 and links license; confirm release-specific notice before reuse",
+      "accessStatus": "README reviewed; v3.2 release identified in README",
+      "decision": "schema-reference-high-priority-with-attribution"
+    },
+    {
+      "id": "plantcraft",
+      "title": "PlantCraft — industrial historian and analytics suite",
+      "url": "https://github.com/PlantCraft/PlantCraft",
+      "type": "industrial-platform-architecture",
+      "potentialUse": "Study asset/signal/alarms lineage, offline installation, read-only OT integration and auditability.",
+      "reportedScope": "Historian, analytics, alarms, dashboards, process models, documents and read-only assistant access.",
+      "licenseStatus": "Apache-2.0",
+      "accessStatus": "README and LICENSE reviewed",
+      "decision": "architecture-reference-only-no-runtime-dependency"
+    },
+    {
+      "id": "pgmpy",
+      "title": "pgmpy — probabilistic graphical models",
+      "url": "https://github.com/pgmpy/pgmpy",
+      "type": "probabilistic-reasoning-library",
+      "potentialUse": "Offline comparison prototype for Bayesian networks, dynamic Bayesian networks and causal graphical models.",
+      "reportedScope": "Inference, parameter estimation, model validation, simulation and causal/probabilistic graphical models.",
+      "licenseStatus": "MIT",
+      "accessStatus": "README and LICENSE reviewed",
+      "decision": "offline-prototype-only-no-python-runtime-dependency"
+    },
+    {
+      "id": "nasa-progpy",
+      "title": "NASA ProgPy — prognostics framework",
+      "url": "https://github.com/nasa/progpy",
+      "type": "prognostics-library",
+      "potentialUse": "Research reference for state estimation, prediction, uncertainty propagation and RUL evaluation as a separate module.",
+      "reportedScope": "Prognostics models and algorithms for selected engineering components.",
+      "licenseStatus": "README identifies NASA Open Source Agreement (NOSA) and links license.pdf; PDF obligations not reviewed",
+      "accessStatus": "README reviewed; linked license PDF not text-inspected",
+      "decision": "research-reference-pending-license-review"
+    },
+    {
+      "id": "mimii-baseline",
+      "title": "MIMII baseline",
+      "url": "https://github.com/MIMII-hitachi/mimii_baseline",
+      "type": "acoustic-anomaly-detection-benchmark",
+      "potentialUse": "Potential acoustic anomaly baseline for pumps, valves and fans; not root-cause diagnosis.",
+      "reportedScope": "MIMII benchmark context; exact file tree was not confirmed in this pass.",
+      "licenseStatus": "not-verified; code and dataset terms must be checked separately",
+      "accessStatus": "README.md and LICENSE path fetches returned NOT_FOUND through the inspected route",
+      "decision": "pending-repository-tree-and-license-review"
+    },
+    {
+      "id": "uci-hydraulic-condition-monitoring",
+      "title": "UCI Condition Monitoring of Hydraulic Systems (ID 447)",
+      "url": "https://doi.org/10.24432/C5CW21",
+      "type": "multivariate-hydraulic-telemetry-dataset",
+      "potentialUse": "Isolated benchmark for hydraulic-system condition classification and valve wear; not textual troubleshooting knowledge.",
+      "reportedScope": "UCI dataset ID 447; hydraulic system sensor cycles. Original UCI dataset page must be checked for current attribution and redistribution terms.",
+      "licenseStatus": "catalogue lists CC-BY; verify current UCI terms before redistribution",
+      "accessStatus": "Dataset referenced by JonMuel repository README; data files not imported",
+      "decision": "high-priority-benchmark-pending-primary-terms-check"
+    },
+    {
+      "id": "jonmuel-hydraulic-condition-monitoring",
+      "title": "Hydraulic Condition Monitoring — reproducible ML case study",
+      "url": "https://github.com/JonMuel/hydraulic-condition-monitoring",
+      "type": "ml-model-and-demo",
+      "potentialUse": "Study time-series feature extraction, group-aware validation and serving pattern for valve wear.",
+      "reportedScope": "UCI hydraulic condition monitoring dataset; notebook, exported model, FastAPI demo.",
+      "licenseStatus": "repository code MIT; UCI dataset terms are separate",
+      "accessStatus": "README and LICENSE reviewed",
+      "decision": "offline-evaluation-reference"
+    },
+    {
+      "id": "arx-mfcm-hydraulic-dataset",
+      "title": "ARX-MFCM hydraulic propulsion dataset",
+      "url": "https://github.com/yuanhui12/arx-mfcm-data",
+      "type": "simulated-hydraulic-telemetry-dataset",
+      "potentialUse": "Research-only hydraulic fault-class evaluation after permission and duplicate handling.",
+      "reportedScope": "50 simulation workbooks, five states, 6001 points/record; README reports 30 unique numeric records and 11 duplicate groups crossing the stated train/test split.",
+      "licenseStatus": "no clear license found",
+      "accessStatus": "README reviewed; workbook content not independently evaluated",
+      "decision": "do-not-import-until-license-and-dedup-review"
     }
   ]
 }
