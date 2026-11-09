@@ -4,16 +4,19 @@ Deterministic inventory of the current repository. This report adds no technical
 
 ## Snapshot
 
-- Worker-referenced Markdown documents: **10**
-- Markdown inventory: **3,862 lines**, **55,772 whitespace-separated words**, **282 headings**
-- Structured fault records: **284**
+- Worker-referenced Markdown documents: **11**
+- Markdown inventory: **4,022 lines**, **58,140 whitespace-separated words**, **297 headings**
+- Core structured fault records: **284**
+- Supplemental general fault records (not model-verified): **3**
+- Combined local fault records: **287**
 - Model-specific manual-reviewed fault records (not field-verified): **60**
-- Distinct equipment-type labels in the fault library: **36**
-- Cause entries across fault records: **767**
-- Fault records with an alarmCodes or errorCodes array: **31/284**
+- Distinct equipment-type labels across core and supplemental fault records: **37**
+- Cause entries across core and supplemental fault records: **776**
+- Fault records with an alarmCodes or errorCodes array: **31/287**
 - Chinese/European OEM manufacturer profiles: **28**
 - Structured OEM symptom templates: **38**
-- Official manufacturer/support portal records: **63**
+- Official manufacturer/support portal records: **68**
+- Independent secondary technical references in the source registry: **1**; permitted for automated fetching: **0/1**
 - Structured OEM platform index entries: **29**; model-verified: **0**
 - Structured source-linked OEM diagnostic records: **99**; claim-reviewed: **99**; pending claim-level review: **0**; records missing a printed/PDF page reference: **0**; records missing firmware/applicability scope: **0**; records with a missing manufacturer-source registry entry: **0**
 
@@ -21,7 +24,7 @@ Deterministic inventory of the current repository. This report adds no technical
 
 | Worker-loaded document | Lines | Words | Headings |
 |---|---:|---:|---:|
-| knowledge/INDUSTRIAL-FAULT-KNOWLEDGE-BASE.md | 296 | 4,738 | 40 |
+| knowledge/INDUSTRIAL-FAULT-KNOWLEDGE-BASE.md | 354 | 5,636 | 46 |
 | knowledge/ELECTRIC-MOTOR-AND-VFD-CASEBOOK.md | 129 | 1,429 | 11 |
 | knowledge/INGERSOLL-RAND-COMPRESSOR-CASEBOOK.md | 107 | 1,203 | 14 |
 | knowledge/CENTRIFUGAL-PUMP-TROUBLESHOOTING-DRAFT.md | 114 | 1,024 | 9 |
@@ -31,6 +34,7 @@ Deterministic inventory of the current repository. This report adds no technical
 | knowledge/OEM-MANUFACTURER-INDEX-AR-FR-EN.md | 139 | 1,606 | 12 |
 | knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md | 2308 | 36,793 | 109 |
 | knowledge/REFERENCE-ONLY-MASTERING-DIGITAL-ELECTRONICS.md | 61 | 747 | 7 |
+| knowledge/REFERENCE-ONLY-AUTOMATES-PROGRAMMABLES-INDUSTRIELS.md | 102 | 1,470 | 9 |
 
 ## Source registry and licensing
 
@@ -38,13 +42,18 @@ Deterministic inventory of the current repository. This report adds no technical
 - Source status counts: candidate: 2
 - License counts: CC-BY-4.0: 2
 - Reference-only portals: **5**; permitted for automated fetching by registry: **0/5**
+- Reference-only books: **2**; permitted for automated fetching by registry: **0/2**
+- Supplemental fault source references registered in the manufacturer-source registry: **5**; missing registry entries: **0**
+- Supplemental causes with explicit sourceRefs: **9/9**; missing cause-level source registry entries: **0**
+- Supplemental evidence sources content-reviewed in this pass: **5/5**; related manuals not content-reviewed and excluded from supporting sourceRefs: **1**
+- Related model-scoped manuals excluded from general-case supporting sourceRefs: **2**; content-reviewed: **1**; not content-reviewed: **1**
 - Accepted licenses declared by policy: CC-BY-4.0, MIT
 - Human review before knowledge publication required by policy: **yes**
 
 ## Literal equipment-name coverage proxy
 
-- Equipment-type labels literally present in the concatenated Worker-loaded Markdown: **27/36**.
-- Labels with no literal match: boiler, electrical_control, electrical_panel, fan-blower, filtration, fire_safety, industrial_network, power_supply, refrigeration.
+- Equipment-type labels literally present in the concatenated Worker-loaded Markdown: **30/37**.
+- Labels with no literal match: boiler, electrical_control, electrical_panel, fan-blower, filtration, fire_safety, refrigeration.
 
 This is a conservative string-presence check only. It does not prove that a topic is technically covered when a label is present, or absent when a synonym or different wording is used.
 
@@ -52,15 +61,17 @@ This is a conservative string-presence check only. It does not prove that a topi
 
 1. Model-specific manual-reviewed records summarize selected manual claims but are not field-verified; confirm the exact machine-builder configuration and applicable manual before using them operationally.
 2. 2 source-registry entries are not marked approved (approved count: 0). Candidate sources must not be treated as approved technical authority.
-3. 9 equipment labels lack a literal name match in the Worker-loaded documents. Review this list with a subject-matter expert; do not automatically fill the gaps with generated technical content.
+3. 7 equipment labels lack a literal name match in the Worker-loaded documents. Review this list with a subject-matter expert; do not automatically fill the gaps with generated technical content.
 4. 5 reference-only portals are not allowlisted for automated fetching. Keep this restriction until reuse permissions are documented in the registry.
+5. 2 reference-only books are not allowlisted for automated fetching. Keep them as metadata and original navigation indexes until reuse permissions are documented.
+6. Supplemental fault records are general-reference candidates, not model-verified cases; missing record-level source registry entries: none; missing cause-level source registry entries: none. Human review remains required before operational use; model-scoped or unreviewed related manuals must remain excluded from supporting sourceRefs.
 
 ## Manufacturer-specific case coverage and limits
 
 - The OEM matrix maps 28 manufacturer/controller families to official documentation routes and contains 38 structured symptom templates.
 - The OEM platform index lists 29 machine builders and component OEMs; 0 are model-verified. These entries are discovery routes only until exact model/manual evidence is reviewed.
 - These templates are not verified alarm-code definitions. A verified case requires exact model, controller/drive, firmware, manual revision, page/section, supported claim, and human review.
-- The 63-entry OEM source-discovery registry is separate from the 2 license-tracked research sources above. Its URLs do not prove that a particular fault cause applies.
+- The 68-entry OEM source-discovery registry is separate from the 2 license-tracked research sources above. Its URLs do not prove that a particular fault cause applies.
 - OEM record registry references are checked against the manufacturer-source registry; missing references: none. The source link alone is not evidence unless the recorded manual section supports the claim.
 - The structured OEM file contains 99 claim-reviewed records and 0 records pending claim-level review. Pending records must not be presented as source-verified.
 
@@ -73,6 +84,7 @@ This is a conservative string-presence check only. It does not prove that a topi
 ## Method and limits
 
 - The document inventory is derived from the Worker KNOWLEDGE_FILES list, not from every Markdown file in the repository.
+- Fault counts include the core faults.json file and the separately loaded knowledge/faults-supplement.json file; model-specific status remains distinct from general-reference evidence.
 - Word counts use whitespace-separated tokens; they are inventory measures, not measures of quality.
 - This audit does not validate technical correctness, OEM applicability, or the evidentiary support of every statement.
 - No source text is fetched by this script and no new technical content is generated.

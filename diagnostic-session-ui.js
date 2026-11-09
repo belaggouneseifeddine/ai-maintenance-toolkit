@@ -4,6 +4,8 @@
   let session = null;
   let flowKey = "";
   let flowNotice = "";
+  let evidenceRecords = null;
+  let evidenceRegistryPromise = null;
 
   function lang() {
     const value = root.MaintenanceI18n && root.MaintenanceI18n.getLanguage
@@ -14,6 +16,22 @@
   function copy(ar, en, fr) {
     const language = lang();
     return language === "en" ? en : language === "fr" ? fr : ar;
+  }
+
+  function loadEvidenceRegistry() {
+    if (evidenceRegistryPromise) return evidenceRegistryPromise;
+    evidenceRegistryPromise = Promise.resolve().then(() => {
+      if (typeof root.fetch !== "function") return null;
+      return root.fetch("./diagnostic-evidence-register.json", { method: "GET", credentials: "same-origin" })
+        .then(response => response && response.ok ? response.json() : null);
+    }).then(registry => {
+      evidenceRecords = registry && registry.records && typeof registry.records === "object" ? registry.records : {};
+      return evidenceRecords;
+    }).catch(() => {
+      evidenceRecords = {};
+      return evidenceRecords;
+    });
+    return evidenceRegistryPromise;
   }
 
   function resolveInput(machineValue, symptomValue) {
@@ -80,6 +98,84 @@
     });
     section.appendChild(list);
     parent.appendChild(section);
+  }
+
+  function addSourceReferences(parent, hypothesis) {
+    const sourceIds = Array.isArray(hypothesis.sourceRefs)
+      ? hypothesis.sourceRefs.filter(id => typeof id === "string" && id)
+      : [];
+    if (!hypothesis.knowledgeRecordId || !sourceIds.length) return;
+
+    const details = root.document.createElement("details");
+    details.className = "hypothesis-sources";
+    const summary = root.document.createElement("summary");
+    summary.textContent = copy("المراجع وحدود انطباقها", "References and applicability limits", "Références et limites d’applicabilité");
+    details.appendChild(summary);
+
+    const record = evidenceRecords && evidenceRecords[hypothesis.knowledgeRecordId];
+    if (!record) {
+      const unavailable = root.document.createElement("p");
+      unavailable.className = "hint";
+      unavailable.textContent = copy("سجل المراجع غير متاح الآن؛ تبقى الفرضية أولية.", "The source register is unavailable; the hypothesis remains provisional.", "Le registre des sources est indisponible ; l’hypothèse reste provisoire.");
+      details.appendChild(unavailable);
+      parent.appendChild(details);
+      return;
+    }
+
+    const scopeNote = root.document.createElement("p");
+    scopeNote.className = "hint";
+    scopeNote.textContent = record.status === "review-needed" || (record.scope && record.scope.scopeType === "general-reference")
+      ? copy("مراجع عامة فقط؛ لم يُثبت انطباقها على طراز محدد ولا تؤكد سبب العطل.", "General references only; not verified for a specific model and do not confirm a fault cause.", "Références générales uniquement ; non vérifiées pour un modèle précis et ne confirmant pas une cause.")
+      : copy("راجع نطاق المصدر والادعاء قبل اعتباره دليلًا منطبقًا.", "Check source scope and claim applicability before treating it as evidence.", "Vérifiez le périmètre et l’applicabilité de l’affirmation avant de la considérer comme preuve.");
+    details.appendChild(scopeNote);
+
+    const refs = Array.isArray(record.references)
+      ? record.references.filter(ref => ref && sourceIds.includes(ref.id))
+      : [];
+    const list = root.document.createElement("ul");
+    if (!refs.length) {
+      const missing = root.document.createElement("li");
+      missing.textContent = copy("لا يوجد مرجع مطابق مسجل لهذه الفرضية.", "No matching source is recorded for this hypothesis.", "Aucune source correspondante n’est enregistrée pour cette hypothèse.");
+      list.appendChild(missing);
+    }
+    refs.forEach(ref => {
+      const line = root.document.createElement("li");
+      const url = typeof ref.url === "string" && ref.url.startsWith("https://") ? ref.url : "";
+      const title = root.document.createElement(url ? "a" : "span");
+      title.textContent = ref.title || ref.id || copy("مرجع فني", "Technical reference", "Référence technique");
+      if (url) {
+        title.href = url;
+        title.target = "_blank";
+        title.rel = "noopener noreferrer";
+      }
+      line.appendChild(title);
+      if (ref.section) {
+        const section = root.document.createElement("p");
+        section.className = "hint";
+        section.textContent = copy("القسم: ", "Section: ", "Section : ") + ref.section;
+        line.appendChild(section);
+      }
+      if (ref.page) {
+        const page = root.document.createElement("p");
+        page.className = "hint";
+        page.textContent = copy("الصفحات: ", "Pages: ", "Pages : ") + ref.page;
+        line.appendChild(page);
+      }
+      if (ref.claim) {
+        const claim = root.document.createElement("p");
+        claim.textContent = ref.claim;
+        line.appendChild(claim);
+      }
+      if (ref.verificationLimit) {
+        const limit = root.document.createElement("p");
+        limit.className = "hint";
+        limit.textContent = ref.verificationLimit;
+        line.appendChild(limit);
+      }
+      list.appendChild(line);
+    });
+    details.appendChild(list);
+    parent.appendChild(details);
   }
 
   function render() {
@@ -190,8 +286,8 @@
       summary.textContent = state + (band ? " · " + band : "");
       item.appendChild(summary);
 
-      addEvidenceList(item, copy("أدلة مؤيدة", "Supporting evidence", "Indices favorables"), hypothesis.supportingEvidence, "supports");
-      addEvidenceList(item, copy("أدلة معارضة", "Contradicting evidence", "Indices défavorables"), hypothesis.contradictingEvidence, "contradicts");
+      addEvidenceList(item, copy("أدلة مؤيدة", "Supporting evidence", "Indices favorables"), hypothesis.supportingEvidenceLabels || hypothesis.supportingEvidence, "supports");
+      addEvidenceList(item, copy("أدلة معارضة", "Contradicting evidence", "Indices défavorables"), hypothesis.contradictingEvidenceLabels || hypothesis.contradictingEvidence, "contradicts");
       if (Array.isArray(hypothesis.checks) && hypothesis.checks.length) {
         const details = root.document.createElement("details");
         const summaryNode = root.document.createElement("summary");
@@ -205,6 +301,7 @@
         details.append(summaryNode, list);
         item.appendChild(details);
       }
+      addSourceReferences(item, hypothesis);
       hypotheses.appendChild(item);
     });
 
@@ -287,8 +384,12 @@
         label: hypothesis.label,
         status: hypothesis.status,
         score: hypothesis.score,
+        knowledgeRecordId: hypothesis.knowledgeRecordId || "",
+        sourceRefs: Array.isArray(hypothesis.sourceRefs) ? hypothesis.sourceRefs.slice() : [],
         supportingEvidence: Array.isArray(hypothesis.supportingEvidence) ? hypothesis.supportingEvidence.slice() : [],
+        supportingEvidenceLabels: Array.isArray(hypothesis.supportingEvidenceLabels) ? hypothesis.supportingEvidenceLabels.slice() : [],
         contradictingEvidence: Array.isArray(hypothesis.contradictingEvidence) ? hypothesis.contradictingEvidence.slice() : [],
+        contradictingEvidenceLabels: Array.isArray(hypothesis.contradictingEvidenceLabels) ? hypothesis.contradictingEvidenceLabels.slice() : [],
         checks: Array.isArray(hypothesis.checks) ? hypothesis.checks.slice() : []
       }))
     };
@@ -317,6 +418,7 @@
   }
 
   function init() {
+    const registryPromise = loadEvidenceRegistry();
     ["aiMachine", "aiSymptom"].forEach(id => {
       const field = $(id);
       if (field) {
@@ -327,6 +429,7 @@
     $("recordDynamicAnswer")?.addEventListener("click", answer);
     root.document?.addEventListener("maintenance-language-changed", onLanguageChanged);
     start();
+    registryPromise.then(() => { if (session) render(); });
   }
 
   root.MaintenanceDiagnosticSessionUI = Object.freeze({ getPayload, init, resolveInput });

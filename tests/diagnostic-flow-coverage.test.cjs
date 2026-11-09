@@ -2,10 +2,11 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 
 const library = require("../faults.json");
+const supplement = require("../knowledge/faults-supplement.json");
 const coverage = require("../diagnostic-flow-coverage.json");
 
 test("every declared flow has an explicit coverage decision and truthful matching fault IDs", () => {
-  const faults = library.faults;
+  const faults = [...library.faults, ...(Array.isArray(supplement.faults) ? supplement.faults : [])];
   const flowKeys = Object.keys(coverage.flows);
   assert.ok(flowKeys.length > 0, "flow coverage register must not be empty");
 

@@ -1,4 +1,4 @@
-const CACHE_NAME = "maintenance-ai-toolkit-v54";
+const CACHE_NAME = "maintenance-ai-toolkit-v56";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -18,6 +18,7 @@ const APP_SHELL = [
   "./diagnostic-session-ui.js",
   "./oem-lookup.js",
   "./faults.json",
+  "./knowledge/faults-supplement.json",
   "./knowledge/manufacturer-sources.json",
   "./knowledge/oem-platform-index.json",
   "./knowledge/oem-verified-faults.json",
@@ -36,16 +37,41 @@ const APP_SHELL = [
   "./navigation-redesign.js"
 ];
 
+const OPTIONAL_APP_SHELL = [
+  "./diagnostic-evidence-register.json",
+  "./knowledge/manufacturer-sources.json",
+  "./knowledge/oem-platform-index.json",
+  "./knowledge/oem-verified-faults.json",
+  "./knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md",
+  "./knowledge/manufacturer-machine-fault-matrix.json",
+  "./decision-trees.json"
+];
+const CORE_APP_SHELL = APP_SHELL.filter(asset => !OPTIONAL_APP_SHELL.includes(asset));
+
 self.addEventListener("install", event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(APP_SHELL))
-      .catch(error => {
-        // Keep the worker installable even if an optional shell asset is unavailable.
-        console.warn("Maintenance Toolkit app-shell cache was incomplete.", error);
-      })
-  );
-  self.skipWaiting();
+  event.waitUntil((async () => {
+    const cache = await caches.open(CACHE_NAME);
+
+    // Core UI, local diagnostic code and the local fault library must be cached
+    // together. If one is missing, keep the previous worker rather than install
+    // a partially usable offline application.
+    await cache.addAll(CORE_APP_SHELL);
+
+    // Optional reference bundles are cached independently so one unavailable
+    // document cannot prevent the core app from becoming available offline.
+    const optionalResults = await Promise.allSettled(
+      OPTIONAL_APP_SHELL.map(asset => cache.add(asset))
+    );
+    const failedOptionalAssets = optionalResults.filter(result => result.status === "rejected").length;
+    if (failedOptionalAssets) {
+      console.warn("Maintenance Toolkit optional offline references were not all cached.", {
+        failedOptionalAssets,
+        totalOptionalAssets: OPTIONAL_APP_SHELL.length
+      });
+    }
+
+    await self.skipWaiting();
+  })());
 });
 
 self.addEventListener("activate", event => {

@@ -139,6 +139,23 @@
       "fetch_allowed": false,
       "repository_index": "knowledge/REFERENCE-ONLY-MASTERING-DIGITAL-ELECTRONICS.md",
       "notes": "Bibliographic metadata and chapter locator only. Do not store or republish PDF text, figures, tables, or extensive paraphrases. Not an OEM or model-specific source."
+    },
+    {
+      "id": "automates-programmables-industriels-bolton-2015",
+      "title": "Automates programmables industriels",
+      "author": "William Bolton",
+      "translator": "Hervé Soulard",
+      "publisher": "Dunod; original English edition published by Elsevier",
+      "year": 2015,
+      "edition": "2nd French edition; translation of the 6th English edition",
+      "french_isbn": "978-2-10-074219-6",
+      "original_english_isbn": "978-0-12-802929-9",
+      "copyright": "© Elsevier Ltd. 2015; French translation © Dunod 2010 and 2015",
+      "page_count": 440,
+      "reuse_status": "reference_only_no_open_license_recorded",
+      "fetch_allowed": false,
+      "repository_index": "knowledge/REFERENCE-ONLY-AUTOMATES-PROGRAMMABLES-INDUSTRIELS.md",
+      "notes": "Bibliographic metadata and original chapter locator only. Do not store or republish PDF text, diagrams, figures, tables, or extensive paraphrases. General PLC textbook; not an OEM or model-specific service manual."
     }
   ]
 }

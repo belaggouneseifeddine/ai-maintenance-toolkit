@@ -6,6 +6,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 const worker = readFileSync("worker.js", "utf8");
 const registry = JSON.parse(readFileSync("knowledge/sources.json", "utf8"));
 const faultLibrary = JSON.parse(readFileSync("faults.json", "utf8"));
+const supplementalFaultLibrary = JSON.parse(readFileSync("knowledge/faults-supplement.json", "utf8"));
 const manufacturerSources = JSON.parse(readFileSync("knowledge/manufacturer-sources.json", "utf8"));
 const manufacturerMatrix = JSON.parse(readFileSync("knowledge/manufacturer-machine-fault-matrix.json", "utf8"));
 const oemPlatformIndex = JSON.parse(readFileSync("knowledge/oem-platform-index.json", "utf8"));
@@ -27,11 +28,13 @@ const documents = documentPaths.map(path => {
   };
 });
 const faults = Array.isArray(faultLibrary.faults) ? faultLibrary.faults : [];
-const equipmentTypes = [...new Set(faults.map(fault => String(fault.equipmentType || "").trim()).filter(Boolean))].sort();
+const supplementalFaults = Array.isArray(supplementalFaultLibrary.faults) ? supplementalFaultLibrary.faults : [];
+const allFaults = [...faults, ...supplementalFaults];
+const equipmentTypes = [...new Set(allFaults.map(fault => String(fault.equipmentType || "").trim()).filter(Boolean))].sort();
 const corpus = documents.map(document => document.text).join("\n").toLocaleLowerCase();
 const literalMentioned = equipmentTypes.filter(type => corpus.includes(type.replace(/_/g, " ").toLocaleLowerCase()));
 const literalMissing = equipmentTypes.filter(type => !literalMentioned.includes(type));
-const causeCount = faults.reduce((count, fault) => count + (Array.isArray(fault.causes) ? fault.causes.length : 0), 0);
+const causeCount = allFaults.reduce((count, fault) => count + (Array.isArray(fault.causes) ? fault.causes.length : 0), 0);
 const statusCounts = (registry.sources || []).reduce((counts, source) => {
   const status = String(source.status || "missing-status");
   counts[status] = (counts[status] || 0) + 1;
@@ -42,15 +45,18 @@ const licenseCounts = (registry.sources || []).reduce((counts, source) => {
   counts[license] = (counts[license] || 0) + 1;
   return counts;
 }, {});
-const structuredAlarmIndexCount = faults.filter(fault =>
+const structuredAlarmIndexCount = allFaults.filter(fault =>
   Array.isArray(fault.alarmCodes) || Array.isArray(fault.errorCodes)
 ).length;
 const referencePortals = registry.reference_only_portals || [];
+const referenceOnlyBooks = registry.reference_only_books || [];
+const fetchableBooks = referenceOnlyBooks.filter(book => book.fetch_allowed === true).length;
 const fetchablePortals = referencePortals.filter(portal => portal.fetch_allowed === true).length;
 const approvedCount = statusCounts.approved || 0;
 const nonApprovedCount = (registry.sources || []).length - approvedCount;
-const modelReviewedFaultCount = faults.filter(fault => fault.evidenceStatus === "model-specific-manual-reviewed").length;
-const manufacturerPortalCount = (manufacturerSources.sources || []).length;
+const modelReviewedFaultCount = allFaults.filter(fault => fault.evidenceStatus === "model-specific-manual-reviewed").length;
+const manufacturerPortalCount = (manufacturerSources.sources || []).filter(source => source.sourceClass !== "secondary_industry_reference").length;
+const independentSecondaryReferenceCount = (manufacturerSources.sources || []).filter(source => source.sourceClass === "secondary_industry_reference").length;
 const manufacturerProfileCount = (manufacturerMatrix.manufacturerProfiles || []).length;
 const manufacturerTemplateCount = (manufacturerMatrix.caseTemplates || []).length;
 const oemPlatformCount = (oemPlatformIndex.manufacturers || []).length;
@@ -62,6 +68,33 @@ const oemRecordsMissingPageRef = (oemVerifiedFaults.records || []).filter(record
 const oemRecordsMissingFirmwareScope = (oemVerifiedFaults.records || []).filter(record => !String(record.firmwareScope || "").trim()).length;
 const oemVerifiedSourceIds = new Set((oemVerifiedFaults.records || []).map(record => record.source && record.source.sourceId).filter(Boolean));
 const missingOemSources = [...oemVerifiedSourceIds].filter(id => !(manufacturerSources.sources || []).some(source => source.id === id));
+const supplementalSourceIds = new Set(supplementalFaults.flatMap(fault => Array.isArray(fault.sourceRefs) ? fault.sourceRefs : []));
+const missingSupplementSources = [...supplementalSourceIds].filter(id => !(manufacturerSources.sources || []).some(source => source.id === id));
+const supplementalCauses = supplementalFaults.flatMap(fault => Array.isArray(fault.causes) ? fault.causes : []);
+const supplementalCausesWithSourceRefs = supplementalCauses.filter(cause => Array.isArray(cause.sourceRefs) && cause.sourceRefs.length > 0).length;
+const supplementalCauseSourceIds = new Set(supplementalCauses.flatMap(cause => Array.isArray(cause.sourceRefs) ? cause.sourceRefs : []));
+const missingSupplementCauseSources = [...supplementalCauseSourceIds].filter(id => !(manufacturerSources.sources || []).some(source => source.id === id));
+const supplementalSourcesContentReviewed = [...supplementalSourceIds].filter(id => {
+  const source = (manufacturerSources.sources || []).find(item => item.id === id);
+  return source && source.reviewStatus === "content_reviewed";
+}).length;
+const supplementalRelatedManualIds = new Set(supplementalFaults.flatMap(fault =>
+  Array.isArray(fault.sourceScopeNotes?.relatedManualRefs) ? fault.sourceScopeNotes.relatedManualRefs : []
+));
+const unreviewedRelatedManualIds = [...supplementalRelatedManualIds].filter(id => {
+  const source = (manufacturerSources.sources || []).find(item => item.id === id);
+  return !source || source.reviewStatus !== "content_reviewed";
+});
+const modelScopedRelatedManualIds = [...supplementalRelatedManualIds].filter(id => {
+  const source = (manufacturerSources.sources || []).find(item => item.id === id);
+  const type = String(source?.type || "") + " " + String(source?.sourceType || "");
+  const scope = String(source?.modelScope || "") + " " + String(source?.scope || "");
+  return /manual/i.test(type) && /Baldor-Reliance|XAS 38-48|family|only|specific model/i.test(scope);
+});
+const modelScopedRelatedManualsContentReviewed = modelScopedRelatedManualIds.filter(id => {
+  const source = (manufacturerSources.sources || []).find(item => item.id === id);
+  return source && source.reviewStatus === "content_reviewed";
+}).length;
 const fmt = value => Number(value).toLocaleString("en-US");
 
 const report = [
@@ -73,14 +106,17 @@ const report = [
   "",
   "- Worker-referenced Markdown documents: **" + documents.length + "**",
   "- Markdown inventory: **" + fmt(documents.reduce((sum, doc) => sum + doc.lines, 0)) + " lines**, **" + fmt(documents.reduce((sum, doc) => sum + doc.words, 0)) + " whitespace-separated words**, **" + documents.reduce((sum, doc) => sum + doc.headings, 0) + " headings**",
-  "- Structured fault records: **" + faults.length + "**",
+  "- Core structured fault records: **" + faults.length + "**",
+  "- Supplemental general fault records (not model-verified): **" + supplementalFaults.length + "**",
+  "- Combined local fault records: **" + allFaults.length + "**",
   "- Model-specific manual-reviewed fault records (not field-verified): **" + modelReviewedFaultCount + "**",
-  "- Distinct equipment-type labels in the fault library: **" + equipmentTypes.length + "**",
-  "- Cause entries across fault records: **" + causeCount + "**",
-  "- Fault records with an alarmCodes or errorCodes array: **" + structuredAlarmIndexCount + "/" + faults.length + "**",
+  "- Distinct equipment-type labels across core and supplemental fault records: **" + equipmentTypes.length + "**",
+  "- Cause entries across core and supplemental fault records: **" + causeCount + "**",
+  "- Fault records with an alarmCodes or errorCodes array: **" + structuredAlarmIndexCount + "/" + allFaults.length + "**",
   "- Chinese/European OEM manufacturer profiles: **" + manufacturerProfileCount + "**",
   "- Structured OEM symptom templates: **" + manufacturerTemplateCount + "**",
   "- Official manufacturer/support portal records: **" + manufacturerPortalCount + "**",
+  "- Independent secondary technical references in the source registry: **" + independentSecondaryReferenceCount + "**; permitted for automated fetching: **" + (manufacturerSources.sources || []).filter(source => source.sourceClass === "secondary_industry_reference" && source.fetch_allowed === true).length + "/" + independentSecondaryReferenceCount + "**",
   "- Structured OEM platform index entries: **" + oemPlatformCount + "**; model-verified: **" + modelVerifiedPlatformCount + "**",
   "- Structured source-linked OEM diagnostic records: **" + oemVerifiedRecordCount + "**; claim-reviewed: **" + oemClaimReviewedCount + "**; pending claim-level review: **" + oemPendingClaimReviewCount + "**; records missing a printed/PDF page reference: **" + oemRecordsMissingPageRef + "**; records missing firmware/applicability scope: **" + oemRecordsMissingFirmwareScope + "**; records with a missing manufacturer-source registry entry: **" + missingOemSources.length + "**",
   "",
@@ -96,6 +132,11 @@ const report = [
   "- Source status counts: " + (Object.entries(statusCounts).sort(([a], [b]) => a.localeCompare(b)).map(([status, count]) => status + ": " + count).join(", ") || "none"),
   "- License counts: " + (Object.entries(licenseCounts).sort(([a], [b]) => a.localeCompare(b)).map(([license, count]) => license + ": " + count).join(", ") || "none"),
   "- Reference-only portals: **" + referencePortals.length + "**; permitted for automated fetching by registry: **" + fetchablePortals + "/" + referencePortals.length + "**",
+  "- Reference-only books: **" + referenceOnlyBooks.length + "**; permitted for automated fetching by registry: **" + fetchableBooks + "/" + referenceOnlyBooks.length + "**",
+  "- Supplemental fault source references registered in the manufacturer-source registry: **" + supplementalSourceIds.size + "**; missing registry entries: **" + missingSupplementSources.length + "**",
+  "- Supplemental causes with explicit sourceRefs: **" + supplementalCausesWithSourceRefs + "/" + supplementalCauses.length + "**; missing cause-level source registry entries: **" + missingSupplementCauseSources.length + "**",
+  "- Supplemental evidence sources content-reviewed in this pass: **" + supplementalSourcesContentReviewed + "/" + supplementalSourceIds.size + "**; related manuals not content-reviewed and excluded from supporting sourceRefs: **" + unreviewedRelatedManualIds.length + "**",
+  "- Related model-scoped manuals excluded from general-case supporting sourceRefs: **" + modelScopedRelatedManualIds.length + "**; content-reviewed: **" + modelScopedRelatedManualsContentReviewed + "**; not content-reviewed: **" + unreviewedRelatedManualIds.length + "**",
   "- Accepted licenses declared by policy: " + ((registry.policy && registry.policy.accepted_licenses) || []).join(", "),
   "- Human review before knowledge publication required by policy: **" + (registry.policy && registry.policy.require_human_review_before_knowledge_publication === true ? "yes" : "not specified") + "**",
   "",
@@ -112,6 +153,8 @@ const report = [
   "2. " + nonApprovedCount + " source-registry entries are not marked approved (approved count: " + approvedCount + "). Candidate sources must not be treated as approved technical authority.",
   "3. " + literalMissing.length + " equipment labels lack a literal name match in the Worker-loaded documents. Review this list with a subject-matter expert; do not automatically fill the gaps with generated technical content.",
   "4. " + (referencePortals.length - fetchablePortals) + " reference-only portals are not allowlisted for automated fetching. Keep this restriction until reuse permissions are documented in the registry.",
+  "5. " + (referenceOnlyBooks.length - fetchableBooks) + " reference-only books are not allowlisted for automated fetching. Keep them as metadata and original navigation indexes until reuse permissions are documented.",
+  "6. Supplemental fault records are general-reference candidates, not model-verified cases; missing record-level source registry entries: " + (missingSupplementSources.join(", ") || "none") + "; missing cause-level source registry entries: " + (missingSupplementCauseSources.join(", ") || "none") + ". Human review remains required before operational use; model-scoped or unreviewed related manuals must remain excluded from supporting sourceRefs.",
   "",
   "## Manufacturer-specific case coverage and limits",
   "",
@@ -131,6 +174,7 @@ const report = [
   "## Method and limits",
   "",
   "- The document inventory is derived from the Worker KNOWLEDGE_FILES list, not from every Markdown file in the repository.",
+  "- Fault counts include the core faults.json file and the separately loaded knowledge/faults-supplement.json file; model-specific status remains distinct from general-reference evidence.",
   "- Word counts use whitespace-separated tokens; they are inventory measures, not measures of quality.",
   "- This audit does not validate technical correctness, OEM applicability, or the evidentiary support of every statement.",
   "- No source text is fetched by this script and no new technical content is generated.",

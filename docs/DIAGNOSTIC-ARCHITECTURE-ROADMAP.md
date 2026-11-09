@@ -194,3 +194,79 @@ The current product should remain a diagnostic-first tool, not attempt to reprod
 - Unknown and contradictory evidence must remain visible; do not convert absence of data into a negative finding.
 - A model suggestion must never override the deterministic safety gate.
 - Report automated CI, live provider checks, and physical Android/offline acceptance as separate evidence categories.
+
+
+## 2026-11-06 verified status and priority update
+
+This snapshot supersedes the 2026-11-03 status above where the two differ. Repository state, branch checks and the Cloudflare settings were read during this review. No merge, production deployment, secret read or paid model inference was performed.
+
+### Repository and runtime state
+
+- **Production repository:** `main` is at `63d219c4667f858515354f76d68b2ec46cb43c0a` (2026-11-05 17:15 UTC). Its latest observed GitHub Pages workflow and quality checks succeeded.
+- **Unmerged work:** PR #130, branch `feature/adaptive-diagnosis-knowledge-expansion-2026-11-06`, remains open and unmerged. The implementation/test snapshot that completed the full CI suite was `a199e0fa93acc842c40af07eb6c87bffe5d67f7b` (81 commits and 25 changed files at that point). This roadmap update is documentation-only; none of this branch has been merged or released to production.
+- **Flow coverage:** `main` has 11 shared registry flows and 3 multi-step adaptive sessions. PR #130 expands this to 13 registry flows and 6 adaptive sessions; the remaining 7 registry flows still use the single-step adapter.
+- **New general cases:** the branch adds three supplemental records: motor overheating, compressor overheating and bearing vibration. Their evidence status is explicitly general-reference / not model-verified. All 9 causes now have explicit cause-level `sourceRefs`; the 5 supporting source IDs exist in the registry and were content-reviewed. This checks traceability, not the truth of every claim.
+- **Source-scope corrections:** the motor record uses an independent EPR article as secondary general guidance plus SKF bearing analysis; ABB MN404 is retained only as a related manual for Baldor-Reliance AC/DC mine motors, not as evidence for a general motor case. The compressor record uses two general Atlas Copco pages; the XAS 38-48 manual is a related model-specific route only and was not content-reviewed because the PDF exceeded the review limit. The bearing record uses the SKF damage guide and ISO 15243 article. Two model-scoped related manuals are excluded from supporting sourceRefs (one content-reviewed, one not content-reviewed).
+- **Knowledge inventory on the branch:** 284 core records + 3 supplemental records = 287 local records; 37 equipment-type labels; 776 cause entries; 31 records with an alarmCodes/errorCodes array. The 60 model-specific manual-reviewed records remain manual-claim-reviewed, not field-verified. The OEM index contains 29 platform entries, with 0 model-verified; the 99 OEM diagnostic records are claim-reviewed against their cited scope, not field-verified. The source registry contains 68 official manufacturer/support records plus 1 independent secondary technical reference; the secondary article is explicitly non-fetchable and is not OEM authority.
+- **Licensing:** the source registry has 2 candidate research sources and no approved source entries. Five reference-only portals and two reference-only books remain blocked from automated fetching. The books are indexed as metadata/navigation only; no open reuse license is recorded.
+- **Cloudflare Worker, read-only configuration check:** the deployed Worker has an AI binding, `AI_PROVIDER=cloudflare`, model `@cf/meta/llama-3.2-3b-instruct`, and a rate-limit binding configured for 10 requests per 60 seconds. Its last deployment was 2026-11-04 23:20 UTC. The latest main-branch change to `worker.js` on 2026-11-05 only added the digital-electronics reference index, so the deployed Worker is behind the repository's Worker source by that knowledge-list change. The new PLC index and adaptive-flow changes remain only in PR #130. No Worker deployment was performed.
+- **Provider default:** PR #130 changes the code fallback to Cloudflare so a missing `AI_PROVIDER` no longer silently selects Gemini. Gemini remains an explicit optional path in tests/code; the observed production binding selects Cloudflare. The existing `AI_API_KEY` and `OPENAI_API_KEY` secret bindings were observed by name only; their values were not read.
+- **Offline cache:** PR #130 moves the service worker to cache version v56. Core UI, diagnostic scripts and the local fault library are cached as a required group; optional reference files are cached independently. A failed optional document no longer prevents the core app shell from being cached. Android airplane-mode acceptance is still outstanding.
+- **Storage:** maintenance records and form drafts remain in browser `localStorage`; there is no IndexedDB migration, multi-device sync or conflict resolution.
+
+### PDF review and knowledge boundaries
+
+Two supplied PDFs were visible in the ChatGPT file library:
+
+1. *Automates programmables industriels* — William Bolton, French 2nd edition / translation of the 6th English edition. The most relevant printed sections are sensors and I/O (pp. 25–64, 83–120), safety (pp. 311–315), commissioning (pp. 316–319), fault-finding (pp. 320–324), documentation (pp. 325–347), and temperature/valve/conveyor examples (pp. 353–375). PR #130 adds a reference-only chapter index. It does not add copied chapter text, figures or model-specific fault claims.
+2. *Mastering Digital Electronics* — the repository already contains a reference-only chapter index. It is useful for digital logic, state machines, counters and related fundamentals, but it is not an industrial PLC service manual or a fault-finding procedure.
+
+Both books are copyrighted and have no open reuse license recorded in the project. Keep them as private reference material and original navigation summaries. Do not republish their PDF contents or use either book alone to mark an OEM claim as model-verified.
+
+### Strict implementation review
+
+- **Architecture:** the app remains a lightweight PWA, but `index.html` still contains substantial rule tables, presentation and workflow code. The separate diagnostic/session modules are progress, not a complete separation of domain logic, UI and persistence.
+- **Diagnostic engine:** the general local engine is deterministic keyword/rule matching with multilingual aliases and bounded advisory scores. It is not a semantic diagnosis engine. The 6 adaptive flows are curated and useful, but coverage is still narrow; 7 other registry flows remain one-step guidance. The flow resolver still maps free text through regular-expression aliases.
+- **Bayesian reasoning:** the current layer is a qualitative Bayesian-style support scorer, not a calibrated Bayesian network learned from field outcomes. It uses a fixed prior and fixed support likelihood ratio, with explicit grouping assumptions. The next-question selector uses pairwise hypothesis separation; it is not full expected information gain over posterior entropy. UI labels correctly avoid claiming calibrated probabilities, but the implementation must not be marketed as a validated BN.
+- **Evidence retrieval:** the Worker uses BM25 lexical retrieval with a legacy lexical fallback, returning a small number of Markdown chunks. It does not currently use embeddings or a vector index. The Worker fetches its configured Markdown files from the repository's `main` raw-content path and keeps a short per-isolate cache; this is not an offline semantic index.
+- **Safety:** the main rule-diagnosis form checks four safety acknowledgements. The guided-session UI starts as soon as equipment/symptom text is entered and does not use that same gate; the cloud path requires consent but not completion of the form's safety checklist. The Worker has deterministic stop paths for protection-bypass requests and hydraulic/high-pressure leaks, but this is not a complete hazard classifier. A UI checkbox is an acknowledgement, not proof of isolation or a safety function. This is the highest-priority product gap.
+- **AI and security:** the production configuration currently selects Cloudflare Workers AI and has a configured rate limiter. The Worker validates input/output, restricts browser origins and bounds request size. CORS is not authentication, however; non-browser clients can call a public endpoint, so the rate limiter and abuse monitoring remain important. The current BM25 retrieval and output source matching are useful safeguards but do not establish causal truth. The health smoke test is not a live model-quality test.
+- **Offline and data:** local diagnosis can run without the cloud model after required assets are cached. The v56 partial-cache change improves installation resilience, but the app still needs physical Android airplane-mode testing, quota/storage-failure testing and session persistence. Clearing browser storage can remove local records; JSON/CSV export is not a substitute for tested backup/restore.
+- **UX and scope:** Arabic RTL and French/English support exist, but not every guided technical flow is reviewed in every language. The product is a diagnostic-first tool, not a full CMMS: no work-order lifecycle, inventory, team roles, approval workflow or audit-grade multi-user history exists.
+- **Performance:** the local fault library is a sizeable JSON asset and the Worker retrieves multiple Markdown files on a cold isolate. Measure first-load bytes, cold-start time and memory on the target Android device before claiming low-bandwidth performance.
+- **Collaboration:** there is no authenticated contribution/review/dispute process or conflict-safe shared case history. Do not enable public knowledge writes until identity, moderation, versioning and provenance are designed.
+
+### Competitor findings reviewed on 2026-11-06
+
+The products below are not all direct substitutes; they cover CMMS/EAM, condition monitoring or measurement capture:
+
+- **MaintainX** and **Fiix** document offline work-order workflows with later synchronization. Their offline model reinforces the need for cached work context and reliable sync, not just an offline landing page.
+- **IBM Maximo Application Suite** is a broader EAM/asset-performance platform with asset history, work management, inventory and predictive/AI capabilities. It is an enterprise comparison, not a realistic feature-for-feature target for this free diagnostic tool.
+- **Siemens Senseye** focuses on asset-agnostic predictive maintenance and condition-monitoring signals at industrial scale. **Fluke Connect** focuses on capturing, trending and sharing measurement data from compatible instruments/sensors.
+- **Maintelix** is an Algerian CMMS offering Arabic/French interfaces, asset records, preventive maintenance, work orders and an offline-first mobile claim. That claim is vendor-provided and was not independently tested in this review.
+- Public user discussions emphasize technician adoption, implementation ownership, mobile reliability and workflow fit. Individual Reddit reports are anecdotal and must not be treated as a representative benchmark.
+
+Product implication: do not rebuild the CMMS layer. Make this toolkit the evidence-traceable troubleshooting layer that can export a defensible report and later hand it to a CMMS/work-order system.
+
+### Updated priority order
+
+| Priority | Work | Exit condition |
+|---|---|---|
+| P0 | Unify the safety gate across rule diagnosis, guided sessions and cloud assistance | One deterministic gate/stop policy is shared by every path; observation-only questions are separated from interventions; hazardous actions remain blocked; tests cover electrical, pressure, thermal, stored-energy and guard/interlock hazards |
+| P1 | Replace pairwise question selection with expected information gain | For each candidate test, calculate expected posterior entropy across possible outcomes, then adjust for risk, time, cost and availability; validate against reviewed cases and record actual outcomes |
+| P1 | Expand adaptive equipment coverage | Add PLC I/O faults, sequence stalls, sensor/actuator feedback, temperature-control and conveyor-count workflows only with bounded hypotheses, safe observations, exact evidence IDs and reviewed language |
+| P1 | Calibrate evidence and priors | Define dependency groups and priors/likelihoods from reviewed historical cases; measure calibration, false positives and false negatives; keep uncalibrated support labels until sufficient outcomes exist |
+| P1 | Hybrid semantic retrieval | Benchmark BM25 first; add a lightweight local embedding/index only if it improves retrieval on synonym and multilingual test sets; preserve source/page provenance and an offline fallback |
+| P1 | Knowledge governance | Keep core and supplemental records separately visible; require source registration, page/revision scope, claim review and human approval; never promote a general textbook to model-specific evidence |
+| P1 | Offline and data resilience | Test v56 on Android in airplane mode; persist session state; move structured records to versioned IndexedDB with tested JSON backup/restore before any sync |
+| P2 | UX and language coverage | Replace the static symptom-first path with equipment/context/readings intake; show why a test was selected, what is unknown and what would change each hypothesis; review every technical translation |
+| P2 | Worker abuse/privacy controls | Keep Cloudflare as the default provider; audit stale secret bindings, monitor rate-limit events, add abuse controls appropriate to a public endpoint, and keep plant data out of logs |
+| P2 | Mobile performance | Measure cold load and cache footprint on Android/limited data; lazy-load optional reference bundles and compress structured knowledge where safe |
+| P3 | CMMS interoperability | Export asset ID, diagnostic evidence and recommended work scope to existing work-order systems; do not build full inventory/dispatch functionality in this app |
+| P3 | Condition monitoring | Accept read-only, timestamped sensor data only after asset identity, units, calibration, baseline and data-quality rules are defined |
+
+### CI evidence for this snapshot
+
+At branch head `a199e0fa`, GitHub Actions reported success for the maintenance unit/integration suite, diagnostic/worker contract suite (61 tests, 0 failures), Bayesian engine regression (13 tests, 0 failures), local reasoning regression (8 tests, 0 failures), diagnostic engine regression (16 tests, 0 failures), and knowledge validation. The knowledge workflow confirmed the generated audit report, source-page HTTPS checks, published Pages HTTP 200 and Worker `/health` HTTP 200. The suite includes the Cloudflare-default provider test, cause-level evidence/scope tests, and offline-cache tests that simulate optional-reference failure and required-core failure.
+
+These are automated CI and health checks, not physical Android acceptance, not a live AI inference/quality evaluation, and not a production deployment. Keep those evidence categories separate.

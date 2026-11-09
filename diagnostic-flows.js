@@ -128,6 +128,25 @@ window.MAINTENANCE_DIAGNOSTIC_FLOWS = {
           { "id": "conveyor-tracking-unknown", "label": "لا يمكن تحديد الحالة بأمان", "guidance": "لا تدخل منطقة السير ولا تزل الحواجز؛ أوقف وصعّد للمسؤول إذا تعذر الفحص من موضع آمن." }
         ]
       },
+
+      "motor|overheat": {
+        "id":"motor-overheat-v1","equipmentId":"motor","symptomId":"overheat",
+        "question":{"id":"motor-overheat-baseline","text":"هل توجد قراءات موثوقة للحمل والتيار والحرارة مقارنة بخط الأساس؟"},
+        "answers":[
+          {"id":"motor-overheat-change","label":"يوجد تغير عن خط الأساس","guidance":"سجّل الحمل والتيار والحرارة ومكان القياس وقارنها ببيانات المصنع؛ لا تغيّر إعدادات الحماية."},
+          {"id":"motor-overheat-no-change","label":"لا يظهر تغير واضح","guidance":"راجع مؤشرات التبريد وسجل المحامل من مصادر معتمدة؛ لا تفتح لوحة حية."},
+          {"id":"motor-overheat-unknown","label":"لا توجد بيانات موثوقة","guidance":"لا تستنتج السبب دون قياس موثوق؛ اطلب فحصًا مؤهلًا عند الحاجة."}
+        ]
+      },
+      "compressor|overheat": {
+        "id":"compressor-overheat-v1","equipmentId":"compressor","symptomId":"overheat",
+        "question":{"id":"compressor-overheat-indicators","text":"ما حالة مؤشرات التبريد والزيت والحمل؟"},
+        "answers":[
+          {"id":"compressor-overheat-cooling","label":"يوجد إنذار تبريد أو تهوية","guidance":"راجع مؤشرات التبريد والتهوية من الواجهة؛ لا تفتح دائرة ساخنة أو مضغوطة."},
+          {"id":"compressor-overheat-oil","label":"يوجد إنذار زيت أو مرشح","guidance":"راجع مستوى الزيت والمرشح وسجل الصيانة وفق دليل الطراز."},
+          {"id":"compressor-overheat-unknown","label":"لا توجد مؤشرات موثوقة","guidance":"لا تخمّن السبب؛ احفظ الإنذار والقراءات واطلب فحصًا مؤهلًا."}
+        ]
+      },
       "thermal|overheat": {
         "id": "thermal-overheat-v1",
         "equipmentId": "thermal",

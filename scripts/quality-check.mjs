@@ -194,7 +194,12 @@ const checks = [
   ["AI backend rejects non-JSON and caps request body bytes", () => {
     assert.match(worker, /Content-Type must be application\/json/);
     assert.match(worker, /MAX_BODY_BYTES = 8192/);
-    assert.match(worker, /new TextEncoder\(\)\.encode\(raw\)\.byteLength/);
+    assert.match(worker, /async function readRequestBodyLimited\(request, maxBytes\)/);
+    assert.match(worker, /totalBytes \+= value\.byteLength/);
+    assert.match(worker, /if \(totalBytes > maxBytes\)/);
+    assert.match(worker, /await reader\.cancel\(\)/);
+    assert.match(worker, /const rawBody = await readRequestBodyLimited\(request, MAX_BODY_BYTES\)/);
+    assert.match(worker, /if \(!rawBody\.ok && rawBody\.tooLarge\)/);
   }],
   ["AI upstream calls have a timeout", () => {
     assert.match(worker, /AbortSignal\.timeout\(17000\)/);
@@ -279,7 +284,7 @@ const checks = [
   ["Service worker caches the app shell and icon with a bumped cache version", () => {
     assert.match(sw, /APP_SHELL/);
     assert.match(sw, /\.\/icon\.svg/);
-    assert.match(sw, /maintenance-ai-toolkit-v54/);
+    assert.match(sw, /maintenance-ai-toolkit-v56/);
   }]
 ,
   ["Multilingual fault library covers pumps, motors, VFDs and compressors", () => {
@@ -391,8 +396,8 @@ const checks = [
     for (const node of Object.values(tree.nodes)) if (node.result) assert.ok(node.safe && node.escalate && node.cause);
   }],
   ["PWA caches all new offline dependencies and bumps its cache", () => {
-    assert.match(sw, /maintenance-ai-toolkit-v54/);
-    for (const asset of ["normalization.js", "knowledge-review.js", "answer-tools.js", "diagnostic-engine.js", "engineering-core.js", "agent-core.js", "agent-ui.js", "diagnostic-session.js", "diagnostic-session-ui.js", "faults.json", "knowledge/oem-platform-index.json", "knowledge/manufacturer-machine-fault-matrix.json", "i18n.js"]) assert.ok(sw.includes(asset), "Missing offline cache asset " + asset);
+    assert.match(sw, /maintenance-ai-toolkit-v56/);
+    for (const asset of ["normalization.js", "knowledge-review.js", "answer-tools.js", "diagnostic-engine.js", "engineering-core.js", "agent-core.js", "agent-ui.js", "diagnostic-session.js", "diagnostic-session-ui.js", "faults.json", "knowledge/faults-supplement.json", "knowledge/oem-platform-index.json", "knowledge/manufacturer-machine-fault-matrix.json", "i18n.js"]) assert.ok(sw.includes(asset), "Missing offline cache asset " + asset);
     assert.match(manifest.icons[0].src, /icon\.svg/);
   }]
 ,
