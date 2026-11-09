@@ -78,8 +78,8 @@
       "potentialUse": "Offline research benchmark adapter for bearings and rotating machinery.",
       "reportedScope": "README reports 69 datasets; common metadata format; vibration/acoustic signals, labels and operating metadata. Each dataset is downloaded from original source.",
       "licenseStatus": "repository code MIT; every dataset retains its own original license and must be checked separately",
-      "accessStatus": "README and LICENSE reviewed; package requires Python >=3.10; data not bundled in repository",
-      "decision": "offline-evaluation-only-per-dataset-license-review"
+      "accessStatus": "README, LICENSE, URMA-CRTI dataset.yaml and files.lock.json reviewed; per-dataset license metadata and expected file checksum copied into candidate-only folder; raw signal not downloaded.",
+      "decision": "metadata-copy-and-per-dataset-benchmark-review-only"
     },
     {
       "id": "awesome-industrial-datasets",
