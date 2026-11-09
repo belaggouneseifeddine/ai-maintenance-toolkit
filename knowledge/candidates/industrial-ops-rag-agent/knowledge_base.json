@@ -1,0 +1,1516 @@
+{
+  "equipment_types": [
+    {
+      "id": "pump_001",
+      "name": "离心泵",
+      "category": "动设备",
+      "common_faults": [
+        {
+          "fault_code": "P002-A",
+          "symptom": "泵不出水或不吸水",
+          "possible_causes": [
+            "吸入管路漏气",
+            "进口阀未开",
+            "叶轮堵塞"
+          ],
+          "diagnosis_steps": [
+            "吸入管路漏气",
+            "进口阀未开",
+            "叶轮堵塞"
+          ],
+          "maintenance_actions": [
+            "检查并消除漏气点",
+            "全开进口阀",
+            "清理叶轮"
+          ],
+          "severity": "高",
+          "downtime_hours": 3,
+          "source": "GB/T 3215-2019"
+        },
+        {
+          "fault_code": "P002-B",
+          "symptom": "泵振动或有噪声",
+          "possible_causes": [
+            "联轴器对中不良",
+            "地脚螺栓松动",
+            "转子不平衡",
+            "轴承损坏"
+          ],
+          "diagnosis_steps": [
+            "联轴器对中不良",
+            "地脚螺栓松动",
+            "转子不平衡",
+            "轴承损坏"
+          ],
+          "maintenance_actions": [
+            "重新对中",
+            "紧固螺栓",
+            "转子动平衡",
+            "更换轴承"
+          ],
+          "severity": "高",
+          "downtime_hours": 4,
+          "source": "GB/T 3215-2019"
+        },
+        {
+          "fault_code": "P002-C",
+          "symptom": "密封泄漏严重",
+          "possible_causes": [
+            "机械密封磨损",
+            "密封端面损坏",
+            "O形圈老化"
+          ],
+          "diagnosis_steps": [
+            "机械密封磨损",
+            "密封端面损坏",
+            "O形圈老化"
+          ],
+          "maintenance_actions": [
+            "更换机械密封",
+            "研磨或更换端面",
+            "更换O形圈"
+          ],
+          "severity": "中",
+          "downtime_hours": 2,
+          "source": "GB/T 3215-2019"
+        },
+        {
+          "fault_code": "P002-D",
+          "symptom": "轴承过热",
+          "possible_causes": [
+            "润滑油变质",
+            "冷却水不足",
+            "轴承游隙过小"
+          ],
+          "diagnosis_steps": [
+            "润滑油变质",
+            "冷却水不足",
+            "轴承游隙过小"
+          ],
+          "maintenance_actions": [
+            "更换润滑油",
+            "检查冷却系统",
+            "调整轴承游隙"
+          ],
+          "severity": "中",
+          "downtime_hours": 3,
+          "source": "GB/T 3215-2019"
+        },
+        {
+          "fault_code": "P002-E",
+          "symptom": "电机过载",
+          "possible_causes": [
+            "介质密度过大",
+            "泵内部摩擦",
+            "转子卡涩"
+          ],
+          "diagnosis_steps": [
+            "介质密度过大",
+            "泵内部摩擦",
+            "转子卡涩"
+          ],
+          "maintenance_actions": [
+            "调整介质参数",
+            "检查并调整间隙",
+            "盘车检查"
+          ],
+          "severity": "高",
+          "downtime_hours": 4,
+          "source": "GB/T 3215-2019"
+        },
+        {
+          "fault_code": "P001-D",
+          "symptom": "机械密封泄漏",
+          "possible_causes": [
+            "密封面磨损",
+            "密封弹簧失效",
+            "介质含固体颗粒",
+            "安装不当"
+          ],
+          "diagnosis_steps": [
+            "检查泄漏位置和泄漏量",
+            "检查密封面磨损情况",
+            "检查弹簧压缩量",
+            "核实介质清洁度"
+          ],
+          "maintenance_actions": [
+            "更换机械密封",
+            "更换密封弹簧",
+            "加装过滤器或冲洗系统",
+            "按规范重新安装密封"
+          ],
+          "severity": "中",
+          "downtime_hours": 3,
+          "source": "manual"
+        },
+        {
+          "fault_code": "P001-A",
+          "symptom": "轴承温度过高",
+          "possible_causes": [
+            "润滑不良",
+            "轴承磨损",
+            "对中不良",
+            "负荷过大"
+          ],
+          "diagnosis_steps": [
+            "检查润滑油油位和品质",
+            "测量轴承振动值",
+            "检查泵与电机对中情况",
+            "核实运行负荷是否超标"
+          ],
+          "maintenance_actions": [
+            "补充或更换润滑油",
+            "更换磨损轴承",
+            "重新对中调整",
+            "调整运行参数或更换大功率设备"
+          ],
+          "severity": "高",
+          "downtime_hours": 4,
+          "source": "manual"
+        },
+        {
+          "fault_code": "P001-B",
+          "symptom": "流量不足",
+          "possible_causes": [
+            "叶轮磨损",
+            "进口堵塞",
+            "气蚀现象",
+            "密封泄漏"
+          ],
+          "diagnosis_steps": [
+            "检查进出口压力表读数",
+            "检查过滤器压差",
+            "检查进口管路是否漏气",
+            "检查机械密封泄漏量"
+          ],
+          "maintenance_actions": [
+            "更换叶轮",
+            "清洗过滤器",
+            "排除进口管路漏气点",
+            "更换机械密封"
+          ],
+          "severity": "中",
+          "downtime_hours": 2,
+          "source": "manual"
+        },
+        {
+          "fault_code": "P001-C",
+          "symptom": "异常振动",
+          "possible_causes": [
+            "转子不平衡",
+            "基础松动",
+            "汽蚀",
+            "轴承损坏"
+          ],
+          "diagnosis_steps": [
+            "测量振动频谱",
+            "检查地脚螺栓紧固情况",
+            "检查进口压力是否过低",
+            "检查轴承间隙"
+          ],
+          "maintenance_actions": [
+            "转子动平衡校正",
+            "紧固基础螺栓",
+            "提高进口压力或降低安装高度",
+            "更换轴承"
+          ],
+          "severity": "高",
+          "downtime_hours": 6,
+          "source": "manual"
+        }
+      ],
+      "maintenance_schedule": {
+        "daily": [
+          "检查油位",
+          "检查泄漏",
+          "记录运行参数"
+        ],
+        "weekly": [
+          "清洁设备",
+          "检查紧固件",
+          "检查振动"
+        ],
+        "monthly": [
+          "润滑油分析",
+          "对中检查",
+          "过滤器清洗"
+        ],
+        "yearly": [
+          "全面解体检查",
+          "叶轮检测",
+          "轴承更换"
+        ]
+      }
+    },
+    {
+      "id": "motor_001",
+      "name": "三相异步电动机",
+      "category": "电气设备",
+      "common_faults": [
+        {
+          "fault_code": "M002-A",
+          "symptom": "绝缘电阻过低",
+          "possible_causes": [
+            "绕组受潮",
+            "绝缘老化",
+            "接线盒进水"
+          ],
+          "diagnosis_steps": [
+            "绕组受潮",
+            "绝缘老化",
+            "接线盒进水"
+          ],
+          "maintenance_actions": [
+            "烘干处理",
+            "浸漆处理",
+            "检查密封"
+          ],
+          "severity": "高",
+          "downtime_hours": 12,
+          "source": "GB/T 14711-2013"
+        },
+        {
+          "fault_code": "M002-B",
+          "symptom": "轴承异响",
+          "possible_causes": [
+            "轴承缺油",
+            "轴承保持架损坏",
+            "轴承游隙过大"
+          ],
+          "diagnosis_steps": [
+            "轴承缺油",
+            "轴承保持架损坏",
+            "轴承游隙过大"
+          ],
+          "maintenance_actions": [
+            "补充润滑脂",
+            "更换轴承",
+            "调整轴承"
+          ],
+          "severity": "中",
+          "downtime_hours": 3,
+          "source": "GB/T 14711-2013"
+        },
+        {
+          "fault_code": "M002-C",
+          "symptom": "三相电流不平衡",
+          "possible_causes": [
+            "电源电压不平衡",
+            "绕组匝间短路",
+            "接触不良"
+          ],
+          "diagnosis_steps": [
+            "电源电压不平衡",
+            "绕组匝间短路",
+            "接触不良"
+          ],
+          "maintenance_actions": [
+            "调整三相电压",
+            "修复绕组",
+            "检查接线端子"
+          ],
+          "severity": "高",
+          "downtime_hours": 6,
+          "source": "GB/T 14711-2013"
+        },
+        {
+          "fault_code": "M002-D",
+          "symptom": "转速异常",
+          "possible_causes": [
+            "转子断条",
+            "电源频率异常",
+            "负载突变"
+          ],
+          "diagnosis_steps": [
+            "转子断条",
+            "电源频率异常",
+            "负载突变"
+          ],
+          "maintenance_actions": [
+            "更换转子",
+            "检查电源",
+            "调整负载"
+          ],
+          "severity": "高",
+          "downtime_hours": 8,
+          "source": "GB/T 14711-2013"
+        },
+        {
+          "fault_code": "M002-E",
+          "symptom": "机壳带电",
+          "possible_causes": [
+            "接地不良",
+            "绕组绝缘击穿"
+          ],
+          "diagnosis_steps": [
+            "接地不良",
+            "绕组绝缘击穿"
+          ],
+          "maintenance_actions": [
+            "检查接地线",
+            "修复绝缘层"
+          ],
+          "severity": "高",
+          "downtime_hours": 4,
+          "source": "GB/T 14711-2013"
+        },
+        {
+          "fault_code": "M001-A",
+          "symptom": "电机过热",
+          "possible_causes": [
+            "过载运行",
+            "散热不良",
+            "绕组故障",
+            "电源电压异常"
+          ],
+          "diagnosis_steps": [
+            "检查电流是否超过额定值",
+            "检查冷却风扇和散热片",
+            "测量绕组绝缘电阻",
+            "测量三相电压平衡度"
+          ],
+          "maintenance_actions": [
+            "调整负载或更换大功率电机",
+            "清洁散热通道",
+            "绕组重绕或更换电机",
+            "调整供电电压"
+          ],
+          "severity": "高",
+          "downtime_hours": 8,
+          "source": "manual"
+        },
+        {
+          "fault_code": "M001-B",
+          "symptom": "启动困难",
+          "possible_causes": [
+            "电源电压过低",
+            "机械卡涩",
+            "绕组断路",
+            "启动设备故障"
+          ],
+          "diagnosis_steps": [
+            "测量启动电压",
+            "手动盘车检查",
+            "测量绕组直流电阻",
+            "检查接触器和热继电器"
+          ],
+          "maintenance_actions": [
+            "调整供电电压",
+            "排除机械故障",
+            "修复或更换绕组",
+            "更换启动设备"
+          ],
+          "severity": "中",
+          "downtime_hours": 3,
+          "source": "manual"
+        }
+      ],
+      "maintenance_schedule": {
+        "daily": [
+          "检查温度",
+          "检查异响",
+          "检查电流"
+        ],
+        "weekly": [
+          "清洁外壳",
+          "检查接线",
+          "检查接地"
+        ],
+        "monthly": [
+          "绝缘测试",
+          "轴承润滑",
+          "振动检测"
+        ],
+        "yearly": [
+          "绕组检查",
+          "轴承更换",
+          "预防性试验"
+        ]
+      }
+    },
+    {
+      "id": "valve_001",
+      "name": "调节阀",
+      "category": "静设备",
+      "common_faults": [
+        {
+          "fault_code": "V002-A",
+          "symptom": "阀门内漏",
+          "possible_causes": [
+            "阀芯密封面磨损",
+            "阀座腐蚀",
+            "关闭压差不足"
+          ],
+          "diagnosis_steps": [
+            "阀芯密封面磨损",
+            "阀座腐蚀",
+            "关闭压差不足"
+          ],
+          "maintenance_actions": [
+            "研磨密封面",
+            "更换阀座",
+            "调整执行机构行程"
+          ],
+          "severity": "高",
+          "downtime_hours": 5,
+          "source": "GB/T 4213-2008"
+        },
+        {
+          "fault_code": "V002-B",
+          "symptom": "阀门定位不准",
+          "possible_causes": [
+            "定位器故障",
+            "信号干扰",
+            "弹簧老化"
+          ],
+          "diagnosis_steps": [
+            "定位器故障",
+            "信号干扰",
+            "弹簧老化"
+          ],
+          "maintenance_actions": [
+            "校准定位器",
+            "检查信号屏蔽",
+            "更换弹簧"
+          ],
+          "severity": "中",
+          "downtime_hours": 2,
+          "source": "GB/T 4213-2008"
+        },
+        {
+          "fault_code": "V002-C",
+          "symptom": "执行机构失灵",
+          "possible_causes": [
+            "气源压力不足",
+            "膜片破裂",
+            "气缸密封损坏"
+          ],
+          "diagnosis_steps": [
+            "气源压力不足",
+            "膜片破裂",
+            "气缸密封损坏"
+          ],
+          "maintenance_actions": [
+            "检查气源",
+            "更换膜片",
+            "更换密封件"
+          ],
+          "severity": "高",
+          "downtime_hours": 4,
+          "source": "GB/T 4213-2008"
+        },
+        {
+          "fault_code": "V002-D",
+          "symptom": "阀杆行程缓慢",
+          "possible_causes": [
+            "填料摩擦力过大",
+            "阀杆弯曲",
+            "导向套磨损"
+          ],
+          "diagnosis_steps": [
+            "填料摩擦力过大",
+            "阀杆弯曲",
+            "导向套磨损"
+          ],
+          "maintenance_actions": [
+            "调整填料压盖",
+            "校直或更换阀杆",
+            "更换导向套"
+          ],
+          "severity": "中",
+          "downtime_hours": 3,
+          "source": "GB/T 4213-2008"
+        },
+        {
+          "fault_code": "V001-A",
+          "symptom": "阀门卡涩",
+          "possible_causes": [
+            "介质结垢",
+            "填料过紧",
+            "执行机构故障",
+            "阀芯磨损"
+          ],
+          "diagnosis_steps": [
+            "检查阀门开度信号",
+            "手动操作测试",
+            "检查气源压力",
+            "解体检查阀芯"
+          ],
+          "maintenance_actions": [
+            "清洗阀内结垢",
+            "调整填料松紧度",
+            "检修执行机构",
+            "更换阀芯"
+          ],
+          "severity": "中",
+          "downtime_hours": 2,
+          "source": "manual"
+        }
+      ],
+      "maintenance_schedule": {
+        "monthly": [
+          "行程测试",
+          "定位器校准"
+        ],
+        "yearly": [
+          "全面解体",
+          "密封件更换"
+        ]
+      }
+    },
+    {
+      "id": "compressor_001",
+      "name": "空气压缩机",
+      "category": "动设备",
+      "common_faults": [
+        {
+          "fault_code": "C002-A",
+          "symptom": "排气温度过高",
+          "possible_causes": [
+            "冷却风扇故障",
+            "润滑油不足",
+            "排气阀泄漏",
+            "环境温度过高"
+          ],
+          "diagnosis_steps": [
+            "冷却风扇故障",
+            "润滑油不足",
+            "排气阀泄漏",
+            "环境温度过高"
+          ],
+          "maintenance_actions": [
+            "检修冷却风扇",
+            "补充润滑油",
+            "研磨排气阀",
+            "改善通风"
+          ],
+          "severity": "高",
+          "downtime_hours": 6,
+          "source": "GB/T 6430-2014"
+        },
+        {
+          "fault_code": "C002-B",
+          "symptom": "排气压力不足",
+          "possible_causes": [
+            "空气滤清器堵塞",
+            "活塞环磨损",
+            "安全阀泄漏",
+            "皮带打滑"
+          ],
+          "diagnosis_steps": [
+            "空气滤清器堵塞",
+            "活塞环磨损",
+            "安全阀泄漏",
+            "皮带打滑"
+          ],
+          "maintenance_actions": [
+            "清洗或更换滤芯",
+            "更换活塞环",
+            "检修安全阀",
+            "调整皮带张紧度"
+          ],
+          "severity": "中",
+          "downtime_hours": 4,
+          "source": "GB/T 6430-2014"
+        },
+        {
+          "fault_code": "C002-C",
+          "symptom": "润滑油消耗过大",
+          "possible_causes": [
+            "活塞环磨损",
+            "刮油环失效",
+            "油封漏油"
+          ],
+          "diagnosis_steps": [
+            "活塞环磨损",
+            "刮油环失效",
+            "油封漏油"
+          ],
+          "maintenance_actions": [
+            "更换活塞环和刮油环",
+            "更换油封"
+          ],
+          "severity": "中",
+          "downtime_hours": 3,
+          "source": "GB/T 6430-2014"
+        },
+        {
+          "fault_code": "C002-D",
+          "symptom": "压缩机异响",
+          "possible_causes": [
+            "敲缸",
+            "轴承磨损",
+            "连杆松动"
+          ],
+          "diagnosis_steps": [
+            "敲缸",
+            "轴承磨损",
+            "连杆松动"
+          ],
+          "maintenance_actions": [
+            "检修活塞",
+            "更换轴承",
+            "紧固连杆螺栓"
+          ],
+          "severity": "高",
+          "downtime_hours": 5,
+          "source": "GB/T 6430-2014"
+        },
+        {
+          "fault_code": "C002-E",
+          "symptom": "启动困难或无法启动",
+          "possible_causes": [
+            "进气阀泄漏",
+            "排气阀卡死",
+            "电机故障",
+            "控制系统异常"
+          ],
+          "diagnosis_steps": [
+            "进气阀泄漏",
+            "排气阀卡死",
+            "电机故障",
+            "控制系统异常"
+          ],
+          "maintenance_actions": [
+            "研磨进气阀",
+            "清洗排气阀",
+            "检修电机",
+            "检查控制线路"
+          ],
+          "severity": "高",
+          "downtime_hours": 4,
+          "source": "GB/T 6430-2014"
+        },
+        {
+          "fault_code": "C002-F",
+          "symptom": "油温过高",
+          "possible_causes": [
+            "油冷却器堵塞",
+            "润滑油品质差",
+            "油位过低"
+          ],
+          "diagnosis_steps": [
+            "油冷却器堵塞",
+            "润滑油品质差",
+            "油位过低"
+          ],
+          "maintenance_actions": [
+            "清洗油冷却器",
+            "更换润滑油",
+            "补充到规定油位"
+          ],
+          "severity": "中",
+          "downtime_hours": 2,
+          "source": "GB/T 6430-2014"
+        },
+        {
+          "fault_code": "C001-A",
+          "symptom": "排气温度过高",
+          "possible_causes": [
+            "冷却系统故障",
+            "润滑油不足",
+            "排气阀泄漏",
+            "环境温度过高"
+          ],
+          "diagnosis_steps": [
+            "检查冷却风扇运行状态",
+            "检查润滑油油位和品质",
+            "检查排气阀密封性",
+            "测量环境温度"
+          ],
+          "maintenance_actions": [
+            "修复或更换冷却系统",
+            "补充或更换润滑油",
+            "研磨或更换排气阀",
+            "改善通风条件"
+          ],
+          "severity": "高",
+          "downtime_hours": 6,
+          "source": "manual"
+        },
+        {
+          "fault_code": "C001-B",
+          "symptom": "排气压力不足",
+          "possible_causes": [
+            "空气滤清器堵塞",
+            "活塞环磨损",
+            "安全阀泄漏",
+            "皮带打滑"
+          ],
+          "diagnosis_steps": [
+            "检查空气滤清器压差",
+            "检查活塞环间隙",
+            "检查安全阀密封性",
+            "检查皮带张紧度"
+          ],
+          "maintenance_actions": [
+            "清洗或更换空气滤清器",
+            "更换活塞环",
+            "研磨或更换安全阀",
+            "调整或更换皮带"
+          ],
+          "severity": "中",
+          "downtime_hours": 4,
+          "source": "manual"
+        }
+      ],
+      "maintenance_schedule": {
+        "daily": [
+          "检查油位",
+          "检查压力",
+          "排放冷凝水"
+        ],
+        "weekly": [
+          "清洁滤清器",
+          "检查皮带",
+          "检查泄漏"
+        ],
+        "monthly": [
+          "润滑油分析",
+          "阀门检查",
+          "安全阀校验"
+        ],
+        "yearly": [
+          "全面解体",
+          "活塞环更换",
+          "储气罐检测"
+        ]
+      }
+    },
+    {
+      "id": "exchanger_001",
+      "name": "管壳式换热器",
+      "category": "静设备",
+      "common_faults": [
+        {
+          "fault_code": "E002-A",
+          "symptom": "壳程压力降增大",
+          "possible_causes": [
+            "壳程结垢",
+            "折流板损坏",
+            "介质粘度增大"
+          ],
+          "diagnosis_steps": [
+            "壳程结垢",
+            "折流板损坏",
+            "介质粘度增大"
+          ],
+          "maintenance_actions": [
+            "化学清洗",
+            "修复折流板",
+            "调整操作温度"
+          ],
+          "severity": "中",
+          "downtime_hours": 6,
+          "source": "GB/T 151-2014"
+        },
+        {
+          "fault_code": "E002-B",
+          "symptom": "管程进出口温差减小",
+          "possible_causes": [
+            "管束结垢",
+            "旁路泄漏",
+            "介质流量不均"
+          ],
+          "diagnosis_steps": [
+            "管束结垢",
+            "旁路泄漏",
+            "介质流量不均"
+          ],
+          "maintenance_actions": [
+            "机械除垢",
+            "检查隔板密封",
+            "调整流量分配"
+          ],
+          "severity": "中",
+          "downtime_hours": 6,
+          "source": "GB/T 151-2014"
+        },
+        {
+          "fault_code": "E002-C",
+          "symptom": "振动噪声大",
+          "possible_causes": [
+            "管束支撑不足",
+            "流速过高",
+            "流体诱发振动"
+          ],
+          "diagnosis_steps": [
+            "管束支撑不足",
+            "流速过高",
+            "流体诱发振动"
+          ],
+          "maintenance_actions": [
+            "增加支撑板",
+            "降低流速",
+            "改变管束布置"
+          ],
+          "severity": "高",
+          "downtime_hours": 8,
+          "source": "GB/T 151-2014"
+        },
+        {
+          "fault_code": "E002-D",
+          "symptom": "法兰密封面泄漏",
+          "possible_causes": [
+            "垫片损坏",
+            "螺栓预紧力不足",
+            "法兰面腐蚀"
+          ],
+          "diagnosis_steps": [
+            "垫片损坏",
+            "螺栓预紧力不足",
+            "法兰面腐蚀"
+          ],
+          "maintenance_actions": [
+            "更换垫片",
+            "按力矩紧固",
+            "修复腐蚀面"
+          ],
+          "severity": "高",
+          "downtime_hours": 3,
+          "source": "GB/T 151-2014"
+        },
+        {
+          "fault_code": "E001-A",
+          "symptom": "传热效率下降",
+          "possible_causes": [
+            "结垢严重",
+            "管束堵塞",
+            "介质流量不足",
+            "隔板泄漏"
+          ],
+          "diagnosis_steps": [
+            "测量进出口温差",
+            "检查管程和壳程压差",
+            "检查介质流量",
+            "进行水压试验"
+          ],
+          "maintenance_actions": [
+            "化学清洗或机械除垢",
+            "疏通堵塞管束",
+            "调整介质流量",
+            "修复或更换隔板"
+          ],
+          "severity": "中",
+          "downtime_hours": 8,
+          "source": "manual"
+        },
+        {
+          "fault_code": "E001-B",
+          "symptom": "管束泄漏",
+          "possible_causes": [
+            "腐蚀穿孔",
+            "振动磨损",
+            "温差应力",
+            "材质缺陷"
+          ],
+          "diagnosis_steps": [
+            "进行壳程水压试验",
+            "检查管板密封",
+            "检查管束支撑",
+            "分析介质腐蚀性"
+          ],
+          "maintenance_actions": [
+            "堵管或更换管束",
+            "增加防振支撑",
+            "优化操作温度",
+            "选用耐腐蚀材质"
+          ],
+          "severity": "高",
+          "downtime_hours": 12,
+          "source": "manual"
+        }
+      ],
+      "maintenance_schedule": {
+        "weekly": [
+          "检查泄漏",
+          "记录温度压力"
+        ],
+        "monthly": [
+          "清洗过滤器",
+          "检查防腐层"
+        ],
+        "quarterly": [
+          "传热效率测试",
+          "水质分析"
+        ],
+        "yearly": [
+          "全面检验",
+          "水压试验",
+          "除垢清洗"
+        ]
+      }
+    },
+    {
+      "id": "fan_001",
+      "name": "离心风机",
+      "category": "动设备",
+      "common_faults": [
+        {
+          "fault_code": "F002-A",
+          "symptom": "轴承温度高",
+          "possible_causes": [
+            "润滑脂过多或过少",
+            "轴承游隙过小",
+            "冷却不良"
+          ],
+          "diagnosis_steps": [
+            "润滑脂过多或过少",
+            "轴承游隙过小",
+            "冷却不良"
+          ],
+          "maintenance_actions": [
+            "调整润滑脂量",
+            "更换轴承",
+            "改善冷却"
+          ],
+          "severity": "高",
+          "downtime_hours": 4,
+          "source": "JB/T 4358-2008"
+        },
+        {
+          "fault_code": "F002-B",
+          "symptom": "叶轮磨损",
+          "possible_causes": [
+            "粉尘冲刷",
+            "介质含颗粒",
+            "叶轮材质不当"
+          ],
+          "diagnosis_steps": [
+            "粉尘冲刷",
+            "介质含颗粒",
+            "叶轮材质不当"
+          ],
+          "maintenance_actions": [
+            "堆焊修复",
+            "加装耐磨衬板",
+            "更换耐蚀材料"
+          ],
+          "severity": "中",
+          "downtime_hours": 8,
+          "source": "JB/T 4358-2008"
+        },
+        {
+          "fault_code": "F002-C",
+          "symptom": "联轴器异常磨损",
+          "possible_causes": [
+            "对中偏差",
+            "弹性元件老化",
+            "润滑不良"
+          ],
+          "diagnosis_steps": [
+            "对中偏差",
+            "弹性元件老化",
+            "润滑不良"
+          ],
+          "maintenance_actions": [
+            "重新对中",
+            "更换弹性元件",
+            "补充润滑"
+          ],
+          "severity": "中",
+          "downtime_hours": 3,
+          "source": "JB/T 4358-2008"
+        },
+        {
+          "fault_code": "F002-D",
+          "symptom": "风压异常",
+          "possible_causes": [
+            "管网阻力变化",
+            "调节门故障",
+            "叶轮变形"
+          ],
+          "diagnosis_steps": [
+            "管网阻力变化",
+            "调节门故障",
+            "叶轮变形"
+          ],
+          "maintenance_actions": [
+            "调整管网",
+            "检修调节门",
+            "修复或更换叶轮"
+          ],
+          "severity": "高",
+          "downtime_hours": 5,
+          "source": "JB/T 4358-2008"
+        },
+        {
+          "fault_code": "F001-A",
+          "symptom": "振动过大",
+          "possible_causes": [
+            "叶轮积灰不平衡",
+            "轴承磨损",
+            "基础松动",
+            "联轴器对中不良"
+          ],
+          "diagnosis_steps": [
+            "测量振动频谱",
+            "检查叶轮积灰情况",
+            "检查轴承温度和间隙",
+            "检查联轴器对中"
+          ],
+          "maintenance_actions": [
+            "清理叶轮积灰并做动平衡",
+            "更换轴承",
+            "紧固基础螺栓",
+            "重新对中联轴器"
+          ],
+          "severity": "高",
+          "downtime_hours": 4,
+          "source": "manual"
+        },
+        {
+          "fault_code": "F001-B",
+          "symptom": "风量不足",
+          "possible_causes": [
+            "叶轮磨损",
+            "进口堵塞",
+            "转速下降",
+            "系统阻力增大"
+          ],
+          "diagnosis_steps": [
+            "测量风机转速",
+            "检查进口滤网",
+            "检查叶轮磨损情况",
+            "检查系统管路阻力"
+          ],
+          "maintenance_actions": [
+            "修复或更换叶轮",
+            "清洗进口滤网",
+            "调整皮带或电机",
+            "清理系统管路"
+          ],
+          "severity": "中",
+          "downtime_hours": 3,
+          "source": "manual"
+        }
+      ],
+      "maintenance_schedule": {
+        "daily": [
+          "检查振动",
+          "检查温度",
+          "检查异响"
+        ],
+        "weekly": [
+          "清洁叶轮",
+          "检查紧固件",
+          "检查皮带"
+        ],
+        "monthly": [
+          "轴承润滑",
+          "对中检查",
+          "进口滤网清洗"
+        ],
+        "yearly": [
+          "叶轮检测",
+          "轴承更换",
+          "动平衡校正"
+        ]
+      }
+    },
+    {
+      "id": "冷却塔",
+      "name": "冷却塔",
+      "category": "静设备",
+      "common_faults": [
+        {
+          "fault_code": "T001-A",
+          "symptom": "出水温度偏高",
+          "possible_causes": [
+            "填料堵塞或老化",
+            "风机风量不足",
+            "布水管堵塞",
+            "循环水量不足"
+          ],
+          "diagnosis_steps": [
+            "填料堵塞或老化",
+            "风机风量不足",
+            "布水管堵塞",
+            "循环水量不足"
+          ],
+          "maintenance_actions": [
+            "清洗或更换填料",
+            "检修风机",
+            "清理布水管",
+            "调整水泵"
+          ],
+          "severity": "高",
+          "downtime_hours": 8,
+          "source": "GB/T 7190"
+        },
+        {
+          "fault_code": "T001-B",
+          "symptom": "飘水严重",
+          "possible_causes": [
+            "收水器损坏",
+            "风机转速过高",
+            "布水压力过大"
+          ],
+          "diagnosis_steps": [
+            "收水器损坏",
+            "风机转速过高",
+            "布水压力过大"
+          ],
+          "maintenance_actions": [
+            "修复或更换收水器",
+            "调整风机转速",
+            "降低布水压力"
+          ],
+          "severity": "中",
+          "downtime_hours": 4,
+          "source": "GB/T 7190"
+        },
+        {
+          "fault_code": "T001-C",
+          "symptom": "风机振动大",
+          "possible_causes": [
+            "叶片积灰不平衡",
+            "轴承磨损",
+            "联轴器对中不良"
+          ],
+          "diagnosis_steps": [
+            "叶片积灰不平衡",
+            "轴承磨损",
+            "联轴器对中不良"
+          ],
+          "maintenance_actions": [
+            "清理叶片并做静平衡",
+            "更换轴承",
+            "重新对中"
+          ],
+          "severity": "高",
+          "downtime_hours": 6,
+          "source": "GB/T 7190"
+        },
+        {
+          "fault_code": "T001-D",
+          "symptom": "集水盘漏水",
+          "possible_causes": [
+            "集水盘腐蚀",
+            "密封胶老化",
+            "法兰连接松动"
+          ],
+          "diagnosis_steps": [
+            "集水盘腐蚀",
+            "密封胶老化",
+            "法兰连接松动"
+          ],
+          "maintenance_actions": [
+            "补焊或更换集水盘",
+            "重新打胶",
+            "紧固法兰螺栓"
+          ],
+          "severity": "中",
+          "downtime_hours": 4,
+          "source": "GB/T 7190"
+        },
+        {
+          "fault_code": "T001-E",
+          "symptom": "水量损失过大",
+          "possible_causes": [
+            "补水阀故障",
+            "浮球阀卡涩",
+            "管路泄漏"
+          ],
+          "diagnosis_steps": [
+            "补水阀故障",
+            "浮球阀卡涩",
+            "管路泄漏"
+          ],
+          "maintenance_actions": [
+            "检修补水阀",
+            "清洗或更换浮球阀",
+            "修复管路"
+          ],
+          "severity": "中",
+          "downtime_hours": 2,
+          "source": "GB/T 7190"
+        }
+      ],
+      "maintenance_schedule": {
+        "weekly": [
+          "检查布水器",
+          "清理集水盘"
+        ],
+        "monthly": [
+          "清洗填料",
+          "检查风机皮带"
+        ],
+        "quarterly": [
+          "水质检测",
+          "风机轴承润滑"
+        ],
+        "yearly": [
+          "填料更换",
+          "风机检修",
+          "防腐处理"
+        ]
+      }
+    },
+    {
+      "id": "安全阀",
+      "name": "安全阀",
+      "category": "静设备",
+      "common_faults": [
+        {
+          "fault_code": "S001-A",
+          "symptom": "整定压力偏差",
+          "possible_causes": [
+            "弹簧疲劳",
+            "调整螺母松动",
+            "阀座积垢"
+          ],
+          "diagnosis_steps": [
+            "弹簧疲劳",
+            "调整螺母松动",
+            "阀座积垢"
+          ],
+          "maintenance_actions": [
+            "更换弹簧",
+            "重新锁定调整螺母",
+            "清洁阀座"
+          ],
+          "severity": "高",
+          "downtime_hours": 4,
+          "source": "GB/T 12241-12243"
+        },
+        {
+          "fault_code": "S001-B",
+          "symptom": "阀瓣密封面泄漏",
+          "possible_causes": [
+            "密封面损伤",
+            "介质中杂质卡堵",
+            "安装偏斜"
+          ],
+          "diagnosis_steps": [
+            "密封面损伤",
+            "介质中杂质卡堵",
+            "安装偏斜"
+          ],
+          "maintenance_actions": [
+            "研磨密封面",
+            "清洗阀瓣",
+            "重新安装"
+          ],
+          "severity": "高",
+          "downtime_hours": 4,
+          "source": "GB/T 12241-12243"
+        },
+        {
+          "fault_code": "S001-C",
+          "symptom": "阀瓣无法回座",
+          "possible_causes": [
+            "阀杆卡涩",
+            "弹簧座移位",
+            "背压过高"
+          ],
+          "diagnosis_steps": [
+            "阀杆卡涩",
+            "弹簧座移位",
+            "背压过高"
+          ],
+          "maintenance_actions": [
+            "清洗阀杆",
+            "调整弹簧座",
+            "检查排气管路"
+          ],
+          "severity": "中",
+          "downtime_hours": 3,
+          "source": "GB/T 12241-12243"
+        },
+        {
+          "fault_code": "S001-D",
+          "symptom": "排放量不足",
+          "possible_causes": [
+            "流道截面积不够",
+            "入口管路阻力大",
+            "阀瓣开度不足"
+          ],
+          "diagnosis_steps": [
+            "流道截面积不够",
+            "入口管路阻力大",
+            "阀瓣开度不足"
+          ],
+          "maintenance_actions": [
+            "更换大规格安全阀",
+            "减小入口阻力",
+            "调整整定压力"
+          ],
+          "severity": "中",
+          "downtime_hours": 5,
+          "source": "GB/T 12241-12243"
+        }
+      ],
+      "maintenance_schedule": {
+        "yearly": [
+          "整定压力校验",
+          "密封面检查",
+          "弹簧检查"
+        ]
+      }
+    },
+    {
+      "id": "减速机",
+      "name": "减速机",
+      "category": "动设备",
+      "common_faults": [
+        {
+          "fault_code": "G001-A",
+          "symptom": "齿轮磨损或点蚀",
+          "possible_causes": [
+            "润滑不良",
+            "过载运行",
+            "齿面硬度不足"
+          ],
+          "diagnosis_steps": [
+            "润滑不良",
+            "过载运行",
+            "齿面硬度不足"
+          ],
+          "maintenance_actions": [
+            "更换润滑油",
+            "调整负载",
+            "更换齿轮"
+          ],
+          "severity": "高",
+          "downtime_hours": 16,
+          "source": "JB/T 8853"
+        },
+        {
+          "fault_code": "G001-B",
+          "symptom": "轴承发热",
+          "possible_causes": [
+            "轴承游隙过小",
+            "润滑脂过多",
+            "轴承受损"
+          ],
+          "diagnosis_steps": [
+            "轴承游隙过小",
+            "润滑脂过多",
+            "轴承受损"
+          ],
+          "maintenance_actions": [
+            "调整轴承游隙",
+            "减少润滑脂",
+            "更换轴承"
+          ],
+          "severity": "中",
+          "downtime_hours": 8,
+          "source": "JB/T 8853"
+        },
+        {
+          "fault_code": "G001-C",
+          "symptom": "漏油严重",
+          "possible_causes": [
+            "油封老化",
+            "箱体结合面不严",
+            "通气帽堵塞"
+          ],
+          "diagnosis_steps": [
+            "油封老化",
+            "箱体结合面不严",
+            "通气帽堵塞"
+          ],
+          "maintenance_actions": [
+            "更换油封",
+            "重新涂密封胶",
+            "清洗通气帽"
+          ],
+          "severity": "中",
+          "downtime_hours": 4,
+          "source": "JB/T 8853"
+        },
+        {
+          "fault_code": "G001-D",
+          "symptom": "减速机异响",
+          "possible_causes": [
+            "齿轮啮合不良",
+            "轴承损坏",
+            "齿轮断齿"
+          ],
+          "diagnosis_steps": [
+            "齿轮啮合不良",
+            "轴承损坏",
+            "齿轮断齿"
+          ],
+          "maintenance_actions": [
+            "调整齿轮间隙",
+            "更换轴承",
+            "更换齿轮"
+          ],
+          "severity": "高",
+          "downtime_hours": 12,
+          "source": "JB/T 8853"
+        },
+        {
+          "fault_code": "G001-E",
+          "symptom": "温升过高",
+          "possible_causes": [
+            "润滑油过量",
+            "散热不良",
+            "齿面胶合"
+          ],
+          "diagnosis_steps": [
+            "润滑油过量",
+            "散热不良",
+            "齿面胶合"
+          ],
+          "maintenance_actions": [
+            "调整油位",
+            "改善通风",
+            "更换极压齿轮油"
+          ],
+          "severity": "中",
+          "downtime_hours": 6,
+          "source": "JB/T 8853"
+        }
+      ],
+      "maintenance_schedule": {
+        "weekly": [
+          "检查油位",
+          "检查异响"
+        ],
+        "monthly": [
+          "润滑油分析",
+          "清洁透气帽"
+        ],
+        "yearly": [
+          "换油",
+          "轴承检查",
+          "齿轮检查"
+        ]
+      }
+    }
+  ],
+  "safety_procedures": {
+    "lockout_tagout": [
+      "确认设备已停机",
+      "切断电源并上锁",
+      "释放残余能量",
+      "悬挂警示标签",
+      "验证零能量状态"
+    ],
+    "hot_work": [
+      "办理动火作业票",
+      "清除周围可燃物",
+      "配备灭火器材",
+      "安排专人监护",
+      "作业后现场检查"
+    ],
+    "confined_space": [
+      "办理受限空间作业票",
+      "气体检测合格",
+      "通风换气",
+      "配备救援器材",
+      "安排专人监护",
+      "定时联系确认"
+    ],
+    "height_work": [
+      "办理高处作业票",
+      "检查安全带和脚手架",
+      "设置警戒区域",
+      "配备防坠器",
+      "禁止抛掷工具"
+    ]
+  }
+}
