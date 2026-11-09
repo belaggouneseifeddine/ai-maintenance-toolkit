@@ -93,3 +93,9 @@ These are **candidate aliases only**. The app's allowed equipment vocabulary inc
 - **URMA-CRTI, Annaba, Algeria:** per-dataset metadata identifies CC BY 4.0; 23 recordings at 25.6 kHz with a pinned expected SHA-256. Manual, checksum-verified download helper added; ~47 MB file not downloaded.
 - Both datasets are benchmark signals/labels, not root-cause narratives, repair procedures or field-validated thresholds. They remain outside runtime.
 
+
+
+### BearingDatasets per-dataset metadata snapshot
+- Copied the `urma_crti/dataset.yaml` and `files.lock.json` metadata from BearingDatasets into the benchmark candidate folder, preserving the upstream MIT license for the metadata/tooling source.
+- The per-dataset manifest identifies URMA-CRTI as CC BY 4.0 and pins a 47,340,410-byte signal file by SHA-256. The actual signal binary was not downloaded or copied.
+- Metadata uncertainties (signal unit, combined-fault definition, channel mapping) remain explicit; no bearing thresholds or diagnosis rules were imported.
