@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "purpose": "Discovery register for potentially useful open industrial-maintenance knowledge and data. It is not an imported fault database.",
-  "policy": "Do not copy repository contents or datasets into this project until the exact license, dataset terms, attribution requirements, and provenance are checked. Research papers and public GitHub visibility do not by themselves grant redistribution rights.",
+  "policy": "Do not copy repository contents or datasets into this project until the exact license, dataset terms, attribution requirements, and provenance are checked. Research papers and public GitHub visibility do not by themselves grant redistribution rights. Permissively licensed dataset metadata and candidate snapshots may be stored in isolated research folders with attribution and source evidence; no candidate data is loaded by runtime until separately reviewed and approved.",
   "sources": [
     {
       "id": "fzu-hgpfd",
@@ -179,6 +179,45 @@
       "licenseStatus": "no clear license found",
       "accessStatus": "README reviewed; workbook content not independently evaluated",
       "decision": "do-not-import-until-license-and-dedup-review"
+    },
+    {
+      "id": "uci-hydraulic-447",
+      "title": "Condition Monitoring of Hydraulic Systems",
+      "url": "https://archive.ics.uci.edu/dataset/447/condition+monitoring+of+hydraulic+systems",
+      "type": "experimental-dataset",
+      "potentialUse": "Offline benchmark for hydraulic sensor quality, condition classification and leakage-resistant evaluation; not an operational troubleshooting manual.",
+      "reportedScope": "2205 60-second test-rig cycles; pressure, motor power, flow, temperature, vibration and virtual efficiency channels; labels for cooler, valve, internal pump leakage and accumulator.",
+      "licenseStatus": "CC-BY-4.0 confirmed on official UCI dataset page; attribution required.",
+      "accessStatus": "Official archive URL identified; about 73 MB compressed and 530 MB extracted; not downloaded.",
+      "decision": "download-on-demand-offline-benchmark-only",
+      "limitations": "Laboratory test rig; labels are not causal diagnoses; use group-aware splits to avoid cycle leakage.",
+      "runtimeImport": false
+    },
+    {
+      "id": "urma-crti-zenodo-19109150",
+      "title": "URMA-CRTI rolling element bearing vibration dataset",
+      "url": "https://zenodo.org/records/19109150",
+      "type": "experimental-dataset",
+      "potentialUse": "Offline bearing vibration benchmark; Algerian-origin dataset.",
+      "reportedScope": "23 recordings, 10.24 s each, 25.6 kHz; healthy, inner/outer race, ball and unspecified combined faults; 0.37 kW VFD-driven rig.",
+      "licenseStatus": "CC-BY-4.0 in BearingDatasets per-dataset manifest; recheck Zenodo metadata at download.",
+      "accessStatus": "Metadata and expected checksum reviewed; 47 MB MAT file not downloaded.",
+      "decision": "download-on-demand-checksum-verified-benchmark-only",
+      "limitations": "Signal unit not stated; combined-fault subtype unclear; channel mapping needs validation.",
+      "runtimeImport": false
+    },
+    {
+      "id": "industrial-ops-rag-agent-snapshot",
+      "title": "Industrial Ops RAG Agent — quarantined knowledge-base snapshot",
+      "url": "https://github.com/yilin-2511/industrial-ops-rag-agent",
+      "type": "candidate-knowledge-snapshot",
+      "potentialUse": "Compare equipment taxonomy and candidate pump hypotheses after source and technical review.",
+      "reportedScope": "Copied data/knowledge_base.json (9 equipment classes, 55 records) into candidate quarantine; 9 pump records separately extracted.",
+      "licenseStatus": "Upstream repository LICENSE is MIT and preserved; embedded standard/manual claims have unverified provenance and are not treated as standards text.",
+      "accessStatus": "Actual JSON, README and LICENSE inspected; fault_cases.json and standards CSVs excluded.",
+      "decision": "candidate-quarantine-analysis-only-no-runtime-import",
+      "limitations": "42/55 records repeat causes as diagnosis steps; no claim-level standard pages/model scope; other records lack measurable expected outcomes and safe preconditions.",
+      "runtimeImport": false
     }
   ]
 }
