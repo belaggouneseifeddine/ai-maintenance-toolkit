@@ -78,3 +78,18 @@ This is a first-pass inventory on 2026-11-09. The MIMII baseline repository tree
 The nine equipment labels above can be tentatively mapped to the app's existing vocabulary for a future gap comparison: centrifugal pump → `pump`; induction motor → `motor`; control valve and safety valve → `valve`; air compressor → `compressor`; shell-and-tube exchanger → `heat_exchanger`; centrifugal fan → `fan-blower`; cooling tower → `cooling`; gear reducer → `gearbox`.
 
 These are **candidate aliases only**. The app's allowed equipment vocabulary includes these categories, but a category match does not prove that the corresponding fault records, symptoms or diagnostic flows are already covered. The core `faults.json` is a large file and was not fully parsed through the current connector response; therefore no claim of complete deduplication or gap closure is made. Reconcile the aliases against all fault IDs, the supplemental records and `diagnostic-flow-coverage.json` before changing runtime behavior.
+
+
+## Follow-up extraction and benchmark staging (2026-11-09)
+
+### Industrial Ops RAG Agent
+- Copied `data/knowledge_base.json` (upstream blob `c849e987ac6d8bf52ff7c512d478d7a7487b1b52`) into a candidate-only folder with the upstream MIT license and attribution.
+- Extracted nine pump records into a separate candidate file; every claim remains unverified.
+- Excluded the sample fault-case file containing a named handler and operational personal details; excluded standards CSVs and standards text.
+- Confirmed 9 equipment groups and 55 fault records. 42/55 repeat causes as diagnosis steps. Remaining entries still need units, measurement points, operating conditions, expected outcomes, safety preconditions and source-page verification.
+
+### Licensed benchmark staging
+- **UCI hydraulic condition monitoring #447:** official UCI page identifies CC BY 4.0. It contains 2,205 60-second test-rig cycles and 17 channels; labels cover cooler, valve, internal pump leakage and accumulator. Manual download helper added; archive ~73 MB and extracted data ~530 MB. Not downloaded or bundled.
+- **URMA-CRTI, Annaba, Algeria:** per-dataset metadata identifies CC BY 4.0; 23 recordings at 25.6 kHz with a pinned expected SHA-256. Manual, checksum-verified download helper added; ~47 MB file not downloaded.
+- Both datasets are benchmark signals/labels, not root-cause narratives, repair procedures or field-validated thresholds. They remain outside runtime.
+
