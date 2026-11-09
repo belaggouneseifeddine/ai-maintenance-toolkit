@@ -1,0 +1,203 @@
+{
+  "schemaVersion": 1,
+  "status": "candidate-quarantine-not-runtime",
+  "source": {
+    "repository": "https://github.com/yilin-2511/industrial-ops-rag-agent",
+    "file": "data/knowledge_base.json",
+    "blobSha": "c849e987ac6d8bf52ff7c512d478d7a7487b1b52",
+    "license": "MIT repository license preserved in UPSTREAM-LICENSE-MIT.txt",
+    "attribution": "Industrial Ops RAG Agent contributors; see upstream repository and source file",
+    "caveat": "Upstream JSON cites external GB/T/JB/T standards or generic manuals without claim-level pages or model scope. The repository license does not grant rights to reproduce underlying standards."
+  },
+  "equipmentFamily": "centrifugal-pump",
+  "extractedRecordCount": 9,
+  "candidates": [
+    {
+      "sourceRecordId": "P002-A",
+      "symptomCandidate": "泵不出水或不吸水",
+      "causeCandidates": [
+        "吸入管路漏气",
+        "进口阀未开",
+        "叶轮堵塞"
+      ],
+      "diagnosticEvidenceCandidates": [],
+      "qualityReview": {
+        "status": "candidate-unverified",
+        "diagnosisStepsDuplicateCauses": true,
+        "note": "Upstream diagnosis_steps repeat possible_causes and are not discriminating tests."
+      },
+      "upstreamSourceClaim": "GB/T 3215-2019",
+      "sourceClaimStatus": "unverified-no-standard-page-or-model-scope-reviewed",
+      "maintenanceActionsImported": false
+    },
+    {
+      "sourceRecordId": "P002-B",
+      "symptomCandidate": "泵振动或有噪声",
+      "causeCandidates": [
+        "联轴器对中不良",
+        "地脚螺栓松动",
+        "转子不平衡",
+        "轴承损坏"
+      ],
+      "diagnosticEvidenceCandidates": [],
+      "qualityReview": {
+        "status": "candidate-unverified",
+        "diagnosisStepsDuplicateCauses": true,
+        "note": "Upstream diagnosis_steps repeat possible_causes and are not discriminating tests."
+      },
+      "upstreamSourceClaim": "GB/T 3215-2019",
+      "sourceClaimStatus": "unverified-no-standard-page-or-model-scope-reviewed",
+      "maintenanceActionsImported": false
+    },
+    {
+      "sourceRecordId": "P002-C",
+      "symptomCandidate": "密封泄漏严重",
+      "causeCandidates": [
+        "机械密封磨损",
+        "密封端面损坏",
+        "O形圈老化"
+      ],
+      "diagnosticEvidenceCandidates": [],
+      "qualityReview": {
+        "status": "candidate-unverified",
+        "diagnosisStepsDuplicateCauses": true,
+        "note": "Upstream diagnosis_steps repeat possible_causes and are not discriminating tests."
+      },
+      "upstreamSourceClaim": "GB/T 3215-2019",
+      "sourceClaimStatus": "unverified-no-standard-page-or-model-scope-reviewed",
+      "maintenanceActionsImported": false
+    },
+    {
+      "sourceRecordId": "P002-D",
+      "symptomCandidate": "轴承过热",
+      "causeCandidates": [
+        "润滑油变质",
+        "冷却水不足",
+        "轴承游隙过小"
+      ],
+      "diagnosticEvidenceCandidates": [],
+      "qualityReview": {
+        "status": "candidate-unverified",
+        "diagnosisStepsDuplicateCauses": true,
+        "note": "Upstream diagnosis_steps repeat possible_causes and are not discriminating tests."
+      },
+      "upstreamSourceClaim": "GB/T 3215-2019",
+      "sourceClaimStatus": "unverified-no-standard-page-or-model-scope-reviewed",
+      "maintenanceActionsImported": false
+    },
+    {
+      "sourceRecordId": "P002-E",
+      "symptomCandidate": "电机过载",
+      "causeCandidates": [
+        "介质密度过大",
+        "泵内部摩擦",
+        "转子卡涩"
+      ],
+      "diagnosticEvidenceCandidates": [],
+      "qualityReview": {
+        "status": "candidate-unverified",
+        "diagnosisStepsDuplicateCauses": true,
+        "note": "Upstream diagnosis_steps repeat possible_causes and are not discriminating tests."
+      },
+      "upstreamSourceClaim": "GB/T 3215-2019",
+      "sourceClaimStatus": "unverified-no-standard-page-or-model-scope-reviewed",
+      "maintenanceActionsImported": false
+    },
+    {
+      "sourceRecordId": "P001-D",
+      "symptomCandidate": "机械密封泄漏",
+      "causeCandidates": [
+        "密封面磨损",
+        "密封弹簧失效",
+        "介质含固体颗粒",
+        "安装不当"
+      ],
+      "diagnosticEvidenceCandidates": [
+        "检查泄漏位置和泄漏量",
+        "检查密封面磨损情况",
+        "检查弹簧压缩量",
+        "核实介质清洁度"
+      ],
+      "qualityReview": {
+        "status": "candidate-unverified",
+        "diagnosisStepsDuplicateCauses": false,
+        "note": "Checks are only candidates; expected result patterns, measurement location/unit, operating conditions, safety preconditions and claim-level source evidence still need review."
+      },
+      "upstreamSourceClaim": "manual",
+      "sourceClaimStatus": "unverified-no-standard-page-or-model-scope-reviewed",
+      "maintenanceActionsImported": false
+    },
+    {
+      "sourceRecordId": "P001-A",
+      "symptomCandidate": "轴承温度过高",
+      "causeCandidates": [
+        "润滑不良",
+        "轴承磨损",
+        "对中不良",
+        "负荷过大"
+      ],
+      "diagnosticEvidenceCandidates": [
+        "检查润滑油油位和品质",
+        "测量轴承振动值",
+        "检查泵与电机对中情况",
+        "核实运行负荷是否超标"
+      ],
+      "qualityReview": {
+        "status": "candidate-unverified",
+        "diagnosisStepsDuplicateCauses": false,
+        "note": "Checks are only candidates; expected result patterns, measurement location/unit, operating conditions, safety preconditions and claim-level source evidence still need review."
+      },
+      "upstreamSourceClaim": "manual",
+      "sourceClaimStatus": "unverified-no-standard-page-or-model-scope-reviewed",
+      "maintenanceActionsImported": false
+    },
+    {
+      "sourceRecordId": "P001-B",
+      "symptomCandidate": "流量不足",
+      "causeCandidates": [
+        "叶轮磨损",
+        "进口堵塞",
+        "气蚀现象",
+        "密封泄漏"
+      ],
+      "diagnosticEvidenceCandidates": [
+        "检查进出口压力表读数",
+        "检查过滤器压差",
+        "检查进口管路是否漏气",
+        "检查机械密封泄漏量"
+      ],
+      "qualityReview": {
+        "status": "candidate-unverified",
+        "diagnosisStepsDuplicateCauses": false,
+        "note": "Checks are only candidates; expected result patterns, measurement location/unit, operating conditions, safety preconditions and claim-level source evidence still need review."
+      },
+      "upstreamSourceClaim": "manual",
+      "sourceClaimStatus": "unverified-no-standard-page-or-model-scope-reviewed",
+      "maintenanceActionsImported": false
+    },
+    {
+      "sourceRecordId": "P001-C",
+      "symptomCandidate": "异常振动",
+      "causeCandidates": [
+        "转子不平衡",
+        "基础松动",
+        "汽蚀",
+        "轴承损坏"
+      ],
+      "diagnosticEvidenceCandidates": [
+        "测量振动频谱",
+        "检查地脚螺栓紧固情况",
+        "检查进口压力是否过低",
+        "检查轴承间隙"
+      ],
+      "qualityReview": {
+        "status": "candidate-unverified",
+        "diagnosisStepsDuplicateCauses": false,
+        "note": "Checks are only candidates; expected result patterns, measurement location/unit, operating conditions, safety preconditions and claim-level source evidence still need review."
+      },
+      "upstreamSourceClaim": "manual",
+      "sourceClaimStatus": "unverified-no-standard-page-or-model-scope-reviewed",
+      "maintenanceActionsImported": false
+    }
+  ]
+}
