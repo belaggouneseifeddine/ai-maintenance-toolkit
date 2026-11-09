@@ -15,7 +15,7 @@ let mockUpstreamStatuses = [];
 let mockNetworkFailure = false;
 let mockKnowledge = "# مضخة طرد مركزي — ضعف التدفق\\n\\nتتضمن هذه الملاحظة الفنية مراجعة القراءات المتاحة ومقارنة الضغط والتدفق بخط الأساس ودليل المصنع. لا تستخدمها كقيمة ضبط ولا كبديل لإجراءات الموقع.";
 const context = {
-  Request, Response, URL, AbortSignal, TextEncoder, setTimeout, clearTimeout, console,
+  Request, Response, URL, AbortSignal, TextEncoder, TextDecoder, ReadableStream, setTimeout, clearTimeout, console,
   fetch: async (url, options = {}) => {
     const target = String(url);
     if (target.includes("raw.githubusercontent.com")) { knowledgeCalls++; return new Response(mockKnowledge, { status: 200, headers: { "content-type": "text/plain" } }); }
@@ -46,7 +46,7 @@ const context = {
   }
 };
 const executable = source.replace("export default {", "const workerHandler = {") +
-  "\nglobalThis.__validateDiagnosis = validateDiagnosis; globalThis.__diagnosisSchema = DIAGNOSIS_SCHEMA; globalThis.__worker = workerHandler; globalThis.__retrievalTerms = retrievalTerms; globalThis.__applyEvidenceTraceability = applyEvidenceTraceability; globalThis.__buildInsufficientEvidenceDiagnosis = buildInsufficientEvidenceDiagnosis; globalThis.__rankLegacy = rankKnowledgeChunks; globalThis.__rankBM25 = rankKnowledgeChunksBM25; globalThis.__resetKnowledgeCache = () => { knowledgeCache = { expiresAt: 0, documents: null }; }; globalThis.__curatedDiagnosticFlows = CURATED_DIAGNOSTIC_FLOWS; globalThis.__splitKnowledgeDocument = splitKnowledgeDocument;";
+  "\nglobalThis.__validateDiagnosis = validateDiagnosis; globalThis.__diagnosisSchema = DIAGNOSIS_SCHEMA; globalThis.__worker = workerHandler; globalThis.__retrievalTerms = retrievalTerms; globalThis.__applyEvidenceTraceability = applyEvidenceTraceability; globalThis.__buildInsufficientEvidenceDiagnosis = buildInsufficientEvidenceDiagnosis; globalThis.__rankLegacy = rankKnowledgeChunks; globalThis.__rankBM25 = rankKnowledgeChunksBM25; globalThis.__resetKnowledgeCache = () => { knowledgeCache = { expiresAt: 0, documents: null }; }; globalThis.__curatedDiagnosticFlows = CURATED_DIAGNOSTIC_FLOWS; globalThis.__splitKnowledgeDocument = splitKnowledgeDocument; globalThis.__readRequestBodyLimited = readRequestBodyLimited;";
 new vm.Script(executable, { filename: "worker.js" }).runInNewContext(context);
 
 function validDiagnosis() {
@@ -776,4 +776,38 @@ test("knowledge retrieval line ranges include each section heading line", () => 
   assert.equal(chunks[1].heading, "Motor overheating");
   assert.equal(chunks[1].startLine, 3);
   assert.equal(chunks[1].endLine, 4);
+});
+
+
+test("Worker enforces request byte limit while streaming bodies without Content-Length", async () => {
+  let cancelled = false;
+  const stream = new ReadableStream({
+    start(controller) {
+      controller.enqueue(new Uint8Array(5000));
+      controller.enqueue(new Uint8Array(4000));
+    },
+    cancel() { cancelled = true; }
+  });
+  const result = await context.__readRequestBodyLimited({ body: stream }, 8192);
+  assert.deepEqual(result, { ok: false, tooLarge: true });
+  assert.equal(cancelled, true);
+});
+
+test("Worker accepts a streamed request body exactly at the byte limit", async () => {
+  const expected = JSON.stringify({ machine: "pump", symptom: "low flow" });
+  const bytes = new TextEncoder().encode(expected);
+  const padding = new Uint8Array(8192 - bytes.byteLength);
+  const combined = new Uint8Array(8192);
+  combined.set(bytes);
+  combined.set(padding, bytes.byteLength);
+  const stream = new ReadableStream({
+    start(controller) {
+      controller.enqueue(combined.subarray(0, 4000));
+      controller.enqueue(combined.subarray(4000));
+      controller.close();
+    }
+  });
+  const result = await context.__readRequestBodyLimited({ body: stream }, 8192);
+  assert.equal(result.ok, true);
+  assert.equal(result.text, new TextDecoder().decode(combined));
 });
