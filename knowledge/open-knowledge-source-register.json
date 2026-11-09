@@ -186,8 +186,7 @@
       "decision": "ontology-reference-with-attribution-no-full-runtime-import",
       "reviewStatus": "reviewed-2026-11-09",
       "potentialUse": "HVAC equipment/point taxonomy and relationships for a compact attributed asset ontology.",
-      "lastChecked": "2026-11-09",
-      "licenseStatus": "BSD-3-Clause verified in the upstream LICENSE file for the reviewed ontology files"
+      "lastChecked": "2026-11-09"
     },
     {
       "id": "fzu-hgpfd",
@@ -247,8 +246,7 @@
       "decision": "architecture-reference-only-no-data-import-review",
       "reviewStatus": "partial-file-review-2026-11-09",
       "potentialUse": "Agent-workflow evaluation patterns and structured tool/asset-operation benchmark design; no scenario data import.",
-      "lastChecked": "2026-11-09",
-      "licenseStatus": "Apache-2.0 code; scenario and telemetry data license not separately verified"
+      "lastChecked": "2026-11-09"
     },
     {
       "id": "iiot-graph-rag",
@@ -388,8 +386,7 @@
       "decision": "reference-and-benchmark-candidate-no-runtime-import",
       "reviewStatus": "metadata-license-reviewed-raw-data-not-accessed-2026-11-09",
       "potentialUse": "HVAC fault-detection benchmark and domain-specific test design; no universal repair knowledge.",
-      "lastChecked": "2026-11-09",
-      "licenseStatus": "CC-BY-4.0 confirmed through the OEDI record license link"
+      "lastChecked": "2026-11-09"
     },
     {
       "id": "machine-fault-dataset-index",
@@ -502,8 +499,7 @@
       "decision": "research-benchmark-only-sharealike-no-runtime-import",
       "reviewStatus": "official-license-and-metadata-reviewed-2026-11-09",
       "potentialUse": "Acoustic anomaly-detection benchmark for pumps, valves, fans and slide rails only.",
-      "lastChecked": "2026-11-09",
-      "licenseStatus": "CC-BY-SA-4.0 confirmed on the official Zenodo record"
+      "lastChecked": "2026-11-09"
     },
     {
       "id": "mimii-dg-zenodo-6529888",
@@ -539,8 +535,7 @@
       "decision": "noncommercial-benchmark-only-no-commercial-runtime-import",
       "reviewStatus": "official-license-and-metadata-reviewed-2026-11-09",
       "potentialUse": "Non-commercial domain-generalization anomaly-detection benchmark for fans, gearboxes, bearings, slide rails and valves.",
-      "lastChecked": "2026-11-09",
-      "licenseStatus": "CC-BY-NC-SA-4.0 confirmed on the official Zenodo record"
+      "lastChecked": "2026-11-09"
     },
     {
       "id": "mimii-due-zenodo-4740355",
@@ -576,8 +571,7 @@
       "decision": "noncommercial-benchmark-only-no-commercial-runtime-import",
       "reviewStatus": "official-license-and-metadata-reviewed-2026-11-09",
       "potentialUse": "Non-commercial domain-shift anomaly-detection benchmark for fans, gearboxes, pumps, slide rails and valves.",
-      "lastChecked": "2026-11-09",
-      "licenseStatus": "CC-BY-NC-SA-4.0 confirmed on the official Zenodo record"
+      "lastChecked": "2026-11-09"
     },
     {
       "id": "nasa-progpy",
@@ -657,8 +651,7 @@
       "decision": "isolated-benchmark-only-no-runtime-import",
       "reviewStatus": "metadata-license-and-structure-reviewed-2026-11-09",
       "potentialUse": "Isolated benchmark for oil-well event detection/classification and time-series split validation; not repair instructions.",
-      "lastChecked": "2026-11-09",
-      "licenseStatus": "Apache-2.0 code and CC-BY-4.0 dataset terms are separately declared in the upstream repository"
+      "lastChecked": "2026-11-09"
     },
     {
       "id": "pgmpy",

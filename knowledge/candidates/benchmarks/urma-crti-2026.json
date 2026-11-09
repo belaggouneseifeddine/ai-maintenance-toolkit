@@ -13,9 +13,9 @@
     ],
     "year": 2026,
     "license": null,
-    "licenseEvidence": "Third-party BearingDatasets manifest only; original Zenodo record license not independently verified.",
+    "licenseEvidence": "Per-dataset manifest in BearingDatasets identifies CC BY 4.0; recheck Zenodo record metadata at download time.",
     "citation": "Oudjani, B. (2026). URMA-CRTI dataset for rolling element bearing vibration data. Zenodo. https://doi.org/10.5281/zenodo.19109150",
-    "licenseClaim": "CC-BY-4.0",
+    "licenseClaim": "CC-BY-4.0 (third-party BearingDatasets manifest only)",
     "licenseStatus": "pending-primary-source-verification"
   },
   "scope": {

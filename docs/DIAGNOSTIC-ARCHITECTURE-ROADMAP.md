@@ -323,3 +323,20 @@ These are automated CI and health checks, not physical Android acceptance, not a
 6. **P2 — knowledge architecture:** use a small attributed AAS asset/submodel subset and Brick HVAC point relationships; add local semantic retrieval only after the source corpus is rights-cleared and benchmarked.
 7. **P2 — offline/mobile:** verify Android offline behavior, storage limits, import/export recovery and accessibility with real device tests.
 8. **P3 — predictive maintenance and collaboration:** only after time-series provenance, calibration, group-split benchmarks, authenticated sync and auditability exist. Do not expose RUL or anomaly scores as root-cause diagnosis.
+
+
+### Post-patch verification — 2026-11-09
+
+Verified on commit `0c1b2287df7d0a94fff0160f7652befd56b0f6c5`:
+
+| Check | Command / workflow step | Result |
+|---|---|---|
+| Diagnostic and Worker contract | `node --test tests/diagnostic-session.test.cjs tests/worker-contract.test.cjs` | 67 passed, 0 failed |
+| Full Node unit/integration suite | `node --test tests/*.test.cjs` | 240 passed, 0 failed |
+| Knowledge and benchmark manifests | `python scripts/test_benchmark_manifests.py` and knowledge asset tests | 20 passed, 0 failed |
+| Source registry | `python scripts/fetch_licensed_sources.py --validate-only` | errors=0 |
+| Allowlisted source fetch | `python scripts/fetch_licensed_sources.py --cache-dir /tmp/maintenance-ai-source-cache` | errors=0; cache remained outside the repository workspace |
+| UI browser smoke | `node scripts/ui-smoke-test.mjs` | `UI_SMOKE_OK`: Arabic/RTL, French/English LTR, theme, ARIA state, 320–1280 px, no uncaught page errors |
+| Published app / Worker smoke | `node scripts/smoke-test-live.mjs` | `CORS_PREFLIGHT_OK`; published app and Worker health checks passed |
+
+The Worker flow-pair regression tests, URMA primary-license gate tests and unlicensed Industrial Ops content-removal tests all passed. The service-worker test still reports one of seven optional reference assets not cached; core offline app installation remains successful. The live smoke test checks health/CORS, not a full live generative-AI response. No Android handset test, provider completion test, RUL calibration, merge or deployment was performed.
