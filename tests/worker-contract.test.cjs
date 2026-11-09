@@ -46,7 +46,7 @@ const context = {
   }
 };
 const executable = source.replace("export default {", "const workerHandler = {") +
-  "\nglobalThis.__validateDiagnosis = validateDiagnosis; globalThis.__diagnosisSchema = DIAGNOSIS_SCHEMA; globalThis.__worker = workerHandler; globalThis.__retrievalTerms = retrievalTerms; globalThis.__applyEvidenceTraceability = applyEvidenceTraceability; globalThis.__buildInsufficientEvidenceDiagnosis = buildInsufficientEvidenceDiagnosis; globalThis.__rankLegacy = rankKnowledgeChunks; globalThis.__rankBM25 = rankKnowledgeChunksBM25; globalThis.__resetKnowledgeCache = () => { knowledgeCache = { expiresAt: 0, documents: null }; }; globalThis.__curatedDiagnosticFlows = CURATED_DIAGNOSTIC_FLOWS;";
+  "\nglobalThis.__validateDiagnosis = validateDiagnosis; globalThis.__diagnosisSchema = DIAGNOSIS_SCHEMA; globalThis.__worker = workerHandler; globalThis.__retrievalTerms = retrievalTerms; globalThis.__applyEvidenceTraceability = applyEvidenceTraceability; globalThis.__buildInsufficientEvidenceDiagnosis = buildInsufficientEvidenceDiagnosis; globalThis.__rankLegacy = rankKnowledgeChunks; globalThis.__rankBM25 = rankKnowledgeChunksBM25; globalThis.__resetKnowledgeCache = () => { knowledgeCache = { expiresAt: 0, documents: null }; }; globalThis.__curatedDiagnosticFlows = CURATED_DIAGNOSTIC_FLOWS; globalThis.__splitKnowledgeDocument = splitKnowledgeDocument;";
 new vm.Script(executable, { filename: "worker.js" }).runInNewContext(context);
 
 function validDiagnosis() {
@@ -758,4 +758,22 @@ test("deterministic safety gate takes priority over curated flow equipment or sy
   assert.equal(body.safety_gate.model_called, false);
   assert.equal(body.retrieval.status, "not_run");
   assert.deepEqual({ upstreamCalls, knowledgeCalls }, before);
+});
+
+
+test("knowledge retrieval line ranges include each section heading line", () => {
+  const fixture = [
+    "# Introduction",
+    "Intro paragraph long enough to be retained by the chunker and provide a reliable line-range regression test.",
+    "## Motor overheating",
+    "Motor paragraph long enough to be retained by the chunker and provide a reliable line-range regression test."
+  ].join("\\n");
+  const chunks = context.__splitKnowledgeDocument(fixture, "fixture.md");
+  assert.equal(chunks.length, 2);
+  assert.equal(chunks[0].heading, "Introduction");
+  assert.equal(chunks[0].startLine, 1);
+  assert.equal(chunks[0].endLine, 2);
+  assert.equal(chunks[1].heading, "Motor overheating");
+  assert.equal(chunks[1].startLine, 3);
+  assert.equal(chunks[1].endLine, 4);
 });
