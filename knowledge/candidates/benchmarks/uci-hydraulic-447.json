@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "id": "uci-hydraulic-condition-monitoring-447",
+  "title": "Condition Monitoring of Hydraulic Systems",
+  "status": "licensed-benchmark-candidate-not-runtime",
+  "source": {
+    "publisher": "UCI Machine Learning Repository",
+    "datasetId": 447,
+    "doi": "https://doi.org/10.24432/C5CW21",
+    "url": "https://archive.ics.uci.edu/dataset/447/condition+monitoring+of+hydraulic+systems",
+    "creators": [
+      "Nikolai Helwig",
+      "Eliseo Pignanelli",
+      "Andreas Schütze"
+    ],
+    "year": 2015,
+    "license": "CC-BY-4.0",
+    "licenseEvidence": "Official UCI dataset page states CC BY 4.0.",
+    "citation": "Helwig, N., Pignanelli, E., & Schütze, A. (2015). Condition monitoring of hydraulic systems [Dataset]. UCI Machine Learning Repository. https://doi.org/10.24432/C5CW21"
+  },
+  "scope": {
+    "cycles": 2205,
+    "cycleDurationSeconds": 60,
+    "components": [
+      "cooler",
+      "valve",
+      "pump-internal-leakage",
+      "accumulator"
+    ],
+    "sensors": [
+      {
+        "id": "PS1-PS6",
+        "quantity": "pressure",
+        "unit": "bar",
+        "samplingHz": 100
+      },
+      {
+        "id": "EPS1",
+        "quantity": "motor-power",
+        "unit": "W",
+        "samplingHz": 100
+      },
+      {
+        "id": "FS1-FS2",
+        "quantity": "volume-flow",
+        "unit": "L/min",
+        "samplingHz": 10
+      },
+      {
+        "id": "TS1-TS4",
+        "quantity": "temperature",
+        "unit": "°C",
+        "samplingHz": 1
+      },
+      {
+        "id": "VS1",
+        "quantity": "vibration",
+        "unit": "mm/s",
+        "samplingHz": 1
+      },
+      {
+        "id": "CE",
+        "quantity": "cooling-efficiency-virtual",
+        "unit": "%",
+        "samplingHz": 1
+      },
+      {
+        "id": "CP",
+        "quantity": "cooling-power-virtual",
+        "unit": "kW",
+        "samplingHz": 1
+      },
+      {
+        "id": "SE",
+        "quantity": "efficiency-factor",
+        "unit": "%",
+        "samplingHz": 1
+      }
+    ],
+    "labels": [
+      "cooler-condition",
+      "valve-condition",
+      "internal-pump-leakage",
+      "accumulator-pressure",
+      "stable-flag"
+    ]
+  },
+  "intendedUse": [
+    "offline benchmark",
+    "sensor-quality tests",
+    "feature engineering experiments",
+    "leakage-resistant evaluation"
+  ],
+  "limitations": [
+    "Laboratory test rig, not field data from arbitrary hydraulic machines.",
+    "Condition labels are not root-cause narratives or maintenance instructions.",
+    "Do not infer general pump troubleshooting rules from classification labels.",
+    "Use group-aware/blockwise splits by operating-condition blocks; random cycle splits leak near-duplicate cycles.",
+    "Large archive; download only on explicit developer request and keep outside app runtime."
+  ],
+  "download": {
+    "script": "scripts/download-maintenance-benchmarks.py",
+    "command": "python scripts/download-maintenance-benchmarks.py uci-hydraulic",
+    "officialArchiveUrl": "https://archive.ics.uci.edu/static/public/447/condition+monitoring+of+hydraulic+systems.zip",
+    "estimatedArchiveSizeMB": 73.1,
+    "estimatedExtractedSizeMB": 530,
+    "destination": "data/benchmarks/uci-hydraulic/raw"
+  },
+  "runtimeImport": false
+}
