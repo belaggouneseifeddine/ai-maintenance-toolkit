@@ -194,7 +194,12 @@ const checks = [
   ["AI backend rejects non-JSON and caps request body bytes", () => {
     assert.match(worker, /Content-Type must be application\/json/);
     assert.match(worker, /MAX_BODY_BYTES = 8192/);
-    assert.match(worker, /new TextEncoder\(\)\.encode\(raw\)\.byteLength/);
+    assert.match(worker, /async function readRequestBodyLimited\(request, maxBytes\)/);
+    assert.match(worker, /totalBytes \+= value\.byteLength/);
+    assert.match(worker, /if \(totalBytes > maxBytes\)/);
+    assert.match(worker, /await reader\.cancel\(\)/);
+    assert.match(worker, /const rawBody = await readRequestBodyLimited\(request, MAX_BODY_BYTES\)/);
+    assert.match(worker, /if \(!rawBody\.ok && rawBody\.tooLarge\)/);
   }],
   ["AI upstream calls have a timeout", () => {
     assert.match(worker, /AbortSignal\.timeout\(17000\)/);
