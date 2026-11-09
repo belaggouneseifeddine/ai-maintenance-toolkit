@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "id": "urma-crti-bearing-vibration",
+  "title": "URMA-CRTI Rolling Element Bearing Vibration Dataset",
+  "status": "licensed-benchmark-candidate-not-runtime",
+  "source": {
+    "publisher": "Zenodo",
+    "recordId": "19109150",
+    "doi": "https://doi.org/10.5281/zenodo.19109150",
+    "url": "https://zenodo.org/records/19109150",
+    "creators": [
+      "B. Oudjani"
+    ],
+    "year": 2026,
+    "license": "CC-BY-4.0",
+    "licenseEvidence": "Per-dataset manifest in BearingDatasets identifies CC BY 4.0; recheck Zenodo record metadata at download time.",
+    "citation": "Oudjani, B. (2026). URMA-CRTI dataset for rolling element bearing vibration data. Zenodo. https://doi.org/10.5281/zenodo.19109150"
+  },
+  "scope": {
+    "recordings": 23,
+    "durationSeconds": 10.24,
+    "samplingHz": 25600,
+    "motorPowerKW": 0.37,
+    "drive": "variable-speed drive",
+    "states": [
+      "healthy",
+      "outer-race",
+      "inner-race",
+      "ball",
+      "combined-fault-unspecified"
+    ],
+    "supplyFrequenciesHz": [
+      30,
+      35,
+      40,
+      45,
+      50
+    ],
+    "origin": "CRTI, Annaba, Algeria",
+    "expectedFile": "URMA_Database.mat",
+    "expectedSizeBytes": 47340410,
+    "expectedSha256": "e0e976d1298dfdab98d6935b789b4483b47c357469fc4643a14bda70095e88d2"
+  },
+  "caveats": [
+    "Signal unit is not stated; do not assume g or m/s².",
+    "Combined-fault subtype is unspecified.",
+    "Metadata describes three accelerometers but the normalized source says one signal per recording; verify channel mapping before use.",
+    "Research benchmark only; not a universal bearing diagnostic threshold or field validation."
+  ],
+  "download": {
+    "script": "scripts/download-maintenance-benchmarks.py",
+    "command": "python scripts/download-maintenance-benchmarks.py urma-crti",
+    "zenodoApi": "https://zenodo.org/api/records/19109150",
+    "destination": "data/benchmarks/urma-crti/raw/URMA_Database.mat",
+    "checksumRequired": true
+  },
+  "runtimeImport": false
+}
