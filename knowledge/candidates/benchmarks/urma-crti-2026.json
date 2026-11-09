@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "urma-crti-bearing-vibration",
   "title": "URMA-CRTI Rolling Element Bearing Vibration Dataset",
-  "status": "licensed-benchmark-candidate-not-runtime",
+  "status": "pending-primary-license-verification",
   "source": {
     "publisher": "Zenodo",
     "recordId": "19109150",
@@ -12,9 +12,11 @@
       "B. Oudjani"
     ],
     "year": 2026,
-    "license": "CC-BY-4.0",
+    "license": null,
     "licenseEvidence": "Per-dataset manifest in BearingDatasets identifies CC BY 4.0; recheck Zenodo record metadata at download time.",
-    "citation": "Oudjani, B. (2026). URMA-CRTI dataset for rolling element bearing vibration data. Zenodo. https://doi.org/10.5281/zenodo.19109150"
+    "citation": "Oudjani, B. (2026). URMA-CRTI dataset for rolling element bearing vibration data. Zenodo. https://doi.org/10.5281/zenodo.19109150",
+    "licenseClaim": "CC-BY-4.0 (third-party BearingDatasets manifest only)",
+    "licenseStatus": "pending-primary-source-verification"
   },
   "scope": {
     "recordings": 23,
@@ -48,11 +50,9 @@
     "Research benchmark only; not a universal bearing diagnostic threshold or field validation."
   ],
   "download": {
-    "script": "scripts/download-maintenance-benchmarks.py",
-    "command": "python scripts/download-maintenance-benchmarks.py urma-crti",
-    "zenodoApi": "https://zenodo.org/api/records/19109150",
-    "destination": "data/benchmarks/urma-crti/raw/URMA_Database.mat",
-    "checksumRequired": true
+    "allowed": false,
+    "requiresPrimaryLicenseVerification": true,
+    "reason": "The primary Zenodo license metadata has not been independently confirmed; the third-party manifest claim is not sufficient."
   },
   "runtimeImport": false
 }

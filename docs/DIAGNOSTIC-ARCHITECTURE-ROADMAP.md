@@ -270,3 +270,56 @@ Product implication: do not rebuild the CMMS layer. Make this toolkit the eviden
 At branch head `a199e0fa`, GitHub Actions reported success for the maintenance unit/integration suite, diagnostic/worker contract suite (61 tests, 0 failures), Bayesian engine regression (13 tests, 0 failures), local reasoning regression (8 tests, 0 failures), diagnostic engine regression (16 tests, 0 failures), and knowledge validation. The knowledge workflow confirmed the generated audit report, source-page HTTPS checks, published Pages HTTP 200 and Worker `/health` HTTP 200. The suite includes the Cloudflare-default provider test, cause-level evidence/scope tests, and offline-cache tests that simulate optional-reference failure and required-core failure.
 
 These are automated CI and health checks, not physical Android acceptance, not a live AI inference/quality evaluation, and not a production deployment. Keep those evidence categories separate.
+
+
+## 2026-11-09 evidence-driven update
+
+### Branch and change boundary
+
+- Reviewed branch: `docs/master-requirements-open-source-research-2026-11-09`.
+- Before this audit's patch, the branch was 29 commits ahead of `main` and 0 commits behind. No merge or production deployment was performed.
+- No runtime fault record was promoted during this review. The patch set is limited to a Worker flow-pair validation correction, a fail-closed benchmark license check, removal of an unlicensed candidate copy, source metadata and documentation.
+
+### Current evidence inventory
+
+- `faults.json`: 284 records across 36 equipment types; 17 are pump records. 152 records have no `sourceRefs`; only 132 have them. The 17 pump records have no source references.
+- `diagnostic-evidence-register.json`: 287 entries — 171 `source-not-recorded`, 60 `verified`, 56 `review-needed`.
+- `oem-verified-faults.json`: 99 claims across 8 manufacturers, 24 model scopes and 17 source documents; zero pump claims.
+- `faults-supplement.json`: three general records, none is a centrifugal-pump pilot case.
+- `knowledge/sources.json`: two CC BY 4.0 pump research papers, now scoped as research references only.
+
+### Diagnosis and reasoning
+
+- The local registry contains 13 flows; six have adaptive sessions and seven are single-step guidance entries.
+- The pump adaptive session is still a broad low-flow differential, not six separately evidenced cases.
+- The support scorer uses a fixed prior and fixed likelihood ratio; its bands are heuristic support, not calibrated probabilities.
+- The next-question selector does not yet optimize expected information gain under safety/time/cost constraints.
+- The Worker had an equipment/symptom mismatch check for only three of its six server-curated flows. This branch adds checks for motor-overheat, compressor-overheat and bearing-vibration, with regression tests.
+- The retrieval path is lexical/term-based over curated documents; no vector-embedding semantic index is present in the inspected Worker path.
+
+### Product surface confirmed in source
+
+- Arabic/French/English interface; local guided diagnosis, fault library and safety guidance.
+- PWA shell with service-worker caching and local diagnosis when offline; cloud AI and external references are not available offline.
+- User-defined preventive-maintenance tasks and recurrence; this is scheduling, not predictive maintenance.
+- Local maintenance log, local photo attachments, shift handover report, local statistics, CSV export, JSON backup/import, print and Web Share/clipboard handoff.
+- Photo attachments are local records, not a document-ingestion pipeline. No PDF/OEM-manual ingestion, automatic sensor/historian ingestion, calibrated RUL, multi-user sync or authenticated community contribution workflow was found in the inspected UI/source tree.
+
+### Security and operational boundary
+
+- Worker controls include an origin allowlist, JSON/body-size validation (8 KB), rate limiting, structured-output validation, prompt-injection handling and deterministic safety escalation for selected high-risk requests.
+- CORS is not authentication. No user identity/authentication layer or shared audit trail is present in the inspected Worker flow.
+- Local browser storage is not shown as encrypted at rest. Security headers/CSP were not established by the source review.
+- The latest pre-patch GitHub Actions run passed the diagnostic-engine, maintenance-toolkit and quality-check jobs. The knowledge-asset validation job failed while fetching external sources (network timeout); this was not a passing knowledge validation.
+- A local clone/test run could not be completed because GitHub network access from the audit runtime failed. Post-patch CI remains the required verification.
+
+### Updated priority order
+
+1. **P0 — rights and source integrity:** keep unlicensed third-party data out of the repository; require primary-source license verification before any benchmark download; keep code and data licenses separate.
+2. **P0 — diagnostic contract integrity:** validate all six server-curated flow/equipment/symptom combinations; retain regression tests.
+3. **P1 — centrifugal-pump pilot:** map components and create six separate, claim-traceable cases. Start with one research-reference-only bearing/seal case, then independently source cavitation, air-lock, suction blockage and low-flow evidence. Do not promote the research-only cases as OEM-verified.
+4. **P1 — measured diagnostic quality:** add missing/contradictory/noisy/sensor-fault test fixtures; separate measured, PLC-indicated and estimated values; track units, location and operating point.
+5. **P1 — reasoning:** replace fixed-LR scoring with an explicit dependency model and validated conditional probabilities, or keep the current support bands explicitly heuristic. Implement expected information gain subject to safety, time and cost.
+6. **P2 — knowledge architecture:** use a small attributed AAS asset/submodel subset and Brick HVAC point relationships; add local semantic retrieval only after the source corpus is rights-cleared and benchmarked.
+7. **P2 — offline/mobile:** verify Android offline behavior, storage limits, import/export recovery and accessibility with real device tests.
+8. **P3 — predictive maintenance and collaboration:** only after time-series provenance, calibration, group-split benchmarks, authenticated sync and auditability exist. Do not expose RUL or anomaly scores as root-cause diagnosis.

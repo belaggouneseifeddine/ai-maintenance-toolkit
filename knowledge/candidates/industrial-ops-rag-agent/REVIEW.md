@@ -1,26 +1,29 @@
-# Industrial Ops RAG Agent — candidate extraction review
+# Review — Industrial Ops RAG Agent
 
-Upstream: https://github.com/yilin-2511/industrial-ops-rag-agent  
-File reviewed: `data/knowledge_base.json` (blob `c849e987ac6d8bf52ff7c512d478d7a7487b1b52`)  
-License: upstream repository LICENSE is MIT and is preserved here. The JSON references external GB/T/JB/T standards and generic manuals without claim-level pages, editions or model scope; those claims remain unverified, and the MIT license does not grant rights to reproduce underlying standards.  
-Status: candidate-only; never loaded by app/Worker runtime.
+## Files inspected upstream
 
-## Snapshot and extraction
-- Copied the upstream `data/knowledge_base.json` verbatim with attribution and its MIT license.
-- Extracted nine centrifugal-pump records into a separate candidate file, preserving upstream IDs and marking every claim unverified.
-- Excluded `fault_cases.json` because its sample includes a named handler and operational personal details.
-- Excluded the standards CSVs; no standards text was copied.
+- `README.md`
+- `LICENSE`
+- `data/knowledge_base.json`
+- `data/fault_cases.json`
+- `data/standards/gbt3215_pump_faults.csv`
+- `requirements.txt`
 
-## Coverage and quality
-Nine equipment families: centrifugal pump (9), induction motor (7), control valve (5), air compressor (8), shell-and-tube exchanger (6), centrifugal fan (6), cooling tower (5), safety valve (4), gear reducer (5): 55 records total.
+These files were inspected for structure and quality. Their content is not copied into this repository.
 
-42/55 repeat `possible_causes` as `diagnosis_steps`; these are not discriminating tests. Other records still need measurement units/locations, operating context, expected result patterns, safety preconditions and claim-level source verification.
+## Findings
 
-## Pump candidates
-Nine pump records cover no-flow/no-suction, vibration/noise, seal leakage, bearing overheating, motor overload, low flow and abnormal vibration. Candidate observations include pressure/flow, strainer differential pressure, suction-side air ingress, seal leakage location/rate, bearing vibration, lubrication condition and vibration spectrum. These are prompts for expert review, not approved procedures.
+- The upstream knowledge file describes 55 records across 9 equipment classes; the review counted 9 pump records.
+- 42 of 55 `diagnosis_steps` entries duplicate `possible_causes` instead of specifying a discriminating test with a predicted result.
+- The pump CSV has 5 rows while the README describes 3 pump fault types.
+- The sample fault-case records do not provide enough source-page, model, operating-condition, measurement-location and safety context for operational diagnosis.
+- Several records cite standards by identifier or generic manuals without an independently reviewed edition/page/claim mapping.
+- The repository-level MIT license covers code; no separate data license for the embedded knowledge or standards-derived records was identified.
 
-## Decisions
-- Keep the snapshot quarantined with attribution and upstream license.
-- Treat all embedded standard/manual claims as unverified.
-- Do not import generic maintenance schedules, downtime estimates or repair actions into runtime.
-- Promote only non-duplicative facts after source, technical, safety and license review.
+## Rights decision
+
+The prior quarantined copy of `knowledge_base.json` and the derived pump extract have been removed from this branch on 2026-11-09. Only high-level counts and provenance metadata remain. Do not copy, translate, redistribute or import upstream fault text unless a separate data license and the rights for every embedded source are verified.
+
+## Toolkit relevance
+
+The repository can remain a discovery pointer for finding primary sources and taxonomy ideas. It is not an approved source for runtime fault facts, repair steps or OEM-verified claims.

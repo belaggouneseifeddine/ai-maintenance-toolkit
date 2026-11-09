@@ -221,3 +221,29 @@ Compare three strategies:
 - Bayesian network plus information-gain test selection.
 
 Evaluate top-k cause ranking, false confidence, number of tests needed, unsafe test proposals, and abstention when evidence is inadequate. Keep synthetic results labelled as simulation only. This experiment can show whether the added reasoning complexity improves decisions before any real-world claim is made.
+
+
+## New sources and design ideas — 2026-11-09
+
+### Useful additions
+
+- **Petrobras 3W:** a high-value oil-well event benchmark with separate Apache-2.0 code and CC BY 4.0 data terms. Use it to test time-series/event classification and leakage-resistant evaluation, not to create mechanical repair instructions.
+- **Brick Schema:** a BSD-3-Clause HVAC ontology. Combine a small attributed Brick subset for HVAC equipment/points with an AAS subset for industrial asset identity and submodels.
+- **LBNL FDD:** a strong HVAC benchmark candidate with CC BY 4.0 metadata. Raw payload access remains incomplete; do not claim it has been ingested.
+- **MIMII family:** useful for acoustic anomaly detection and domain-shift evaluation. The original MIMII 1.0 is CC BY-SA 4.0; DUE and DG are CC BY-NC-SA 4.0. These datasets do not establish root causes or safe interventions.
+- **IBM AssetOpsBench:** useful for structured tool/agent workflow evaluation, but scenario data rights and provenance are not separately established.
+- **AAS + Brick:** a promising asset/component/point identity layer. Avoid importing full ontologies into the mobile bundle; compile a small, attributed, versioned mapping.
+- **pgmpy:** a reference for actual Bayesian-network inference and dependency modeling. Do not add its Python runtime to the Android/Worker stack.
+- **NASA ProgPy:** a reference for prognostics and uncertainty only after equipment models, parameters and time-series calibration are available.
+
+### Design ideas ranked by value
+
+1. **Evidence graph:** equipment → component → failure mode → symptom → measurement → test → expected result → source claim. Every edge carries scope, unit, location, provenance and review state.
+2. **Measurement provenance:** tag every value as measured, PLC-indicated, estimated or unknown; include sensor ID, unit, location, timestamp, operating point and quality flags.
+3. **Test-selection engine:** calculate expected information gain from competing hypotheses, then apply safety vetoes and time/cost penalties. Never recommend a risky test solely because it has high information gain.
+4. **Benchmark harness:** use UCI hydraulic, 3W, MIMII and eventually LBNL only in isolated test pipelines; split by equipment/run/event/domain and report uncertainty and per-class metrics.
+5. **Offline knowledge packs:** signed/versioned packs with source manifests, checksums, attribution and rollback; no automatic community content promotion.
+6. **Asset identity:** use AAS for generic industrial asset identity and Brick for HVAC point semantics; preserve manufacturer/model/revision separately from generic classes.
+7. **Separate analytics lanes:** anomaly detection, causal diagnosis and RUL prediction must have different outputs, validation criteria and UI labels.
+
+No new benchmark data or third-party fault text was added to runtime.

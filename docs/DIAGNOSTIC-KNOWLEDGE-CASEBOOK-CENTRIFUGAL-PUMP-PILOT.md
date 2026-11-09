@@ -199,3 +199,37 @@ A rule-based score is not a calibrated probability. If Bayesian inference is lat
 7. Only after acceptance, integrate reviewed records into the runtime knowledge bundle.
 
 **Non-goals for this pilot:** importing large raw vibration datasets into the Android bundle; claiming universal thresholds; automatic fault diagnosis from a single symptom; displaying uncalibrated probabilities or RUL; importing unlicensed third-party content.
+
+
+## 8. Source and implementation review — 2026-11-09
+
+### Open-access research sources reviewed
+
+1. **Ahmad et al., “Multistage Centrifugal Pump Fault Diagnosis Using Informative Ratio Principal Component Analysis” (2021), PMCID PMC8747656, DOI 10.3390/s22010179.** License: CC BY 4.0, confirmed on the full-text page. Reviewed sections 1, 3–6, Figure 2–4 and Tables 2–5. The experiment is limited to one PMT-4008 multistage pump rig, 5.5 kW motor, water loop, 1733 rpm, four accelerometers and three seeded states (mechanical-seal hole, mechanical-seal scratch and impeller defect), with 300 seconds recorded per state. The paper supports research on vibration-feature classification for those seeded test-rig states only. Its reported 100% classification result is not a calibrated field probability. Cavitation is explicitly left as future work; this paper does not validate cavitation, air-lock, suction blockage or field low-flow diagnosis.
+
+2. **Irfan et al., “A Novel Feature Extraction and Fault Detection Technique for the Intelligent Fault Identification of Water Pump Bearings” (2021), PMCID PMC8234243, DOI 10.3390/s21124225.** License: CC BY 4.0, confirmed on the full-text page. Reviewed sections 1 and 3–6, including the experimental setup and result tables. The experiment uses a laboratory 2 HP induction motor, 6202-2z bearing, two seeded bearing defects, current/voltage/instantaneous-power features and 640 samples across three load states. The paper reports a 70/30 split and up to 100% classification on its own test setup; raw data are not supplied in the article. This is a research reference for the paper's lab conditions, not a field procedure, universal threshold or pump-specific bearing acceptance rule.
+
+### Evidence coverage decision
+
+| Pilot case | Current evidence status | Decision |
+|---|---|---|
+| Cavitation | No reviewed primary source with a claim-level section/page and operating envelope in this pilot | Source gap; do not promote |
+| Air Lock | No reviewed primary source with a claim-level section/page | Source gap; do not promote |
+| Suction Blockage | No reviewed primary source with a claim-level section/page | Source gap; do not promote |
+| Low Flow | Existing runtime records are not enough to distinguish hydraulic causes under a model-specific pump curve | Source gap; do not confirm a cause |
+| Mechanical Seal Leakage | The 2021 paper covers seeded seal defects on one rig, not a field leakage-rate or safe inspection procedure | Research reference only |
+| Bearing Degradation | The 2021 paper covers two seeded defects on one lab bearing/motor setup, not field thresholds | Research reference only |
+
+No paper text, figures, tables or raw data were copied. The two sources are registered in `knowledge/sources.json` with scope and limitations. Neither source creates an OEM-verified pump claim.
+
+### Current runtime gap
+
+- `decision-trees.json` contains an 8-node pump screening tree with three branching questions and five result endpoints. It is not the six-case differential pilot.
+- The shared diagnostic registry contains 13 equipment/symptom flows: six adaptive sessions and seven single-step entries. The pump adaptive flow still groups the problem into three broad hypotheses; it does not independently resolve the six pilot cases.
+- `bayesian-engine.js` is a qualitative log-odds support scorer with fixed prior 0.2 and fixed likelihood ratio 1.5. It is not a calibrated Bayesian network or a validated probability model.
+- The next-question selector uses hypothesis separation/equal-outcome logic. Expected information gain, test time, test cost and safety risk are not yet jointly optimized.
+- The core `faults.json` has 17 pump records, but none has a source reference. The OEM-verified registry has no pump record.
+
+### Pilot gate
+
+No pump case enters runtime until every claim has a permitted source, exact section/page, equipment scope, units, measurement location, operating conditions, supporting and opposing evidence, safe test prerequisites, expected results for competing hypotheses, stop conditions, post-repair verification and automated tests for missing, contradictory, noisy and invalid measurements. Actual measurements, PLC-indicated values and estimates must remain distinct. No general numeric threshold is allowed without the applicable model/curve/fluid/installation source.

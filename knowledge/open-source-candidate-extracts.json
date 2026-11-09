@@ -111,5 +111,11 @@
     "runtimeImport": false,
     "allowedUse": "coverage-gap-analysis-and-schema-design-only",
     "nextAction": "Map taxonomy against existing equipmentType values; import no fault claims until independent sources and reuse rights are verified."
-  }
+  },
+  "reviewedAt": "2026-11-09",
+  "metadataOnly": true,
+  "sourceContentStored": false,
+  "rawFaultTextStored": false,
+  "licenseStatus": "repository-code-MIT; embedded data license not declared separately",
+  "decision": "discovery-only-no-fault-text-import"
 }

@@ -75,15 +75,32 @@ def download_uci():
     size=safe_extract_uci(request_bytes(UCI_URL,MAX_UCI_ARCHIVE),dest)
     print(f"Extracted {size:,} bytes to {dest}")
 
+def verify_zenodo_license(record):
+    """Fail closed unless the primary Zenodo record explicitly declares CC BY 4.0."""
+    license_meta=(record.get("metadata") or {}).get("license")
+    if isinstance(license_meta,dict):
+        identifier=license_meta.get("id") or license_meta.get("identifier")
+    elif isinstance(license_meta,str):
+        identifier=license_meta
+    else:
+        identifier=None
+    normalized=str(identifier or "").strip().lower().replace("_","-").replace(" ","-")
+    if normalized!="cc-by-4.0":
+        raise ValueError("Refusing URMA download: the primary Zenodo record must explicitly declare CC BY 4.0; third-party manifests are not sufficient.")
+    return "CC-BY-4.0"
+
 def download_urma():
+    # Check the primary record's exact license before reading, retaining or downloading the payload.
+    meta=json.loads(request_bytes(ZENODO_API,2*1024*1024).decode("utf-8"))
+    verified_license=verify_zenodo_license(meta)
+    print(f"Primary Zenodo license verified: {verified_license}")
     dest=BENCHMARK_ROOT/"urma-crti"/"raw"
     target=dest/URMA_FILE
     if target.exists():
         if hashlib.sha256(target.read_bytes()).hexdigest()==URMA_SHA256:
-            print(f"Already present and verified: {target}")
+            print(f"Already present and checksum-verified under {verified_license}: {target}")
             return
         raise ValueError("Existing URMA file has unexpected SHA-256")
-    meta=json.loads(request_bytes(ZENODO_API,2*1024*1024).decode("utf-8"))
     item=next((x for x in meta.get("files",[]) if x.get("key")==URMA_FILE),None)
     if not item:
         raise ValueError(f"{URMA_FILE} not found in Zenodo record")
