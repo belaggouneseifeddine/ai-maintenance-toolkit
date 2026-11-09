@@ -339,7 +339,7 @@ function splitKnowledgeDocument(markdown, path) {
     if (/^#{1,4}\s+/.test(line)) {
       flush(i);
       heading = line.replace(/^#{1,4}\s+/, "").trim();
-      startLine = i + 2;
+      startLine = i + 1;
       buffer = [line];
     } else {
       buffer.push(line);
