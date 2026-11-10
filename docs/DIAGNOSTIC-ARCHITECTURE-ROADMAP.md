@@ -340,3 +340,62 @@ Verified on commit `0c1b2287df7d0a94fff0160f7652befd56b0f6c5`:
 | Published app / Worker smoke | `node scripts/smoke-test-live.mjs` | `CORS_PREFLIGHT_OK`; published app and Worker health checks passed |
 
 The Worker flow-pair regression tests, URMA primary-license gate tests and unlicensed Industrial Ops content-removal tests all passed. The service-worker test still reports one of seven optional reference assets not cached; core offline app installation remains successful. The live smoke test checks health/CORS, not a full live generative-AI response. No Android handset test, provider completion test, RUL calibration, merge or deployment was performed.
+
+
+## 2026-11-10 audit update — pump pilot and evidence-first roadmap
+
+This update supersedes earlier counts where they differ. It is documentation and source-register work only. The branch is based on the open draft PR #132 head; no merge, Production deployment, paid inference or runtime knowledge import was performed.
+
+### Verified repository state
+
+- Main remains at 220aa3ff6c0ee05d94cfdfe213dfa00e07357534 for this comparison.
+- Draft PR #132 is open and unmerged on docs/master-requirements-open-source-research-2026-11-09 at b63a439a584398353083ab498943d0638dd92529; it is 33 commits ahead and 0 behind main, with 23 changed files (+2,505 / -29).
+- The current audit work is isolated on research/daily-audit-2026-11-10. It updates only the source register and documentation; runtime assets remain unchanged.
+- The latest CI snapshot on the PR head passed: 240 Node regression tests, 67 diagnostic-session/Worker-contract tests, 6 CORS tests, 20 Python knowledge/benchmark tests, HTTPS source checks and the configured published-app/Worker health smoke test. A prior intermediate SHA failed only the URMA manifest assertion because the third-party manifest's CC-BY-4.0 claim was mistaken for primary-source verification; the final PR head records that distinction and passes.
+- The offline-cache test's one optional-asset failure is deliberate: tests/service-worker-offline.test.cjs simulates a 404 for oem-platform-index.json and verifies that the core app shell still installs. It is not evidence of a live asset outage.
+- Physical Android airplane-mode testing, model-quality validation and a field pilot remain unverified.
+
+### Evidence and runtime findings
+
+- faults.json contains 284 core records and 17 pump records. All 17 pump records have no sourceRefs and are source-not-recorded in the evidence register. Two seal-leak records overlap; pump-excessive-flow is tagged low_flow and requires taxonomy review.
+- diagnostic-evidence-register.json has 287 records: 171 source-not-recorded, 56 review-needed and 60 verified. Verified means claim/source review only, not field validation.
+- oem-verified-faults.json has 99 records and no pump entry. manufacturer-machine-fault-matrix.json has 28 manufacturer profiles and 38 general templates, not model-verified alarm claims.
+- The pump pilot remains six candidate cases. The two reviewed CC BY 4.0 papers support only narrow laboratory claims: one PMT-4008 pump rig with seeded seal/impeller states, and one laboratory motor/bearing rig with two seeded bearing defects. They do not validate cavitation, air lock, suction blockage, field low-flow limits or a universal pump-bearing procedure.
+- The 13 local flows include six adaptive sessions and seven single-step entries. The pump session still groups low-flow into three broad hypotheses.
+- The local diagnostic engine remains keyword/rule matching. The Bayesian-style layer uses fixed prior/likelihood assumptions and is not a calibrated Bayesian network. The next-question selector uses pairwise hypothesis separation, not posterior-entropy expected information gain or a safety/time/cost optimizer.
+- Worker retrieval is BM25 lexical retrieval over Markdown fetched from the main raw-content path; no embedding/vector index is used and the fetched source revision is not pinned to a reviewed commit.
+- The casebook's structured measurement contract is not yet represented in the runtime request model. Actual instrument measurements, PLC-indicated values, estimates and unknown values need typed provenance rather than a free-text note and coarse measurementStatus.
+- The Worker has a deterministic safety gate, input/output validation, CORS origin allowlist, 8 KiB body cap and configured 10-per-minute rate limit. CORS is not authentication; retain abuse monitoring and do not expose secrets or user data in logs.
+
+### Priority order
+
+| Priority | Work item | Why it is next | Acceptance gate |
+|---|---|---|---|
+| P0 | Finish the centrifugal-pump evidence casebook before adding more fault records | The 17 existing pump records are unreferenced; two are overlapping seal-leak records and the low-flow symptom mapping contains a mismatch | Each of the six cases has permitted claim-level sources, bounded scope, competing hypotheses, measurements, safe tests, expected outcomes, stop conditions and post-repair verification |
+| P0 | Define and validate a typed measurement/evidence schema | The current runtime loses measurement point, instrument, timestamp, operating state and provenance | Schema distinguishes measured / controller-indicated / estimated / unknown, units, location, operating conditions, quality and source |
+| P0 | Build an isolated deterministic pump-case runner and regression set | Do not connect unreviewed knowledge to the AI layer | Tests cover missing, contradictory, noisy, stale, invalid and implausible sensor data; every output is traceable to evidence |
+| P1 | Implement constrained test selection | Pairwise separation is not expected information gain | Compare entropy-based expected information gain against the current heuristic; exclude unsafe/infeasible tests and score time/cost separately |
+| P1 | Pin retrieval sources and add semantic search only after provenance is stable | BM25 is lexical and currently reads the moving main branch | Retrieval uses a reviewed commit/version, checksums, claim metadata and a measured retrieval benchmark before adding embeddings |
+| P1 | Make local safety gating consistent across every diagnostic entry point | A separate checkbox is not proof of safe isolation | All local, guided and cloud paths enforce the same hazard/stop contract; unsafe tests cannot be selected |
+| P1 | Add backup/restore and conflict-safe synchronization design | localStorage and IndexedDB are device-local; there is no multi-device sync | Tested export/import, schema migration, data-loss recovery and explicit conflict rules before shared writes |
+| P2 | Prototype calibrated Bayesian networks offline | pgmpy is useful for research, not an Android/Worker runtime dependency | Estimate priors/CPDs only from leakage-resistant data; report Brier/ECE and calibration by asset/site before exporting a small JS model |
+| P2 | Add anomaly detection and RUL as separate validated modules | Telemetry labels and anomaly scores are not root-cause diagnosis or remaining useful life | Independent validation, asset/run-level splits, calibrated uncertainty and field evidence; never infer RUL from a single anomaly label |
+
+### Source and benchmark decisions
+
+- Industrial Ops RAG Agent: MIT applies to code; no separate data license for its embedded fault catalogue was found. Keep as discovery only; do not import its fault text or standards-derived CSV.
+- BearingDatasets: MIT applies to tooling; every dataset retains separate terms. The URMA-CRTI manifest says CC BY 4.0, but its primary Zenodo record has not been independently verified; do not download.
+- Awesome Industrial Datasets: 297 catalogue entries on 2026-11-10; the catalogue LICENSE is CC BY-NC 4.0. Use as discovery only, not commercial product content.
+- AAS metamodel: CC BY 4.0, release 3.2.0; useful for asset identity/properties, not a fault ontology.
+- Brick: BSD-3-Clause; useful HVAC equipment/point topology, not a fault database.
+- MIMII public 1.0: CC BY-SA 4.0, 100.2 GB acoustic anomaly benchmark. The baseline repository has no code LICENSE; do not copy baseline code. Acoustic anomaly labels do not identify root cause.
+- NASA ProgPy: pyproject declares NASA-1.3; two license PDFs are present but obligations were not fully parsed. Research reference only; no code copy.
+- pgmpy: MIT, v1.1.2; offline Bayesian/causal reasoning prototype only.
+- PlantCraft: Apache-2.0 code; sample data rights not separately verified. Architecture reference only; multi-service resource requirements are not suitable for Android/Worker.
+- UCI hydraulic dataset 447: CC BY 4.0; 2,205 60-second test-rig cycles and 17 channels. Use only for leakage-resistant benchmark work; its pump target is internal leakage severity, not a causal repair case.
+- LBNL FDD: CC BY 4.0; catalog metadata covers seven HVAC system families. The currently exposed FCU ZIP is simulated and contains 15 faulted states plus one fault-free state; raw data and TTL files were not downloaded.
+- JonMuel and luciaparvaz UCI case studies: MIT code with UCI CC BY 4.0 data terms. Their grouped-split methodology is useful; models/processed artifacts are not imported.
+
+### Definition of Done for any future runtime case
+
+A case is not complete because a fault name and a paragraph exist. It is complete only when source rights and claim scope are recorded; measurements are typed and contextualized; competing hypotheses include supporting and opposing evidence; safe tests have prerequisites and expected outcomes; stop conditions are deterministic; missing/contradictory/noisy data are tested; a qualified technical review is recorded; post-repair verification is specified; and the runtime integration is separately approved.
