@@ -752,7 +752,13 @@
         "apps/alarms/README.md",
         "apps/alarms/ROADMAP.md",
         "apps/alarms/SECURITY.md",
-        "apps/alarms/pyproject.toml"
+        "apps/alarms/pyproject.toml",
+        "docs/en/how-it-works.md",
+        "docs/security-guide.md",
+        "docs/requirements.md",
+        "docs/en/stack.md",
+        "docs/install-offline.md",
+        "simulator/README.md"
       ],
       "contentsReviewed": "Reviewed product specification, alarms component documentation, security notes and dependency manifest; did not run the suite or import sample telemetry.",
       "equipment": [
@@ -765,12 +771,14 @@
       "qualityNotes": [
         "Broad self-hosted industrial operations suite; repository describes an alpha-stage platform.",
         "It provides asset/historian/alarm/workflow architecture but no validated pump-specific causal diagnosis in the reviewed material.",
-        "Sample data provenance and license are not separately established."
+        "Sample data provenance and license are not separately established.",
+        "The reviewed docs describe a multi-service deployment with minimum resource needs around 4 vCPU/8 GB RAM; it is not an Android/Worker runtime candidate.",
+        "The simulator is synthetic test infrastructure, not field failure evidence. The repository release tag is v0.6.0; an offline-install document also mentions a 0.6.1 bundle, so pin and reconcile versions before reproducing."
       ],
       "dependencies": "Multi-service application with backend/frontend and deployment dependencies; not a lightweight Android/Worker library.",
       "androidWorkerCompatibility": "Architecture reference only; no runtime dependency or direct port.",
       "reuseConditions": "Apache-2.0 code may be reused subject to license and NOTICE obligations; do not reuse sample data until its separate rights are verified.",
-      "reviewStatus": "reviewed-2026-11-09"
+      "reviewStatus": "reviewed-2026-11-10"
     },
     {
       "id": "uci-hydraulic-447",
@@ -950,6 +958,51 @@
       "androidWorkerCompatibility": "Use methodology only; do not ship Parquet, PDFs or Python models in the PWA/Worker.",
       "reuseConditions": "MIT applies to code. UCI data require CC BY 4.0 attribution. Do not redistribute processed Parquet or model artifacts until their separate rights are explicit.",
       "reviewStatus": "reviewed-2026-11-10-method-only"
+    },
+    {
+      "id": "brick-hvac-ontology",
+      "title": "Brick Schema — building equipment and point ontology",
+      "url": "https://github.com/BrickSchema/Brick",
+      "type": "hvac-building-equipment-ontology",
+      "potentialUse": "Reference for HVAC equipment classes, point types, system topology and equipment relationships; map only a small reviewed subset to the Toolkit's equipment/measurement schema.",
+      "reportedScope": "RDF/OWL class hierarchy and relationships for building subsystems, equipment and points; includes chiller-plant example.",
+      "licenseStatus": "BSD-3-Clause LICENSE inspected; ontology metadata points to repository LICENSE.",
+      "accessStatus": "README.md, LICENSE, bricksrc/ontology.py and examples/chiller-system/chiller-plant.ttl reviewed; no runtime parser was installed or executed.",
+      "decision": "ontology-reference-only-no-runtime-reasoner",
+      "owner": "BrickSchema",
+      "lastUpdated": "2026-11-09",
+      "lastPushed": "2026-10-30",
+      "latestRelease": "v1.5.0",
+      "version": "1.5.0",
+      "codeLicense": "BSD-3-Clause",
+      "dataLicense": "BSD-3-Clause for the reviewed repository ontology/example files; no third-party dataset payload reviewed.",
+      "filesReviewed": [
+        "README.md",
+        "LICENSE",
+        "bricksrc/ontology.py",
+        "examples/chiller-system/chiller-plant.ttl"
+      ],
+      "contentsReviewed": "Reviewed the RDF/OWL building metadata model, license metadata and a chiller-plant example linking chillers, chilled-water pumps, cooling towers, sensors and points with units.",
+      "dataOrigin": "Brick Consortium ontology and repository-authored example model; the example is illustrative metadata, not measured plant telemetry.",
+      "equipment": [
+        "HVAC",
+        "chillers",
+        "chilled-water pumps",
+        "cooling towers",
+        "air-handling systems",
+        "sensors",
+        "building points"
+      ],
+      "qualityNotes": [
+        "Strong equipment/point topology vocabulary for HVAC; not a fault taxonomy, diagnosis model or repair procedure.",
+        "The chiller example describes topology and point semantics, not measured values or validated failure behaviour.",
+        "RDF/OWL and SHACL are heavier than the current browser runtime; a constrained JSON mapping is preferable."
+      ],
+      "dataLeakage": "Not a diagnostic dataset; no model evaluation. If later paired with telemetry, split by building/site and equipment rather than random time windows.",
+      "dependencies": "RDF/OWL/SHACL tooling and Python RDFLib for repository tooling; no dependency should be added to the Android PWA or Worker.",
+      "androidWorkerCompatibility": "Use only a small static JSON subset of classes, relationships and point semantics; no full RDF reasoner in runtime.",
+      "reuseConditions": "Retain BSD-3-Clause notices and attribution; verify any imported external ontology namespaces and dependencies separately.",
+      "reviewStatus": "reviewed-2026-11-10"
     }
   ]
 }
