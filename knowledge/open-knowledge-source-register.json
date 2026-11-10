@@ -397,7 +397,7 @@
         "official LBNL FDD datasets page",
         "OEDI submission 5763 metadata and license link"
       ],
-      "contentsReviewed": "Reviewed source metadata, system coverage and license; raw CSV/telemetry files and linked PDF/TTL files were not retrieved in this run.",
+      "contentsReviewed": "Rechecked Data.gov metadata on 2026-11-10: seven HVAC system/equipment families are indexed; the catalog lists five resources. The currently exposed FCU ZIP is a simulated HVACSIM+ dataset with 15 faulted states and one fault-free case. TTL semantic models and inventory PDF are listed but were not downloaded; other raw datasets were not accessed.",
       "dataOrigin": "LBNL FDD datasets assembled from LBNL and collaborating national laboratories/universities; includes simulation, laboratory and field HVAC data.",
       "equipment": [
         "HVAC",
@@ -409,13 +409,14 @@
         "building systems"
       ],
       "qualityNotes": [
-        "Metadata describes seven system types, 257 fault/operating states and billions of data points.",
-        "Full dataset access on the LBNL site requires a contact/registration workflow; OEDI record exposes inventory/semantic metadata rather than all raw data.",
-        "Fault labels are domain-specific HVAC FDD cases, not universal repair procedures."
+        "Metadata covers RTU, single-duct AHU, dual-duct AHU, VAV, FCU, chiller plant and boiler plant; it includes simulation, lab and field building data across the catalog.",
+        "The current Data.gov record exposes a simulated FCU ZIP with 15 faulted conditions at different severities and one fault-free case; do not assume this one ZIP represents all seven equipment families.",
+        "The record also lists Brick TTL semantic models and an inventory PDF; neither was downloaded in this review.",
+        "Fault labels are benchmark conditions, not universal causal diagnoses or repair instructions."
       ],
       "dataLeakage": "Split by building, equipment, fault injection and operating scenario; avoid random time-window leakage.",
       "androidWorkerCompatibility": "Large offline benchmark only; no raw data in runtime.",
-      "reuseConditions": "CC BY 4.0 attribution; cite LBNL and each contributing dataset/source; no raw data was copied.",
+      "reuseConditions": "CC BY 4.0 attribution. Cite LBNL and contributing institutions; cite each dataset/inventory document. No raw telemetry, TTL model or PDF was copied.",
       "decision": "reference-and-benchmark-candidate-no-runtime-import",
       "reviewStatus": "metadata-license-reviewed-raw-data-not-accessed-2026-11-10",
       "potentialUse": "HVAC fault-detection benchmark and domain-specific test design; no universal repair knowledge.",
@@ -786,7 +787,7 @@
       "url": "https://archive.ics.uci.edu/dataset/447/condition+monitoring+of+hydraulic+systems",
       "type": "experimental-dataset",
       "potentialUse": "Offline benchmark for hydraulic sensor quality, condition classification and leakage-resistant evaluation; not an operational troubleshooting manual.",
-      "reportedScope": "2205 60-second test-rig cycles; pressure, motor power, flow, temperature, vibration and virtual efficiency channels; labels for cooler, valve, internal pump leakage and accumulator.",
+      "reportedScope": "2,205 60-second laboratory test-rig cycles, 17 sensor channels at 100/10/1 Hz, and four component-condition targets (cooler, valve, internal pump leakage and accumulator); UCI metadata reports 43,680 features.",
       "licenseStatus": "CC-BY-4.0 confirmed on official UCI dataset page; attribution required.",
       "accessStatus": "Official archive URL identified; about 73 MB compressed and 530 MB extracted; not downloaded.",
       "decision": "download-on-demand-offline-benchmark-only",
@@ -801,7 +802,7 @@
       "filesReviewed": [
         "official UCI dataset page and metadata"
       ],
-      "contentsReviewed": "Reviewed official metadata and signal descriptions; raw ZIP/CSV files were not downloaded in this audit.",
+      "contentsReviewed": "Rechecked the official UCI dataset page and CC BY 4.0 terms on 2026-11-10. Reviewed sensor names, units, sampling rates, cycle structure and target labels; raw ZIP/CSV files were not downloaded.",
       "dataOrigin": "ZeMA hydraulic test rig with cooler, valve, pump internal leakage and accumulator condition measurements.",
       "equipment": [
         "hydraulic system",
@@ -811,9 +812,10 @@
         "accumulator"
       ],
       "qualityNotes": [
-        "2,205 cycles of 60 seconds and 17 signals at mixed sampling frequencies; metadata reports 43,680 features.",
-        "Labels describe component condition states, not root-cause explanations or safe repair instructions.",
-        "No raw-file validation was run."
+        "Laboratory hydraulic test rig with 2,205 repeated 60-second cycles and 17 channels; not a field-maintenance narrative.",
+        "The pump target is internal leakage severity only; it does not label cavitation, air lock, suction blockage or repair steps.",
+        "Mixed sampling rates and repeated operating conditions require group-aware splits; random cycle/window splitting can leak near-duplicate operating states.",
+        "No raw-file validation or model training was run."
       ],
       "dataLeakage": "Use operating-point/cycle-group splits; random row or window splitting can leak operating conditions and repeated-cycle patterns.",
       "androidWorkerCompatibility": "Benchmark only; raw dataset is too large for the phone/Worker runtime.",
