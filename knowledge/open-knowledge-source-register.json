@@ -60,16 +60,16 @@
       "url": "https://github.com/jonathanwvd/awesome-industrial-datasets",
       "type": "dataset-catalog",
       "potentialUse": "Discover original datasets across industrial domains; not a fault database.",
-      "reportedScope": "README reports 199 datasets across manufacturing, chemical/process, mechanical, oil/gas, energy, robotics and OT security.",
-      "licenseStatus": "catalogue CC-BY-NC-4.0; each linked dataset has separate terms",
+      "reportedScope": "README now reports 297 indexed datasets across industrial domains (checked 2026-11-10); this is a discovery catalogue, not a validated fault dataset.",
+      "licenseStatus": "Repository API reports NOASSERTION, but the reviewed LICENSE file states CC-BY-NC-4.0 for catalogue content; each linked dataset has separate terms.",
       "accessStatus": "README and LICENSE reviewed",
       "decision": "discovery-index-only-noncommercial-license",
       "owner": "jonathanwvd",
-      "lastUpdated": "2026-11-09",
-      "lastPushed": "2026-11-09",
+      "lastUpdated": "2026-11-10",
+      "lastPushed": "2026-11-10",
       "latestRelease": null,
       "codeLicense": "not applicable for content reuse",
-      "dataLicense": "CC-BY-NC-4.0 for the catalogue content; linked datasets have separate licenses",
+      "dataLicense": "CC-BY-NC-4.0 for catalogue content; every linked dataset has its own publisher license.",
       "filesReviewed": [
         "README.md",
         "LICENSE",
@@ -77,15 +77,16 @@
         "markdown/3w.md",
         "markdown/damadics_actuator_benchmark.md"
       ],
-      "contentsReviewed": "Reviewed catalogue entries for UCI hydraulic, 3W and DAMADICS; 199 dataset entries are indexed.",
+      "contentsReviewed": "Rechecked README and LICENSE on 2026-11-10; the catalogue grew from the prior 199-entry snapshot to 297 entries. Reviewed the hydraulic, 3W and DAMADICS pointers only; no linked dataset payload was copied.",
       "qualityNotes": [
-        "Useful discovery index, not a validated data source.",
-        "The catalogue's non-commercial license is incompatible with commercial reuse of its text without permission.",
-        "Each linked dataset must be checked at its original publisher."
+        "Useful discovery index, not a validated data source or fault knowledge base.",
+        "The catalogue's CC BY-NC 4.0 terms are non-commercial; do not copy its descriptions into a commercial product without permission.",
+        "The repository API license field is NOASSERTION; the LICENSE file, not the API badge, was inspected.",
+        "Each linked dataset must be checked at its original publisher; the catalogue license does not license the linked datasets."
       ],
       "androidWorkerCompatibility": "Use only as a discovery index; do not package its catalogue content into runtime.",
-      "reuseConditions": "Do not copy catalogue descriptions into a commercial product; navigate to and verify each original source.",
-      "reviewStatus": "reviewed-2026-11-09"
+      "reuseConditions": "Do not copy catalogue descriptions into a commercial product; use the index only to discover and verify original publishers and their separate data terms.",
+      "reviewStatus": "reviewed-2026-11-10"
     },
     {
       "id": "azure-predictive-maintenance-agents",
@@ -138,16 +139,18 @@
         "rotating machinery"
       ],
       "qualityNotes": [
-        "The library is a metadata/downloader registry, not a fault knowledge base.",
-        "CWRU, XJTU-SY and FEMTO manifests do not establish an explicit data license in the reviewed fields.",
-        "Paderborn is marked CC-BY-NC-4.0; non-commercial only.",
-        "URMA-CRTI is marked CC-BY-4.0 by this third-party manifest, but the primary Zenodo record was not independently verified in this run."
+        "README reports 69 public datasets; the current tree contains 70 dataset.yaml manifests including one private example manifest.",
+        "The repository is a metadata/downloader registry, not a fault knowledge base.",
+        "CWRU, XJTU-SY and FEMTO manifests do not establish an explicit data license in the reviewed fields; Paderborn is marked CC-BY-NC-4.0.",
+        "URMA-CRTI manifest says CC-BY-4.0, but the linked Zenodo record could not be independently opened in this review; keep the primary data license pending.",
+        "URMA-CRTI metadata says 23 recordings at 25.6 kHz but the signal unit and combined-fault definition remain unclear."
       ],
-      "dataLeakage": "Use run/bearing/operating-condition group splits; avoid splitting overlapping windows from the same run across train and test.",
+      "dataLeakage": "Split by dataset, machine/bearing ID, run and operating condition; never place overlapping windows from one recording in both train and test.",
       "dependencies": "Python package with dataset-specific download and parsing adapters; not suitable as a runtime dependency in the Android PWA or Cloudflare Worker.",
       "androidWorkerCompatibility": "Port only small, reviewed metadata fields; run large dataset experiments outside the phone/Worker.",
-      "reuseConditions": "MIT applies to registry code. Check and comply with each dataset's own license, citation, redistribution and non-commercial/share-alike conditions.",
-      "reviewStatus": "reviewed-2026-11-09"
+      "reuseConditions": "MIT applies to registry code only. Check every dataset's own license and citation at the original publisher. Do not download URMA-CRTI until its primary Zenodo license and metadata are independently confirmed.",
+      "reviewStatus": "reviewed-2026-11-10-primary-URMA-license-pending",
+      "lastChecked": "2026-11-10"
     },
     {
       "id": "brick-schema",
@@ -341,15 +344,43 @@
       "reportedScope": "UCI hydraulic condition monitoring dataset; notebook, exported model, FastAPI demo.",
       "licenseStatus": "repository code MIT; UCI dataset terms are separate",
       "accessStatus": "README and LICENSE reviewed",
-      "decision": "offline-evaluation-reference",
+      "decision": "offline-evaluation-reference-no-model-import",
       "owner": "JonMuel",
-      "codeLicense": "MIT reported in repository review",
-      "dataLicense": "underlying UCI hydraulic data CC BY 4.0; separate from repository code",
-      "lastUpdated": null,
-      "lastPushed": null,
+      "codeLicense": "MIT (LICENSE file; GitHub API metadata reports NOASSERTION).",
+      "dataLicense": "Underlying UCI dataset 447 is CC BY 4.0; the exported joblib model and derived artifacts have no separate rights statement in the reviewed files.",
+      "lastUpdated": "2026-08-17",
+      "lastPushed": "2026-07-05",
       "latestRelease": null,
-      "filesReviewed": [],
-      "contentsReviewed": "Not reviewed in this audit."
+      "filesReviewed": [
+        "README.md",
+        "LICENSE",
+        "data/README.md",
+        "scripts/download_data.py",
+        "deployment/app/inference.py",
+        "deployment/models/model_info.json",
+        "results/model_metrics.txt",
+        "notebook/01_condition_monitoring_valve.ipynb"
+      ],
+      "contentsReviewed": "Reviewed the notebook's grouped/stratified operating-block split, the leakage ablation, the model metadata and reported metrics. Raw UCI data were not downloaded and the joblib model was not executed.",
+      "dataOrigin": "UCI Machine Learning Repository dataset 447 (ZeMA hydraulic test rig); the project targets valve-condition classification.",
+      "equipment": [
+        "hydraulic system",
+        "proportional valve",
+        "pump leakage label",
+        "cooler",
+        "accumulator"
+      ],
+      "qualityNotes": [
+        "The model classifies valve condition levels; it does not identify root causes or provide repair procedures.",
+        "The notebook uses StratifiedGroupKFold by operating-condition block. Its reported Random Forest ablation falls from CV-F1 0.977 on a random cycle split to 0.527 on a blockwise split, demonstrating severe leakage risk.",
+        "The final reported model is Gradient Boosting with test accuracy 0.906 and macro-F1 0.873; Brier 0.152 and ECE 0.023 are reported by the repository and were not independently reproduced.",
+        "The dataset is a laboratory test rig with class imbalance and no field validation; the model artifact's redistribution terms are not separately declared."
+      ],
+      "dataLeakage": "Preserve the StratifiedGroupKFold/operating-block separation. Never randomly split adjacent or near-identical cycles. External validation by physical rig/site is still absent.",
+      "dependencies": "Python scientific stack including NumPy, pandas, scikit-learn, optional imbalanced-learn, FastAPI and joblib; not an Android/Worker dependency.",
+      "androidWorkerCompatibility": "Offline evaluation reference only; do not ship the Python stack or pre-trained model in the PWA/Worker.",
+      "reuseConditions": "MIT applies to repository code. UCI data retain CC BY 4.0 attribution. Do not copy the model artifact or derived outputs until their separate redistribution rights are clear.",
+      "reviewStatus": "reviewed-2026-11-10-code-and-method-only"
     },
     {
       "id": "lbnl-fdd-datasets",
@@ -386,9 +417,9 @@
       "androidWorkerCompatibility": "Large offline benchmark only; no raw data in runtime.",
       "reuseConditions": "CC BY 4.0 attribution; cite LBNL and each contributing dataset/source; no raw data was copied.",
       "decision": "reference-and-benchmark-candidate-no-runtime-import",
-      "reviewStatus": "metadata-license-reviewed-raw-data-not-accessed-2026-11-09",
+      "reviewStatus": "metadata-license-reviewed-raw-data-not-accessed-2026-11-10",
       "potentialUse": "HVAC fault-detection benchmark and domain-specific test design; no universal repair knowledge.",
-      "lastChecked": "2026-11-09",
+      "lastChecked": "2026-11-10",
       "licenseStatus": "CC-BY-4.0 confirmed through the OEDI record license link"
     },
     {
@@ -467,7 +498,8 @@
       "dataLeakage": "Split by machine/model and recording conditions; keep domain and machine identity groups separate. Normal/abnormal labels do not provide causal repair labels.",
       "androidWorkerCompatibility": "Audio dataset and legacy model are not suitable for Android/Worker runtime; use only as an isolated benchmark if licensing is followed.",
       "reuseConditions": "Dataset may be used under CC BY-SA 4.0 with attribution and share-alike obligations; do not copy baseline code without permission.",
-      "reviewStatus": "reviewed-2026-11-09"
+      "reviewStatus": "reviewed-2026-11-09-rechecked-2026-11-10",
+      "lastChecked": "2026-11-10"
     },
     {
       "id": "mimii-dataset-zenodo-3384388",
@@ -500,9 +532,9 @@
       "androidWorkerCompatibility": "Research benchmark only; do not embed audio in the PWA or Worker.",
       "reuseConditions": "CC BY-SA 4.0 requires attribution and share-alike for adaptations; keep dataset separate from runtime knowledge.",
       "decision": "research-benchmark-only-sharealike-no-runtime-import",
-      "reviewStatus": "official-license-and-metadata-reviewed-2026-11-09",
+      "reviewStatus": "official-license-and-metadata-reviewed-2026-11-09-rechecked-2026-11-10",
       "potentialUse": "Acoustic anomaly-detection benchmark for pumps, valves, fans and slide rails only.",
-      "lastChecked": "2026-11-09",
+      "lastChecked": "2026-11-10",
       "licenseStatus": "CC-BY-SA-4.0 confirmed on the official Zenodo record"
     },
     {
@@ -537,9 +569,9 @@
       "androidWorkerCompatibility": "Research benchmark only.",
       "reuseConditions": "CC BY-NC-SA 4.0; attribution, non-commercial restriction and share-alike apply.",
       "decision": "noncommercial-benchmark-only-no-commercial-runtime-import",
-      "reviewStatus": "official-license-and-metadata-reviewed-2026-11-09",
+      "reviewStatus": "official-license-and-metadata-reviewed-2026-11-09-rechecked-2026-11-10",
       "potentialUse": "Non-commercial domain-generalization anomaly-detection benchmark for fans, gearboxes, bearings, slide rails and valves.",
-      "lastChecked": "2026-11-09",
+      "lastChecked": "2026-11-10",
       "licenseStatus": "CC-BY-NC-SA-4.0 confirmed on the official Zenodo record"
     },
     {
@@ -574,9 +606,9 @@
       "androidWorkerCompatibility": "Research benchmark only; no Android/Worker use.",
       "reuseConditions": "CC BY-NC-SA 4.0 prohibits commercial reuse without separate permission and imposes share-alike obligations.",
       "decision": "noncommercial-benchmark-only-no-commercial-runtime-import",
-      "reviewStatus": "official-license-and-metadata-reviewed-2026-11-09",
+      "reviewStatus": "official-license-and-metadata-reviewed-2026-11-09-rechecked-2026-11-10",
       "potentialUse": "Non-commercial domain-shift anomaly-detection benchmark for fans, gearboxes, pumps, slide rails and valves.",
-      "lastChecked": "2026-11-09",
+      "lastChecked": "2026-11-10",
       "licenseStatus": "CC-BY-NC-SA-4.0 confirmed on the official Zenodo record"
     },
     {
@@ -586,21 +618,22 @@
       "type": "prognostics-library",
       "potentialUse": "Research reference for state estimation, prediction, uncertainty propagation and RUL evaluation as a separate module.",
       "reportedScope": "Prognostics models and algorithms for selected engineering components.",
-      "licenseStatus": "README identifies NASA Open Source Agreement (NOSA) and links license.pdf; PDF obligations not reviewed",
+      "licenseStatus": "pyproject.toml declares NASA-1.3; two NASA license PDFs are present in the repository, but their full text/obligations were not parsed in this pass.",
       "accessStatus": "README reviewed; linked license PDF not text-inspected",
-      "decision": "research-reference-pending-license-review",
+      "decision": "research-reference-only-no-code-copy-pending-license-terms",
       "owner": "NASA",
       "lastUpdated": "2026-11-05",
       "lastPushed": "2026-10-23",
       "latestRelease": "v1.9.0",
       "version": "1.9.0",
-      "codeLicense": "NASA Open Source Agreement (NOSA) stated by repository; exact PDF version/obligations not fully reviewed",
-      "dataLicense": "no separate dataset license reviewed",
+      "codeLicense": "NASA Open Source Agreement 1.3 (NOSA 1.3), as declared in pyproject.toml.",
+      "dataLicense": "No separate dataset license reviewed; examples/models are not assumed to be separately licensed.",
       "filesReviewed": [
         "README.md",
-        "pyproject.toml"
+        "pyproject.toml",
+        "repository root listing showing prog_algs license.pdf and prog_models license.pdf"
       ],
-      "contentsReviewed": "Reviewed README, package metadata and version; license PDFs are present in the repository but were not parsed in this audit.",
+      "contentsReviewed": "Reviewed README, pyproject metadata and the two linked license PDF filenames. The PDF clauses and any example data/model rights were not text-inspected.",
       "equipment": [
         "generic prognostics models",
         "pump simulation example",
@@ -612,8 +645,8 @@
       ],
       "dependencies": "Python scientific stack including SciPy, pandas, matplotlib and filtering/prognostics packages.",
       "androidWorkerCompatibility": "Not suitable as a runtime dependency; use only as a research reference after license review.",
-      "reuseConditions": "Do not copy code until the actual NOSA license PDFs and component-specific terms have been reviewed.",
-      "reviewStatus": "partially-reviewed-2026-11-09"
+      "reuseConditions": "Do not copy or redistribute code until both NASA license PDFs and any bundled third-party components are reviewed; keep prognostics examples as research references only.",
+      "reviewStatus": "partially-reviewed-2026-11-10"
     },
     {
       "id": "petrobras-3w",
@@ -777,7 +810,8 @@
       "dataLeakage": "Use operating-point/cycle-group splits; random row or window splitting can leak operating conditions and repeated-cycle patterns.",
       "androidWorkerCompatibility": "Benchmark only; raw dataset is too large for the phone/Worker runtime.",
       "reuseConditions": "CC BY 4.0 attribution; preserve dataset citation and source link; do not turn telemetry labels into maintenance facts.",
-      "reviewStatus": "metadata-and-license-reviewed-2026-11-09"
+      "reviewStatus": "official-metadata-and-CC-BY-4.0-rechecked-2026-11-10",
+      "lastChecked": "2026-11-10"
     },
     {
       "id": "uci-hydraulic-condition-monitoring",
@@ -832,6 +866,90 @@
       "androidWorkerCompatibility": "No Android/Worker runtime use; isolated benchmark only after primary license verification.",
       "reuseConditions": "Do not download or redistribute until the original Zenodo record explicitly confirms the exact license and citation.",
       "reviewStatus": "pending-primary-source-verification-2026-11-09"
+    },
+    {
+      "id": "awesome-bearing-dataset",
+      "title": "Awesome Bearing Dataset — discovery catalogue",
+      "url": "https://github.com/VictorBauler/awesome-bearing-dataset",
+      "type": "bearing-dataset-discovery-catalogue",
+      "potentialUse": "Discover original bearing and rotating-machinery datasets; use only as an index to source-level license and provenance checks.",
+      "reportedScope": "Curated index of public bearing/rotating-machinery datasets and associated publications.",
+      "licenseStatus": "GitHub API reports MIT and the LICENSE file was inspected; the license applies to repository content/code, not to the linked third-party datasets.",
+      "accessStatus": "README.md, LICENSE and docs/datasets.md reviewed; linked dataset payloads were not downloaded.",
+      "decision": "discovery-index-only-per-dataset-license-review",
+      "owner": "VictorBauler",
+      "lastUpdated": "2026-11-02",
+      "lastPushed": "2026-09-30",
+      "latestRelease": null,
+      "codeLicense": "MIT",
+      "dataLicense": "No single data license; each linked dataset retains its own original terms.",
+      "filesReviewed": [
+        "README.md",
+        "LICENSE",
+        "docs/datasets.md"
+      ],
+      "contentsReviewed": "Reviewed the catalogue structure and its dataset links; no bearing signal files or labels were copied.",
+      "dataOrigin": "Third-party datasets and their original publishers; every entry requires independent source and license verification.",
+      "equipment": [
+        "rolling-element bearings",
+        "motors",
+        "gearboxes",
+        "rotating machinery"
+      ],
+      "qualityNotes": [
+        "A discovery index, not a normalized fault taxonomy or verified diagnostic casebook.",
+        "Publication metadata and dataset links do not establish rights to redistribute linked signals."
+      ],
+      "dataLeakage": "For each dataset, split by physical bearing, machine, run and operating condition; do not randomly split windows from one recording.",
+      "dependencies": "No runtime dependency; catalogue browsing only.",
+      "androidWorkerCompatibility": "Do not embed the catalogue or raw signals in the app; use only as a research index.",
+      "reuseConditions": "Preserve MIT notices if reusing catalogue code/text; verify every linked dataset's license, citation and redistribution terms separately.",
+      "reviewStatus": "reviewed-2026-11-10"
+    },
+    {
+      "id": "luciaparvaz-hydraulic-predictive-maintenance",
+      "title": "Hydraulic Predictive Maintenance — UCI 447 grouped-evaluation case study",
+      "url": "https://github.com/luciaparvaz/hydraulic-predictive-maintenance",
+      "type": "hydraulic-telemetry-ml-case-study",
+      "potentialUse": "Methodological reference for group-aware evaluation, sensor feature engineering and explicit limits on what a test-rig dataset can prove.",
+      "reportedScope": "UCI 447 hydraulic test rig; 2,205 cycles, 17 channels, four component labels; notebook reports 1,447 stable cycles across 144 operating points and 74 engineered features.",
+      "licenseStatus": "LICENSE file explicitly states MIT covers repository code only; underlying UCI dataset is CC BY 4.0. Processed Parquet artifacts have no separate rights statement beyond the repository's dataset note.",
+      "accessStatus": "README.md, LICENSE, src/data_loader.py, src/feature_engineering.py, notebook and results summary reviewed; raw UCI ZIP not downloaded; Parquet binary could not be text-inspected.",
+      "decision": "evaluation-method-reference-only-no-data-or-model-import",
+      "owner": "luciaparvaz",
+      "lastUpdated": "2026-09-30",
+      "lastPushed": "2026-09-30",
+      "latestRelease": null,
+      "codeLicense": "MIT (LICENSE file; GitHub API metadata reports NOASSERTION).",
+      "dataLicense": "UCI 447 raw data CC BY 4.0; processed Parquet and report artifacts are not separately licensed in the reviewed files.",
+      "filesReviewed": [
+        "README.md",
+        "LICENSE",
+        "src/data_loader.py",
+        "src/feature_engineering.py",
+        "notebooks/mantenimiento_preventivo.ipynb",
+        "data/processed/results_summary.json"
+      ],
+      "contentsReviewed": "Reviewed the data loader, 17-sensor frequency mapping, 74-feature extraction and notebook's StratifiedGroupKFold grouped by the 144 operating points. Processed Parquet binaries were not decoded.",
+      "dataOrigin": "UCI Machine Learning Repository dataset 447 (ZeMA laboratory hydraulic test rig).",
+      "equipment": [
+        "hydraulic system",
+        "cooler",
+        "proportional valve",
+        "pump internal-leakage label",
+        "accumulator"
+      ],
+      "qualityNotes": [
+        "The project explicitly predicts current component condition/severity, not time-to-failure or RUL.",
+        "Pump target is the UCI pump_leakage label; it is not a causal pump fault diagnosis or a repair procedure.",
+        "Reported GroupKFold metrics are laboratory/test-rig results and are not field validation.",
+        "The README explicitly states that real-system extrapolation is future work and not validated."
+      ],
+      "dataLeakage": "The notebook groups by operating point so cycles from one of the 144 design cells do not cross train/test folds. Still requires external validation on independent equipment/sites before operational use.",
+      "dependencies": "Python with NumPy, pandas, SciPy, scikit-learn and Jupyter; no Android/Worker runtime.",
+      "androidWorkerCompatibility": "Use methodology only; do not ship Parquet, PDFs or Python models in the PWA/Worker.",
+      "reuseConditions": "MIT applies to code. UCI data require CC BY 4.0 attribution. Do not redistribute processed Parquet or model artifacts until their separate rights are explicit.",
+      "reviewStatus": "reviewed-2026-11-10-method-only"
     }
   ]
 }
