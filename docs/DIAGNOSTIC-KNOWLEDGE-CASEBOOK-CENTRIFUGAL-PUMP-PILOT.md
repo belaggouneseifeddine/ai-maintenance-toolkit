@@ -233,3 +233,39 @@ No paper text, figures, tables or raw data were copied. The two sources are regi
 ### Pilot gate
 
 No pump case enters runtime until every claim has a permitted source, exact section/page, equipment scope, units, measurement location, operating conditions, supporting and opposing evidence, safe test prerequisites, expected results for competing hypotheses, stop conditions, post-repair verification and automated tests for missing, contradictory, noisy and invalid measurements. Actual measurements, PLC-indicated values and estimates must remain distinct. No general numeric threshold is allowed without the applicable model/curve/fluid/installation source.
+
+## 10. Runtime evidence audit — 2026-11-10
+
+This update is an inventory and gap assessment only. No candidate case was promoted to runtime and no third-party text or telemetry was copied.
+
+### Existing pump records and evidence status
+
+- The current faults.json blob was parsed from the repository (blob SHA fe047169713961bf9ab82f1899fddc8ae4e0dd1d): 284 core records across 37 equipment labels, including 17 pump records.
+- All 17 pump records have no sourceRefs and no corresponding reviewed claim in diagnostic-evidence-register.json; all 17 are source-not-recorded with zero references.
+- Two pump records describe mechanical-seal leakage (pump-mechanical-seal-leak and pump-seal-leak) and should be reconciled before any case is expanded. pump-excessive-flow is currently tagged with the low_flow symptom and needs a taxonomy review. These are candidate data-quality findings, not permission to edit runtime records.
+- The evidence register has 287 records: 171 source-not-recorded, 56 review-needed, and 60 verified. The verified status means a cited claim was checked against its stated source/scope; it does not mean field validation or calibrated diagnostic accuracy.
+- knowledge/oem-verified-faults.json contains 99 records and no pump record. knowledge/manufacturer-machine-fault-matrix.json contains 28 manufacturer profiles and 38 templates; its policy marks these as general guidance, not model-specific verified alarm definitions.
+- knowledge/faults-supplement.json contains three general cases (motor overheating, compressor overheating, bearing vibration); none is a pump differential case. knowledge/sources.json contains the two open-access research sources already reviewed for this pilot and five reference-only OEM/support portals.
+
+### Source coverage decision remains unchanged
+
+| Pilot case | Evidence available in this repository | Decision on 2026-11-10 |
+|---|---|---|
+| Cavitation | The 2021 PMT-4008 paper does not validate cavitation and explicitly leaves it for future work. No claim-level source for a model-bounded cavitation procedure is registered. | Candidate only; do not promote |
+| Air Lock | No reviewed source with exact mechanism, operating scope, discriminating checks and claim-level section/page. | Source gap; do not promote |
+| Suction Blockage | No reviewed source distinguishing suction-side restriction from discharge restriction, air ingress and low source level under a defined installation. | Source gap; do not promote |
+| Low Flow | General pump-system references exist, but the runtime has no exact pump curve, duty point or model-specific limits for a real case. | Broad symptom only; do not confirm cause |
+| Mechanical Seal Leakage | The 2021 paper covers seeded seal-hole/scratch conditions on one laboratory rig, not field leakage-rate criteria or a universal safe inspection procedure. | Research reference only |
+| Bearing Degradation | The 2021 bearing paper covers two seeded defects on one laboratory motor/bearing setup; it does not establish pump-bearing field limits. | Research reference only |
+
+### Runtime capability gap
+
+- diagnostic-flows.js contains 13 equipment/symptom flows. The pump flow is still pump|low_flow; it has three broad hypotheses (supply/suction, flow-path restriction/valve position, and operating condition). It does not independently distinguish the six pilot cases.
+- The server-owned Worker allowlist has six curated flows. Its pump flow accepts broad evidence IDs, not a six-case pump causal model.
+- The casebook measurement record already specifies value, unit, measurement point, instrument/calibration, operating state, timestamp, reference and quality (measured, controller-indicated, estimated, unknown). The current runtime request still passes readings mainly as free-text observations plus a coarse measurementStatus; it does not preserve these fields as typed measurement records.
+- The local diagnostic engine remains keyword/rule matching. The Bayesian-style scorer uses a fixed prior and likelihood ratio; it is not a calibrated Bayesian network. The next-question selector scores pairwise hypothesis separation, not posterior-entropy expected information gain, and it does not yet optimize safety, time and cost together.
+- Worker retrieval is BM25 lexical retrieval over Markdown fetched from the repository's main raw-content path. No embedding/vector index is used, and the source snapshot is not pinned to a reviewed commit.
+
+### Pilot gate reaffirmed
+
+No one of the six pilot cases may enter runtime until its claims have permitted, claim-level sources; bounded equipment/application scope; measurement units and locations; operating conditions; evidence for and against competing hypotheses; safe test prerequisites; expected outcomes for each hypothesis; stop-work conditions; post-repair verification; and automated tests for missing, contradictory, noisy and invalid sensor data. UCI/MIMII/LBNL telemetry labels remain benchmark data only. No general numeric threshold, OEM claim, calibrated probability or RUL estimate is authorized by this review.
