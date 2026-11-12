@@ -37,7 +37,25 @@
         "raw_tables",
         "raw_figures"
       ],
-      "status": "candidate"
+      "status": "candidate",
+      "reviewDate": "2026-11-09",
+      "licenseVerification": "CC-BY-4.0 confirmed on PMC full text",
+      "sectionsReviewed": [
+        "1. Introduction",
+        "3. Experimental Procedure",
+        "4. Results and Discussion",
+        "5. Fault Classification Algorithm",
+        "6. Conclusions"
+      ],
+      "scopeReviewed": "Laboratory 2 HP induction motor driving a water pump; 6202-2z bearing; two seeded defects (0.5 mm hole and 0.5 x 0.5 x 5 mm scratch); current and voltage sensing; 640 samples across no-load, medium-load and full-load conditions.",
+      "evidenceRole": "research-reference-only",
+      "limitations": [
+        "Not field validation; one laboratory rig and one bearing model.",
+        "Reported 100% classification is limited to the paper's 640-sample experiment and 70/30 split; raw data are not supplied in the article.",
+        "Does not establish universal vibration/current thresholds or a pump-specific repair procedure.",
+        "Does not support cavitation, air-lock, suction-blockage or low-flow root-cause rules."
+      ],
+      "reuseConditions": "Paraphrase only with attribution under CC BY 4.0; do not reproduce figures/tables or treat lab thresholds as universal."
     },
     {
       "id": "centrifugal-pump-fault-pmc-2022",

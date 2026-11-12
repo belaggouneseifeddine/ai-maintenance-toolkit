@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "status": "research-only-not-loaded-by-runtime",
+  "extractedOn": "2026-11-09",
+  "purpose": "Non-operational coverage metadata extracted from a public repository for gap analysis. Contains no copied fault descriptions, repair instructions, schedules, numeric telemetry, or standards text.",
+  "source": {
+    "id": "industrial-ops-rag-agent",
+    "repository": "yilin-2511/industrial-ops-rag-agent",
+    "url": "https://github.com/yilin-2511/industrial-ops-rag-agent",
+    "filesReviewed": [
+      "LICENSE",
+      "data/knowledge_base.json",
+      "data/fault_cases.json",
+      "requirements.txt"
+    ],
+    "codeLicense": "MIT",
+    "dataLicense": "not-declared-separately-in-reviewed-files",
+    "evidenceStatus": "repository-content-reviewed-data-rights-unresolved"
+  },
+  "extraction": {
+    "equipmentTypes": [
+      {
+        "id": "centrifugal_pump",
+        "sourceName": "离心泵",
+        "category": "rotating_equipment",
+        "faultRecordCount": 9,
+        "proposedAppEquipmentType": "pump",
+        "mappingStatus": "candidate_mapping_not_verified"
+      },
+      {
+        "id": "three_phase_induction_motor",
+        "sourceName": "三相异步电动机",
+        "category": "electrical_equipment",
+        "faultRecordCount": 7,
+        "proposedAppEquipmentType": "motor",
+        "mappingStatus": "candidate_mapping_not_verified"
+      },
+      {
+        "id": "control_valve",
+        "sourceName": "调节阀",
+        "category": "valve_and_actuator",
+        "faultRecordCount": 5,
+        "proposedAppEquipmentType": "valve",
+        "mappingStatus": "candidate_mapping_not_verified"
+      },
+      {
+        "id": "air_compressor",
+        "sourceName": "空气压缩机",
+        "category": "rotating_equipment",
+        "faultRecordCount": 8,
+        "proposedAppEquipmentType": "compressor",
+        "mappingStatus": "candidate_mapping_not_verified"
+      },
+      {
+        "id": "shell_and_tube_heat_exchanger",
+        "sourceName": "管壳式换热器",
+        "category": "static_process_equipment",
+        "faultRecordCount": 6,
+        "proposedAppEquipmentType": "heat_exchanger",
+        "mappingStatus": "candidate_mapping_not_verified"
+      },
+      {
+        "id": "centrifugal_fan",
+        "sourceName": "离心风机",
+        "category": "rotating_equipment",
+        "faultRecordCount": 6,
+        "proposedAppEquipmentType": "fan-blower",
+        "mappingStatus": "candidate_mapping_not_verified"
+      },
+      {
+        "id": "cooling_tower",
+        "sourceName": "冷却塔",
+        "category": "thermal_process_equipment",
+        "faultRecordCount": 5,
+        "proposedAppEquipmentType": "cooling",
+        "mappingStatus": "candidate_mapping_not_verified"
+      },
+      {
+        "id": "safety_valve",
+        "sourceName": "安全阀",
+        "category": "pressure_protection_equipment",
+        "faultRecordCount": 4,
+        "proposedAppEquipmentType": "valve",
+        "mappingStatus": "candidate_mapping_not_verified"
+      },
+      {
+        "id": "gear_reducer",
+        "sourceName": "减速机",
+        "category": "rotating_equipment",
+        "faultRecordCount": 5,
+        "proposedAppEquipmentType": "gearbox",
+        "mappingStatus": "candidate_mapping_not_verified"
+      }
+    ],
+    "totalFaultRecords": 55,
+    "caseHistoryRecords": 1,
+    "genericMaintenanceSchedulesPresent": true,
+    "mappingNote": "Mappings are proposed aliases to existing app equipmentType vocabulary for gap analysis only; they have not been reconciled against all 60 core/supplemental records or approved diagnostic flows and must not be used by runtime."
+  },
+  "qualityFindings": {
+    "diagnosisStepsIdenticalToPossibleCauses": 42,
+    "diagnosisStepsIdenticalRatio": 0.7636,
+    "implications": [
+      "Most listed diagnosis_steps are cause labels rather than discriminating inspections or measurements.",
+      "Source labels cite standards or generic manuals without page, revision, model scope or claim-level evidence.",
+      "The single case history is insufficient for statistical validation and contains a named handler field; do not import it.",
+      "Generic maintenance intervals are not transferable to specific assets without OEM/site duty and environment context."
+    ]
+  },
+  "integrationDecision": {
+    "runtimeImport": false,
+    "allowedUse": "coverage-gap-analysis-and-schema-design-only",
+    "nextAction": "Map taxonomy against existing equipmentType values; import no fault claims until independent sources and reuse rights are verified."
+  },
+  "reviewedAt": "2026-11-09",
+  "metadataOnly": true,
+  "sourceContentStored": false,
+  "rawFaultTextStored": false,
+  "licenseStatus": "repository-code-MIT; embedded data license not declared separately",
+  "decision": "discovery-only-no-fault-text-import"
+}

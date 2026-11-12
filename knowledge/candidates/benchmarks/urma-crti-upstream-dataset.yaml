@@ -1,0 +1,12 @@
+source: https://zenodo.org/records/19109150
+source_record_id: 19109150
+third_party_manifest: https://github.com/VictorBauler/BearingDatasets
+third_party_license_claim: CC-BY-4.0
+primary_license_status: pending-primary-source-verification
+download_allowed: false
+runtime_import: false
+decision: pending-primary-license-review-do-not-download
+notes:
+  - The CC-BY-4.0 label was observed in a third-party dataset manifest only.
+  - The original Zenodo record/license could not be independently verified during the 2026-11-09 audit.
+  - Do not download or redistribute until the original record explicitly confirms the exact license and citation.

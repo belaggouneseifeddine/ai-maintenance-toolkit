@@ -53,3 +53,26 @@ Do not measure success by number of AI features. Track:
 ## Release rule
 
 A commit, green automated test, or successful health endpoint is not sufficient by itself to claim production readiness. The release record must distinguish static review, automated tests, deployed API tests, and manual Android/PWA tests. The app remains advisory and must not replace site safety procedures, qualified judgement or manufacturer instructions.
+
+
+## Competitive review — 2026-11-09
+
+Public product pages and documentation were reviewed; no paid trial, production integration or independent performance benchmark was run. Vendor capability and accuracy statements below are vendor claims, not independently verified measurements.
+
+| Product | Publicly described capabilities | What it means for the Toolkit |
+|---|---|---|
+| IBM Maximo Application Suite / APM | Enterprise asset performance, condition monitoring, predictive/prescriptive maintenance, asset health and work-management integration | Benchmark asset history, sensor-to-work-order traceability and enterprise workflows; do not attempt to reproduce a full EAM suite. |
+| Siemens Senseye Predictive Maintenance | Industrial AI and domain-expert workflow for asset health visibility, prioritization and predictive maintenance across fleets | Benchmark multi-asset prioritization and maintenance-context capture; public material does not expose enough model detail to validate causal reasoning. |
+| AVEVA Predictive Analytics | Condition monitoring, fault detection/diagnostics, asset-health analytics and time-to-failure/prescriptive guidance | Benchmark clear separation between anomaly detection, fault diagnosis and prediction; require calibration evidence before adopting RUL language. |
+| Fiix Asset Health powered by Augury | Sensor-based machine-health monitoring, AI plus human vibration expertise and maintenance workflow integration | Benchmark sensor provenance, expert validation and conversion of alerts into work; the Toolkit currently has no live sensor ingestion. |
+| UpKeep Nova | AI assistant inside a CMMS for maintenance knowledge, work orders and mobile workflows | Benchmark natural-language access to asset/work-order history; the Toolkit currently exports/shares locally but has no authenticated multi-user CMMS backend. |
+| ABB Digital Powertrain / asset health services | Motor/drive and rotating-equipment condition monitoring and predictive-maintenance services | Benchmark motor-centric monitoring and lifecycle context; the Toolkit needs better motor/VFD/bearing evidence and measurement context. |
+| PlantCraft (open source) | Self-hosted historian, alarms, analytics, dashboards, models and workflow components | Architecture reference for local ownership and plant context; broader platform, not a validated pump diagnosis competitor. |
+
+### Relative position
+
+**Current Toolkit strengths:** mobile PWA, Arabic/French/English, local/offline deterministic workflows, local PM scheduling, photo-backed maintenance log, handover/export, safety gate and an explicit evidence/uncertainty direction.
+
+**Current gaps:** no live PLC/SCADA/historian ingestion, no calibrated predictive model/RUL, no asset hierarchy or CMMS integration, no authenticated collaboration/sync, no complete document/PDF ingestion, and the pump pilot is not yet a source-backed six-case diagnostic engine.
+
+**Product strategy:** do not compete feature-for-feature with enterprise APM/CMMS suites. Build a reliable offline diagnostic companion that is unusually transparent about evidence, uncertainty, measurement provenance and safe next tests. Add work-order/CMMS integrations only after the diagnostic core is validated.

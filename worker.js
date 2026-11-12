@@ -702,15 +702,21 @@ export default {
     const normalizedMachine = normalizeEvidenceText(machine);
     const normalizedSymptom = normalizeEvidenceText(symptom);
     const pumpMachine = normalizedMachine.includes("pump") || normalizedMachine.includes("مضخه");
-    const motorMachine = normalizedMachine.includes("motor") || normalizedMachine.includes("محرك");
-    const compressorMachine = normalizedMachine.includes("compressor") || normalizedMachine.includes("ضاغط");
+    const motorMachine = normalizedMachine.includes("motor") || normalizedMachine.includes("محرك") || normalizedMachine.includes("موتور");
+    const compressorMachine = normalizedMachine.includes("compressor") || normalizedMachine.includes("ضاغط") || normalizedMachine.includes("كمبروسر");
+    const bearingMachine = normalizedMachine.includes("bearing") || normalizedMachine.includes("roulement") || normalizedMachine.includes("محمل") || normalizedMachine.includes("رولمان");
     const lowFlowSymptom = normalizedSymptom.includes("low flow") || normalizedSymptom.includes("low_flow") || normalizedSymptom.includes("ضعف تدفق") || normalizedSymptom.includes("ضعف التدفق") || normalizedSymptom.includes("faible debit");
     const lowPressureSymptom = normalizedSymptom.includes("low pressure") || normalizedSymptom.includes("low_pressure") || normalizedSymptom.includes("ضغط منخفض") || normalizedSymptom.includes("pression basse") || normalizedSymptom.includes("pression faible");
     const motorStartSymptom = normalizedSymptom.includes("not start") || normalizedSymptom.includes("not_start") || normalizedSymptom.includes("won't start") || normalizedSymptom.includes("does not start") || normalizedSymptom.includes("لا يبدا") || normalizedSymptom.includes("لا يبدأ") || normalizedSymptom.includes("ne demarre pas");
+    const overheatSymptom = ["overheat", "overheating", "high temperature", "high temp", "temperature rise", "سخونه", "ارتفاع حراره", "ارتفاع درجه الحراره", "درجه حراره مرتفعه", "حراره مرتفعه", "surchauffe", "temperature elevee"].some(term => normalizedSymptom.includes(normalizeEvidenceText(term)));
+    const vibrationSymptom = ["vibration", "vibrating", "vibrations", "اهتزاز", "اهتزازات", "vibratoire"].some(term => normalizedSymptom.includes(normalizeEvidenceText(term)));
     if (diagnosticFlowId && (
       (diagnosticFlowId === "pump|low_flow" && (!pumpMachine || !lowFlowSymptom)) ||
       (diagnosticFlowId === "motor|not_start" && (!motorMachine || !motorStartSymptom)) ||
-      (diagnosticFlowId === "compressor|low_pressure" && (!compressorMachine || !lowPressureSymptom))
+      (diagnosticFlowId === "compressor|low_pressure" && (!compressorMachine || !lowPressureSymptom)) ||
+      (diagnosticFlowId === "motor|overheat" && (!motorMachine || !overheatSymptom)) ||
+      (diagnosticFlowId === "compressor|overheat" && (!compressorMachine || !overheatSymptom)) ||
+      (diagnosticFlowId === "bearing|vibration" && (!bearingMachine || !vibrationSymptom))
     )) {
       return json({ error: "Curated flow does not match the equipment and symptom.", code: "diagnostic_flow_mismatch" }, 400, origin);
     }
