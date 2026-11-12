@@ -30,6 +30,7 @@
       field("الإصدار / السنة","reviewEdition","text","رقم الإصدار أو سنة النشر")+
       field("رابط المصدر الأصلي","reviewSourceUrl","url","https://...")+
       field("جهة / مكان الحصول على الوثيقة","reviewSourceOrigin","text","مثال: دليل أصلي مملوك للمستخدم أو بوابة المصنع")+
+      '<label for="reviewRightsBasis">أساس حقوق الاستخدام</label><select id="reviewRightsBasis"><option value="unknown">غير معروف / يحتاج تحقق</option><option value="user_owned">وثيقة مملوكة للمستخدم</option><option value="public_domain">ملكية عامة</option><option value="cc_by">Creative Commons BY</option><option value="cc_by_sa">Creative Commons BY-SA</option><option value="permission_granted">إذن استخدام موثق</option><option value="manufacturer_terms">شروط المصنع تسمح بالاستخدام المحدد</option></select>'+
       field("دليل الحقوق أو الترخيص","reviewRightsEvidence","textarea","رابط الترخيص أو إذن الاستخدام أو إثبات الملكية")+
       '<label class="check"><input id="reviewRightsVerified" type="checkbox"> تحققت من أن حقوق الاستخدام تسمح بالمعالجة المطلوبة</label>'+
       field("اسم / صفة المراجع","reviewReviewer","text","المراجع الفني")+
@@ -60,7 +61,7 @@
     $("saveDocumentReview").addEventListener("click",async()=>{
       try{
         const id=$("reviewDocumentSelect").value;if(!id)throw new Error("اختر وثيقة أولًا.");
-        await library().saveDocumentReview(id,{manufacturer:$("reviewManufacturer").value,equipmentFamily:$("reviewFamily").value,modelApplicability:$("reviewModel").value,edition:$("reviewEdition").value,sourceUrl:$("reviewSourceUrl").value,sourceOrigin:$("reviewSourceOrigin").value,rightsEvidence:$("reviewRightsEvidence").value,rightsVerified:$("reviewRightsVerified").checked,reviewer:$("reviewReviewer").value,notes:$("reviewNotes").value,approved:$("reviewDocumentApproved").checked});
+        await library().saveDocumentReview(id,{manufacturer:$("reviewManufacturer").value,equipmentFamily:$("reviewFamily").value,modelApplicability:$("reviewModel").value,edition:$("reviewEdition").value,sourceUrl:$("reviewSourceUrl").value,sourceOrigin:$("reviewSourceOrigin").value,rightsBasis:$("reviewRightsBasis").value,rightsEvidence:$("reviewRightsEvidence").value,rightsVerified:$("reviewRightsVerified").checked,reviewer:$("reviewReviewer").value,notes:$("reviewNotes").value,approved:$("reviewDocumentApproved").checked});
         status("documentReviewStatus","حُفظت مراجعة الوثيقة. الاعتماد لا يفعّل التشخيص قبل اعتماد ادعاء محدد.");
         await fillDocuments();
       }catch(e){status("documentReviewStatus",e.message);}
