@@ -34,3 +34,25 @@ test("search ranks relevant chunks and returns stable page citations", () => {
 test("empty or stop-word-only queries do not return arbitrary content", () => {
   assert.deepEqual(Core.rankChunks("the and من في", [{ id: "x", text: "pump fault", tokens: ["pump", "fault"] }]), []);
 });
+
+test("diagnostic retrieval requires explicit approval and verified rights", () => {
+  const approved = { eligibleForDiagnosis: true, reviewStatus: "approved", rightsStatus: "verified" };
+  assert.equal(Core.isDiagnosticEligible(approved), true);
+  assert.equal(Core.isDiagnosticEligible({ ...approved, rightsStatus: "unknown" }), false);
+  assert.equal(Core.isDiagnosticEligible({ ...approved, reviewStatus: "candidate" }), false);
+  assert.equal(Core.isDiagnosticEligible({ ...approved, eligibleForDiagnosis: false }), false);
+});
+
+test("source references retain document hash, original page, chunk and review provenance", () => {
+  const ref = Core.makeSourceRef(
+    { id: "doc-a", fileName: "manual.pdf", sha256: "abc", reviewStatus: "approved", rightsStatus: "verified", evidenceClass: "oem_manual", extractionStatus: "text-extracted" },
+    { id: "doc-a:p9:c0", documentId: "doc-a", pageNumber: 9, extractionMethod: "ocr", ocrConfidence: 94.2 }
+  );
+  assert.equal(ref.documentId, "doc-a");
+  assert.equal(ref.pageNumber, 9);
+  assert.equal(ref.chunkId, "doc-a:p9:c0");
+  assert.equal(ref.extractionMethod, "ocr");
+  assert.equal(ref.ocrConfidence, 94.2);
+  assert.equal(ref.sha256, "abc");
+  assert.equal(ref.rightsStatus, "verified");
+});
