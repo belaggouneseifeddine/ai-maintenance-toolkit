@@ -17,7 +17,8 @@ function mount(){
   const api=window.MaintenanceDocumentRetrieval;
   if(!api){output.textContent="طبقة استرجاع الوثائق غير متاحة.";return;}
   output.textContent="جارٍ البحث في الادعاءات المعتمدة فقط…";
-  const result=await api.forDiagnostics(query);
+  const equipment=String($("aiMachine")?.value||"").trim();
+  const result=await api.forDiagnostics(query,{equipment,model:equipment});
   if(!result.ok){output.textContent="تعذر استرجاع الأدلة: "+result.status;return;}
   if(!result.results.length){output.textContent="لا توجد ادعاءات معتمدة مطابقة. لا تُستخدم المقاطع الخام أو الوثائق غير المراجعة في التشخيص.";return;}
   output.innerHTML=result.results.map((item,i)=>'<article class="document-result"><div class="document-result-meta"><strong>'+safe(item.documentTitle)+'</strong><span>الصفحة '+Number(item.sourceRef.pageNumber||0)+'</span></div><p>'+safe(item.text)+'</p><p class="hint">المصنّع: '+safe(item.sourceRef.manufacturer||"غير محدد")+' | نطاق المعدة: '+safe(item.sourceRef.equipmentFamily||"غير محدد")+' | الموديل: '+safe(item.sourceRef.modelApplicability||"غير محدد")+'</p><p class="hint">فئة الدليل: '+safe(item.sourceRef.evidenceClass||"غير محددة")+' | المراجع: '+safe(item.sourceRef.reviewer||"غير محدد")+' | '+safe(item.citation||"")+'</p><button type="button" class="btn secondary" data-diagnostic-source="'+i+'">فتح الصفحة الأصلية</button></article>').join("");
