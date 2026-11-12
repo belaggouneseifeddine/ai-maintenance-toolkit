@@ -357,6 +357,7 @@
         documentTitle: doc ? doc.title : item.doc.documentId,
         fileName: doc ? doc.fileName : "",
         sourceUrl: doc ? doc.sourceUrl || null : null,
+        sourceOrigin: doc ? doc.sourceOrigin || null : null,
         manufacturer: doc ? doc.manufacturer || null : null,
         equipmentFamily: doc ? doc.equipmentFamily || null : null,
         modelApplicability: doc ? doc.modelApplicability || null : null,
