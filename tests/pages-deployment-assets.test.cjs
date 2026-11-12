@@ -104,7 +104,7 @@ test("PDF ingestion supports opt-in multilingual OCR and keeps OCR local", () =>
   assert.ok(html.includes('value="eng"'));
   assert.match(library, /TESSERACT_VERSION = "5\.1\.1"/);
   assert.match(library, /MAX_OCR_PAGES = 150/);
-  assert.match(library, /DB_VERSION = 2/);
+  assert.match(library, /DB_VERSION = 3/);
   assert.match(library, /event\.oldVersion < 2/);
   assert.match(library, /ocrAttemptedPages < MAX_OCR_PAGES/);
   assert.match(library, /ocrWorker\.recognize\(canvas\)/);
