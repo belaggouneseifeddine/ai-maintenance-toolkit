@@ -28,7 +28,7 @@ test("search ranks relevant chunks and returns stable page citations", () => {
   const results = Core.rankChunks("cavitation impeller pressure", chunks, 5);
   assert.equal(results[0].doc.id, "a");
   assert.ok(results[0].score > results[1]?.score || results.length === 1);
-  assert.equal(Core.makeCitation({ title: "Pump Manual" }, 2), "Pump Manual, p. 2");
+  assert.equal(Core.makeCitation({ title: "Pump Manual" }, 2), "Pump Manual, PDF p. 2");
 });
 
 test("empty or stop-word-only queries do not return arbitrary content", () => {
@@ -91,4 +91,14 @@ test("source refs keep PDF page and printed page separate", () => {
   assert.equal(ref.printedPageNumber, "37");
   assert.equal(ref.modelApplicability, "CR 10");
   assert.equal(ref.sourceOrigin, "Original OEM manual");
+});
+
+
+test("model applicability does not match a different numeric model variant", () => {
+  assert.equal(Core.modelScopeMatches("Grundfos CR 10", "Grundfos CR 10"), true);
+  assert.equal(Core.modelScopeMatches("Grundfos CR 10", "Grundfos CR10"), true);
+  assert.equal(Core.modelScopeMatches("Grundfos CR 10", "Grundfos CR 20"), false);
+  assert.equal(Core.modelScopeMatches("Siemens G120C", "Siemens G120C"), true);
+  assert.equal(Core.modelScopeMatches("Siemens G120C", "Siemens G120"), false);
+  assert.equal(Core.modelScopeMatches("all models", ""), true);
 });
