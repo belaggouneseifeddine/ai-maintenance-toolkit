@@ -1,12 +1,14 @@
 {
   "schemaVersion": 1,
   "purpose": "Explicit inventory of structured diagnostic flows versus the current fault library. A documented gap is not treated as covered.",
-  "matchingRule": "A flow is covered only when at least one fault has the same equipmentType and includes the same symptom ID, or a reviewed explicit mapping is added here. No implicit aliases.",
+  "matchingRule": "Exact coverage requires an existing fault record with the same equipmentType and symptom ID. Matching is symptom-catalog coverage only; it does not prove differential-diagnosis completeness, source verification, or field validation.",
   "flows": {
     "pump|low_flow": {
-      "status": "gap-needs-review",
-      "matchingFaultIds": [],
-      "note": "The current mapping to pump-cavitation is not a defensible exact match: low flow is a symptom with multiple competing causes. The diagnostic engine contains broad suction/supply and flow-path prompts, but the fault-library coverage must not be marked complete until each pump cause has an explicit reviewed mapping and discriminating evidence."
+      "status": "covered-exact",
+      "matchingFaultIds": [
+        "pump-low-flow"
+      ],
+      "note": "Corrected mapping: the exact low_flow symptom record is pump-low-flow, not pump-cavitation. This confirms a symptom-level record only; differential diagnosis still requires competing causes, evidence discrimination and source review."
     },
     "motor|not_start": {
       "status": "covered-exact",
