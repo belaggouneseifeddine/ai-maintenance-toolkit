@@ -16,9 +16,10 @@ test("VFD trip session starts as an adaptive three-question workflow in Arabic, 
     assert.ok(session.hypotheses.every(h => h.status === "unresolved"));
     assert.ok(session.nextQuestion.text.length > 0);
     const supplyChecks = session.hypotheses.find(h => h.id === "input_supply_or_dc_bus").checks[0];
-    assert.equal(typeof supplyChecks,"string");
-    assert.ok(supplyChecks.length > 0);
-    assert.match(supplyChecks,language === "ar" ? /راجع/ : language === "fr" ? /Consultez/ : /Review/);
+    const localizedCheck = typeof supplyChecks === "string" ? supplyChecks : supplyChecks && supplyChecks[language];
+    assert.equal(typeof localizedCheck,"string");
+    assert.ok(localizedCheck.length > 0);
+    assert.match(localizedCheck,language === "ar" ? /راجع/ : language === "fr" ? /Consultez/ : /Review/);
   }
 });
 
