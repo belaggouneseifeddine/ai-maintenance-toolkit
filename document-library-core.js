@@ -91,6 +91,35 @@
     return scored.slice(0, Math.max(1, limit || 12));
   }
 
+  function normalizePageNumber(value, pageCount) {
+    const page = Number(value);
+    const total = Number(pageCount);
+    if (!Number.isSafeInteger(page) || page < 1) return null;
+    if (Number.isSafeInteger(total) && total > 0 && page > total) return null;
+    return page;
+  }
+
+  function isHttpsUrl(value) {
+    const text = String(value == null ? "" : value).trim();
+    if (!text || text.length > 2048) return false;
+    try {
+      const parsed = new URL(text);
+      return parsed.protocol === "https:" && Boolean(parsed.hostname) && !parsed.username && !parsed.password;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  function isGenericModelScope(value) {
+    return /generic|all models|family[- ]wide|not model specific|غير مرتبط بموديل|جميع الموديلات|كل الموديلات|عام|عامّة|عامه/i.test(String(value || ""));
+  }
+
+  function scopeMatches(scope, observed) {
+    const wanted = tokenize(scope || "");
+    const actual = tokenize(observed || "");
+    return wanted.length > 0 && actual.length > 0 && wanted.some(term => actual.includes(term));
+  }
+
   function isDiagnosticEligible(document) {
     return Boolean(document &&
       document.eligibleForDiagnosis === true &&
@@ -99,18 +128,27 @@
   }
 
   function makeSourceRef(document, chunk) {
+    const pageNumber = chunk && (chunk.pdfPageNumber || chunk.pageNumber) || null;
     return {
       documentId: document && document.id || chunk && chunk.documentId || null,
       fileName: document && document.fileName || null,
       sha256: document && document.sha256 || null,
-      pageNumber: chunk && chunk.pageNumber || null,
+      pageNumber,
+      pdfPageNumber: pageNumber,
+      printedPageNumber: chunk && chunk.printedPageNumber || null,
       chunkId: chunk && chunk.id || null,
       extractionMethod: chunk && chunk.extractionMethod || "unknown",
       ocrConfidence: chunk && Number.isFinite(chunk.ocrConfidence) ? chunk.ocrConfidence : null,
       extractionStatus: document && document.extractionStatus || "unknown",
       reviewStatus: document && document.reviewStatus || "unreviewed",
       rightsStatus: document && document.rightsStatus || "unknown",
-      evidenceClass: document && document.evidenceClass || null
+      evidenceClass: document && document.evidenceClass || null,
+      manufacturer: document && document.manufacturer || null,
+      equipmentFamily: document && document.equipmentFamily || null,
+      modelApplicability: document && document.modelApplicability || null,
+      sourceUrl: document && document.sourceUrl || null,
+      sourceOrigin: document && document.sourceOrigin || null,
+      edition: document && document.edition || null
     };
   }
 
@@ -119,5 +157,5 @@
     return title + ", p. " + String(pageNumber || "?");
   }
 
-  return { normalizeText, tokenize, chunkPage, buildPostings, rankChunks, makeCitation, isDiagnosticEligible, makeSourceRef };
+  return { normalizeText, tokenize, chunkPage, buildPostings, rankChunks, makeCitation, normalizePageNumber, isHttpsUrl, isGenericModelScope, scopeMatches, isDiagnosticEligible, makeSourceRef };
 });
