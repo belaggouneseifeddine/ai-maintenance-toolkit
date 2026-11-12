@@ -95,3 +95,26 @@ test("P1 navigation contains exactly five requested destinations and defaults to
   assert.match(styles, /:root\[data-theme="dark"\]/);
   assert.match(styles, /grid-template-columns:repeat\(5,minmax\(0,1fr\)\)/);
 });
+
+test("PDF ingestion supports opt-in multilingual OCR and keeps OCR local", () => {
+  const library = fs.readFileSync(path.join(__dirname, "..", "document-library.js"), "utf8");
+  assert.ok(html.includes('id="documentOcrEnabled"'));
+  assert.ok(html.includes('value="ara"'));
+  assert.ok(html.includes('value="fra"'));
+  assert.ok(html.includes('value="eng"'));
+  assert.match(library, /TESSERACT_VERSION = "5\.1\.1"/);
+  assert.match(library, /MAX_OCR_PAGES = 150/);
+  assert.match(library, /worker\.recognize\(canvas\)/);
+  assert.match(library, /eligibleForDiagnosis: false/);
+  assert.doesNotMatch(library, /fetch\([^)]*(?:upload|api\/documents)/i);
+});
+
+test("document retrieval requires an explicit consumer and gates diagnostic evidence", () => {
+  const library = fs.readFileSync(path.join(__dirname, "..", "document-library.js"), "utf8");
+  const core = fs.readFileSync(path.join(__dirname, "..", "document-library-core.js"), "utf8");
+  for (const consumer of ["research", "study", "diagnostics", "library"]) assert.ok(library.includes('"' + consumer + '"'));
+  assert.ok(library.includes('CORE.isDiagnosticEligible(item)'));
+  assert.ok(core.includes('document.reviewStatus === "approved"'));
+  assert.ok(core.includes('document.rightsStatus === "verified"'));
+  assert.ok(core.includes('document.eligibleForDiagnosis === true'));
+});
