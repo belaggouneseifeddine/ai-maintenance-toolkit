@@ -15,7 +15,7 @@ Current limits: 40 MiB per file, 1,200 pages per file, and optional OCR on up to
 
 ## Shared knowledge contract
 
-All future consumers must call the same retrieval API and retain citation metadata:
+All consumers use the same IndexedDB index through `MaintenanceDocumentLibrary.retrieve(query, { consumer })`. The loaded `document-retrieval-adapter.js` exposes separate `forResearch`, `forStudy`, and `forDiagnostics` entrypoints. Each result carries the same source reference and page citation; the adapter never merges the three consumers into one result stream.
 
 - `documentId`
 - `fileName` and content SHA-256
@@ -26,9 +26,9 @@ All future consumers must call the same retrieval API and retain citation metada
 
 The three consumers are separate:
 
-- **Deep Research** retrieves multiple sources, compares claims, records conflicts, and writes cited synthesis.
-- **Study** retrieves passages and creates explanations, exercises, and quizzes that link back to the same page citations.
-- **Diagnostics** retrieves relevant passages as supporting evidence only. Retrieved PDF text is not automatically a fault record, an approved procedure, a safety rule, or an OEM-verified claim.
+- **Deep Research** uses `MaintenanceDocumentRetrieval.forResearch(query)` to retrieve passages for multi-source comparison, claim conflict handling, and cited synthesis. This adapter retrieves passages; it does not itself perform research synthesis.
+- **Study** uses `MaintenanceDocumentRetrieval.forStudy(query)` to retrieve passages for explanations, exercises, and quizzes that link back to the same page citations. Learning-content generation remains a separate layer.
+- **Diagnostics** uses `MaintenanceDocumentRetrieval.forDiagnostics(query)`. The current gate returns only documents with `eligibleForDiagnosis: true`, `reviewStatus: approved`, and `rightsStatus: verified`. All imported documents start ineligible, so an unreviewed PDF cannot silently become diagnostic evidence. Retrieved text is still supporting evidence, not an automatic fault record, approved procedure, safety rule, or OEM-verified claim.
 
 ## Trust and rights boundaries
 
