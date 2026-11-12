@@ -544,7 +544,7 @@
             .replace(/centrifugal/g, " ")
             .replace(/moteurs?|محرك(?:ات)?/g, " motor ")
             .replace(/compresseurs?|ضاغط(?:ات)?/g, " compressor ")
-            .replace(/variat(?:eur|or)|مغير(?:ات)?\\s*السرعة/g, " vfd ")
+            .replace(/variat(?:eur|or)|مغير(?:ات)?\s*السرعة/g, " vfd ")
             .replace(/roulements?|محمل(?:ات)?/g, " bearing ");
           return CORE.tokenize(normalized);
         };
