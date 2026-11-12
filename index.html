@@ -91,12 +91,13 @@ footer{line-height:1.8}
 </style>
 <link rel="stylesheet" href="./ux-redesign.css">
 <link rel="stylesheet" href="./p1-app-shell.css">
+<link rel="stylesheet" href="./document-library.css">
 </head>
 <body>
 <header><div class="head"><div class="eyebrow">INDUSTRIAL MAINTENANCE • MVP 0.2</div><div class="brand">Maintenance AI Toolkit</div><p class="sub">مساعد عملي لتوثيق الأعطال وتنظيم خطوات الفحص بأمان.</p><div class="header-controls"><div class="language-control"><label for="languageSwitcher" id="languageLabel">اللغة / Language / Langue</label><select id="languageSwitcher" aria-label="Language"><option value="ar">العربية</option><option value="fr">Français</option><option value="en">English</option></select></div><button id="themeToggle" class="theme-toggle" type="button" aria-pressed="false">الوضع الداكن</button></div></div></header>
 <main>
 <nav class="nav" aria-label="التنقل">
-<button class="tab active" data-tab="diagnose">التشخيص</button><button class="tab" data-tab="ai">مساعد AI</button><button class="tab" data-tab="knowledge">قاعدة الأعطال</button><button class="tab" data-tab="safety">السلامة</button><button class="tab" data-tab="log">سجل الصيانة</button>
+<button class="tab active" data-tab="diagnose">التشخيص</button><button class="tab" data-tab="ai">مساعد AI</button><button class="tab" data-tab="knowledge">قاعدة الأعطال</button><button class="tab" data-tab="documents">مكتبة الوثائق</button><button class="tab" data-tab="safety">السلامة</button><button class="tab" data-tab="log">سجل الصيانة</button>
 </nav>
 <section id="diagnose" class="panel active">
 <div class="card"><h2>بيانات الآلة والعطل</h2><p class="hint">املأ المعلومات المتوفرة فقط. النتائج قواعد إرشادية وليست تشخيصًا مؤكدًا.</p>
@@ -204,6 +205,32 @@ footer{line-height:1.8}
 <li><a href="https://www.osha.gov/ords/imis/accidentsearch.accident_detail?id=170764609" target="_blank" rel="noopener noreferrer">OSHA — Hydraulic fluid injection injury incident report</a></li>
 </ul>
 <p class="hint">المراجع العامة لا تتغلب على دليل المصنع الخاص بالموديل أو إجراءات السلامة المحلية. لا تتضمن هذه المكتبة قيم ضبط أو حدود ضغط أو عزوم ربط لأنها تختلف حسب المعدة.</p>
+</div>
+</section>
+<section id="documents" class="panel">
+<div class="card" id="documentLibraryPanel">
+<h2>مكتبة الوثائق الفنية</h2>
+<p class="hint">استورد ملفات PDF وابحث داخل النصوص المستخرجة. تتم المعالجة والفهرسة محليًا على جهازك؛ لا تُرفع الملفات أو محتوياتها إلى الخادم.</p>
+<div class="notice">النسخة الحالية تدعم PDF النصي. الوثائق الممسوحة كصور تحتاج OCR غير متاح بعد. يلزم اتصال بالإنترنت أول مرة لتحميل قارئ PDF، وبعد ذلك تتم معالجة الملفات والبحث محليًا. حد الملف 40 ميغابايت و1200 صفحة.</div>
+<form id="documentImportForm">
+<div class="document-upload-grid">
+<div><label for="documentPdfFile">اختر وثيقة PDF</label><input id="documentPdfFile" type="file" accept="application/pdf,.pdf" required></div>
+<button class="btn" id="documentImportButton" type="submit">استيراد وفهرسة</button>
+</div>
+</form>
+<p id="documentLibraryStatus" role="status" aria-live="polite">الوثائق المستوردة تحفظ في مساحة IndexedDB المحلية لهذا المتصفح والجهاز.</p>
+<h3>الوثائق المحفوظة</h3>
+<div id="documentLibraryList"><p class="hint">جارٍ تحميل المكتبة المحلية…</p></div>
+</div>
+<div class="card">
+<h2>البحث في محتوى الوثائق</h2>
+<p class="hint">اكتب مصطلحات بالعربية أو الفرنسية أو الإنجليزية. كل نتيجة تعرض اسم الوثيقة ورقم الصفحة الأصلي ويمكن فتح PDF عند الصفحة.</p>
+<form id="documentSearchForm">
+<label for="documentSearchQuery">عبارة البحث</label>
+<input id="documentSearchQuery" type="search" placeholder="مثال: cavitation NPSH suction pressure" autocomplete="off">
+<div class="actions"><button class="btn" type="submit">بحث في الوثائق</button></div>
+</form>
+<div id="documentSearchResults" aria-live="polite"></div>
 </div>
 </section>
 <section id="safety" class="panel">
@@ -538,6 +565,8 @@ restoreDraft();
 renderRecords();
 if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
 </script>
+<script src="./document-library-core.js"></script>
+<script src="./document-library.js"></script>
 <script src="./maintenance-v03.js"></script>
 <script src="./knowledge-review.js"></script>
 <script src="./answer-tools.js"></script>
