@@ -1,4 +1,4 @@
-const CACHE_NAME = "maintenance-ai-toolkit-v58";
+const CACHE_NAME = "maintenance-ai-toolkit-v59";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -35,6 +35,12 @@ const APP_SHELL = [
   "./ux-redesign.js",
   "./ux-redesign.css",
   "./navigation-redesign.js"
+  "./document-library-core.js",
+  "./document-library.js",
+  "./document-library.css",
+  "./document-retrieval-adapter.js",
+  "./document-review-workspaces.js",
+  "./diagnostic-document-evidence.js"
 ];
 
 const OPTIONAL_APP_SHELL = [
@@ -45,6 +51,12 @@ const OPTIONAL_APP_SHELL = [
   "./knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md",
   "./knowledge/manufacturer-machine-fault-matrix.json",
   "./decision-trees.json"
+  "./document-library-core.js",
+  "./document-library.js",
+  "./document-library.css",
+  "./document-retrieval-adapter.js",
+  "./document-review-workspaces.js",
+  "./diagnostic-document-evidence.js"
 ];
 const CORE_APP_SHELL = APP_SHELL.filter(asset => !OPTIONAL_APP_SHELL.includes(asset));
 
