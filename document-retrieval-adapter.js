@@ -8,7 +8,7 @@
   const VERSION = "1.0.0";
   const CONSUMERS = new Set(["research", "study", "diagnostics"]);
 
-  async function retrieveFor(consumer, query) {
+  async function retrieveFor(consumer, query, context) {
     if (!CONSUMERS.has(consumer)) {
       return { ok: false, status: "invalid_consumer", consumer: null, results: [] };
     }
@@ -21,7 +21,7 @@
     }
 
     try {
-      const passages = await library.retrieve(text, { consumer });
+      const passages = await library.retrieve(text, { consumer, context: context || {} });
       const results = (passages || []).map(item => ({
         text: item.text,
         documentTitle: item.documentTitle,
@@ -47,7 +47,7 @@
     version: VERSION,
     forResearch: query => retrieveFor("research", query),
     forStudy: query => retrieveFor("study", query),
-    forDiagnostics: query => retrieveFor("diagnostics", query),
+    forDiagnostics: (query, context) => retrieveFor("diagnostics", query, context),
     retrieveFor
   });
 });
