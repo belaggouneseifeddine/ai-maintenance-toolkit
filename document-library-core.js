@@ -104,6 +104,7 @@
       fileName: document && document.fileName || null,
       sha256: document && document.sha256 || null,
       pageNumber: chunk && chunk.pageNumber || null,
+      printedPageNumber: chunk && chunk.printedPageNumber || null,
       chunkId: chunk && chunk.id || null,
       extractionMethod: chunk && chunk.extractionMethod || "unknown",
       ocrConfidence: chunk && Number.isFinite(chunk.ocrConfidence) ? chunk.ocrConfidence : null,
