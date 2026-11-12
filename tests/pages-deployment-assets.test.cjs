@@ -158,6 +158,9 @@ test("document review workspaces and diagnostic page claims are wired into the r
   assert.ok(review.includes('retrieveFor(consumer,query)'));
   assert.ok(review.includes('saveDocumentReview'));
   assert.ok(review.includes('saveClaim'));
+  assert.ok(review.includes('reviewRightsBasis'));
+  assert.ok(library.includes('rightsBasis'));
+  assert.ok(library.includes('rightsBasis === "unknown"'));
   assert.ok(review.includes('data-claim-draft'));
   assert.ok(review.includes('pageClaimStatus'));
   assert.ok(diagnostic.includes('api.forDiagnostics(query,{equipment,model})'));
