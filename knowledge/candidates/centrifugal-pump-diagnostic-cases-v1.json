@@ -1,0 +1,1904 @@
+{
+  "schemaVersion": "1.0-draft",
+  "title": "Centrifugal pump diagnostic pilot cases",
+  "status": "candidate-only-not-runtime",
+  "createdAt": "2026-11-12",
+  "purpose": "Structured candidate transcription from the existing project casebook. Isolated from runtime until claim-level source review, qualified technical review, validation and tests pass.",
+  "runtimeEligible": false,
+  "caseCount": 6,
+  "cases": [
+    {
+      "schemaVersion": "1.0-draft",
+      "caseId": "CP-001",
+      "status": "candidate",
+      "equipment": {
+        "family": "pump",
+        "equipmentType": "centrifugal_pump",
+        "manufacturer": null,
+        "modelApplicability": "Not model-verified; confirm pump type, model, impeller, speed, seal/bearing arrangement and installation before use.",
+        "configuration": [
+          "Centrifugal pump only where confirmed from asset documentation"
+        ],
+        "excludedConfigurations": [
+          "Positive-displacement pumps",
+          "Unknown or unconfirmed pump type"
+        ]
+      },
+      "applicability": {
+        "scope": "General centrifugal-pump concepts only; exact pump design, model, fluid and installation applicability must be confirmed.",
+        "preconditions": [
+          "Asset identity and pump type recorded",
+          "Fluid, temperature, operating state and system arrangement recorded where known",
+          "Use only installed/approved indicators before intrusive checks"
+        ],
+        "knownExclusions": [
+          "No universal pressure, flow, vibration, temperature or clearance limits",
+          "No machine-specific repair or acceptance procedure"
+        ]
+      },
+      "mechanism": "Local pressure near the impeller eye may fall below the liquid vapor pressure, causing vapor formation and collapse; applicability and severity depend on fluid and operating conditions.",
+      "symptoms": [
+        {
+          "id": "reported-symptom",
+          "observation": "Cavitation / inadequate NPSH margin",
+          "isInferred": false
+        }
+      ],
+      "hypotheses": [
+        {
+          "hypothesisId": "cp-001-h1",
+          "cause": "Cavitation / insufficient available NPSH margin",
+          "evidenceFor": [
+            "Noise/unstable operation coincides with reduced suction pressure or reduced available NPSH margin at the recorded flow and fluid temperature."
+          ],
+          "evidenceAgainst": [
+            "Normal, stable suction conditions at comparable flow weaken this hypothesis but do not independently exclude it."
+          ],
+          "confounders": [
+            "Hydraulic instability, recirculation, damaged impeller, bearing faults and looseness can overlap in noise/vibration."
+          ],
+          "scope": "General centrifugal-pump concepts only; exact pump design, model, fluid and installation applicability must be confirmed."
+        },
+        {
+          "hypothesisId": "cp-001-h2",
+          "cause": "Suction restriction or low source level",
+          "evidenceFor": [
+            "Suction pressure loss or strainer differential pressure is elevated against a comparable clean baseline."
+          ],
+          "evidenceAgainst": [
+            "No supporting suction-side evidence weakens restriction as the leading explanation."
+          ],
+          "confounders": [
+            "Different flow rates make raw pressure comparisons misleading."
+          ],
+          "scope": "General centrifugal-pump concepts only; exact pump design, model, fluid and installation applicability must be confirmed."
+        },
+        {
+          "hypothesisId": "cp-001-h3",
+          "cause": "Air ingress or entrained gas",
+          "evidenceFor": [
+            "Gas ingress or unstable priming indicators are present."
+          ],
+          "evidenceAgainst": [
+            "No gas/prime evidence weakens this branch."
+          ],
+          "confounders": [
+            "Instrument error or air entrainment can distort readings."
+          ],
+          "scope": "General centrifugal-pump concepts only; exact pump design, model, fluid and installation applicability must be confirmed."
+        },
+        {
+          "hypothesisId": "cp-001-h4",
+          "cause": "Bearing, coupling or hydraulic instability",
+          "evidenceFor": [],
+          "evidenceAgainst": [],
+          "confounders": [],
+          "scope": "General centrifugal-pump concepts only; exact pump design, model, fluid and installation applicability must be confirmed."
+        }
+      ],
+      "measurements": [
+        {
+          "measurementId": "cp-001-m1",
+          "parameter": "Suction pressure",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        },
+        {
+          "measurementId": "cp-001-m2",
+          "parameter": "Discharge pressure",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        },
+        {
+          "measurementId": "cp-001-m3",
+          "parameter": "Flow rate",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        },
+        {
+          "measurementId": "cp-001-m4",
+          "parameter": "Source liquid level",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        },
+        {
+          "measurementId": "cp-001-m5",
+          "parameter": "Fluid temperature",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        },
+        {
+          "measurementId": "cp-001-m6",
+          "parameter": "Pump speed",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        },
+        {
+          "measurementId": "cp-001-m7",
+          "parameter": "Strainer differential pressure if installed",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        },
+        {
+          "measurementId": "cp-001-m8",
+          "parameter": "Vibration trend and location",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        }
+      ],
+      "tests": [
+        {
+          "testId": "cp-001-t1",
+          "purpose": "Compare operating point and suction conditions",
+          "preconditions": "All required installed indicators are valid; stable and safe operation is confirmed",
+          "authorizedRole": "Operator for remote readings; engineer for curve/NPSH assessment",
+          "methodSummary": "Record suction/discharge pressure, flow, fluid temperature, source level and speed at a stable point; compare only with the exact pump/system documentation.",
+          "expectedOutcomes": [
+            {
+              "hypothesisId": "cp-001-h1",
+              "resultPattern": "Coherent reduction in suction margin as flow/temperature changes",
+              "interpretation": "Supports investigation of suction/NPSH limitation; not proof by itself."
+            },
+            {
+              "hypothesisId": "cp-001-h2",
+              "resultPattern": "Normal suction margin with another clear abnormality",
+              "interpretation": "Reassess competing mechanical/process causes."
+            }
+          ],
+          "interpretationLimits": [
+            "No universal NPSH margin or pressure threshold is encoded."
+          ],
+          "stopConditions": [
+            "Damaging or rapidly increasing vibration/noise",
+            "Unstable operation, loss of containment or unsafe process condition",
+            "Any uncertainty about safe operating envelope"
+          ],
+          "estimatedDurationMinutes": null,
+          "estimatedCostClass": "unknown",
+          "invasiveness": "remote_observation"
+        },
+        {
+          "testId": "cp-001-t2",
+          "purpose": "Review trend and correct pump curve",
+          "preconditions": "Correct model/impeller/speed curve and fluid data are available",
+          "authorizedRole": "Qualified rotating-equipment/process engineer",
+          "methodSummary": "Compare the measured operating point with the applicable pump and system curves; do not extrapolate outside documented scope.",
+          "expectedOutcomes": [
+            {
+              "hypothesisId": "cp-001-h1",
+              "resultPattern": "Operating point outside documented allowable range",
+              "interpretation": "Escalate for engineering review and approved corrective plan."
+            },
+            {
+              "hypothesisId": "cp-001-h2",
+              "resultPattern": "Operating point within documented range",
+              "interpretation": "Investigate other causes and instrument validity."
+            }
+          ],
+          "interpretationLimits": [
+            "Curve validity and installation conditions govern interpretation."
+          ],
+          "stopConditions": [
+            "Missing or mismatched curve",
+            "Evidence of unsafe operation"
+          ],
+          "estimatedDurationMinutes": null,
+          "estimatedCostClass": "unknown",
+          "invasiveness": "remote_observation"
+        }
+      ],
+      "safety": {
+        "hazards": [
+          "Pressure and fluid hazards",
+          "Rotating machinery",
+          "Hot or hazardous liquid"
+        ],
+        "requiredControls": [
+          "Use only installed approved indicators; keep guards in place; follow site operating envelope and escalation procedure"
+        ],
+        "stopWorkConditions": [
+          "Severe/sudden vibration",
+          "Major leak or pressure-boundary concern",
+          "Operation outside approved safe envelope"
+        ],
+        "escalationRole": "Site-authorized supervisor / qualified rotating-equipment or process-maintenance personnel"
+      },
+      "decisionPolicy": {
+        "selectionMethod": "not_implemented",
+        "constraints": [
+          "Safety is a hard gate, not a score",
+          "Prefer remote installed indicators before invasive inspection",
+          "Do not rank from one symptom alone",
+          "Do not invent readings or universal thresholds"
+        ],
+        "probabilityCalibration": "not_applicable"
+      },
+      "sourceClaims": [
+        {
+          "claimId": "project-pilot-draft",
+          "claimSummary": "This record is a structured transcription of a project-authored candidate case. It is not independent technical evidence and does not validate the mechanism or diagnostic interpretation.",
+          "sourceTitle": "Diagnostic Knowledge Casebook — Centrifugal Pump Pilot",
+          "publisher": "Maintenance AI Toolkit project working document",
+          "url": "https://github.com/belaggouneseifeddine/ai-maintenance-toolkit/blob/work/diagnostic-pilot-foundation-2026-11-12/docs/DIAGNOSTIC-KNOWLEDGE-CASEBOOK-CENTRIFUGAL-PUMP-PILOT.md",
+          "revision": "working branch 2026-11-12",
+          "sourceLocation": "Sections 4–8; candidate case templates CP-001 to CP-006",
+          "reviewStatus": "not_reviewed",
+          "licenseStatus": "pending_review",
+          "reuseDecision": "pending",
+          "evidenceClass": "engineering_inference",
+          "reviewedAt": "2026-11-12",
+          "reviewerRole": "repository intake review only; no qualified technical sign-off"
+        }
+      ],
+      "verification": {
+        "postRepairChecks": [
+          "Repeat the same measurements at comparable operating conditions",
+          "Confirm the reported symptom is resolved without introducing new alarms or abnormal vibration/leakage",
+          "Record actual repair and competent-person sign-off"
+        ],
+        "acceptanceCriteriaSource": null,
+        "fieldValidationStatus": "not_tested",
+        "observedOutcomeId": null
+      },
+      "limitations": [
+        "Noise alone is not proof of cavitation.",
+        "NPSH evaluation requires the correct pump data, fluid vapor pressure, elevation and system conditions.",
+        "This is a candidate knowledge record, not runtime diagnostic authority. It must not be presented as source-verified, OEM-verified or field-validated."
+      ]
+    },
+    {
+      "schemaVersion": "1.0-draft",
+      "caseId": "CP-002",
+      "status": "candidate",
+      "equipment": {
+        "family": "pump",
+        "equipmentType": "centrifugal_pump",
+        "manufacturer": null,
+        "modelApplicability": "Not model-verified; confirm pump type, model, impeller, speed, seal/bearing arrangement and installation before use.",
+        "configuration": [
+          "Centrifugal pump only where confirmed from asset documentation"
+        ],
+        "excludedConfigurations": [
+          "Positive-displacement pumps",
+          "Unknown or unconfirmed pump type"
+        ]
+      },
+      "applicability": {
+        "scope": "General centrifugal-pump concepts only; exact pump design, model, fluid and installation applicability must be confirmed.",
+        "preconditions": [
+          "Asset identity and pump type recorded",
+          "Fluid, temperature, operating state and system arrangement recorded where known",
+          "Use only installed/approved indicators before intrusive checks"
+        ],
+        "knownExclusions": [
+          "No universal pressure, flow, vibration, temperature or clearance limits",
+          "No machine-specific repair or acceptance procedure"
+        ]
+      },
+      "mechanism": "Accumulated gas or loss of prime can prevent a pump from developing expected liquid flow/head; applicability depends on pump design and installation.",
+      "symptoms": [
+        {
+          "id": "reported-symptom",
+          "observation": "Air lock / trapped gas / loss of prime",
+          "isInferred": false
+        }
+      ],
+      "hypotheses": [
+        {
+          "hypothesisId": "cp-002-h1",
+          "cause": "Air lock / trapped gas / loss of prime",
+          "evidenceFor": [
+            "Pump speed/command is present but expected liquid flow and pressure development do not occur, with corroborating evidence of gas or lost prime."
+          ],
+          "evidenceAgainst": [
+            "Stable flow and pressure development during the approved startup sequence weakens loss-of-prime."
+          ],
+          "confounders": [
+            "A blocked suction line, closed valve, failed instrument or vapor formation can produce similar observations."
+          ],
+          "scope": "General centrifugal-pump concepts only; exact pump design, model, fluid and installation applicability must be confirmed."
+        },
+        {
+          "hypothesisId": "cp-002-h2",
+          "cause": "Empty source or low liquid level",
+          "evidenceFor": [
+            "Source/valve/strainer indicators show an alternative supply restriction."
+          ],
+          "evidenceAgainst": [
+            "Verified source and valve status weaken those branches."
+          ],
+          "confounders": [],
+          "scope": "General centrifugal-pump concepts only; exact pump design, model, fluid and installation applicability must be confirmed."
+        },
+        {
+          "hypothesisId": "cp-002-h3",
+          "cause": "Closed suction valve or blocked strainer",
+          "evidenceFor": [
+            "Evidence of leakage/failed retention or incorrect priming history is present."
+          ],
+          "evidenceAgainst": [],
+          "confounders": [],
+          "scope": "General centrifugal-pump concepts only; exact pump design, model, fluid and installation applicability must be confirmed."
+        },
+        {
+          "hypothesisId": "cp-002-h4",
+          "cause": "Suction-side air ingress",
+          "evidenceFor": [],
+          "evidenceAgainst": [],
+          "confounders": [],
+          "scope": "General centrifugal-pump concepts only; exact pump design, model, fluid and installation applicability must be confirmed."
+        },
+        {
+          "hypothesisId": "cp-002-h5",
+          "cause": "Failed foot/check valve or incorrect priming sequence",
+          "evidenceFor": [],
+          "evidenceAgainst": [],
+          "confounders": [],
+          "scope": "General centrifugal-pump concepts only; exact pump design, model, fluid and installation applicability must be confirmed."
+        }
+      ],
+      "measurements": [
+        {
+          "measurementId": "cp-002-m1",
+          "parameter": "Source level",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        },
+        {
+          "measurementId": "cp-002-m2",
+          "parameter": "Suction pressure behavior",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        },
+        {
+          "measurementId": "cp-002-m3",
+          "parameter": "Discharge pressure behavior",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        },
+        {
+          "measurementId": "cp-002-m4",
+          "parameter": "Flow indication",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        },
+        {
+          "measurementId": "cp-002-m5",
+          "parameter": "Pump speed",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        },
+        {
+          "measurementId": "cp-002-m6",
+          "parameter": "Valve position",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        },
+        {
+          "measurementId": "cp-002-m7",
+          "parameter": "Priming/vent status if instrumented",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        }
+      ],
+      "tests": [
+        {
+          "testId": "cp-002-t1",
+          "purpose": "Verify source and valve status remotely",
+          "preconditions": "Approved status indications are available and credible",
+          "authorizedRole": "Operator / control-room personnel",
+          "methodSummary": "Review source level, valve position and instrument trends without opening or manipulating the process.",
+          "expectedOutcomes": [
+            {
+              "hypothesisId": "cp-002-h1",
+              "resultPattern": "Source unavailable or valve indicated closed",
+              "interpretation": "Investigate supply/lineup through approved operating procedure."
+            },
+            {
+              "hypothesisId": "cp-002-h2",
+              "resultPattern": "Source and valve status normal",
+              "interpretation": "Continue to validate instruments and priming design."
+            }
+          ],
+          "interpretationLimits": [
+            "Indication is not proof of actual valve position unless feedback is validated."
+          ],
+          "stopConditions": [
+            "Uncertain valve state or unsafe process state"
+          ],
+          "estimatedDurationMinutes": null,
+          "estimatedCostClass": "unknown",
+          "invasiveness": "remote_observation"
+        },
+        {
+          "testId": "cp-002-t2",
+          "purpose": "Review approved priming design and history",
+          "preconditions": "Correct pump type and startup procedure are known",
+          "authorizedRole": "Qualified rotating-equipment personnel",
+          "methodSummary": "Compare the observed startup sequence with the exact manufacturer/site procedure; inspect suspected ingress only after isolation and depressurization.",
+          "expectedOutcomes": [
+            {
+              "hypothesisId": "cp-002-h1",
+              "resultPattern": "Design requires priming and evidence indicates loss of prime",
+              "interpretation": "Follow the approved priming procedure after safe-state verification."
+            },
+            {
+              "hypothesisId": "cp-002-h2",
+              "resultPattern": "Pump is specified for the observed service without priming",
+              "interpretation": "Reassess gas ingress, supply and instrumentation."
+            }
+          ],
+          "interpretationLimits": [
+            "Do not assume all centrifugal pumps are self-priming."
+          ],
+          "stopConditions": [
+            "Pressurized/hot/hazardous fluid",
+            "Unknown stored pressure or energy"
+          ],
+          "estimatedDurationMinutes": null,
+          "estimatedCostClass": "unknown",
+          "invasiveness": "remote_observation"
+        }
+      ],
+      "safety": {
+        "hazards": [
+          "Pressurized fluid",
+          "Hot/hazardous fluid",
+          "Unexpected restart"
+        ],
+        "requiredControls": [
+          "Never loosen fittings or open vents on a pressurized/hot/hazardous system; verify isolation, depressurization and zero energy before intervention"
+        ],
+        "stopWorkConditions": [
+          "Unexpected movement or restart",
+          "Unknown pressure/energy state",
+          "Dry-running risk or damaging vibration"
+        ],
+        "escalationRole": "Site-authorized supervisor / qualified rotating-equipment or process-maintenance personnel"
+      },
+      "decisionPolicy": {
+        "selectionMethod": "not_implemented",
+        "constraints": [
+          "Safety is a hard gate, not a score",
+          "Prefer remote installed indicators before invasive inspection",
+          "Do not rank from one symptom alone",
+          "Do not invent readings or universal thresholds"
+        ],
+        "probabilityCalibration": "not_applicable"
+      },
+      "sourceClaims": [
+        {
+          "claimId": "project-pilot-draft",
+          "claimSummary": "This record is a structured transcription of a project-authored candidate case. It is not independent technical evidence and does not validate the mechanism or diagnostic interpretation.",
+          "sourceTitle": "Diagnostic Knowledge Casebook — Centrifugal Pump Pilot",
+          "publisher": "Maintenance AI Toolkit project working document",
+          "url": "https://github.com/belaggouneseifeddine/ai-maintenance-toolkit/blob/work/diagnostic-pilot-foundation-2026-11-12/docs/DIAGNOSTIC-KNOWLEDGE-CASEBOOK-CENTRIFUGAL-PUMP-PILOT.md",
+          "revision": "working branch 2026-11-12",
+          "sourceLocation": "Sections 4–8; candidate case templates CP-001 to CP-006",
+          "reviewStatus": "not_reviewed",
+          "licenseStatus": "pending_review",
+          "reuseDecision": "pending",
+          "evidenceClass": "engineering_inference",
+          "reviewedAt": "2026-11-12",
+          "reviewerRole": "repository intake review only; no qualified technical sign-off"
+        }
+      ],
+      "verification": {
+        "postRepairChecks": [
+          "Repeat the same measurements at comparable operating conditions",
+          "Confirm the reported symptom is resolved without introducing new alarms or abnormal vibration/leakage",
+          "Record actual repair and competent-person sign-off"
+        ],
+        "acceptanceCriteriaSource": null,
+        "fieldValidationStatus": "not_tested",
+        "observedOutcomeId": null
+      },
+      "limitations": [
+        "Do not run dry unless exact manufacturer documentation explicitly permits the condition.",
+        "Do not vent or loosen fittings as an exploratory test.",
+        "This is a candidate knowledge record, not runtime diagnostic authority. It must not be presented as source-verified, OEM-verified or field-validated."
+      ]
+    },
+    {
+      "schemaVersion": "1.0-draft",
+      "caseId": "CP-003",
+      "status": "candidate",
+      "equipment": {
+        "family": "pump",
+        "equipmentType": "centrifugal_pump",
+        "manufacturer": null,
+        "modelApplicability": "Not model-verified; confirm pump type, model, impeller, speed, seal/bearing arrangement and installation before use.",
+        "configuration": [
+          "Centrifugal pump only where confirmed from asset documentation"
+        ],
+        "excludedConfigurations": [
+          "Positive-displacement pumps",
+          "Unknown or unconfirmed pump type"
+        ]
+      },
+      "applicability": {
+        "scope": "General centrifugal-pump concepts only; exact pump design, model, fluid and installation applicability must be confirmed.",
+        "preconditions": [
+          "Asset identity and pump type recorded",
+          "Fluid, temperature, operating state and system arrangement recorded where known",
+          "Use only installed/approved indicators before intrusive checks"
+        ],
+        "knownExclusions": [
+          "No universal pressure, flow, vibration, temperature or clearance limits",
+          "No machine-specific repair or acceptance procedure"
+        ]
+      },
+      "mechanism": "Increased suction-side resistance can reduce inlet pressure/flow and may contribute to low capacity or cavitation.",
+      "symptoms": [
+        {
+          "id": "reported-symptom",
+          "observation": "Suction blockage / restriction",
+          "isInferred": false
+        }
+      ],
+      "hypotheses": [
+        {
+          "hypothesisId": "cp-003-h1",
+          "cause": "Suction strainer restriction",
+          "evidenceFor": [
+            "Suction-side pressure loss or strainer differential pressure rises relative to a clean baseline at comparable flow."
+          ],
+          "evidenceAgainst": [
+            "Comparable suction readings and normal source/valve status weaken this branch."
+          ],
+          "confounders": [
+            "Flow changes alter pressure losses; instrument tap location and calibration matter."
+          ],
+          "scope": "General centrifugal-pump concepts only; exact pump design, model, fluid and installation applicability must be confirmed."
+        },
+        {
+          "hypothesisId": "cp-003-h2",
+          "cause": "Partially/fully closed suction valve",
+          "evidenceFor": [
+            "Source level or valve indication suggests a supply limitation."
+          ],
+          "evidenceAgainst": [
+            "No increase in differential pressure across an instrumented strainer weakens strainer blockage."
+          ],
+          "confounders": [
+            "Air ingress and viscosity changes can mimic restriction."
+          ],
+          "scope": "General centrifugal-pump concepts only; exact pump design, model, fluid and installation applicability must be confirmed."
+        },
+        {
+          "hypothesisId": "cp-003-h3",
+          "cause": "Low source level or inadequate submergence",
+          "evidenceFor": [
+            "Line inspection after safe isolation confirms obstruction."
+          ],
+          "evidenceAgainst": [],
+          "confounders": [],
+          "scope": "General centrifugal-pump concepts only; exact pump design, model, fluid and installation applicability must be confirmed."
+        },
+        {
+          "hypothesisId": "cp-003-h4",
+          "cause": "Collapsed/obstructed suction line",
+          "evidenceFor": [],
+          "evidenceAgainst": [],
+          "confounders": [],
+          "scope": "General centrifugal-pump concepts only; exact pump design, model, fluid and installation applicability must be confirmed."
+        },
+        {
+          "hypothesisId": "cp-003-h5",
+          "cause": "High viscosity or unsuitable fluid temperature",
+          "evidenceFor": [],
+          "evidenceAgainst": [],
+          "confounders": [],
+          "scope": "General centrifugal-pump concepts only; exact pump design, model, fluid and installation applicability must be confirmed."
+        },
+        {
+          "hypothesisId": "cp-003-h6",
+          "cause": "Air ingress or inaccurate pressure instrument",
+          "evidenceFor": [],
+          "evidenceAgainst": [],
+          "confounders": [],
+          "scope": "General centrifugal-pump concepts only; exact pump design, model, fluid and installation applicability must be confirmed."
+        }
+      ],
+      "measurements": [
+        {
+          "measurementId": "cp-003-m1",
+          "parameter": "Suction pressure and tap location",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        },
+        {
+          "measurementId": "cp-003-m2",
+          "parameter": "Flow rate",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        },
+        {
+          "measurementId": "cp-003-m3",
+          "parameter": "Source level",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        },
+        {
+          "measurementId": "cp-003-m4",
+          "parameter": "Strainer differential pressure",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        },
+        {
+          "measurementId": "cp-003-m5",
+          "parameter": "Fluid temperature/viscosity context",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        },
+        {
+          "measurementId": "cp-003-m6",
+          "parameter": "Speed",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        },
+        {
+          "measurementId": "cp-003-m7",
+          "parameter": "Valve position",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        }
+      ],
+      "tests": [
+        {
+          "testId": "cp-003-t1",
+          "purpose": "Compare suction-side readings at comparable operating conditions",
+          "preconditions": "Known baseline and valid instrument locations are available",
+          "authorizedRole": "Operator / instrumentation technician",
+          "methodSummary": "Compare current pressure/flow/strainer differential pressure with a validated baseline at comparable flow and fluid conditions.",
+          "expectedOutcomes": [
+            {
+              "hypothesisId": "cp-003-h1",
+              "resultPattern": "Higher suction loss or strainer differential pressure",
+              "interpretation": "Supports restriction investigation; identify location before intervention."
+            },
+            {
+              "hypothesisId": "cp-003-h2",
+              "resultPattern": "No comparable increase",
+              "interpretation": "Do not assume blockage; investigate other hypotheses."
+            }
+          ],
+          "interpretationLimits": [
+            "Different flow rates are not directly comparable."
+          ],
+          "stopConditions": [
+            "Unstable operation or unreliable instruments"
+          ],
+          "estimatedDurationMinutes": null,
+          "estimatedCostClass": "unknown",
+          "invasiveness": "remote_observation"
+        },
+        {
+          "testId": "cp-003-t2",
+          "purpose": "Plan physical inspection only after energy control",
+          "preconditions": "Approved isolation and depressurization plan is authorized",
+          "authorizedRole": "Qualified maintenance personnel",
+          "methodSummary": "Inspect strainer/line only after isolation, depressurization, drainage and site-specific controls are verified.",
+          "expectedOutcomes": [
+            {
+              "hypothesisId": "cp-003-h1",
+              "resultPattern": "Obstruction found",
+              "interpretation": "Record location/condition and verify after approved cleaning/repair."
+            },
+            {
+              "hypothesisId": "cp-003-h2",
+              "resultPattern": "No obstruction found",
+              "interpretation": "Reassess valve lineup, fluid properties, air ingress and instrument validity."
+            }
+          ],
+          "interpretationLimits": [
+            "Visual inspection after opening is not permitted without safe-state verification."
+          ],
+          "stopConditions": [
+            "Any residual pressure, hazardous fluid, hot surface or uncertain isolation"
+          ],
+          "estimatedDurationMinutes": null,
+          "estimatedCostClass": "unknown",
+          "invasiveness": "remote_observation"
+        }
+      ],
+      "safety": {
+        "hazards": [
+          "Pressure-boundary release",
+          "Hot/hazardous fluid",
+          "Unexpected startup"
+        ],
+        "requiredControls": [
+          "No opening of strainers, plugs or lines until isolation, depressurization, drainage and zero-energy verification"
+        ],
+        "stopWorkConditions": [
+          "Residual pressure",
+          "Uncertain isolation",
+          "Leak or spill beyond site controls"
+        ],
+        "escalationRole": "Site-authorized supervisor / qualified rotating-equipment or process-maintenance personnel"
+      },
+      "decisionPolicy": {
+        "selectionMethod": "not_implemented",
+        "constraints": [
+          "Safety is a hard gate, not a score",
+          "Prefer remote installed indicators before invasive inspection",
+          "Do not rank from one symptom alone",
+          "Do not invent readings or universal thresholds"
+        ],
+        "probabilityCalibration": "not_applicable"
+      },
+      "sourceClaims": [
+        {
+          "claimId": "project-pilot-draft",
+          "claimSummary": "This record is a structured transcription of a project-authored candidate case. It is not independent technical evidence and does not validate the mechanism or diagnostic interpretation.",
+          "sourceTitle": "Diagnostic Knowledge Casebook — Centrifugal Pump Pilot",
+          "publisher": "Maintenance AI Toolkit project working document",
+          "url": "https://github.com/belaggouneseifeddine/ai-maintenance-toolkit/blob/work/diagnostic-pilot-foundation-2026-11-12/docs/DIAGNOSTIC-KNOWLEDGE-CASEBOOK-CENTRIFUGAL-PUMP-PILOT.md",
+          "revision": "working branch 2026-11-12",
+          "sourceLocation": "Sections 4–8; candidate case templates CP-001 to CP-006",
+          "reviewStatus": "not_reviewed",
+          "licenseStatus": "pending_review",
+          "reuseDecision": "pending",
+          "evidenceClass": "engineering_inference",
+          "reviewedAt": "2026-11-12",
+          "reviewerRole": "repository intake review only; no qualified technical sign-off"
+        }
+      ],
+      "verification": {
+        "postRepairChecks": [
+          "Repeat the same measurements at comparable operating conditions",
+          "Confirm the reported symptom is resolved without introducing new alarms or abnormal vibration/leakage",
+          "Record actual repair and competent-person sign-off"
+        ],
+        "acceptanceCriteriaSource": null,
+        "fieldValidationStatus": "not_tested",
+        "observedOutcomeId": null
+      },
+      "limitations": [
+        "A pressure reading without tap location and operating condition is incomplete.",
+        "Do not manipulate valves experimentally without approved authorization.",
+        "This is a candidate knowledge record, not runtime diagnostic authority. It must not be presented as source-verified, OEM-verified or field-validated."
+      ]
+    },
+    {
+      "schemaVersion": "1.0-draft",
+      "caseId": "CP-004",
+      "status": "candidate",
+      "equipment": {
+        "family": "pump",
+        "equipmentType": "centrifugal_pump",
+        "manufacturer": null,
+        "modelApplicability": "Not model-verified; confirm pump type, model, impeller, speed, seal/bearing arrangement and installation before use.",
+        "configuration": [
+          "Centrifugal pump only where confirmed from asset documentation"
+        ],
+        "excludedConfigurations": [
+          "Positive-displacement pumps",
+          "Unknown or unconfirmed pump type"
+        ]
+      },
+      "applicability": {
+        "scope": "General centrifugal-pump concepts only; exact pump design, model, fluid and installation applicability must be confirmed.",
+        "preconditions": [
+          "Asset identity and pump type recorded",
+          "Fluid, temperature, operating state and system arrangement recorded where known",
+          "Use only installed/approved indicators before intrusive checks"
+        ],
+        "knownExclusions": [
+          "No universal pressure, flow, vibration, temperature or clearance limits",
+          "No machine-specific repair or acceptance procedure"
+        ]
+      },
+      "mechanism": "Flow is set by the interaction of the pump performance curve and system resistance; low flow has multiple possible hydraulic, mechanical, control and measurement causes.",
+      "symptoms": [
+        {
+          "id": "reported-symptom",
+          "observation": "Low flow / operating-point mismatch",
+          "isInferred": false
+        }
+      ],
+      "hypotheses": [
+        {
+          "hypothesisId": "cp-004-h1",
+          "cause": "System-side restriction or excessive system head",
+          "evidenceFor": [
+            "Measured flow is below the correct baseline/curve at a recorded speed and fluid condition."
+          ],
+          "evidenceAgainst": [
+            "Flow instrument validation and correct curve comparison do not support a hydraulic shortfall."
+          ],
+          "confounders": [
+            "A pressure reading alone does not identify cause."
+          ],
+          "scope": "General centrifugal-pump concepts only; exact pump design, model, fluid and installation applicability must be confirmed."
+        },
+        {
+          "hypothesisId": "cp-004-h2",
+          "cause": "Incorrect valve lineup or stuck check valve",
+          "evidenceFor": [
+            "System resistance/valve status differs from the expected configuration."
+          ],
+          "evidenceAgainst": [
+            "Normal valve lineup and system resistance weaken restriction."
+          ],
+          "confounders": [
+            "Speed, impeller trim, fluid density/viscosity and system changes alter the operating point."
+          ],
+          "scope": "General centrifugal-pump concepts only; exact pump design, model, fluid and installation applicability must be confirmed."
+        },
+        {
+          "hypothesisId": "cp-004-h3",
+          "cause": "Reduced speed or incorrect rotation",
+          "evidenceFor": [
+            "Reduced speed or internal wear is corroborated by independent measurements."
+          ],
+          "evidenceAgainst": [],
+          "confounders": [],
+          "scope": "General centrifugal-pump concepts only; exact pump design, model, fluid and installation applicability must be confirmed."
+        },
+        {
+          "hypothesisId": "cp-004-h4",
+          "cause": "Internal wear or damaged impeller",
+          "evidenceFor": [],
+          "evidenceAgainst": [],
+          "confounders": [],
+          "scope": "General centrifugal-pump concepts only; exact pump design, model, fluid and installation applicability must be confirmed."
+        },
+        {
+          "hypothesisId": "cp-004-h5",
+          "cause": "Low source level / suction restriction",
+          "evidenceFor": [],
+          "evidenceAgainst": [],
+          "confounders": [],
+          "scope": "General centrifugal-pump concepts only; exact pump design, model, fluid and installation applicability must be confirmed."
+        },
+        {
+          "hypothesisId": "cp-004-h6",
+          "cause": "Flow measurement error",
+          "evidenceFor": [],
+          "evidenceAgainst": [],
+          "confounders": [],
+          "scope": "General centrifugal-pump concepts only; exact pump design, model, fluid and installation applicability must be confirmed."
+        }
+      ],
+      "measurements": [
+        {
+          "measurementId": "cp-004-m1",
+          "parameter": "Calibrated flow",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        },
+        {
+          "measurementId": "cp-004-m2",
+          "parameter": "Suction pressure",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        },
+        {
+          "measurementId": "cp-004-m3",
+          "parameter": "Discharge pressure",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        },
+        {
+          "measurementId": "cp-004-m4",
+          "parameter": "Speed/frequency",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        },
+        {
+          "measurementId": "cp-004-m5",
+          "parameter": "Valve position",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        },
+        {
+          "measurementId": "cp-004-m6",
+          "parameter": "Source level",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        },
+        {
+          "measurementId": "cp-004-m7",
+          "parameter": "Fluid properties",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        },
+        {
+          "measurementId": "cp-004-m8",
+          "parameter": "Motor current/power where safely available",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        }
+      ],
+      "tests": [
+        {
+          "testId": "cp-004-t1",
+          "purpose": "Validate flow measurement and operating context",
+          "preconditions": "Suitable calibrated meter or validated installed instrument; stable operation",
+          "authorizedRole": "Instrumentation technician / process engineer",
+          "methodSummary": "Confirm flow reading, unit, measurement location, speed, fluid and stable/transient state before interpreting.",
+          "expectedOutcomes": [
+            {
+              "hypothesisId": "cp-004-h1",
+              "resultPattern": "Flow reading unreliable or inconsistent",
+              "interpretation": "Resolve measurement quality before diagnosing pump."
+            },
+            {
+              "hypothesisId": "cp-004-h2",
+              "resultPattern": "Flow measurement credible",
+              "interpretation": "Compare with applicable pump/system curve."
+            }
+          ],
+          "interpretationLimits": [
+            "Do not infer flow from pressure alone."
+          ],
+          "stopConditions": [
+            "Unstable process or unsafe operating state"
+          ],
+          "estimatedDurationMinutes": null,
+          "estimatedCostClass": "unknown",
+          "invasiveness": "remote_observation"
+        },
+        {
+          "testId": "cp-004-t2",
+          "purpose": "Compare measured point to applicable curves",
+          "preconditions": "Exact pump curve for impeller/speed and system context is available",
+          "authorizedRole": "Qualified process/rotating-equipment engineer",
+          "methodSummary": "Compare measured flow/head with the correct pump curve and system curve; identify deviations without applying generic thresholds.",
+          "expectedOutcomes": [
+            {
+              "hypothesisId": "cp-004-h1",
+              "resultPattern": "System resistance higher than reference",
+              "interpretation": "Investigate authorized system-side restrictions."
+            },
+            {
+              "hypothesisId": "cp-004-h2",
+              "resultPattern": "Pump performance lower than curve at matched conditions",
+              "interpretation": "Investigate speed, rotation, wear, damage or test validity."
+            },
+            {
+              "hypothesisId": "cp-004-h3",
+              "resultPattern": "Speed lower than intended",
+              "interpretation": "Review drive/control configuration with authorized personnel."
+            }
+          ],
+          "interpretationLimits": [
+            "Curve and system data must match installed configuration."
+          ],
+          "stopConditions": [
+            "Missing/mismatched curve or unsafe process condition"
+          ],
+          "estimatedDurationMinutes": null,
+          "estimatedCostClass": "unknown",
+          "invasiveness": "remote_observation"
+        }
+      ],
+      "safety": {
+        "hazards": [
+          "Process upset",
+          "Rotating machinery",
+          "Potential dry running or low-flow heating"
+        ],
+        "requiredControls": [
+          "Use approved instruments and curves; do not adjust valves, speed or protection settings as an experiment"
+        ],
+        "stopWorkConditions": [
+          "Uncontrolled process condition",
+          "Severe vibration/noise",
+          "Suspected dry running"
+        ],
+        "escalationRole": "Site-authorized supervisor / qualified rotating-equipment or process-maintenance personnel"
+      },
+      "decisionPolicy": {
+        "selectionMethod": "not_implemented",
+        "constraints": [
+          "Safety is a hard gate, not a score",
+          "Prefer remote installed indicators before invasive inspection",
+          "Do not rank from one symptom alone",
+          "Do not invent readings or universal thresholds"
+        ],
+        "probabilityCalibration": "not_applicable"
+      },
+      "sourceClaims": [
+        {
+          "claimId": "project-pilot-draft",
+          "claimSummary": "This record is a structured transcription of a project-authored candidate case. It is not independent technical evidence and does not validate the mechanism or diagnostic interpretation.",
+          "sourceTitle": "Diagnostic Knowledge Casebook — Centrifugal Pump Pilot",
+          "publisher": "Maintenance AI Toolkit project working document",
+          "url": "https://github.com/belaggouneseifeddine/ai-maintenance-toolkit/blob/work/diagnostic-pilot-foundation-2026-11-12/docs/DIAGNOSTIC-KNOWLEDGE-CASEBOOK-CENTRIFUGAL-PUMP-PILOT.md",
+          "revision": "working branch 2026-11-12",
+          "sourceLocation": "Sections 4–8; candidate case templates CP-001 to CP-006",
+          "reviewStatus": "not_reviewed",
+          "licenseStatus": "pending_review",
+          "reuseDecision": "pending",
+          "evidenceClass": "engineering_inference",
+          "reviewedAt": "2026-11-12",
+          "reviewerRole": "repository intake review only; no qualified technical sign-off"
+        }
+      ],
+      "verification": {
+        "postRepairChecks": [
+          "Repeat the same measurements at comparable operating conditions",
+          "Confirm the reported symptom is resolved without introducing new alarms or abnormal vibration/leakage",
+          "Record actual repair and competent-person sign-off"
+        ],
+        "acceptanceCriteriaSource": null,
+        "fieldValidationStatus": "not_tested",
+        "observedOutcomeId": null
+      },
+      "limitations": [
+        "Low flow is a symptom, not a root cause.",
+        "No universal minimum-flow value is encoded; use the exact OEM/process design limits.",
+        "This is a candidate knowledge record, not runtime diagnostic authority. It must not be presented as source-verified, OEM-verified or field-validated."
+      ]
+    },
+    {
+      "schemaVersion": "1.0-draft",
+      "caseId": "CP-005",
+      "status": "candidate",
+      "equipment": {
+        "family": "pump",
+        "equipmentType": "centrifugal_pump",
+        "manufacturer": null,
+        "modelApplicability": "Not model-verified; confirm pump type, model, impeller, speed, seal/bearing arrangement and installation before use.",
+        "configuration": [
+          "Centrifugal pump only where confirmed from asset documentation"
+        ],
+        "excludedConfigurations": [
+          "Positive-displacement pumps",
+          "Unknown or unconfirmed pump type"
+        ]
+      },
+      "applicability": {
+        "scope": "General centrifugal-pump concepts only; exact pump design, model, fluid and installation applicability must be confirmed.",
+        "preconditions": [
+          "Asset identity and pump type recorded",
+          "Fluid, temperature, operating state and system arrangement recorded where known",
+          "Use only installed/approved indicators before intrusive checks"
+        ],
+        "knownExclusions": [
+          "No universal pressure, flow, vibration, temperature or clearance limits",
+          "No machine-specific repair or acceptance procedure"
+        ]
+      },
+      "mechanism": "Leakage may arise from seal-face condition, dry running, misalignment, vibration, material incompatibility, installation, or seal support/flush/barrier conditions.",
+      "symptoms": [
+        {
+          "id": "reported-symptom",
+          "observation": "Mechanical seal leakage",
+          "isInferred": false
+        }
+      ],
+      "hypotheses": [
+        {
+          "hypothesisId": "cp-005-h1",
+          "cause": "Seal-face damage/wear",
+          "evidenceFor": [
+            "Leakage is observed at the seal/gland location and support-system indicators deviate from the exact seal plan."
+          ],
+          "evidenceAgainst": [
+            "Leak originates from flange, gasket, casing or piping rather than seal area."
+          ],
+          "confounders": [
+            "Leakage alone does not prove failed seal faces."
+          ],
+          "scope": "General centrifugal-pump concepts only; exact pump design, model, fluid and installation applicability must be confirmed."
+        },
+        {
+          "hypothesisId": "cp-005-h2",
+          "cause": "Dry running or loss of flush",
+          "evidenceFor": [
+            "History shows dry running, installation work or abnormal vibration."
+          ],
+          "evidenceAgainst": [
+            "Seal support indicators are normal under the correct documented plan."
+          ],
+          "confounders": [
+            "Fluid hazard, seal arrangement and barrier/flush plan change interpretation."
+          ],
+          "scope": "General centrifugal-pump concepts only; exact pump design, model, fluid and installation applicability must be confirmed."
+        },
+        {
+          "hypothesisId": "cp-005-h3",
+          "cause": "Misalignment or excessive vibration",
+          "evidenceFor": [
+            "External observation localizes leakage to seal area."
+          ],
+          "evidenceAgainst": [],
+          "confounders": [],
+          "scope": "General centrifugal-pump concepts only; exact pump design, model, fluid and installation applicability must be confirmed."
+        },
+        {
+          "hypothesisId": "cp-005-h4",
+          "cause": "Fluid/material incompatibility",
+          "evidenceFor": [],
+          "evidenceAgainst": [],
+          "confounders": [],
+          "scope": "General centrifugal-pump concepts only; exact pump design, model, fluid and installation applicability must be confirmed."
+        },
+        {
+          "hypothesisId": "cp-005-h5",
+          "cause": "Incorrect installation",
+          "evidenceFor": [],
+          "evidenceAgainst": [],
+          "confounders": [],
+          "scope": "General centrifugal-pump concepts only; exact pump design, model, fluid and installation applicability must be confirmed."
+        },
+        {
+          "hypothesisId": "cp-005-h6",
+          "cause": "Seal support system condition",
+          "evidenceFor": [],
+          "evidenceAgainst": [],
+          "confounders": [],
+          "scope": "General centrifugal-pump concepts only; exact pump design, model, fluid and installation applicability must be confirmed."
+        }
+      ],
+      "measurements": [
+        {
+          "measurementId": "cp-005-m1",
+          "parameter": "Leak location/rate trend",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        },
+        {
+          "measurementId": "cp-005-m2",
+          "parameter": "Fluid identity and hazard",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        },
+        {
+          "measurementId": "cp-005-m3",
+          "parameter": "Temperature",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        },
+        {
+          "measurementId": "cp-005-m4",
+          "parameter": "Pressure",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        },
+        {
+          "measurementId": "cp-005-m5",
+          "parameter": "Pump operating state",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        },
+        {
+          "measurementId": "cp-005-m6",
+          "parameter": "Seal arrangement",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        },
+        {
+          "measurementId": "cp-005-m7",
+          "parameter": "Flush/barrier pressure and flow if fitted",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        },
+        {
+          "measurementId": "cp-005-m8",
+          "parameter": "Vibration trend",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        }
+      ],
+      "tests": [
+        {
+          "testId": "cp-005-t1",
+          "purpose": "Locate leak from a safe distance",
+          "preconditions": "Fluid hazard assessed and safe observation position established",
+          "authorizedRole": "Operator / process safety personnel",
+          "methodSummary": "Observe externally without touching, tightening or dismantling; record leak location and trend.",
+          "expectedOutcomes": [
+            {
+              "hypothesisId": "cp-005-h1",
+              "resultPattern": "Leak clearly from seal area",
+              "interpretation": "Investigate seal arrangement and support-system data."
+            },
+            {
+              "hypothesisId": "cp-005-h2",
+              "resultPattern": "Leak from flange/gasket/piping",
+              "interpretation": "Investigate the identified pressure boundary instead."
+            }
+          ],
+          "interpretationLimits": [
+            "Do not approach an unknown hazardous release."
+          ],
+          "stopConditions": [
+            "Major leak, toxic/flammable fluid, spray or pressure-boundary failure"
+          ],
+          "estimatedDurationMinutes": null,
+          "estimatedCostClass": "unknown",
+          "invasiveness": "remote_observation"
+        },
+        {
+          "testId": "cp-005-t2",
+          "purpose": "Compare seal support indicators to exact seal plan",
+          "preconditions": "Correct seal arrangement and plan are identified",
+          "authorizedRole": "Qualified seal/rotating-equipment specialist",
+          "methodSummary": "Review installed flush/barrier indicators against the exact approved seal plan and manufacturer documentation.",
+          "expectedOutcomes": [
+            {
+              "hypothesisId": "cp-005-h1",
+              "resultPattern": "Support condition outside documented requirement",
+              "interpretation": "Escalate for approved correction."
+            },
+            {
+              "hypothesisId": "cp-005-h2",
+              "resultPattern": "Support condition normal",
+              "interpretation": "Investigate seal installation, materials, vibration and other leak paths."
+            }
+          ],
+          "interpretationLimits": [
+            "No generic pressure/flow limit applies."
+          ],
+          "stopConditions": [
+            "Unknown seal plan or unsafe pressure state"
+          ],
+          "estimatedDurationMinutes": null,
+          "estimatedCostClass": "unknown",
+          "invasiveness": "remote_observation"
+        }
+      ],
+      "safety": {
+        "hazards": [
+          "Pressurized fluid release",
+          "Toxic/flammable/hot liquid",
+          "Rotating shaft"
+        ],
+        "requiredControls": [
+          "Identify fluid hazard; keep safe distance; isolate and depressurize under approved procedure before intervention"
+        ],
+        "stopWorkConditions": [
+          "Major leak or spray",
+          "Unknown fluid hazard",
+          "Unverified isolation or pressure"
+        ],
+        "escalationRole": "Site-authorized supervisor / qualified rotating-equipment or process-maintenance personnel"
+      },
+      "decisionPolicy": {
+        "selectionMethod": "not_implemented",
+        "constraints": [
+          "Safety is a hard gate, not a score",
+          "Prefer remote installed indicators before invasive inspection",
+          "Do not rank from one symptom alone",
+          "Do not invent readings or universal thresholds"
+        ],
+        "probabilityCalibration": "not_applicable"
+      },
+      "sourceClaims": [
+        {
+          "claimId": "project-pilot-draft",
+          "claimSummary": "This record is a structured transcription of a project-authored candidate case. It is not independent technical evidence and does not validate the mechanism or diagnostic interpretation.",
+          "sourceTitle": "Diagnostic Knowledge Casebook — Centrifugal Pump Pilot",
+          "publisher": "Maintenance AI Toolkit project working document",
+          "url": "https://github.com/belaggouneseifeddine/ai-maintenance-toolkit/blob/work/diagnostic-pilot-foundation-2026-11-12/docs/DIAGNOSTIC-KNOWLEDGE-CASEBOOK-CENTRIFUGAL-PUMP-PILOT.md",
+          "revision": "working branch 2026-11-12",
+          "sourceLocation": "Sections 4–8; candidate case templates CP-001 to CP-006",
+          "reviewStatus": "not_reviewed",
+          "licenseStatus": "pending_review",
+          "reuseDecision": "pending",
+          "evidenceClass": "engineering_inference",
+          "reviewedAt": "2026-11-12",
+          "reviewerRole": "repository intake review only; no qualified technical sign-off"
+        }
+      ],
+      "verification": {
+        "postRepairChecks": [
+          "Repeat the same measurements at comparable operating conditions",
+          "Confirm the reported symptom is resolved without introducing new alarms or abnormal vibration/leakage",
+          "Record actual repair and competent-person sign-off"
+        ],
+        "acceptanceCriteriaSource": null,
+        "fieldValidationStatus": "not_tested",
+        "observedOutcomeId": null
+      },
+      "limitations": [
+        "Do not touch, tighten or dismantle a pressurized seal/gland.",
+        "Acceptance leakage limits must come from the exact seal/OEM/site specification.",
+        "This is a candidate knowledge record, not runtime diagnostic authority. It must not be presented as source-verified, OEM-verified or field-validated."
+      ]
+    },
+    {
+      "schemaVersion": "1.0-draft",
+      "caseId": "CP-006",
+      "status": "candidate",
+      "equipment": {
+        "family": "pump",
+        "equipmentType": "centrifugal_pump",
+        "manufacturer": null,
+        "modelApplicability": "Not model-verified; confirm pump type, model, impeller, speed, seal/bearing arrangement and installation before use.",
+        "configuration": [
+          "Centrifugal pump only where confirmed from asset documentation"
+        ],
+        "excludedConfigurations": [
+          "Positive-displacement pumps",
+          "Unknown or unconfirmed pump type"
+        ]
+      },
+      "applicability": {
+        "scope": "General centrifugal-pump concepts only; exact pump design, model, fluid and installation applicability must be confirmed.",
+        "preconditions": [
+          "Asset identity and pump type recorded",
+          "Fluid, temperature, operating state and system arrangement recorded where known",
+          "Use only installed/approved indicators before intrusive checks"
+        ],
+        "knownExclusions": [
+          "No universal pressure, flow, vibration, temperature or clearance limits",
+          "No machine-specific repair or acceptance procedure"
+        ]
+      },
+      "mechanism": "Bearing damage can arise from fatigue, contamination, lubrication quantity/type problems, misalignment, electrical fluting or installation errors.",
+      "symptoms": [
+        {
+          "id": "reported-symptom",
+          "observation": "Bearing degradation / lubrication issue",
+          "isInferred": false
+        }
+      ],
+      "hypotheses": [
+        {
+          "hypothesisId": "cp-006-h1",
+          "cause": "Rolling-element fatigue or damage",
+          "evidenceFor": [
+            "Repeatable bearing-related vibration pattern is corroborated by temperature, lubricant condition or maintenance history."
+          ],
+          "evidenceAgainst": [
+            "No repeatable bearing-location trend and no corroborating evidence weakens bearing degradation."
+          ],
+          "confounders": [
+            "Cavitation, imbalance, looseness, resonance and misalignment overlap in vibration."
+          ],
+          "scope": "General centrifugal-pump concepts only; exact pump design, model, fluid and installation applicability must be confirmed."
+        },
+        {
+          "hypothesisId": "cp-006-h2",
+          "cause": "Contamination",
+          "evidenceFor": [
+            "Trend changes at the bearing measurement location under comparable speed/load."
+          ],
+          "evidenceAgainst": [
+            "Vibration pattern points more strongly to imbalance, looseness, misalignment or hydraulic excitation."
+          ],
+          "confounders": [
+            "Sensor mounting/location, speed and load affect interpretation."
+          ],
+          "scope": "General centrifugal-pump concepts only; exact pump design, model, fluid and installation applicability must be confirmed."
+        },
+        {
+          "hypothesisId": "cp-006-h3",
+          "cause": "Insufficient or excessive/incorrect lubricant",
+          "evidenceFor": [
+            "Inspection after isolation confirms damage or lubrication issue."
+          ],
+          "evidenceAgainst": [],
+          "confounders": [],
+          "scope": "General centrifugal-pump concepts only; exact pump design, model, fluid and installation applicability must be confirmed."
+        },
+        {
+          "hypothesisId": "cp-006-h4",
+          "cause": "Misalignment or installation error",
+          "evidenceFor": [],
+          "evidenceAgainst": [],
+          "confounders": [],
+          "scope": "General centrifugal-pump concepts only; exact pump design, model, fluid and installation applicability must be confirmed."
+        },
+        {
+          "hypothesisId": "cp-006-h5",
+          "cause": "Electrical fluting where applicable",
+          "evidenceFor": [],
+          "evidenceAgainst": [],
+          "confounders": [],
+          "scope": "General centrifugal-pump concepts only; exact pump design, model, fluid and installation applicability must be confirmed."
+        },
+        {
+          "hypothesisId": "cp-006-h6",
+          "cause": "Other rotating faults producing similar vibration",
+          "evidenceFor": [],
+          "evidenceAgainst": [],
+          "confounders": [],
+          "scope": "General centrifugal-pump concepts only; exact pump design, model, fluid and installation applicability must be confirmed."
+        }
+      ],
+      "measurements": [
+        {
+          "measurementId": "cp-006-m1",
+          "parameter": "Vibration spectrum/trend and sensor location",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        },
+        {
+          "measurementId": "cp-006-m2",
+          "parameter": "Bearing temperature trend",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        },
+        {
+          "measurementId": "cp-006-m3",
+          "parameter": "Lubricant type/condition",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        },
+        {
+          "measurementId": "cp-006-m4",
+          "parameter": "Lubrication history",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        },
+        {
+          "measurementId": "cp-006-m5",
+          "parameter": "Machine speed",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        },
+        {
+          "measurementId": "cp-006-m6",
+          "parameter": "Load and operating point",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        },
+        {
+          "measurementId": "cp-006-m7",
+          "parameter": "Noise observation",
+          "value": null,
+          "unit": "record actual unit",
+          "location": "record exact tap/sensor/location",
+          "instrumentId": null,
+          "quality": "unknown",
+          "calibrationStatus": "unknown",
+          "operatingCondition": "record speed, flow/load, fluid and stable/transient state",
+          "timestamp": null,
+          "uncertainty": null
+        }
+      ],
+      "tests": [
+        {
+          "testId": "cp-006-t1",
+          "purpose": "Review trend data and corroborating indicators",
+          "preconditions": "Sensor location, speed/load context and trend history are available",
+          "authorizedRole": "Condition-monitoring / rotating-equipment specialist",
+          "methodSummary": "Compare like-for-like vibration and temperature trends; use manufacturer/standard guidance for interpretation.",
+          "expectedOutcomes": [
+            {
+              "hypothesisId": "cp-006-h1",
+              "resultPattern": "Repeatable bearing-related signature plus corroboration",
+              "interpretation": "Raises bearing hypothesis for qualified confirmation."
+            },
+            {
+              "hypothesisId": "cp-006-h2",
+              "resultPattern": "No repeatable signature or stronger alternative pattern",
+              "interpretation": "Keep diagnosis open and investigate competing causes."
+            }
+          ],
+          "interpretationLimits": [
+            "No generic vibration or temperature threshold is encoded."
+          ],
+          "stopConditions": [
+            "Sudden/severe vibration or unsafe access"
+          ],
+          "estimatedDurationMinutes": null,
+          "estimatedCostClass": "unknown",
+          "invasiveness": "remote_observation"
+        },
+        {
+          "testId": "cp-006-t2",
+          "purpose": "Inspect bearing/lubrication only after isolation",
+          "preconditions": "Energy isolation and stored-energy controls verified",
+          "authorizedRole": "Qualified mechanical maintenance personnel",
+          "methodSummary": "Inspect only under approved LOTO and manufacturer procedure; record actual findings and lubricant details.",
+          "expectedOutcomes": [
+            {
+              "hypothesisId": "cp-006-h1",
+              "resultPattern": "Damage/contamination/lubrication fault confirmed",
+              "interpretation": "Record observed condition and repair evidence."
+            },
+            {
+              "hypothesisId": "cp-006-h2",
+              "resultPattern": "No damage observed",
+              "interpretation": "Reassess sensor validity and other vibration sources."
+            }
+          ],
+          "interpretationLimits": [
+            "Do not infer internal damage from sound alone."
+          ],
+          "stopConditions": [
+            "Guard removal during rotation",
+            "Unverified zero-energy state"
+          ],
+          "estimatedDurationMinutes": null,
+          "estimatedCostClass": "unknown",
+          "invasiveness": "remote_observation"
+        }
+      ],
+      "safety": {
+        "hazards": [
+          "Rotating machinery",
+          "Hot surfaces",
+          "Stored mechanical/electrical energy"
+        ],
+        "requiredControls": [
+          "Keep guards in place during operation; isolate and verify zero energy before internal inspection"
+        ],
+        "stopWorkConditions": [
+          "Sudden/severe vibration",
+          "Smoke/burning smell",
+          "Unsafe access or uncertain isolation"
+        ],
+        "escalationRole": "Site-authorized supervisor / qualified rotating-equipment or process-maintenance personnel"
+      },
+      "decisionPolicy": {
+        "selectionMethod": "not_implemented",
+        "constraints": [
+          "Safety is a hard gate, not a score",
+          "Prefer remote installed indicators before invasive inspection",
+          "Do not rank from one symptom alone",
+          "Do not invent readings or universal thresholds"
+        ],
+        "probabilityCalibration": "not_applicable"
+      },
+      "sourceClaims": [
+        {
+          "claimId": "project-pilot-draft",
+          "claimSummary": "This record is a structured transcription of a project-authored candidate case. It is not independent technical evidence and does not validate the mechanism or diagnostic interpretation.",
+          "sourceTitle": "Diagnostic Knowledge Casebook — Centrifugal Pump Pilot",
+          "publisher": "Maintenance AI Toolkit project working document",
+          "url": "https://github.com/belaggouneseifeddine/ai-maintenance-toolkit/blob/work/diagnostic-pilot-foundation-2026-11-12/docs/DIAGNOSTIC-KNOWLEDGE-CASEBOOK-CENTRIFUGAL-PUMP-PILOT.md",
+          "revision": "working branch 2026-11-12",
+          "sourceLocation": "Sections 4–8; candidate case templates CP-001 to CP-006",
+          "reviewStatus": "not_reviewed",
+          "licenseStatus": "pending_review",
+          "reuseDecision": "pending",
+          "evidenceClass": "engineering_inference",
+          "reviewedAt": "2026-11-12",
+          "reviewerRole": "repository intake review only; no qualified technical sign-off"
+        }
+      ],
+      "verification": {
+        "postRepairChecks": [
+          "Repeat the same measurements at comparable operating conditions",
+          "Confirm the reported symptom is resolved without introducing new alarms or abnormal vibration/leakage",
+          "Record actual repair and competent-person sign-off"
+        ],
+        "acceptanceCriteriaSource": null,
+        "fieldValidationStatus": "not_tested",
+        "observedOutcomeId": null
+      },
+      "limitations": [
+        "Noise alone does not confirm bearing damage.",
+        "Numeric limits must come from exact manufacturer/standard context and validated measurement method.",
+        "This is a candidate knowledge record, not runtime diagnostic authority. It must not be presented as source-verified, OEM-verified or field-validated."
+      ]
+    }
+  ]
+}
