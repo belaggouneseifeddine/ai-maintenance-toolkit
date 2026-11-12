@@ -16,3 +16,9 @@
  #documentLibraryPanel .document-upload-grid,.document-card{grid-template-columns:1fr}
  #documentLibraryPanel .document-upload-grid .btn,.document-card .btn{width:100%}
 }
+
+.document-ocr-controls{grid-column:1/-1;display:grid;gap:8px;padding:12px;border:1px solid #d8e2e9;border-radius:12px;background:#f7fafc}
+.document-ocr-toggle{display:flex;align-items:center;gap:9px;font-weight:700}
+.document-ocr-toggle input{width:20px;height:20px;flex:0 0 auto}
+.document-ocr-controls select{width:100%;min-height:42px}
+:root[data-theme="dark"] .document-ocr-controls{background:#142333;border-color:#2b4052}
