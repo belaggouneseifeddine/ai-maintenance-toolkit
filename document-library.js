@@ -587,7 +587,11 @@
       const edition = String(review && review.edition || "").trim();
       const sourceUrl = String(review && review.sourceUrl || "").trim();
       const sourceOrigin = String(review && review.sourceOrigin || "").trim();
+      const rightsBasis = String(review && review.rightsBasis || "unknown").trim();
+      const allowedRightsBases = new Set(["unknown","user_owned","public_domain","cc_by","cc_by_sa","permission_granted","manufacturer_terms"]);
+      if (!allowedRightsBases.has(rightsBasis)) throw new Error("أساس حقوق الاستخدام غير معروف للنظام.");
       if (!reviewer || notes.length < 10 || rightsEvidence.length < 10) throw new Error("أدخل المراجع وملاحظات المراجعة ودليل الحقوق (10 أحرف على الأقل).");
+      if (review.rightsVerified === true && rightsBasis === "unknown") throw new Error("لا يمكن تأكيد الحقوق دون تحديد أساس واضح ودليل داعم.");
       if (sourceUrl && !CORE.isHttpsUrl(sourceUrl)) throw new Error("رابط المصدر يجب أن يكون HTTPS صالحًا.");
       if (review.approved === true && (!manufacturer || !equipmentFamily || !modelApplicability || !edition || (!sourceUrl && sourceOrigin.length < 6))) throw new Error("لا يمكن اعتماد الوثيقة دون الشركة المصنّعة وعائلة المعدة ونطاق الموديل والإصدار ومصدر موثق (رابط HTTPS أو وصف جهة الحصول).");
       Object.assign(doc, {
@@ -597,6 +601,7 @@
         edition,
         sourceUrl,
         sourceOrigin,
+        rightsBasis,
         rightsStatus: review.rightsVerified === true ? "verified" : "user-supplied-rights-not-verified",
         rightsEvidence, reviewer, reviewNotes: notes,
         reviewStatus: review.approved === true ? "approved" : "reviewed",
