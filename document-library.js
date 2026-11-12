@@ -516,15 +516,13 @@
         const byId = new Map(documents.map(doc => [doc.id, doc]));
         const terms = CORE.tokenize(query);
         const context = options && options.context || {};
-        const equipmentTerms = CORE.tokenize(context.equipment || "");
-        const modelTerms = CORE.tokenize(context.model || "");
         const candidates = claims.map(claim => {
           const doc = byId.get(claim.documentId);
           const claimTerms = CORE.tokenize(claim.text);
           const family = claim.equipmentFamily || (doc && doc.equipmentFamily) || "";
           const modelScope = claim.modelApplicability || (doc && doc.modelApplicability) || "";
           const familyMatches = CORE.scopeMatches(family, context.equipment || "");
-          const modelMatches = CORE.isGenericModelScope(modelScope) || CORE.scopeMatches(modelScope, context.model || "");
+          const modelMatches = CORE.modelScopeMatches(modelScope, context.model || "");
           const matchedTerms = terms.filter(term => claimTerms.includes(term)).length;
           const eligible = doc && familyMatches && modelMatches &&
             doc.eligibleForDiagnosis === true && doc.reviewStatus === "approved" &&
