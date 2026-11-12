@@ -167,7 +167,7 @@
 
   function makeCitation(document, pageNumber) {
     const title = document && (document.title || document.fileName) || "Unknown document";
-    return title + ", p. " + String(pageNumber || "?");
+    return title + ", PDF p. " + String(pageNumber || "?");
   }
 
   return { normalizeText, tokenize, chunkPage, buildPostings, rankChunks, makeCitation, normalizePageNumber, isHttpsUrl, isGenericModelScope, scopeMatches, modelScopeMatches, isDiagnosticEligible, makeSourceRef };
