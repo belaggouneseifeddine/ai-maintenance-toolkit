@@ -47,7 +47,9 @@ jobs:
             engineering-core.js \
             agent-core.js \
             agent-ui.js \
-            sw.js; do
+            sw.js \\
+            document-library-core.js \\
+            document-library.js; do
             node --check "$file"
           done
           node --input-type=module --check < worker.js
