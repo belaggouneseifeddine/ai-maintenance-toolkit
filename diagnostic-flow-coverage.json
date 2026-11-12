@@ -4,10 +4,9 @@
   "matchingRule": "A flow is covered only when at least one fault has the same equipmentType and includes the same symptom ID, or a reviewed explicit mapping is added here. No implicit aliases.",
   "flows": {
     "pump|low_flow": {
-      "status": "covered-exact",
-      "matchingFaultIds": [
-        "pump-cavitation"
-      ]
+      "status": "gap-needs-review",
+      "matchingFaultIds": [],
+      "note": "The current mapping to pump-cavitation is not a defensible exact match: low flow is a symptom with multiple competing causes. The diagnostic engine contains broad suction/supply and flow-path prompts, but the fault-library coverage must not be marked complete until each pump cause has an explicit reviewed mapping and discriminating evidence."
     },
     "motor|not_start": {
       "status": "covered-exact",
