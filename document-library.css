@@ -31,3 +31,6 @@
 .document-workspace .check input{width:20px;min-height:20px;flex:0 0 auto;margin-top:5px}
 .document-workspace hr{border:0;border-top:1px solid #d8e2e9;margin:18px 0}
 :root[data-theme="dark"] .document-workspace input,:root[data-theme="dark"] .document-workspace textarea,:root[data-theme="dark"] .document-workspace select{background:#0e1b29;color:#e8f0f4;border-color:#385064}
+
+.document-page-preview{max-height:260px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;padding:12px;border:1px solid #d8e2e9;border-radius:12px;background:#f7fafc;font: .82rem/1.65 ui-monospace,monospace}
+:root[data-theme="dark"] .document-page-preview{background:#0e1b29;color:#e8f0f4;border-color:#385064}
