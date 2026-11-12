@@ -57,7 +57,18 @@
           verificationLimit: typeof ref.verificationLimit === "string" ? ref.verificationLimit : "",
           status: record.status || "source-not-recorded",
           scope: record.scope || ref.scope || {},
-          verifiedClaims: Array.isArray(ref.verifiedClaims) ? ref.verifiedClaims : (Array.isArray(record.verifiedClaims) ? record.verifiedClaims : (record.status === "verified" && typeof ref.claim === "string" && ref.claim.trim() ? [ref.claim] : []))
+          verifiedClaims: (() => {
+            const rawClaims = Array.isArray(ref.verifiedClaims) ? ref.verifiedClaims : (Array.isArray(record.verifiedClaims) ? record.verifiedClaims : (record.status === "verified" && typeof ref.claim === "string" && ref.claim.trim() ? [ref.claim] : []));
+            return rawClaims.map(item => {
+              if (typeof item === "string") return { hypothesisId: fault.id, claim: item, reviewed: record.status === "verified" && item.trim() !== "" };
+              if (!item || typeof item !== "object") return null;
+              return {
+                hypothesisId: typeof item.hypothesisId === "string" ? item.hypothesisId : fault.id,
+                claim: typeof item.claim === "string" ? item.claim : "",
+                reviewed: item.reviewed === true && record.status === "verified"
+              };
+            }).filter(Boolean);
+          })()
         });
       });
       return {
