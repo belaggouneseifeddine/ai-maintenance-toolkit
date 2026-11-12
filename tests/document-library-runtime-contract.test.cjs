@@ -16,7 +16,7 @@ test("PDF import is local-first, bounded, and records page-level extraction prov
   assert.match(source, /extractionMethod/);
   assert.match(source, /ocrConfidence/);
   assert.match(source, /eligibleForDiagnosis: false/);
-  assert.doesNotMatch(source, /fetch\\([^)]*(?:upload|api\\/documents)/i);
+  assert.equal(source.includes("fetch("), false, "PDF contents must not be uploaded by the document library");
 });
 
 test("OCR and PDF extraction keep the original one-based PDF page anchor", () => {
