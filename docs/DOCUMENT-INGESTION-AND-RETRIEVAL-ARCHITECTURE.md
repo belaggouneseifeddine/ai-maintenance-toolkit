@@ -11,7 +11,7 @@ The document library is a local-first browser subsystem. It is deliberately sepa
 5. Search reads the local inverted index and returns excerpts with document title and original 1-based page number.
 6. A source action opens the locally stored PDF at the cited page where the browser PDF viewer supports page fragments.
 
-Current limits: 40 MiB per file, 1,200 pages per file, text-based PDFs only. Image-only/scanned PDFs require OCR, which is not included in this pilot. A page with no extractable text is counted as a page without text. No cross-device sync or server backup exists. Browser storage can be cleared by the user or evicted by the browser.
+Current limits: 40 MiB per file, 1,200 pages per file, and optional OCR on up to 150 image-only pages per document. OCR uses Tesseract.js 5.1.1 and lets the user choose English, French, Arabic, or all three. The parser renders each page locally to a bounded canvas and processes pages sequentially to reduce mobile memory pressure. OCR confidence and extraction method are retained per chunk. OCR language data and worker assets are downloaded on first use and cached by the OCR library; OCR is not guaranteed to work offline until those assets have been cached. Pages beyond the OCR cap or pages that remain unreadable are explicitly counted as having no extracted text. No cross-device sync or server backup exists. Browser storage can be cleared by the user or evicted by the browser.
 
 ## Shared knowledge contract
 
@@ -46,6 +46,8 @@ The three consumers are separate:
 3. Add retrieval filters and a shared citation object for Research, Study, and Diagnostics.
 4. Add optional export/backup and explicit cross-device sync; do not silently upload PDFs.
 5. Add relevance evaluation fixtures for Arabic, French, and English queries and scanned/manual test PDFs.
+6. Add OCR quality review, correction UI, and per-page confidence thresholds before any OCR-derived claim can be approved.
+7. Integrate the typed retrieval API into Deep Research and Study; Diagnostics must continue to filter strictly to approved documents with verified rights and an explicit eligible flag.
 
 ## PDF.js dependency
 
