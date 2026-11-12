@@ -1,4 +1,4 @@
-const CACHE_NAME = "maintenance-ai-toolkit-v58";
+const CACHE_NAME = "maintenance-ai-toolkit-v59";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -38,7 +38,9 @@ const APP_SHELL = [
   "./document-library-core.js",
   "./document-library.js",
   "./document-library.css",
-  "./document-retrieval-adapter.js"
+  "./document-retrieval-adapter.js",
+  "./document-review-workspaces.js",
+  "./diagnostic-document-evidence.js"
 ];
 
 const OPTIONAL_APP_SHELL = [
