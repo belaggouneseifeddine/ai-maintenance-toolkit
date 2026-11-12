@@ -502,7 +502,7 @@
         : results;
       return selected.map(item => Object.assign({}, item, {
         consumer,
-        evidenceRole: consumer === "diagnostics" ? "approved-diagnostic-source" : "unreviewed-source-passage",
+        evidenceRole: consumer === "diagnostics" ? "approved-diagnostic-source" : (item.reviewStatus === "reviewed" ? "reviewed-source-passage" : "unreviewed-source-passage"),
         sourceRef: CORE.makeSourceRef({
           id: item.documentId,
           fileName: item.fileName,
