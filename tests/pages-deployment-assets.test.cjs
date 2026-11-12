@@ -158,6 +158,6 @@ test("document review workspaces and diagnostic page claims are wired into the r
   assert.ok(review.includes('retrieveFor(consumer,query)'));
   assert.ok(review.includes('saveDocumentReview'));
   assert.ok(review.includes('saveClaim'));
-  assert.ok(diagnostic.includes('api.forDiagnostics(query)'));
+  assert.ok(diagnostic.includes('api.forDiagnostics(query,{equipment,model:equipment})'));
   assert.ok(diagnostic.includes('openSourcePage(item.sourceRef.documentId,item.sourceRef.pageNumber)'));
 });
