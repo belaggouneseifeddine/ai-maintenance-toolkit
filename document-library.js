@@ -6,11 +6,15 @@
   const DB_NAME = "maintenance-ai-document-library";
   const DB_VERSION = 1;
   const PDFJS_VERSION = "4.10.38";
+  const TESSERACT_VERSION = "5.1.1";
   const MAX_FILE_BYTES = 40 * 1024 * 1024;
   const MAX_PAGES = 1200;
+  const MAX_OCR_PAGES = 150;
+  const MAX_OCR_PIXELS = 4000000;
   const MAX_RESULTS = 12;
   let dbPromise;
   let pdfjsPromise;
+  let tesseractPromise;
   let currentObjectUrls = [];
 
   const $ = id => document.getElementById(id);
@@ -91,7 +95,58 @@
     return lines.join("\n").replace(/\n{3,}/g, "\n\n").trim();
   }
 
-  async function parsePdf(file, fileBuffer, documentId) {
+  async function loadTesseract() {
+    if (window.Tesseract) return window.Tesseract;
+    if (tesseractPromise) return tesseractPromise;
+    tesseractPromise = new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = "https://cdn.jsdelivr.net/npm/tesseract.js@" + TESSERACT_VERSION + "/dist/tesseract.min.js";
+      script.async = true;
+      script.onload = () => window.Tesseract
+        ? resolve(window.Tesseract)
+        : reject(new Error("لم يتم تحميل مكتبة OCR بصورة صحيحة."));
+      script.onerror = () => reject(new Error("تعذر تحميل محرك OCR. تحقق من الاتصال بالإنترنت ثم أعد المحاولة."));
+      document.head.appendChild(script);
+    }).catch(error => {
+      tesseractPromise = null;
+      throw error;
+    });
+    return tesseractPromise;
+  }
+
+  async function renderPageForOcr(page) {
+    const baseViewport = page.getViewport({ scale: 1 });
+    const scale = Math.min(1.6, Math.sqrt(MAX_OCR_PIXELS / Math.max(1, baseViewport.width * baseViewport.height)));
+    const viewport = page.getViewport({ scale });
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.max(1, Math.ceil(viewport.width));
+    canvas.height = Math.max(1, Math.ceil(viewport.height));
+    const context = canvas.getContext("2d", { alpha: false });
+    if (!context) throw new Error("تعذر تجهيز صورة الصفحة لمعالجة OCR.");
+    await page.render({ canvasContext: context, viewport }).promise;
+    return canvas;
+  }
+
+  function appendPageChunks(chunks, documentId, pageNumber, pageText, extractionMethod, confidence) {
+    const parts = CORE.chunkPage(pageText);
+    parts.forEach((part, index) => {
+      chunks.push({
+        id: documentId + ":p" + pageNumber + ":c" + index,
+        documentId,
+        pageNumber,
+        chunkIndex: index,
+        text: part.text,
+        tokens: part.tokens,
+        charStart: part.start,
+        charEnd: part.end,
+        extractionMethod,
+        ocrConfidence: Number.isFinite(confidence) ? Math.round(confidence * 10) / 10 : null
+      });
+    });
+    return parts.length;
+  }
+
+  async function parsePdf(file, fileBuffer, documentId, options) {
     const pdfjs = await loadPdfJs();
     const loadingTask = pdfjs.getDocument({ data: new Uint8Array(fileBuffer), isEvalSupported: false, useWorkerFetch: false });
     const pdf = await loadingTask.promise;
@@ -102,31 +157,64 @@
     }
     const chunks = [];
     let pagesWithText = 0;
-    for (let pageNumber = 1; pageNumber <= pageCount; pageNumber++) {
-      status("استخراج الصفحة " + pageNumber + " من " + pageCount + "…");
-      const page = await pdf.getPage(pageNumber);
-      const content = await page.getTextContent({ includeMarkedContent: false });
-      const pageText = extractPageLines(content.items);
-      page.cleanup();
-      if (!pageText || pageText.length < 8) continue;
-      pagesWithText++;
-      const pageChunks = CORE.chunkPage(pageText);
-      pageChunks.forEach((part, index) => {
-        chunks.push({
-          id: documentId + ":p" + pageNumber + ":c" + index,
-          documentId,
-          pageNumber,
-          chunkIndex: index,
-          text: part.text,
-          tokens: part.tokens,
-          charStart: part.start,
-          charEnd: part.end
-        });
-      });
+    let pagesWithOcr = 0;
+    let pagesWithoutText = 0;
+    let ocrSkippedByLimit = 0;
+    let ocrWorker = null;
+    const ocrEnabled = Boolean(options && options.ocrEnabled);
+    const languages = String(options && options.ocrLanguages || "eng").split("+").filter(Boolean);
+    try {
+      for (let pageNumber = 1; pageNumber <= pageCount; pageNumber++) {
+        status("استخراج الصفحة " + pageNumber + " من " + pageCount + "…");
+        const page = await pdf.getPage(pageNumber);
+        const content = await page.getTextContent({ includeMarkedContent: false });
+        let pageText = extractPageLines(content.items);
+        let extractionMethod = "pdf-text";
+        let confidence = null;
+        if (!pageText || pageText.length < 8) {
+          pagesWithoutText++;
+          if (ocrEnabled && pagesWithOcr < MAX_OCR_PAGES) {
+            if (!ocrWorker) {
+              status("تحميل محرك OCR وبيانات اللغة: " + languages.join("+") + "…");
+              const Tesseract = await loadTesseract();
+              ocrWorker = await Tesseract.createWorker(languages, 1, {
+                logger: message => {
+                  if (message && message.status === "recognizing text") {
+                    const percent = Number.isFinite(message.progress) ? Math.round(message.progress * 100) : 0;
+                    status("OCR — الصفحة " + pageNumber + "/" + pageCount + " — " + percent + "%");
+                  }
+                }
+              });
+            }
+            const canvas = await renderPageForOcr(page);
+            const recognized = await ocrWorker.recognize(canvas);
+            pageText = String(recognized && recognized.data && recognized.data.text || "").trim();
+            confidence = recognized && recognized.data ? recognized.data.confidence : null;
+            canvas.width = 1;
+            canvas.height = 1;
+            if (pageText.length >= 8) {
+              pagesWithOcr++;
+              extractionMethod = "ocr";
+            } else {
+              pageText = "";
+            }
+          } else if (ocrEnabled) {
+            ocrSkippedByLimit++;
+          }
+        } else {
+          pagesWithText++;
+        }
+        page.cleanup();
+        if (pageText.length >= 8) appendPageChunks(chunks, documentId, pageNumber, pageText, extractionMethod, confidence);
+      }
+    } finally {
+      if (ocrWorker) await ocrWorker.terminate();
+      await pdf.destroy();
     }
-    await pdf.destroy();
-    if (!chunks.length) throw new Error("لم يُستخرج نص قابل للبحث. قد يكون PDF ممسوحًا ضوئيًا كصور؛ OCR غير مفعّل في هذه النسخة.");
-    return { pageCount, pagesWithText, chunks };
+    if (!chunks.length) throw new Error(ocrEnabled
+      ? "لم يُستخرج نص قابل للبحث حتى بعد OCR. جرّب لغة OCR أخرى أو تحقق من جودة المسح."
+      : "لم يُستخرج نص قابل للبحث. فعّل OCR للوثائق الممسوحة ضوئيًا.");
+    return { pageCount, pagesWithText, pagesWithOcr, pagesWithoutText, ocrSkippedByLimit, ocrEnabled, ocrLanguages: languages, chunks };
   }
 
   async function persistDocument(documentRecord, chunks) {
@@ -168,7 +256,9 @@
       return;
     }
     const id = "doc-" + digest.slice(0, 24);
-    const extracted = await parsePdf(file, fileBuffer, id);
+    const ocrEnabled = Boolean($("documentOcrEnabled") && $("documentOcrEnabled").checked);
+    const ocrLanguages = $("documentOcrLanguage") ? $("documentOcrLanguage").value : "eng";
+    const extracted = await parsePdf(file, fileBuffer, id, { ocrEnabled, ocrLanguages });
     const record = {
       id,
       title: file.name.replace(/\.pdf$/i, ""),
@@ -178,15 +268,19 @@
       importedAt: new Date().toISOString(),
       pageCount: extracted.pageCount,
       pagesWithText: extracted.pagesWithText,
+      pagesWithOcr: extracted.pagesWithOcr,
+      pagesWithoutText: extracted.pagesWithoutText,
+      ocrSkippedByLimit: extracted.ocrSkippedByLimit,
+      ocrLanguages: extracted.ocrEnabled ? extracted.ocrLanguages : [],
       chunkCount: extracted.chunks.length,
       parser: "pdf.js-" + PDFJS_VERSION,
-      extractionStatus: extracted.pagesWithText < extracted.pageCount ? "partial-text-pages" : "text-extracted",
+      extractionStatus: extracted.pagesWithOcr > 0 ? (extracted.pagesWithText + extracted.pagesWithOcr < extracted.pageCount ? "partial-text-and-ocr" : "text-and-ocr") : (extracted.pagesWithText < extracted.pageCount ? "partial-text-pages" : "text-extracted"),
       rightsStatus: "user-supplied-rights-not-verified",
       eligibleForDiagnosis: false
     };
     status("حفظ النص والفهرس والملف محليًا…");
     await persistDocument(Object.assign({}, record, { fileBlob: file.slice(0, file.size, "application/pdf") }), extracted.chunks);
-    status("اكتمل الاستيراد: " + record.title + " — " + record.pagesWithText + "/" + record.pageCount + " صفحة نصية، " + record.chunkCount + " مقطعًا. لم تُرسل الوثيقة إلى خادم.");
+    status("اكتمل الاستيراد: " + record.title + " — نص PDF: " + record.pagesWithText + " صفحة، OCR: " + record.pagesWithOcr + " صفحة، بلا نص: " + record.pagesWithoutText + " صفحة، " + record.chunkCount + " مقطعًا. لم تُرسل الوثيقة إلى خادم." + (record.ocrSkippedByLimit ? " تم تجاوز OCR لعدد " + record.ocrSkippedByLimit + " صفحة بسبب حد الهاتف." : ""));
     await renderDocuments();
   }
 
@@ -235,7 +329,9 @@
         documentTitle: doc ? doc.title : item.doc.documentId,
         fileName: doc ? doc.fileName : "",
         citation: CORE.makeCitation(doc, item.doc.pageNumber),
-        extractionStatus: doc ? doc.extractionStatus : "unknown"
+        extractionStatus: doc ? doc.extractionStatus : "unknown",
+        extractionMethod: item.doc.extractionMethod || "unknown",
+        ocrConfidence: item.doc.ocrConfidence == null ? null : item.doc.ocrConfidence
       });
     });
   }
@@ -298,7 +394,7 @@
       '<div><strong>' + escapeHtml(doc.title) + '</strong><p class="hint">' +
       escapeHtml(doc.fileName) + ' • ' + doc.pageCount + ' صفحة • ' + doc.chunkCount + ' مقطع • ' +
       new Date(doc.importedAt).toLocaleDateString() + '</p><p class="hint">' +
-      (doc.extractionStatus === "text-extracted" ? "استخراج نصي كامل" : "استخراج جزئي؛ بعض الصفحات بلا نص") +
+      ("استخراج نص PDF: " + (doc.pagesWithText || 0) + " صفحة، OCR: " + (doc.pagesWithOcr || 0) + " صفحة، بلا نص: " + (doc.pagesWithoutText || 0)) +
       ' — غير معتمد فنيًا، وغير مؤهل للتشخيص تلقائيًا.</p></div>' +
       '<div class="actions"><button type="button" class="btn secondary" data-open-doc="' + escapeHtml(doc.id) + '">فتح PDF</button>' +
       '<button type="button" class="btn danger" data-delete-doc="' + escapeHtml(doc.id) + '">حذف</button></div></article>').join("");
@@ -323,7 +419,7 @@
       const excerpt = item.text.length > 620 ? item.text.slice(0, 620) + "…" : item.text;
       return '<article class="document-result"><div class="document-result-meta"><strong>' + escapeHtml(item.documentTitle) +
         '</strong><span>' + escapeHtml("الصفحة " + item.pageNumber) + '</span></div><p>' + escapeHtml(excerpt) +
-        '</p><p class="hint">المصدر: ' + escapeHtml(item.citation) + ' — المقطع مستخرج آليًا ولم تتم مراجعته فنيًا.</p>' +
+        '</p><p class="hint">المصدر: ' + escapeHtml(item.citation) + ' — طريقة الاستخراج: ' + escapeHtml(item.extractionMethod === "ocr" ? "OCR" : "نص PDF") + (item.ocrConfidence == null ? "" : " — ثقة OCR: " + item.ocrConfidence + "%") + ' — لم تتم مراجعة المقطع فنيًا.</p>' +
         '<button class="btn secondary" type="button" data-open-result="' + index + '">فتح المصدر عند الصفحة</button></article>';
     }).join("");
     output.querySelectorAll("[data-open-result]").forEach(button => {
@@ -362,7 +458,22 @@
   }
 
   window.MaintenanceDocumentLibrary = {
+    version: 2,
     search: searchDocuments,
+    retrieve: async (query, options) => {
+      const consumer = options && options.consumer;
+      if (!["research", "study", "diagnostics", "library"].includes(consumer)) {
+        throw new Error("يجب تحديد المستهلك: research أو study أو diagnostics أو library.");
+      }
+      const results = await searchDocuments(query);
+      if (consumer !== "diagnostics") return results.map(item => Object.assign({}, item, { consumer, evidenceRole: "unreviewed-source-passage" }));
+      const docs = await getAll("documents");
+      const byId = new Map(docs.map(doc => [doc.id, doc]));
+      return results.filter(item => {
+        const doc = byId.get(item.documentId);
+        return Boolean(doc && doc.eligibleForDiagnosis === true && doc.reviewStatus === "approved" && doc.rightsStatus === "verified");
+      }).map(item => Object.assign({}, item, { consumer, evidenceRole: "approved-diagnostic-source" }));
+    },
     list: getAll.bind(null, "documents"),
     openSourcePage,
     importFile
