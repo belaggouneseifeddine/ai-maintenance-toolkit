@@ -355,6 +355,9 @@
         matchedTerms: item.matched,
         documentTitle: doc ? doc.title : item.doc.documentId,
         fileName: doc ? doc.fileName : "",
+        sourceUrl: doc ? doc.sourceUrl || null : null,
+        manufacturer: doc ? doc.manufacturer || null : null,
+        edition: doc ? doc.edition || null : null,
         citation: CORE.makeCitation(doc, item.doc.pageNumber),
         sha256: doc ? doc.sha256 : null,
         rightsStatus: doc ? doc.rightsStatus : "unknown",
@@ -534,6 +537,8 @@
             sourceRef: Object.assign(CORE.makeSourceRef(doc, item), {
               claimId: claim.id, claimText: claim.text, reviewer: claim.reviewer,
               reviewedAt: claim.reviewedAt, evidenceClass: claim.evidenceClass,
+              sourceUrl: doc.sourceUrl || null, edition: doc.edition || null,
+              rightsEvidence: doc.rightsEvidence || null,
               manufacturer: doc.manufacturer || "", equipmentFamily: claim.equipmentFamily || "",
               modelApplicability: claim.modelApplicability || ""
             }),
@@ -545,12 +550,12 @@
       return results.map(item => Object.assign({}, item, {
         consumer,
         evidenceRole: item.reviewStatus === "approved" ? "reviewed-source-passage" : "unreviewed-source-passage",
-        sourceRef: CORE.makeSourceRef({
+        sourceRef: Object.assign(CORE.makeSourceRef({
           id: item.documentId, fileName: item.fileName, sha256: item.sha256,
           extractionStatus: item.extractionStatus, reviewStatus: item.reviewStatus,
           rightsStatus: item.rightsStatus, evidenceClass: item.evidenceClass,
           eligibleForDiagnosis: false
-        }, item)
+        }, item), { sourceUrl: item.sourceUrl, manufacturer: item.manufacturer, edition: item.edition })
       }));
     },
     list: getAll.bind(null, "documents"),
