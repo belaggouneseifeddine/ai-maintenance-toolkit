@@ -91,6 +91,7 @@ test("source refs keep PDF page and printed page separate", () => {
   assert.equal(ref.printedPageNumber, "37");
   assert.equal(ref.modelApplicability, "CR 10");
   assert.equal(ref.sourceOrigin, "Original OEM manual");
+  assert.equal(ref.rightsBasis, "unknown");
 });
 
 
