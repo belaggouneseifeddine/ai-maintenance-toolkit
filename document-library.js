@@ -60,6 +60,11 @@
     return dbPromise;
   }
 
+  window.addEventListener("beforeunload", () => {
+    currentObjectUrls.forEach(url => { try { URL.revokeObjectURL(url); } catch (_) {} });
+    currentObjectUrls = [];
+  });
+
   function requestResult(request) {
     return new Promise((resolve, reject) => {
       request.onsuccess = () => resolve(request.result);
@@ -537,10 +542,10 @@
             .replace(/مضخ(?:ة|ات)?/g, " pump ")
             .replace(/pompes?/g, " pump ")
             .replace(/centrifugal/g, " ")
-            .replace(/moteur|محرك(?:ات)?/g, " motor ")
-            .replace(/compresseur|ضاغط(?:ات)?/g, " compressor ")
+            .replace(/moteurs?|محرك(?:ات)?/g, " motor ")
+            .replace(/compresseurs?|ضاغط(?:ات)?/g, " compressor ")
             .replace(/variat(?:eur|or)|مغير(?:ات)?\\s*السرعة/g, " vfd ")
-            .replace(/roulement|محمل(?:ات)?/g, " bearing ");
+            .replace(/roulements?|محمل(?:ات)?/g, " bearing ");
           return CORE.tokenize(normalized);
         };
         const equipmentTerms = normalizeEquipment(context.equipment || "");
