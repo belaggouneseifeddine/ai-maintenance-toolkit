@@ -385,7 +385,7 @@
     });
     return {
       pageNumber: page,
-      text: chunks.map(item => item.text).join("\\n\\n"),
+      text: chunks.map(item => item.text).join("\n\n"),
       chunks: chunks.map(item => ({
         id: item.id, extractionMethod: item.extractionMethod,
         ocrConfidence: item.ocrConfidence, chunkIndex: item.chunkIndex
@@ -530,31 +530,50 @@
       if (consumer === "diagnostics") {
         const [documents, claims] = await Promise.all([getAll("documents"), getAll("claims")]);
         const byId = new Map(documents.map(doc => [doc.id, doc]));
-        const terms = CORE.tokenize(query);
+        const terms = [...new Set(CORE.tokenize(query))];
         const context = options && options.context || {};
-        const equipmentTerms = CORE.tokenize(context.equipment || "");
+        const normalizeEquipment = value => {
+          const normalized = CORE.normalizeText(value || "")
+            .replace(/مضخ(?:ة|ات)?/g, " pump ")
+            .replace(/pompes?/g, " pump ")
+            .replace(/centrifugal/g, " ")
+            .replace(/moteur|محرك(?:ات)?/g, " motor ")
+            .replace(/compresseur|ضاغط(?:ات)?/g, " compressor ")
+            .replace(/variat(?:eur|or)|مغير(?:ات)?\\s*السرعة/g, " vfd ")
+            .replace(/roulement|محمل(?:ات)?/g, " bearing ");
+          return CORE.tokenize(normalized);
+        };
+        const equipmentTerms = normalizeEquipment(context.equipment || "");
         const modelTerms = CORE.tokenize(context.model || "");
         const overlaps = (scope, observed) => {
-          const wanted = CORE.tokenize(scope || "");
+          const wanted = normalizeEquipment(scope || "");
           return wanted.length > 0 && wanted.some(term => observed.includes(term));
         };
-        const genericModelScope = value => /generic|all models|family[- ]wide|not model specific|غير مرتبط بموديل|جميع الموديلات|كل الموديلات|عام/i.test(String(value || ""));
-        return claims.filter(claim => {
+        const genericModelScope = value =>
+          /generic|all models|family[- ]wide|not model specific|غير مرتبط بموديل|جميع الموديلات|كل الموديلات|عام/i.test(String(value || ""));
+        const matches = claims.map(claim => {
           const doc = byId.get(claim.documentId);
+          if (!doc) return null;
           const claimTerms = CORE.tokenize(claim.text);
-          const family = claim.equipmentFamily || (doc && doc.equipmentFamily) || "";
+          const family = claim.equipmentFamily || doc.equipmentFamily || "";
           const modelScope = claim.modelApplicability || "";
           const familyMatches = overlaps(family, equipmentTerms);
-          const modelMatches = genericModelScope(modelScope) || overlaps(modelScope, modelTerms);
-          return doc && familyMatches && modelMatches &&
-            doc.eligibleForDiagnosis === true && doc.reviewStatus === "approved" &&
-            doc.rightsStatus === "verified" && claim.reviewStatus === "approved" &&
-            claim.rightsStatus === "verified" && terms.some(term => claimTerms.includes(term));
-        }).slice(0, MAX_RESULTS).map(claim => {
+          const modelMatches = genericModelScope(modelScope) ||
+            (modelTerms.length > 0 && CORE.tokenize(modelScope).some(term => modelTerms.includes(term)));
+          const matchedTerms = terms.filter(term => claimTerms.includes(term)).length;
+          const eligible = doc.eligibleForDiagnosis === true &&
+            doc.reviewStatus === "approved" && doc.rightsStatus === "verified" &&
+            claim.reviewStatus === "approved" && claim.rightsStatus === "verified";
+          if (!eligible || !familyMatches || !modelMatches || !matchedTerms) return null;
+          return { claim, score: matchedTerms / Math.max(1, terms.length) };
+        }).filter(Boolean);
+        matches.sort((a, b) => b.score - a.score ||
+          String(b.claim.reviewedAt || "").localeCompare(String(a.claim.reviewedAt || "")));
+        return matches.slice(0, MAX_RESULTS).map(({ claim, score }) => {
           const doc = byId.get(claim.documentId);
           const item = { documentId: doc.id, pageNumber: claim.pageNumber, text: claim.text, extractionMethod: claim.extractionMethod || "human-reviewed-page-claim", ocrConfidence: null };
           return Object.assign({}, item, {
-            consumer, score: 1, documentTitle: doc.title, fileName: doc.fileName,
+            consumer, score, documentTitle: doc.title, fileName: doc.fileName,
             citation: CORE.makeCitation(doc, claim.pageNumber), sha256: doc.sha256,
             rightsStatus: claim.rightsStatus, reviewStatus: claim.reviewStatus,
             evidenceClass: claim.evidenceClass, eligibleForDiagnosis: true,
