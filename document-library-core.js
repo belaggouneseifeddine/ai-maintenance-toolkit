@@ -91,10 +91,33 @@
     return scored.slice(0, Math.max(1, limit || 12));
   }
 
+  function isDiagnosticEligible(document) {
+    return Boolean(document &&
+      document.eligibleForDiagnosis === true &&
+      document.reviewStatus === "approved" &&
+      document.rightsStatus === "verified");
+  }
+
+  function makeSourceRef(document, chunk) {
+    return {
+      documentId: document && document.id || chunk && chunk.documentId || null,
+      fileName: document && document.fileName || null,
+      sha256: document && document.sha256 || null,
+      pageNumber: chunk && chunk.pageNumber || null,
+      chunkId: chunk && chunk.id || null,
+      extractionMethod: chunk && chunk.extractionMethod || "unknown",
+      ocrConfidence: chunk && Number.isFinite(chunk.ocrConfidence) ? chunk.ocrConfidence : null,
+      extractionStatus: document && document.extractionStatus || "unknown",
+      reviewStatus: document && document.reviewStatus || "unreviewed",
+      rightsStatus: document && document.rightsStatus || "unknown",
+      evidenceClass: document && document.evidenceClass || null
+    };
+  }
+
   function makeCitation(document, pageNumber) {
     const title = document && (document.title || document.fileName) || "Unknown document";
     return title + ", p. " + String(pageNumber || "?");
   }
 
-  return { normalizeText, tokenize, chunkPage, buildPostings, rankChunks, makeCitation };
+  return { normalizeText, tokenize, chunkPage, buildPostings, rankChunks, makeCitation, isDiagnosticEligible, makeSourceRef };
 });
