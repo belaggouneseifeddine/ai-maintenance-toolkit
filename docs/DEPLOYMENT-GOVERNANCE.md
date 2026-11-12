@@ -1,6 +1,6 @@
 # Production Deployment Governance
 
-**Audit date:** 2026-11-03
+**Audit date:** 2026-11-12
 
 ## Policy
 
@@ -9,11 +9,11 @@ Production publishing and live AI-provider requests must be explicit, human-trig
 ## Workflow changes on this branch
 
 - `.github/workflows/deploy-cloudflare-pages.yml`: production Cloudflare Pages deployment is manual-only through `workflow_dispatch`, restricted to `refs/heads/main`, and assigned to the `production` environment.
-- `.github/workflows/deploy-pages.yml`: production GitHub Pages deployment is manual-only through `workflow_dispatch`; the deploy job is restricted to `refs/heads/main` and retains the `github-pages` environment.
+- `.github/workflows/deploy-pages.yml`: GitHub Pages fallback deploys automatically on `push` to `main` and also supports manual recovery through `workflow_dispatch`; its deploy job is restricted to `refs/heads/main` and retains the `github-pages` environment. The build job runs the full Node diagnostic test suite and `scripts/quality-check.mjs` before publishing.
 - `.github/workflows/deploy-worker.yml`: production Worker deployment is manual-only through `workflow_dispatch`, restricted to `refs/heads/main`, and assigned to the `production` environment.
 - `.github/workflows/live-ai-provider-smoke.yml`: a real model request is manual-only, restricted to `refs/heads/main`, and requires an explicit `confirm_live_request=true` input. It no longer runs automatically after Worker deployment because it may consume provider quota or paid usage.
 
-Staging workflows are not changed by this proposal. The three deployment workflows and the primary test workflow now use Node.js 24. All 11 repository workflow files use `actions/checkout@v5` and `actions/setup-node@v5` wherever those actions are present; secondary test/staging workflows retain their existing Node.js 22 script runtime. Node.js 20 reached end of life on 2026-04-30; other test workflows that already use supported Node.js 22 are left unchanged for now.
+Staging workflows are not changed by this proposal. The three deployment workflows and the primary test workflow now use Node.js 24. Repository workflow files use `actions/checkout@v5` and `actions/setup-node@v5` wherever those actions are present; secondary test/staging workflows retain their existing Node.js 22 script runtime. Node.js 20 reached end of life on 2026-04-30; other test workflows that already use supported Node.js 22 are left unchanged for now.
 
 ## Additional execution guards
 
@@ -36,6 +36,6 @@ At the time of this audit, the GitHub API reported the `main` branch as unprotec
 
 ## Verification
 
-`tests/deployment-governance.test.cjs` asserts that the three production deployment workflows and the live AI smoke workflow expose manual dispatch without automatic `push` or `workflow_run` triggers; production deploy jobs are restricted to `main`; Cloudflare Pages and Worker use the `production` environment; and live AI smoke requires explicit boolean confirmation.
+`tests/deployment-governance.test.cjs` asserts that GitHub Pages deploys on pushes to `main`, Cloudflare Pages and Worker remain manual-only, production deploy jobs are restricted to `main`, Cloudflare Pages and Worker use the `production` environment, and live AI smoke requires explicit boolean confirmation.
 
 No deployment or live model request is performed by the tests.

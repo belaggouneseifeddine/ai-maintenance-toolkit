@@ -40,7 +40,7 @@ Required GitHub Actions secrets:
 - `CLOUDFLARE_ACCOUNT_ID`
 - `GEMINI_API_KEY` (Cloudflare Worker secret; `AI_API_KEY` is a legacy fallback)
 
-Production Pages and Worker workflows are manual-only (`workflow_dispatch`); commits to `main` do not publish automatically. The live AI-provider smoke test is also manual-only because it sends a real model request and may consume provider quota. See [deployment governance](docs/DEPLOYMENT-GOVERNANCE.md).
+The GitHub Pages fallback deploys automatically after successful diagnostic tests and application quality checks on each push to `main`. Cloudflare Pages and Worker production deployments remain manual-only (`workflow_dispatch`). The live AI-provider smoke test is also manual-only because it sends a real model request and may consume provider quota. See [deployment governance](docs/DEPLOYMENT-GOVERNANCE.md).
 
 The workflow deploys the root `worker.js` using `wrangler.toml`. Set `AI_PROVIDER` to `gemini` or `cloudflare`; the published app calls the configured Worker only after per-request consent. The local diagnosis action remains offline.
 
