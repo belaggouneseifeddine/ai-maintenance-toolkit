@@ -56,3 +56,39 @@ test("source references retain document hash, original page, chunk and review pr
   assert.equal(ref.sha256, "abc");
   assert.equal(ref.rightsStatus, "verified");
 });
+
+
+test("page anchors accept only valid one-based PDF page numbers", () => {
+  assert.equal(Core.normalizePageNumber("7", 20), 7);
+  assert.equal(Core.normalizePageNumber(1, 20), 1);
+  assert.equal(Core.normalizePageNumber(0, 20), null);
+  assert.equal(Core.normalizePageNumber(-1, 20), null);
+  assert.equal(Core.normalizePageNumber("1.5", 20), null);
+  assert.equal(Core.normalizePageNumber(21, 20), null);
+});
+
+test("source links must be HTTPS and must not contain embedded credentials", () => {
+  assert.equal(Core.isHttpsUrl("https://manufacturer.example/manual.pdf"), true);
+  assert.equal(Core.isHttpsUrl("http://manufacturer.example/manual.pdf"), false);
+  assert.equal(Core.isHttpsUrl("javascript:alert(1)"), false);
+  assert.equal(Core.isHttpsUrl("https://user:pass@manufacturer.example/manual.pdf"), false);
+});
+
+test("equipment scope matching and generic model scope are explicit", () => {
+  assert.equal(Core.scopeMatches("Centrifugal pump", "Grundfos centrifugal pump CR"), true);
+  assert.equal(Core.scopeMatches("hydraulic power unit", "centrifugal pump"), false);
+  assert.equal(Core.isGenericModelScope("family-wide / جميع الموديلات"), true);
+  assert.equal(Core.isGenericModelScope("Grundfos CR 10"), false);
+});
+
+test("source refs keep PDF page and printed page separate", () => {
+  const ref = Core.makeSourceRef(
+    { id: "doc-b", fileName: "manual.pdf", manufacturer: "Grundfos", modelApplicability: "CR 10", sourceOrigin: "Original OEM manual" },
+    { id: "doc-b:p42:c0", documentId: "doc-b", pageNumber: 42, pdfPageNumber: 42, printedPageNumber: "37" }
+  );
+  assert.equal(ref.pageNumber, 42);
+  assert.equal(ref.pdfPageNumber, 42);
+  assert.equal(ref.printedPageNumber, "37");
+  assert.equal(ref.modelApplicability, "CR 10");
+  assert.equal(ref.sourceOrigin, "Original OEM manual");
+});
