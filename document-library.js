@@ -158,6 +158,7 @@
     const chunks = [];
     let pagesWithText = 0;
     let pagesWithOcr = 0;
+    let pagesNeedingOcr = 0;
     let pagesWithoutText = 0;
     let ocrSkippedByLimit = 0;
     let ocrWorker = null;
@@ -172,7 +173,7 @@
         let extractionMethod = "pdf-text";
         let confidence = null;
         if (!pageText || pageText.length < 8) {
-          pagesWithoutText++;
+          pagesNeedingOcr++;
           if (ocrEnabled && pagesWithOcr < MAX_OCR_PAGES) {
             if (!ocrWorker) {
               status("تحميل محرك OCR وبيانات اللغة: " + languages.join("+") + "…");
@@ -197,9 +198,11 @@
               extractionMethod = "ocr";
             } else {
               pageText = "";
+              pagesWithoutText++;
             }
-          } else if (ocrEnabled) {
-            ocrSkippedByLimit++;
+          } else {
+            if (ocrEnabled) ocrSkippedByLimit++;
+            pagesWithoutText++;
           }
         } else {
           pagesWithText++;
@@ -214,7 +217,7 @@
     if (!chunks.length) throw new Error(ocrEnabled
       ? "لم يُستخرج نص قابل للبحث حتى بعد OCR. جرّب لغة OCR أخرى أو تحقق من جودة المسح."
       : "لم يُستخرج نص قابل للبحث. فعّل OCR للوثائق الممسوحة ضوئيًا.");
-    return { pageCount, pagesWithText, pagesWithOcr, pagesWithoutText, ocrSkippedByLimit, ocrEnabled, ocrLanguages: languages, chunks };
+    return { pageCount, pagesWithText, pagesWithOcr, pagesNeedingOcr, pagesWithoutText, ocrSkippedByLimit, ocrEnabled, ocrLanguages: languages, chunks };
   }
 
   async function persistDocument(documentRecord, chunks) {
@@ -269,6 +272,7 @@
       pageCount: extracted.pageCount,
       pagesWithText: extracted.pagesWithText,
       pagesWithOcr: extracted.pagesWithOcr,
+      pagesNeedingOcr: extracted.pagesNeedingOcr,
       pagesWithoutText: extracted.pagesWithoutText,
       ocrSkippedByLimit: extracted.ocrSkippedByLimit,
       ocrLanguages: extracted.ocrEnabled ? extracted.ocrLanguages : [],
@@ -466,13 +470,46 @@
         throw new Error("يجب تحديد المستهلك: research أو study أو diagnostics أو library.");
       }
       const results = await searchDocuments(query);
-      if (consumer !== "diagnostics") return results.map(item => Object.assign({}, item, { consumer, evidenceRole: "unreviewed-source-passage" }));
+      if (consumer !== "diagnostics") return results.map(item => {
+        const doc = item.documentId ? null : null;
+        return Object.assign({}, item, {
+          consumer,
+          evidenceRole: "unreviewed-source-passage",
+          sourceRef: {
+            documentId: item.documentId,
+            fileName: item.fileName,
+            pageNumber: item.pageNumber,
+            chunkId: item.id,
+            extractionMethod: item.extractionMethod,
+            ocrConfidence: item.ocrConfidence,
+            extractionStatus: item.extractionStatus
+          }
+        });
+      });
       const docs = await getAll("documents");
       const byId = new Map(docs.map(doc => [doc.id, doc]));
       return results.filter(item => {
         const doc = byId.get(item.documentId);
         return Boolean(doc && doc.eligibleForDiagnosis === true && doc.reviewStatus === "approved" && doc.rightsStatus === "verified");
-      }).map(item => Object.assign({}, item, { consumer, evidenceRole: "approved-diagnostic-source" }));
+      }).map(item => {
+        const doc = byId.get(item.documentId);
+        return Object.assign({}, item, {
+          consumer,
+          evidenceRole: "approved-diagnostic-source",
+          sourceRef: {
+            documentId: item.documentId,
+            fileName: item.fileName,
+            sha256: doc.sha256,
+            pageNumber: item.pageNumber,
+            chunkId: item.id,
+            extractionMethod: item.extractionMethod,
+            ocrConfidence: item.ocrConfidence,
+            reviewStatus: doc.reviewStatus,
+            rightsStatus: doc.rightsStatus,
+            evidenceClass: doc.evidenceClass || null
+          }
+        });
+      });
     },
     list: getAll.bind(null, "documents"),
     openSourcePage,
