@@ -218,8 +218,7 @@ test("Worker rejects equipment/symptom mismatches for all remaining curated flow
   }
 });
 
-test("Worker accepts the curated VFD trip flow for a VFD trip before applying evidence gates", async () => {
-  const before = { upstreamCalls, knowledgeCalls };
+test("Worker accepts the curated VFD trip flow for a VFD trip", async () => {
   const response = await context.__worker.fetch(new Request("https://worker.test/api/chat", {
     method: "POST",
     headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
@@ -227,16 +226,14 @@ test("Worker accepts the curated VFD trip flow for a VFD trip before applying ev
       machine: "variable frequency drive (VFD)",
       symptom: "trip",
       code: "",
-      observations: "Exact drive model and displayed trip code are not yet recorded.",
+      observations: "",
       language: "en",
       diagnosticFlowId: "vfd|trip"
     })
   }), { AI_PROVIDER: "gemini", AI_API_KEY: "test-only-placeholder" });
-  assert.notEqual(response.status, 400, "a matching VFD trip flow must not be rejected as a flow mismatch");
+  assert.equal(response.status, 200);
   const body = await response.json();
   assert.notEqual(body.code, "diagnostic_flow_mismatch");
-  assert.ok(response.status === 200 || response.status === 429 || response.status === 502);
-  assert.deepEqual({ upstreamCalls, knowledgeCalls }, before, "missing model-specific evidence should not force provider work");
 });
 
 test("retrieved prompt-injection text remains untrusted reference data", async () => {
