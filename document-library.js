@@ -504,10 +504,23 @@
         const [documents, claims] = await Promise.all([getAll("documents"), getAll("claims")]);
         const byId = new Map(documents.map(doc => [doc.id, doc]));
         const terms = CORE.tokenize(query);
+        const context = options && options.context || {};
+        const equipmentTerms = CORE.tokenize(context.equipment || "");
+        const modelTerms = CORE.tokenize(context.model || "");
+        const overlaps = (scope, observed) => {
+          const wanted = CORE.tokenize(scope || "");
+          return wanted.length > 0 && wanted.some(term => observed.includes(term));
+        };
+        const genericModelScope = value => /generic|all models|family[- ]wide|not model specific|غير مرتبط بموديل|جميع الموديلات|كل الموديلات|عام/i.test(String(value || ""));
         return claims.filter(claim => {
           const doc = byId.get(claim.documentId);
           const claimTerms = CORE.tokenize(claim.text);
-          return doc && doc.eligibleForDiagnosis === true && doc.reviewStatus === "approved" &&
+          const family = claim.equipmentFamily || (doc && doc.equipmentFamily) || "";
+          const modelScope = claim.modelApplicability || "";
+          const familyMatches = overlaps(family, equipmentTerms);
+          const modelMatches = genericModelScope(modelScope) || overlaps(modelScope, modelTerms);
+          return doc && familyMatches && modelMatches &&
+            doc.eligibleForDiagnosis === true && doc.reviewStatus === "approved" &&
             doc.rightsStatus === "verified" && claim.reviewStatus === "approved" &&
             claim.rightsStatus === "verified" && terms.some(term => claimTerms.includes(term));
         }).slice(0, MAX_RESULTS).map(claim => {
@@ -575,6 +588,7 @@
       const reviewer = String(claim.reviewer || "").trim();
       const notes = String(claim.notes || "").trim();
       if (textValue.length < 20 || !Number.isInteger(pageNumber) || pageNumber < 1 || pageNumber > doc.pageCount || !reviewer || notes.length < 10) throw new Error("الادعاء أو الصفحة أو المراجع أو ملاحظات التحقق غير مكتملة.");
+      if (claim.approved === true && (!String(claim.equipmentFamily || doc.equipmentFamily || "").trim() || !String(claim.modelApplicability || "").trim())) throw new Error("لا يمكن اعتماد ادعاء دون تحديد عائلة المعدة ونطاق الموديل أو التصريح بأنه عام.");
       const rightsStatus = claim.rightsVerified === true && doc.rightsStatus === "verified" ? "verified" : "unverified";
       const approved = claim.approved === true && doc.reviewStatus === "approved" && rightsStatus === "verified";
       const record = {
