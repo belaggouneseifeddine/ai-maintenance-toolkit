@@ -304,6 +304,21 @@
           "evidenceClass": "engineering_inference",
           "reviewedAt": "2026-11-12",
           "reviewerRole": "repository intake review only; no qualified technical sign-off"
+        },
+        {
+          "claimId": "hydraulic-institute-npsh-cavitation",
+          "claimSummary": "The Hydraulic Institute explains that pressure falling below the pumped fluid vapor pressure can form bubbles that collapse and cause cavitation erosion and increased vibration; it defines NPSHA and explains its relationship to pump-specific NPSHR. This supports the general mechanism only, not a model-specific diagnosis or margin value.",
+          "sourceTitle": "Pump Principles — Net Positive Suction Head (NPSH)",
+          "publisher": "Hydraulic Institute — HI Data Tool",
+          "url": "https://datatool.pumps.org/pump-fundamentals/pump-principles.html",
+          "revision": "Page states last updated 2024-07-19",
+          "sourceLocation": "Pump Principles > Net Positive Suction Head (NPSH), paragraphs on cavitation, NPSHA, NPSHR and NPSH3",
+          "reviewStatus": "passage_reviewed",
+          "licenseStatus": "reference_only",
+          "reuseDecision": "summary_and_link_only",
+          "evidenceClass": "industry_technical_reference",
+          "reviewedAt": "2026-11-12",
+          "reviewerRole": "Source-passage review; not OEM-specific technical sign-off"
         }
       ],
       "verification": {
