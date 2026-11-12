@@ -50,6 +50,7 @@ test("source claims keep technical review, license and reuse decisions separate"
   assert.ok(source.licenseStatus.enum.includes("not_declared"));
   assert.ok(source.reuseDecision.enum.includes("pending"));
   assert.ok(source.evidenceClass.enum.includes("oem_model_specific"));
+  assert.ok(source.evidenceClass.enum.includes("industry_technical_reference"));
 });
 
 test("draft schema is not wired into production runtime", () => {
