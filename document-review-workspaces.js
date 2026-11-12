@@ -83,8 +83,18 @@
     const result=await api.retrieveFor(consumer,query);
     if(!result.ok){out.textContent="تعذر الاسترجاع: "+result.status;return;}
     if(!result.results.length){out.textContent=consumer==="diagnostics"?"لا توجد ادعاءات معتمدة تطابق البحث.":"لم يُعثر على مقاطع مطابقة.";return;}
-    out.innerHTML=result.results.map((r,i)=>'<article class="document-result"><div class="document-result-meta"><strong>'+escapeHtml(r.documentTitle)+'</strong><span>الصفحة '+Number(r.sourceRef.pageNumber||0)+'</span></div><p>'+escapeHtml(r.text)+'</p><p class="hint">'+escapeHtml(r.citation||"")+' | '+escapeHtml(r.evidenceRole||"")+' | '+escapeHtml(r.extractionMethod||"")+'</p><button class="btn secondary" type="button" data-workspace-source="'+i+'">فتح المصدر عند الصفحة</button></article>').join("");
-    out.querySelectorAll("[data-workspace-source]").forEach(b=>{const item=result.results[Number(b.dataset.workspaceSource)];b.addEventListener("click",()=>library().openSourcePage(item.sourceRef.documentId,item.sourceRef.pageNumber));});
+    out.innerHTML=result.results.map((r,i)=>'<article class="document-result"><div class="document-result-meta"><strong>'+escapeHtml(r.documentTitle)+'</strong><span>صفحة PDF '+Number(r.sourceRef.pdfPageNumber||r.sourceRef.pageNumber||0)+'</span></div><p>'+escapeHtml(r.text)+'</p><p class="hint">'+escapeHtml(r.citation||"")+' | '+escapeHtml(r.evidenceRole||"")+' | '+escapeHtml(r.extractionMethod||"")+'</p><button class="btn secondary" type="button" data-workspace-source="'+i+'">فتح المصدر عند الصفحة</button>'+(consumer==="research"?'<button class="btn secondary" type="button" data-claim-draft="'+i+'">تحويل المقطع إلى مسودة ادعاء للمراجعة</button>':'')+'</article>').join("");
+    out.querySelectorAll("[data-workspace-source]").forEach(b=>{const item=result.results[Number(b.dataset.workspaceSource)];b.addEventListener("click",()=>library().openSourcePage(item.sourceRef.documentId,item.sourceRef.pdfPageNumber||item.sourceRef.pageNumber));});
+    out.querySelectorAll("[data-claim-draft]").forEach(b=>{const item=result.results[Number(b.dataset.claimDraft)];b.addEventListener("click",()=>{
+      const ref=item.sourceRef||{};
+      if($("reviewDocumentSelect"))$("reviewDocumentSelect").value=ref.documentId||"";
+      if($("claimPage"))$("claimPage").value=String(ref.pdfPageNumber||ref.pageNumber||"");
+      if($("claimText"))$("claimText").value=String(item.text||"");
+      if($("claimFamily"))$("claimFamily").value=String(ref.equipmentFamily||"");
+      if($("claimModel"))$("claimModel").value=String(ref.modelApplicability||"");
+      status("pageClaimStatus","أُنشئت مسودة من مقطع الصفحة. راجع النص والسياق والوحدات والموديل والحقوق يدويًا قبل الحفظ أو الاعتماد.");
+      $("documentReviewWorkspace")?.scrollIntoView({behavior:"smooth",block:"start"});
+    });});
   }
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",mount);else mount();
 })();
