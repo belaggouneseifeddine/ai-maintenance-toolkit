@@ -7,9 +7,9 @@ const read = file => fs.readFileSync(path.join(root, file), "utf8");
 
 test("PDF import is local-first, bounded, and records page-level extraction provenance", () => {
   const source = read("document-library.js");
-  assert.match(source, /PDFJS_VERSION = "4\\.10\\.38"/);
-  assert.match(source, /TESSERACT_VERSION = "5\\.1\\.1"/);
-  assert.match(source, /MAX_FILE_BYTES = 40 \\* 1024 \\* 1024/);
+  assert.ok(source.includes('PDFJS_VERSION = "4.10.38"'));
+  assert.ok(source.includes('TESSERACT_VERSION = "5.1.1"'));
+  assert.ok(source.includes("MAX_FILE_BYTES = 40 * 1024 * 1024"));
   assert.match(source, /MAX_PAGES = 1200/);
   assert.match(source, /MAX_OCR_PAGES = 150/);
   assert.match(source, /pageNumber,/);
@@ -21,21 +21,21 @@ test("PDF import is local-first, bounded, and records page-level extraction prov
 
 test("OCR and PDF extraction keep the original one-based PDF page anchor", () => {
   const source = read("document-library.js");
-  assert.match(source, /for \\(let pageNumber = 1; pageNumber <= pageCount; pageNumber\\+\\+\\)/);
-  assert.match(source, /appendPageChunks\\(chunks, documentId, pageNumber, pageText/);
-  assert.match(source, /viewer\\.location\\.replace\\(url \\+ "#page=" \\+ page\\)/);
-  assert.match(source, /pageNumber: page,/);
-  assert.match(source, /printedPageNumber/);
+  assert.ok(source.includes("for (let pageNumber = 1; pageNumber <= pageCount; pageNumber++)"));
+  assert.ok(source.includes("appendPageChunks(chunks, documentId, pageNumber, pageText"));
+  assert.ok(source.includes('viewer.location.replace(url + "#page=" + page)'));
+  assert.ok(source.includes("pageNumber: page,"));
+  assert.ok(source.includes("printedPageNumber"));
 });
 
 test("reviewed diagnostic claims must point to extracted chunks and verified document rights", () => {
   const source = read("document-library.js");
-  assert.match(source, /pageEvidence\\.chunks\\.map\\(item => item\\.id\\)/);
-  assert.match(source, /doc\\.reviewStatus === "approved"/);
-  assert.match(source, /doc\\.rightsStatus === "verified"/);
-  assert.match(source, /claim\\.reviewStatus === "approved"/);
-  assert.match(source, /claim\\.rightsStatus === "verified"/);
-  assert.match(source, /doc\\.eligibleForDiagnosis === true/);
+  assert.ok(source.includes("pageEvidence.chunks.map(item => item.id)"));
+  assert.ok(source.includes('doc.reviewStatus === "approved"'));
+  assert.ok(source.includes('doc.rightsStatus === "verified"'));
+  assert.ok(source.includes('claim.reviewStatus === "approved"'));
+  assert.ok(source.includes('claim.rightsStatus === "verified"'));
+  assert.ok(source.includes("doc.eligibleForDiagnosis === true"));
   assert.match(source, /modelMatches/);
 });
 
@@ -43,15 +43,15 @@ test("document review UI excludes deferred Study and exposes page preview", () =
   const review = read("document-review-workspaces.js");
   assert.match(review, /getPageEvidence/);
   assert.match(review, /claimPrintedPage/);
-  assert.match(review, /source page/);
+  assert.ok(review.includes("عرض النص المستخرج من الصفحة"));
   assert.doesNotMatch(review, /Study|studyQuery|runDocumentStudy/);
 });
 
 test("diagnostic evidence panel uses a separate exact model field and opens cited PDF page", () => {
   const panel = read("diagnostic-document-evidence.js");
   assert.match(panel, /aiModel/);
-  assert.match(panel, /forDiagnostics\\(query, \\{ equipment, model \\}\\)/);
-  assert.match(panel, /openSourcePage\\(item\\.sourceRef\\.documentId, item\\.sourceRef\\.pageNumber\\)/);
+  assert.ok(panel.includes("forDiagnostics(query, { equipment, model })"));
+  assert.ok(panel.includes("openSourcePage(item.sourceRef.documentId, item.sourceRef.pageNumber)"));
 });
 
 test("all document assets are included in both deployment artifacts and optional offline cache", () => {
