@@ -34,7 +34,10 @@ const APP_SHELL = [
   "./decision-trees.json",
   "./ux-redesign.js",
   "./ux-redesign.css",
-  "./navigation-redesign.js"
+  "./navigation-redesign.js",
+  "./document-library-core.js",
+  "./document-library.js",
+  "./document-library.css"
 ];
 
 const OPTIONAL_APP_SHELL = [
