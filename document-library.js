@@ -4,7 +4,7 @@
   const CORE = window.MaintenanceDocumentCore;
   if (!CORE) return;
   const DB_NAME = "maintenance-ai-document-library";
-  const DB_VERSION = 2;
+  const DB_VERSION = 3;
   const PDFJS_VERSION = "4.10.38";
   const TESSERACT_VERSION = "5.1.1";
   const MAX_FILE_BYTES = 40 * 1024 * 1024;
@@ -35,6 +35,7 @@
         }
         if (!database.objectStoreNames.contains("postings")) database.createObjectStore("postings", { keyPath: "term" });
         if (!database.objectStoreNames.contains("files")) database.createObjectStore("files", { keyPath: "documentId" });
+        if (!database.objectStoreNames.contains("claims")) { const claims = database.createObjectStore("claims", { keyPath: "id" }); claims.createIndex("documentId", "documentId", { unique: false }); }
         if (event.oldVersion < 2 && database.objectStoreNames.contains("documents")) {
           const documents = upgradeTransaction.objectStore("documents");
           const files = upgradeTransaction.objectStore("files");
@@ -399,8 +400,11 @@
     const documents = (await getAll("documents")).filter(doc => doc.id !== documentId);
     const postings = CORE.buildPostings(remaining);
     await new Promise((resolve, reject) => {
-      const tx = db.transaction(["documents", "chunks", "postings", "files"], "readwrite");
+      const tx = db.transaction(["documents", "chunks", "postings", "files", "claims"], "readwrite");
       tx.objectStore("documents").delete(documentId);
+      const claimStore = tx.objectStore("claims");
+      const claimCursor = claimStore.index("documentId").openCursor(IDBKeyRange.only(documentId));
+      claimCursor.onsuccess = () => { const cursor = claimCursor.result; if (cursor) { cursor.delete(); cursor.continue(); } };
       tx.objectStore("files").delete(documentId);
       const chunkStore = tx.objectStore("chunks");
       chunks.forEach(chunk => chunkStore.delete(chunk.id));
@@ -496,26 +500,103 @@
       if (!["research", "study", "diagnostics", "library"].includes(consumer)) {
         throw new Error("يجب تحديد المستهلك: research أو study أو diagnostics أو library.");
       }
+      if (consumer === "diagnostics") {
+        const [documents, claims] = await Promise.all([getAll("documents"), getAll("claims")]);
+        const byId = new Map(documents.map(doc => [doc.id, doc]));
+        const terms = CORE.tokenize(query);
+        return claims.filter(claim => {
+          const doc = byId.get(claim.documentId);
+          const claimTerms = CORE.tokenize(claim.text);
+          return doc && doc.eligibleForDiagnosis === true && doc.reviewStatus === "approved" &&
+            doc.rightsStatus === "verified" && claim.reviewStatus === "approved" &&
+            claim.rightsStatus === "verified" && terms.some(term => claimTerms.includes(term));
+        }).slice(0, MAX_RESULTS).map(claim => {
+          const doc = byId.get(claim.documentId);
+          const item = { documentId: doc.id, pageNumber: claim.pageNumber, text: claim.text, extractionMethod: claim.extractionMethod || "human-reviewed-page-claim", ocrConfidence: null };
+          return Object.assign({}, item, {
+            consumer, score: 1, documentTitle: doc.title, fileName: doc.fileName,
+            citation: CORE.makeCitation(doc, claim.pageNumber), sha256: doc.sha256,
+            rightsStatus: claim.rightsStatus, reviewStatus: claim.reviewStatus,
+            evidenceClass: claim.evidenceClass, eligibleForDiagnosis: true,
+            sourceRef: Object.assign(CORE.makeSourceRef(doc, item), {
+              claimId: claim.id, claimText: claim.text, reviewer: claim.reviewer,
+              reviewedAt: claim.reviewedAt, evidenceClass: claim.evidenceClass,
+              manufacturer: doc.manufacturer || "", equipmentFamily: claim.equipmentFamily || "",
+              modelApplicability: claim.modelApplicability || ""
+            }),
+            evidenceRole: "approved-page-claim"
+          });
+        });
+      }
       const results = await searchDocuments(query);
-      const selected = consumer === "diagnostics"
-        ? results.filter(item => CORE.isDiagnosticEligible(item))
-        : results;
-      return selected.map(item => Object.assign({}, item, {
+      return results.map(item => Object.assign({}, item, {
         consumer,
-        evidenceRole: consumer === "diagnostics" ? "approved-diagnostic-source" : (item.reviewStatus === "reviewed" ? "reviewed-source-passage" : "unreviewed-source-passage"),
+        evidenceRole: item.reviewStatus === "approved" ? "reviewed-source-passage" : "unreviewed-source-passage",
         sourceRef: CORE.makeSourceRef({
-          id: item.documentId,
-          fileName: item.fileName,
-          sha256: item.sha256,
-          extractionStatus: item.extractionStatus,
-          reviewStatus: item.reviewStatus,
-          rightsStatus: item.rightsStatus,
-          evidenceClass: item.evidenceClass,
-          eligibleForDiagnosis: item.eligibleForDiagnosis
+          id: item.documentId, fileName: item.fileName, sha256: item.sha256,
+          extractionStatus: item.extractionStatus, reviewStatus: item.reviewStatus,
+          rightsStatus: item.rightsStatus, evidenceClass: item.evidenceClass,
+          eligibleForDiagnosis: false
         }, item)
       }));
     },
     list: getAll.bind(null, "documents"),
+    listClaims: getAll.bind(null, "claims"),
+    saveDocumentReview: async (documentId, review) => {
+      const db = await openDb();
+      const docs = await getAll("documents");
+      const doc = docs.find(item => item.id === documentId);
+      if (!doc) throw new Error("الوثيقة غير موجودة.");
+      const reviewer = String(review && review.reviewer || "").trim();
+      const notes = String(review && review.notes || "").trim();
+      const rightsEvidence = String(review && review.rightsEvidence || "").trim();
+      if (!reviewer || notes.length < 10 || !rightsEvidence) throw new Error("أدخل المراجع وملاحظات المراجعة ودليل الحقوق.");
+      Object.assign(doc, {
+        manufacturer: String(review.manufacturer || "").trim(),
+        equipmentFamily: String(review.equipmentFamily || "").trim(),
+        edition: String(review.edition || "").trim(),
+        sourceUrl: String(review.sourceUrl || "").trim(),
+        rightsStatus: review.rightsVerified === true ? "verified" : "user-supplied-rights-not-verified",
+        rightsEvidence, reviewer, reviewNotes: notes,
+        reviewStatus: review.approved === true ? "approved" : "reviewed",
+        eligibleForDiagnosis: false
+      });
+      await new Promise((resolve,reject)=>{const tx=db.transaction("documents","readwrite");tx.objectStore("documents").put(doc);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);});
+      await renderDocuments();
+      return doc;
+    },
+    saveClaim: async claim => {
+      const db = await openDb();
+      const docs = await getAll("documents");
+      const doc = docs.find(item => item.id === claim.documentId);
+      if (!doc) throw new Error("الوثيقة غير موجودة.");
+      const textValue = String(claim.text || "").trim();
+      const pageNumber = Number(claim.pageNumber);
+      const reviewer = String(claim.reviewer || "").trim();
+      const notes = String(claim.notes || "").trim();
+      if (textValue.length < 20 || !Number.isInteger(pageNumber) || pageNumber < 1 || pageNumber > doc.pageCount || !reviewer || notes.length < 10) throw new Error("الادعاء أو الصفحة أو المراجع أو ملاحظات التحقق غير مكتملة.");
+      const rightsStatus = claim.rightsVerified === true && doc.rightsStatus === "verified" ? "verified" : "unverified";
+      const approved = claim.approved === true && doc.reviewStatus === "approved" && rightsStatus === "verified";
+      const record = {
+        id: String(claim.id || (doc.id + ":claim:" + Date.now())),
+        documentId: doc.id, pageNumber, text: textValue,
+        equipmentFamily: String(claim.equipmentFamily || doc.equipmentFamily || "").trim(),
+        modelApplicability: String(claim.modelApplicability || "").trim(),
+        evidenceClass: String(claim.evidenceClass || "manufacturer_manual"),
+        rightsStatus, reviewStatus: approved ? "approved" : "reviewed",
+        reviewer, notes, reviewedAt: new Date().toISOString(),
+        extractionMethod: "human-reviewed-page-claim"
+      };
+      await new Promise((resolve,reject)=>{const tx=db.transaction("claims","readwrite");tx.objectStore("claims").put(record);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);});
+      if (approved) {
+        const approvedClaims=(await getAll("claims")).filter(item=>item.documentId===doc.id&&item.reviewStatus==="approved"&&item.rightsStatus==="verified");
+        if (approvedClaims.length && doc.rightsStatus==="verified" && doc.reviewStatus==="approved") {
+          doc.eligibleForDiagnosis=true;
+          await new Promise((resolve,reject)=>{const tx=db.transaction("documents","readwrite");tx.objectStore("documents").put(doc);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);});
+        }
+      }
+      return record;
+    },
     openSourcePage,
     importFile
   };
