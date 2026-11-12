@@ -194,7 +194,8 @@ test("Worker rejects equipment/symptom mismatches for all remaining curated flow
   const mismatches = [
     { flow: "motor|overheat", machine: "air compressor", symptom: "overheating" },
     { flow: "compressor|overheat", machine: "electric motor", symptom: "overheating" },
-    { flow: "bearing|vibration", machine: "centrifugal pump", symptom: "low flow" }
+    { flow: "bearing|vibration", machine: "centrifugal pump", symptom: "low flow" },
+    { flow: "vfd|trip", machine: "electric motor", symptom: "trip" }
   ];
   for (const item of mismatches) {
     const before = { upstreamCalls, knowledgeCalls };
