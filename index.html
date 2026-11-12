@@ -119,6 +119,7 @@ footer{line-height:1.8}
 <p class="hint">اختر التشخيص المحلي دون إرسال البيانات، أو وافق صراحةً لإرسال بيانات الحالة إلى خادم الصيانة عبر Cloudflare Worker. لا تُرسل بيانات سرية أو معلومات تشغيلية حساسة.</p>
 <form id="aiForm">
 <label for="aiMachine">نوع المعدة / الموديل إن عُرف</label><input id="aiMachine" required maxlength="120" placeholder="مثال: مضخة طرد مركزي، موديل غير معروف">
+<label for="aiModel">الشركة المصنّعة والطراز (اختياري لكنه ضروري للأدلة الخاصة بالموديل)</label><input id="aiModel" maxlength="180" placeholder="مثال: Grundfos CR 10 أو Siemens G120C">
 <label for="aiSymptom">العطل أو العرض الرئيسي</label><input id="aiSymptom" required maxlength="240" placeholder="مثال: ضغط الخروج منخفض">
 <label for="aiCode">رمز الإنذار (اختياري)</label><input id="aiCode" maxlength="300" placeholder="الرمز كما يظهر على الشاشة">
 <label for="aiObservations">الملاحظات والقياسات مع الوحدات (اختياري)</label><textarea id="aiObservations" maxlength="3000" placeholder="اذكر ما لاحظته فقط، ولا تضع بيانات سرية أو معلومات تخص المصنع الحساسة."></textarea>
