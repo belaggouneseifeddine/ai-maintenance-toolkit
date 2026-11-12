@@ -47,8 +47,8 @@ jobs:
             engineering-core.js \
             agent-core.js \
             agent-ui.js \
-            sw.js \\
-            document-library-core.js \\
+            sw.js \
+            document-library-core.js \
             document-library.js; do
             node --check "$file"
           done
