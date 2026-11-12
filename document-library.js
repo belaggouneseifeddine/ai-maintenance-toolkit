@@ -333,6 +333,11 @@
         documentTitle: doc ? doc.title : item.doc.documentId,
         fileName: doc ? doc.fileName : "",
         citation: CORE.makeCitation(doc, item.doc.pageNumber),
+        sha256: doc ? doc.sha256 : null,
+        rightsStatus: doc ? doc.rightsStatus : "unknown",
+        reviewStatus: doc ? doc.reviewStatus || "unreviewed" : "unknown",
+        evidenceClass: doc ? doc.evidenceClass || null : null,
+        eligibleForDiagnosis: doc ? doc.eligibleForDiagnosis === true : false,
         extractionStatus: doc ? doc.extractionStatus : "unknown",
         extractionMethod: item.doc.extractionMethod || "unknown",
         ocrConfidence: item.doc.ocrConfidence == null ? null : item.doc.ocrConfidence
@@ -470,46 +475,23 @@
         throw new Error("يجب تحديد المستهلك: research أو study أو diagnostics أو library.");
       }
       const results = await searchDocuments(query);
-      if (consumer !== "diagnostics") return results.map(item => {
-        const doc = item.documentId ? null : null;
-        return Object.assign({}, item, {
-          consumer,
-          evidenceRole: "unreviewed-source-passage",
-          sourceRef: {
-            documentId: item.documentId,
-            fileName: item.fileName,
-            pageNumber: item.pageNumber,
-            chunkId: item.id,
-            extractionMethod: item.extractionMethod,
-            ocrConfidence: item.ocrConfidence,
-            extractionStatus: item.extractionStatus
-          }
-        });
-      });
-      const docs = await getAll("documents");
-      const byId = new Map(docs.map(doc => [doc.id, doc]));
-      return results.filter(item => {
-        const doc = byId.get(item.documentId);
-        return Boolean(doc && doc.eligibleForDiagnosis === true && doc.reviewStatus === "approved" && doc.rightsStatus === "verified");
-      }).map(item => {
-        const doc = byId.get(item.documentId);
-        return Object.assign({}, item, {
-          consumer,
-          evidenceRole: "approved-diagnostic-source",
-          sourceRef: {
-            documentId: item.documentId,
-            fileName: item.fileName,
-            sha256: doc.sha256,
-            pageNumber: item.pageNumber,
-            chunkId: item.id,
-            extractionMethod: item.extractionMethod,
-            ocrConfidence: item.ocrConfidence,
-            reviewStatus: doc.reviewStatus,
-            rightsStatus: doc.rightsStatus,
-            evidenceClass: doc.evidenceClass || null
-          }
-        });
-      });
+      const selected = consumer === "diagnostics"
+        ? results.filter(item => CORE.isDiagnosticEligible(item))
+        : results;
+      return selected.map(item => Object.assign({}, item, {
+        consumer,
+        evidenceRole: consumer === "diagnostics" ? "approved-diagnostic-source" : "unreviewed-source-passage",
+        sourceRef: CORE.makeSourceRef({
+          id: item.documentId,
+          fileName: item.fileName,
+          sha256: item.sha256,
+          extractionStatus: item.extractionStatus,
+          reviewStatus: item.reviewStatus,
+          rightsStatus: item.rightsStatus,
+          evidenceClass: item.evidenceClass,
+          eligibleForDiagnosis: item.eligibleForDiagnosis
+        }, item)
+      }));
     },
     list: getAll.bind(null, "documents"),
     openSourcePage,
