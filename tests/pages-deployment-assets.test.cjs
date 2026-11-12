@@ -133,17 +133,18 @@ test("research, study and diagnostics use explicit separate retrieval entrypoint
   const calls = [];
   global.MaintenanceDocumentLibrary = {
     retrieve: async (query, options) => {
-      calls.push({ query, consumer: options.consumer });
+      calls.push({ query, consumer: options.consumer, context: options.context || {} });
       return [{ text: "excerpt", citation: "Manual, p. 4", sourceRef: { pageNumber: 4 }, evidenceRole: "unreviewed-source-passage" }];
     }
   };
   const research = await adapter.forResearch("pump cavitation");
   const study = await adapter.forStudy("pump cavitation");
-  const diagnostics = await adapter.forDiagnostics("pump cavitation");
+  const diagnostics = await adapter.forDiagnostics("pump cavitation", { equipment: "centrifugal pump", model: "Grundfos CR" });
   assert.equal(research.consumer, "research");
   assert.equal(study.consumer, "study");
   assert.equal(diagnostics.consumer, "diagnostics");
   assert.deepEqual(calls.map(call => call.consumer), ["research", "study", "diagnostics"]);
+  assert.deepEqual(calls[2].context, { equipment: "centrifugal pump", model: "Grundfos CR" });
   assert.equal(research.results[0].sourceRef.pageNumber, 4);
   delete global.MaintenanceDocumentLibrary;
 });
