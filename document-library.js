@@ -592,7 +592,7 @@
         extractionMethods: [...new Set(pageChunks.map(item => item.extractionMethod || "unknown"))],
         ocrConfidence: pageChunks.map(item => item.ocrConfidence).filter(Number.isFinite),
         chunks: pageChunks,
-        text: pageChunks.map(item => item.text).join("\\n\\n")
+        text: pageChunks.map(item => item.text).join("\n\n")
       };
     },
     list: getAll.bind(null, "documents"),
