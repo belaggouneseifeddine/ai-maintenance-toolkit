@@ -41,6 +41,7 @@
       '<p class="hint">انسخ ادعاءً واحدًا قابلًا للتحقق، لا فصلًا كاملًا. اربطه برقم الصفحة ونطاق المعدة والموديل والفئة الفنية.</p>'+
       field("رقم صفحة PDF داخل الملف (يبدأ من 1)","claimPage","number","1")+
       field("رقم الصفحة المطبوع داخل الدليل (اختياري)","claimPrintedPage","text","مثال: 37 أو A-12")+
+      '<button id="previewClaimPage" class="btn secondary" type="button">عرض النص المستخرج من الصفحة</button><pre id="claimPagePreview" class="document-page-preview"></pre>'+
       field("نص الادعاء الفني","claimText","textarea","الادعاء كما ورد في المصدر مع الحفاظ على الوحدات والشروط")+
       field("عائلة المعدة / نطاق الانطباق","claimFamily","text","عائلة المعدة")+
       field("الموديل أو القيود","claimModel","text","الموديلات أو الشروط المحددة")+
@@ -58,6 +59,23 @@
       '<button id="runDocumentResearch" class="btn" type="button">استرجاع مصادر البحث</button><div id="documentResearchResults" aria-live="polite"></div>');
     research.id="documentResearchWorkspace";
     host.append(review,research);
+    $("previewClaimPage").addEventListener("click",async()=>{
+      try {
+        const id=$("reviewDocumentSelect").value;
+        if(!id)throw new Error("اختر وثيقة أولًا.");
+        const evidence=await library().getPageEvidence(id,$("claimPage").value);
+        if(!evidence.chunks.length)throw new Error("لم يُستخرج نص لهذه الصفحة. فعّل OCR أو تحقق من جودة المسح.");
+        $("claimPagePreview").textContent=evidence.text;
+        $("claimText").value=evidence.text;
+        const confidence=evidence.ocrConfidence;
+        status("pageClaimStatus","تم استخراج "+evidence.chunks.length+" مقطعًا من صفحة PDF "+evidence.pdfPageNumber+
+          " | الطريقة: "+evidence.extractionMethods.join(", ")+
+          (confidence.length?" | OCR confidence: "+Math.min(...confidence)+"–"+Math.max(...confidence)+"%":""));
+      } catch(error) {
+        $("claimPagePreview").textContent="";
+        status("pageClaimStatus",error.message);
+      }
+    });
     $("saveDocumentReview").addEventListener("click",async()=>{
       try{
         const id=$("reviewDocumentSelect").value;if(!id)throw new Error("اختر وثيقة أولًا.");
