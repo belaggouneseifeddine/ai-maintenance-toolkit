@@ -518,25 +518,25 @@
         const context = options && options.context || {};
         const equipmentTerms = CORE.tokenize(context.equipment || "");
         const modelTerms = CORE.tokenize(context.model || "");
-        const overlaps = (scope, observed) => {
-          const wanted = CORE.tokenize(scope || "");
-          return wanted.length > 0 && wanted.some(term => observed.includes(term));
-        };
-        const genericModelScope = value => /generic|all models|family[- ]wide|not model specific|غير مرتبط بموديل|جميع الموديلات|كل الموديلات|عام/i.test(String(value || ""));
-        return claims.filter(claim => {
+        const candidates = claims.map(claim => {
           const doc = byId.get(claim.documentId);
           const claimTerms = CORE.tokenize(claim.text);
           const family = claim.equipmentFamily || (doc && doc.equipmentFamily) || "";
           const modelScope = claim.modelApplicability || (doc && doc.modelApplicability) || "";
-          const familyMatches = overlaps(family, equipmentTerms);
-          const modelMatches = genericModelScope(modelScope) || overlaps(modelScope, modelTerms);
-          return doc && familyMatches && modelMatches &&
+          const familyMatches = CORE.scopeMatches(family, context.equipment || "");
+          const modelMatches = CORE.isGenericModelScope(modelScope) || CORE.scopeMatches(modelScope, context.model || "");
+          const matchedTerms = terms.filter(term => claimTerms.includes(term)).length;
+          const eligible = doc && familyMatches && modelMatches &&
             doc.eligibleForDiagnosis === true && doc.reviewStatus === "approved" &&
             doc.rightsStatus === "verified" && claim.reviewStatus === "approved" &&
-            claim.rightsStatus === "verified" && terms.some(term => claimTerms.includes(term));
-        }).slice(0, MAX_RESULTS).map(claim => {
-          const doc = byId.get(claim.documentId);
-          const item = { documentId: doc.id, pageNumber: claim.pageNumber, text: claim.text, extractionMethod: claim.extractionMethod || "human-reviewed-page-claim", ocrConfidence: null };
+            claim.rightsStatus === "verified" && matchedTerms > 0;
+          return eligible ? { claim, doc, matchedTerms } : null;
+        }).filter(Boolean);
+        candidates.sort((a, b) => b.matchedTerms - a.matchedTerms ||
+          (a.claim.pdfPageNumber || a.claim.pageNumber || 0) - (b.claim.pdfPageNumber || b.claim.pageNumber || 0) ||
+          String(a.claim.id).localeCompare(String(b.claim.id)));
+        return candidates.slice(0, MAX_RESULTS).map(({ claim, doc, matchedTerms }) => {
+          const item = { documentId: doc.id, pageNumber: claim.pdfPageNumber || claim.pageNumber, pdfPageNumber: claim.pdfPageNumber || claim.pageNumber, printedPageNumber: claim.printedPageNumber || null, text: claim.text, extractionMethod: claim.extractionMethod || "human-reviewed-page-claim", ocrConfidence: null };
           return Object.assign({}, item, {
             consumer, score: 1, documentTitle: doc.title, fileName: doc.fileName,
             citation: CORE.makeCitation(doc, claim.pageNumber), sha256: doc.sha256,
