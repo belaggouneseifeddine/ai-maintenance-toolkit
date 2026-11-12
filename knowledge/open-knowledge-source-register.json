@@ -832,6 +832,36 @@
       "androidWorkerCompatibility": "No Android/Worker runtime use; isolated benchmark only after primary license verification.",
       "reuseConditions": "Do not download or redistribute until the original Zenodo record explicitly confirms the exact license and citation.",
       "reviewStatus": "pending-primary-source-verification-2026-11-09"
+    },
+    {
+      "id": "hydraulic-institute-hi-data-tool-pump-principles",
+      "title": "Pump Principles — Net Positive Suction Head (NPSH)",
+      "url": "https://datatool.pumps.org/pump-fundamentals/pump-principles.html",
+      "type": "industry-technical-reference",
+      "potentialUse": "Support general centrifugal/rotodynamic pump explanations of vapor pressure, cavitation, NPSHA, NPSHR and NPSH3. Not an OEM manual or model-specific acceptance source.",
+      "reportedScope": "Hydraulic Institute HI Data Tool section on Pump Principles, especially NPSH content.",
+      "licenseStatus": "No explicit content-reuse license verified on the reviewed page; treat as reference-only.",
+      "accessStatus": "Relevant page and NPSH passage reviewed on 2026-11-12.",
+      "decision": "reference-only-link-no-content-redistribution",
+      "owner": "Hydraulic Institute",
+      "lastUpdated": "2024-07-19",
+      "lastPushed": null,
+      "latestRelease": null,
+      "version": null,
+      "codeLicense": "not applicable",
+      "dataLicense": "not verified; no redistribution",
+      "filesReviewed": [
+        "Pump Principles web page; NPSH section"
+      ],
+      "contentsReviewed": "Reviewed the page's explanation of vapor pressure at the impeller eye, bubble formation/collapse, cavitation erosion, vibration, NPSHA, NPSHR and NPSH3.",
+      "qualityNotes": [
+        "Supports general mechanism and terminology, not a specific pump model, installation, fluid or numeric operating limit.",
+        "The page refers to ANSI/HI 9.6.1 for recommended NPSHA above published NPSHR; do not invent a universal margin.",
+        "Do not copy page text or graphics into the app; use an original short summary with a link."
+      ],
+      "androidWorkerCompatibility": "Store concise original summary and source URL; no page scraping or raw text bundling required.",
+      "reuseConditions": "Reference/link only unless a separate explicit reuse license is verified; preserve source title and publisher attribution.",
+      "reviewStatus": "passage-reviewed-2026-11-12"
     }
   ]
 }
