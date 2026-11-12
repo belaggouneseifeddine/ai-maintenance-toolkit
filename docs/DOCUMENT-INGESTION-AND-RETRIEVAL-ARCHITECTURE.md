@@ -77,3 +77,16 @@ The app now exposes local source-retrieval workspaces for Research and Study thr
 - Run the Android device matrix with at least one text PDF and scanned PDFs containing Arabic, French, and English; verify OCR, page numbering, memory use, IndexedDB migration, and PDF viewer page navigation.
 - Confirm source rights and model applicability manually for each imported document before approving any page claim.
 - Browser CI validates JavaScript syntax, deployment assets, and retrieval gates; it cannot certify Android Chrome rendering, OCR language quality, or device memory behavior.
+
+
+## Current implementation scope (2026-11-12)
+
+The current implementation priority is PDF ingestion, page-anchored extraction, document rights review, and approved diagnostic claim retrieval.
+
+- The visible Study workspace is intentionally deferred. The adapter's forStudy entrypoint is reserved for a later phase and is not mounted in the current UI.
+- The Research workspace currently performs local document retrieval only. It is not yet a complete Deep Research workflow and does not perform web research or generated synthesis.
+- The diagnostic consumer is the only consumer allowed to retrieve approved page-level claims. It requires equipment-family matching, model applicability matching (or an explicitly generic model scope), approved document review, verified rights, and an approved claim.
+- The PDF viewer target uses the one-based page index inside the PDF file (pdfPageNumber). A printed page label is stored separately as optional metadata (printedPageNumber) and must never replace the PDF page index used for navigation.
+- A source URL, when supplied, must use HTTPS. An approved document must also identify its source origin, model applicability, manufacturer, equipment family, edition, rights evidence, and reviewer.
+
+The Android acceptance tests remain outstanding. In particular, browser CI does not prove that Android's PDF viewer honors #page= fragments or that OCR language packs load reliably under constrained mobile data.
