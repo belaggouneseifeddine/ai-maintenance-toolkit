@@ -111,13 +111,26 @@
   }
 
   function isGenericModelScope(value) {
-    return /generic|all models|family[- ]wide|not model specific|غير مرتبط بموديل|جميع الموديلات|كل الموديلات|عام|عامّة|عامه/i.test(String(value || ""));
+    return /(?:^|[\\s,،/()_-])(?:generic|all models|family[- ]wide|not model specific|غير مرتبط بموديل|جميع الموديلات|كل الموديلات|نطاق عائلي|عام|عامّة|عامه)(?:$|[\\s,،/()_-])/i.test(String(value || "").trim());
   }
 
   function scopeMatches(scope, observed) {
     const wanted = tokenize(scope || "");
     const actual = tokenize(observed || "");
     return wanted.length > 0 && actual.length > 0 && wanted.some(term => actual.includes(term));
+  }
+
+  function modelScopeMatches(scope, observed) {
+    if (isGenericModelScope(scope)) return true;
+    const wanted = tokenize(scope || "");
+    const actual = tokenize(observed || "");
+    if (!wanted.length || !actual.length) return false;
+    const modelCodes = wanted.filter(term => /\\d/.test(term));
+    if (modelCodes.length) {
+      return modelCodes.every(code => actual.some(term => term === code || term.endsWith(code)));
+    }
+    const overlap = wanted.filter(term => actual.includes(term)).length;
+    return overlap >= Math.min(2, wanted.length);
   }
 
   function isDiagnosticEligible(document) {
@@ -157,5 +170,5 @@
     return title + ", p. " + String(pageNumber || "?");
   }
 
-  return { normalizeText, tokenize, chunkPage, buildPostings, rankChunks, makeCitation, normalizePageNumber, isHttpsUrl, isGenericModelScope, scopeMatches, isDiagnosticEligible, makeSourceRef };
+  return { normalizeText, tokenize, chunkPage, buildPostings, rankChunks, makeCitation, normalizePageNumber, isHttpsUrl, isGenericModelScope, scopeMatches, modelScopeMatches, isDiagnosticEligible, makeSourceRef };
 });
