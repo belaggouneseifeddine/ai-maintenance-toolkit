@@ -51,3 +51,29 @@ The three consumers are separate:
 
 PDF.js is used as a browser-side parser, not as a server upload service. Its upstream project is licensed under Apache-2.0. The exact dependency is pinned to 4.10.38 to avoid silently changing parser behavior. Review the upstream license and update version deliberately:
 https://github.com/mozilla/pdf.js
+
+
+## Page-level review and consumer wiring (2026-11-12)
+
+The document library now has a version-3 IndexedDB schema with a dedicated `claims` object store. The migration creates this store for existing version-2 installations; document metadata and original PDF blobs remain separated.
+
+The local review workspace records:
+- Manufacturer, equipment family, model applicability, edition/year, and original source URL.
+- Rights evidence, rights verification state, reviewer, and review notes.
+- Individual technical claims with exact original PDF page, equipment scope, model limits, evidence class, reviewer, and review notes.
+
+A document-level review alone never enables diagnostic use. Diagnostic eligibility requires all of the following:
+1. Document review status is `approved`.
+2. Rights status is `verified` and rights evidence is recorded.
+3. Document eligibility flag is true, set only after an approved claim exists.
+4. The specific page-level claim is approved and its rights state is verified.
+
+The diagnostic retrieval path searches only approved page-level claims. It does not promote raw PDF chunks, OCR text, unreviewed passages, or research/study results into diagnostic evidence. Each returned claim carries document hash, claim ID, page number, reviewer, equipment scope, model applicability, and evidence class. The diagnostic UI exposes these claims in a separate source-evidence panel and opens the original PDF at the claim's page; it does not silently rewrite the deterministic hypothesis ranking.
+
+The app now exposes local source-retrieval workspaces for Research and Study through the shared retrieval adapter. They are retrieval interfaces, not claims of live web research or model-generated Deep Research/Study synthesis. Both retain source citations and page navigation and remain distinct from the diagnostic evidence gate.
+
+### Remaining validation
+
+- Run the Android device matrix with at least one text PDF and scanned PDFs containing Arabic, French, and English; verify OCR, page numbering, memory use, IndexedDB migration, and PDF viewer page navigation.
+- Confirm source rights and model applicability manually for each imported document before approving any page claim.
+- Browser CI validates JavaScript syntax, deployment assets, and retrieval gates; it cannot certify Android Chrome rendering, OCR language quality, or device memory behavior.
