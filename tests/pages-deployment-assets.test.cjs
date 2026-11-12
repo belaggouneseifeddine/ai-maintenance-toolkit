@@ -56,7 +56,7 @@ test("Cloudflare Pages validates the guided diagnostic runtime assets before dep
 
 
 test("document library assets are deployed and cached as optional offline resources", () => {
-  for (const asset of ["document-library-core.js", "document-library.js", "document-library.css", "document-retrieval-adapter.js"]) {
+  for (const asset of ["document-library-core.js", "document-library.js", "document-library.css", "document-retrieval-adapter.js", "document-review-workspaces.js", "diagnostic-document-evidence.js"]) {
     assert.ok(assets.has(asset), "GitHub Pages artifact must include " + asset);
     assert.ok(cloudflareAssets.has(asset), "Cloudflare Pages artifact must include " + asset);
     assert.ok(sw.includes('"./' + asset + '"'), "Service worker must cache " + asset);
@@ -116,7 +116,13 @@ test("document retrieval requires an explicit consumer and gates diagnostic evid
   const library = fs.readFileSync(path.join(__dirname, "..", "document-library.js"), "utf8");
   const core = fs.readFileSync(path.join(__dirname, "..", "document-library-core.js"), "utf8");
   for (const consumer of ["research", "study", "diagnostics", "library"]) assert.ok(library.includes('"' + consumer + '"'));
-  assert.ok(library.includes('CORE.isDiagnosticEligible(item)'));
+  assert.ok(library.includes('claim.reviewStatus === "approved"'));
+  assert.ok(library.includes('claim.rightsStatus === "verified"'));
+  assert.ok(library.includes('doc.reviewStatus === "approved"'));
+  assert.ok(library.includes('doc.rightsStatus === "verified"'));
+  assert.ok(library.includes('doc.eligibleForDiagnosis === true'));
+  assert.ok(library.includes('createObjectStore("claims"'));
+  assert.ok(library.includes('pageNumber, text: textValue'));
   assert.ok(core.includes('document.reviewStatus === "approved"'));
   assert.ok(core.includes('document.rightsStatus === "verified"'));
   assert.ok(core.includes('document.eligibleForDiagnosis === true'));
@@ -140,4 +146,17 @@ test("research, study and diagnostics use explicit separate retrieval entrypoint
   assert.deepEqual(calls.map(call => call.consumer), ["research", "study", "diagnostics"]);
   assert.equal(research.results[0].sourceRef.pageNumber, 4);
   delete global.MaintenanceDocumentLibrary;
+});
+
+test("document review workspaces and diagnostic page claims are wired into the real UI", () => {
+  const html = fs.readFileSync(path.join(__dirname, "..", "index.html"), "utf8");
+  const review = fs.readFileSync(path.join(__dirname, "..", "document-review-workspaces.js"), "utf8");
+  const diagnostic = fs.readFileSync(path.join(__dirname, "..", "diagnostic-document-evidence.js"), "utf8");
+  assert.ok(html.includes('src="./document-review-workspaces.js"'));
+  assert.ok(html.includes('src="./diagnostic-document-evidence.js"'));
+  assert.ok(review.includes('retrieveFor(consumer,query)'));
+  assert.ok(review.includes('saveDocumentReview'));
+  assert.ok(review.includes('saveClaim'));
+  assert.ok(diagnostic.includes('api.forDiagnostics(query)'));
+  assert.ok(diagnostic.includes('openSourcePage(item.sourceRef.documentId,item.sourceRef.pageNumber)'));
 });
