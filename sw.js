@@ -34,7 +34,7 @@ const APP_SHELL = [
   "./decision-trees.json",
   "./ux-redesign.js",
   "./ux-redesign.css",
-  "./navigation-redesign.js"
+  "./navigation-redesign.js",
   "./document-library-core.js",
   "./document-library.js",
   "./document-library.css",
@@ -50,7 +50,7 @@ const OPTIONAL_APP_SHELL = [
   "./knowledge/oem-verified-faults.json",
   "./knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md",
   "./knowledge/manufacturer-machine-fault-matrix.json",
-  "./decision-trees.json"
+  "./decision-trees.json",
   "./document-library-core.js",
   "./document-library.js",
   "./document-library.css",
