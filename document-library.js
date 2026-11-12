@@ -241,18 +241,23 @@
   }
 
   async function openSourcePage(documentId, pageNumber) {
+    const viewer = window.open("about:blank", "_blank");
+    if (!viewer) {
+      status("اسمح بالنوافذ المنبثقة لفتح ملف PDF.");
+      return;
+    }
+    try { viewer.opener = null; } catch (_) {}
     const docs = await getAll("documents");
     const doc = docs.find(item => item.id === documentId);
     const db = await openDb();
     const fileRecord = await requestResult(db.transaction("files", "readonly").objectStore("files").get(documentId));
-    if (!doc || !fileRecord || !fileRecord.blob) throw new Error("الملف الأصلي غير متاح محليًا.");
+    if (!doc || !fileRecord || !fileRecord.blob) {
+      viewer.close();
+      throw new Error("الملف الأصلي غير متاح محليًا.");
+    }
     const url = URL.createObjectURL(fileRecord.blob);
     currentObjectUrls.push(url);
-    const link = document.createElement("a");
-    link.href = url + "#page=" + Number(pageNumber || 1);
-    link.target = "_blank";
-    link.rel = "noopener noreferrer";
-    link.click();
+    viewer.location.replace(url + "#page=" + Number(pageNumber || 1));
   }
 
   async function deleteDocument(documentId) {
