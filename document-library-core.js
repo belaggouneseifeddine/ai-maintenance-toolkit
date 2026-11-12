@@ -155,6 +155,7 @@
       extractionStatus: document && document.extractionStatus || "unknown",
       reviewStatus: document && document.reviewStatus || "unreviewed",
       rightsStatus: document && document.rightsStatus || "unknown",
+      rightsBasis: document && document.rightsBasis || "unknown",
       evidenceClass: document && document.evidenceClass || null,
       manufacturer: document && document.manufacturer || null,
       equipmentFamily: document && document.equipmentFamily || null,
