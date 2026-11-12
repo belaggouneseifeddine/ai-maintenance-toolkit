@@ -571,6 +571,30 @@
         }, item), { sourceUrl: item.sourceUrl, sourceOrigin: item.sourceOrigin, manufacturer: item.manufacturer, equipmentFamily: item.equipmentFamily, modelApplicability: item.modelApplicability, edition: item.edition })
       }));
     },
+    getPageEvidence: async (documentId, pageNumber) => {
+      const documents = await getAll("documents");
+      const doc = documents.find(item => item.id === documentId);
+      if (!doc) throw new Error("الوثيقة غير موجودة.");
+      const targetPage = CORE.normalizePageNumber(pageNumber, doc.pageCount);
+      if (!targetPage) throw new Error("رقم صفحة PDF غير صالح لهذه الوثيقة.");
+      const db = await openDb();
+      const chunks = await requestResult(
+        db.transaction("chunks", "readonly").objectStore("chunks").index("documentId").getAll(documentId)
+      );
+      const pageChunks = chunks.filter(item => (item.pdfPageNumber || item.pageNumber) === targetPage)
+        .sort((a, b) => (a.chunkIndex || 0) - (b.chunkIndex || 0));
+      return {
+        documentId: doc.id,
+        pageNumber: targetPage,
+        pdfPageNumber: targetPage,
+        pageCount: doc.pageCount,
+        fileName: doc.fileName,
+        extractionMethods: [...new Set(pageChunks.map(item => item.extractionMethod || "unknown"))],
+        ocrConfidence: pageChunks.map(item => item.ocrConfidence).filter(Number.isFinite),
+        chunks: pageChunks,
+        text: pageChunks.map(item => item.text).join("\\n\\n")
+      };
+    },
     list: getAll.bind(null, "documents"),
     listClaims: getAll.bind(null, "claims"),
     saveDocumentReview: async (documentId, review) => {
