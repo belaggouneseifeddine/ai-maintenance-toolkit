@@ -233,3 +233,17 @@ No paper text, figures, tables or raw data were copied. The two sources are regi
 ### Pilot gate
 
 No pump case enters runtime until every claim has a permitted source, exact section/page, equipment scope, units, measurement location, operating conditions, supporting and opposing evidence, safe test prerequisites, expected results for competing hypotheses, stop conditions, post-repair verification and automated tests for missing, contradictory, noisy and invalid measurements. Actual measurements, PLC-indicated values and estimates must remain distinct. No general numeric threshold is allowed without the applicable model/curve/fluid/installation source.
+
+
+## 10. Source passage review — 2026-11-12
+
+### Hydraulic Institute — Pump Principles: Net Positive Suction Head (NPSH)
+
+- **Source:** https://datatool.pumps.org/pump-fundamentals/pump-principles.html
+- **Reviewed passage:** Pump Principles → Net Positive Suction Head (NPSH), including the explanation of vapor pressure at the impeller eye, bubble formation/collapse, cavitation erosion and vibration, and the definitions of NPSHA, NPSHR and NPSH3.
+- **Permitted project use:** An original concise explanation with a source link in the CP-001 candidate record.
+- **Not established by this source:** The exact pump's NPSHR, acceptable NPSH margin, installation-specific limits, or a diagnosis from noise alone.
+- **Reuse decision:** Reference-only. No explicit content-reuse license was verified on the reviewed page; do not copy its text, diagrams or graphics into the app.
+- **Review status:** Passage reviewed for the general mechanism. This is not OEM-specific technical sign-off and does not make CP-001 runtime-eligible.
+
+The source supports the general cavitation/NPSH explanation only. The actual assessment still requires the exact pump curve and model data, fluid properties, operating point, site conditions and applicable OEM/industry guidance.
