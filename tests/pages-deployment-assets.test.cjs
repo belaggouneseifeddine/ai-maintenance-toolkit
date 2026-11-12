@@ -56,7 +56,7 @@ test("Cloudflare Pages validates the guided diagnostic runtime assets before dep
 
 
 test("document library assets are deployed and cached as optional offline resources", () => {
-  for (const asset of ["document-library-core.js", "document-library.js", "document-library.css"]) {
+  for (const asset of ["document-library-core.js", "document-library.js", "document-library.css", "document-retrieval-adapter.js"]) {
     assert.ok(assets.has(asset), "GitHub Pages artifact must include " + asset);
     assert.ok(cloudflareAssets.has(asset), "Cloudflare Pages artifact must include " + asset);
     assert.ok(sw.includes('"./' + asset + '"'), "Service worker must cache " + asset);
@@ -120,4 +120,24 @@ test("document retrieval requires an explicit consumer and gates diagnostic evid
   assert.ok(core.includes('document.reviewStatus === "approved"'));
   assert.ok(core.includes('document.rightsStatus === "verified"'));
   assert.ok(core.includes('document.eligibleForDiagnosis === true'));
+});
+
+test("research, study and diagnostics use explicit separate retrieval entrypoints", async () => {
+  const adapter = require("../document-retrieval-adapter.js");
+  const calls = [];
+  global.MaintenanceDocumentLibrary = {
+    retrieve: async (query, options) => {
+      calls.push({ query, consumer: options.consumer });
+      return [{ text: "excerpt", citation: "Manual, p. 4", sourceRef: { pageNumber: 4 }, evidenceRole: "unreviewed-source-passage" }];
+    }
+  };
+  const research = await adapter.forResearch("pump cavitation");
+  const study = await adapter.forStudy("pump cavitation");
+  const diagnostics = await adapter.forDiagnostics("pump cavitation");
+  assert.equal(research.consumer, "research");
+  assert.equal(study.consumer, "study");
+  assert.equal(diagnostics.consumer, "diagnostics");
+  assert.deepEqual(calls.map(call => call.consumer), ["research", "study", "diagnostics"]);
+  assert.equal(research.results[0].sourceRef.pageNumber, 4);
+  delete global.MaintenanceDocumentLibrary;
 });
