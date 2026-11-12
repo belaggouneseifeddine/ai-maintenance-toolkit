@@ -22,3 +22,12 @@
 .document-ocr-toggle input{width:20px;height:20px;flex:0 0 auto}
 .document-ocr-controls select{width:100%;min-height:42px}
 :root[data-theme="dark"] .document-ocr-controls{background:#142333;border-color:#2b4052}
+
+.document-workspace{margin-top:14px}
+.document-workspace label{display:block;margin:12px 0 5px;font-weight:700}
+.document-workspace input,.document-workspace textarea,.document-workspace select{width:100%;min-height:44px;padding:10px;border:1px solid #c6d6da;border-radius:11px;font:inherit}
+.document-workspace textarea{min-height:84px}
+.document-workspace .check{display:flex;gap:9px;align-items:flex-start;font-weight:500}
+.document-workspace .check input{width:20px;min-height:20px;flex:0 0 auto;margin-top:5px}
+.document-workspace hr{border:0;border-top:1px solid #d8e2e9;margin:18px 0}
+:root[data-theme="dark"] .document-workspace input,:root[data-theme="dark"] .document-workspace textarea,:root[data-theme="dark"] .document-workspace select{background:#0e1b29;color:#e8f0f4;border-color:#385064}
