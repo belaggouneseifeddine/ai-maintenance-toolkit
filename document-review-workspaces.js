@@ -5,7 +5,7 @@
   const library = () => window.MaintenanceDocumentLibrary;
   const retrieval = () => window.MaintenanceDocumentRetrieval;
   function field(label, id, type, placeholder) {
-    return '<label for="'+id+'">'+label+'</label><'+(type==="textarea"?"textarea":"input")+' id="'+id+'" '+(type==="textarea"?'rows="3"':'type="'+(type||"text")+'"')+' placeholder="'+(placeholder||"")+'"></'+(type==="textarea"?"textarea":"input")+'>';
+    return '<label for="'+id+'">'+label+'</label>'+(type==="textarea"?'<textarea id="'+id+'" rows="3" placeholder="'+(placeholder||"")+'"></textarea>':'<input id="'+id+'" type="'+(type||"text")+'" placeholder="'+(placeholder||"")+'">');
   }
   function panel(title, body) { const el=document.createElement("section");el.className="card document-workspace";el.innerHTML="<h2>"+title+"</h2>"+body;return el; }
   function status(id,message){const el=$(id);if(el)el.textContent=message;}
