@@ -25,3 +25,7 @@ jobs:
           node-version: "24"
       - name: Run unit and integration tests
         run: node --test tests/*.test.cjs
+      - name: Check document library JavaScript syntax
+        run: |
+          node --check document-library-core.js
+          node --check document-library.js
