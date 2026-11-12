@@ -111,7 +111,7 @@
   }
 
   function isGenericModelScope(value) {
-    return /(?:^|[\\s,،/()_-])(?:generic|all models|family[- ]wide|not model specific|غير مرتبط بموديل|جميع الموديلات|كل الموديلات|نطاق عائلي|عام|عامّة|عامه)(?:$|[\\s,،/()_-])/i.test(String(value || "").trim());
+    return /(?:^|[\s,،/()_-])(?:generic|all models|family[- ]wide|not model specific|غير مرتبط بموديل|جميع الموديلات|كل الموديلات|نطاق عائلي|عام|عامّة|عامه)(?:$|[\s,،/()_-])/i.test(String(value || "").trim());
   }
 
   function scopeMatches(scope, observed) {
@@ -125,7 +125,7 @@
     const wanted = tokenize(scope || "");
     const actual = tokenize(observed || "");
     if (!wanted.length || !actual.length) return false;
-    const modelCodes = wanted.filter(term => /\\d/.test(term));
+    const modelCodes = wanted.filter(term => /\d/.test(term));
     if (modelCodes.length) {
       return modelCodes.every(code => actual.some(term => term === code || term.endsWith(code)));
     }
