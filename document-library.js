@@ -180,6 +180,7 @@
     let pagesWithoutText = 0;
     let ocrSkippedByLimit = 0;
     let ocrWorker = null;
+    let ocrCurrentPage = 0;
     const ocrEnabled = Boolean(options && options.ocrEnabled);
     const languages = String(options && options.ocrLanguages || "eng").split("+").filter(Boolean);
     try {
@@ -201,11 +202,12 @@
                 logger: message => {
                   if (message && message.status === "recognizing text") {
                     const percent = Number.isFinite(message.progress) ? Math.round(message.progress * 100) : 0;
-                    status("OCR — الصفحة " + pageNumber + "/" + pageCount + " — " + percent + "%");
+                    status("OCR — الصفحة " + ocrCurrentPage + "/" + pageCount + " — " + percent + "%");
                   }
                 }
               });
             }
+            ocrCurrentPage = pageNumber;
             const canvas = await renderPageForOcr(page);
             const recognized = await ocrWorker.recognize(canvas);
             pageText = String(recognized && recognized.data && recognized.data.text || "").trim();
