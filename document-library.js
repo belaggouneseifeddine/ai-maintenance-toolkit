@@ -563,11 +563,15 @@
       const reviewer = String(review && review.reviewer || "").trim();
       const notes = String(review && review.notes || "").trim();
       const rightsEvidence = String(review && review.rightsEvidence || "").trim();
+      const manufacturer = String(review && review.manufacturer || "").trim();
+      const equipmentFamily = String(review && review.equipmentFamily || "").trim();
+      const edition = String(review && review.edition || "").trim();
       if (!reviewer || notes.length < 10 || !rightsEvidence) throw new Error("أدخل المراجع وملاحظات المراجعة ودليل الحقوق.");
+      if (review.approved === true && (!manufacturer || !equipmentFamily || !edition)) throw new Error("لا يمكن اعتماد الوثيقة دون الشركة المصنّعة وعائلة المعدة والإصدار أو السنة.");
       Object.assign(doc, {
-        manufacturer: String(review.manufacturer || "").trim(),
-        equipmentFamily: String(review.equipmentFamily || "").trim(),
-        edition: String(review.edition || "").trim(),
+        manufacturer,
+        equipmentFamily,
+        edition,
         sourceUrl: String(review.sourceUrl || "").trim(),
         rightsStatus: review.rightsVerified === true ? "verified" : "user-supplied-rights-not-verified",
         rightsEvidence, reviewer, reviewNotes: notes,
