@@ -24,6 +24,19 @@ test("diagnostic flow registry has a versioned schema and unique question/answer
   assert.equal(new Set(ids).size, ids.length, "flow, question, and answer IDs must be unique");
 });
 
+test("compressor overheat fallback flow keeps cooling, oil, and unknown evidence distinct", () => {
+  const flow = registry.flows["compressor|overheat"];
+  assert.ok(flow);
+  assert.deepEqual(Array.from(flow.answers, answer => answer.id), [
+    "compressor-overheat-cooling",
+    "compressor-overheat-oil",
+    "compressor-overheat-unknown"
+  ]);
+  assert.match(flow.answers[0].guidance, /لا تفتح دائرة ساخنة أو مضغوطة/);
+  assert.match(flow.answers[1].guidance, /مستوى الزيت والمرشح/);
+  assert.match(flow.answers[2].guidance, /لا تخمّن السبب/);
+});
+
 test("compressor low-pressure flow distinguishes outlet, network, and missing readings", () => {
   const flow = registry.flows["compressor|low_pressure"];
   assert.ok(flow);
