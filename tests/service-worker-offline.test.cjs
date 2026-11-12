@@ -48,6 +48,9 @@ test("service worker installs the core offline app when an optional reference fa
 
   assert.ok(cached.has("./index.html"));
   assert.ok(cached.has("./diagnostic-session.js"));
+  assert.ok(cached.has("./document-library-core.js"));
+  assert.ok(cached.has("./document-library.js"));
+  assert.ok(cached.has("./document-library.css"));
   assert.ok(cached.has("./faults.json"));
   assert.ok(cached.has("./knowledge/faults-supplement.json"));
   assert.ok(cached.has("./knowledge/manufacturer-sources.json"));
@@ -57,6 +60,7 @@ test("service worker installs the core offline app when an optional reference fa
   assert.equal(new Set([...context.__CORE_APP_SHELL, ...context.__OPTIONAL_APP_SHELL]).size, context.__APP_SHELL.length);
   assert.ok(context.__CORE_APP_SHELL.includes("./faults.json"));
   assert.ok(context.__OPTIONAL_APP_SHELL.includes("./knowledge/oem-platform-index.json"));
+  assert.ok(context.__OPTIONAL_APP_SHELL.includes("./document-library.js"));
 });
 
 test("service worker does not activate a new version when a core asset cannot be cached", async () => {
