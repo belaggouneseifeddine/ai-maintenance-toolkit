@@ -213,6 +213,7 @@ footer{line-height:1.8}
 <form id="documentImportForm">
 <div class="document-upload-grid">
 <div><label for="documentPdfFile">اختر وثيقة PDF</label><input id="documentPdfFile" type="file" accept="application/pdf,.pdf" required></div>
+<button class="btn" id="documentImportButton" type="submit">استيراد وفهرسة</button>
 <div class="document-ocr-controls">
 <label class="document-ocr-toggle"><input id="documentOcrEnabled" type="checkbox"> تفعيل OCR للصفحات المصورة</label>
 <label for="documentOcrLanguage">لغة التعرف الضوئي</label>
@@ -224,7 +225,6 @@ footer{line-height:1.8}
 </select>
 <p class="hint">اختر لغة محتوى الوثيقة. الجمع بين اللغات يزيد حجم التنزيل والوقت والذاكرة.</p>
 </div>
-<button class="btn" id="documentImportButton" type="submit">استيراد وفهرسة</button>
 </div>
 </form>
 <p id="documentLibraryStatus" role="status" aria-live="polite">الوثائق المستوردة تحفظ في مساحة IndexedDB المحلية لهذا المتصفح والجهاز.</p>
