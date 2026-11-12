@@ -4,7 +4,7 @@
   const CORE = window.MaintenanceDocumentCore;
   if (!CORE) return;
   const DB_NAME = "maintenance-ai-document-library";
-  const DB_VERSION = 1;
+  const DB_VERSION = 2;
   const PDFJS_VERSION = "4.10.38";
   const TESSERACT_VERSION = "5.1.1";
   const MAX_FILE_BYTES = 40 * 1024 * 1024;
@@ -25,8 +25,9 @@
     dbPromise = new Promise((resolve, reject) => {
       if (!("indexedDB" in window)) return reject(new Error("هذا المتصفح لا يدعم IndexedDB."));
       const request = indexedDB.open(DB_NAME, DB_VERSION);
-      request.onupgradeneeded = () => {
+      request.onupgradeneeded = event => {
         const database = request.result;
+        const upgradeTransaction = request.transaction;
         if (!database.objectStoreNames.contains("documents")) database.createObjectStore("documents", { keyPath: "id" });
         if (!database.objectStoreNames.contains("chunks")) {
           const chunks = database.createObjectStore("chunks", { keyPath: "id" });
@@ -34,6 +35,22 @@
         }
         if (!database.objectStoreNames.contains("postings")) database.createObjectStore("postings", { keyPath: "term" });
         if (!database.objectStoreNames.contains("files")) database.createObjectStore("files", { keyPath: "documentId" });
+        if (event.oldVersion < 2 && database.objectStoreNames.contains("documents")) {
+          const documents = upgradeTransaction.objectStore("documents");
+          const files = upgradeTransaction.objectStore("files");
+          const cursorRequest = documents.openCursor();
+          cursorRequest.onsuccess = () => {
+            const cursor = cursorRequest.result;
+            if (!cursor) return;
+            const record = cursor.value;
+            if (record && record.fileBlob) {
+              files.put({ documentId: record.id, blob: record.fileBlob });
+              delete record.fileBlob;
+              cursor.update(record);
+            }
+            cursor.continue();
+          };
+        }
       };
       request.onsuccess = () => resolve(request.result);
       request.onerror = () => reject(request.error || new Error("تعذر فتح قاعدة الوثائق."));
@@ -158,6 +175,7 @@
     const chunks = [];
     let pagesWithText = 0;
     let pagesWithOcr = 0;
+    let ocrAttemptedPages = 0;
     let pagesNeedingOcr = 0;
     let pagesWithoutText = 0;
     let ocrSkippedByLimit = 0;
@@ -174,7 +192,8 @@
         let confidence = null;
         if (!pageText || pageText.length < 8) {
           pagesNeedingOcr++;
-          if (ocrEnabled && pagesWithOcr < MAX_OCR_PAGES) {
+          if (ocrEnabled && ocrAttemptedPages < MAX_OCR_PAGES) {
+            ocrAttemptedPages++;
             if (!ocrWorker) {
               status("تحميل محرك OCR وبيانات اللغة: " + languages.join("+") + "…");
               const Tesseract = await loadTesseract();
@@ -217,7 +236,7 @@
     if (!chunks.length) throw new Error(ocrEnabled
       ? "لم يُستخرج نص قابل للبحث حتى بعد OCR. جرّب لغة OCR أخرى أو تحقق من جودة المسح."
       : "لم يُستخرج نص قابل للبحث. فعّل OCR للوثائق الممسوحة ضوئيًا.");
-    return { pageCount, pagesWithText, pagesWithOcr, pagesNeedingOcr, pagesWithoutText, ocrSkippedByLimit, ocrEnabled, ocrLanguages: languages, chunks };
+    return { pageCount, pagesWithText, pagesWithOcr, pagesNeedingOcr, pagesWithoutText, ocrAttemptedPages, ocrSkippedByLimit, ocrEnabled, ocrLanguages: languages, chunks };
   }
 
   async function persistDocument(documentRecord, chunks) {
@@ -274,6 +293,7 @@
       pagesWithOcr: extracted.pagesWithOcr,
       pagesNeedingOcr: extracted.pagesNeedingOcr,
       pagesWithoutText: extracted.pagesWithoutText,
+      ocrAttemptedPages: extracted.ocrAttemptedPages,
       ocrSkippedByLimit: extracted.ocrSkippedByLimit,
       ocrLanguages: extracted.ocrEnabled ? extracted.ocrLanguages : [],
       chunkCount: extracted.chunks.length,
