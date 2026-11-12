@@ -68,7 +68,11 @@ test("document library assets are deployed and cached as optional offline resour
 test("document library stays inside the knowledge panel without adding a sixth primary tab", () => {
   assert.ok(html.includes('id="documentLibraryPanel"'));
   assert.ok(html.includes('id="documentSearchForm"'));
-  assert.match(html, /<section id="knowledge" class="panel">[\\s\\S]*id="documentLibraryPanel"[\\s\\S]*<section id="safety"/);
+  const knowledgeStart = html.indexOf('<section id="knowledge" class="panel">');
+  const libraryPosition = html.indexOf('id="documentLibraryPanel"');
+  const safetyPosition = html.indexOf('<section id="safety"');
+  assert.ok(knowledgeStart >= 0 && libraryPosition > knowledgeStart && safetyPosition > libraryPosition,
+    "document library must be inside the knowledge panel before the safety panel");
   assert.equal(html.includes('data-tab="documents"'), false);
 });
 
