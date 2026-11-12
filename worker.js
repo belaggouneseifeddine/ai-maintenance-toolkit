@@ -28,6 +28,14 @@ const CURATED_DIAGNOSTIC_FLOWS = Object.freeze({
     }),
     evidence: Object.freeze(["no-start-command", "permissive-block", "command-present", "trip-present", "no-trip-indicated"])
   }),
+  "vfd|trip": Object.freeze({
+    hypotheses: Object.freeze({
+      input_supply_or_dc_bus: "Drive input supply or DC-bus condition",
+      motor_cable_or_load: "Motor, output cable, or driven load",
+      control_feedback_or_external_fault: "Control, feedback, or external fault signal"
+    }),
+    evidence: Object.freeze(["input-supply-fault-indicated", "input-voltage-alarm", "phase-loss-indicated", "input-supply-indicators-normal", "motor-output-fault-indicated", "overcurrent-trip", "earth-fault-trip", "motor-overload-indicated", "motor-load-indicators-normal", "control-feedback-fault-indicated", "external-fault-active", "permissive-not-met", "control-status-normal"])
+  }),
   "compressor|low_pressure": Object.freeze({
     hypotheses: Object.freeze({
       compressor_capacity_or_control: "Compressor capacity or control/protection state",
@@ -691,7 +699,20 @@ export default {
       "treatment-dp-high": "air-treatment differential pressure above baseline",
       "filter-alert": "filter alarm or maintenance indication present",
       "dryer-restriction": "abnormal dryer indication",
-      "treatment-indicators-normal": "air-treatment indicators normal against baseline"
+      "treatment-indicators-normal": "air-treatment indicators normal against baseline",
+      "input-supply-fault-indicated": "exact drive manual identifies an input-supply or DC-bus fault",
+      "input-voltage-alarm": "drive interface displays an input-voltage alarm",
+      "phase-loss-indicated": "drive interface or exact manual indicates input phase loss",
+      "input-supply-indicators-normal": "input-supply indicators normal against baseline",
+      "motor-output-fault-indicated": "exact drive manual classifies the fault as output, motor, or load related",
+      "overcurrent-trip": "exact drive manual classifies the trip as overcurrent",
+      "earth-fault-trip": "exact drive manual identifies an earth or ground fault",
+      "motor-overload-indicated": "available indication reports motor overload or high motor temperature",
+      "motor-load-indicators-normal": "available motor/load indicators normal against baseline",
+      "control-feedback-fault-indicated": "control or feedback fault indicated",
+      "external-fault-active": "external-fault input is active",
+      "permissive-not-met": "drive enable or permissive condition is not satisfied",
+      "control-status-normal": "command, enable, and permissive indicators appear normal"
     };
     const curatedEvidenceContext = curatedFlow
       ? diagnosticEvidence.map(id => id + " = " + curatedEvidenceMeanings[id]).join("; ")
@@ -705,18 +726,21 @@ export default {
     const motorMachine = normalizedMachine.includes("motor") || normalizedMachine.includes("محرك") || normalizedMachine.includes("موتور");
     const compressorMachine = normalizedMachine.includes("compressor") || normalizedMachine.includes("ضاغط") || normalizedMachine.includes("كمبروسر");
     const bearingMachine = normalizedMachine.includes("bearing") || normalizedMachine.includes("roulement") || normalizedMachine.includes("محمل") || normalizedMachine.includes("رولمان");
+    const vfdMachine = normalizedMachine.includes("vfd") || normalizedMachine.includes("variable frequency") || normalizedMachine.includes("variator") || normalizedMachine.includes("variateur") || normalizedMachine.includes("variador") || normalizedMachine.includes("مغير السرعة") || normalizedMachine.includes("مغير التردد");
     const lowFlowSymptom = normalizedSymptom.includes("low flow") || normalizedSymptom.includes("low_flow") || normalizedSymptom.includes("ضعف تدفق") || normalizedSymptom.includes("ضعف التدفق") || normalizedSymptom.includes("faible debit");
     const lowPressureSymptom = normalizedSymptom.includes("low pressure") || normalizedSymptom.includes("low_pressure") || normalizedSymptom.includes("ضغط منخفض") || normalizedSymptom.includes("pression basse") || normalizedSymptom.includes("pression faible");
     const motorStartSymptom = normalizedSymptom.includes("not start") || normalizedSymptom.includes("not_start") || normalizedSymptom.includes("won't start") || normalizedSymptom.includes("does not start") || normalizedSymptom.includes("لا يبدا") || normalizedSymptom.includes("لا يبدأ") || normalizedSymptom.includes("ne demarre pas");
     const overheatSymptom = ["overheat", "overheating", "high temperature", "high temp", "temperature rise", "سخونه", "ارتفاع حراره", "ارتفاع درجه الحراره", "درجه حراره مرتفعه", "حراره مرتفعه", "surchauffe", "temperature elevee"].some(term => normalizedSymptom.includes(normalizeEvidenceText(term)));
     const vibrationSymptom = ["vibration", "vibrating", "vibrations", "اهتزاز", "اهتزازات", "vibratoire"].some(term => normalizedSymptom.includes(normalizeEvidenceText(term)));
+    const vfdTripSymptom = normalizedSymptom.split(/\\s+/).some(token => ["trip", "tripping", "fault", "overcurrent", "فصل", "انذار", "عطل", "declenchement", "defaut"].includes(token));
     if (diagnosticFlowId && (
       (diagnosticFlowId === "pump|low_flow" && (!pumpMachine || !lowFlowSymptom)) ||
       (diagnosticFlowId === "motor|not_start" && (!motorMachine || !motorStartSymptom)) ||
       (diagnosticFlowId === "compressor|low_pressure" && (!compressorMachine || !lowPressureSymptom)) ||
       (diagnosticFlowId === "motor|overheat" && (!motorMachine || !overheatSymptom)) ||
       (diagnosticFlowId === "compressor|overheat" && (!compressorMachine || !overheatSymptom)) ||
-      (diagnosticFlowId === "bearing|vibration" && (!bearingMachine || !vibrationSymptom))
+      (diagnosticFlowId === "bearing|vibration" && (!bearingMachine || !vibrationSymptom)) ||
+      (diagnosticFlowId === "vfd|trip" && (!vfdMachine || !vfdTripSymptom))
     )) {
       return json({ error: "Curated flow does not match the equipment and symptom.", code: "diagnostic_flow_mismatch" }, 400, origin);
     }
