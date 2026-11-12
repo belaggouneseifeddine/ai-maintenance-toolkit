@@ -117,7 +117,7 @@
   function scopeMatches(scope, observed) {
     const wanted = tokenize(scope || "");
     const actual = tokenize(observed || "");
-    return wanted.length > 0 && actual.length > 0 && wanted.some(term => actual.includes(term));
+    return wanted.length > 0 && actual.length > 0 && wanted.every(term => actual.includes(term));
   }
 
   function modelScopeMatches(scope, observed) {
