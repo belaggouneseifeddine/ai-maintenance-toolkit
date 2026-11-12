@@ -134,8 +134,11 @@
     const grouped = CORE.buildPostings(chunks);
     await new Promise((resolve, reject) => {
       const tx = db.transaction(["documents", "chunks", "postings", "files"], "readwrite");
-      tx.objectStore("documents").put(documentRecord);
-      tx.objectStore("files").put({ documentId: documentRecord.id, blob: documentRecord.fileBlob });
+      const metadata = Object.assign({}, documentRecord);
+      const originalPdf = metadata.fileBlob;
+      delete metadata.fileBlob;
+      tx.objectStore("documents").put(metadata);
+      tx.objectStore("files").put({ documentId: metadata.id, blob: originalPdf });
       const chunkStore = tx.objectStore("chunks");
       chunks.forEach(chunk => chunkStore.put(chunk));
       const postingStore = tx.objectStore("postings");
@@ -245,8 +248,11 @@
     if (!doc || !fileRecord || !fileRecord.blob) throw new Error("الملف الأصلي غير متاح محليًا.");
     const url = URL.createObjectURL(fileRecord.blob);
     currentObjectUrls.push(url);
-    const opened = window.open(url + "#page=" + Number(pageNumber || 1), "_blank", "noopener");
-    if (!opened) status("منع المتصفح فتح نافذة جديدة. اسمح بالنوافذ المنبثقة لفتح PDF.");
+    const link = document.createElement("a");
+    link.href = url + "#page=" + Number(pageNumber || 1);
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.click();
   }
 
   async function deleteDocument(documentId) {
