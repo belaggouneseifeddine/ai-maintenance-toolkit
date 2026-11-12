@@ -43,6 +43,6 @@
   border-radius: 0.5rem;
   background: var(--surface-muted, #101820);
   font: 0.875rem/1.55 ui-monospace, SFMono-Regular, Consolas, monospace;
-  direction: auto;
+  unicode-bidi: plaintext;
   text-align: start;
 }
