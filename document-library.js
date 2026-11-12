@@ -152,6 +152,7 @@
         id: documentId + ":p" + pageNumber + ":c" + index,
         documentId,
         pageNumber,
+        pdfPageNumber: pageNumber,
         chunkIndex: index,
         text: part.text,
         tokens: part.tokens,
@@ -357,6 +358,8 @@
         fileName: doc ? doc.fileName : "",
         sourceUrl: doc ? doc.sourceUrl || null : null,
         manufacturer: doc ? doc.manufacturer || null : null,
+        equipmentFamily: doc ? doc.equipmentFamily || null : null,
+        modelApplicability: doc ? doc.modelApplicability || null : null,
         edition: doc ? doc.edition || null : null,
         citation: CORE.makeCitation(doc, item.doc.pageNumber),
         sha256: doc ? doc.sha256 : null,
@@ -372,23 +375,28 @@
   }
 
   async function openSourcePage(documentId, pageNumber) {
+    const docs = await getAll("documents");
+    const doc = docs.find(item => item.id === documentId);
+    if (!doc) throw new Error("الوثيقة غير موجودة في المكتبة المحلية.");
+    const targetPage = CORE.normalizePageNumber(pageNumber, doc.pageCount);
+    if (!targetPage) throw new Error("رقم صفحة PDF غير صالح لهذه الوثيقة.");
+    const db = await openDb();
+    const fileRecord = await requestResult(db.transaction("files", "readonly").objectStore("files").get(documentId));
+    if (!fileRecord || !fileRecord.blob) throw new Error("الملف الأصلي غير متاح محليًا.");
     const viewer = window.open("about:blank", "_blank");
     if (!viewer) {
       status("اسمح بالنوافذ المنبثقة لفتح ملف PDF.");
       return;
     }
-    try { viewer.opener = null; } catch (_) {}
-    const docs = await getAll("documents");
-    const doc = docs.find(item => item.id === documentId);
-    const db = await openDb();
-    const fileRecord = await requestResult(db.transaction("files", "readonly").objectStore("files").get(documentId));
-    if (!doc || !fileRecord || !fileRecord.blob) {
-      viewer.close();
-      throw new Error("الملف الأصلي غير متاح محليًا.");
+    try {
+      viewer.opener = null;
+      const url = URL.createObjectURL(fileRecord.blob);
+      currentObjectUrls.push(url);
+      viewer.location.replace(url + "#page=" + targetPage);
+    } catch (error) {
+      try { viewer.close(); } catch (_) {}
+      throw error;
     }
-    const url = URL.createObjectURL(fileRecord.blob);
-    currentObjectUrls.push(url);
-    viewer.location.replace(url + "#page=" + Number(pageNumber || 1));
   }
 
   async function deleteDocument(documentId) {
@@ -519,7 +527,7 @@
           const doc = byId.get(claim.documentId);
           const claimTerms = CORE.tokenize(claim.text);
           const family = claim.equipmentFamily || (doc && doc.equipmentFamily) || "";
-          const modelScope = claim.modelApplicability || "";
+          const modelScope = claim.modelApplicability || (doc && doc.modelApplicability) || "";
           const familyMatches = overlaps(family, equipmentTerms);
           const modelMatches = genericModelScope(modelScope) || overlaps(modelScope, modelTerms);
           return doc && familyMatches && modelMatches &&
@@ -535,12 +543,15 @@
             rightsStatus: claim.rightsStatus, reviewStatus: claim.reviewStatus,
             evidenceClass: claim.evidenceClass, eligibleForDiagnosis: true,
             sourceRef: Object.assign(CORE.makeSourceRef(doc, item), {
+              pdfPageNumber: claim.pdfPageNumber || claim.pageNumber,
+              printedPageNumber: claim.printedPageNumber || null,
               claimId: claim.id, claimText: claim.text, reviewer: claim.reviewer,
               reviewedAt: claim.reviewedAt, evidenceClass: claim.evidenceClass,
               sourceUrl: doc.sourceUrl || null, edition: doc.edition || null,
               rightsEvidence: doc.rightsEvidence || null,
               manufacturer: doc.manufacturer || "", equipmentFamily: claim.equipmentFamily || "",
-              modelApplicability: claim.modelApplicability || ""
+              modelApplicability: claim.modelApplicability || "", documentModelApplicability: doc.modelApplicability || "",
+              sourceOrigin: doc.sourceOrigin || ""
             }),
             evidenceRole: "approved-page-claim"
           });
@@ -555,7 +566,7 @@
           extractionStatus: item.extractionStatus, reviewStatus: item.reviewStatus,
           rightsStatus: item.rightsStatus, evidenceClass: item.evidenceClass,
           eligibleForDiagnosis: false
-        }, item), { sourceUrl: item.sourceUrl, manufacturer: item.manufacturer, edition: item.edition })
+        }, item), { sourceUrl: item.sourceUrl, sourceOrigin: item.sourceOrigin, manufacturer: item.manufacturer, equipmentFamily: item.equipmentFamily, modelApplicability: item.modelApplicability, edition: item.edition })
       }));
     },
     list: getAll.bind(null, "documents"),
@@ -570,14 +581,20 @@
       const rightsEvidence = String(review && review.rightsEvidence || "").trim();
       const manufacturer = String(review && review.manufacturer || "").trim();
       const equipmentFamily = String(review && review.equipmentFamily || "").trim();
+      const modelApplicability = String(review && review.modelApplicability || "").trim();
       const edition = String(review && review.edition || "").trim();
-      if (!reviewer || notes.length < 10 || !rightsEvidence) throw new Error("أدخل المراجع وملاحظات المراجعة ودليل الحقوق.");
-      if (review.approved === true && (!manufacturer || !equipmentFamily || !edition)) throw new Error("لا يمكن اعتماد الوثيقة دون الشركة المصنّعة وعائلة المعدة والإصدار أو السنة.");
+      const sourceUrl = String(review && review.sourceUrl || "").trim();
+      const sourceOrigin = String(review && review.sourceOrigin || "").trim();
+      if (!reviewer || notes.length < 10 || rightsEvidence.length < 10) throw new Error("أدخل المراجع وملاحظات المراجعة ودليل الحقوق (10 أحرف على الأقل).");
+      if (sourceUrl && !CORE.isHttpsUrl(sourceUrl)) throw new Error("رابط المصدر يجب أن يكون HTTPS صالحًا.");
+      if (review.approved === true && (!manufacturer || !equipmentFamily || !modelApplicability || !edition || (!sourceUrl && sourceOrigin.length < 6))) throw new Error("لا يمكن اعتماد الوثيقة دون الشركة المصنّعة وعائلة المعدة ونطاق الموديل والإصدار ومصدر موثق (رابط HTTPS أو وصف جهة الحصول).");
       Object.assign(doc, {
         manufacturer,
         equipmentFamily,
+        modelApplicability,
         edition,
-        sourceUrl: String(review.sourceUrl || "").trim(),
+        sourceUrl,
+        sourceOrigin,
         rightsStatus: review.rightsVerified === true ? "verified" : "user-supplied-rights-not-verified",
         rightsEvidence, reviewer, reviewNotes: notes,
         reviewStatus: review.approved === true ? "approved" : "reviewed",
@@ -593,16 +610,17 @@
       const doc = docs.find(item => item.id === claim.documentId);
       if (!doc) throw new Error("الوثيقة غير موجودة.");
       const textValue = String(claim.text || "").trim();
-      const pageNumber = Number(claim.pageNumber);
+      const pageNumber = CORE.normalizePageNumber(claim.pageNumber, doc.pageCount);
+      const printedPageNumber = String(claim.printedPageNumber || "").trim();
       const reviewer = String(claim.reviewer || "").trim();
       const notes = String(claim.notes || "").trim();
-      if (textValue.length < 20 || !Number.isInteger(pageNumber) || pageNumber < 1 || pageNumber > doc.pageCount || !reviewer || notes.length < 10) throw new Error("الادعاء أو الصفحة أو المراجع أو ملاحظات التحقق غير مكتملة.");
+      if (textValue.length < 20 || !pageNumber || !reviewer || notes.length < 10) throw new Error("الادعاء أو رقم صفحة PDF أو المراجع أو ملاحظات التحقق غير مكتملة.");
       if (claim.approved === true && (!String(claim.equipmentFamily || doc.equipmentFamily || "").trim() || !String(claim.modelApplicability || "").trim())) throw new Error("لا يمكن اعتماد ادعاء دون تحديد عائلة المعدة ونطاق الموديل أو التصريح بأنه عام.");
       const rightsStatus = claim.rightsVerified === true && doc.rightsStatus === "verified" ? "verified" : "unverified";
       const approved = claim.approved === true && doc.reviewStatus === "approved" && rightsStatus === "verified";
       const record = {
         id: String(claim.id || (doc.id + ":claim:" + Date.now())),
-        documentId: doc.id, pageNumber, text: textValue,
+        documentId: doc.id, pageNumber, pdfPageNumber: pageNumber, printedPageNumber, text: textValue,
         equipmentFamily: String(claim.equipmentFamily || doc.equipmentFamily || "").trim(),
         modelApplicability: String(claim.modelApplicability || "").trim(),
         evidenceClass: String(claim.evidenceClass || "manufacturer_manual"),
