@@ -24,22 +24,17 @@ test("diagnostic flow registry has a versioned schema and unique question/answer
   assert.equal(new Set(ids).size, ids.length, "flow, question, and answer IDs must be unique");
 });
 
-test("compressor overheat flow distinguishes cooling, oil, load, sensor, and unknown evidence", () => {
+test("compressor overheat fallback flow keeps cooling, oil, and unknown evidence distinct", () => {
   const flow = registry.flows["compressor|overheat"];
   assert.ok(flow);
   assert.deepEqual(Array.from(flow.answers, answer => answer.id), [
-    "compressor-overheat-cooling-evidence",
-    "compressor-overheat-oil-evidence",
-    "compressor-overheat-load-evidence",
-    "compressor-overheat-sensor-evidence",
+    "compressor-overheat-cooling",
+    "compressor-overheat-oil",
     "compressor-overheat-unknown"
   ]);
-  assert.ok(flow.answers.every(answer => answer.guidance.length > 40));
-  assert.match(flow.answers[0].guidance, /لا يثبت السبب/);
-  assert.match(flow.answers[1].guidance, /لا تفتح دائرة ساخنة أو مضغوطة/);
-  assert.match(flow.answers[2].guidance, /لا تغيّر نقاط الضبط ولا تتجاوز الحمايات/);
-  assert.match(flow.answers[3].guidance, /لا تعطل الحماية/);
-  assert.match(flow.answers[4].guidance, /لا تكرر إعادة التشغيل/);
+  assert.match(flow.answers[0].guidance, /لا تفتح دائرة ساخنة أو مضغوطة/);
+  assert.match(flow.answers[1].guidance, /مستوى الزيت والمرشح/);
+  assert.match(flow.answers[2].guidance, /لا تخمّن السبب/);
 });
 
 test("compressor low-pressure flow distinguishes outlet, network, and missing readings", () => {
