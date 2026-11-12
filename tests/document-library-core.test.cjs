@@ -102,3 +102,10 @@ test("model applicability does not match a different numeric model variant", () 
   assert.equal(Core.modelScopeMatches("Siemens G120C", "Siemens G120"), false);
   assert.equal(Core.modelScopeMatches("all models", ""), true);
 });
+
+
+test("equipment family scope requires all declared family terms", () => {
+  assert.equal(Core.scopeMatches("centrifugal pump", "Grundfos centrifugal pump CR 10"), true);
+  assert.equal(Core.scopeMatches("hydraulic power unit", "hydraulic unit"), false);
+  assert.equal(Core.scopeMatches("hydraulic power unit", "centrifugal pump"), false);
+});
