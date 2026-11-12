@@ -55,6 +55,23 @@ test("Cloudflare Pages validates the guided diagnostic runtime assets before dep
 });
 
 
+test("document library assets are deployed and cached as optional offline resources", () => {
+  for (const asset of ["document-library-core.js", "document-library.js", "document-library.css"]) {
+    assert.ok(assets.has(asset), "GitHub Pages artifact must include " + asset);
+    assert.ok(cloudflareAssets.has(asset), "Cloudflare Pages artifact must include " + asset);
+    assert.ok(sw.includes('"./' + asset + '"'), "Service worker must cache " + asset);
+    assert.ok(html.includes(asset), "index.html must load " + asset);
+  }
+  assert.ok(sw.includes("const OPTIONAL_APP_SHELL = ["));
+});
+
+test("document library stays inside the knowledge panel without adding a sixth primary tab", () => {
+  assert.ok(html.includes('id="documentLibraryPanel"'));
+  assert.ok(html.includes('id="documentSearchForm"'));
+  assert.match(html, /<section id="knowledge" class="panel">[\\s\\S]*id="documentLibraryPanel"[\\s\\S]*<section id="safety"/);
+  assert.equal(html.includes('data-tab="documents"'), false);
+});
+
 test("P1 app-shell assets are deployed and cached for offline use", () => {
   for (const asset of ["p1-app-shell.css", "p1-app-shell.js"]) {
     assert.ok(assets.has(asset), "GitHub Pages artifact must include " + asset);
