@@ -29,6 +29,7 @@
           chunks.createIndex("documentId", "documentId", { unique: false });
         }
         if (!database.objectStoreNames.contains("postings")) database.createObjectStore("postings", { keyPath: "term" });
+        if (!database.objectStoreNames.contains("files")) database.createObjectStore("files", { keyPath: "documentId" });
       };
       request.onsuccess = () => resolve(request.result);
       request.onerror = () => reject(request.error || new Error("تعذر فتح قاعدة الوثائق."));
@@ -66,8 +67,8 @@
   }
 
   async function sha256(buffer) {
-    if (!crypto || !crypto.subtle) throw new Error("يلزم فتح التطبيق عبر HTTPS لحساب بصمة الملف والتحقق من التكرار.");
-    const digest = await crypto.subtle.digest("SHA-256", buffer);
+    if (!window.crypto || !window.crypto.subtle) throw new Error("يلزم فتح التطبيق عبر HTTPS لحساب بصمة الملف والتحقق من التكرار.");
+    const digest = await window.crypto.subtle.digest("SHA-256", buffer);
     return Array.from(new Uint8Array(digest), byte => byte.toString(16).padStart(2, "0")).join("");
   }
 
@@ -94,14 +95,15 @@
     const pdfjs = await loadPdfJs();
     const loadingTask = pdfjs.getDocument({ data: new Uint8Array(fileBuffer), isEvalSupported: false, useWorkerFetch: false });
     const pdf = await loadingTask.promise;
-    if (!pdf.numPages || pdf.numPages > MAX_PAGES) {
+    const pageCount = pdf.numPages;
+    if (!pageCount || pageCount > MAX_PAGES) {
       await pdf.destroy();
       throw new Error("عدد الصفحات غير مدعوم. الحد الحالي " + MAX_PAGES + " صفحة.");
     }
     const chunks = [];
     let pagesWithText = 0;
-    for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
-      status("استخراج الصفحة " + pageNumber + " من " + pdf.numPages + "…");
+    for (let pageNumber = 1; pageNumber <= pageCount; pageNumber++) {
+      status("استخراج الصفحة " + pageNumber + " من " + pageCount + "…");
       const page = await pdf.getPage(pageNumber);
       const content = await page.getTextContent({ includeMarkedContent: false });
       const pageText = extractPageLines(content.items);
@@ -124,15 +126,16 @@
     }
     await pdf.destroy();
     if (!chunks.length) throw new Error("لم يُستخرج نص قابل للبحث. قد يكون PDF ممسوحًا ضوئيًا كصور؛ OCR غير مفعّل في هذه النسخة.");
-    return { pageCount: pdf.numPages, pagesWithText, chunks };
+    return { pageCount, pagesWithText, chunks };
   }
 
   async function persistDocument(documentRecord, chunks) {
     const db = await openDb();
     const grouped = CORE.buildPostings(chunks);
     await new Promise((resolve, reject) => {
-      const tx = db.transaction(["documents", "chunks", "postings"], "readwrite");
+      const tx = db.transaction(["documents", "chunks", "postings", "files"], "readwrite");
       tx.objectStore("documents").put(documentRecord);
+      tx.objectStore("files").put({ documentId: documentRecord.id, blob: documentRecord.fileBlob });
       const chunkStore = tx.objectStore("chunks");
       chunks.forEach(chunk => chunkStore.put(chunk));
       const postingStore = tx.objectStore("postings");
@@ -167,7 +170,6 @@
       id,
       title: file.name.replace(/\.pdf$/i, ""),
       fileName: file.name,
-      fileBlob: file.slice(0, file.size, "application/pdf"),
       fileSize: file.size,
       sha256: digest,
       importedAt: new Date().toISOString(),
@@ -180,7 +182,7 @@
       eligibleForDiagnosis: false
     };
     status("حفظ النص والفهرس والملف محليًا…");
-    await persistDocument(record, extracted.chunks);
+    await persistDocument(Object.assign({}, record, { fileBlob: file.slice(0, file.size, "application/pdf") }), extracted.chunks);
     status("اكتمل الاستيراد: " + record.title + " — " + record.pagesWithText + "/" + record.pageCount + " صفحة نصية، " + record.chunkCount + " مقطعًا. لم تُرسل الوثيقة إلى خادم.");
     await renderDocuments();
   }
@@ -238,8 +240,10 @@
   async function openSourcePage(documentId, pageNumber) {
     const docs = await getAll("documents");
     const doc = docs.find(item => item.id === documentId);
-    if (!doc || !doc.fileBlob) throw new Error("الملف الأصلي غير متاح محليًا.");
-    const url = URL.createObjectURL(doc.fileBlob);
+    const db = await openDb();
+    const fileRecord = await requestResult(db.transaction("files", "readonly").objectStore("files").get(documentId));
+    if (!doc || !fileRecord || !fileRecord.blob) throw new Error("الملف الأصلي غير متاح محليًا.");
+    const url = URL.createObjectURL(fileRecord.blob);
     currentObjectUrls.push(url);
     const opened = window.open(url + "#page=" + Number(pageNumber || 1), "_blank", "noopener");
     if (!opened) status("منع المتصفح فتح نافذة جديدة. اسمح بالنوافذ المنبثقة لفتح PDF.");
@@ -257,8 +261,9 @@
     const documents = (await getAll("documents")).filter(doc => doc.id !== documentId);
     const postings = CORE.buildPostings(remaining);
     await new Promise((resolve, reject) => {
-      const tx = db.transaction(["documents", "chunks", "postings"], "readwrite");
+      const tx = db.transaction(["documents", "chunks", "postings", "files"], "readwrite");
       tx.objectStore("documents").delete(documentId);
+      tx.objectStore("files").delete(documentId);
       const chunkStore = tx.objectStore("chunks");
       chunks.forEach(chunk => chunkStore.delete(chunk.id));
       const postingStore = tx.objectStore("postings");
