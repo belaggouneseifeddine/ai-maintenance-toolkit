@@ -22,46 +22,123 @@
     "limitations"
   ],
   "properties": {
-    "schemaVersion": { "const": "1.0-draft" },
-    "caseId": { "type": "string", "pattern": "^[A-Z]{2,5}-[0-9]{3,5}$" },
+    "schemaVersion": {
+      "const": "1.0-draft"
+    },
+    "caseId": {
+      "type": "string",
+      "pattern": "^[A-Z]{2,5}-[0-9]{3,5}$"
+    },
     "status": {
-      "enum": ["candidate", "source-reviewed", "technical-review-required", "technically-reviewed", "field-validated", "retired"]
+      "enum": [
+        "candidate",
+        "source-reviewed",
+        "technical-review-required",
+        "technically-reviewed",
+        "field-validated",
+        "retired"
+      ]
     },
     "equipment": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["family", "equipmentType", "modelApplicability"],
+      "required": [
+        "family",
+        "equipmentType",
+        "modelApplicability"
+      ],
       "properties": {
-        "family": { "type": "string", "minLength": 1 },
-        "equipmentType": { "type": "string", "minLength": 1 },
-        "manufacturer": { "type": ["string", "null"] },
-        "modelApplicability": { "type": "string", "minLength": 1 },
-        "configuration": { "type": "array", "items": { "type": "string" } },
-        "excludedConfigurations": { "type": "array", "items": { "type": "string" } }
+        "family": {
+          "type": "string",
+          "minLength": 1
+        },
+        "equipmentType": {
+          "type": "string",
+          "minLength": 1
+        },
+        "manufacturer": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "modelApplicability": {
+          "type": "string",
+          "minLength": 1
+        },
+        "configuration": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "excludedConfigurations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
       }
     },
     "applicability": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["scope", "preconditions", "knownExclusions"],
+      "required": [
+        "scope",
+        "preconditions",
+        "knownExclusions"
+      ],
       "properties": {
-        "scope": { "type": "string", "minLength": 1 },
-        "preconditions": { "type": "array", "items": { "type": "string" } },
-        "knownExclusions": { "type": "array", "items": { "type": "string" } }
+        "scope": {
+          "type": "string",
+          "minLength": 1
+        },
+        "preconditions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "knownExclusions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
       }
     },
-    "mechanism": { "type": "string", "minLength": 1 },
+    "mechanism": {
+      "type": "string",
+      "minLength": 1
+    },
     "symptoms": {
       "type": "array",
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["id", "observation", "isInferred"],
+        "required": [
+          "id",
+          "observation",
+          "isInferred"
+        ],
         "properties": {
-          "id": { "type": "string", "minLength": 1 },
-          "observation": { "type": "string", "minLength": 1 },
-          "isInferred": { "const": false },
-          "sourceClaimIds": { "type": "array", "items": { "type": "string" } }
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "observation": {
+            "type": "string",
+            "minLength": 1
+          },
+          "isInferred": {
+            "const": false
+          },
+          "sourceClaimIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
         }
       }
     },
@@ -71,15 +148,51 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["hypothesisId", "cause", "evidenceFor", "evidenceAgainst", "confounders", "scope"],
+        "required": [
+          "hypothesisId",
+          "cause",
+          "evidenceFor",
+          "evidenceAgainst",
+          "confounders",
+          "scope"
+        ],
         "properties": {
-          "hypothesisId": { "type": "string", "minLength": 1 },
-          "cause": { "type": "string", "minLength": 1 },
-          "evidenceFor": { "type": "array", "items": { "type": "string" } },
-          "evidenceAgainst": { "type": "array", "items": { "type": "string" } },
-          "confounders": { "type": "array", "items": { "type": "string" } },
-          "scope": { "type": "string", "minLength": 1 },
-          "sourceClaimIds": { "type": "array", "items": { "type": "string" } }
+          "hypothesisId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "cause": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidenceFor": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "evidenceAgainst": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "confounders": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "scope": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sourceClaimIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
         }
       }
     },
@@ -88,20 +201,83 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["measurementId", "parameter", "value", "unit", "location", "quality", "operatingCondition"],
+        "required": [
+          "measurementId",
+          "parameter",
+          "value",
+          "unit",
+          "location",
+          "quality",
+          "operatingCondition"
+        ],
         "properties": {
-          "measurementId": { "type": "string", "minLength": 1 },
-          "parameter": { "type": "string", "minLength": 1 },
-          "value": { "type": ["number", "null"] },
-          "unit": { "type": "string", "minLength": 1 },
-          "location": { "type": "string", "minLength": 1 },
-          "instrumentId": { "type": ["string", "null"] },
-          "quality": { "enum": ["measured", "plc_indicated", "estimated", "unknown"] },
-          "calibrationStatus": { "enum": ["in_date", "out_of_date", "unknown", "not_applicable"] },
-          "operatingCondition": { "type": "string", "minLength": 1 },
-          "timestamp": { "type": ["string", "null"], "format": "date-time" },
-          "uncertainty": { "type": ["string", "null"] },
-          "sourceClaimIds": { "type": "array", "items": { "type": "string" } }
+          "measurementId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "parameter": {
+            "type": "string",
+            "minLength": 1
+          },
+          "value": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "unit": {
+            "type": "string",
+            "minLength": 1
+          },
+          "location": {
+            "type": "string",
+            "minLength": 1
+          },
+          "instrumentId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "quality": {
+            "enum": [
+              "measured",
+              "plc_indicated",
+              "estimated",
+              "unknown"
+            ]
+          },
+          "calibrationStatus": {
+            "enum": [
+              "in_date",
+              "out_of_date",
+              "unknown",
+              "not_applicable"
+            ]
+          },
+          "operatingCondition": {
+            "type": "string",
+            "minLength": 1
+          },
+          "timestamp": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "uncertainty": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "sourceClaimIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
         }
       }
     },
@@ -110,56 +286,190 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["testId", "purpose", "preconditions", "authorizedRole", "methodSummary", "expectedOutcomes", "interpretationLimits", "stopConditions"],
+        "required": [
+          "testId",
+          "purpose",
+          "preconditions",
+          "authorizedRole",
+          "methodSummary",
+          "expectedOutcomes",
+          "interpretationLimits",
+          "stopConditions"
+        ],
         "properties": {
-          "testId": { "type": "string", "minLength": 1 },
-          "purpose": { "type": "string", "minLength": 1 },
-          "preconditions": { "type": "array", "items": { "type": "string" } },
-          "authorizedRole": { "type": "string", "minLength": 1 },
-          "methodSummary": { "type": "string", "minLength": 1 },
+          "testId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "purpose": {
+            "type": "string",
+            "minLength": 1
+          },
+          "preconditions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "authorizedRole": {
+            "type": "string",
+            "minLength": 1
+          },
+          "methodSummary": {
+            "type": "string",
+            "minLength": 1
+          },
           "expectedOutcomes": {
             "type": "array",
             "items": {
               "type": "object",
               "additionalProperties": false,
-              "required": ["hypothesisId", "resultPattern", "interpretation"],
+              "required": [
+                "hypothesisId",
+                "resultPattern",
+                "interpretation"
+              ],
               "properties": {
-                "hypothesisId": { "type": "string", "minLength": 1 },
-                "resultPattern": { "type": "string", "minLength": 1 },
-                "interpretation": { "type": "string", "minLength": 1 }
+                "hypothesisId": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "resultPattern": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "interpretation": {
+                  "type": "string",
+                  "minLength": 1
+                }
               }
             }
           },
-          "interpretationLimits": { "type": "array", "items": { "type": "string" } },
-          "stopConditions": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
-          "estimatedDurationMinutes": { "type": ["number", "null"], "minimum": 0 },
-          "estimatedCostClass": { "enum": ["none", "low", "medium", "high", "unknown"] },
-          "invasiveness": { "enum": ["remote_observation", "non_invasive", "invasive", "unknown"] },
-          "sourceClaimIds": { "type": "array", "items": { "type": "string" } }
+          "interpretationLimits": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "stopConditions": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "estimatedDurationMinutes": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "estimatedCostClass": {
+            "enum": [
+              "none",
+              "low",
+              "medium",
+              "high",
+              "unknown"
+            ]
+          },
+          "invasiveness": {
+            "enum": [
+              "remote_observation",
+              "non_invasive",
+              "invasive",
+              "unknown"
+            ]
+          },
+          "sourceClaimIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
         }
       }
     },
     "safety": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["hazards", "requiredControls", "stopWorkConditions", "escalationRole"],
+      "required": [
+        "hazards",
+        "requiredControls",
+        "stopWorkConditions",
+        "escalationRole"
+      ],
       "properties": {
-        "hazards": { "type": "array", "minItems": 1, "items": { "type": "string" } },
-        "requiredControls": { "type": "array", "items": { "type": "string" } },
-        "stopWorkConditions": { "type": "array", "minItems": 1, "items": { "type": "string" } },
-        "escalationRole": { "type": "string", "minLength": 1 }
+        "hazards": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "requiredControls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "stopWorkConditions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "escalationRole": {
+          "type": "string",
+          "minLength": 1
+        }
       }
     },
     "decisionPolicy": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["selectionMethod", "constraints", "probabilityCalibration"],
+      "required": [
+        "selectionMethod",
+        "constraints",
+        "probabilityCalibration"
+      ],
       "properties": {
-        "selectionMethod": { "enum": ["information_gain_qualitative", "expected_information_gain", "expert_rule", "not_implemented"] },
-        "constraints": { "type": "array", "items": { "type": "string" } },
-        "probabilityCalibration": { "enum": ["calibrated", "uncalibrated_heuristic", "not_applicable"] },
-        "priorEvidence": { "type": ["string", "null"] },
-        "likelihoodEvidence": { "type": ["string", "null"] }
+        "selectionMethod": {
+          "enum": [
+            "information_gain_qualitative",
+            "expected_information_gain",
+            "expert_rule",
+            "not_implemented"
+          ]
+        },
+        "constraints": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "probabilityCalibration": {
+          "enum": [
+            "calibrated",
+            "uncalibrated_heuristic",
+            "not_applicable"
+          ]
+        },
+        "priorEvidence": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "likelihoodEvidence": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
       }
     },
     "sourceClaims": {
@@ -168,39 +478,145 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["claimId", "claimSummary", "sourceTitle", "publisher", "url", "sourceLocation", "reviewStatus", "licenseStatus", "reuseDecision", "evidenceClass", "reviewedAt"],
+        "required": [
+          "claimId",
+          "claimSummary",
+          "sourceTitle",
+          "publisher",
+          "url",
+          "sourceLocation",
+          "reviewStatus",
+          "licenseStatus",
+          "reuseDecision",
+          "evidenceClass",
+          "reviewedAt"
+        ],
         "properties": {
-          "claimId": { "type": "string", "minLength": 1 },
-          "claimSummary": { "type": "string", "minLength": 1 },
-          "sourceTitle": { "type": "string", "minLength": 1 },
-          "publisher": { "type": "string", "minLength": 1 },
-          "url": { "type": "string", "format": "uri" },
-          "revision": { "type": ["string", "null"] },
-          "sourceLocation": { "type": "string", "minLength": 1 },
-          "reviewStatus": { "enum": ["not_reviewed", "metadata_reviewed", "passage_reviewed", "technical_reviewed"] },
-          "licenseStatus": { "enum": ["open_license_verified", "reference_only", "not_declared", "pending_review", "restricted"] },
-          "reuseDecision": { "enum": ["summary_and_link_only", "redistribution_allowed_with_attribution", "isolated_test_only", "no_reuse", "pending"] },
-          "evidenceClass": { "enum": ["oem_model_specific", "standard_reference", "peer_reviewed_research", "dataset_metadata", "field_observation", "engineering_inference"] },
-          "reviewedAt": { "type": "string", "format": "date" },
-          "reviewerRole": { "type": ["string", "null"] }
+          "claimId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "claimSummary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sourceTitle": {
+            "type": "string",
+            "minLength": 1
+          },
+          "publisher": {
+            "type": "string",
+            "minLength": 1
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "revision": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "sourceLocation": {
+            "type": "string",
+            "minLength": 1
+          },
+          "reviewStatus": {
+            "enum": [
+              "not_reviewed",
+              "metadata_reviewed",
+              "passage_reviewed",
+              "technical_reviewed"
+            ]
+          },
+          "licenseStatus": {
+            "enum": [
+              "open_license_verified",
+              "reference_only",
+              "not_declared",
+              "pending_review",
+              "restricted"
+            ]
+          },
+          "reuseDecision": {
+            "enum": [
+              "summary_and_link_only",
+              "redistribution_allowed_with_attribution",
+              "isolated_test_only",
+              "no_reuse",
+              "pending"
+            ]
+          },
+          "evidenceClass": {
+            "enum": [
+              "oem_model_specific",
+              "standard_reference",
+              "peer_reviewed_research",
+              "dataset_metadata",
+              "field_observation",
+              "engineering_inference",
+              "industry_technical_reference"
+            ]
+          },
+          "reviewedAt": {
+            "type": "string",
+            "format": "date"
+          },
+          "reviewerRole": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
         }
       }
     },
     "verification": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["postRepairChecks", "acceptanceCriteriaSource", "fieldValidationStatus"],
+      "required": [
+        "postRepairChecks",
+        "acceptanceCriteriaSource",
+        "fieldValidationStatus"
+      ],
       "properties": {
-        "postRepairChecks": { "type": "array", "items": { "type": "string" } },
-        "acceptanceCriteriaSource": { "type": ["string", "null"] },
-        "fieldValidationStatus": { "enum": ["not_tested", "test_fixture_only", "technician_reviewed", "field_observed", "repeatable_field_validated"] },
-        "observedOutcomeId": { "type": ["string", "null"] }
+        "postRepairChecks": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "acceptanceCriteriaSource": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "fieldValidationStatus": {
+          "enum": [
+            "not_tested",
+            "test_fixture_only",
+            "technician_reviewed",
+            "field_observed",
+            "repeatable_field_validated"
+          ]
+        },
+        "observedOutcomeId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
       }
     },
     "limitations": {
       "type": "array",
       "minItems": 1,
-      "items": { "type": "string", "minLength": 1 }
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
     }
   }
 }
