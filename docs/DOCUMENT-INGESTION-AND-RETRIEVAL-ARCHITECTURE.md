@@ -41,15 +41,13 @@ The three consumers are separate:
 
 ## Next engineering stages
 
-1. Add OCR as an optional, separately downloaded engine with explicit size/language choices (Arabic/French/English), page preview, and OCR confidence.
-2. Add source review UI: edition/model applicability, rights evidence, reviewer, claim-level page citations, and contradiction records.
-3. Add retrieval filters and a shared citation object for Research, Study, and Diagnostics.
-4. Add optional export/backup and explicit cross-device sync; do not silently upload PDFs.
-5. Add relevance evaluation fixtures for Arabic, French, and English queries and scanned/manual test PDFs.
-6. Add OCR quality review, correction UI, and per-page confidence thresholds before any OCR-derived claim can be approved.
-7. Integrate the typed retrieval API into Deep Research and Study; Diagnostics must continue to filter strictly to approved documents with verified rights and an explicit eligible flag.
+1. Add source review UI: edition/model applicability, rights evidence, reviewer, claim-level page citations, and contradiction records.
+2. Add OCR quality review, correction UI, and per-page confidence thresholds before any OCR-derived claim can be approved.
+3. Integrate the typed retrieval API into Deep Research and Study; Diagnostics must continue to filter strictly to approved documents with verified rights and an explicit eligible flag.
+4. Add relevance evaluation fixtures for Arabic, French, and English queries and scanned/manual test PDFs.
+5. Add optional export/backup and explicit cross-device sync; do not silently upload PDFs.
 
-## PDF.js dependency
+## OCR dependency\n\nTesseract.js is pinned to 5.1.1 and loaded only when the user enables OCR and the parser encounters a page without extractable text. Its upstream project is licensed under Apache-2.0. The official project documents the browser worker API and language data loading: https://github.com/naptha/tesseract.js\n\n## PDF.js dependency
 
 PDF.js is used as a browser-side parser, not as a server upload service. Its upstream project is licensed under Apache-2.0. The exact dependency is pinned to 4.10.38 to avoid silently changing parser behavior. Review the upstream license and update version deliberately:
 https://github.com/mozilla/pdf.js
