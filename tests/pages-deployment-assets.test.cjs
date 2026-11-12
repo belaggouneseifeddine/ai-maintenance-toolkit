@@ -153,6 +153,7 @@ test("document review workspaces and diagnostic page claims are wired into the r
   const html = fs.readFileSync(path.join(__dirname, "..", "index.html"), "utf8");
   const review = fs.readFileSync(path.join(__dirname, "..", "document-review-workspaces.js"), "utf8");
   const diagnostic = fs.readFileSync(path.join(__dirname, "..", "diagnostic-document-evidence.js"), "utf8");
+  const library = fs.readFileSync(path.join(__dirname, "..", "document-library.js"), "utf8");
   assert.ok(html.includes('src="./document-review-workspaces.js"'));
   assert.ok(html.includes('src="./diagnostic-document-evidence.js"'));
   assert.ok(review.includes('retrieveFor(consumer,query)'));
