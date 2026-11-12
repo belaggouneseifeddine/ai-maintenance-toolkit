@@ -376,14 +376,8 @@
   }
 
   async function openSourcePage(documentId, pageNumber) {
-    const docs = await getAll("documents");
-    const doc = docs.find(item => item.id === documentId);
-    if (!doc) throw new Error("الوثيقة غير موجودة في المكتبة المحلية.");
-    const targetPage = CORE.normalizePageNumber(pageNumber, doc.pageCount);
-    if (!targetPage) throw new Error("رقم صفحة PDF غير صالح لهذه الوثيقة.");
-    const db = await openDb();
-    const fileRecord = await requestResult(db.transaction("files", "readonly").objectStore("files").get(documentId));
-    if (!fileRecord || !fileRecord.blob) throw new Error("الملف الأصلي غير متاح محليًا.");
+    // Open synchronously inside the user gesture; Android browsers may block
+    // window.open after IndexedDB awaits have yielded the click event.
     const viewer = window.open("about:blank", "_blank");
     if (!viewer) {
       status("اسمح بالنوافذ المنبثقة لفتح ملف PDF.");
@@ -391,11 +385,20 @@
     }
     try {
       viewer.opener = null;
+      const docs = await getAll("documents");
+      const doc = docs.find(item => item.id === documentId);
+      if (!doc) throw new Error("الوثيقة غير موجودة في المكتبة المحلية.");
+      const targetPage = CORE.normalizePageNumber(pageNumber, doc.pageCount);
+      if (!targetPage) throw new Error("رقم صفحة PDF غير صالح لهذه الوثيقة.");
+      const db = await openDb();
+      const fileRecord = await requestResult(db.transaction("files", "readonly").objectStore("files").get(documentId));
+      if (!fileRecord || !fileRecord.blob) throw new Error("الملف الأصلي غير متاح محليًا.");
       const url = URL.createObjectURL(fileRecord.blob);
       currentObjectUrls.push(url);
       viewer.location.replace(url + "#page=" + targetPage);
     } catch (error) {
       try { viewer.close(); } catch (_) {}
+      status(error.message || "تعذر فتح صفحة المصدر.");
       throw error;
     }
   }
