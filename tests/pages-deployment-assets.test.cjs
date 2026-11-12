@@ -122,7 +122,7 @@ test("document retrieval requires an explicit consumer and gates diagnostic evid
   assert.ok(library.includes('doc.rightsStatus === "verified"'));
   assert.ok(library.includes('doc.eligibleForDiagnosis === true'));
   assert.ok(library.includes('createObjectStore("claims"'));
-  assert.ok(library.includes('pageNumber, text: textValue'));
+  assert.ok(library.includes('pageNumber, pdfPageNumber: pageNumber, printedPageNumber, text: textValue'));
   assert.ok(core.includes('document.reviewStatus === "approved"'));
   assert.ok(core.includes('document.rightsStatus === "verified"'));
   assert.ok(core.includes('document.eligibleForDiagnosis === true'));
@@ -158,6 +158,6 @@ test("document review workspaces and diagnostic page claims are wired into the r
   assert.ok(review.includes('retrieveFor(consumer,query)'));
   assert.ok(review.includes('saveDocumentReview'));
   assert.ok(review.includes('saveClaim'));
-  assert.ok(diagnostic.includes('api.forDiagnostics(query,{equipment,model:equipment})'));
+  assert.ok(diagnostic.includes('api.forDiagnostics(query,{equipment,model})'));
   assert.ok(diagnostic.includes('openSourcePage(item.sourceRef.documentId,item.sourceRef.pageNumber)'));
 });
