@@ -208,13 +208,17 @@
         : "جارٍ الاتصال بمزود الذكاء الاصطناعي المحدد…";
     }
     try {
+      const guided = root.MaintenanceDiagnosticSessionUI && typeof root.MaintenanceDiagnosticSessionUI.getPayload === "function"
+        ? root.MaintenanceDiagnosticSessionUI.getPayload() : {};
       const payload = {
         machine: machine.value.trim(),
         symptom: symptom.value.trim(),
         code: code ? code.value.trim() : "",
         observations: observations ? observations.value.trim() : "",
         measurementStatus: measurement ? measurement.value : "unknown",
-        language: ["ar", "en", "fr"].includes(language) ? language : "ar"
+        language: ["ar", "en", "fr"].includes(language) ? language : "ar",
+        diagnosticFlowId: typeof guided.diagnosticFlowId === "string" ? guided.diagnosticFlowId : "",
+        diagnosticEvidence: Array.isArray(guided.diagnosticEvidence) ? guided.diagnosticEvidence.slice(0, 12) : []
       };
       const response = await root.fetch(WORKER_ENDPOINT, {
         method: "POST",
