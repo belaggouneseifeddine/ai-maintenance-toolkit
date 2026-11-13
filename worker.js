@@ -759,7 +759,8 @@ export default {
       if (!decision.success) return json({ error: "Request limit reached. Please wait and try again." }, 429, origin);
     }
 
-    const technicianObservations = [observations, technicianChatInput].filter(Boolean).join("\n").slice(0, 3000);\n    const evidence = assessEvidence({ machine, symptom, code, observations: technicianObservations, language });
+    const technicianObservations = [observations, technicianChatInput].filter(Boolean).join("\n").slice(0, 3000);
+    const evidence = assessEvidence({ machine, symptom, code, observations: technicianObservations, language });
     const evidenceRefs = [ "Knowledge base: retrieved source excerpts will be used when available." ];
     if (evidence.needsClarification) {
       const prompts = language === "fr"
