@@ -47,6 +47,7 @@ jobs:
             engineering-core.js \
             agent-core.js \
             agent-ui.js \
+            diagnostic-chat.js \
             document-library-core.js \
             document-library.js \
             document-retrieval-adapter.js \
