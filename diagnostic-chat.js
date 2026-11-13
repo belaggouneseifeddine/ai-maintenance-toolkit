@@ -213,7 +213,7 @@
     retrievedExcerpts = result.results.slice(0, 3).map(item => ({
       documentTitle: String(item.documentTitle || "PDF").slice(0, 160),
       citation: String(item.citation || "").slice(0, 240),
-      text: String(item.text || "").slice(0, 600)
+      text: String(item.text || "").slice(0, 350)
     })).filter(item => item.text);
     result.results.forEach(item => {
       const article = root.document.createElement("article");
@@ -292,7 +292,7 @@
       localSnapshot,
       "Conversation transcript (assistant text is not independent evidence):",
       transcript
-    ].join("\n\n").slice(-1800);
+    ].join("\n\n").slice(-1200);
   }
 
   function handleMessage(text) {
