@@ -18,13 +18,17 @@
       if (docs.some(doc => doc.id === previous)) select.value = previous;
     }
     const claims = await library().listClaims();
+    const documentsById = new Map(docs.map(doc => [doc.id, doc]));
     const list = $("reviewedClaimsList");
     if (list) {
-      list.innerHTML = claims.length ? claims.map(claim =>
-        '<article class="document-result"><strong>' + escapeHtml(claim.text.slice(0, 180)) + '</strong>' +
+      list.innerHTML = claims.length ? claims.map(claim => {
+        const doc = documentsById.get(claim.documentId);
+        const currentReview = Boolean(doc) && claim.documentReviewRevision === Number(doc.reviewRevision || 0);
+        const displayedStatus = currentReview ? claim.reviewStatus : "stale — document review changed; re-review required";
+        return '<article class="document-result"><strong>' + escapeHtml(claim.text.slice(0, 180)) + '</strong>' +
         '<p class="hint">PDF page ' + claim.pageNumber +
         (claim.printedPageNumber ? ' | printed page ' + escapeHtml(claim.printedPageNumber) : '') +
-        ' | ' + escapeHtml(claim.reviewStatus) + ' | rights: ' + escapeHtml(claim.rightsStatus) + '</p>' +
+        ' | ' + escapeHtml(displayedStatus) + ' | rights: ' + escapeHtml(claim.rightsStatus) + '</p>' +
         '<button type="button" class="btn secondary" data-open-claim="' + escapeHtml(claim.documentId) +
         '" data-page="' + Number(claim.pageNumber) + '">فتح الصفحة الأصلية</button></article>'
       ).join("") : '<p class="hint">لا توجد ادعاءات مسجلة حتى الآن.</p>';
@@ -42,7 +46,7 @@
     section.className = "card document-workspace";
     section.innerHTML =
       '<h2>مراجعة الوثائق والحقوق والأدلة التشخيصية</h2>' +
-      '<p class="hint">كل شيء يُحفظ محليًا على هذا الجهاز. لا يصبح نص PDF دليلًا تشخيصيًا بمجرد استخراجه. يجب مراجعة الوثيقة والحقوق والادعاء والصفحة ونطاق المعدة كلٌّ على حدة.</p>' +
+      '<p class="hint">كل شيء يُحفظ محليًا على هذا الجهاز. لا يصبح نص PDF دليلًا تشخيصيًا بمجرد استخراجه. يجب مراجعة الوثيقة والحقوق والادعاء والصفحة ونطاق المعدة كلٌّ على حدة. أي تعديل لاحق على مراجعة الوثيقة أو حقوقها أو نطاقها يبطل اعتماد الادعاءات السابقة، ويلزم إعادة مراجعتها.</p>' +
       '<label for="reviewDocumentSelect">الوثيقة</label><select id="reviewDocumentSelect"><option value="">اختر وثيقة</option></select>' +
       '<label for="reviewManufacturer">الشركة المصنّعة</label><input id="reviewManufacturer" placeholder="مثال: Grundfos / ABB / Schneider Electric">' +
       '<label for="reviewFamily">عائلة المعدة</label><input id="reviewFamily" placeholder="مثال: centrifugal pump / مضخة طرد مركزي">' +
