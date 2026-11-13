@@ -112,7 +112,6 @@
     const button = root.document && root.document.getElementById("runLocalAgent");
     const machine = root.document && root.document.getElementById("aiMachine");
     const symptom = root.document && root.document.getElementById("aiSymptom");
-    const model = root.document && root.document.getElementById("aiModel");
     const code = root.document && root.document.getElementById("aiCode");
     const observations = root.document && root.document.getElementById("aiObservations");
     const language = root.MaintenanceI18n && typeof root.MaintenanceI18n.getLanguage === "function"
@@ -182,6 +181,7 @@
     const consent = root.document && root.document.getElementById("aiCloudConsent");
     const machine = root.document && root.document.getElementById("aiMachine");
     const symptom = root.document && root.document.getElementById("aiSymptom");
+    const model = root.document && root.document.getElementById("aiModel");
     const code = root.document && root.document.getElementById("aiCode");
     const observations = root.document && root.document.getElementById("aiObservations");
     const measurement = root.document && root.document.getElementById("aiMeasurementStatus");
