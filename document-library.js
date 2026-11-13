@@ -634,6 +634,12 @@
       if (claim.approved === true && (!String(claim.equipmentFamily || doc.equipmentFamily || "").trim() || !String(claim.modelApplicability || "").trim())) throw new Error("لا يمكن اعتماد ادعاء دون تحديد عائلة المعدة ونطاق الموديل أو التصريح بأنه عام.");
       const pageEvidence = await getPageEvidence(doc.id, pageNumber);
       if (!pageEvidence.chunks.length) throw new Error("لا توجد مقاطع مستخرجة لهذه الصفحة. أعد استخراجها أو اختر صفحة تحتوي نصًا قابلًا للمراجعة.");
+      const ocrChunks = pageEvidence.chunks.filter(item => item.extractionMethod === "ocr");
+      const ocrConfidenceValues = ocrChunks.map(item => item.ocrConfidence).filter(Number.isFinite);
+      if (ocrConfidenceValues.some(value => value < 0 || value > 100)) throw new Error("قيمة OCR confidence خارج النطاق المتوقع؛ أعد استخراج الصفحة.");
+      if (claim.approved === true && ocrChunks.length && claim.ocrVisuallyVerified !== true) {
+        throw new Error("لا يمكن اعتماد ادعاء مستخرج بـOCR قبل مقارنة النص بصريًا مع صفحة PDF الأصلية وتأكيد المراجعة.");
+      }
       const rightsStatus = claim.rightsVerified === true && doc.rightsStatus === "verified" ? "verified" : "unverified";
       const approved = claim.approved === true && doc.reviewStatus === "approved" && rightsStatus === "verified";
       if (claim.approved === true && !approved) throw new Error("لا يمكن اعتماد الادعاء قبل اعتماد الوثيقة والتحقق من حقوقها.");
@@ -644,7 +650,8 @@
         text: textValue,
         sourceChunkIds: pageEvidence.chunks.map(item => item.id),
         pageExtractionMethods: [...new Set(pageEvidence.chunks.map(item => item.extractionMethod))],
-        pageOcrConfidence: pageEvidence.chunks.map(item => item.ocrConfidence).filter(Number.isFinite),
+        pageOcrConfidence: ocrConfidenceValues,
+        ocrVisuallyVerified: ocrChunks.length ? claim.ocrVisuallyVerified === true : null,
         equipmentFamily: String(claim.equipmentFamily || doc.equipmentFamily || "").trim(),
         modelApplicability: String(claim.modelApplicability || "").trim(),
         evidenceClass: String(claim.evidenceClass || "manufacturer_manual"),
