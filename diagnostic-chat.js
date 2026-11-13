@@ -245,7 +245,7 @@
       addMessage("assistant", copy("أكمل تحديد المعدة والعَرَض أولًا حتى لا نرسل طلبًا ناقصًا.", "Identify the equipment and symptom first so an incomplete request is not sent.", "Identifiez d’abord l’équipement et le symptôme afin de ne pas envoyer une demande incomplète."));
       return;
     }
-    if (!root.MaintenanceAgentUI || typeof root.MaintenanceAgentUI.runCloudAI !== "function" || !workerConsent || !observations) {
+    if (!root.MaintenanceAgentUI || typeof root.MaintenanceAgentUI.runCloudAI !== "function" || !workerConsent) {
       addMessage("assistant", copy("طبقة الذكاء التوليدي غير متاحة في هذه النسخة.", "The generative AI adapter is unavailable in this build.", "L’adaptateur d’IA générative n’est pas disponible dans cette version."));
       return;
     }
