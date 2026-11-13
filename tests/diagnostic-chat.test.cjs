@@ -48,6 +48,8 @@ test("conversational diagnostic layer uses local session actions and approved PD
   assert.match(source, /retrievedContext/);
   assert.match(source, /current\.machine !== retrievedContext\.machine/);
   assert.match(source, /current\.model !== retrievedContext\.model/);
+  assert.match(source, /current\.code !== retrievedContext\.code/);
+  assert.match(source, /current\.observations !== retrievedContext\.observations/);
   assert.match(source, /current\.technicianInput !== retrievedContext\.technicianInput/);
   assert.match(source, /approved text excerpts that I requested to retrieve/);
   assert.match(source, /openSourcePage/);
