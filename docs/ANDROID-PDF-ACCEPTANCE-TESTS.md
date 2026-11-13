@@ -29,6 +29,7 @@ Status: required manual validation; not yet performed.
 - [ ] Test low-storage behavior and document deletion.
 - [ ] Confirm unreviewed documents and claims never appear in diagnostic evidence.
 - [ ] Approve a test document and one page claim with verified rights; confirm only the matching equipment family/model retrieves it.
+- [ ] Change the document's rights, edition, or equipment scope; confirm prior claims are marked stale and no longer retrieved until reviewed again under the new document revision.
 - [ ] Tap the diagnostic citation and verify the exact original PDF page opens.
 
 ## Failure record
