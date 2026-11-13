@@ -284,7 +284,7 @@ const checks = [
   ["Service worker caches the app shell and icon with a bumped cache version", () => {
     assert.match(sw, /APP_SHELL/);
     assert.match(sw, /\.\/icon\.svg/);
-    assert.match(sw, /maintenance-ai-toolkit-v58/);
+    assert.match(sw, /maintenance-ai-toolkit-v60/);
   }]
 ,
   ["Multilingual fault library covers pumps, motors, VFDs and compressors", () => {
@@ -396,7 +396,7 @@ const checks = [
     for (const node of Object.values(tree.nodes)) if (node.result) assert.ok(node.safe && node.escalate && node.cause);
   }],
   ["PWA caches all new offline dependencies and bumps its cache", () => {
-    assert.match(sw, /maintenance-ai-toolkit-v58/);
+    assert.match(sw, /maintenance-ai-toolkit-v60/);
     for (const asset of ["normalization.js", "knowledge-review.js", "answer-tools.js", "diagnostic-engine.js", "engineering-core.js", "agent-core.js", "agent-ui.js", "diagnostic-session.js", "diagnostic-session-ui.js", "faults.json", "knowledge/faults-supplement.json", "knowledge/oem-platform-index.json", "knowledge/manufacturer-machine-fault-matrix.json", "i18n.js"]) assert.ok(sw.includes(asset), "Missing offline cache asset " + asset);
     assert.match(manifest.icons[0].src, /icon\.svg/);
   }]
@@ -423,10 +423,10 @@ const checks = [
     assert.match(worker, /function applyEvidenceTraceability\(/);
     assert.match(worker, /source_supported_hypothesis/);
     assert.match(worker, /hypothesis_only/);
-    assert.match(worker, /diagnosis = applyEvidenceTraceability\(diagnosis, citations, retrieval\.chunks\)/);
+    assert.match(worker, /diagnosis = applyEvidenceTraceability\(diagnosis, citations, combinedChunks\)/);
   }],
   ["Weak evidence with no retrieval match abstains before Gemini", () => {
-    const abstention = worker.indexOf('if (!retrieval.chunks.length && evidence.level !== "good")');
+    const abstention = worker.indexOf('if (!combinedChunks.length && evidence.level !== "good")');
     const providerCall = worker.indexOf('fetch("https://generativelanguage.googleapis.com');
     assert.ok(abstention >= 0 && providerCall > abstention, "Abstention gate must precede Gemini");
     assert.match(worker, /model_called: false/);

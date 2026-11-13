@@ -6,6 +6,7 @@
 <meta name="theme-color" content="#0f766e">
 <meta name="description" content="Maintenance AI Toolkit — مساعد أولي لتوثيق أعطال الصيانة الصناعية والتحقق من السلامة.">
 <link rel="manifest" href="./manifest.json">
+<link rel="stylesheet" href="./document-library.css">
 <title>Maintenance AI Toolkit</title>
 <style>
 :root{--bg:#f3f6f8;--card:#fff;--ink:#13252b;--muted:#60747b;--line:#dce5e8;--brand:#0f766e;--brand2:#115e59;--warn:#92400e;--danger:#b91c1c;--soft:#e7f5f2;--radius:18px}
@@ -117,7 +118,8 @@ footer{line-height:1.8}
 <div class="card"><h2>مساعد الصيانة — الذكاء الاصطناعي والتشخيص المحلي</h2>
 <p class="hint">اختر التشخيص المحلي دون إرسال البيانات، أو وافق صراحةً لإرسال بيانات الحالة إلى خادم الصيانة عبر Cloudflare Worker. لا تُرسل بيانات سرية أو معلومات تشغيلية حساسة.</p>
 <form id="aiForm">
-<label for="aiMachine">نوع المعدة / الموديل إن عُرف</label><input id="aiMachine" required maxlength="120" placeholder="مثال: مضخة طرد مركزي، موديل غير معروف">
+<label for="aiMachine">نوع المعدة</label><input id="aiMachine" required maxlength="120" placeholder="مثال: مضخة طرد مركزي">
+<label for="aiModel">الشركة والطراز الدقيق (اختياري)</label><input id="aiModel" maxlength="160" placeholder="مثال: Grundfos CR 32-4 / ABB ACS580">
 <label for="aiSymptom">العطل أو العرض الرئيسي</label><input id="aiSymptom" required maxlength="240" placeholder="مثال: ضغط الخروج منخفض">
 <label for="aiCode">رمز الإنذار (اختياري)</label><input id="aiCode" maxlength="300" placeholder="الرمز كما يظهر على الشاشة">
 <label for="aiObservations">الملاحظات والقياسات مع الوحدات (اختياري)</label><textarea id="aiObservations" maxlength="3000" placeholder="اذكر ما لاحظته فقط، ولا تضع بيانات سرية أو معلومات تخص المصنع الحساسة."></textarea>
@@ -205,6 +207,37 @@ footer{line-height:1.8}
 </ul>
 <p class="hint">المراجع العامة لا تتغلب على دليل المصنع الخاص بالموديل أو إجراءات السلامة المحلية. لا تتضمن هذه المكتبة قيم ضبط أو حدود ضغط أو عزوم ربط لأنها تختلف حسب المعدة.</p>
 </div>
+
+<div class="card" id="documentLibraryPanel">
+  <h2>مكتبة وثائق PDF واستخراج المعرفة</h2>
+  <p class="hint">استورد الدليل إلى هذا الجهاز، واستخرج النص حسب صفحات PDF، ثم ابحث فيه وراجع الادعاءات الفنية قبل إتاحتها للتشخيص. لا تُرفع الملفات أو محتوياتها إلى الخادم.</p>
+  <div class="notice">PDF نصي أو ممسوح ضوئيًا. OCR اختياري بالعربية أو الفرنسية أو الإنجليزية. يحتاج محرك القراءة وبيانات اللغة إلى تنزيل أول مرة. حد الملف 40 MB و1200 صفحة، وOCR حتى 150 صفحة مصورة لكل ملف لتقليل استهلاك ذاكرة الهاتف. الحقوق غير معتمدة تلقائيًا.</div>
+  <form id="documentImportForm">
+    <label for="documentPdfFile">اختر ملف PDF</label>
+    <input id="documentPdfFile" type="file" accept="application/pdf,.pdf" required>
+    <div class="document-ocr-controls">
+      <label class="document-ocr-toggle"><input id="documentOcrEnabled" type="checkbox"> تفعيل OCR للصفحات المصورة</label>
+      <label for="documentOcrLanguage">لغة OCR</label>
+      <select id="documentOcrLanguage">
+        <option value="eng">English</option>
+        <option value="fra">Français</option>
+        <option value="ara">العربية</option>
+        <option value="eng+fra+ara">English + Français + العربية</option>
+      </select>
+    </div>
+    <button class="btn" id="documentImportButton" type="submit">استيراد وفهرسة محلية</button>
+  </form>
+  <p id="documentLibraryStatus" role="status" aria-live="polite">الملفات والنصوص تحفظ في IndexedDB على هذا الجهاز فقط.</p>
+  <form id="documentSearchForm">
+    <label for="documentSearchQuery">بحث داخل الوثائق المستوردة</label>
+    <input id="documentSearchQuery" type="search" placeholder="مثال: cavitation / pression aspiration / ضغط السحب">
+    <button class="btn secondary" type="submit">بحث في الصفحات</button>
+  </form>
+  <div id="documentSearchResults" aria-live="polite"></div>
+  <h3>الوثائق على هذا الجهاز</h3>
+  <div id="documentLibraryList"></div>
+</div>
+
 </section>
 <section id="safety" class="panel">
 <div class="card"><h2>قائمة تحقق قبل التدخل</h2><p class="hint">هذه القائمة لا تستبدل إجراءات السلامة المعتمدة في موقع العمل.</p>
@@ -547,6 +580,12 @@ if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigato
 <script src="./agent-ui.js"></script>
 <script src="./diagnostic-session.js"></script>
 <script src="./diagnostic-session-ui.js"></script>
+<script src="./diagnostic-chat.js"></script>
+<script src="./document-library-core.js"></script>
+<script src="./document-library.js"></script>
+<script src="./document-retrieval-adapter.js"></script>
+<script src="./document-review-workspaces.js"></script>
+<script src="./diagnostic-document-evidence.js"></script>
 <footer class="author">
 <p>صمّمه وطوّره: <strong>Seif Eddine Belaggoune</strong> — تقني صيانة صناعية</p>
 <p><a href="./cv.html" target="_blank" rel="noopener noreferrer">📄 السيرة الذاتية (CV)</a></p>

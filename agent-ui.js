@@ -181,6 +181,7 @@
     const consent = root.document && root.document.getElementById("aiCloudConsent");
     const machine = root.document && root.document.getElementById("aiMachine");
     const symptom = root.document && root.document.getElementById("aiSymptom");
+    const model = root.document && root.document.getElementById("aiModel");
     const code = root.document && root.document.getElementById("aiCode");
     const observations = root.document && root.document.getElementById("aiObservations");
     const measurement = root.document && root.document.getElementById("aiMeasurementStatus");
@@ -208,13 +209,24 @@
         : "جارٍ الاتصال بمزود الذكاء الاصطناعي المحدد…";
     }
     try {
+      const guided = root.MaintenanceDiagnosticSessionUI && typeof root.MaintenanceDiagnosticSessionUI.getPayload === "function"
+        ? root.MaintenanceDiagnosticSessionUI.getPayload() : {};
       const payload = {
         machine: machine.value.trim(),
+        model: model ? model.value.trim() : "",
         symptom: symptom.value.trim(),
         code: code ? code.value.trim() : "",
         observations: observations ? observations.value.trim() : "",
         measurementStatus: measurement ? measurement.value : "unknown",
-        language: ["ar", "en", "fr"].includes(language) ? language : "ar"
+        language: ["ar", "en", "fr"].includes(language) ? language : "ar",
+        diagnosticFlowId: typeof guided.diagnosticFlowId === "string" ? guided.diagnosticFlowId : "",
+        diagnosticEvidence: Array.isArray(guided.diagnosticEvidence) ? guided.diagnosticEvidence.slice(0, 12) : [],
+        approvedPdfExcerpts: root.MaintenanceDiagnosticChat && typeof root.MaintenanceDiagnosticChat.getApprovedExcerpts === "function"
+          ? root.MaintenanceDiagnosticChat.getApprovedExcerpts().slice(0, 3) : [],
+        conversationContext: root.MaintenanceDiagnosticChat && typeof root.MaintenanceDiagnosticChat.getConversationContext === "function"
+          ? root.MaintenanceDiagnosticChat.getConversationContext().slice(0, 1200) : "",
+        technicianChatInput: root.MaintenanceDiagnosticChat && typeof root.MaintenanceDiagnosticChat.getTechnicianChatInput === "function"
+          ? root.MaintenanceDiagnosticChat.getTechnicianChatInput().slice(0, 1200) : ""
       };
       const response = await root.fetch(WORKER_ENDPOINT, {
         method: "POST",
