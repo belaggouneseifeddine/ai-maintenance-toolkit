@@ -62,6 +62,7 @@
       '<button type="button" class="btn secondary" id="openClaimSourcePage">فتح صفحة PDF الأصلية للمقارنة</button>' +
       '<p id="claimPageStatus" class="hint" role="status" aria-live="polite"></p>' +
       '<pre id="claimPagePreview" class="document-page-preview"></pre>' +
+      '<p id="claimCriticalTokens" class="hint" aria-live="polite"></p>' +
       '<label class="check"><input id="claimOcrVisuallyVerified" type="checkbox" disabled> قارنت نص OCR مع صفحة PDF الأصلية، وتحققت من الأرقام والوحدات ورموز الموديلات</label>' +
       '<label for="claimText">الادعاء الفني بعد مراجعته</label><textarea id="claimText" rows="5" placeholder="اكتب ادعاءً محددًا، ولا تنقل فصلًا كاملًا. احتفظ بالشروط والقيم والوحدات."></textarea>' +
       '<label for="claimFamily">عائلة المعدة / نطاق الانطباق</label><input id="claimFamily" placeholder="مثال: centrifugal pump">' +
@@ -87,6 +88,9 @@
         if (!evidence.chunks.length) throw new Error("لم يُستخرج نص لهذه الصفحة. فعّل OCR أو تحقق من جودة الصفحة.");
         $("claimPagePreview").textContent = evidence.text;
         $("claimText").value = evidence.text;
+        $("claimCriticalTokens").textContent = evidence.criticalTokens.length
+          ? "قيم ووحدات ورموز تستحق المقارنة مع الأصل: " + evidence.criticalTokens.join(" | ")
+          : "لم يُكتشف نمط واضح لقيم ووحدات أو رموز فنية؛ تحقق من الصفحة الأصلية يدويًا.";
         const methods = [...new Set(evidence.chunks.map(chunk => chunk.extractionMethod))];
         const confidences = evidence.chunks.map(chunk => chunk.ocrConfidence).filter(Number.isFinite);
         const hasOcr = methods.includes("ocr");
