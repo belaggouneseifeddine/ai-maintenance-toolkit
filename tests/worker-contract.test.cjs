@@ -185,6 +185,7 @@ test("Worker returns validated structured diagnosis and accepts missing readings
   assert.equal(upstreamPayload.response_format.schema.type, "object");
   assert.equal(upstreamPayload.store, false);
   assert.match(upstreamPayload.input, /no reading available/);
+  assert.match(upstreamPayload.input, /Grundfos CR 10-4/);
   assert.match(upstreamPayload.system_instruction, /untrusted data/i);
 });
 
@@ -247,6 +248,7 @@ test("retrieved prompt-injection text remains untrusted reference data", async (
       headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
       body: JSON.stringify({
         machine: "مضخة طرد مركزي",
+        model: "Grundfos CR 10-4",
         symptom: "ضعف تدفق الماء أثناء التشغيل",
         observations: "لا توجد قراءة ضغط أو تدفق متاحة حتى الآن",
         measurementStatus: "none",
