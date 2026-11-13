@@ -20,7 +20,8 @@ Status: required manual validation; not yet performed.
 - [ ] Search for a technical term; confirm the result cites the correct 1-based PDF page.
 - [ ] Tap “open source page”; confirm the PDF viewer opens that exact page.
 - [ ] Repeat with Arabic, French and English OCR enabled separately.
-- [ ] Compare OCR text against the visible source page; record confidence and errors.
+- [ ] For a text-based PDF, preview a page, open the original PDF page, compare the technical claim with the source context, and confirm page review before approving the claim.
+- [ ] Compare OCR text against the visible source page; record confidence and errors, then confirm both source-page review and OCR visual verification before approval.
 - [ ] Confirm OCR pages over the 150-page cap are explicitly reported as skipped.
 - [ ] Confirm a mixed printed/PDF page label can be recorded separately.
 - [ ] Close and reopen the app; confirm IndexedDB documents and claims remain available.
