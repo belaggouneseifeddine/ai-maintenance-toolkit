@@ -77,7 +77,7 @@ test("all document assets are included in both deployment artifacts and optional
     assert.ok(pages.includes(asset), "GitHub Pages workflow must include " + asset);
     assert.ok(cloudflare.includes(asset), "Cloudflare Pages workflow must include " + asset);
   }
-  assert.match(sw, /maintenance-ai-toolkit-v59/);
+  assert.match(sw, /maintenance-ai-toolkit-v60/);
   assert.match(sw, /const OPTIONAL_APP_SHELL = \[/);
 });
 
