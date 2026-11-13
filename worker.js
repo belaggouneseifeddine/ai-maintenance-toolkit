@@ -644,7 +644,7 @@ export default {
     if (![machine, model, symptom, code, observations, measurementStatus, language, conversationContext].every(v => typeof v === "string")) {
       return json({ error: "All fields must be text." }, 400, origin);
     }
-    if (machine.length > 120 || model.length > 160 || symptom.length > 240 || code.length > 300 || observations.length > 3000 || conversationContext.length > 1800 || !["unknown", "none", "available"].includes(measurementStatus) || !LANGUAGES.has(language)) {
+    if (machine.length > 120 || model.length > 160 || symptom.length > 240 || code.length > 300 || observations.length > 3000 || conversationContext.length > 1200 || !["unknown", "none", "available"].includes(measurementStatus) || !LANGUAGES.has(language)) {
       return json({ error: "Input too long or language unsupported." }, 413, origin);
     }
     if (!machine.trim() || !symptom.trim()) return json({ error: "Equipment and symptom are required." }, 400, origin);
@@ -670,7 +670,7 @@ export default {
         !approvedPdfExcerpts.every(item => item && typeof item === "object" && !Array.isArray(item) &&
           typeof item.documentTitle === "string" && item.documentTitle.length > 0 && item.documentTitle.length <= 160 &&
           typeof item.citation === "string" && item.citation.length <= 240 &&
-          typeof item.text === "string" && item.text.length > 0 && item.text.length <= 600)) {
+          typeof item.text === "string" && item.text.length > 0 && item.text.length <= 350)) {
       return json({ error: "Invalid user-approved PDF excerpts.", code: "invalid_approved_pdf_excerpts" }, 400, origin);
     }
     const curatedFlow = diagnosticFlowId ? CURATED_DIAGNOSTIC_FLOWS[diagnosticFlowId] : null;
