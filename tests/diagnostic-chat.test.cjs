@@ -49,6 +49,8 @@ test("conversational diagnostic layer uses local session actions and approved PD
   assert.match(agentUI, /approvedPdfExcerpts/);
   assert.match(source, /getApprovedExcerpts/);
   assert.match(source, /getConversationContext/);
+  assert.match(source, /getTechnicianChatInput/);
+  assert.match(agentUI, /technicianChatInput/);
   assert.match(agentUI, /conversationContext/);
   assert.match(agentUI, /model: model \? model\.value\.trim\(\) : ""/);
   assert.match(source, /لا تنفّذ اختبارًا/);
