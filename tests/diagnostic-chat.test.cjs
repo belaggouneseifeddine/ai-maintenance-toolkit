@@ -38,3 +38,16 @@ test("conversational diagnostic layer uses local session actions and approved PD
   assert.match(source, /لا تنفّذ اختبارًا/);
   assert.doesNotMatch(source, /fetch\s*\(/, "chat UI must not upload conversation data");
 });
+
+test("chat is loaded after the local session UI and included in offline and deployment assets", () => {
+  const fs = require("node:fs");
+  const root = require("node:path").resolve(__dirname, "..");
+  const html = fs.readFileSync(require("node:path").join(root, "index.html"), "utf8");
+  const sw = fs.readFileSync(require("node:path").join(root, "sw.js"), "utf8");
+  const pages = fs.readFileSync(require("node:path").join(root, ".github/workflows/deploy-pages.yml"), "utf8");
+  const cloudflare = fs.readFileSync(require("node:path").join(root, ".github/workflows/deploy-cloudflare-pages.yml"), "utf8");
+  assert.ok(html.indexOf('diagnostic-session-ui.js') < html.indexOf('diagnostic-chat.js'));
+  assert.ok(sw.includes('"./diagnostic-chat.js"'));
+  assert.ok(pages.includes("diagnostic-chat.js"));
+  assert.ok(cloudflare.includes("diagnostic-chat.js"));
+});
