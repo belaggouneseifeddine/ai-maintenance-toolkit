@@ -53,7 +53,9 @@ test("document review UI excludes deferred Study and exposes page preview", () =
   assert.ok(review.includes("claimOcrVisuallyVerified"));
   assert.ok(review.includes("claimSourcePageVerified"));
   assert.ok(review.includes("claimCriticalTokens"));
-  assert.ok(review.includes("openedSourceKey === selectedPageKey()"));
+  assert.ok(review.includes("openedSourceKey === selectedReviewKey()"));
+  assert.ok(review.includes("previewedPageKey !== selectedPageKey()"));
+  assert.ok(review.includes("invalidateClaimReview"));
   assert.ok(read("document-library.js").includes("CORE.extractCriticalTokens(pageText)"));
   assert.doesNotMatch(review, /Study|studyQuery|runDocumentStudy/);
 });
