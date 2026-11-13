@@ -15,7 +15,7 @@ Current limits: 40 MiB per file, 1,200 pages per file, and optional OCR on up to
 
 ## Shared knowledge contract
 
-All consumers use the same IndexedDB index through `MaintenanceDocumentLibrary.retrieve(query, { consumer })`. The loaded `document-retrieval-adapter.js` exposes separate `forResearch`, `forStudy`, and `forDiagnostics` entrypoints. Each result carries the same source reference and page citation; the adapter never merges the three consumers into one result stream.
+All consumers use the same IndexedDB index through `MaintenanceDocumentLibrary.retrieve(query, { consumer })`. The loaded `document-retrieval-adapter.js` currently exposes only `forDiagnostics`. The underlying library accepts additional consumer labels for general retrieval, but this is not a completed Deep Research or Study integration.
 
 - `documentId`
 - `fileName` and content SHA-256
@@ -25,6 +25,10 @@ All consumers use the same IndexedDB index through `MaintenanceDocumentLibrary.r
 - `reviewStatus`, `rightsStatus`, `evidenceClass`, `claimIds` (future review metadata)
 
 The diagnostic consumer is separate from general document search. It returns only approved page-level claims with verified rights, exact equipment-family applicability, and a model match or explicitly generic scope. Retrieved claims remain supporting evidence and do not automatically confirm a fault or change the deterministic diagnosis.
+
+Equipment applicability now uses canonical family matching so specific pump subtypes are not interchangeable. Model applicability compares the complete normalized designation; shared tokens such as a manufacturer or series prefix are insufficient. A generic model scope is accepted only when explicitly recorded. Local ranking uses a BM25-style lexical score over candidate chunks from the inverted index; it is not full-corpus BM25, semantic retrieval, or a calibrated relevance probability.
+
+For OCR-derived claims, approval requires opening the original PDF page and explicitly confirming visual comparison. The review workspace surfaces candidate numeric/unit/model tokens for manual checking. OCR confidence remains an informational recognition signal, not proof that a number, decimal separator, unit, or model code is correct.
 
 ## Trust and rights boundaries
 
@@ -38,9 +42,9 @@ The diagnostic consumer is separate from general document search. It returns onl
 ## Next engineering stages
 
 1. Add source review UI: edition/model applicability, rights evidence, reviewer, claim-level page citations, and contradiction records.
-2. Add OCR quality review, correction UI, and per-page confidence thresholds before any OCR-derived claim can be approved.
+2. Expand OCR quality review and correction UI; require visual comparison of OCR-derived claims against the original page and verify numeric values, units, decimal separators, and model codes. Do not treat OCR confidence as a calibrated probability or impose a universal threshold without validation.
 3. Integrate the typed retrieval API into Deep Research and Study; Diagnostics must continue to filter strictly to approved documents with verified rights and an explicit eligible flag.
-4. Add relevance evaluation fixtures for Arabic, French, and English queries and scanned/manual test PDFs.
+4. Expand labelled relevance evaluation fixtures for Arabic, French, and English queries, including exact model and equipment-family mismatch cases.
 5. Add optional export/backup and explicit cross-device sync; do not silently upload PDFs.
 
 ## OCR dependency\n\nTesseract.js is pinned to 5.1.1 and loaded only when the user enables OCR and the parser encounters a page without extractable text. Its upstream project is licensed under Apache-2.0. The official project documents the browser worker API and language data loading: https://github.com/naptha/tesseract.js\n\n## PDF.js dependency
