@@ -82,3 +82,12 @@ test("explicit generic model scope is the only model-free fallback", () => {
   assert.equal(Core.modelApplicabilityMatches("all models", "Unknown Model X"), true);
   assert.equal(Core.modelApplicabilityMatches("Grundfos CR 10", ""), false);
 });
+
+test("critical-token extraction flags numeric units and equipment/model codes for visual review", () => {
+  const tokens = Core.extractCriticalTokens("Pressure 2.5 bar, flow 12 m3/h, motor 1450 rpm, drive ACS580, bearing 6202-2Z.");
+  assert.ok(tokens.some(token => /2\.5\s*bar/i.test(token)));
+  assert.ok(tokens.some(token => /12\s*m3\/h/i.test(token)));
+  assert.ok(tokens.some(token => /1450\s*rpm/i.test(token)));
+  assert.ok(tokens.some(token => /ACS580/i.test(token)));
+  assert.ok(tokens.some(token => /6202-2Z/i.test(token)));
+});
