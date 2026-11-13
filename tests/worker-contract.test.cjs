@@ -450,7 +450,6 @@ test("weak evidence plus no relevant retrieval abstains before an AI provider", 
       machine: "unknown machine",
       symptom: "the system behaves strangely",
       observations: "",
-      technicianChatInput: "the system behaves strangely",
       conversationContext: "Technician: the system behaves strangely. Assistant: what exact symptom do you see?",
       code: "",
       language: "en"
