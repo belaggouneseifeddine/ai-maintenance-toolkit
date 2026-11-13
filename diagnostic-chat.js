@@ -81,9 +81,9 @@
   function resolveEquipmentContext(text, equipment) {
     const value = String(text || "");
     if (equipment && equipment.id === "pump") {
-      if (/centrifugal|centrifuge|طرد\\s*مركزي/i.test(value)) return "centrifugal pump";
-      if (/gear\\s*pump|engrenages|تروس|مسنن/i.test(value)) return "gear pump";
-      if (/screw\\s*pump|pompe\\s*à\\s*vis|لولبي/i.test(value)) return "screw pump";
+      if (/centrifugal|centrifuge|طرد\s*مركزي/i.test(value)) return "centrifugal pump";
+      if (/gear\s*pump|engrenages|تروس|مسنن/i.test(value)) return "gear pump";
+      if (/screw\s*pump|pompe\s*à\s*vis|لولبي/i.test(value)) return "screw pump";
     }
     return equipment ? equipment.id : "";
   }
