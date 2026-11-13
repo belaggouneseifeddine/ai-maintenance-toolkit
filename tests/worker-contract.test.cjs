@@ -167,6 +167,7 @@ test("Worker returns validated structured diagnosis and accepts missing readings
     headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
     body: JSON.stringify({
       machine: "مضخة طرد مركزي",
+      model: "Grundfos CR 10-4",
       symptom: "ضعف تدفق الماء أثناء التشغيل",
       code: "",
       observations: "لا توجد قراءة ضغط أو تدفق متاحة حتى الآن",
