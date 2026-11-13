@@ -388,9 +388,11 @@
         .sort((a, b) => a.chunkIndex - b.chunkIndex));
       request.onerror = () => reject(request.error || new Error("تعذر قراءة نص الصفحة."));
     });
+    const pageText = chunks.map(item => item.text).join("\n\n");
     return {
       pageNumber: page,
-      text: chunks.map(item => item.text).join("\n\n"),
+      text: pageText,
+      criticalTokens: CORE.extractCriticalTokens(pageText),
       chunks: chunks.map(item => ({
         id: item.id, extractionMethod: item.extractionMethod,
         ocrConfidence: item.ocrConfidence, chunkIndex: item.chunkIndex
