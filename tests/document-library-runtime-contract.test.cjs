@@ -38,7 +38,9 @@ test("reviewed diagnostic claims must point to extracted chunks and verified doc
   assert.ok(source.includes("doc.eligibleForDiagnosis === true"));
   assert.match(source, /CORE\.equipmentFamilyMatches\(family, equipment\)/);
   assert.match(source, /CORE\.modelApplicabilityMatches\(modelScope, model\)/);
+  assert.match(source, /claim\.sourcePageVerified !== true/);
   assert.match(source, /claim\.ocrVisuallyVerified !== true/);
+  assert.match(source, /sourcePageVerified: claim\.sourcePageVerified === true/);
   assert.match(source, /pageOcrConfidence: ocrConfidenceValues/);
 });
 
@@ -49,8 +51,9 @@ test("document review UI excludes deferred Study and exposes page preview", () =
   assert.ok(review.includes("عرض النص المستخرج من الصفحة"));
   assert.ok(review.includes("openClaimSourcePage"));
   assert.ok(review.includes("claimOcrVisuallyVerified"));
+  assert.ok(review.includes("claimSourcePageVerified"));
   assert.ok(review.includes("claimCriticalTokens"));
-  assert.ok(review.includes("ocrSourcePageOpened &&"));
+  assert.ok(review.includes("openedSourceKey === selectedPageKey()"));
   assert.ok(read("document-library.js").includes("CORE.extractCriticalTokens(pageText)"));
   assert.doesNotMatch(review, /Study|studyQuery|runDocumentStudy/);
 });
