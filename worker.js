@@ -399,14 +399,16 @@ const GENERIC_RETRIEVAL_TERMS = new Set([
 ]);
 
 function hasRelevantKnowledgeMatch(chunk, { machine, symptom, code, observations }) {
-  const sourceTokens = new Set(normalizeEvidenceText(chunk.heading + " " + chunk.text).split(" "));
+  const sourceText = normalizeEvidenceText(chunk.heading + " " + chunk.text);
   const usefulTerms = value => evidenceTerms(value).filter(term => !GENERIC_RETRIEVAL_TERMS.has(term));
   const machineTerms = usefulTerms(machine);
   const symptomTerms = usefulTerms(symptom);
   const otherTerms = [...usefulTerms(code), ...usefulTerms(observations)];
-  const matchedMachine = machineTerms.filter(term => sourceTokens.has(term));
-  const matchedSymptom = symptomTerms.filter(term => sourceTokens.has(term));
-  const matchedOther = otherTerms.filter(term => sourceTokens.has(term));
+  // Substring matching preserves simple singular/plural and inflection variants
+  // after normalization (e.g. pump/pumps) without allowing generic one-word hits.
+  const matchedMachine = machineTerms.filter(term => sourceText.includes(term));
+  const matchedSymptom = symptomTerms.filter(term => sourceText.includes(term));
+  const matchedOther = otherTerms.filter(term => sourceText.includes(term));
   const distinctMatches = new Set([...matchedMachine, ...matchedSymptom, ...matchedOther]);
   // A generic one-word overlap is not evidence that a retrieved section applies.
   // Require a symptom match plus another independent query term, or an exact
