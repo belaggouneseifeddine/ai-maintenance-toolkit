@@ -285,7 +285,7 @@
       <div class="actions"><button id="diagnosticChatReset" class="btn secondary" type="button">${copy("بدء محادثة جديدة", "Start a new conversation", "Nouvelle conversation")}</button></div>
       <p class="hint">${copy("السلامة مستقلة عن المحادثة: لا تنفّذ اختبارًا أو تفتح نظامًا مضغوطًا أو لوحة كهربائية حية بناءً على الرد. اتبع LOTO وإجراءات الموقع وصعّد عند الخطر.", "Safety is independent of the conversation: do not perform a test, open a pressurized system, or access a live electrical panel based on a chat response. Follow LOTO and site procedures; escalate hazards.", "La sécurité est indépendante de la conversation : n’effectuez aucun essai et n’ouvrez aucun circuit sous pression ou armoire sous tension sur la base d’une réponse. Appliquez la consignation et les procédures du site.")}</p>
     `;
-    hostForm.insertAdjacentElement("afterend", panel);
+    hostForm.insertAdjacentElement("beforebegin", panel);
     $("diagnosticChatForm").addEventListener("submit", event => {
       event.preventDefault();
       const input = $("diagnosticChatInput");
