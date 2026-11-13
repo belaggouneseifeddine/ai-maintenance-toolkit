@@ -274,6 +274,11 @@
     }
   }
 
+  function getTechnicianChatInput() {
+    return messages.filter(message => message.role === "user").slice(-8)
+      .map(message => message.text).join("\n").slice(-1200);
+  }
+
   function getConversationContext() {
     const guided = root.MaintenanceDiagnosticSessionUI && typeof root.MaintenanceDiagnosticSessionUI.getPayload === "function"
       ? root.MaintenanceDiagnosticSessionUI.getPayload() : {};
@@ -391,7 +396,7 @@
     resetConversation();
     initialized = true;
   }
-  root.MaintenanceDiagnosticChat = Object.freeze({ init, handleMessage, reset: resetConversation, classifyInput, extractModelDesignation, getApprovedExcerpts: () => retrievedExcerpts.map(item => ({ ...item })), getConversationContext });
+  root.MaintenanceDiagnosticChat = Object.freeze({ init, handleMessage, reset: resetConversation, classifyInput, extractModelDesignation, getApprovedExcerpts: () => retrievedExcerpts.map(item => ({ ...item })), getConversationContext, getTechnicianChatInput });
   if (typeof module !== "undefined" && module.exports) module.exports = root.MaintenanceDiagnosticChat;
   if (root.document) {
     if (root.document.readyState === "loading") root.document.addEventListener("DOMContentLoaded", init);
