@@ -91,6 +91,62 @@
     return scored.slice(0, Math.max(1, limit || 12));
   }
 
+  function canonicalEquipmentFamily(value) {
+    const text = normalizeText(value)
+      .replace(/[._-]+/g, " ")
+      .replace(/[()[\],]/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+    if (!text) return "";
+    const patterns = [
+      ["centrifugal_pump", /centrifugal\s+pumps?|pompe[s]?\s+centrifuge(?:e|es)?|مضخ(?:ة|ات)\s+طرد\s+مركزي/],
+      ["gear_pump", /gear\s+pumps?|pompe[s]?\s+a\s+engrenages?|مضخ(?:ة|ات)\s+(?:تروس|مسنن[ةه])/],
+      ["screw_pump", /screw\s+pumps?|pompe[s]?\s+a\s+vis|مضخ(?:ة|ات)\s+لولبي[ةه]/],
+      ["diaphragm_pump", /diaphragm\s+pumps?|pompe[s]?\s+a\s+membrane|مضخ(?:ة|ات)\s+غشائي[ةه]/],
+      ["submersible_pump", /submersible\s+pumps?|pompe[s]?\s+immerge(?:e|es)?|مضخ(?:ة|ات)\s+غاطس[ةه]/],
+      ["positive_displacement_pump", /positive\s+displacement\s+pumps?|pompe[s]?\s+volumetrique[s]?|مضخ(?:ة|ات)\s+ازاحة\s+موجب[ةه]/],
+      ["pump", /\bpumps?\b|\bpompes?\b|مضخ(?:ة|ات)/],
+      ["electric_motor", /electric\s+motors?|moteur[s]?\s+electrique[s]?|محرك(?:ات)?\s+كهربائي[ةه]/],
+      ["motor", /\bmotor[s]?\b|\bmoteur[s]?\b|محرك(?:ات)?/],
+      ["compressor", /\bcompressors?\b|\bcompresseurs?\b|ضواغط?|ضاغط/],
+      ["valve", /\bvalves?\b|\bvannes?\b|صمام(?:ات)?/],
+      ["bearing", /\bbearings?\b|\broulements?\b|محامل?|محمل/]
+    ];
+    const found = patterns.find(([, pattern]) => pattern.test(text));
+    return found ? found[0] : text;
+  }
+
+  function equipmentFamilyMatches(scope, observed) {
+    const expected = canonicalEquipmentFamily(scope);
+    const actual = canonicalEquipmentFamily(observed);
+    if (!expected || !actual) return false;
+    if (expected === actual) return true;
+    return (expected === "pump" && actual.endsWith("_pump")) ||
+      (expected === "motor" && actual === "electric_motor");
+  }
+
+  function normalizeModelDesignation(value) {
+    return normalizeText(value)
+      .replace(/[‐‑‒–—−]/g, "-")
+      .replace(/[^\p{L}\p{N}]+/gu, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function modelApplicabilityMatches(scope, observed) {
+    const generic = normalizeText(scope)
+      .replace(/[-_]+/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+    if (/^(?:generic|all models|family wide|not model specific|générique|generique|غير مرتبط بموديل|جميع الموديلات|كل الموديلات|عام)$/.test(generic)) return true;
+    const actual = normalizeModelDesignation(observed);
+    if (!actual) return false;
+    const alternatives = String(scope || "").split(/[;,|]/)
+      .map(normalizeModelDesignation)
+      .filter(Boolean);
+    return alternatives.includes(actual);
+  }
+
   function isDiagnosticEligible(document) {
     return Boolean(document &&
       document.eligibleForDiagnosis === true &&
@@ -120,5 +176,5 @@
     return title + ", p. " + String(pageNumber || "?");
   }
 
-  return { normalizeText, tokenize, chunkPage, buildPostings, rankChunks, makeCitation, isDiagnosticEligible, makeSourceRef };
+  return { normalizeText, tokenize, chunkPage, buildPostings, rankChunks, canonicalEquipmentFamily, equipmentFamilyMatches, normalizeModelDesignation, modelApplicabilityMatches, makeCitation, isDiagnosticEligible, makeSourceRef };
 });
