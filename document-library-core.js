@@ -104,7 +104,7 @@
   }
 
   function canonicalEquipmentFamily(value) {
-    const text = normalizeText(value)
+    const text = normalizeText(value).normalize("NFD").replace(/\p{M}/gu, "")
       .replace(/[._-]+/g, " ")
       .replace(/[()[\],]/g, " ")
       .replace(/\s+/g, " ")
@@ -138,7 +138,7 @@
   }
 
   function normalizeModelDesignation(value) {
-    return normalizeText(value)
+    return normalizeText(value).normalize("NFD").replace(/\p{M}/gu, "")
       .replace(/[‐‑‒–—−]/g, "-")
       .replace(/[^\p{L}\p{N}]+/gu, " ")
       .replace(/\s+/g, " ")
@@ -163,7 +163,7 @@
     const source = String(value || "");
     const found = [];
     const patterns = [
-      /[-+]?\d+(?:[.,]\d+)?(?:\s*(?:to|a|à|–|—|-)\s*[-+]?\d+(?:[.,]\d+)?)?\s*(?:mm|cm|km|bar|kpa|mpa|psi|°\s*[cf]|hz|khz|mhz|kw|mw|w|ma|mv|v|rpm|r\/min|m³?\/h|l\/min|l\/s|m\/s|mm\/s|n[·.]?m|kg|ml|g|l|%)(?![\p{L}])/giu,
+      /[-+]?\d+(?:[.,]\d+)?(?:\s*(?:to|a|à|–|—|-)\s*[-+]?\d+(?:[.,]\d+)?)?\s*(?:mm|cm|km|bar|kpa|mpa|psi|°\s*[cf]|hz|khz|mhz|kw|mw|w|ma|mv|v|rpm|r\/min|m(?:3|³)?\/h|l\/min|l\/s|m\/s|mm\/s|n[·.]?m|kg|ml|g|l|%)(?![\p{L}])/giu,
       /\b[A-Z]{1,10}[\s-]?\d[A-Z0-9]*(?:[-/][A-Z0-9]+)*/gi,
       /\b\d{3,}(?:[-/][A-Z0-9]+)+\b/gi
     ];
