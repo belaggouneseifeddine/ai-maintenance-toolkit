@@ -7,6 +7,7 @@
   let started = false;
   let pendingEquipment = "";
   let pendingSymptom = "";
+  let equipmentContext = "";
   let retrievalSequence = 0;
 
   const EQUIPMENT = [
@@ -58,6 +59,7 @@
     const style = root.document.createElement("style");
     style.id = "diagnosticChatStyles";
     style.textContent = `
+      #dynamicSessionPanel { display:none !important; }
       #diagnosticChat { margin: 14px 0; border: 1px solid var(--line, #d5e0e4); border-radius: 16px; padding: 14px; background: var(--card, #fff); }
       #diagnosticChatMessages { display:flex; flex-direction:column; gap:10px; max-height:420px; overflow:auto; padding:4px 2px 12px; }
       .diagnostic-chat-message { max-width:92%; padding:10px 12px; border-radius:14px; border:1px solid var(--line, #d5e0e4); background:var(--surface, #f7fafb); overflow-wrap:anywhere; }
@@ -76,6 +78,15 @@
   }
   function detectEquipment(text) { return EQUIPMENT.find(item => item.pattern.test(text)) || null; }
   function detectSymptom(text) { return SYMPTOMS.find(item => item.pattern.test(text)) || null; }
+  function resolveEquipmentContext(text, equipment) {
+    const value = String(text || "");
+    if (equipment && equipment.id === "pump") {
+      if (/centrifugal|centrifuge|طرد\\s*مركزي/i.test(value)) return "centrifugal pump";
+      if (/gear\\s*pump|engrenages|تروس|مسنن/i.test(value)) return "gear pump";
+      if (/screw\\s*pump|pompe\\s*à\\s*vis|لولبي/i.test(value)) return "screw pump";
+    }
+    return equipment ? equipment.id : "";
+  }
   function setField(id, value) {
     const field = $(id);
     if (!field) return;
@@ -111,7 +122,8 @@
     const symptom = pendingSymptom || detectSymptom(initialText);
     if (equipment) {
       pendingEquipment = equipment.id;
-      setField("aiMachine", equipment.id);
+      equipmentContext = resolveEquipmentContext(initialText, equipment);
+      setField("aiMachine", equipmentContext || equipment.id);
     }
     if (symptom) {
       pendingSymptom = symptom.id;
@@ -135,6 +147,7 @@
     const summary = renderHypothesisSummary(session);
     if (summary) addMessage("assistant", summary);
     renderReplies();
+    renderEvidenceButton();
     return true;
   }
   function submitKnownAnswer(answerId, label) {
@@ -178,8 +191,8 @@
     const sequence = ++retrievalSequence;
     holder.textContent = copy("جارٍ البحث محليًا في الادعاءات المعتمدة…", "Searching locally among approved claims…", "Recherche locale parmi les affirmations approuvées…");
     const session = currentSession();
-    const query = [pendingEquipment, pendingSymptom, $("aiCode")?.value, $("aiModel")?.value, ...notes].filter(Boolean).join(" ");
-    const result = await api.forDiagnostics(query, { equipment: $("aiMachine")?.value || pendingEquipment, model: $("aiModel")?.value || "" });
+    const query = [pendingEquipment, pendingSymptom, $("aiCode")?.value, $("aiModel")?.value, ...notes, ...messages.map(message => message.text)].filter(Boolean).join(" ");
+    const result = await api.forDiagnostics(query, { equipment: equipmentContext || $("aiMachine")?.value || pendingEquipment, model: $("aiModel")?.value || "" });
     if (sequence !== retrievalSequence) return;
     holder.replaceChildren();
     if (!result.ok || !result.results.length) {
@@ -241,6 +254,7 @@
     started = false;
     pendingEquipment = "";
     pendingSymptom = "";
+    equipmentContext = "";
     retrievalSequence++;
     const machine = $("aiMachine"); const symptom = $("aiSymptom");
     if (machine) machine.value = "";
