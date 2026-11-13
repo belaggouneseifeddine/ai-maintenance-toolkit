@@ -1,6 +1,6 @@
 # Conversational diagnostic architecture
 
-Status: initial local conversational interface; not a completed generative AI system.
+Status: initial local conversational interface with an optional, consent-gated cloud generative assessment; not a persistent multi-turn generative system.
 
 ## User experience
 
@@ -29,11 +29,12 @@ Free text is retained as session context. It changes the diagnostic evidence sta
 
 ## Current limitations
 
-- This is a conversational UI over the existing local rule/evidence engine, not yet a generative language model.
+- The local conversation loop is driven by the existing rule/evidence engine. An optional cloud model can produce a structured preliminary assessment after explicit per-request consent; the model is not the owner of diagnostic state.
 - Initial equipment/symptom recognition is deliberately narrow and alias-based.
 - The current pump low-flow flow is a screening flow, not the full six-case differential diagnosis in the pump pilot casebook.
 - The interface does not yet parse arbitrary measurements into typed measurement records.
-- The optional model call uses the existing one-request diagnosis endpoint; a persistent multi-turn model session and provider-independent conversation protocol are not implemented.
+- The optional model call uses the existing one-request diagnosis endpoint. The exact model designation is passed separately, but the endpoint does not yet maintain a persistent multi-turn model session or a provider-independent conversation protocol.
+- Locally stored PDF excerpts are not uploaded by this chat integration; only the bounded conversation summary, equipment/model/symptom fields, and curated evidence identifiers are sent when the user explicitly consents.
 - Conversation history is in-memory for the current page session; durable session persistence and repair-outcome learning are not implemented.
 - PDF retrieval is user-triggered and only uses claims already approved for diagnostics.
 
@@ -55,5 +56,5 @@ Free text is retained as session context. It changes the diagnostic evidence sta
 - Ambiguous answers are retained without changing evidence or hypothesis ranking.
 - Hypothesis names and provisional status are shown after each accepted answer.
 - Approved PDF evidence can be retrieved and its exact original page opened.
-- The UI makes clear that it is not yet a generative model and does not claim a confirmed diagnosis.
-- No conversation data is uploaded by the chat interface.
+- The UI distinguishes local evidence reasoning from the optional model-generated preliminary assessment and does not claim a confirmed diagnosis.
+- Typing and local retrieval do not upload conversation data; each cloud model request requires explicit consent and a button press.
