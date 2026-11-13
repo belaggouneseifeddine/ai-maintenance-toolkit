@@ -62,11 +62,12 @@ The local review workspace records:
 - Rights evidence, rights verification state, reviewer, and review notes.
 - Individual technical claims with exact original PDF page, equipment scope, model limits, evidence class, reviewer, and review notes.
 
-A document-level review alone never enables diagnostic use. Diagnostic eligibility requires all of the following:
+A document-level review alone never enables diagnostic use. Each document review save increments a review revision; claims from an earlier revision become stale and cannot be retrieved for diagnosis. Diagnostic eligibility requires all of the following:
 1. Document review status is `approved`.
 2. Rights status is `verified` and rights evidence is recorded.
-3. Document eligibility flag is true, set only after an approved claim exists.
-4. The specific page-level claim is approved and its rights state is verified.
+3. Document eligibility flag is true, set only after an approved claim exists for the current review revision.
+4. The specific page-level claim is approved, has verified rights, matches the current document review revision, and records that its original PDF page was opened and reviewed.
+5. If any source chunk on the page came from OCR, the claim also records explicit visual verification of the OCR text against the original page.
 
 The diagnostic retrieval path searches only approved page-level claims. It does not promote raw PDF chunks, OCR text, unreviewed passages, or research/study results into diagnostic evidence. Each returned claim carries document hash, claim ID, page number, reviewer, equipment scope, model applicability, and evidence class. The diagnostic UI exposes these claims in a separate source-evidence panel and opens the original PDF at the claim's page; it does not silently rewrite the deterministic hypothesis ranking.
 
