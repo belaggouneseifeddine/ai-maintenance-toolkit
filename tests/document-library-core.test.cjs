@@ -91,3 +91,23 @@ test("critical-token extraction flags numeric units and equipment/model codes fo
   assert.ok(tokens.some(token => /ACS580/i.test(token)));
   assert.ok(tokens.some(token => /6202-2Z/i.test(token)));
 });
+
+test("BM25-style retrieval ranks Arabic, French and English technical queries", () => {
+  const chunks = [
+    { id: "ar-pump", pageNumber: 3, text: "انخفاض ضغط السحب في مضخة الطرد المركزي", tokens: Core.tokenize("انخفاض ضغط السحب في مضخة الطرد المركزي") },
+    { id: "fr-pump", pageNumber: 4, text: "La pression aspiration diminue lorsque le filtre est obstrué", tokens: Core.tokenize("La pression aspiration diminue lorsque le filtre est obstrué") },
+    { id: "en-bearing", pageNumber: 5, text: "Bearing temperature and vibration trend", tokens: Core.tokenize("Bearing temperature and vibration trend") },
+    { id: "noise", pageNumber: 6, text: "Motor terminal box connection diagram", tokens: Core.tokenize("Motor terminal box connection diagram") }
+  ];
+  assert.equal(Core.rankChunks("ضغط السحب", chunks, 4)[0].doc.id, "ar-pump");
+  assert.equal(Core.rankChunks("pression aspiration", chunks, 4)[0].doc.id, "fr-pump");
+  assert.equal(Core.rankChunks("bearing temperature", chunks, 4)[0].doc.id, "en-bearing");
+});
+
+test("BM25-style ranking rewards query coverage over a single repeated keyword", () => {
+  const chunks = [
+    { id: "partial", text: "bearing bearing bearing bearing", tokens: ["bearing","bearing","bearing","bearing"] },
+    { id: "complete", text: "bearing temperature vibration trend", tokens: ["bearing","temperature","vibration","trend"] }
+  ];
+  assert.equal(Core.rankChunks("bearing temperature", chunks, 2)[0].doc.id, "complete");
+});
