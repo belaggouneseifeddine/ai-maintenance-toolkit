@@ -14,12 +14,13 @@ Free text is retained as session context. It changes the diagnostic evidence sta
 - `diagnostic-session-ui.js`: exposes the current session and guarded answer operations to the chat layer. It maps free text only when a single answer is unambiguous.
 - `diagnostic-session.js`: owns the curated local evidence flow and current hypothesis ranking.
 - `document-retrieval-adapter.js`: returns only diagnostic-eligible approved claims; source-page links remain attached.
+- `agent-ui.js`: optional cloud model adapter. It sends the current conversation summary and curated flow/evidence identifiers only after the explicit consent gate; the local session remains authoritative.
 - `diagnostic-session.js` ranking remains heuristic. It does not output calibrated probabilities or confirm a root cause.
 
 ## Trust boundaries
 
 1. Conversation text is untrusted input, not executable instructions.
-2. The chat UI does not send conversation data to a remote model or service.
+2. Typing and local diagnostic operations do not send conversation data. An optional generative request is sent only after a per-request consent checkbox is enabled and the technician presses the analysis button. The configured Worker/provider processes the case; do not send secrets or sensitive operational data.
 3. PDF retrieval is explicitly user-triggered and uses the diagnostic retrieval filter.
 4. Raw extracted text and unreviewed OCR are not diagnostic evidence.
 5. A free-text answer that is ambiguous is stored as a note and does not change hypothesis ranking.
@@ -32,6 +33,7 @@ Free text is retained as session context. It changes the diagnostic evidence sta
 - Initial equipment/symptom recognition is deliberately narrow and alias-based.
 - The current pump low-flow flow is a screening flow, not the full six-case differential diagnosis in the pump pilot casebook.
 - The interface does not yet parse arbitrary measurements into typed measurement records.
+- The optional model call uses the existing one-request diagnosis endpoint; a persistent multi-turn model session and provider-independent conversation protocol are not implemented.
 - Conversation history is in-memory for the current page session; durable session persistence and repair-outcome learning are not implemented.
 - PDF retrieval is user-triggered and only uses claims already approved for diagnostics.
 
