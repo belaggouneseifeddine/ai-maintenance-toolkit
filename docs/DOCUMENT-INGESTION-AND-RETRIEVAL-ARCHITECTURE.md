@@ -28,7 +28,7 @@ The diagnostic consumer is separate from general document search. It returns onl
 
 Equipment applicability now uses canonical family matching so specific pump subtypes are not interchangeable. Model applicability compares the complete normalized designation; shared tokens such as a manufacturer or series prefix are insufficient. A generic model scope is accepted only when explicitly recorded. Local ranking uses a BM25-style lexical score over candidate chunks from the inverted index; it is not full-corpus BM25, semantic retrieval, or a calibrated relevance probability.
 
-For OCR-derived claims, approval requires opening the original PDF page and explicitly confirming visual comparison. The review workspace surfaces candidate numeric/unit/model tokens for manual checking. OCR confidence remains an informational recognition signal, not proof that a number, decimal separator, unit, or model code is correct.
+For every claim approved for diagnostics, the reviewer must open the original PDF page and confirm that the claim matches the source context. For OCR-derived claims, the reviewer must additionally compare the extracted text visually and verify numeric values, decimal separators, units, and model codes. The review workspace surfaces candidate numeric/unit/model tokens for manual checking. OCR confidence remains an informational recognition signal, not proof that a number, decimal separator, unit, or model code is correct.
 
 ## Trust and rights boundaries
 
