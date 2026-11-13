@@ -434,9 +434,9 @@
 
   function normalizeAnswerText(value) {
     return String(value || "").normalize("NFKC").toLocaleLowerCase()
-      .normalize("NFD").replace(/\\p{M}/gu, "")
-      .replace(/[\\u064B-\\u065F\\u0670\\u0640]/g, "")
-      .replace(/[^\\p{L}\\p{N}]+/gu, " ").replace(/\\s+/g, " ").trim();
+      .normalize("NFD").replace(/\p{M}/gu, "")
+      .replace(/[\u064B-\u065F\u0670\u0640]/g, "")
+      .replace(/[^\p{L}\p{N}]+/gu, " ").replace(/\s+/g, " ").trim();
   }
 
   function matchAnswerOption(question, value) {
