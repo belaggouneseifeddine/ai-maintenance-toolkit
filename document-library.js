@@ -551,9 +551,13 @@
           const familyMatches = CORE.equipmentFamilyMatches(family, equipment);
           const modelMatches = CORE.modelApplicabilityMatches(modelScope, model);
           const matchedTerms = terms.filter(term => claimTerms.includes(term)).length;
+          const pageMethods = Array.isArray(claim.pageExtractionMethods) ? claim.pageExtractionMethods : [];
+          const sourceReviewEligible = claim.sourcePageVerified === true &&
+            (!pageMethods.includes("ocr") || claim.ocrVisuallyVerified === true);
           const eligible = doc.eligibleForDiagnosis === true &&
             doc.reviewStatus === "approved" && doc.rightsStatus === "verified" &&
-            claim.reviewStatus === "approved" && claim.rightsStatus === "verified";
+            claim.reviewStatus === "approved" && claim.rightsStatus === "verified" &&
+            sourceReviewEligible;
           if (!eligible || !familyMatches || !modelMatches || !matchedTerms) return null;
           return { claim, score: matchedTerms / Math.max(1, terms.length) };
         }).filter(Boolean);
