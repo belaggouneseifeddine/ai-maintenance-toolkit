@@ -36,7 +36,10 @@ test("reviewed diagnostic claims must point to extracted chunks and verified doc
   assert.ok(source.includes('claim.reviewStatus === "approved"'));
   assert.ok(source.includes('claim.rightsStatus === "verified"'));
   assert.ok(source.includes("doc.eligibleForDiagnosis === true"));
-  assert.match(source, /modelMatches/);
+  assert.match(source, /CORE\.equipmentFamilyMatches\(family, equipment\)/);
+  assert.match(source, /CORE\.modelApplicabilityMatches\(modelScope, model\)/);
+  assert.match(source, /claim\.ocrVisuallyVerified !== true/);
+  assert.match(source, /pageOcrConfidence: ocrConfidenceValues/);
 });
 
 test("document review UI excludes deferred Study and exposes page preview", () => {
@@ -44,6 +47,9 @@ test("document review UI excludes deferred Study and exposes page preview", () =
   assert.match(review, /getPageEvidence/);
   assert.match(review, /claimPrintedPage/);
   assert.ok(review.includes("عرض النص المستخرج من الصفحة"));
+  assert.ok(review.includes("openClaimSourcePage"));
+  assert.ok(review.includes("claimOcrVisuallyVerified"));
+  assert.ok(review.includes("ocrSourcePageOpened &&"));
   assert.doesNotMatch(review, /Study|studyQuery|runDocumentStudy/);
 });
 
