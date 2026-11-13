@@ -400,7 +400,7 @@ const GENERIC_RETRIEVAL_TERMS = new Set([
 
 function hasRelevantKnowledgeMatch(chunk, { machine, symptom, code, observations }) {
   const sourceText = normalizeEvidenceText(chunk.heading + " " + chunk.text);
-  const usefulTerms = value => evidenceTerms(value).filter(term => !GENERIC_RETRIEVAL_TERMS.has(term));
+  const usefulTerms = value => retrievalTerms(value).filter(term => !GENERIC_RETRIEVAL_TERMS.has(term));
   const machineTerms = usefulTerms(machine);
   const symptomTerms = usefulTerms(symptom);
   const otherTerms = [...usefulTerms(code), ...usefulTerms(observations)];
