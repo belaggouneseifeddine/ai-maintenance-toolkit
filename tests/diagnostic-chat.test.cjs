@@ -58,3 +58,20 @@ test("chat is loaded after the local session UI and included in offline and depl
   assert.ok(pages.includes("diagnostic-chat.js"));
   assert.ok(cloudflare.includes("diagnostic-chat.js"));
 });
+
+const Chat = require("../diagnostic-chat.js");
+
+test("chat extracts explicitly labelled equipment models in Arabic, French, and English", () => {
+  assert.equal(Chat.extractModelDesignation("Pump model: Grundfos CR 10-4, low flow"), "Grundfos CR 10-4");
+  assert.equal(Chat.extractModelDesignation("pompe modèle : KSB Etanorm 50-200; débit faible"), "KSB Etanorm 50-200");
+  assert.equal(Chat.extractModelDesignation("المضخة، الموديل: CR 10-4، التدفق ضعيف"), "CR 10-4");
+  assert.equal(Chat.extractModelDesignation("المضخة تدفقها ضعيف دون رقم موديل"), "");
+});
+
+test("starting a new chat clears prior case measurements, model, code, and consent", () => {
+  const source = require("node:fs").readFileSync(require.resolve("../diagnostic-chat.js"), "utf8");
+  assert.match(source, /\["aiMachine", "aiModel", "aiSymptom", "aiCode", "aiObservations"\]/);
+  assert.match(source, /aiMeasurementStatus/);
+  assert.match(source, /aiCloudConsent/);
+  assert.match(source, /diagnosticChatCloudConsent/);
+});
