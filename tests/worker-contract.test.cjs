@@ -176,6 +176,7 @@ test("Worker returns validated structured diagnosis and accepts missing readings
       symptom: "ضعف تدفق الماء أثناء التشغيل",
       code: "",
       observations: "لا توجد قراءة ضغط أو تدفق متاحة حتى الآن",
+      conversationContext: "Technician: The pump is running. Assistant: What does the suction indicator show?",
       measurementStatus: "none",
       language: "ar"
     })
@@ -193,7 +194,7 @@ test("Worker returns validated structured diagnosis and accepts missing readings
   assert.match(upstreamPayload.input, /no reading available/);
   assert.match(upstreamPayload.input, /Grundfos CR 10-4/);
   assert.match(upstreamPayload.input, /\[U1\] Source: Grundfos CR service manual/);
-  assert.match(upstreamPayload.input, /Page 14 — suction troubleshooting/);
+  assert.match(upstreamPayload.input, /Page 14 — suction troubleshooting/);\n  assert.match(upstreamPayload.input, /Conversation transcript and provisional local diagnostic snapshot/);
   assert.match(upstreamPayload.system_instruction, /untrusted data/i);
 });
 
@@ -444,6 +445,7 @@ test("weak evidence plus no relevant retrieval abstains before an AI provider", 
       machine: "unknown machine",
       symptom: "the system behaves strangely",
       observations: "",
+      conversationContext: "Technician: the system behaves strangely. Assistant: what exact symptom do you see?",
       code: "",
       language: "en"
     })
