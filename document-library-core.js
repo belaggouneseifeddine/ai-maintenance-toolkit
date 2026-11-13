@@ -147,6 +147,24 @@
     return alternatives.includes(actual);
   }
 
+  function extractCriticalTokens(value) {
+    const source = String(value || "");
+    const found = [];
+    const patterns = [
+      /[-+]?\d+(?:[.,]\d+)?(?:\s*(?:to|a|à|–|—|-)\s*[-+]?\d+(?:[.,]\d+)?)?\s*(?:mm|cm|km|bar|kpa|mpa|psi|°\s*[cf]|hz|khz|mhz|kw|mw|w|ma|mv|v|rpm|r\/min|m³?\/h|l\/min|l\/s|m\/s|mm\/s|n[·.]?m|kg|ml|g|l|%)(?![\p{L}])/giu,
+      /\b[A-Z]{1,10}[\s-]?\d[A-Z0-9]*(?:[-/][A-Z0-9]+)*/gi,
+      /\b\d{3,}(?:[-/][A-Z0-9]+)+\b/gi
+    ];
+    for (const pattern of patterns) {
+      for (const match of source.matchAll(pattern)) {
+        const token = String(match[0] || "").trim().replace(/\s+/g, " ");
+        if (token && !found.includes(token)) found.push(token);
+        if (found.length >= 40) return found;
+      }
+    }
+    return found;
+  }
+
   function isDiagnosticEligible(document) {
     return Boolean(document &&
       document.eligibleForDiagnosis === true &&
@@ -176,5 +194,5 @@
     return title + ", p. " + String(pageNumber || "?");
   }
 
-  return { normalizeText, tokenize, chunkPage, buildPostings, rankChunks, canonicalEquipmentFamily, equipmentFamilyMatches, normalizeModelDesignation, modelApplicabilityMatches, makeCitation, isDiagnosticEligible, makeSourceRef };
+  return { normalizeText, tokenize, chunkPage, buildPostings, rankChunks, canonicalEquipmentFamily, equipmentFamilyMatches, normalizeModelDesignation, modelApplicabilityMatches, extractCriticalTokens, makeCitation, isDiagnosticEligible, makeSourceRef };
 });
