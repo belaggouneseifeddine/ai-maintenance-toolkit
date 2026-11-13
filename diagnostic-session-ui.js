@@ -450,9 +450,13 @@
     }
     const exact = question.options.filter(option => normalizeAnswerText(option.label) === text || normalizeAnswerText(option.id) === text);
     if (exact.length === 1) return exact[0].id;
+    const textTokens = new Set(text.split(" "));
     const contained = question.options.filter(option => {
       const label = normalizeAnswerText(option.label);
-      return label.length >= 3 && (text.includes(label) || label.includes(text) && text.length >= 4);
+      const idTokens = normalizeAnswerText(option.id).split(" ").filter(token => token.length >= 3);
+      const labelMatch = label.length >= 3 && (text.includes(label) || label.includes(text) && text.length >= 4);
+      const idMatch = idTokens.some(token => textTokens.has(token));
+      return labelMatch || idMatch;
     });
     return contained.length === 1 ? contained[0].id : null;
   }
