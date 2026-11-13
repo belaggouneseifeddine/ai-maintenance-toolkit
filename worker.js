@@ -391,6 +391,29 @@ function retrievalTerms(value) {
   return [...new Set(expanded)].filter(t => t.length >= 2);
 }
 
+const GENERIC_RETRIEVAL_TERMS = new Set([
+  "unknown", "machine", "equipment", "system", "device", "unit", "issue",
+  "problem", "thing", "behaves", "behaviour", "behavior", "strangely",
+  "fonctionne", "machine", "système", "systeme", "appareil", "équipement",
+  "معدة", "معدات", "جهاز", "نظام", "آلة", "ماكينة", "مجهول", "غير", "معروف"
+]);
+
+function hasRelevantKnowledgeMatch(chunk, { machine, symptom, code, observations }) {
+  const sourceTokens = new Set(normalizeEvidenceText(chunk.heading + " " + chunk.text).split(" "));
+  const usefulTerms = value => evidenceTerms(value).filter(term => !GENERIC_RETRIEVAL_TERMS.has(term));
+  const machineTerms = usefulTerms(machine);
+  const symptomTerms = usefulTerms(symptom);
+  const otherTerms = [...usefulTerms(code), ...usefulTerms(observations)];
+  const matchedMachine = machineTerms.filter(term => sourceTokens.has(term));
+  const matchedSymptom = symptomTerms.filter(term => sourceTokens.has(term));
+  const matchedOther = otherTerms.filter(term => sourceTokens.has(term));
+  const distinctMatches = new Set([...matchedMachine, ...matchedSymptom, ...matchedOther]);
+  // A generic one-word overlap is not evidence that a retrieved section applies.
+  // Require a symptom match plus another independent query term, or an exact
+  // non-generic alarm/observation term accompanied by a symptom match.
+  return matchedSymptom.length >= 1 && distinctMatches.size >= 2;
+}
+
 function rankKnowledgeChunks(chunks, query) {
   const terms = [...new Set(retrievalTerms(query))];
   return chunks.map(chunk => {
@@ -561,8 +584,11 @@ async function retrieveKnowledge(machine, symptom, code, observations) {
     }
   }
   const allChunks = documents.flatMap(d => d.chunks);
-  const legacyRanked = rankKnowledgeChunks(allChunks, query);
-  const bm25Ranked = rankKnowledgeChunksBM25(allChunks, query);
+  const relevanceContext = { machine, symptom, code, observations };
+  const legacyRanked = rankKnowledgeChunks(allChunks, query)
+    .filter(chunk => hasRelevantKnowledgeMatch(chunk, relevanceContext));
+  const bm25Ranked = rankKnowledgeChunksBM25(allChunks, query)
+    .filter(chunk => hasRelevantKnowledgeMatch(chunk, relevanceContext));
   const selectedRanker = bm25Ranked.length ? "bm25" : "legacy-fallback";
   const ranked = bm25Ranked.length ? bm25Ranked : legacyRanked;
   const legacyIds = legacyRanked.map(chunk => chunk.source + ":" + chunk.startLine);
