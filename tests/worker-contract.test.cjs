@@ -194,7 +194,8 @@ test("Worker returns validated structured diagnosis and accepts missing readings
   assert.match(upstreamPayload.input, /no reading available/);
   assert.match(upstreamPayload.input, /Grundfos CR 10-4/);
   assert.match(upstreamPayload.input, /\[U1\] Source: Grundfos CR service manual/);
-  assert.match(upstreamPayload.input, /Page 14 — suction troubleshooting/);\n  assert.match(upstreamPayload.input, /Conversation transcript and provisional local diagnostic snapshot/);
+  assert.match(upstreamPayload.input, /Page 14 — suction troubleshooting/);
+  assert.match(upstreamPayload.input, /Conversation transcript and provisional local diagnostic snapshot/);
   assert.match(upstreamPayload.system_instruction, /untrusted data/i);
 });
 
