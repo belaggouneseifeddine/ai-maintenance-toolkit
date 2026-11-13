@@ -404,7 +404,7 @@
     const viewer = window.open("about:blank", "_blank");
     if (!viewer) {
       status("اسمح بالنوافذ المنبثقة لفتح ملف PDF.");
-      return;
+      return false;
     }
     try { viewer.opener = null; } catch (_) {}
     const docs = await getAll("documents");
@@ -418,6 +418,7 @@
     const url = URL.createObjectURL(fileRecord.blob);
     currentObjectUrls.push(url);
     viewer.location.replace(url + "#page=" + page);
+    return true;
   }
 
   async function deleteDocument(documentId) {
