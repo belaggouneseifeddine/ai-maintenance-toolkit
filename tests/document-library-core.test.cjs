@@ -58,6 +58,8 @@ test("source references retain PDF page, printed page, chunk and OCR provenance"
 
 test("equipment family matching does not confuse pump subtypes", () => {
   assert.equal(Core.equipmentFamilyMatches("centrifugal pump", "centrifugal pump"), true);
+  assert.equal(Core.equipmentFamilyMatches("pompe à engrenages", "gear pump"), true);
+  assert.equal(Core.equipmentFamilyMatches("moteur électrique", "electric motor"), true);
   assert.equal(Core.equipmentFamilyMatches("pompe centrifuge", "centrifugal pump"), true);
   assert.equal(Core.equipmentFamilyMatches("مضخة طرد مركزي", "centrifugal pump"), true);
   assert.equal(Core.equipmentFamilyMatches("centrifugal pump", "gear pump"), false);
