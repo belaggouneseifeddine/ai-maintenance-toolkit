@@ -112,6 +112,7 @@
     const button = root.document && root.document.getElementById("runLocalAgent");
     const machine = root.document && root.document.getElementById("aiMachine");
     const symptom = root.document && root.document.getElementById("aiSymptom");
+    const model = root.document && root.document.getElementById("aiModel");
     const code = root.document && root.document.getElementById("aiCode");
     const observations = root.document && root.document.getElementById("aiObservations");
     const language = root.MaintenanceI18n && typeof root.MaintenanceI18n.getLanguage === "function"
@@ -212,6 +213,7 @@
         ? root.MaintenanceDiagnosticSessionUI.getPayload() : {};
       const payload = {
         machine: machine.value.trim(),
+        model: model ? model.value.trim() : "",
         symptom: symptom.value.trim(),
         code: code ? code.value.trim() : "",
         observations: observations ? observations.value.trim() : "",
