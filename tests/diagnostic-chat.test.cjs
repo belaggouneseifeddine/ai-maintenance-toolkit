@@ -47,6 +47,8 @@ test("conversational diagnostic layer uses local session actions and approved PD
   const agentUI = fs.readFileSync(require.resolve("../agent-ui.js"), "utf8");
   assert.match(agentUI, /diagnosticFlowId/);
   assert.match(agentUI, /diagnosticEvidence/);
+  assert.match(agentUI, /approvedPdfExcerpts/);
+  assert.match(source, /getApprovedExcerpts/);
   assert.match(agentUI, /model: model \? model\.value\.trim\(\) : ""/);
   assert.match(source, /لا تنفّذ اختبارًا/);
   assert.doesNotMatch(source, /fetch\s*\(/, "chat UI must not make an unguarded direct network request");
