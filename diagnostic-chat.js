@@ -268,6 +268,8 @@
     const value = String(text || "").trim();
     if (!value) return;
     addMessage("user", value);
+    const modelMatch = value.match(/(?:\bmodel\b|موديل|الموديل|طراز|modèle)\s*[:：]\s*([^,،;؛\n]{2,80})/i);
+    if (modelMatch) setField("aiModel", modelMatch[1].trim());
     if (!started) {
       notes.push(value);
       beginIfReady(value);
