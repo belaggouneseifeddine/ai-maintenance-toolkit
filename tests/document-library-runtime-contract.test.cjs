@@ -61,6 +61,7 @@ test("document review UI excludes deferred Study and exposes page preview", () =
   assert.ok(review.includes("openedSourceKey === selectedReviewKey()"));
   assert.ok(review.includes("previewedPageKey !== selectedPageKey()"));
   assert.ok(review.includes("invalidateClaimReview"));
+  assert.ok(review.includes("stale — document review changed; re-review required"));
   assert.ok(read("document-library.js").includes("CORE.extractCriticalTokens(pageText)"));
   assert.doesNotMatch(review, /Study|studyQuery|runDocumentStudy/);
 });
