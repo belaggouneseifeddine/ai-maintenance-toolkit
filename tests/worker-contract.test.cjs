@@ -198,6 +198,8 @@ test("Worker returns validated structured diagnosis and accepts missing readings
   assert.match(upstreamPayload.input, /Page 14 — suction troubleshooting/);
   assert.match(upstreamPayload.input, /flow is below the normal operating baseline/);
   assert.match(upstreamPayload.input, /Conversation transcript and provisional local diagnostic snapshot/);
+  assert.match(upstreamPayload.input, /Technician: The pump is running/);
+  assert.match(upstreamPayload.input, /Assistant: What does the suction indicator show/);
   assert.match(upstreamPayload.system_instruction, /untrusted data/i);
 });
 
