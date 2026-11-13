@@ -217,6 +217,53 @@
       holder.appendChild(article);
     });
   }
+  async function askGenerative() {
+    const consent = $("diagnosticChatCloudConsent");
+    const workerConsent = $("aiCloudConsent");
+    const observations = $("aiObservations");
+    const button = $("diagnosticChatAskGenerative");
+    if (!consent || !consent.checked) {
+      addMessage("assistant", copy("لم يتم إرسال أي شيء. فعّل موافقة الإرسال ثم اضغط زر التحليل إذا أردت استخدام المزود الخارجي.", "Nothing was sent. Enable the sharing consent and press the analysis button if you want to use the external provider.", "Aucune donnée n’a été envoyée. Activez le consentement puis cliquez sur le bouton d’analyse pour utiliser le fournisseur externe."));
+      return;
+    }
+    if (!started || !currentSession()) {
+      addMessage("assistant", copy("أكمل تحديد المعدة والعَرَض أولًا حتى لا نرسل طلبًا ناقصًا.", "Identify the equipment and symptom first so an incomplete request is not sent.", "Identifiez d’abord l’équipement et le symptôme afin de ne pas envoyer une demande incomplète."));
+      return;
+    }
+    if (!root.MaintenanceAgentUI || typeof root.MaintenanceAgentUI.runCloudAI !== "function" || !workerConsent || !observations) {
+      addMessage("assistant", copy("طبقة الذكاء التوليدي غير متاحة في هذه النسخة.", "The generative AI adapter is unavailable in this build.", "L’adaptateur d’IA générative n’est pas disponible dans cette version."));
+      return;
+    }
+    const previousObservations = observations.value;
+    const transcript = messages.slice(-12).map(message =>
+      (message.role === "user" ? "Technician: " : "Assistant: ") + message.text
+    ).join("\n");
+    observations.value = [previousObservations.trim(), "Conversation context:", transcript].filter(Boolean).join("\n\n").slice(-3000);
+    workerConsent.checked = true;
+    consent.checked = false;
+    if (button) {
+      button.disabled = true;
+      button.textContent = copy("جارٍ التحليل…", "Generating analysis…", "Analyse en cours…");
+    }
+    addMessage("assistant", copy("أرسل ملخص الحالة إلى مزود الذكاء الاصطناعي بعد موافقتك. سأعرض الرد بوصفه تقييمًا أوليًا، لا تشخيصًا مؤكدًا.", "Sending the case summary to the configured AI provider with your consent. The response will remain a preliminary assessment, not a confirmed diagnosis.", "Envoi du résumé au fournisseur d’IA configuré avec votre accord. La réponse restera une évaluation préliminaire, pas un diagnostic confirmé."));
+    try {
+      await root.MaintenanceAgentUI.runCloudAI();
+      const output = $("aiResult");
+      const answer = output && String(output.textContent || "").trim();
+      addMessage("assistant", answer || copy("لم تُرجع الخدمة نصًا قابلًا للعرض. بقي التشخيص المحلي متاحًا.", "The service returned no displayable text. Local diagnosis remains available.", "Le service n’a renvoyé aucun texte affichable. Le diagnostic local reste disponible."));
+    } catch (_) {
+      addMessage("assistant", copy("تعذر استدعاء المزود. لم تتغير أدلة الجلسة المحلية.", "The provider could not be reached. Local session evidence was not changed.", "Le fournisseur est inaccessible. Les éléments de la session locale n’ont pas été modifiés."));
+    } finally {
+      observations.value = previousObservations;
+      workerConsent.checked = false;
+      if (consent) consent.checked = false;
+      if (button) {
+        button.disabled = false;
+        button.textContent = copy("اطلب تحليلًا توليديًا", "Request generative analysis", "Demander une analyse générative");
+      }
+    }
+  }
+
   function handleMessage(text) {
     const value = String(text || "").trim();
     if (!value) return;
@@ -282,6 +329,9 @@
         <button id="diagnosticChatSend" class="btn" type="submit">${copy("إرسال", "Send", "Envoyer")}</button>
       </form>
       <div id="diagnosticChatEvidence"></div>
+      <label class="check" for="diagnosticChatCloudConsent"><input id="diagnosticChatCloudConsent" type="checkbox"> ${copy("أوافق على إرسال ملخص المحادثة والمعدة والعَرَض والقراءات إلى مزود الذكاء الاصطناعي المهيأ عبر الخادم. لا ترسل أسرارًا أو بيانات حساسة.", "I consent to sending the conversation summary, equipment, symptom, and readings to the configured AI provider through the server. Do not send secrets or sensitive data.", "J’autorise l’envoi du résumé, de l’équipement, du symptôme et des mesures au fournisseur d’IA configuré via le serveur. N’envoyez aucune donnée sensible.")}</label>
+      <div class="actions"><button id="diagnosticChatAskGenerative" class="btn" type="button">${copy("اطلب تحليلًا توليديًا", "Request generative analysis", "Demander une analyse générative")}</button></div>
+      <p class="hint">${copy("لا يتم الإرسال بمجرد كتابة الرسائل. يلزم تفعيل الموافقة والضغط على زر التحليل لكل طلب.", "Typing messages does not send them. Consent and a button press are required for each request.", "La saisie des messages n’envoie rien. Un consentement et un clic sont requis pour chaque demande.")}</p>
       <div class="actions"><button id="diagnosticChatReset" class="btn secondary" type="button">${copy("بدء محادثة جديدة", "Start a new conversation", "Nouvelle conversation")}</button></div>
       <p class="hint">${copy("السلامة مستقلة عن المحادثة: لا تنفّذ اختبارًا أو تفتح نظامًا مضغوطًا أو لوحة كهربائية حية بناءً على الرد. اتبع LOTO وإجراءات الموقع وصعّد عند الخطر.", "Safety is independent of the conversation: do not perform a test, open a pressurized system, or access a live electrical panel based on a chat response. Follow LOTO and site procedures; escalate hazards.", "La sécurité est indépendante de la conversation : n’effectuez aucun essai et n’ouvrez aucun circuit sous pression ou armoire sous tension sur la base d’une réponse. Appliquez la consignation et les procédures du site.")}</p>
     `;
@@ -294,6 +344,7 @@
       handleMessage(value);
     });
     $("diagnosticChatReset").addEventListener("click", resetConversation);
+    $("diagnosticChatAskGenerative").addEventListener("click", askGenerative);
     resetConversation();
     initialized = true;
   }
