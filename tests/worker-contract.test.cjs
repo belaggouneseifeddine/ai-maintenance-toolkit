@@ -426,7 +426,7 @@ test("Worker forces LOTO on every intervention step even when Gemini omits it", 
       headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
       body: JSON.stringify({
         machine: "centrifugal pump",
-        symptom: "low flow",
+        symptom: "low flow during operation",
         observations: "existing alarm history is available",
         language: "ar"
       })
@@ -628,7 +628,7 @@ test("curated flow restricts Gemini output to server-approved hypothesis IDs", a
     method: "POST",
     headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
     body: JSON.stringify({
-      machine: "pump",
+      machine: "centrifugal pump",
       symptom: "low flow with unstable discharge",
       observations: "Observed unstable flow over several operating cycles and historical log is available",
       diagnosticFlowId: "pump|low_flow",
@@ -661,7 +661,7 @@ test("curated flow rejects a model-invented hypothesis ID", async () => {
       method: "POST",
       headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
       body: JSON.stringify({
-        machine: "pump",
+        machine: "centrifugal pump",
         symptom: "low flow with unstable discharge",
         observations: "Observed unstable flow over several operating cycles and historical log is available",
         diagnosticFlowId: "pump|low_flow",
