@@ -537,34 +537,16 @@
         const byId = new Map(documents.map(doc => [doc.id, doc]));
         const terms = [...new Set(CORE.tokenize(query))];
         const context = options && options.context || {};
-        const normalizeEquipment = value => {
-          const normalized = CORE.normalizeText(value || "")
-            .replace(/مضخ(?:ة|ات)?/g, " pump ")
-            .replace(/pompes?/g, " pump ")
-            .replace(/centrifugal/g, " ")
-            .replace(/moteurs?|محرك(?:ات)?/g, " motor ")
-            .replace(/compresseurs?|ضاغط(?:ات)?/g, " compressor ")
-            .replace(/variat(?:eur|or)|مغير(?:ات)?\s*السرعة/g, " vfd ")
-            .replace(/roulements?|محمل(?:ات)?/g, " bearing ");
-          return CORE.tokenize(normalized);
-        };
-        const equipmentTerms = normalizeEquipment(context.equipment || "");
-        const modelTerms = CORE.tokenize(context.model || "");
-        const overlaps = (scope, observed) => {
-          const wanted = normalizeEquipment(scope || "");
-          return wanted.length > 0 && wanted.some(term => observed.includes(term));
-        };
-        const genericModelScope = value =>
-          /generic|all models|family[- ]wide|not model specific|غير مرتبط بموديل|جميع الموديلات|كل الموديلات|عام/i.test(String(value || ""));
+        const equipment = String(context.equipment || "");
+        const model = String(context.model || "");
         const matches = claims.map(claim => {
           const doc = byId.get(claim.documentId);
           if (!doc) return null;
           const claimTerms = CORE.tokenize(claim.text);
           const family = claim.equipmentFamily || doc.equipmentFamily || "";
           const modelScope = claim.modelApplicability || "";
-          const familyMatches = overlaps(family, equipmentTerms);
-          const modelMatches = genericModelScope(modelScope) ||
-            (modelTerms.length > 0 && CORE.tokenize(modelScope).some(term => modelTerms.includes(term)));
+          const familyMatches = CORE.equipmentFamilyMatches(family, equipment);
+          const modelMatches = CORE.modelApplicabilityMatches(modelScope, model);
           const matchedTerms = terms.filter(term => claimTerms.includes(term)).length;
           const eligible = doc.eligibleForDiagnosis === true &&
             doc.reviewStatus === "approved" && doc.rightsStatus === "verified" &&
