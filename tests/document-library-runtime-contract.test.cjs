@@ -40,6 +40,8 @@ test("reviewed diagnostic claims must point to extracted chunks and verified doc
   assert.match(source, /CORE\.modelApplicabilityMatches\(modelScope, model\)/);
   assert.match(source, /claim\.sourcePageVerified !== true/);
   assert.match(source, /claim\.ocrVisuallyVerified !== true/);
+  assert.match(source, /claim\.sourcePageVerified === true/);
+  assert.match(source, /sourceReviewEligible/);
   assert.match(source, /sourcePageVerified: claim\.sourcePageVerified === true/);
   assert.match(source, /pageOcrConfidence: ocrConfidenceValues/);
 });
