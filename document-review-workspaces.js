@@ -59,8 +59,10 @@
       '<label for="claimPage">رقم صفحة PDF الأصلي (يبدأ من 1)</label><input id="claimPage" type="number" min="1" step="1" placeholder="مثال: 42">' +
       '<label for="claimPrintedPage">رقم الصفحة المطبوع داخل الدليل (اختياري)</label><input id="claimPrintedPage" placeholder="مثال: 37 أو A-12">' +
       '<button type="button" class="btn secondary" id="previewClaimPage">عرض النص المستخرج من الصفحة</button>' +
+      '<button type="button" class="btn secondary" id="openClaimSourcePage">فتح صفحة PDF الأصلية للمقارنة</button>' +
       '<p id="claimPageStatus" class="hint" role="status" aria-live="polite"></p>' +
       '<pre id="claimPagePreview" class="document-page-preview"></pre>' +
+      '<label class="check"><input id="claimOcrVisuallyVerified" type="checkbox" disabled> قارنت نص OCR مع صفحة PDF الأصلية، وتحققت من الأرقام والوحدات ورموز الموديلات</label>' +
       '<label for="claimText">الادعاء الفني بعد مراجعته</label><textarea id="claimText" rows="5" placeholder="اكتب ادعاءً محددًا، ولا تنقل فصلًا كاملًا. احتفظ بالشروط والقيم والوحدات."></textarea>' +
       '<label for="claimFamily">عائلة المعدة / نطاق الانطباق</label><input id="claimFamily" placeholder="مثال: centrifugal pump">' +
       '<label for="claimModel">الموديل أو نطاقه (اكتب Generic فقط إذا كان الادعاء عامًا فعلًا)</label><input id="claimModel" placeholder="مثال: Grundfos CR / generic">' +
@@ -73,21 +75,41 @@
       '<h3>الادعاءات المسجلة</h3><div id="reviewedClaimsList"></div>';
     host.appendChild(section);
 
+    let ocrSourcePageOpened = false;
     $("previewClaimPage").addEventListener("click", async () => {
       try {
         const id = $("reviewDocumentSelect").value;
         if (!id) throw new Error("اختر الوثيقة أولًا.");
+        ocrSourcePageOpened = false;
+        $("claimOcrVisuallyVerified").checked = false;
+        $("claimOcrVisuallyVerified").disabled = true;
         const evidence = await library().getPageEvidence(id, $("claimPage").value);
         if (!evidence.chunks.length) throw new Error("لم يُستخرج نص لهذه الصفحة. فعّل OCR أو تحقق من جودة الصفحة.");
         $("claimPagePreview").textContent = evidence.text;
         $("claimText").value = evidence.text;
         const methods = [...new Set(evidence.chunks.map(chunk => chunk.extractionMethod))];
         const confidences = evidence.chunks.map(chunk => chunk.ocrConfidence).filter(Number.isFinite);
+        const hasOcr = methods.includes("ocr");
+        $("openClaimSourcePage").disabled = !hasOcr;
         status("claimPageStatus", "تم استخراج " + evidence.chunks.length + " مقطعًا من صفحة PDF " + evidence.pageNumber +
           " | الطريقة: " + methods.join(", ") +
-          (confidences.length ? " | OCR confidence: " + Math.min(...confidences) + "–" + Math.max(...confidences) + "%" : ""));
+          (confidences.length ? " | OCR confidence: " + Math.min(...confidences) + "–" + Math.max(...confidences) + "%" : "") +
+          (hasOcr ? " | افتح الصفحة الأصلية للمقارنة قبل اعتماد الادعاء." : ""));
       } catch (error) {
         $("claimPagePreview").textContent = "";
+        status("claimPageStatus", error.message);
+      }
+    });
+    $("openClaimSourcePage").addEventListener("click", async () => {
+      try {
+        const id = $("reviewDocumentSelect").value;
+        if (!id) throw new Error("اختر الوثيقة أولًا.");
+        await library().openSourcePage(id, $("claimPage").value);
+        ocrSourcePageOpened = true;
+        $("claimOcrVisuallyVerified").disabled = false;
+        status("claimPageStatus", "تم فتح صفحة PDF الأصلية. قارن النص بصريًا ثم فعّل تأكيد المراجعة.");
+      } catch (error) {
+        ocrSourcePageOpened = false;
         status("claimPageStatus", error.message);
       }
     });
@@ -129,6 +151,7 @@
           reviewer: $("claimReviewer").value,
           notes: $("claimNotes").value,
           rightsVerified: $("claimRightsVerified").checked,
+          ocrVisuallyVerified: ocrSourcePageOpened && $("claimOcrVisuallyVerified").checked,
           approved: $("claimApproved").checked
         });
         status("pageClaimStatus", claim.reviewStatus === "approved"
