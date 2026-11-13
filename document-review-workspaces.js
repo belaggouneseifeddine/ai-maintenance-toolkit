@@ -60,6 +60,7 @@
       '<label for="claimPrintedPage">رقم الصفحة المطبوع داخل الدليل (اختياري)</label><input id="claimPrintedPage" placeholder="مثال: 37 أو A-12">' +
       '<button type="button" class="btn secondary" id="previewClaimPage">عرض النص المستخرج من الصفحة</button>' +
       '<button type="button" class="btn secondary" id="openClaimSourcePage">فتح صفحة PDF الأصلية للمقارنة</button>' +
+      '<label class="check"><input id="claimSourcePageVerified" type="checkbox" disabled> قارنت الادعاء الفني بصفحة PDF الأصلية وتحققت من سياقه</label>' +
       '<p id="claimPageStatus" class="hint" role="status" aria-live="polite"></p>' +
       '<pre id="claimPagePreview" class="document-page-preview"></pre>' +
       '<p id="claimCriticalTokens" class="hint" aria-live="polite"></p>' +
@@ -76,12 +77,17 @@
       '<h3>الادعاءات المسجلة</h3><div id="reviewedClaimsList"></div>';
     host.appendChild(section);
 
-    let ocrSourcePageOpened = false;
+    let openedSourceKey = "";
+    let currentPageHasOcr = false;
+    const selectedPageKey = () => String($("reviewDocumentSelect").value || "") + ":" + String(Number($("claimPage").value));
     $("previewClaimPage").addEventListener("click", async () => {
       try {
         const id = $("reviewDocumentSelect").value;
         if (!id) throw new Error("اختر الوثيقة أولًا.");
-        ocrSourcePageOpened = false;
+        openedSourceKey = "";
+        currentPageHasOcr = false;
+        $("claimSourcePageVerified").checked = false;
+        $("claimSourcePageVerified").disabled = true;
         $("claimOcrVisuallyVerified").checked = false;
         $("claimOcrVisuallyVerified").disabled = true;
         const evidence = await library().getPageEvidence(id, $("claimPage").value);
@@ -93,12 +99,13 @@
           : "لم يُكتشف نمط واضح لقيم ووحدات أو رموز فنية؛ تحقق من الصفحة الأصلية يدويًا.";
         const methods = [...new Set(evidence.chunks.map(chunk => chunk.extractionMethod))];
         const confidences = evidence.chunks.map(chunk => chunk.ocrConfidence).filter(Number.isFinite);
-        const hasOcr = methods.includes("ocr");
-        $("openClaimSourcePage").disabled = !hasOcr;
+        currentPageHasOcr = methods.includes("ocr");
+        $("openClaimSourcePage").disabled = false;
         status("claimPageStatus", "تم استخراج " + evidence.chunks.length + " مقطعًا من صفحة PDF " + evidence.pageNumber +
           " | الطريقة: " + methods.join(", ") +
           (confidences.length ? " | OCR confidence: " + Math.min(...confidences) + "–" + Math.max(...confidences) + "%" : "") +
-          (hasOcr ? " | افتح الصفحة الأصلية للمقارنة قبل اعتماد الادعاء." : ""));
+          " | افتح الصفحة الأصلية وقارن الادعاء بالمصدر قبل اعتماده." +
+          (currentPageHasOcr ? " | يتطلب OCR أيضًا تحققًا بصريًا من الأرقام والوحدات ورموز الموديل." : ""));
       } catch (error) {
         $("claimPagePreview").textContent = "";
         status("claimPageStatus", error.message);
@@ -110,11 +117,12 @@
         if (!id) throw new Error("اختر الوثيقة أولًا.");
         const opened = await library().openSourcePage(id, $("claimPage").value);
         if (opened !== true) throw new Error("لم يتم فتح صفحة PDF الأصلية؛ لا تؤكد مراجعة OCR قبل عرضها.");
-        ocrSourcePageOpened = true;
-        $("claimOcrVisuallyVerified").disabled = false;
-        status("claimPageStatus", "تم فتح صفحة PDF الأصلية. قارن النص بصريًا ثم فعّل تأكيد المراجعة.");
+        openedSourceKey = selectedPageKey();
+        $("claimSourcePageVerified").disabled = false;
+        if (currentPageHasOcr) $("claimOcrVisuallyVerified").disabled = false;
+        status("claimPageStatus", "تم فتح صفحة PDF الأصلية. قارن الادعاء بالمصدر، ثم أكد مراجعة الصفحة. إذا كان النص مستخرجًا بـOCR فتحقق أيضًا من الأرقام والوحدات ورموز الموديل.");
       } catch (error) {
-        ocrSourcePageOpened = false;
+        openedSourceKey = "";
         status("claimPageStatus", error.message);
       }
     });
@@ -156,7 +164,8 @@
           reviewer: $("claimReviewer").value,
           notes: $("claimNotes").value,
           rightsVerified: $("claimRightsVerified").checked,
-          ocrVisuallyVerified: ocrSourcePageOpened && $("claimOcrVisuallyVerified").checked,
+          sourcePageVerified: openedSourceKey === selectedPageKey() && $("claimSourcePageVerified").checked,
+          ocrVisuallyVerified: openedSourceKey === selectedPageKey() && $("claimOcrVisuallyVerified").checked,
           approved: $("claimApproved").checked
         });
         status("pageClaimStatus", claim.reviewStatus === "approved"
