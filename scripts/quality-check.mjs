@@ -423,10 +423,10 @@ const checks = [
     assert.match(worker, /function applyEvidenceTraceability\(/);
     assert.match(worker, /source_supported_hypothesis/);
     assert.match(worker, /hypothesis_only/);
-    assert.match(worker, /diagnosis = applyEvidenceTraceability\(diagnosis, citations, retrieval\.chunks\)/);
+    assert.match(worker, /diagnosis = applyEvidenceTraceability\(diagnosis, citations, combinedChunks\)/);
   }],
   ["Weak evidence with no retrieval match abstains before Gemini", () => {
-    const abstention = worker.indexOf('if (!retrieval.chunks.length && evidence.level !== "good")');
+    const abstention = worker.indexOf('if (!combinedChunks.length && evidence.level !== "good")');
     const providerCall = worker.indexOf('fetch("https://generativelanguage.googleapis.com');
     assert.ok(abstention >= 0 && providerCall > abstention, "Abstention gate must precede Gemini");
     assert.match(worker, /model_called: false/);
