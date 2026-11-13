@@ -236,7 +236,6 @@
   async function askGenerative() {
     const consent = $("diagnosticChatCloudConsent");
     const workerConsent = $("aiCloudConsent");
-    const observations = $("aiObservations");
     const button = $("diagnosticChatAskGenerative");
     if (!consent || !consent.checked) {
       addMessage("assistant", copy("لم يتم إرسال أي شيء. فعّل موافقة الإرسال ثم اضغط زر التحليل إذا أردت استخدام المزود الخارجي.", "Nothing was sent. Enable the sharing consent and press the analysis button if you want to use the external provider.", "Aucune donnée n’a été envoyée. Activez le consentement puis cliquez sur le bouton d’analyse pour utiliser le fournisseur externe."));
@@ -250,26 +249,7 @@
       addMessage("assistant", copy("طبقة الذكاء التوليدي غير متاحة في هذه النسخة.", "The generative AI adapter is unavailable in this build.", "L’adaptateur d’IA générative n’est pas disponible dans cette version."));
       return;
     }
-    const previousObservations = observations.value;
-    const transcript = messages.slice(-12).map(message =>
-      (message.role === "user" ? "Technician: " : "Assistant: ") + message.text
-    ).join("\n");
-    const guided = root.MaintenanceDiagnosticSessionUI && typeof root.MaintenanceDiagnosticSessionUI.getPayload === "function"
-      ? root.MaintenanceDiagnosticSessionUI.getPayload() : {};
-    const localSnapshot = JSON.stringify({
-      flowId: guided.diagnosticFlowId || "",
-      answers: (Array.isArray(guided.diagnosticAnswers) ? guided.diagnosticAnswers : []).slice(0, 8)
-        .map(item => ({ questionId: item.questionId, answerId: item.answerId, evidence: item.evidence })),
-      hypotheses: (Array.isArray(guided.diagnosticHypotheses) ? guided.diagnosticHypotheses : []).slice(0, 5)
-        .map(item => ({ id: item.id, label: item.label, status: item.status }))
-    });
-    observations.value = [
-      previousObservations.trim(),
-      "Local diagnostic snapshot (client-side heuristic; provisional and unverified, not ground truth):",
-      localSnapshot,
-      "Conversation context:",
-      transcript
-    ].filter(Boolean).join("\n\n").slice(-3000);
+
     workerConsent.checked = true;
     consent.checked = false;
     if (button) {
@@ -285,7 +265,6 @@
     } catch (_) {
       addMessage("assistant", copy("تعذر استدعاء المزود. لم تتغير أدلة الجلسة المحلية.", "The provider could not be reached. Local session evidence was not changed.", "Le fournisseur est inaccessible. Les éléments de la session locale n’ont pas été modifiés."));
     } finally {
-      observations.value = previousObservations;
       workerConsent.checked = false;
       if (consent) consent.checked = false;
       if (button) {
@@ -293,6 +272,27 @@
         button.textContent = copy("اطلب تحليلًا توليديًا", "Request generative analysis", "Demander une analyse générative");
       }
     }
+  }
+
+  function getConversationContext() {
+    const guided = root.MaintenanceDiagnosticSessionUI && typeof root.MaintenanceDiagnosticSessionUI.getPayload === "function"
+      ? root.MaintenanceDiagnosticSessionUI.getPayload() : {};
+    const localSnapshot = JSON.stringify({
+      flowId: guided.diagnosticFlowId || "",
+      answers: (Array.isArray(guided.diagnosticAnswers) ? guided.diagnosticAnswers : []).slice(0, 8)
+        .map(item => ({ questionId: item.questionId, answerId: item.answerId, evidence: item.evidence })),
+      hypotheses: (Array.isArray(guided.diagnosticHypotheses) ? guided.diagnosticHypotheses : []).slice(0, 5)
+        .map(item => ({ id: item.id, label: item.label, status: item.status }))
+    });
+    const transcript = messages.slice(-12).map(message =>
+      (message.role === "user" ? "Technician: " : "Assistant: ") + message.text
+    ).join("\n");
+    return [
+      "Local diagnostic snapshot (client-side heuristic; provisional and unverified, not ground truth):",
+      localSnapshot,
+      "Conversation transcript (assistant text is not independent evidence):",
+      transcript
+    ].join("\n\n").slice(-1800);
   }
 
   function handleMessage(text) {
@@ -391,7 +391,7 @@
     resetConversation();
     initialized = true;
   }
-  root.MaintenanceDiagnosticChat = Object.freeze({ init, handleMessage, reset: resetConversation, classifyInput, extractModelDesignation, getApprovedExcerpts: () => retrievedExcerpts.map(item => ({ ...item })) });
+  root.MaintenanceDiagnosticChat = Object.freeze({ init, handleMessage, reset: resetConversation, classifyInput, extractModelDesignation, getApprovedExcerpts: () => retrievedExcerpts.map(item => ({ ...item })), getConversationContext });
   if (typeof module !== "undefined" && module.exports) module.exports = root.MaintenanceDiagnosticChat;
   if (root.document) {
     if (root.document.readyState === "loading") root.document.addEventListener("DOMContentLoaded", init);
