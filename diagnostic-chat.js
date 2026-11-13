@@ -10,6 +10,27 @@
   let equipmentContext = "";
   let retrievalSequence = 0;
   let retrievedExcerpts = [];
+  let retrievedContext = null;
+
+  function clearRetrievedExcerpts() {
+    retrievedExcerpts = [];
+    retrievedContext = null;
+  }
+
+  function getApprovedExcerpts() {
+    if (!retrievedContext) return [];
+    const current = {
+      machine: String($("aiMachine")?.value || "").trim(),
+      model: String($("aiModel")?.value || "").trim(),
+      symptom: String($("aiSymptom")?.value || "").trim(),
+      technicianInput: getTechnicianChatInput()
+    };
+    if (current.machine !== retrievedContext.machine ||
+        current.model !== retrievedContext.model ||
+        current.symptom !== retrievedContext.symptom ||
+        current.technicianInput !== retrievedContext.technicianInput) return [];
+    return retrievedExcerpts.map(item => ({ ...item }));
+  }
 
   const EQUIPMENT = [
     { id: "pump", label: "مضخة", pattern: /\b(?:pump|pumps)\b|مضخ|pompe/i },
@@ -214,10 +235,17 @@
       return;
     }
     const sequence = ++retrievalSequence;
+    clearRetrievedExcerpts();
     holder.textContent = copy("جارٍ البحث محليًا في الادعاءات المعتمدة…", "Searching locally among approved claims…", "Recherche locale parmi les affirmations approuvées…");
     const session = currentSession();
-    const query = [pendingEquipment, pendingSymptom, $("aiCode")?.value, $("aiModel")?.value, ...notes, ...messages.map(message => message.text)].filter(Boolean).join(" ");
-    const result = await api.forDiagnostics(query, { equipment: equipmentContext || $("aiMachine")?.value || pendingEquipment, model: $("aiModel")?.value || "" });
+    const retrievalContext = {
+      machine: String($("aiMachine")?.value || "").trim(),
+      model: String($("aiModel")?.value || "").trim(),
+      symptom: String($("aiSymptom")?.value || "").trim(),
+      technicianInput: getTechnicianChatInput()
+    };
+    const query = [pendingEquipment, pendingSymptom, $("aiCode")?.value, retrievalContext.model, ...notes, ...messages.map(message => message.text)].filter(Boolean).join(" ");
+    const result = await api.forDiagnostics(query, { equipment: equipmentContext || retrievalContext.machine || pendingEquipment, model: retrievalContext.model });
     if (sequence !== retrievalSequence) return;
     holder.replaceChildren();
     if (!result.ok || !result.results.length) {
@@ -229,6 +257,7 @@
       citation: String(item.citation || "").slice(0, 240),
       text: String(item.text || "").slice(0, 350)
     })).filter(item => item.text);
+    retrievedContext = retrievalContext;
     result.results.forEach(item => {
       const article = root.document.createElement("article");
       const title = root.document.createElement("strong");
@@ -317,6 +346,7 @@
   function handleMessage(text) {
     const value = String(text || "").trim();
     if (!value) return;
+    clearRetrievedExcerpts();
     addMessage("user", value);
     const modelMatch = value.match(/(?:\bmodel\b|موديل|الموديل|طراز|modèle)\s*[:：]\s*([^,،;؛\n]{2,80})/i);
     if (modelMatch) setField("aiModel", modelMatch[1].trim());
@@ -355,7 +385,7 @@
     pendingSymptom = "";
     equipmentContext = "";
     retrievalSequence++;
-    retrievedExcerpts = [];
+    clearRetrievedExcerpts();
     ["aiMachine", "aiModel", "aiSymptom", "aiCode", "aiObservations"].forEach(id => {
       const field = $(id);
       if (field) field.value = "";
@@ -410,7 +440,7 @@
     resetConversation();
     initialized = true;
   }
-  root.MaintenanceDiagnosticChat = Object.freeze({ init, handleMessage, reset: resetConversation, classifyInput, extractModelDesignation, getApprovedExcerpts: () => retrievedExcerpts.map(item => ({ ...item })), getConversationContext, getTechnicianChatInput });
+  root.MaintenanceDiagnosticChat = Object.freeze({ init, handleMessage, reset: resetConversation, classifyInput, extractModelDesignation, getApprovedExcerpts, getConversationContext, getTechnicianChatInput });
   if (typeof module !== "undefined" && module.exports) module.exports = root.MaintenanceDiagnosticChat;
   if (root.document) {
     if (root.document.readyState === "loading") root.document.addEventListener("DOMContentLoaded", init);
