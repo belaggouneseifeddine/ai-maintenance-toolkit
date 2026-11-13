@@ -10,19 +10,19 @@
   let retrievalSequence = 0;
 
   const EQUIPMENT = [
-    { id: "pump", label: "مضخة", pattern: /\\b(?:pump|pumps)\\b|مضخ|pompe/i },
-    { id: "motor", label: "محرك كهربائي", pattern: /\\b(?:motor|motors)\\b|محرك|moteur/i },
-    { id: "compressor", label: "ضاغط", pattern: /\\bcompressor\\b|ضاغط|compresseur/i },
-    { id: "vfd", label: "مغير سرعة VFD", pattern: /\\bvfd\\b|variator|variateur|مغير السرعة|مغيّر السرعة/i },
-    { id: "bearing", label: "محمل", pattern: /\\bbearing\\b|محمل|رولمان|roulement/i },
-    { id: "valve", label: "صمام", pattern: /\\bvalve\\b|صمام|vanne/i },
-    { id: "gearbox", label: "علبة تروس", pattern: /\\bgearbox\\b|علبة التروس|réducteur/i }
+    { id: "pump", label: "مضخة", pattern: /\b(?:pump|pumps)\b|مضخ|pompe/i },
+    { id: "motor", label: "محرك كهربائي", pattern: /\b(?:motor|motors)\b|محرك|moteur/i },
+    { id: "compressor", label: "ضاغط", pattern: /\bcompressor\b|ضاغط|compresseur/i },
+    { id: "vfd", label: "مغير سرعة VFD", pattern: /\bvfd\b|variator|variateur|مغير السرعة|مغيّر السرعة/i },
+    { id: "bearing", label: "محمل", pattern: /\bbearing\b|محمل|رولمان|roulement/i },
+    { id: "valve", label: "صمام", pattern: /\bvalve\b|صمام|vanne/i },
+    { id: "gearbox", label: "علبة تروس", pattern: /\bgearbox\b|علبة التروس|réducteur/i }
   ];
   const SYMPTOMS = [
-    { id: "low_flow", label: "تدفق ضعيف", pattern: /low\\s*flow|low\\s*pressure|weak\\s*flow|تدفق\\s*(?:ضعيف|منخفض)|ضغط\\s*(?:منخفض|ضعيف)|débit\\s*(?:faible|bas)|pression\\s*(?:basse|faible)/i, canonical: "low flow" },
-    { id: "not_start", label: "لا تبدأ", pattern: /not\\s*start|won.?t\\s*start|doesn.?t\\s*start|لا\\s*(?:تعمل|يعمل|تبدأ|يبدأ)|ne\\s*démarre\\s*pas/i, canonical: "not start" },
-    { id: "trip", label: "فصل أو إنذار", pattern: /\\btrip\\b|overload|فصل|إنذار|déclenchement|défaut/i, canonical: "trip" },
-    { id: "overheat", label: "ارتفاع الحرارة", pattern: /overheat|high\\s*temperature|ارتفاع\\s*الحرارة|حرارة\\s*مرتفعة|surchauffe/i, canonical: "overheat" },
+    { id: "low_flow", label: "تدفق ضعيف", pattern: /low\s*flow|low\s*pressure|weak\s*flow|تدفق\s*(?:ضعيف|منخفض)|ضغط\s*(?:منخفض|ضعيف)|débit\s*(?:faible|bas)|pression\s*(?:basse|faible)/i, canonical: "low flow" },
+    { id: "not_start", label: "لا تبدأ", pattern: /not\s*start|won.?t\s*start|doesn.?t\s*start|لا\s*(?:تعمل|يعمل|تبدأ|يبدأ)|ne\s*démarre\s*pas/i, canonical: "not start" },
+    { id: "trip", label: "فصل أو إنذار", pattern: /\btrip\b|overload|فصل|إنذار|déclenchement|défaut/i, canonical: "trip" },
+    { id: "overheat", label: "ارتفاع الحرارة", pattern: /overheat|high\s*temperature|ارتفاع\s*الحرارة|حرارة\s*مرتفعة|surchauffe/i, canonical: "overheat" },
     { id: "vibration", label: "اهتزاز", pattern: /vibration|اهتزاز|vibrations/i, canonical: "vibration" },
     { id: "leak", label: "تسرب", pattern: /leak|leakage|تسرب|fuite/i, canonical: "leak" }
   ];
