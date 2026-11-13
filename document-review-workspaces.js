@@ -78,13 +78,46 @@
     host.appendChild(section);
 
     let openedSourceKey = "";
+    let previewedPageKey = "";
     let currentPageHasOcr = false;
     const selectedPageKey = () => String($("reviewDocumentSelect").value || "") + ":" + String(Number($("claimPage").value));
+    const selectedReviewKey = () => [
+      selectedPageKey(),
+      String($("claimText").value || "").trim(),
+      String($("claimFamily").value || "").trim(),
+      String($("claimModel").value || "").trim(),
+      String($("claimEvidenceClass").value || "")
+    ].join("|");
+    function invalidateClaimReview() {
+      if (!openedSourceKey) return;
+      openedSourceKey = "";
+      $("claimSourcePageVerified").checked = false;
+      $("claimSourcePageVerified").disabled = true;
+      $("claimOcrVisuallyVerified").checked = false;
+      $("claimOcrVisuallyVerified").disabled = true;
+      status("claimPageStatus", "تغيّر الادعاء أو نطاقه بعد فتح المصدر. أعد فتح الصفحة الأصلية ومراجعة النسخة النهائية قبل الاعتماد.");
+    }
+    ["claimText", "claimFamily", "claimModel", "claimEvidenceClass"].forEach(id => {
+      $(id).addEventListener("input", invalidateClaimReview);
+      $(id).addEventListener("change", invalidateClaimReview);
+    });
+    ["reviewDocumentSelect", "claimPage"].forEach(id => {
+      $(id).addEventListener("change", () => {
+        previewedPageKey = "";
+        openedSourceKey = "";
+        $("claimSourcePageVerified").checked = false;
+        $("claimSourcePageVerified").disabled = true;
+        $("claimOcrVisuallyVerified").checked = false;
+        $("claimOcrVisuallyVerified").disabled = true;
+        $("openClaimSourcePage").disabled = true;
+      });
+    });
     $("previewClaimPage").addEventListener("click", async () => {
       try {
         const id = $("reviewDocumentSelect").value;
         if (!id) throw new Error("اختر الوثيقة أولًا.");
         openedSourceKey = "";
+        previewedPageKey = "";
         currentPageHasOcr = false;
         $("claimSourcePageVerified").checked = false;
         $("claimSourcePageVerified").disabled = true;
@@ -100,6 +133,7 @@
         const methods = [...new Set(evidence.chunks.map(chunk => chunk.extractionMethod))];
         const confidences = evidence.chunks.map(chunk => chunk.ocrConfidence).filter(Number.isFinite);
         currentPageHasOcr = methods.includes("ocr");
+        previewedPageKey = selectedPageKey();
         $("openClaimSourcePage").disabled = false;
         status("claimPageStatus", "تم استخراج " + evidence.chunks.length + " مقطعًا من صفحة PDF " + evidence.pageNumber +
           " | الطريقة: " + methods.join(", ") +
@@ -117,7 +151,7 @@
         if (!id) throw new Error("اختر الوثيقة أولًا.");
         const opened = await library().openSourcePage(id, $("claimPage").value);
         if (opened !== true) throw new Error("لم يتم فتح صفحة PDF الأصلية؛ لا تؤكد مراجعة OCR قبل عرضها.");
-        openedSourceKey = selectedPageKey();
+        openedSourceKey = selectedReviewKey();
         $("claimSourcePageVerified").disabled = false;
         if (currentPageHasOcr) $("claimOcrVisuallyVerified").disabled = false;
         status("claimPageStatus", "تم فتح صفحة PDF الأصلية. قارن الادعاء بالمصدر، ثم أكد مراجعة الصفحة. إذا كان النص مستخرجًا بـOCR فتحقق أيضًا من الأرقام والوحدات ورموز الموديل.");
@@ -164,8 +198,8 @@
           reviewer: $("claimReviewer").value,
           notes: $("claimNotes").value,
           rightsVerified: $("claimRightsVerified").checked,
-          sourcePageVerified: openedSourceKey === selectedPageKey() && $("claimSourcePageVerified").checked,
-          ocrVisuallyVerified: openedSourceKey === selectedPageKey() && $("claimOcrVisuallyVerified").checked,
+          sourcePageVerified: openedSourceKey === selectedReviewKey() && $("claimSourcePageVerified").checked,
+          ocrVisuallyVerified: openedSourceKey === selectedReviewKey() && $("claimOcrVisuallyVerified").checked,
           approved: $("claimApproved").checked
         });
         status("pageClaimStatus", claim.reviewStatus === "approved"
