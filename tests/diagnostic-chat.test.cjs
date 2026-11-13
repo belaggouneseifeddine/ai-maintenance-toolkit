@@ -35,13 +35,15 @@ test("conversational diagnostic layer uses local session actions and approved PD
   assert.match(source, /MaintenanceDocumentRetrieval/);
   assert.match(source, /if \(!consent \|\| !consent.checked\)/);
   assert.match(source, /MaintenanceAgentUI\.runCloudAI/);
+  assert.match(source, /modelMatch/);
   assert.match(source, /forDiagnostics/);
   assert.match(source, /openSourcePage/);
   const agentUI = fs.readFileSync(require.resolve("../agent-ui.js"), "utf8");
   assert.match(agentUI, /diagnosticFlowId/);
   assert.match(agentUI, /diagnosticEvidence/);
+  assert.match(agentUI, /model: model \? model\.value\.trim\(\) : ""/);
   assert.match(source, /لا تنفّذ اختبارًا/);
-  assert.doesNotMatch(source, /fetch\s*\(/, "chat UI must not upload conversation data");
+  assert.doesNotMatch(source, /fetch\s*\(/, "chat UI must not make an unguarded direct network request");
 });
 
 test("chat is loaded after the local session UI and included in offline and deployment assets", () => {
