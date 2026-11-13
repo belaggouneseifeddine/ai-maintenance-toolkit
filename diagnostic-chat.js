@@ -20,7 +20,8 @@
     { id: "gearbox", label: "علبة تروس", pattern: /\bgearbox\b|علبة التروس|réducteur/i }
   ];
   const SYMPTOMS = [
-    { id: "low_flow", label: "تدفق ضعيف", pattern: /low\s*flow|low\s*pressure|weak\s*flow|تدفق\s*(?:ضعيف|منخفض)|لا\s*(?:يوجد|يوجد أي)\s*تدفق|ضغط\s*(?:منخفض|ضعيف)|débit\s*(?:faible|bas)|pression\s*(?:basse|faible)/i, canonical: "low flow" },
+    { id: "low_flow", label: "تدفق ضعيف", pattern: /low\s*flow|weak\s*flow|no\s*flow|تدفق\s*(?:ضعيف|منخفض)|لا\s*(?:يوجد|يوجد أي)\s*تدفق|débit\s*(?:faible|bas|nul)/i, canonical: "low flow" },
+    { id: "low_pressure", label: "ضغط منخفض", pattern: /low\s*(?:suction\s*|discharge\s*|outlet\s*)?pressure|(?:suction|discharge|outlet)\s*pressure\s*(?:is\s*)?(?:low|below)|ضغط\s*(?:(?:السحب|الطرد|الخروج)\s*)?(?:منخفض|ضعيف)|pression\s*(?:(?:d. aspiration|de refoulement|de sortie)\s*)?(?:basse|faible)/i, canonical: "low pressure" },
     { id: "not_start", label: "لا تبدأ", pattern: /not\s*start|won.?t\s*start|doesn.?t\s*start|لا\s*(?:تعمل|يعمل|تبدأ|يبدأ)|ne\s*démarre\s*pas/i, canonical: "not start" },
     { id: "trip", label: "فصل أو إنذار", pattern: /\btrip\b|overload|فصل|إنذار|déclenchement|défaut/i, canonical: "trip" },
     { id: "overheat", label: "ارتفاع الحرارة", pattern: /overheat|high\s*temperature|ارتفاع\s*الحرارة|حرارة\s*مرتفعة|surchauffe/i, canonical: "overheat" },
@@ -78,6 +79,15 @@
   }
   function detectEquipment(text) { return EQUIPMENT.find(item => item.pattern.test(text)) || null; }
   function detectSymptom(text) { return SYMPTOMS.find(item => item.pattern.test(text)) || null; }
+  function extractModelDesignation(text) {
+    const match = String(text || "").match(/(?:\\bmodel\\b|موديل|الموديل|طراز|modèle)\\s*[:：]\\s*([^,،;؛\\n]{2,80})/i);
+    return match ? match[1].trim() : "";
+  }
+  function classifyInput(text) {
+    const equipment = detectEquipment(text);
+    const symptom = detectSymptom(text);
+    return { equipment: equipment ? equipment.id : "", symptom: symptom ? symptom.id : "", equipmentContext: resolveEquipmentContext(text, equipment) };
+  }
   function resolveEquipmentContext(text, equipment) {
     const value = String(text || "");
     if (equipment && equipment.id === "pump") {
@@ -226,7 +236,7 @@
       addMessage("assistant", copy("لم يتم إرسال أي شيء. فعّل موافقة الإرسال ثم اضغط زر التحليل إذا أردت استخدام المزود الخارجي.", "Nothing was sent. Enable the sharing consent and press the analysis button if you want to use the external provider.", "Aucune donnée n’a été envoyée. Activez le consentement puis cliquez sur le bouton d’analyse pour utiliser le fournisseur externe."));
       return;
     }
-    if (!started || !currentSession()) {
+    if (!$("aiMachine")?.value.trim() || !$("aiSymptom")?.value.trim()) {
       addMessage("assistant", copy("أكمل تحديد المعدة والعَرَض أولًا حتى لا نرسل طلبًا ناقصًا.", "Identify the equipment and symptom first so an incomplete request is not sent.", "Identifiez d’abord l’équipement et le symptôme afin de ne pas envoyer une demande incomplète."));
       return;
     }
@@ -331,7 +341,7 @@
         <button id="diagnosticChatSend" class="btn" type="submit">${copy("إرسال", "Send", "Envoyer")}</button>
       </form>
       <div id="diagnosticChatEvidence"></div>
-      <label class="check" for="diagnosticChatCloudConsent"><input id="diagnosticChatCloudConsent" type="checkbox"> ${copy("أوافق على إرسال ملخص المحادثة والمعدة والعَرَض والقراءات إلى مزود الذكاء الاصطناعي المهيأ عبر الخادم. لا ترسل أسرارًا أو بيانات حساسة.", "I consent to sending the conversation summary, equipment, symptom, and readings to the configured AI provider through the server. Do not send secrets or sensitive data.", "J’autorise l’envoi du résumé, de l’équipement, du symptôme et des mesures au fournisseur d’IA configuré via le serveur. N’envoyez aucune donnée sensible.")}</label>
+      <label class="check" for="diagnosticChatCloudConsent"><input id="diagnosticChatCloudConsent" type="checkbox"> ${copy("أوافق على إرسال ملخص المحادثة ونوع المعدة والموديل والعَرَض والرمز والقراءات ومعرّفات الأدلة إلى مزود الذكاء الاصطناعي المهيأ عبر الخادم. لا تُرسل ملفات PDF المحلية أو أسرارًا أو بيانات حساسة.", "I consent to sending the conversation summary, equipment type, model, symptom, alarm code, readings, and evidence IDs to the configured AI provider through the server. Local PDF files are not sent. Do not send secrets or sensitive data.", "J’autorise l’envoi du résumé, du type d’équipement, du modèle, du symptôme, du code d’alarme, des mesures et des identifiants de preuve au fournisseur d’IA configuré via le serveur. Les PDF locaux ne sont pas envoyés. N’envoyez aucune donnée sensible.")}</label>
       <div class="actions"><button id="diagnosticChatAskGenerative" class="btn" type="button">${copy("اطلب تحليلًا توليديًا", "Request generative analysis", "Demander une analyse générative")}</button></div>
       <p class="hint">${copy("لا يتم الإرسال بمجرد كتابة الرسائل. يلزم تفعيل الموافقة والضغط على زر التحليل لكل طلب.", "Typing messages does not send them. Consent and a button press are required for each request.", "La saisie des messages n’envoie rien. Un consentement et un clic sont requis pour chaque demande.")}</p>
       <div class="actions"><button id="diagnosticChatReset" class="btn secondary" type="button">${copy("بدء محادثة جديدة", "Start a new conversation", "Nouvelle conversation")}</button></div>
@@ -350,7 +360,8 @@
     resetConversation();
     initialized = true;
   }
-  root.MaintenanceDiagnosticChat = Object.freeze({ init, handleMessage, reset: resetConversation });
+  root.MaintenanceDiagnosticChat = Object.freeze({ init, handleMessage, reset: resetConversation, classifyInput, extractModelDesignation });
+  if (typeof module !== "undefined" && module.exports) module.exports = root.MaintenanceDiagnosticChat;
   if (root.document) {
     if (root.document.readyState === "loading") root.document.addEventListener("DOMContentLoaded", init);
     else init();
