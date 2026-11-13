@@ -210,10 +210,10 @@
       holder.textContent = copy("لا توجد أدلة PDF معتمدة ومطابقة لهذا النطاق حاليًا. لا تُستخدم المقاطع الخام أو OCR غير المراجع.", "No approved, applicable PDF evidence was found. Raw or unreviewed OCR chunks are excluded.", "Aucune preuve PDF approuvée et applicable n’a été trouvée. Les fragments bruts ou OCR non vérifiés sont exclus.");
       return;
     }
-    retrievedExcerpts = result.results.slice(0, 4).map(item => ({
+    retrievedExcerpts = result.results.slice(0, 3).map(item => ({
       documentTitle: String(item.documentTitle || "PDF").slice(0, 160),
       citation: String(item.citation || "").slice(0, 240),
-      text: String(item.text || "").slice(0, 1200)
+      text: String(item.text || "").slice(0, 600)
     })).filter(item => item.text);
     result.results.forEach(item => {
       const article = root.document.createElement("article");
