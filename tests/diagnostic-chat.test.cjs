@@ -34,7 +34,7 @@ test("conversational diagnostic layer uses local session actions and approved PD
   assert.match(source, /MaintenanceDiagnosticSessionUI\.answerText/);
   assert.match(source, /MaintenanceDocumentRetrieval/);
   assert.match(source, /if \(!consent \|\| !consent.checked\)/);
-  assert.match(source, /MaintenanceAgentUI\.runCloudAI/);
+  assert.match(source, /MaintenanceAgentUI\.runCloudAI/);\n  assert.match(source, /diagnosticAnswers/);\n  assert.match(source, /diagnosticHypotheses/);\n  assert.match(source, /client-side heuristic; provisional and unverified/);
   assert.match(source, /modelMatch/);
   assert.match(source, /forDiagnostics/);
   assert.match(source, /openSourcePage/);
