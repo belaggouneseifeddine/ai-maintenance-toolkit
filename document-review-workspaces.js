@@ -104,7 +104,8 @@
       try {
         const id = $("reviewDocumentSelect").value;
         if (!id) throw new Error("اختر الوثيقة أولًا.");
-        await library().openSourcePage(id, $("claimPage").value);
+        const opened = await library().openSourcePage(id, $("claimPage").value);
+        if (opened !== true) throw new Error("لم يتم فتح صفحة PDF الأصلية؛ لا تؤكد مراجعة OCR قبل عرضها.");
         ocrSourcePageOpened = true;
         $("claimOcrVisuallyVerified").disabled = false;
         status("claimPageStatus", "تم فتح صفحة PDF الأصلية. قارن النص بصريًا ثم فعّل تأكيد المراجعة.");
