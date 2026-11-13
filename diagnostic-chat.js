@@ -315,9 +315,18 @@
     pendingSymptom = "";
     equipmentContext = "";
     retrievalSequence++;
-    const machine = $("aiMachine"); const symptom = $("aiSymptom");
-    if (machine) machine.value = "";
-    if (symptom) symptom.value = "";
+    ["aiMachine", "aiModel", "aiSymptom", "aiCode", "aiObservations"].forEach(id => {
+      const field = $(id);
+      if (field) field.value = "";
+    });
+    const measurement = $("aiMeasurementStatus");
+    if (measurement) measurement.value = "unknown";
+    const result = $("aiResult");
+    if (result) { result.textContent = ""; result.hidden = true; }
+    const cloudConsent = $("aiCloudConsent");
+    if (cloudConsent) cloudConsent.checked = false;
+    const chatConsent = $("diagnosticChatCloudConsent");
+    if (chatConsent) chatConsent.checked = false;
     if (root.MaintenanceDiagnosticSessionUI && root.MaintenanceDiagnosticSessionUI.reset) root.MaintenanceDiagnosticSessionUI.reset();
     addMessage("assistant", copy("ابدأ بوصف المشكلة كما تراها. مثال: مضخة طرد مركزي، التدفق ضعيف والاهتزاز مرتفع.", "Describe the problem in your own words. Example: centrifugal pump, low flow and high vibration.", "Décrivez le problème avec vos mots. Exemple : pompe centrifuge, faible débit et vibrations élevées."));
     renderReplies();
@@ -333,7 +342,7 @@
     panel.setAttribute("aria-label", "Conversational industrial diagnosis");
     panel.innerHTML = `
       <h3>${copy("المحادثة التشخيصية", "Diagnostic conversation", "Conversation de diagnostic")}</h3>
-      <p class="hint">${copy("تحدث بحرية. المحرك المحلي يحدّث الفرضيات فقط عندما يستطيع ربط إجابتك بدليل معروف. هذه نسخة حوارية أولية وليست نموذجًا لغويًا توليديًا بعد.", "Describe the issue naturally. The local engine updates hypotheses only when it can map your answer to known evidence. This is an initial conversational layer, not yet a generative language model.", "Décrivez le problème naturellement. Le moteur local ne met à jour les hypothèses que si la réponse correspond à un élément connu. Cette première version n’est pas encore un modèle génératif.")}</p>
+      <p class="hint">${copy("تحدث بحرية. المحرك المحلي يحدّث الفرضيات من الأدلة المعروفة، ويمكنك طلب تقييم توليدي اختياري بعد الموافقة. النموذج يشرح ويرتب الاحتمالات ولا يؤكد السبب الجذري دون دليل.", "Describe the issue naturally. The local engine updates hypotheses from known evidence, and you can request an optional generative assessment after consenting. The model explains and ranks possibilities; it does not confirm root cause without evidence.", "Décrivez le problème naturellement. Le moteur local met à jour les hypothèses à partir d’éléments connus. Une évaluation générative facultative est disponible après consentement ; le modèle n’établit pas la cause racine sans preuve.")}</p>
       <div id="diagnosticChatMessages" role="log" aria-live="polite" aria-relevant="additions"></div>
       <div id="diagnosticChatReplies" aria-label="Suggested replies"></div>
       <form id="diagnosticChatForm">
