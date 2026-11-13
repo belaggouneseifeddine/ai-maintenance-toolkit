@@ -125,7 +125,21 @@
   }
   function renderHypothesisSummary(session) {
     if (!session || !Array.isArray(session.hypotheses) || !session.hypotheses.length) return "";
-    const names = session.hypotheses.slice(0, 3).map((item, index) => (index + 1) + ". " + item.label).join("\n");
+    const names = session.hypotheses.slice(0, 3).map((item, index) => {
+      const lines = [(index + 1) + ". " + item.label];
+      if (item.status) lines.push(copy("الحالة الاستدلالية: ", "Evidence status: ", "Statut des éléments : ") + item.status);
+      if (Array.isArray(item.supportingEvidenceLabels) && item.supportingEvidenceLabels.length) {
+        lines.push(copy("ما يدعمها: ", "Supporting evidence: ", "Éléments favorables : ") + item.supportingEvidenceLabels.slice(0, 2).join("، "));
+      }
+      if (Array.isArray(item.contradictingEvidenceLabels) && item.contradictingEvidenceLabels.length) {
+        lines.push(copy("ما يضعفها: ", "Contradicting evidence: ", "Éléments défavorables : ") + item.contradictingEvidenceLabels.slice(0, 2).join("، "));
+      }
+      if (Array.isArray(item.sourceRefs) && item.sourceRefs.length) {
+        lines.push(copy("مراجع المعرفة: ", "Knowledge references: ", "Références de connaissance : ") + item.sourceRefs.slice(0, 2).join(", "));
+      }
+      if (Array.isArray(item.checks) && item.checks.length) lines.push(copy("الخطوة الآمنة التالية: ", "Next safe check: ", "Prochaine vérification sûre : ") + item.checks[0]);
+      return lines.join("\n");
+    }).join("\n\n");
     return copy("الفرضيات الحالية (ترتيب استدلالي أولي، وليس احتمالات معايرة):\n", "Current hypotheses (provisional heuristic ranking, not calibrated probabilities):\n", "Hypothèses actuelles (classement heuristique provisoire, pas des probabilités calibrées) :\n") + names;
   }
   function beginIfReady(initialText) {
