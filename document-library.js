@@ -553,6 +553,7 @@
           const matchedTerms = terms.filter(term => claimTerms.includes(term)).length;
           const pageMethods = Array.isArray(claim.pageExtractionMethods) ? claim.pageExtractionMethods : [];
           const sourceReviewEligible = claim.sourcePageVerified === true &&
+            claim.documentReviewRevision === Number(doc.reviewRevision || 0) &&
             (!pageMethods.includes("ocr") || claim.ocrVisuallyVerified === true);
           const eligible = doc.eligibleForDiagnosis === true &&
             doc.reviewStatus === "approved" && doc.rightsStatus === "verified" &&
@@ -622,6 +623,7 @@
         rightsStatus: review.rightsVerified === true ? "verified" : "user-supplied-rights-not-verified",
         rightsEvidence, reviewer, reviewNotes: notes,
         reviewStatus: review.approved === true ? "approved" : "reviewed",
+        reviewRevision: Number.isInteger(doc.reviewRevision) ? doc.reviewRevision + 1 : 1,
         eligibleForDiagnosis: false
       });
       await new Promise((resolve,reject)=>{const tx=db.transaction("documents","readwrite");tx.objectStore("documents").put(doc);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);});
@@ -656,6 +658,7 @@
       const record = {
         id: String(claim.id || (doc.id + ":claim:" + Date.now())),
         documentId: doc.id, pageNumber,
+        documentReviewRevision: Number(doc.reviewRevision || 0),
         printedPageNumber: String(claim.printedPageNumber || "").trim() || null,
         text: textValue,
         sourceChunkIds: pageEvidence.chunks.map(item => item.id),
