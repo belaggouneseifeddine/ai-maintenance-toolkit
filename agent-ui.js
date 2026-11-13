@@ -222,7 +222,9 @@
         diagnosticFlowId: typeof guided.diagnosticFlowId === "string" ? guided.diagnosticFlowId : "",
         diagnosticEvidence: Array.isArray(guided.diagnosticEvidence) ? guided.diagnosticEvidence.slice(0, 12) : [],
         approvedPdfExcerpts: root.MaintenanceDiagnosticChat && typeof root.MaintenanceDiagnosticChat.getApprovedExcerpts === "function"
-          ? root.MaintenanceDiagnosticChat.getApprovedExcerpts().slice(0, 3) : []
+          ? root.MaintenanceDiagnosticChat.getApprovedExcerpts().slice(0, 3) : [],
+        conversationContext: root.MaintenanceDiagnosticChat && typeof root.MaintenanceDiagnosticChat.getConversationContext === "function"
+          ? root.MaintenanceDiagnosticChat.getConversationContext().slice(0, 1800) : ""
       };
       const response = await root.fetch(WORKER_ENDPOINT, {
         method: "POST",
