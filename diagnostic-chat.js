@@ -248,7 +248,22 @@
     const transcript = messages.slice(-12).map(message =>
       (message.role === "user" ? "Technician: " : "Assistant: ") + message.text
     ).join("\n");
-    observations.value = [previousObservations.trim(), "Conversation context:", transcript].filter(Boolean).join("\n\n").slice(-3000);
+    const guided = root.MaintenanceDiagnosticSessionUI && typeof root.MaintenanceDiagnosticSessionUI.getPayload === "function"
+      ? root.MaintenanceDiagnosticSessionUI.getPayload() : {};
+    const localSnapshot = JSON.stringify({
+      flowId: guided.diagnosticFlowId || "",
+      answers: (Array.isArray(guided.diagnosticAnswers) ? guided.diagnosticAnswers : []).slice(0, 8)
+        .map(item => ({ questionId: item.questionId, answerId: item.answerId, evidence: item.evidence })),
+      hypotheses: (Array.isArray(guided.diagnosticHypotheses) ? guided.diagnosticHypotheses : []).slice(0, 5)
+        .map(item => ({ id: item.id, label: item.label, status: item.status }))
+    });
+    observations.value = [
+      previousObservations.trim(),
+      "Local diagnostic snapshot (client-side heuristic; provisional and unverified, not ground truth):",
+      localSnapshot,
+      "Conversation context:",
+      transcript
+    ].filter(Boolean).join("\n\n").slice(-3000);
     workerConsent.checked = true;
     consent.checked = false;
     if (button) {
