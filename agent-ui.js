@@ -220,7 +220,9 @@
         measurementStatus: measurement ? measurement.value : "unknown",
         language: ["ar", "en", "fr"].includes(language) ? language : "ar",
         diagnosticFlowId: typeof guided.diagnosticFlowId === "string" ? guided.diagnosticFlowId : "",
-        diagnosticEvidence: Array.isArray(guided.diagnosticEvidence) ? guided.diagnosticEvidence.slice(0, 12) : []
+        diagnosticEvidence: Array.isArray(guided.diagnosticEvidence) ? guided.diagnosticEvidence.slice(0, 12) : [],
+        approvedPdfExcerpts: root.MaintenanceDiagnosticChat && typeof root.MaintenanceDiagnosticChat.getApprovedExcerpts === "function"
+          ? root.MaintenanceDiagnosticChat.getApprovedExcerpts().slice(0, 3) : []
       };
       const response = await root.fetch(WORKER_ENDPOINT, {
         method: "POST",
