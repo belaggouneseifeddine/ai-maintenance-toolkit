@@ -224,7 +224,9 @@
         approvedPdfExcerpts: root.MaintenanceDiagnosticChat && typeof root.MaintenanceDiagnosticChat.getApprovedExcerpts === "function"
           ? root.MaintenanceDiagnosticChat.getApprovedExcerpts().slice(0, 3) : [],
         conversationContext: root.MaintenanceDiagnosticChat && typeof root.MaintenanceDiagnosticChat.getConversationContext === "function"
-          ? root.MaintenanceDiagnosticChat.getConversationContext().slice(0, 1200) : ""
+          ? root.MaintenanceDiagnosticChat.getConversationContext().slice(0, 1200) : "",
+        technicianChatInput: root.MaintenanceDiagnosticChat && typeof root.MaintenanceDiagnosticChat.getTechnicianChatInput === "function"
+          ? root.MaintenanceDiagnosticChat.getTechnicianChatInput().slice(0, 1200) : ""
       };
       const response = await root.fetch(WORKER_ENDPOINT, {
         method: "POST",
