@@ -640,11 +640,11 @@ export default {
     }
     if (!body || typeof body !== "object" || Array.isArray(body)) return json({ error: "Invalid JSON request." }, 400, origin);
 
-    const { machine, model = "", symptom, code = "", observations = "", measurementStatus = "unknown", language = "ar", diagnosticFlowId = "", diagnosticEvidence = [], approvedPdfExcerpts = [], conversationContext = "" } = body;
-    if (![machine, model, symptom, code, observations, measurementStatus, language, conversationContext].every(v => typeof v === "string")) {
+    const { machine, model = "", symptom, code = "", observations = "", measurementStatus = "unknown", language = "ar", diagnosticFlowId = "", diagnosticEvidence = [], approvedPdfExcerpts = [], conversationContext = "", technicianChatInput = "" } = body;
+    if (![machine, model, symptom, code, observations, measurementStatus, language, conversationContext, technicianChatInput].every(v => typeof v === "string")) {
       return json({ error: "All fields must be text." }, 400, origin);
     }
-    if (machine.length > 120 || model.length > 160 || symptom.length > 240 || code.length > 300 || observations.length > 3000 || conversationContext.length > 1200 || !["unknown", "none", "available"].includes(measurementStatus) || !LANGUAGES.has(language)) {
+    if (machine.length > 120 || model.length > 160 || symptom.length > 240 || code.length > 300 || observations.length > 3000 || conversationContext.length > 1200 || technicianChatInput.length > 1200 || !["unknown", "none", "available"].includes(measurementStatus) || !LANGUAGES.has(language)) {
       return json({ error: "Input too long or language unsupported." }, 413, origin);
     }
     if (!machine.trim() || !symptom.trim()) return json({ error: "Equipment and symptom are required." }, 400, origin);
@@ -759,7 +759,7 @@ export default {
       if (!decision.success) return json({ error: "Request limit reached. Please wait and try again." }, 429, origin);
     }
 
-    const evidence = assessEvidence({ machine, symptom, code, observations, language });
+    const technicianObservations = [observations, technicianChatInput].filter(Boolean).join("\n").slice(0, 3000);\n    const evidence = assessEvidence({ machine, symptom, code, observations: technicianObservations, language });
     const evidenceRefs = [ "Knowledge base: retrieved source excerpts will be used when available." ];
     if (evidence.needsClarification) {
       const prompts = language === "fr"
@@ -782,7 +782,7 @@ export default {
     }
 
     const replyLanguage = language === "fr" ? "French" : language === "en" ? "English" : "Arabic";
-    const retrieval = await retrieveKnowledge(machine, symptom, code, observations);
+    const retrieval = await retrieveKnowledge(machine, symptom, code, technicianObservations);
     const userPdfChunks = approvedPdfExcerpts.map((item, index) => ({
       source: item.documentTitle,
       heading: item.citation || "User-approved PDF excerpt",
@@ -831,7 +831,7 @@ Equipment / type: ${machine}
 Exact manufacturer/model designation supplied by technician: ${model || "not provided; do not infer model-specific limits"}
 Exact symptom and when it occurs: ${symptom}
 Alarm or fault code (exact text): ${code || "not provided"}
-Technician-supplied operating conditions, recent changes, readings, previous repairs, and observations (this field alone is used for the evidence sufficiency gate): ${observations || "not provided"}
+Technician-supplied operating conditions, recent changes, readings, previous repairs, and observations (including technician chat turns; these alone are used for the evidence sufficiency gate): ${technicianObservations || "not provided"}
 Conversation transcript and provisional local diagnostic snapshot (context only; assistant messages and client-side hypothesis rankings are not independent evidence): ${conversationContext || "not provided"}
 Use only the evidence supplied. Rank plausible causes, show how to distinguish them, and give an ordered safe diagnostic path.${curatedFlowInstruction} Cite internal retrieved excerpts using their exact [S#] identifiers and user-approved PDF excerpts using their exact [U#] identifiers and displayed source/section. User-approved excerpts are supplied context, not OEM verification. Do not claim these files are OEM manuals. If no excerpt supports a claim, say so. Never invent citations or page numbers. If key evidence is missing, state what cannot be concluded and ask only the highest-value questions. Do not give a generic checklist.`;
 
