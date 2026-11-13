@@ -168,6 +168,11 @@ test("Worker returns validated structured diagnosis and accepts missing readings
     body: JSON.stringify({
       machine: "مضخة طرد مركزي",
       model: "Grundfos CR 10-4",
+      approvedPdfExcerpts: [{
+        documentTitle: "Grundfos CR service manual",
+        citation: "Page 14 — suction troubleshooting",
+        text: "Verify available suction conditions against the approved pump curve and site baseline."
+      }],
       symptom: "ضعف تدفق الماء أثناء التشغيل",
       code: "",
       observations: "لا توجد قراءة ضغط أو تدفق متاحة حتى الآن",
@@ -187,6 +192,8 @@ test("Worker returns validated structured diagnosis and accepts missing readings
   assert.equal(upstreamPayload.store, false);
   assert.match(upstreamPayload.input, /no reading available/);
   assert.match(upstreamPayload.input, /Grundfos CR 10-4/);
+  assert.match(upstreamPayload.input, /\[U1\] Source: Grundfos CR service manual/);
+  assert.match(upstreamPayload.input, /Page 14 — suction troubleshooting/);
   assert.match(upstreamPayload.system_instruction, /untrusted data/i);
 });
 
