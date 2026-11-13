@@ -55,3 +55,30 @@ test("source references retain PDF page, printed page, chunk and OCR provenance"
   assert.equal(ref.ocrConfidence, 94.2);
   assert.equal(ref.sha256, "abc");
 });
+
+test("equipment family matching does not confuse pump subtypes", () => {
+  assert.equal(Core.equipmentFamilyMatches("centrifugal pump", "centrifugal pump"), true);
+  assert.equal(Core.equipmentFamilyMatches("pompe centrifuge", "centrifugal pump"), true);
+  assert.equal(Core.equipmentFamilyMatches("مضخة طرد مركزي", "centrifugal pump"), true);
+  assert.equal(Core.equipmentFamilyMatches("centrifugal pump", "gear pump"), false);
+  assert.equal(Core.equipmentFamilyMatches("gear pump", "centrifugal pump"), false);
+  assert.equal(Core.equipmentFamilyMatches("pump", "centrifugal pump"), true);
+  assert.equal(Core.equipmentFamilyMatches("centrifugal pump", "pump"), false);
+  assert.equal(Core.equipmentFamilyMatches("electric motor", "centrifugal pump"), false);
+});
+
+test("model applicability requires the complete designation, not a shared token", () => {
+  assert.equal(Core.modelApplicabilityMatches("Grundfos CR 10", "Grundfos CR 10"), true);
+  assert.equal(Core.modelApplicabilityMatches("Grundfos CR 10", "grundfos cr-10"), true);
+  assert.equal(Core.modelApplicabilityMatches("Grundfos CR 15", "Grundfos CR 10"), false);
+  assert.equal(Core.modelApplicabilityMatches("ABB ACS580", "ABB ACS480"), false);
+  assert.equal(Core.modelApplicabilityMatches("Grundfos CR 10-4", "Grundfos CR 10"), false);
+  assert.equal(Core.modelApplicabilityMatches("Grundfos CR 10", ""), false);
+});
+
+test("explicit generic model scope is the only model-free fallback", () => {
+  assert.equal(Core.modelApplicabilityMatches("generic", ""), true);
+  assert.equal(Core.modelApplicabilityMatches("family-wide", ""), true);
+  assert.equal(Core.modelApplicabilityMatches("all models", "Unknown Model X"), true);
+  assert.equal(Core.modelApplicabilityMatches("Grundfos CR 10", ""), false);
+});
