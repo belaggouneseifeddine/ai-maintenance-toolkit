@@ -19,7 +19,7 @@
     { id: "gearbox", label: "علبة تروس", pattern: /\bgearbox\b|علبة التروس|réducteur/i }
   ];
   const SYMPTOMS = [
-    { id: "low_flow", label: "تدفق ضعيف", pattern: /low\s*flow|low\s*pressure|weak\s*flow|تدفق\s*(?:ضعيف|منخفض)|ضغط\s*(?:منخفض|ضعيف)|débit\s*(?:faible|bas)|pression\s*(?:basse|faible)/i, canonical: "low flow" },
+    { id: "low_flow", label: "تدفق ضعيف", pattern: /low\s*flow|low\s*pressure|weak\s*flow|تدفق\s*(?:ضعيف|منخفض)|لا\s*(?:يوجد|يوجد أي)\s*تدفق|ضغط\s*(?:منخفض|ضعيف)|débit\s*(?:faible|bas)|pression\s*(?:basse|faible)/i, canonical: "low flow" },
     { id: "not_start", label: "لا تبدأ", pattern: /not\s*start|won.?t\s*start|doesn.?t\s*start|لا\s*(?:تعمل|يعمل|تبدأ|يبدأ)|ne\s*démarre\s*pas/i, canonical: "not start" },
     { id: "trip", label: "فصل أو إنذار", pattern: /\btrip\b|overload|فصل|إنذار|déclenchement|défaut/i, canonical: "trip" },
     { id: "overheat", label: "ارتفاع الحرارة", pattern: /overheat|high\s*temperature|ارتفاع\s*الحرارة|حرارة\s*مرتفعة|surchauffe/i, canonical: "overheat" },
