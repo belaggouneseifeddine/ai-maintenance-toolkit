@@ -66,24 +66,36 @@
     const queryTokens = [...new Set(tokenize(query))];
     if (!queryTokens.length) return [];
     const docs = chunks || [];
-    const df = new Map(queryTokens.map(term => [term, docs.filter(doc => (doc.tokens || tokenize(doc.text)).includes(term)).length]));
-    const scored = docs.map(doc => {
-      const tokens = doc.tokens || tokenize(doc.text);
+    if (!docs.length) return [];
+    const tokenLists = docs.map(doc => doc.tokens || tokenize(doc.text));
+    const lengths = tokenLists.map(tokens => tokens.length);
+    const averageLength = lengths.reduce((sum, length) => sum + length, 0) / Math.max(1, lengths.length);
+    const documentFrequency = new Map(queryTokens.map(term => [
+      term,
+      tokenLists.reduce((count, tokens) => count + (tokens.includes(term) ? 1 : 0), 0)
+    ]));
+    const k1 = 1.2;
+    const b = 0.75;
+    const normalizedQuery = normalizeText(query).trim();
+    const scored = docs.map((doc, index) => {
+      const tokens = tokenLists[index];
       const counts = new Map();
       tokens.forEach(token => counts.set(token, (counts.get(token) || 0) + 1));
       let score = 0;
       let matched = 0;
       for (const term of queryTokens) {
         const tf = counts.get(term) || 0;
-        if (tf) {
-          matched++;
-          score += (1 + Math.log(tf)) * (1 + Math.log((docs.length + 1) / ((df.get(term) || 0) + 1)));
-        }
+        if (!tf) continue;
+        matched++;
+        const df = documentFrequency.get(term) || 0;
+        const idf = Math.log(1 + (docs.length - df + 0.5) / (df + 0.5));
+        const lengthNorm = 1 - b + b * (tokens.length / Math.max(1, averageLength));
+        score += idf * (tf * (k1 + 1)) / (tf + k1 * lengthNorm);
       }
       if (matched) {
-        const normalized = normalizeText(doc.text);
-        if (normalized.includes(normalizeText(query).trim())) score += 3;
-        score *= 0.7 + 0.3 * matched / queryTokens.length;
+        const normalizedText = normalizeText(doc.text);
+        if (normalizedQuery && normalizedText.includes(normalizedQuery)) score += 2.5;
+        score *= 0.5 + 0.5 * matched / queryTokens.length;
       }
       return { doc, score, matched };
     }).filter(item => item.score > 0);
