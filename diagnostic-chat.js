@@ -80,7 +80,7 @@
   function detectEquipment(text) { return EQUIPMENT.find(item => item.pattern.test(text)) || null; }
   function detectSymptom(text) { return SYMPTOMS.find(item => item.pattern.test(text)) || null; }
   function extractModelDesignation(text) {
-    const match = String(text || "").match(/(?:\\bmodel\\b|موديل|الموديل|طراز|modèle)\\s*[:：]\\s*([^,،;؛\\n]{2,80})/i);
+    const match = String(text || "").match(/(?:\bmodel\b|موديل|الموديل|طراز|modèle)\s*[:：]\s*([^,،;؛\n]{2,80})/i);
     return match ? match[1].trim() : "";
   }
   function classifyInput(text) {
