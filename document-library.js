@@ -640,8 +640,11 @@
       const ocrChunks = pageEvidence.chunks.filter(item => item.extractionMethod === "ocr");
       const ocrConfidenceValues = ocrChunks.map(item => item.ocrConfidence).filter(Number.isFinite);
       if (ocrConfidenceValues.some(value => value < 0 || value > 100)) throw new Error("قيمة OCR confidence خارج النطاق المتوقع؛ أعد استخراج الصفحة.");
+      if (claim.approved === true && claim.sourcePageVerified !== true) {
+        throw new Error("لا يمكن اعتماد الادعاء قبل فتح صفحة PDF الأصلية ومقارنة الادعاء بالمصدر.");
+      }
       if (claim.approved === true && ocrChunks.length && claim.ocrVisuallyVerified !== true) {
-        throw new Error("لا يمكن اعتماد ادعاء مستخرج بـOCR قبل مقارنة النص بصريًا مع صفحة PDF الأصلية وتأكيد المراجعة.");
+        throw new Error("لا يمكن اعتماد ادعاء مستخرج بـOCR قبل التحقق البصري من النص والأرقام والوحدات ورموز الموديل في صفحة PDF الأصلية.");
       }
       const rightsStatus = claim.rightsVerified === true && doc.rightsStatus === "verified" ? "verified" : "unverified";
       const approved = claim.approved === true && doc.reviewStatus === "approved" && rightsStatus === "verified";
@@ -654,6 +657,7 @@
         sourceChunkIds: pageEvidence.chunks.map(item => item.id),
         pageExtractionMethods: [...new Set(pageEvidence.chunks.map(item => item.extractionMethod))],
         pageOcrConfidence: ocrConfidenceValues,
+        sourcePageVerified: claim.sourcePageVerified === true,
         ocrVisuallyVerified: ocrChunks.length ? claim.ocrVisuallyVerified === true : null,
         equipmentFamily: String(claim.equipmentFamily || doc.equipmentFamily || "").trim(),
         modelApplicability: String(claim.modelApplicability || "").trim(),
