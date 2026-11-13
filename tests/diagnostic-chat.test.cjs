@@ -44,6 +44,11 @@ test("conversational diagnostic layer uses local session actions and approved PD
   assert.match(source, /modelMatch/);
   assert.match(source, /forDiagnostics/);
   assert.match(source, /retrievedExcerpts/);
+  assert.match(source, /clearRetrievedExcerpts\(\)/);
+  assert.match(source, /retrievedContext/);
+  assert.match(source, /current\.machine !== retrievedContext\.machine/);
+  assert.match(source, /current\.model !== retrievedContext\.model/);
+  assert.match(source, /current\.technicianInput !== retrievedContext\.technicianInput/);
   assert.match(source, /approved text excerpts that I requested to retrieve/);
   assert.match(source, /openSourcePage/);
   const agentUI = fs.readFileSync(require.resolve("../agent-ui.js"), "utf8");
