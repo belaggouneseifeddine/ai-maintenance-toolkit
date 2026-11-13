@@ -23,11 +23,15 @@
       machine: String($("aiMachine")?.value || "").trim(),
       model: String($("aiModel")?.value || "").trim(),
       symptom: String($("aiSymptom")?.value || "").trim(),
+      code: String($("aiCode")?.value || "").trim(),
+      observations: String($("aiObservations")?.value || "").trim(),
       technicianInput: getTechnicianChatInput()
     };
     if (current.machine !== retrievedContext.machine ||
         current.model !== retrievedContext.model ||
         current.symptom !== retrievedContext.symptom ||
+        current.code !== retrievedContext.code ||
+        current.observations !== retrievedContext.observations ||
         current.technicianInput !== retrievedContext.technicianInput) return [];
     return retrievedExcerpts.map(item => ({ ...item }));
   }
@@ -242,9 +246,11 @@
       machine: String($("aiMachine")?.value || "").trim(),
       model: String($("aiModel")?.value || "").trim(),
       symptom: String($("aiSymptom")?.value || "").trim(),
+      code: String($("aiCode")?.value || "").trim(),
+      observations: String($("aiObservations")?.value || "").trim(),
       technicianInput: getTechnicianChatInput()
     };
-    const query = [pendingEquipment, pendingSymptom, $("aiCode")?.value, retrievalContext.model, ...notes, ...messages.map(message => message.text)].filter(Boolean).join(" ");
+    const query = [pendingEquipment, pendingSymptom, retrievalContext.code, retrievalContext.model, retrievalContext.observations, ...notes, ...messages.map(message => message.text)].filter(Boolean).join(" ");
     const result = await api.forDiagnostics(query, { equipment: equipmentContext || retrievalContext.machine || pendingEquipment, model: retrievalContext.model });
     if (sequence !== retrievalSequence) return;
     holder.replaceChildren();
