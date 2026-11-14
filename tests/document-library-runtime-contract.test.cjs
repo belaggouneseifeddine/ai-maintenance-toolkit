@@ -120,3 +120,18 @@ test("inline JavaScript in the production HTML parses before browser execution",
     new vm.Script(match[2], { filename: "index.html:inline-script-" + (index + 1) });
   });
 });
+
+
+test("all PDF and diagnostic integration runtime modules parse", () => {
+  const files = [
+    "document-library-core.js",
+    "document-library.js",
+    "document-retrieval-adapter.js",
+    "document-review-workspaces.js",
+    "diagnostic-document-evidence.js",
+    "diagnostic-chat.js"
+  ];
+  for (const file of files) {
+    new vm.Script(read(file), { filename: file });
+  }
+});
