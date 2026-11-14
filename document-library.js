@@ -393,9 +393,14 @@
       pageNumber: page,
       text: pageText,
       criticalTokens: CORE.extractCriticalTokens(pageText),
+      knowledgeCandidates: CORE.extractKnowledgeCandidates(pageText, { pageNumber: page }).map(candidate => ({
+        ...candidate,
+        sourceChunkIds: chunks.filter(chunk => chunk.charStart < candidate.endOffset && chunk.charEnd > candidate.startOffset).map(chunk => chunk.id)
+      })),
       chunks: chunks.map(item => ({
         id: item.id, extractionMethod: item.extractionMethod,
-        ocrConfidence: item.ocrConfidence, chunkIndex: item.chunkIndex
+        ocrConfidence: item.ocrConfidence, chunkIndex: item.chunkIndex,
+        charStart: item.charStart, charEnd: item.charEnd
       }))
     };
   }
