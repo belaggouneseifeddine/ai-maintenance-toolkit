@@ -63,6 +63,11 @@ test("document review UI excludes deferred Study and exposes page preview", () =
   assert.ok(review.includes("invalidateClaimReview"));
   assert.ok(review.includes("stale — document review changed; re-review required"));
   assert.ok(read("document-library.js").includes("CORE.extractCriticalTokens(pageText)"));
+  assert.ok(read("document-library.js").includes("CORE.extractKnowledgeCandidates(pageText"));
+  assert.ok(read("document-library.js").includes("sourceChunkIds: chunks.filter"));
+  assert.ok(review.includes("claimKnowledgeCandidates"));
+  assert.ok(review.includes("استخدام كنص مسودة"));
+  assert.ok(review.includes("اعرض نص صفحة PDF المحددة أولًا"));
   assert.doesNotMatch(review, /Study|studyQuery|runDocumentStudy/);
 });
 
