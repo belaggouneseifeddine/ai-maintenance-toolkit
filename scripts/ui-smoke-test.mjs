@@ -33,6 +33,7 @@ const server = createServer(async (req, res) => {
 });
 
 const errors = [];
+let stage = "setup";
 let browser;
 try {
   await new Promise((resolveListen, reject) => {
@@ -44,15 +45,18 @@ try {
   const context = await browser.newContext({ serviceWorkers: "block" });
   const page = await context.newPage();
   await page.addInitScript(() => window.addEventListener("error", event => console.error("WINDOW_ERROR", event.message, event.filename, event.lineno, event.colno)));
-  page.on("pageerror", error => errors.push("PAGEERROR: " + (error.stack || error.message)));
+  page.on("pageerror", error => errors.push("PAGEERROR at " + stage + ": " + (error.stack || error.message)));
   page.on("console", message => { if (message.type() === "error") errors.push("CONSOLE: " + message.text() + " @ " + JSON.stringify(message.location())); });
+  stage = "initial navigation";
   await page.goto(`http://127.0.0.1:${address.port}/`, { waitUntil: "networkidle" });
+  stage = "initial page loaded";
   await page.locator("#themeToggle").waitFor();
 
   assert.equal(await page.locator("html").getAttribute("lang"), "ar", "Arabic must remain the default language");
   assert.equal(await page.locator("html").getAttribute("dir"), "rtl", "Arabic must remain RTL");
   assert.equal(await page.locator("#languageSwitcher option").count(), 3, "The three language choices must remain available");
 
+  stage = "open diagnose tab";
   await page.locator('.tab[data-tab="diagnose"]').click();
   await page.locator("#diagnosisForm").waitFor({ state: "visible" });
 
@@ -65,13 +69,18 @@ try {
   await page.locator('.tab[data-tab="diagnose"]').click();
   await page.locator("#aiForm").waitFor({ state: "visible" });
   await page.locator("#diagnosticChat").waitFor({ state: "visible" });
+  stage = "fill diagnostic chat";
   await page.locator("#diagnosticChatInput").fill("motor overheat");
+  stage = "submit diagnostic chat";
   await page.locator("#diagnosticChatForm").locator('button[type="submit"]').click();
+  stage = "wait for diagnostic replies";
   await page.locator("#diagnosticChatReplies button").first().waitFor({ state: "visible" });
   const firstReply = page.locator("#diagnosticChatReplies button").first();
   assert.ok((await firstReply.innerText()).includes("الحمل أو التيار أعلى من خط الأساس"), "The conversation must offer a localized, evidence-specific reply.");
+  stage = "select first diagnostic reply";
   await firstReply.click();
   const chatLog = page.locator("#diagnosticChatMessages");
+  stage = "wait for diagnostic hypotheses";
   await page.waitForFunction(() => document.querySelector("#diagnosticChatMessages")?.textContent.includes("الفرضيات الحالية"));
   const hypothesisText = await chatLog.innerText();
   assert.ok(hypothesisText.includes("ما يدعمها"), "The conversation must show evidence supporting its hypotheses.");
