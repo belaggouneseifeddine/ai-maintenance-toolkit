@@ -2,6 +2,7 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
+const vm = require("node:vm");
 const root = path.resolve(__dirname, "..");
 const read = file => fs.readFileSync(path.join(root, file), "utf8");
 
@@ -103,4 +104,19 @@ test("PDF library stays local and does not add Study UI", () => {
   assert.ok(html.includes('id="documentOcrEnabled"'));
   assert.ok(html.includes('id="aiModel"'));
   assert.equal(html.includes('data-tab="study"'), false);
+});
+
+
+test("inline JavaScript in the production HTML parses before browser execution", () => {
+  const html = read("index.html");
+  const scripts = [...html.matchAll(/<script\\b([^>]*)>([\\s\\S]*?)<\\/script>/gi)];
+  const javascript = scripts.filter(match => {
+    const attributes = match[1] || "";
+    const type = (attributes.match(/\\btype=["']([^"']+)["']/i) || [])[1] || "text/javascript";
+    return !/\\bsrc=/i.test(attributes) && /^(?:text|application)\\/(?:java|ecma)script$|^module$/i.test(type);
+  });
+  assert.ok(javascript.length > 0, "production HTML should contain its expected inline application scripts");
+  javascript.forEach((match, index) => {
+    new vm.Script(match[2], { filename: "index.html:inline-script-" + (index + 1) });
+  });
 });
