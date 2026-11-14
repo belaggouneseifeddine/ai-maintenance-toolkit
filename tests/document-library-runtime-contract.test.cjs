@@ -109,11 +109,11 @@ test("PDF library stays local and does not add Study UI", () => {
 
 test("inline JavaScript in the production HTML parses before browser execution", () => {
   const html = read("index.html");
-  const scripts = [...html.matchAll(/<script\\b([^>]*)>([\\s\\S]*?)<\\/script>/gi)];
+  const scripts = [...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)];
   const javascript = scripts.filter(match => {
     const attributes = match[1] || "";
-    const type = (attributes.match(/\\btype=["']([^"']+)["']/i) || [])[1] || "text/javascript";
-    return !/\\bsrc=/i.test(attributes) && /^(?:text|application)\\/(?:java|ecma)script$|^module$/i.test(type);
+    const type = (attributes.match(/\btype=["']([^"']+)["']/i) || [])[1] || "text/javascript";
+    return !/\bsrc=/i.test(attributes) && /^(?:text|application)\/(?:java|ecma)script$|^module$/i.test(type);
   });
   assert.ok(javascript.length > 0, "production HTML should contain its expected inline application scripts");
   javascript.forEach((match, index) => {
