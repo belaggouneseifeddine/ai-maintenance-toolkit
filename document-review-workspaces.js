@@ -68,6 +68,7 @@
       '<p id="claimPageStatus" class="hint" role="status" aria-live="polite"></p>' +
       '<pre id="claimPagePreview" class="document-page-preview"></pre>' +
       '<p id="claimCriticalTokens" class="hint" aria-live="polite"></p>' +
+      '<div id="claimKnowledgeCandidates" class="document-candidate-list" aria-live="polite"></div>' +
       '<label class="check"><input id="claimOcrVisuallyVerified" type="checkbox" disabled> قارنت نص OCR مع صفحة PDF الأصلية، وتحققت من الأرقام والوحدات ورموز الموديلات</label>' +
       '<label for="claimText">الادعاء الفني بعد مراجعته</label><textarea id="claimText" rows="5" placeholder="اكتب ادعاءً محددًا، ولا تنقل فصلًا كاملًا. احتفظ بالشروط والقيم والوحدات."></textarea>' +
       '<label for="claimFamily">عائلة المعدة / نطاق الانطباق</label><input id="claimFamily" placeholder="مثال: centrifugal pump">' +
@@ -84,6 +85,12 @@
     let openedSourceKey = "";
     let previewedPageKey = "";
     let currentPageHasOcr = false;
+    let currentKnowledgeCandidates = [];
+    const candidateLabels = {
+      safety: "سلامة", fault: "عطل", maintenance: "صيانة",
+      procedure: "إجراء", specification: "مواصفة", component: "مكوّن",
+      technical_reference: "مرجع فني"
+    };
     const selectedPageKey = () => String($("reviewDocumentSelect").value || "") + ":" + String(Number($("claimPage").value));
     const selectedReviewKey = () => [
       selectedPageKey(),
@@ -131,6 +138,17 @@
         if (!evidence.chunks.length) throw new Error("لم يُستخرج نص لهذه الصفحة. فعّل OCR أو تحقق من جودة الصفحة.");
         $("claimPagePreview").textContent = evidence.text;
         $("claimText").value = evidence.text;
+        currentKnowledgeCandidates = Array.isArray(evidence.knowledgeCandidates) ? evidence.knowledgeCandidates : [];
+        $("claimKnowledgeCandidates").innerHTML = currentKnowledgeCandidates.length
+          ? '<h4>مقاطع مرشحة للمعرفة — تحتاج مراجعة</h4>' + currentKnowledgeCandidates.map((candidate, index) =>
+            '<article class="document-result"><p class="hint">' +
+            candidate.tags.map(tag => escapeHtml(candidateLabels[tag] || tag)).join(" • ") +
+            ' | الصفحة ' + Number(candidate.pageNumber) +
+            ' | مقاطع المصدر: ' + candidate.sourceChunkIds.length + '</p><p>' +
+            escapeHtml(candidate.text) + '</p><button type="button" class="btn secondary" data-knowledge-candidate="' + index +
+            '">استخدام كنص مسودة</button></article>'
+          ).join("")
+          : '<p class="hint">لم تُكتشف مقاطع مرشحة وفق قواعد الاستخراج الحالية. هذا لا يعني خلو الصفحة من المعرفة الفنية.</p>';
         $("claimCriticalTokens").textContent = evidence.criticalTokens.length
           ? "قيم ووحدات ورموز تستحق المقارنة مع الأصل: " + evidence.criticalTokens.join(" | ")
           : "لم يُكتشف نمط واضح لقيم ووحدات أو رموز فنية؛ تحقق من الصفحة الأصلية يدويًا.";
@@ -149,10 +167,29 @@
         status("claimPageStatus", error.message);
       }
     });
+    $("claimKnowledgeCandidates").addEventListener("click", event => {
+      const button = event.target.closest("[data-knowledge-candidate]");
+      if (!button) return;
+      const candidate = currentKnowledgeCandidates[Number(button.dataset.knowledgeCandidate)];
+      if (!candidate) return;
+      $("claimText").value = candidate.text;
+      $("claimNotes").value = "مسودة مستخرجة آليًا من الصفحة " + candidate.pageNumber +
+        ". التصنيفات المقترحة: " + candidate.tags.join(", ") +
+        ". لم تُعتمد؛ راجع السياق والموديل والوحدات والمصدر الأصلي.";
+      openedSourceKey = "";
+      $("claimSourcePageVerified").checked = false;
+      $("claimSourcePageVerified").disabled = true;
+      $("claimOcrVisuallyVerified").checked = false;
+      $("claimOcrVisuallyVerified").disabled = true;
+      status("claimPageStatus", "تم إدراج النص كمسودة فقط. افتح الصفحة الأصلية وراجع النص والسياق قبل أي اعتماد.");
+    });
     $("openClaimSourcePage").addEventListener("click", async () => {
       try {
         const id = $("reviewDocumentSelect").value;
         if (!id) throw new Error("اختر الوثيقة أولًا.");
+        if (!previewedPageKey || previewedPageKey !== selectedPageKey()) {
+          throw new Error("اعرض نص صفحة PDF المحددة أولًا قبل فتح المصدر ومراجعته.");
+        }
         const opened = await library().openSourcePage(id, $("claimPage").value);
         if (opened !== true) throw new Error("لم يتم فتح صفحة PDF الأصلية؛ لا تؤكد مراجعة OCR قبل عرضها.");
         openedSourceKey = selectedReviewKey();
