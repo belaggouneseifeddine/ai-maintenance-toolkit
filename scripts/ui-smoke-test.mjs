@@ -43,7 +43,7 @@ try {
   browser = await chromium.launch({ headless: true });
   const context = await browser.newContext({ serviceWorkers: "block" });
   const page = await context.newPage();
-  page.on("pageerror", error => errors.push(error.message));
+  page.on("pageerror", error => errors.push(error.stack || error.message));
   await page.goto(`http://127.0.0.1:${address.port}/`, { waitUntil: "networkidle" });
   await page.locator("#themeToggle").waitFor();
 
