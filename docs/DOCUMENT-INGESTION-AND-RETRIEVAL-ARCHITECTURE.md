@@ -73,6 +73,14 @@ The diagnostic retrieval path searches only approved page-level claims. It does 
 
 The first implementation slice exposes local PDF intake, page-anchored search, document/claim review, and a separate diagnostic evidence panel. It does not implement Study or claim that Deep Research synthesis is complete.
 
+### Candidate extraction (review-only)
+
+The page review workspace now runs a deterministic, local candidate extractor over the extracted page text. It identifies potentially relevant lines and attaches one or more suggested tags: safety, fault, maintenance, procedure, specification, or component. Numeric values, units, and equipment/model-like tokens are surfaced for visual checking. Candidate text is preserved verbatim, with its PDF page and matching stored chunk IDs where an exact chunk match exists.
+
+These are retrieval/review aids, not an understanding engine and not approved knowledge records. The extractor does not infer missing conditions, causal relationships, equipment applicability, or model scope; it does not paraphrase the source or call a cloud model. A candidate always remains `reviewStatus: candidate` and `eligibleForDiagnosis: false`. A reviewer may copy a candidate into the claim editor as a draft, then must verify the full page context, equipment/model scope, units, rights, and source page before saving an approved claim. False negatives are possible: absence of a candidate does not mean the page contains no useful information.
+
+The next extraction stage should add a versioned structured schema (equipment/component, knowledge type, condition, observed value/unit, operating context, action, contraindications, and evidence links) and a reviewed extraction proposal workflow. Do not automatically promote model-generated output into diagnostic retrieval.
+
 ### Remaining validation
 
 - Run the Android device matrix with at least one text PDF and scanned PDFs containing Arabic, French, and English; verify OCR, page numbering, memory use, IndexedDB migration, and PDF viewer page navigation.
