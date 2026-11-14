@@ -43,6 +43,7 @@ try {
   browser = await chromium.launch({ headless: true });
   const context = await browser.newContext({ serviceWorkers: "block" });
   const page = await context.newPage();
+  await page.addInitScript(() => window.addEventListener("error", event => console.error("WINDOW_ERROR", event.message, event.filename, event.lineno, event.colno)));
   page.on("pageerror", error => errors.push("PAGEERROR: " + (error.stack || error.message)));
   page.on("console", message => { if (message.type() === "error") errors.push("CONSOLE: " + message.text() + " @ " + JSON.stringify(message.location())); });
   await page.goto(`http://127.0.0.1:${address.port}/`, { waitUntil: "networkidle" });
