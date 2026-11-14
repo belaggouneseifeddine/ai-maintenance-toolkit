@@ -31,7 +31,7 @@
         ' | ' + escapeHtml(displayedStatus) + ' | rights: ' + escapeHtml(claim.rightsStatus) + '</p>' +
         '<button type="button" class="btn secondary" data-open-claim="' + escapeHtml(claim.documentId) +
         '" data-page="' + Number(claim.pageNumber) + '">فتح الصفحة الأصلية</button></article>'
-      ).join("") : '<p class="hint">لا توجد ادعاءات مسجلة حتى الآن.</p>';
+      }).join("") : '<p class="hint">لا توجد ادعاءات مسجلة حتى الآن.</p>';
       list.querySelectorAll("[data-open-claim]").forEach(button => {
         button.addEventListener("click", () => library().openSourcePage(button.dataset.openClaim, Number(button.dataset.page)));
       });
