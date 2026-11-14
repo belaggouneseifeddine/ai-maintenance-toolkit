@@ -389,11 +389,19 @@
       request.onerror = () => reject(request.error || new Error("تعذر قراءة نص الصفحة."));
     });
     const pageText = chunks.map(item => item.text).join("\n\n");
+    const candidateMap = new Map();
+    for (const candidate of CORE.extractKnowledgeCandidates(pageText, { pageNumber: page })) {
+      const previous = candidateMap.get(candidate.text);
+      if (previous) {
+        previous.tags = [...new Set(previous.tags.concat(candidate.tags))];
+        previous.criticalTokens = [...new Set(previous.criticalTokens.concat(candidate.criticalTokens))];
+      } else candidateMap.set(candidate.text, candidate);
+    }
     return {
       pageNumber: page,
       text: pageText,
       criticalTokens: CORE.extractCriticalTokens(pageText),
-      knowledgeCandidates: CORE.extractKnowledgeCandidates(pageText, { pageNumber: page }).map(candidate => ({
+      knowledgeCandidates: [...candidateMap.values()].map(candidate => ({
         ...candidate,
         sourceChunkIds: chunks.filter(chunk => chunk.text.includes(candidate.text)).map(chunk => chunk.id)
       })),
