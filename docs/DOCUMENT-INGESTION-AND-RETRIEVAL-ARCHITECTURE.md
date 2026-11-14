@@ -28,7 +28,7 @@ The diagnostic consumer is separate from general document search. It returns onl
 
 Equipment applicability now uses canonical family matching so specific pump subtypes are not interchangeable. Model applicability compares the complete normalized designation; shared tokens such as a manufacturer or series prefix are insufficient. A generic model scope is accepted only when explicitly recorded. Local ranking uses a BM25-style lexical score over candidate chunks from the inverted index; it is not full-corpus BM25, semantic retrieval, or a calibrated relevance probability.
 
-For OCR-derived claims, approval requires opening the original PDF page and explicitly confirming visual comparison. The review workspace surfaces candidate numeric/unit/model tokens for manual checking. OCR confidence remains an informational recognition signal, not proof that a number, decimal separator, unit, or model code is correct.
+For every claim approved for diagnostics, the reviewer must open the original PDF page and confirm that the claim matches the source context. For OCR-derived claims, the reviewer must additionally compare the extracted text visually and verify numeric values, decimal separators, units, and model codes. The review workspace surfaces candidate numeric/unit/model tokens for manual checking. OCR confidence remains an informational recognition signal, not proof that a number, decimal separator, unit, or model code is correct.
 
 ## Trust and rights boundaries
 
@@ -62,15 +62,24 @@ The local review workspace records:
 - Rights evidence, rights verification state, reviewer, and review notes.
 - Individual technical claims with exact original PDF page, equipment scope, model limits, evidence class, reviewer, and review notes.
 
-A document-level review alone never enables diagnostic use. Diagnostic eligibility requires all of the following:
+A document-level review alone never enables diagnostic use. Each document review save increments a review revision; claims from an earlier revision become stale and cannot be retrieved for diagnosis. Diagnostic eligibility requires all of the following:
 1. Document review status is `approved`.
 2. Rights status is `verified` and rights evidence is recorded.
-3. Document eligibility flag is true, set only after an approved claim exists.
-4. The specific page-level claim is approved and its rights state is verified.
+3. Document eligibility flag is true, set only after an approved claim exists for the current review revision.
+4. The specific page-level claim is approved, has verified rights, matches the current document review revision, and records that its original PDF page was opened and reviewed.
+5. If any source chunk on the page came from OCR, the claim also records explicit visual verification of the OCR text against the original page.
 
 The diagnostic retrieval path searches only approved page-level claims. It does not promote raw PDF chunks, OCR text, unreviewed passages, or research/study results into diagnostic evidence. Each returned claim carries document hash, claim ID, page number, reviewer, equipment scope, model applicability, and evidence class. The diagnostic UI exposes these claims in a separate source-evidence panel and opens the original PDF at the claim's page; it does not silently rewrite the deterministic hypothesis ranking.
 
 The first implementation slice exposes local PDF intake, page-anchored search, document/claim review, and a separate diagnostic evidence panel. It does not implement Study or claim that Deep Research synthesis is complete.
+
+### Candidate extraction (review-only)
+
+The page review workspace now runs a deterministic, local candidate extractor over the extracted page text. It identifies potentially relevant lines and attaches one or more suggested tags: safety, fault, maintenance, procedure, specification, or component. Numeric values, units, and equipment/model-like tokens are surfaced for visual checking. Candidate text is preserved verbatim, with its PDF page and matching stored chunk IDs where an exact chunk match exists.
+
+These are retrieval/review aids, not an understanding engine and not approved knowledge records. The extractor does not infer missing conditions, causal relationships, equipment applicability, or model scope; it does not paraphrase the source or call a cloud model. A candidate always remains `reviewStatus: candidate` and `eligibleForDiagnosis: false`. A reviewer may copy a candidate into the claim editor as a draft, then must verify the full page context, equipment/model scope, units, rights, and source page before saving an approved claim. False negatives are possible: absence of a candidate does not mean the page contains no useful information.
+
+The next extraction stage should add a versioned structured schema (equipment/component, knowledge type, condition, observed value/unit, operating context, action, contraindications, and evidence links) and a reviewed extraction proposal workflow. Do not automatically promote model-generated output into diagnostic retrieval.
 
 ### Remaining validation
 

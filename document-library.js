@@ -389,13 +389,26 @@
       request.onerror = () => reject(request.error || new Error("تعذر قراءة نص الصفحة."));
     });
     const pageText = chunks.map(item => item.text).join("\n\n");
+    const candidateMap = new Map();
+    for (const candidate of CORE.extractKnowledgeCandidates(pageText, { pageNumber: page })) {
+      const previous = candidateMap.get(candidate.text);
+      if (previous) {
+        previous.tags = [...new Set(previous.tags.concat(candidate.tags))];
+        previous.criticalTokens = [...new Set(previous.criticalTokens.concat(candidate.criticalTokens))];
+      } else candidateMap.set(candidate.text, candidate);
+    }
     return {
       pageNumber: page,
       text: pageText,
       criticalTokens: CORE.extractCriticalTokens(pageText),
+      knowledgeCandidates: [...candidateMap.values()].map(candidate => ({
+        ...candidate,
+        sourceChunkIds: chunks.filter(chunk => chunk.text.includes(candidate.text)).map(chunk => chunk.id)
+      })),
       chunks: chunks.map(item => ({
         id: item.id, extractionMethod: item.extractionMethod,
-        ocrConfidence: item.ocrConfidence, chunkIndex: item.chunkIndex
+        ocrConfidence: item.ocrConfidence, chunkIndex: item.chunkIndex,
+        charStart: item.charStart, charEnd: item.charEnd
       }))
     };
   }
@@ -551,9 +564,14 @@
           const familyMatches = CORE.equipmentFamilyMatches(family, equipment);
           const modelMatches = CORE.modelApplicabilityMatches(modelScope, model);
           const matchedTerms = terms.filter(term => claimTerms.includes(term)).length;
+          const pageMethods = Array.isArray(claim.pageExtractionMethods) ? claim.pageExtractionMethods : [];
+          const sourceReviewEligible = claim.sourcePageVerified === true &&
+            claim.documentReviewRevision === Number(doc.reviewRevision || 0) &&
+            (!pageMethods.includes("ocr") || claim.ocrVisuallyVerified === true);
           const eligible = doc.eligibleForDiagnosis === true &&
             doc.reviewStatus === "approved" && doc.rightsStatus === "verified" &&
-            claim.reviewStatus === "approved" && claim.rightsStatus === "verified";
+            claim.reviewStatus === "approved" && claim.rightsStatus === "verified" &&
+            sourceReviewEligible;
           if (!eligible || !familyMatches || !modelMatches || !matchedTerms) return null;
           return { claim, score: matchedTerms / Math.max(1, terms.length) };
         }).filter(Boolean);
@@ -618,6 +636,7 @@
         rightsStatus: review.rightsVerified === true ? "verified" : "user-supplied-rights-not-verified",
         rightsEvidence, reviewer, reviewNotes: notes,
         reviewStatus: review.approved === true ? "approved" : "reviewed",
+        reviewRevision: Number.isInteger(doc.reviewRevision) ? doc.reviewRevision + 1 : 1,
         eligibleForDiagnosis: false
       });
       await new Promise((resolve,reject)=>{const tx=db.transaction("documents","readwrite");tx.objectStore("documents").put(doc);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);});
@@ -640,8 +659,11 @@
       const ocrChunks = pageEvidence.chunks.filter(item => item.extractionMethod === "ocr");
       const ocrConfidenceValues = ocrChunks.map(item => item.ocrConfidence).filter(Number.isFinite);
       if (ocrConfidenceValues.some(value => value < 0 || value > 100)) throw new Error("قيمة OCR confidence خارج النطاق المتوقع؛ أعد استخراج الصفحة.");
+      if (claim.approved === true && claim.sourcePageVerified !== true) {
+        throw new Error("لا يمكن اعتماد الادعاء قبل فتح صفحة PDF الأصلية ومقارنة الادعاء بالمصدر.");
+      }
       if (claim.approved === true && ocrChunks.length && claim.ocrVisuallyVerified !== true) {
-        throw new Error("لا يمكن اعتماد ادعاء مستخرج بـOCR قبل مقارنة النص بصريًا مع صفحة PDF الأصلية وتأكيد المراجعة.");
+        throw new Error("لا يمكن اعتماد ادعاء مستخرج بـOCR قبل التحقق البصري من النص والأرقام والوحدات ورموز الموديل في صفحة PDF الأصلية.");
       }
       const rightsStatus = claim.rightsVerified === true && doc.rightsStatus === "verified" ? "verified" : "unverified";
       const approved = claim.approved === true && doc.reviewStatus === "approved" && rightsStatus === "verified";
@@ -649,11 +671,13 @@
       const record = {
         id: String(claim.id || (doc.id + ":claim:" + Date.now())),
         documentId: doc.id, pageNumber,
+        documentReviewRevision: Number(doc.reviewRevision || 0),
         printedPageNumber: String(claim.printedPageNumber || "").trim() || null,
         text: textValue,
         sourceChunkIds: pageEvidence.chunks.map(item => item.id),
         pageExtractionMethods: [...new Set(pageEvidence.chunks.map(item => item.extractionMethod))],
         pageOcrConfidence: ocrConfidenceValues,
+        sourcePageVerified: claim.sourcePageVerified === true,
         ocrVisuallyVerified: ocrChunks.length ? claim.ocrVisuallyVerified === true : null,
         equipmentFamily: String(claim.equipmentFamily || doc.equipmentFamily || "").trim(),
         modelApplicability: String(claim.modelApplicability || "").trim(),

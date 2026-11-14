@@ -2,6 +2,7 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
+const vm = require("node:vm");
 const root = path.resolve(__dirname, "..");
 const read = file => fs.readFileSync(path.join(root, file), "utf8");
 
@@ -38,7 +39,14 @@ test("reviewed diagnostic claims must point to extracted chunks and verified doc
   assert.ok(source.includes("doc.eligibleForDiagnosis === true"));
   assert.match(source, /CORE\.equipmentFamilyMatches\(family, equipment\)/);
   assert.match(source, /CORE\.modelApplicabilityMatches\(modelScope, model\)/);
+  assert.match(source, /claim\.sourcePageVerified !== true/);
   assert.match(source, /claim\.ocrVisuallyVerified !== true/);
+  assert.match(source, /claim\.sourcePageVerified === true/);
+  assert.match(source, /sourceReviewEligible/);
+  assert.match(source, /claim\.documentReviewRevision === Number\(doc\.reviewRevision \|\| 0\)/);
+  assert.match(source, /reviewRevision: Number\.isInteger\(doc\.reviewRevision\)/);
+  assert.match(source, /documentReviewRevision: Number\(doc\.reviewRevision \|\| 0\)/);
+  assert.match(source, /sourcePageVerified: claim\.sourcePageVerified === true/);
   assert.match(source, /pageOcrConfidence: ocrConfidenceValues/);
 });
 
@@ -49,9 +57,18 @@ test("document review UI excludes deferred Study and exposes page preview", () =
   assert.ok(review.includes("عرض النص المستخرج من الصفحة"));
   assert.ok(review.includes("openClaimSourcePage"));
   assert.ok(review.includes("claimOcrVisuallyVerified"));
+  assert.ok(review.includes("claimSourcePageVerified"));
   assert.ok(review.includes("claimCriticalTokens"));
-  assert.ok(review.includes("ocrSourcePageOpened &&"));
+  assert.ok(review.includes("openedSourceKey === selectedReviewKey()"));
+  assert.ok(review.includes("previewedPageKey !== selectedPageKey()"));
+  assert.ok(review.includes("invalidateClaimReview"));
+  assert.ok(review.includes("stale — document review changed; re-review required"));
   assert.ok(read("document-library.js").includes("CORE.extractCriticalTokens(pageText)"));
+  assert.ok(read("document-library.js").includes("CORE.extractKnowledgeCandidates(pageText"));
+  assert.ok(read("document-library.js").includes("sourceChunkIds: chunks.filter"));
+  assert.ok(review.includes("claimKnowledgeCandidates"));
+  assert.ok(review.includes("استخدام كنص مسودة"));
+  assert.ok(review.includes("اعرض نص صفحة PDF المحددة أولًا"));
   assert.doesNotMatch(review, /Study|studyQuery|runDocumentStudy/);
 });
 
@@ -87,4 +104,34 @@ test("PDF library stays local and does not add Study UI", () => {
   assert.ok(html.includes('id="documentOcrEnabled"'));
   assert.ok(html.includes('id="aiModel"'));
   assert.equal(html.includes('data-tab="study"'), false);
+});
+
+
+test("inline JavaScript in the production HTML parses before browser execution", () => {
+  const html = read("index.html");
+  const scripts = [...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)];
+  const javascript = scripts.filter(match => {
+    const attributes = match[1] || "";
+    const type = (attributes.match(/\btype=["']([^"']+)["']/i) || [])[1] || "text/javascript";
+    return !/\bsrc=/i.test(attributes) && /^(?:text|application)\/(?:java|ecma)script$|^module$/i.test(type);
+  });
+  assert.ok(javascript.length > 0, "production HTML should contain its expected inline application scripts");
+  javascript.forEach((match, index) => {
+    new vm.Script(match[2], { filename: "index.html:inline-script-" + (index + 1) });
+  });
+});
+
+
+test("all PDF and diagnostic integration runtime modules parse", () => {
+  const files = [
+    "document-library-core.js",
+    "document-library.js",
+    "document-retrieval-adapter.js",
+    "document-review-workspaces.js",
+    "diagnostic-document-evidence.js",
+    "diagnostic-chat.js"
+  ];
+  for (const file of files) {
+    new vm.Script(read(file), { filename: file });
+  }
 });

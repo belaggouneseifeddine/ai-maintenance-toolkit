@@ -177,6 +177,44 @@
     return found;
   }
 
+  function extractKnowledgeCandidates(pageText, options) {
+    const pageNumber = Number(options && options.pageNumber);
+    const source = String(pageText || "");
+    const patterns = [
+      ["safety", /\b(?:danger|warning|caution|hazard|safety|lockout|tagout|isolate|de-energize)\b|\b(?:danger|avertissement|attention|sécurité|consignation|isoler)\b|خطر|تحذير|تنبيه|سلامة|افصل|عزل/i],
+      ["fault", /\b(?:fault|failure|malfunction|alarm|trip|cause|symptom|troubleshoot|overload|overheat)\b|\b(?:panne|défaut|défaillance|alarme|déclenchement|cause|symptôme)\b|عطل|خلل|فشل|إنذار|سبب|أعراض|ارتفاع الحرارة/i],
+      ["maintenance", /\b(?:maintenance|lubricat\w*|greas\w*|inspect\w*|replace\w*|interval|service life)\b|\b(?:maintenance|graiss\w*|lubrifi\w*|inspect\w*|remplac\w*|périodicité|entretien)\b|صيانة|تشحيم|تزييت|فحص|استبدال|فترة الصيانة/i],
+      ["procedure", /\b(?:check|verify|measure|adjust|test|ensure|tighten|disconnect|connect|start|stop)\b|\b(?:vérifier|contrôler|mesurer|régler|tester|serrer|débrancher|démarrer|arrêter)\b|تحقق|افحص|قِس|قياس|اضبط|اختبر|أحكم|افصل|شغل|أوقف/i],
+      ["specification", /\b(?:minimum|maximum|nominal|rated|limit|range|tolerance|pressure|flow|temperature|voltage|current|speed|frequency|capacity)\b|\b(?:minimum|maximum|nominal|limite|plage|tolérance|pression|débit|température|tension|courant|vitesse|fréquence|capacité)\b|الحد الأدنى|الحد الأقصى|اسمي|ضغط|تدفق|حرارة|درجة|جهد|تيار|سرعة|تردد|سعة/i],
+      ["component", /\b(?:bearing|mechanical seal|seal|impeller|shaft|rotor|stator|coupling|valve|filter|gasket|winding|terminal)\b|\b(?:roulement|garniture mécanique|joint|roue|arbre|rotor|stator|accouplement|vanne|filtre|bobinage|borne)\b|محمل|رولمان|مانع التسرب|مروحة|عمود|دوار|ثابت|قارنة|صمام|مرشح|حشية|ملف|طرف/i]
+    ];
+    const candidates = [];
+    for (const match of source.matchAll(/[^\n]+/g)) {
+      const raw = match[0];
+      const text = raw.trim();
+      if (text.length < 16 || text.length > 900) continue;
+      const tags = patterns.filter(([, pattern]) => pattern.test(text)).map(([tag]) => tag);
+      const criticalTokens = extractCriticalTokens(text);
+      if (!tags.length && !criticalTokens.length) continue;
+      if (criticalTokens.length && !tags.includes("specification")) tags.push("specification");
+      const startOffset = match.index + raw.indexOf(text);
+      candidates.push({
+        id: "p" + (Number.isInteger(pageNumber) && pageNumber > 0 ? pageNumber : 0) + ":line" + candidates.length,
+        pageNumber: Number.isInteger(pageNumber) && pageNumber > 0 ? pageNumber : null,
+        kind: tags[0] || "technical_reference",
+        tags,
+        text,
+        startOffset,
+        endOffset: startOffset + text.length,
+        criticalTokens,
+        reviewStatus: "candidate",
+        eligibleForDiagnosis: false
+      });
+      if (candidates.length >= 100) break;
+    }
+    return candidates;
+  }
+
   function isDiagnosticEligible(document) {
     return Boolean(document &&
       document.eligibleForDiagnosis === true &&
@@ -206,5 +244,5 @@
     return title + ", p. " + String(pageNumber || "?");
   }
 
-  return { normalizeText, tokenize, chunkPage, buildPostings, rankChunks, canonicalEquipmentFamily, equipmentFamilyMatches, normalizeModelDesignation, modelApplicabilityMatches, extractCriticalTokens, makeCitation, isDiagnosticEligible, makeSourceRef };
+  return { normalizeText, tokenize, chunkPage, buildPostings, rankChunks, canonicalEquipmentFamily, equipmentFamilyMatches, normalizeModelDesignation, modelApplicabilityMatches, extractCriticalTokens, extractKnowledgeCandidates, makeCitation, isDiagnosticEligible, makeSourceRef };
 });
