@@ -1,0 +1,212 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Open Knowledge Source Register v2",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "purpose",
+    "policy",
+    "sources"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 2
+    },
+    "purpose": {
+      "type": "string",
+      "minLength": 1
+    },
+    "policy": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "type",
+          "title",
+          "url",
+          "owner",
+          "lastUpdated",
+          "lastPushed",
+          "version",
+          "latestRelease",
+          "filesReviewed",
+          "lastChecked",
+          "licenses",
+          "decision",
+          "decisionClass",
+          "accessStatus",
+          "testStatus",
+          "sourceData",
+          "reuseConditions",
+          "qualityNotes",
+          "dataLeakage",
+          "dependencies",
+          "androidWorkerCompatibility"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "type": {
+            "type": "string",
+            "minLength": 1
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https://"
+          },
+          "owner": {
+            "type": "string",
+            "minLength": 1
+          },
+          "lastUpdated": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date"
+          },
+          "lastPushed": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date"
+          },
+          "version": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "latestRelease": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "filesReviewed": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "lastChecked": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date"
+          },
+          "licenses": {
+            "type": "object",
+            "required": [
+              "code",
+              "data"
+            ],
+            "properties": {
+              "code": {
+                "$ref": "#/$defs/license"
+              },
+              "data": {
+                "$ref": "#/$defs/license"
+              }
+            }
+          },
+          "decision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "decisionClass": {
+            "enum": [
+              "import_allowed",
+              "reference_only",
+              "isolated_experiment",
+              "rejected",
+              "pending_verification"
+            ]
+          },
+          "accessStatus": {
+            "type": "string"
+          },
+          "testStatus": {
+            "type": "string"
+          },
+          "sourceData": {
+            "type": "string"
+          },
+          "reuseConditions": {
+            "type": "string"
+          },
+          "qualityNotes": {
+            "type": "string"
+          },
+          "dataLeakage": {
+            "type": "string"
+          },
+          "dependencies": {
+            "type": "string"
+          },
+          "androidWorkerCompatibility": {
+            "type": "string"
+          },
+          "duplicateOf": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "$defs": {
+    "license": {
+      "type": "object",
+      "required": [
+        "status",
+        "identifier",
+        "evidenceUrl",
+        "notes"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "verified",
+            "not_applicable",
+            "not_found",
+            "pending_verification",
+            "per_dataset"
+          ]
+        },
+        "identifier": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "evidenceUrl": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uri"
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": true
+}
