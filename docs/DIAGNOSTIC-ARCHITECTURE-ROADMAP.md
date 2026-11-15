@@ -340,3 +340,50 @@ Verified on commit `0c1b2287df7d0a94fff0160f7652befd56b0f6c5`:
 | Published app / Worker smoke | `node scripts/smoke-test-live.mjs` | `CORS_PREFLIGHT_OK`; published app and Worker health checks passed |
 
 The Worker flow-pair regression tests, URMA primary-license gate tests and unlicensed Industrial Ops content-removal tests all passed. The service-worker test still reports one of seven optional reference assets not cached; core offline app installation remains successful. The live smoke test checks health/CORS, not a full live generative-AI response. No Android handset test, provider completion test, RUL calibration, merge or deployment was performed.
+
+
+## 2026-11-15 audit update — PDF intake, pump pilot and source-rights register
+
+This section supersedes the 2026-11-09 note that PDF intake was not implemented. The PDF intake/review pipeline now exists on the open feature branch; it is **not in production** because PR #139 remains open against `main`, and PR #140 is an open test-only follow-up against the feature branch. The current follow-up head is `5e4bf218658915456d4332606051b6bf2dccfadf`; the feature PR head is `1e43f831b84dd7783a5007e42c68483afeb4f8de`. No merge or production deployment was performed.
+
+### Verified implementation state
+
+- Local PDF intake stores the original PDF, extracted page text and chunks in IndexedDB. Text extraction uses PDF.js; OCR uses Tesseract.js. The configured limits are 40 MB per file, 1,200 pages, at most 150 OCR pages and a 4-million-pixel OCR page cap.
+- The review path requires verified rights, document approval, claim approval, equipment-family/model applicability, opening and reviewing the original PDF page, and an additional visual OCR check when OCR was used. Claims from a previous document-review revision become stale.
+- A deterministic line/tag candidate extractor exists for safety, fault, maintenance, procedure, specification and component hints. It preserves source text/page and always returns candidate-only, not diagnosis-eligible records. It does not infer causal relations, operating context or model applicability.
+- Local retrieval is BM25-style lexical retrieval over an inverted index, not semantic/vector retrieval. The user must explicitly retrieve approved page-level claims; a separate consented cloud request sends at most three short approved excerpts plus the local preliminary diagnostic snapshot and conversation context. The whole PDF is not sent. Retrieved PDF content remains untrusted reference material and is not promoted to OEM verification.
+- PDF.js and Tesseract assets are loaded from external CDNs and are not included in the service-worker asset list. Therefore the diagnostic shell can work offline, but first-use PDF extraction/OCR is not guaranteed offline. The Android PDF acceptance checklist still says manual device validation has not been performed.
+- The current feature PR's automated tests passed on its head, but the added parse-time follow-up only proves JavaScript syntax. It does not prove real Android PDF import, OCR correctness, IndexedDB quota/recovery or offline behavior.
+
+### Knowledge and diagnostic evidence state
+
+- `faults.json` contains 284 unique fault IDs across multiple equipment families. 152 records have no record-level `sourceRefs`. All 17 pump records lack record-level source references and model-specific evidence. They are in the runtime fault library, so they must not be described as source-verified pump knowledge.
+- `knowledge/sources.json` contains two research references; neither supplies a complete, model-specific evidence chain for all six pump pilot cases.
+- `knowledge/oem-verified-faults.json` declares 99 reviewed manual claims, but the reviewed records are not a centrifugal-pump pilot; no pump OEM record was found in the reviewed matrix. This audit did not re-open all 99 OEM manual pages and does not independently recertify them.
+- `docs/DIAGNOSTIC-KNOWLEDGE-CASEBOOK-CENTRIFUGAL-PUMP-PILOT.md` contains six draft differential case templates and a component map. The source/page/license chain and per-hypothesis expected-result matrices are incomplete; these drafts are not runtime-approved.
+- The local Bayesian-labelled engine still uses a fixed prior (0.2) and fixed likelihood-ratio updates (1.5 / reciprocal), with heuristic evidence groups. It has no learned conditional probability tables or calibration dataset. Next-question selection is a hypothesis-separation heuristic, not expected value of information with safety/time/cost constraints.
+- The Worker has a server-owned flow allowlist for seven cloud flows. Its response schema prevents a non-empty confirmed-cause field and validates source IDs, but the configured model/provider path has not been independently tested for a complete live diagnostic answer.
+
+### Source inventory delta
+
+The discovery register was upgraded to schema v2 on a separate audit branch. It now records code and data rights separately, normalized decision classes, last-updated/version fields, access/test status, dependencies, leakage notes and explicit duplicate links. Four new non-runtime candidates were added: PlantGraph, Hydronic Delta-T Diagnostics, the Avionic Main Fuel Pump simulation, and the MitchellQuinn MIMII pump anomaly case study. No external code, raw dataset, OEM manual or standards text was copied into runtime.
+
+Key reviewed source links:
+- [PlantGraph](https://github.com/kausalflow/penguineer/tree/main/packages/plantgraph) — Apache-2.0 schema reference; not a fault ontology.
+- [Hydronic Delta-T Diagnostics](https://github.com/VB-Builds/hydronic-deltat-diagnostics) — MIT code with LBNL/Open-Meteo data conditions; useful only as a narrow HVAC benchmark reference.
+- [Avionic Main Fuel Pump Simulation](https://github.com/Elix96J/Avionic_Main_Fuel_Pump_Simulation_and_Fault-Diagnosis_Benchmark) — MIT code/model; generated dataset license unresolved; aerospace system, not an industrial centrifugal-pump reference.
+- [MitchellQuinn MIMII case study](https://github.com/MitchellQuinn/industrial-sound-anomaly-detection) — no code license; model-card results are not independently reproducible from the repository.
+
+### Updated execution order
+
+1. **P0 — Runtime evidence boundary:** identify and quarantine or explicitly downgrade the 17 unsourced pump runtime records before presenting the pilot as evidence-backed. Do not delete or replace them until each claim is mapped to an allowed source.
+2. **P0 — PDF mobile/offline acceptance:** bundle or locally pin PDF.js/Tesseract assets, then execute the Android checklist on a real device with text and scanned Arabic/French/English PDFs, storage pressure, reopen, page navigation and offline-after-first-use tests.
+3. **P1 — Pump pilot evidence:** complete the six differential cases with source page/section, rights status, exact measurement location/unit/operating context, expected result by competing hypothesis, stop conditions and post-repair verification. Keep all drafts outside runtime until review gates pass.
+4. **P1 — Measurable reasoning:** add missing/contradictory/noisy/sensor-error/PLC-vs-measured-value test cases; keep anomaly detection separate from causal diagnosis and RUL.
+5. **P1 — Formal BN and test selection:** only after evidence coverage exists, define explicit DAG/CPDs and calibrate against held-out cases. Replace fixed 0.2/1.5 heuristics and the equal-outcome question heuristic with calibrated inference and constrained value-of-information selection.
+6. **P2 — Retrieval:** retain lexical BM25 as a baseline, add embeddings only behind a measured retrieval benchmark and provenance-preserving page citations.
+7. **P2 — Operational product gaps:** add PDF-library export/backup and later optional team sync/work-order integration; do not expand into a full CMMS before the diagnostic pilot is trustworthy.
+
+### Release gate
+
+The pump pilot is not done until every case has reviewed source rights, page-level evidence, safe test prerequisites, explicit competing-hypothesis outcomes, uncertainty handling, source traceability and automated regression coverage. No candidate enters runtime, no PR is merged and no production deployment occurs without the user's explicit approval.
