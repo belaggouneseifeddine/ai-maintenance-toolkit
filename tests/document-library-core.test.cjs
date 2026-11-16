@@ -34,17 +34,17 @@ test("empty or stop-word-only queries do not return arbitrary content", () => {
   assert.deepEqual(Core.rankChunks("the and من في", [{ id: "x", text: "pump fault", tokens: ["pump", "fault"] }]), []);
 });
 
-test("diagnostic eligibility requires explicit document approval and verified rights", () => {
-  const approved = { eligibleForDiagnosis: true, reviewStatus: "approved", rightsStatus: "verified" };
+test("diagnostic eligibility requires explicit technical approval, not rights verification", () => {
+  const approved = { eligibleForDiagnosis: true, reviewStatus: "approved", rightsStatus: "user-responsibility" };
   assert.equal(Core.isDiagnosticEligible(approved), true);
-  assert.equal(Core.isDiagnosticEligible({ ...approved, rightsStatus: "unknown" }), false);
+  assert.equal(Core.isDiagnosticEligible({ ...approved, rightsStatus: "unknown" }), true);
   assert.equal(Core.isDiagnosticEligible({ ...approved, reviewStatus: "candidate" }), false);
   assert.equal(Core.isDiagnosticEligible({ ...approved, eligibleForDiagnosis: false }), false);
 });
 
 test("source references retain PDF page, printed page, chunk and OCR provenance", () => {
   const ref = Core.makeSourceRef(
-    { id: "doc-a", fileName: "manual.pdf", sha256: "abc", reviewStatus: "approved", rightsStatus: "verified", evidenceClass: "oem_manual", extractionStatus: "text-extracted" },
+    { id: "doc-a", fileName: "manual.pdf", sha256: "abc", reviewStatus: "approved", rightsStatus: "user-responsibility", evidenceClass: "oem_manual", extractionStatus: "text-extracted" },
     { id: "doc-a:p9:c0", documentId: "doc-a", pageNumber: 9, printedPageNumber: "37", extractionMethod: "ocr", ocrConfidence: 94.2 }
   );
   assert.equal(ref.documentId, "doc-a");
