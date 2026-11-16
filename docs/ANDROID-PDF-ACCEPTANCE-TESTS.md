@@ -20,7 +20,10 @@ Status: required manual validation; not yet performed.
 - [ ] Search for a technical term; confirm the result cites the correct 1-based PDF page.
 - [ ] Tap “open source page”; confirm the PDF viewer opens that exact page.
 - [ ] Repeat with Arabic, French and English OCR enabled separately.
-- [ ] Compare OCR text against the visible source page; record confidence and errors.
+- [ ] For a text-based PDF, preview a page and inspect the suggested candidate tags; confirm each suggestion preserves the exact source wording and PDF page.
+- [ ] Use a suggested candidate as draft text; confirm it does not auto-approve the claim or bypass original-page review.
+- [ ] For a text-based PDF, preview a page, open the original PDF page, compare the technical claim with the source context, and confirm page review before approving the claim.
+- [ ] Compare OCR text against the visible source page; record confidence and errors, then confirm both source-page review and OCR visual verification before approval.
 - [ ] Confirm OCR pages over the 150-page cap are explicitly reported as skipped.
 - [ ] Confirm a mixed printed/PDF page label can be recorded separately.
 - [ ] Close and reopen the app; confirm IndexedDB documents and claims remain available.
@@ -28,6 +31,7 @@ Status: required manual validation; not yet performed.
 - [ ] Test low-storage behavior and document deletion.
 - [ ] Confirm unreviewed documents and claims never appear in diagnostic evidence.
 - [ ] Approve a test document and one page claim with verified rights; confirm only the matching equipment family/model retrieves it.
+- [ ] Change the document's rights, edition, or equipment scope; confirm prior claims are marked stale and no longer retrieved until reviewed again under the new document revision.
 - [ ] Tap the diagnostic citation and verify the exact original PDF page opens.
 
 ## Failure record

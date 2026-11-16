@@ -34,17 +34,17 @@ test("empty or stop-word-only queries do not return arbitrary content", () => {
   assert.deepEqual(Core.rankChunks("the and من في", [{ id: "x", text: "pump fault", tokens: ["pump", "fault"] }]), []);
 });
 
-test("diagnostic eligibility requires explicit document approval and verified rights", () => {
-  const approved = { eligibleForDiagnosis: true, reviewStatus: "approved", rightsStatus: "verified" };
+test("diagnostic eligibility requires explicit technical approval, not rights verification", () => {
+  const approved = { eligibleForDiagnosis: true, reviewStatus: "approved", rightsStatus: "user-responsibility" };
   assert.equal(Core.isDiagnosticEligible(approved), true);
-  assert.equal(Core.isDiagnosticEligible({ ...approved, rightsStatus: "unknown" }), false);
+  assert.equal(Core.isDiagnosticEligible({ ...approved, rightsStatus: "unknown" }), true);
   assert.equal(Core.isDiagnosticEligible({ ...approved, reviewStatus: "candidate" }), false);
   assert.equal(Core.isDiagnosticEligible({ ...approved, eligibleForDiagnosis: false }), false);
 });
 
 test("source references retain PDF page, printed page, chunk and OCR provenance", () => {
   const ref = Core.makeSourceRef(
-    { id: "doc-a", fileName: "manual.pdf", sha256: "abc", reviewStatus: "approved", rightsStatus: "verified", evidenceClass: "oem_manual", extractionStatus: "text-extracted" },
+    { id: "doc-a", fileName: "manual.pdf", sha256: "abc", reviewStatus: "approved", rightsStatus: "user-responsibility", evidenceClass: "oem_manual", extractionStatus: "text-extracted" },
     { id: "doc-a:p9:c0", documentId: "doc-a", pageNumber: 9, printedPageNumber: "37", extractionMethod: "ocr", ocrConfidence: 94.2 }
   );
   assert.equal(ref.documentId, "doc-a");
@@ -104,6 +104,41 @@ test("BM25-style retrieval ranks Arabic, French and English technical queries", 
   assert.equal(Core.rankChunks("ضغط السحب", chunks, 4)[0].doc.id, "ar-pump");
   assert.equal(Core.rankChunks("pression aspiration", chunks, 4)[0].doc.id, "fr-pump");
   assert.equal(Core.rankChunks("bearing temperature", chunks, 4)[0].doc.id, "en-bearing");
+});
+
+test("knowledge candidate extraction preserves source text, page anchors, and review-only status", () => {
+  const source = [
+    "Warning: isolate electrical supply before opening the terminal cover.",
+    "Maximum operating pressure is 10 bar.",
+    "Low suction pressure may cause cavitation at the impeller eye.",
+    "Inspect the mechanical seal every 2000 operating hours.",
+    "تحذير: افصل التغذية الكهربائية قبل فتح الغطاء."
+  ].join("\n");
+  const candidates = Core.extractKnowledgeCandidates(source, { pageNumber: 12 });
+  assert.ok(candidates.length >= 5);
+  const safety = candidates.find(item => item.text.startsWith("Warning:"));
+  const specification = candidates.find(item => item.text.includes("10 bar"));
+  const fault = candidates.find(item => item.text.includes("Low suction pressure"));
+  const maintenance = candidates.find(item => item.text.includes("Inspect the mechanical seal"));
+  const arabicSafety = candidates.find(item => item.text.startsWith("تحذير:"));
+  assert.ok(safety.tags.includes("safety"));
+  assert.ok(specification.tags.includes("specification"));
+  assert.ok(specification.criticalTokens.some(token => /10 bar/i.test(token)));
+  assert.ok(fault.tags.includes("fault"));
+  assert.ok(fault.tags.includes("component"));
+  assert.ok(maintenance.tags.includes("maintenance"));
+  assert.ok(arabicSafety.tags.includes("safety"));
+  assert.equal(safety.pageNumber, 12);
+  assert.equal(source.slice(safety.startOffset, safety.endOffset), safety.text);
+  assert.match(safety.id, /^p12:line/);
+  for (const candidate of candidates) {
+    assert.equal(candidate.reviewStatus, "candidate");
+    assert.equal(candidate.eligibleForDiagnosis, false);
+  }
+});
+
+test("knowledge candidate extraction does not invent candidates from generic prose", () => {
+  assert.deepEqual(Core.extractKnowledgeCandidates("This paragraph contains only general introductory wording.", { pageNumber: 2 }), []);
 });
 
 test("BM25-style ranking rewards query coverage over a single repeated keyword", () => {
