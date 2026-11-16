@@ -45,7 +45,7 @@
     section.id = "documentReviewWorkspace";
     section.className = "card document-workspace";
     section.innerHTML =
-      '<h2>مراجعة الوثائق والحقوق والأدلة التشخيصية</h2>' +
+      '<h2>مراجعة الوثائق والأدلة التشخيصية</h2>' +
       '<p class="hint">كل شيء يُحفظ محليًا على هذا الجهاز. يقبل التطبيق ملفات PDF التي يرفعها المستخدم دون فحص أو اعتماد قانوني للحقوق؛ ويتحمل المستخدم مسؤولية امتلاكه حق استخدام الملف. لا يصبح النص المستخرج دليلًا تشخيصيًا بمجرد استخراجه: يجب مراجعته فنيًا وربطه بالصفحة الأصلية ونطاق المعدة. أي تعديل على المراجعة الفنية أو نطاق الوثيقة يبطل اعتماد الادعاءات السابقة.</p>' +
       '<label for="reviewDocumentSelect">الوثيقة</label><select id="reviewDocumentSelect"><option value="">اختر وثيقة</option></select>' +
       '<label for="reviewManufacturer">الشركة المصنّعة</label><input id="reviewManufacturer" placeholder="مثال: Grundfos / ABB / Schneider Electric">' +
@@ -54,7 +54,7 @@
       '<label for="reviewSourceUrl">رابط المصدر الأصلي (إن وجد)</label><input id="reviewSourceUrl" type="url" placeholder="https://...">' +
       '<label for="reviewReviewer">المراجع</label><input id="reviewReviewer" placeholder="اسم أو صفة المراجع">' +
       '<label for="reviewNotes">ملاحظات المراجعة وحدود الانطباق</label><textarea id="reviewNotes" rows="3" placeholder="ما الذي تم التحقق منه؟ وما القيود؟"></textarea>' +
-      '<label class="check"><input id="reviewDocumentApproved" type="checkbox"> اعتماد الوثيقة بعد المراجعة الفنية والحقوقية</label>' +
+      '<label class="check"><input id="reviewDocumentApproved" type="checkbox"> اعتماد الوثيقة بعد المراجعة الفنية</label>' +
       '<button type="button" class="btn" id="saveDocumentReview">حفظ مراجعة الوثيقة</button><p id="documentReviewStatus" role="status" aria-live="polite"></p>' +
       '<hr><h3>استخراج ادعاء تشخيصي من صفحة محددة</h3>' +
       '<p class="hint">اختر رقم صفحة PDF الأصلي، اعرض النص المستخرج، ثم اختصره إلى ادعاء واحد مع شروطه ووحداته. رقم الصفحة المطبوع يُسجل منفصلًا لأنه قد يختلف عن رقم صفحة الملف.</p>' +
