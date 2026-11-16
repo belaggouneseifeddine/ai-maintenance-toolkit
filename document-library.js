@@ -569,8 +569,8 @@
             claim.documentReviewRevision === Number(doc.reviewRevision || 0) &&
             (!pageMethods.includes("ocr") || claim.ocrVisuallyVerified === true);
           const eligible = doc.eligibleForDiagnosis === true &&
-            doc.reviewStatus === "approved" && doc.rightsStatus === "verified" &&
-            claim.reviewStatus === "approved" && claim.rightsStatus === "verified" &&
+            doc.reviewStatus === "approved" &&
+            claim.reviewStatus === "approved" &&
             sourceReviewEligible;
           if (!eligible || !familyMatches || !modelMatches || !matchedTerms) return null;
           return { claim, score: matchedTerms / Math.max(1, terms.length) };
@@ -621,20 +621,19 @@
       if (!doc) throw new Error("الوثيقة غير موجودة.");
       const reviewer = String(review && review.reviewer || "").trim();
       const notes = String(review && review.notes || "").trim();
-      const rightsEvidence = String(review && review.rightsEvidence || "").trim();
       const manufacturer = String(review && review.manufacturer || "").trim();
       const equipmentFamily = String(review && review.equipmentFamily || "").trim();
       const edition = String(review && review.edition || "").trim();
-      if (!reviewer || notes.length < 10 || !rightsEvidence) throw new Error("أدخل المراجع وملاحظات المراجعة ودليل الحقوق.");
+      if (!reviewer || notes.length < 10) throw new Error("أدخل المراجع وملاحظات المراجعة.");
       if (review.approved === true && (!manufacturer || !equipmentFamily || !edition)) throw new Error("لا يمكن اعتماد الوثيقة دون الشركة المصنّعة وعائلة المعدة والإصدار أو السنة.");
-      if (review.approved === true && review.rightsVerified !== true) throw new Error("لا يمكن اعتماد الوثيقة للتشخيص قبل التحقق من حقوق الاستخدام وتسجيل دليلها.");
+
       Object.assign(doc, {
         manufacturer,
         equipmentFamily,
         edition,
         sourceUrl: String(review.sourceUrl || "").trim(),
-        rightsStatus: review.rightsVerified === true ? "verified" : "user-supplied-rights-not-verified",
-        rightsEvidence, reviewer, reviewNotes: notes,
+        rightsStatus: "user-responsibility",
+        reviewer, reviewNotes: notes,
         reviewStatus: review.approved === true ? "approved" : "reviewed",
         reviewRevision: Number.isInteger(doc.reviewRevision) ? doc.reviewRevision + 1 : 1,
         eligibleForDiagnosis: false
@@ -665,9 +664,9 @@
       if (claim.approved === true && ocrChunks.length && claim.ocrVisuallyVerified !== true) {
         throw new Error("لا يمكن اعتماد ادعاء مستخرج بـOCR قبل التحقق البصري من النص والأرقام والوحدات ورموز الموديل في صفحة PDF الأصلية.");
       }
-      const rightsStatus = claim.rightsVerified === true && doc.rightsStatus === "verified" ? "verified" : "unverified";
-      const approved = claim.approved === true && doc.reviewStatus === "approved" && rightsStatus === "verified";
-      if (claim.approved === true && !approved) throw new Error("لا يمكن اعتماد الادعاء قبل اعتماد الوثيقة والتحقق من حقوقها.");
+      const rightsStatus = "user-responsibility";
+      const approved = claim.approved === true && doc.reviewStatus === "approved";
+      if (claim.approved === true && !approved) throw new Error("لا يمكن اعتماد الادعاء قبل اعتماد المراجعة الفنية للوثيقة.");
       const record = {
         id: String(claim.id || (doc.id + ":claim:" + Date.now())),
         documentId: doc.id, pageNumber,
@@ -688,8 +687,8 @@
       };
       await new Promise((resolve,reject)=>{const tx=db.transaction("claims","readwrite");tx.objectStore("claims").put(record);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);});
       if (approved) {
-        const approvedClaims=(await getAll("claims")).filter(item=>item.documentId===doc.id&&item.reviewStatus==="approved"&&item.rightsStatus==="verified");
-        if (approvedClaims.length && doc.rightsStatus==="verified" && doc.reviewStatus==="approved") {
+        const approvedClaims=(await getAll("claims")).filter(item=>item.documentId===doc.id&&item.reviewStatus==="approved");
+        if (approvedClaims.length && doc.reviewStatus==="approved") {
           doc.eligibleForDiagnosis=true;
           await new Promise((resolve,reject)=>{const tx=db.transaction("documents","readwrite");tx.objectStore("documents").put(doc);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);});
         }
