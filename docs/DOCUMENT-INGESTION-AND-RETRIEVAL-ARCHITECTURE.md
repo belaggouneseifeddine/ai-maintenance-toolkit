@@ -24,7 +24,7 @@ All consumers use the same IndexedDB index through `MaintenanceDocumentLibrary.r
 - `extractionStatus`
 - `reviewStatus`, `rightsStatus`, `evidenceClass`, `claimIds` (future review metadata)
 
-The diagnostic consumer is separate from general document search. It returns only approved page-level claims with verified rights, exact equipment-family applicability, and a model match or explicitly generic scope. Retrieved claims remain supporting evidence and do not automatically confirm a fault or change the deterministic diagnosis.
+The diagnostic consumer is separate from general document search. It returns only technically reviewed page-level claims with exact equipment-family applicability, and a model match or explicitly generic scope. The application does not verify copyright or licensing and does not block user-provided PDFs on that basis; responsibility for the user's right to provide and use a file remains with the user. Retrieved claims remain supporting evidence and do not automatically confirm a fault or change the deterministic diagnosis.
 
 Equipment applicability now uses canonical family matching so specific pump subtypes are not interchangeable. Model applicability compares the complete normalized designation; shared tokens such as a manufacturer or series prefix are insufficient. A generic model scope is accepted only when explicitly recorded. Local ranking uses a BM25-style lexical score over candidate chunks from the inverted index; it is not full-corpus BM25, semantic retrieval, or a calibrated relevance probability.
 
@@ -33,7 +33,7 @@ For every claim approved for diagnostics, the reviewer must open the original PD
 ## Trust and rights boundaries
 
 - Importing a PDF does not prove the user owns it or has permission to redistribute its content.
-- Rights status is currently `user-supplied-rights-not-verified`.
+- Rights/licensing is not adjudicated by the application and is not an ingestion or diagnostic-eligibility gate. The source and file hash remain recorded for provenance.
 - Imported documents are not eligible for diagnostic use by default (`eligibleForDiagnosis: false`).
 - Technical review, source/edition/model scope, page-level claim verification, and reuse permission must be tracked separately before promotion into approved knowledge.
 - Prompt-like text inside a PDF is untrusted document content, never executable instructions.
@@ -43,7 +43,7 @@ For every claim approved for diagnostics, the reviewer must open the original PD
 
 1. Add source review UI: edition/model applicability, rights evidence, reviewer, claim-level page citations, and contradiction records.
 2. Expand OCR quality review and correction UI; require visual comparison of OCR-derived claims against the original page and verify numeric values, units, decimal separators, and model codes. Do not treat OCR confidence as a calibrated probability or impose a universal threshold without validation.
-3. Integrate the typed retrieval API into Deep Research and Study; Diagnostics must continue to filter strictly to approved documents with verified rights and an explicit eligible flag.
+3. Integrate the typed retrieval API into Deep Research and Study; Diagnostics must continue to filter strictly to technically approved documents and claims with an explicit eligible flag.
 4. Expand labelled relevance evaluation fixtures for Arabic, French, and English queries, including exact model and equipment-family mismatch cases.
 5. Add optional export/backup and explicit cross-device sync; do not silently upload PDFs.
 
@@ -59,14 +59,13 @@ The document library now has a version-3 IndexedDB schema with a dedicated `clai
 
 The local review workspace records:
 - Manufacturer, equipment family, model applicability, edition/year, and original source URL.
-- Rights evidence, rights verification state, reviewer, and review notes.
+- User responsibility notice, reviewer, and technical review notes. Rights/licensing status is not verified by the application.
 - Individual technical claims with exact original PDF page, equipment scope, model limits, evidence class, reviewer, and review notes.
 
 A document-level review alone never enables diagnostic use. Each document review save increments a review revision; claims from an earlier revision become stale and cannot be retrieved for diagnosis. Diagnostic eligibility requires all of the following:
 1. Document review status is `approved`.
-2. Rights status is `verified` and rights evidence is recorded.
 3. Document eligibility flag is true, set only after an approved claim exists for the current review revision.
-4. The specific page-level claim is approved, has verified rights, matches the current document review revision, and records that its original PDF page was opened and reviewed.
+4. The specific page-level claim is technically approved, matches the current document review revision, and records that its original PDF page was opened and reviewed.
 5. If any source chunk on the page came from OCR, the claim also records explicit visual verification of the OCR text against the original page.
 
 The diagnostic retrieval path searches only approved page-level claims. It does not promote raw PDF chunks, OCR text, unreviewed passages, or research/study results into diagnostic evidence. Each returned claim carries document hash, claim ID, page number, reviewer, equipment scope, model applicability, and evidence class. The diagnostic UI exposes these claims in a separate source-evidence panel and opens the original PDF at the claim's page; it does not silently rewrite the deterministic hypothesis ranking.
@@ -77,14 +76,14 @@ The first implementation slice exposes local PDF intake, page-anchored search, d
 
 The page review workspace now runs a deterministic, local candidate extractor over the extracted page text. It identifies potentially relevant lines and attaches one or more suggested tags: safety, fault, maintenance, procedure, specification, or component. Numeric values, units, and equipment/model-like tokens are surfaced for visual checking. Candidate text is preserved verbatim, with its PDF page and matching stored chunk IDs where an exact chunk match exists.
 
-These are retrieval/review aids, not an understanding engine and not approved knowledge records. The extractor does not infer missing conditions, causal relationships, equipment applicability, or model scope; it does not paraphrase the source or call a cloud model. A candidate always remains `reviewStatus: candidate` and `eligibleForDiagnosis: false`. A reviewer may copy a candidate into the claim editor as a draft, then must verify the full page context, equipment/model scope, units, rights, and source page before saving an approved claim. False negatives are possible: absence of a candidate does not mean the page contains no useful information.
+These are retrieval/review aids, not an understanding engine and not approved knowledge records. The extractor does not infer missing conditions, causal relationships, equipment applicability, or model scope; it does not paraphrase the source or call a cloud model. A candidate always remains `reviewStatus: candidate` and `eligibleForDiagnosis: false`. A reviewer may copy a candidate into the claim editor as a draft, then must verify the full page context, equipment/model scope, units, and source page before saving an approved claim. False negatives are possible: absence of a candidate does not mean the page contains no useful information.
 
 The next extraction stage should add a versioned structured schema (equipment/component, knowledge type, condition, observed value/unit, operating context, action, contraindications, and evidence links) and a reviewed extraction proposal workflow. Do not automatically promote model-generated output into diagnostic retrieval.
 
 ### Remaining validation
 
 - Run the Android device matrix with at least one text PDF and scanned PDFs containing Arabic, French, and English; verify OCR, page numbering, memory use, IndexedDB migration, and PDF viewer page navigation.
-- Confirm source rights and model applicability manually for each imported document before approving any page claim.
+- Confirm equipment/model applicability and technical context for each imported document before approving any page claim.
 - Browser CI validates JavaScript syntax, deployment assets, and retrieval gates; it cannot certify Android Chrome rendering, OCR language quality, or device memory behavior. The printed page number is captured separately when a reviewer records a claim; it is not inferred automatically from PDF metadata.
 
 
