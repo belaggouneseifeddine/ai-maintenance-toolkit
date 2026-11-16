@@ -37,6 +37,10 @@ test("reviewed diagnostic claims must point to extracted chunks and verified sou
   assert.ok(source.includes("doc.eligibleForDiagnosis === true"));
   assert.doesNotMatch(source, /doc\.rightsStatus === "verified"/);
   assert.doesNotMatch(source, /claim\.rightsStatus === "verified"/);
+  const reviewUi = read("document-review-workspaces.js");
+  assert.doesNotMatch(reviewUi, /reviewRightsVerified|claimRightsVerified|reviewRightsEvidence/);
+  assert.match(reviewUi, /يتحمل المستخدم مسؤولية امتلاكه حق استخدام الملف/);
+  assert.doesNotMatch(source, /rightsVerified !== true|rightsEvidence\)/);
   assert.match(source, /CORE\.equipmentFamilyMatches\(family, equipment\)/);
   assert.match(source, /CORE\.modelApplicabilityMatches\(modelScope, model\)/);
   assert.match(source, /claim\.sourcePageVerified !== true/);
