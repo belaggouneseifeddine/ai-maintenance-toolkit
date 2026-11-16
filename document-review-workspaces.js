@@ -28,7 +28,7 @@
         return '<article class="document-result"><strong>' + escapeHtml(claim.text.slice(0, 180)) + '</strong>' +
         '<p class="hint">PDF page ' + claim.pageNumber +
         (claim.printedPageNumber ? ' | printed page ' + escapeHtml(claim.printedPageNumber) : '') +
-        ' | ' + escapeHtml(displayedStatus) + ' | rights: ' + escapeHtml(claim.rightsStatus) + '</p>' +
+        ' | ' + escapeHtml(displayedStatus) + '</p>' +
         '<button type="button" class="btn secondary" data-open-claim="' + escapeHtml(claim.documentId) +
         '" data-page="' + Number(claim.pageNumber) + '">فتح الصفحة الأصلية</button></article>'
       }).join("") : '<p class="hint">لا توجد ادعاءات مسجلة حتى الآن.</p>';
@@ -46,14 +46,12 @@
     section.className = "card document-workspace";
     section.innerHTML =
       '<h2>مراجعة الوثائق والحقوق والأدلة التشخيصية</h2>' +
-      '<p class="hint">كل شيء يُحفظ محليًا على هذا الجهاز. لا يصبح نص PDF دليلًا تشخيصيًا بمجرد استخراجه. يجب مراجعة الوثيقة والحقوق والادعاء والصفحة ونطاق المعدة كلٌّ على حدة. أي تعديل لاحق على مراجعة الوثيقة أو حقوقها أو نطاقها يبطل اعتماد الادعاءات السابقة، ويلزم إعادة مراجعتها.</p>' +
+      '<p class="hint">كل شيء يُحفظ محليًا على هذا الجهاز. يقبل التطبيق ملفات PDF التي يرفعها المستخدم دون فحص أو اعتماد قانوني للحقوق؛ ويتحمل المستخدم مسؤولية امتلاكه حق استخدام الملف. لا يصبح النص المستخرج دليلًا تشخيصيًا بمجرد استخراجه: يجب مراجعته فنيًا وربطه بالصفحة الأصلية ونطاق المعدة. أي تعديل على المراجعة الفنية أو نطاق الوثيقة يبطل اعتماد الادعاءات السابقة.</p>' +
       '<label for="reviewDocumentSelect">الوثيقة</label><select id="reviewDocumentSelect"><option value="">اختر وثيقة</option></select>' +
       '<label for="reviewManufacturer">الشركة المصنّعة</label><input id="reviewManufacturer" placeholder="مثال: Grundfos / ABB / Schneider Electric">' +
       '<label for="reviewFamily">عائلة المعدة</label><input id="reviewFamily" placeholder="مثال: centrifugal pump / مضخة طرد مركزي">' +
       '<label for="reviewEdition">الإصدار أو السنة</label><input id="reviewEdition" placeholder="رقم الإصدار أو سنة النشر">' +
       '<label for="reviewSourceUrl">رابط المصدر الأصلي (إن وجد)</label><input id="reviewSourceUrl" type="url" placeholder="https://...">' +
-      '<label for="reviewRightsEvidence">دليل حقوق الاستخدام / الترخيص</label><textarea id="reviewRightsEvidence" rows="2" placeholder="رابط الترخيص أو إثبات الملكية أو إذن المعالجة"></textarea>' +
-      '<label class="check"><input id="reviewRightsVerified" type="checkbox"> راجعت حقوق الاستخدام وتسمح بالمعالجة المقصودة</label>' +
       '<label for="reviewReviewer">المراجع</label><input id="reviewReviewer" placeholder="اسم أو صفة المراجع">' +
       '<label for="reviewNotes">ملاحظات المراجعة وحدود الانطباق</label><textarea id="reviewNotes" rows="3" placeholder="ما الذي تم التحقق منه؟ وما القيود؟"></textarea>' +
       '<label class="check"><input id="reviewDocumentApproved" type="checkbox"> اعتماد الوثيقة بعد المراجعة الفنية والحقوقية</label>' +
@@ -76,7 +74,6 @@
       '<label for="claimEvidenceClass">فئة المصدر</label><select id="claimEvidenceClass"><option value="manufacturer_manual">دليل مصنع</option><option value="manufacturer_bulletin">نشرة فنية للمصنع</option><option value="standard">معيار</option><option value="peer_reviewed">بحث محكّم</option><option value="public_technical_reference">مرجع فني عام</option><option value="field_case">حالة ميدانية</option></select>' +
       '<label for="claimReviewer">المراجع الفني للادعاء</label><input id="claimReviewer" placeholder="اسم أو صفة المراجع">' +
       '<label for="claimNotes">ملاحظات التحقق</label><textarea id="claimNotes" rows="3" placeholder="تحقق من النص والسياق والطراز والوحدات والصفحة."></textarea>' +
-      '<label class="check"><input id="claimRightsVerified" type="checkbox"> حقوق هذا الادعاء مغطاة بمراجعة الوثيقة</label>' +
       '<label class="check"><input id="claimApproved" type="checkbox"> اعتماد هذا الادعاء للاستخدام التشخيصي</label>' +
       '<button type="button" class="btn" id="savePageClaim">حفظ الادعاء المرتبط بالصفحة</button><p id="pageClaimStatus" role="status" aria-live="polite"></p>' +
       '<h3>الادعاءات المسجلة</h3><div id="reviewedClaimsList"></div>';
@@ -211,8 +208,6 @@
           equipmentFamily: $("reviewFamily").value,
           edition: $("reviewEdition").value,
           sourceUrl: $("reviewSourceUrl").value,
-          rightsEvidence: $("reviewRightsEvidence").value,
-          rightsVerified: $("reviewRightsVerified").checked,
           reviewer: $("reviewReviewer").value,
           notes: $("reviewNotes").value,
           approved: $("reviewDocumentApproved").checked
@@ -238,13 +233,12 @@
           evidenceClass: $("claimEvidenceClass").value,
           reviewer: $("claimReviewer").value,
           notes: $("claimNotes").value,
-          rightsVerified: $("claimRightsVerified").checked,
           sourcePageVerified: openedSourceKey === selectedReviewKey() && $("claimSourcePageVerified").checked,
           ocrVisuallyVerified: openedSourceKey === selectedReviewKey() && $("claimOcrVisuallyVerified").checked,
           approved: $("claimApproved").checked
         });
         status("pageClaimStatus", claim.reviewStatus === "approved"
-          ? "تم اعتماد الادعاء بعد اجتياز مراجعة الوثيقة والحقوق."
+          ? "تم اعتماد الادعاء بعد اجتياز المراجعة الفنية وربطه بالصفحة الأصلية."
           : "تم حفظ الادعاء كمراجَع، لكنه غير مؤهل للاستخدام التشخيصي.");
         await refreshDocuments();
       } catch (error) {
