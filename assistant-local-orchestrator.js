@@ -49,6 +49,25 @@
       current = Session.recordFact(current, fact || {});
       return current;
     }
+    async function invokeTool(name, input, extraContext) {
+      requireSession();
+      const result = await registry.call(name, input, {
+        sessionId: current.sessionId,
+        language: current.language,
+        equipment: current.equipment,
+        ...(extraContext && typeof extraContext === "object" ? extraContext : {})
+      });
+      const eventStatus = result.status === "completed" ? "completed"
+        : result.status === "blocked" ? "blocked"
+        : result.status === "timed_out" ? "timed_out" : "failed";
+      current = Session.appendToolEvent(current, {
+        eventId: nextId("evt"),
+        toolName: /^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,99}$/.test(String(name || "")) ? String(name) : "invalid_tool",
+        status: eventStatus,
+        summary: result.ok ? "Local tool completed." : String(result.error || result.status || "Local tool failed.")
+      });
+      return result;
+    }
     async function processTurn(input) {
       requireSession();
       const turn = input || {};
@@ -61,20 +80,7 @@
       for (const request of requests) {
         const call = request || {};
         const name = String(call.name || "");
-        const result = await registry.call(name, call.input, {
-          sessionId: current.sessionId,
-          language: current.language,
-          equipment: current.equipment
-        });
-        const eventStatus = result.status === "completed" ? "completed"
-          : result.status === "blocked" ? "blocked"
-          : result.status === "timed_out" ? "timed_out" : "failed";
-        current = Session.appendToolEvent(current, {
-          eventId: nextId("evt"),
-          toolName: /^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,99}$/.test(name) ? name : "invalid_tool",
-          status: eventStatus,
-          summary: result.ok ? "Local tool completed." : String(result.error || result.status || "Local tool failed.")
-        });
+        const result = await invokeTool(name, call.input);
         results.push({ name, ...result });
       }
       if (typeof turn.assistantMessage === "string" && turn.assistantMessage.trim()) {
@@ -93,6 +99,7 @@
       getSession: () => current,
       addMessage,
       addFact,
+      invokeTool,
       processTurn,
       availableTools: () => registry.list()
     });
