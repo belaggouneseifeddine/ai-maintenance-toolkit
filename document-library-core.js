@@ -218,8 +218,7 @@
   function isDiagnosticEligible(document) {
     return Boolean(document &&
       document.eligibleForDiagnosis === true &&
-      document.reviewStatus === "approved" &&
-      document.rightsStatus === "verified");
+      document.reviewStatus === "approved");
   }
 
   function makeSourceRef(document, chunk) {
