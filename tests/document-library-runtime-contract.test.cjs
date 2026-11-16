@@ -29,14 +29,14 @@ test("OCR and PDF extraction keep the original one-based PDF page anchor", () =>
   assert.ok(source.includes("printedPageNumber"));
 });
 
-test("reviewed diagnostic claims must point to extracted chunks and verified document rights", () => {
+test("reviewed diagnostic claims must point to extracted chunks and verified source pages", () => {
   const source = read("document-library.js");
   assert.ok(source.includes("pageEvidence.chunks.map(item => item.id)"));
   assert.ok(source.includes('doc.reviewStatus === "approved"'));
-  assert.ok(source.includes('doc.rightsStatus === "verified"'));
   assert.ok(source.includes('claim.reviewStatus === "approved"'));
-  assert.ok(source.includes('claim.rightsStatus === "verified"'));
   assert.ok(source.includes("doc.eligibleForDiagnosis === true"));
+  assert.doesNotMatch(source, /doc\.rightsStatus === "verified"/);
+  assert.doesNotMatch(source, /claim\.rightsStatus === "verified"/);
   assert.match(source, /CORE\.equipmentFamilyMatches\(family, equipment\)/);
   assert.match(source, /CORE\.modelApplicabilityMatches\(modelScope, model\)/);
   assert.match(source, /claim\.sourcePageVerified !== true/);
