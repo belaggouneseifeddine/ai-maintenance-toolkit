@@ -51,6 +51,7 @@ jobs:
             assistant-session-contract.js \
             assistant-tool-registry.js \
             assistant-local-orchestrator.js \
+            assistant-local-tools.js \
             document-library-core.js \
             document-library.js \
             document-retrieval-adapter.js \
