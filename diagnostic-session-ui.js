@@ -432,7 +432,58 @@
     registryPromise.then(() => { if (session) render(); });
   }
 
-  root.MaintenanceDiagnosticSessionUI = Object.freeze({ getPayload, init, resolveInput });
+  function normalizeAnswerText(value) {
+    return String(value || "").normalize("NFKC").toLocaleLowerCase()
+      .normalize("NFD").replace(/\p{M}/gu, "")
+      .replace(/[\u064B-\u065F\u0670\u0640]/g, "")
+      .replace(/[^\p{L}\p{N}]+/gu, " ").replace(/\s+/g, " ").trim();
+  }
+
+  function matchAnswerOption(question, value) {
+    if (!question || !Array.isArray(question.options)) return null;
+    const text = normalizeAnswerText(value);
+    if (!text) return null;
+    const unknownPattern = /^(?:unknown|not known|not sure|i do not know|dont know|no reading|غير معروف|لا اعرف|لا أعرف|لا توجد قراءة|لا توجد قياسات|inconnu|je ne sais pas|aucune mesure)$/i;
+    if (unknownPattern.test(text)) {
+      const unknown = question.options.find(option => /unknown|inconnu|غير معروف|لا توجد/i.test(normalizeAnswerText(option.id + " " + option.label)));
+      if (unknown) return unknown.id;
+    }
+    const exact = question.options.filter(option => normalizeAnswerText(option.label) === text || normalizeAnswerText(option.id) === text);
+    if (exact.length === 1) return exact[0].id;
+    const textTokens = new Set(text.split(" "));
+    const contained = question.options.filter(option => {
+      const label = normalizeAnswerText(option.label);
+      const idTokens = normalizeAnswerText(option.id).split(" ").filter(token => token.length >= 3);
+      const labelMatch = label.length >= 3 && (text.includes(label) || label.includes(text) && text.length >= 4);
+      const idMatch = idTokens.some(token => textTokens.has(token));
+      return labelMatch || idMatch;
+    });
+    return contained.length === 1 ? contained[0].id : null;
+  }
+
+  function answerById(answerId) {
+    if (!session || !root.MaintenanceDiagnosticSession) return { ok: false, code: "invalid_session" };
+    const result = root.MaintenanceDiagnosticSession.answer(session, answerId);
+    if (result.ok) session = result.session;
+    render();
+    return result;
+  }
+
+  function answerText(value) {
+    if (!session || !session.nextQuestion) return { ok: false, code: "no_question_pending" };
+    const answerId = matchAnswerOption(session.nextQuestion, value);
+    if (!answerId) return { ok: false, code: "answer_not_mapped" };
+    return answerById(answerId);
+  }
+
+  function reset() {
+    session = null;
+    flowKey = "";
+    flowNotice = "";
+    render();
+  }
+
+  root.MaintenanceDiagnosticSessionUI = Object.freeze({ getPayload, init, resolveInput, getSession: () => session, answerById, answerText, matchAnswerOption, reset });
   if (typeof module !== "undefined" && module.exports) module.exports = root.MaintenanceDiagnosticSessionUI;
   if (root.document) init();
 })(typeof globalThis !== "undefined" ? globalThis : this);

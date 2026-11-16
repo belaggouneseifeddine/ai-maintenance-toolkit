@@ -167,9 +167,17 @@ test("Worker returns validated structured diagnosis and accepts missing readings
     headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
     body: JSON.stringify({
       machine: "مضخة طرد مركزي",
+      model: "Grundfos CR 10-4",
+      approvedPdfExcerpts: [{
+        documentTitle: "Grundfos CR service manual",
+        citation: "Page 14 — suction troubleshooting",
+        text: "Verify available suction conditions against the approved pump curve and site baseline."
+      }],
       symptom: "ضعف تدفق الماء أثناء التشغيل",
       code: "",
       observations: "لا توجد قراءة ضغط أو تدفق متاحة حتى الآن",
+      technicianChatInput: "The pump runs, but flow is below the normal operating baseline.",
+      conversationContext: "Technician: The pump is running. Assistant: What does the suction indicator show?",
       measurementStatus: "none",
       language: "ar"
     })
@@ -185,6 +193,13 @@ test("Worker returns validated structured diagnosis and accepts missing readings
   assert.equal(upstreamPayload.response_format.schema.type, "object");
   assert.equal(upstreamPayload.store, false);
   assert.match(upstreamPayload.input, /no reading available/);
+  assert.match(upstreamPayload.input, /Grundfos CR 10-4/);
+  assert.match(upstreamPayload.input, /\[U1\] Source: Grundfos CR service manual/);
+  assert.match(upstreamPayload.input, /Page 14 — suction troubleshooting/);
+  assert.match(upstreamPayload.input, /flow is below the normal operating baseline/);
+  assert.match(upstreamPayload.input, /Conversation transcript and provisional local diagnostic snapshot/);
+  assert.match(upstreamPayload.input, /Technician: The pump is running/);
+  assert.match(upstreamPayload.input, /Assistant: What does the suction indicator show/);
   assert.match(upstreamPayload.system_instruction, /untrusted data/i);
 });
 
@@ -247,6 +262,7 @@ test("retrieved prompt-injection text remains untrusted reference data", async (
       headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
       body: JSON.stringify({
         machine: "مضخة طرد مركزي",
+        model: "Grundfos CR 10-4",
         symptom: "ضعف تدفق الماء أثناء التشغيل",
         observations: "لا توجد قراءة ضغط أو تدفق متاحة حتى الآن",
         measurementStatus: "none",
@@ -410,7 +426,7 @@ test("Worker forces LOTO on every intervention step even when Gemini omits it", 
       headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
       body: JSON.stringify({
         machine: "centrifugal pump",
-        symptom: "low flow",
+        symptom: "low flow during operation",
         observations: "existing alarm history is available",
         language: "ar"
       })
@@ -434,6 +450,7 @@ test("weak evidence plus no relevant retrieval abstains before an AI provider", 
       machine: "unknown machine",
       symptom: "the system behaves strangely",
       observations: "",
+      conversationContext: "Technician: the system behaves strangely. Assistant: what exact symptom do you see?",
       code: "",
       language: "en"
     })
@@ -611,7 +628,7 @@ test("curated flow restricts Gemini output to server-approved hypothesis IDs", a
     method: "POST",
     headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
     body: JSON.stringify({
-      machine: "pump",
+      machine: "centrifugal pump",
       symptom: "low flow with unstable discharge",
       observations: "Observed unstable flow over several operating cycles and historical log is available",
       diagnosticFlowId: "pump|low_flow",
@@ -644,7 +661,7 @@ test("curated flow rejects a model-invented hypothesis ID", async () => {
       method: "POST",
       headers: { Origin: "https://belaggouneseifeddine.github.io", "Content-Type": "application/json" },
       body: JSON.stringify({
-        machine: "pump",
+        machine: "centrifugal pump",
         symptom: "low flow with unstable discharge",
         observations: "Observed unstable flow over several operating cycles and historical log is available",
         diagnosticFlowId: "pump|low_flow",
