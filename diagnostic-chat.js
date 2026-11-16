@@ -11,6 +11,50 @@
   let retrievalSequence = 0;
   let retrievedExcerpts = [];
   let retrievedContext = null;
+  let localAssistant = null;
+  let assistantFactCounter = 0;
+
+  function startLocalAssistantSession() {
+    const api = root.MaintenanceLocalAssistantOrchestrator;
+    if (!api || typeof api.createLocalOrchestrator !== "function") {
+      localAssistant = null;
+      return;
+    }
+    try {
+      localAssistant = api.createLocalOrchestrator({ tools: {} });
+      localAssistant.start({
+        sessionId: "chat-" + Date.now().toString(36),
+        language: language(),
+        equipment: {
+          type: String($("aiMachine")?.value || "").trim(),
+          manufacturer: String($("aiManufacturer")?.value || "").trim(),
+          model: String($("aiModel")?.value || "").trim()
+        }
+      });
+      assistantFactCounter = 0;
+    } catch (_) {
+      localAssistant = null;
+    }
+  }
+
+  function syncLocalAssistantMessage(role, content) {
+    if (!localAssistant || !content) return;
+    const messageId = "chat-msg-" + Date.now().toString(36) + "-" + (++assistantFactCounter).toString(36);
+    try {
+      localAssistant.addMessage(role, content, messageId);
+      if (role === "user") {
+        localAssistant.addFact({
+          factId: "user-note-" + assistantFactCounter.toString(36),
+          value: String(content).slice(0, 4000),
+          provenance: "user_reported",
+          status: "accepted",
+          sourceRef: { type: "conversation_message", messageId }
+        });
+      }
+    } catch (_) {
+      // The visible conversation remains usable if local history recording fails.
+    }
+  }
 
   function clearRetrievedExcerpts() {
     retrievedExcerpts = [];
@@ -61,7 +105,9 @@
   }
   function copy(ar, en, fr) { const l = language(); return l === "en" ? en : l === "fr" ? fr : ar; }
   function addMessage(role, text) {
-    messages.push({ role, text: String(text || ""), time: new Date().toISOString() });
+    const content = String(text || "");
+    messages.push({ role, text: content, time: new Date().toISOString() });
+    syncLocalAssistantMessage(role, content);
     renderMessages();
   }
   function renderMessages() {
@@ -405,6 +451,7 @@
     const chatConsent = $("diagnosticChatCloudConsent");
     if (chatConsent) chatConsent.checked = false;
     if (root.MaintenanceDiagnosticSessionUI && root.MaintenanceDiagnosticSessionUI.reset) root.MaintenanceDiagnosticSessionUI.reset();
+    startLocalAssistantSession();
     addMessage("assistant", copy("ابدأ بوصف المشكلة كما تراها. مثال: مضخة طرد مركزي، التدفق ضعيف والاهتزاز مرتفع.", "Describe the problem in your own words. Example: centrifugal pump, low flow and high vibration.", "Décrivez le problème avec vos mots. Exemple : pompe centrifuge, faible débit et vibrations élevées."));
     renderReplies();
     const evidence = $("diagnosticChatEvidence"); if (evidence) evidence.replaceChildren();
@@ -446,7 +493,7 @@
     resetConversation();
     initialized = true;
   }
-  root.MaintenanceDiagnosticChat = Object.freeze({ init, handleMessage, reset: resetConversation, classifyInput, extractModelDesignation, getApprovedExcerpts, getConversationContext, getTechnicianChatInput });
+  root.MaintenanceDiagnosticChat = Object.freeze({ init, handleMessage, reset: resetConversation, classifyInput, extractModelDesignation, getApprovedExcerpts, getConversationContext, getTechnicianChatInput, getLocalAssistantSession: () => localAssistant && localAssistant.getSession() || null });
   if (typeof module !== "undefined" && module.exports) module.exports = root.MaintenanceDiagnosticChat;
   if (root.document) {
     if (root.document.readyState === "loading") root.document.addEventListener("DOMContentLoaded", init);
