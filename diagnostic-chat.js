@@ -21,7 +21,18 @@
       return;
     }
     try {
-      localAssistant = api.createLocalOrchestrator({ tools: {} });
+      const toolApi = root.MaintenanceLocalAssistantTools;
+      const localTools = toolApi && typeof toolApi.createLocalTools === "function"
+        ? toolApi.createLocalTools({
+            getGuidedContext: () => root.MaintenanceDiagnosticSessionUI &&
+              typeof root.MaintenanceDiagnosticSessionUI.getPayload === "function"
+              ? root.MaintenanceDiagnosticSessionUI.getPayload() : null
+          })
+        : { tools: {}, safetyGate: null };
+      localAssistant = api.createLocalOrchestrator({
+        tools: localTools.tools,
+        safetyGate: localTools.safetyGate
+      });
       localAssistant.start({
         sessionId: "chat-" + Date.now().toString(36),
         language: language(),
@@ -236,7 +247,8 @@
     started = true;
     const session = currentSession();
     if (!session) {
-      addMessage("assistant", copy("لم أجد مسارًا حواريًا مراجعًا لهذه المجموعة من المعدة والعَرَض. سأحتفظ بوصفك، لكن لن أخترع شجرة تشخيص. يمكنك استخدام التحليل العام أو إضافة حالة موثقة لاحقًا.", "No reviewed conversational flow exists for this equipment/symptom pair. I will retain your description but will not invent a diagnostic tree.", "Aucun parcours conversationnel révisé n’existe pour cet équipement et ce symptôme. Je conserve votre description sans inventer d’arbre de diagnostic."));
+      addMessage("assistant", copy("لا يوجد مسار موجّه مراجع لهذه المجموعة. سأستخدم محرك التشخيص المحلي العام لعرض احتمالات أولية، دون اختراع شجرة أسئلة.", "No reviewed guided flow matches this equipment/symptom pair. I will use the general local diagnostic engine to show preliminary possibilities without inventing a question tree.", "Aucun parcours guidé révisé ne correspond. J’utiliserai le moteur local général pour présenter des possibilités préliminaires sans inventer d’arbre de questions."));
+      runLocalDiagnosticAssessment();
       return false;
     }
     addMessage("assistant", session.nextQuestion ? session.nextQuestion.text : session.summary?.message || copy("بدأت جلسة التشخيص المحلية.", "The local diagnostic session has started.", "La session de diagnostic locale a commencé."));
@@ -246,6 +258,58 @@
     renderEvidenceButton();
     return true;
   }
+  function formatLocalDiagnosis(result) {
+    const diagnosis = result && result.diagnosis;
+    if (!diagnosis || diagnosis.matched !== true || !Array.isArray(diagnosis.results) || !diagnosis.results.length) {
+      return (diagnosis && diagnosis.message ? diagnosis.message + "\\n" : "") +
+        (diagnosis && diagnosis.reason ? diagnosis.reason : copy("لم تتوفر مطابقة كافية. أضف قياسات أو راجع الدليل المعتمد.", "No sufficient match. Add measurements or consult an approved manual.", "Correspondance insuffisante. Ajoutez des mesures ou consultez un manuel approuvé."));
+    }
+    const lines = [copy("تقييم محلي أولي — هذه احتمالات وليست سببًا مؤكدًا.", "Preliminary local assessment — these are possibilities, not a confirmed cause.", "Évaluation locale préliminaire — possibilités, pas une cause confirmée.")];
+    diagnosis.results.slice(0, 3).forEach((item, index) => {
+      lines.push("", (index + 1) + ". " + (item.title || item.id));
+      if (item.confidenceLabel) lines.push("   " + item.confidenceLabel);
+      if (item.rankingReason) lines.push("   " + item.rankingReason);
+      (Array.isArray(item.causes) ? item.causes : []).slice(0, 3).forEach(cause => {
+        if (cause.label) lines.push("   - " + cause.label);
+      });
+      (Array.isArray(item.safeChecks) ? item.safeChecks : []).slice(0, 3).forEach(check => {
+        if (check) lines.push("   • " + check);
+      });
+    });
+    lines.push("", copy("نقاط المطابقة ليست احتمالات إحصائية. لا تنفذ أي تدخل قبل مراجعة دليل المصنع وإجراءات السلامة.", "Match scores are not statistical probabilities. Verify the OEM manual and safety procedures before intervention.", "Les scores ne sont pas des probabilités statistiques. Vérifiez le manuel constructeur et les procédures de sécurité avant intervention."));
+    return lines.join("\\n");
+  }
+
+  async function runLocalDiagnosticAssessment() {
+    if (!localAssistant || typeof localAssistant.invokeTool !== "function") return;
+    const request = {
+      intent: "diagnose",
+      language: language(),
+      equipment: {
+        type: equipmentContext || pendingEquipment,
+        manufacturer: String($("aiManufacturer")?.value || "").trim(),
+        model: String($("aiModel")?.value || "").trim()
+      },
+      symptom: String($("aiSymptom")?.value || pendingSymptom).trim(),
+      observations: [
+        ...notes.slice(-8),
+        String($("aiObservations")?.value || "").trim()
+      ].filter(Boolean).slice(0, 10),
+      measurements: [],
+      consent: { sendToAI: false }
+    };
+    const result = await localAssistant.invokeTool("diagnose", { request });
+    if (result.status === "blocked") {
+      addMessage("assistant", copy("بوابة السلامة المحلية أوقفت التشخيص الآلي لهذه المدخلات. أوقف العمل عند وجود خطر، واتبع LOTO وإجراءات الموقع وصعّد للمسؤول المؤهل.", "The local safety gate blocked automated diagnosis for this input. Stop work if a hazard is present, follow LOTO and site procedures, and escalate to qualified personnel.", "La barrière de sécurité locale a bloqué le diagnostic automatique. Arrêtez le travail en cas de danger, appliquez la consignation et faites remonter au personnel qualifié."));
+      return;
+    }
+    if (!result.ok) {
+      addMessage("assistant", copy("تعذر تشغيل محرك التشخيص المحلي. بقيت المحادثة وسجلها المحلي متاحين دون إرسال خارجي.", "The local diagnostic engine could not run. The conversation and local history remain available; nothing was sent externally.", "Le moteur de diagnostic local n’a pas pu s’exécuter. La conversation et son historique local restent disponibles ; aucune donnée n’a été envoyée."));
+      return;
+    }
+    addMessage("assistant", formatLocalDiagnosis(result.data));
+  }
+
   function submitKnownAnswer(answerId, label) {
     const session = currentSession();
     if (!session || !root.MaintenanceDiagnosticSessionUI || !root.MaintenanceDiagnosticSessionUI.answerById) return;
@@ -297,7 +361,13 @@
       technicianInput: getTechnicianChatInput()
     };
     const query = [pendingEquipment, pendingSymptom, retrievalContext.code, retrievalContext.model, retrievalContext.observations, ...notes, ...messages.map(message => message.text)].filter(Boolean).join(" ");
-    const result = await api.forDiagnostics(query, { equipment: equipmentContext || retrievalContext.machine || pendingEquipment, model: retrievalContext.model });
+    const retrievalInput = {
+      query,
+      context: { equipment: equipmentContext || retrievalContext.machine || pendingEquipment, model: retrievalContext.model }
+    };
+    const result = localAssistant && typeof localAssistant.invokeTool === "function"
+      ? await localAssistant.invokeTool("searchReviewedDocuments", retrievalInput)
+      : await api.forDiagnostics(query, retrievalInput.context);
     if (sequence !== retrievalSequence) return;
     holder.replaceChildren();
     if (!result.ok || !result.results.length) {
