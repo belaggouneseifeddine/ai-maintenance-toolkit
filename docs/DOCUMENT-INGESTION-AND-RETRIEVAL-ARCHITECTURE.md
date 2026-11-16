@@ -37,11 +37,11 @@ For every claim approved for diagnostics, the reviewer must open the original PD
 - Imported documents are not eligible for diagnostic use by default (`eligibleForDiagnosis: false`).
 - Technical review, source/edition/model scope, page-level claim verification, and reuse permission must be tracked separately before promotion into approved knowledge.
 - Prompt-like text inside a PDF is untrusted document content, never executable instructions.
-- Do not copy copyrighted manuals into public repository files or send them to external AI providers without explicit user consent and a valid basis.
+- Keep uploaded PDF files and their full extracted contents in local browser storage; do not commit user documents to the public repository. Only explicitly selected excerpts may be sent to an external AI provider after the user's separate consent.
 
 ## Next engineering stages
 
-1. Add source review UI: edition/model applicability, rights evidence, reviewer, claim-level page citations, and contradiction records.
+1. Add source review UI: edition/model applicability, reviewer, claim-level page citations, and contradiction records.
 2. Expand OCR quality review and correction UI; require visual comparison of OCR-derived claims against the original page and verify numeric values, units, decimal separators, and model codes. Do not treat OCR confidence as a calibrated probability or impose a universal threshold without validation.
 3. Integrate the typed retrieval API into Deep Research and Study; Diagnostics must continue to filter strictly to technically approved documents and claims with an explicit eligible flag.
 4. Expand labelled relevance evaluation fixtures for Arabic, French, and English queries, including exact model and equipment-family mismatch cases.
