@@ -48,6 +48,8 @@ jobs:
             agent-core.js \
             agent-ui.js \
             diagnostic-chat.js \
+            assistant-session-contract.js \
+            assistant-tool-registry.js \
             document-library-core.js \
             document-library.js \
             document-retrieval-adapter.js \
