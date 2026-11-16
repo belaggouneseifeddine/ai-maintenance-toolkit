@@ -50,6 +50,7 @@ jobs:
             diagnostic-chat.js \
             assistant-session-contract.js \
             assistant-tool-registry.js \
+            assistant-local-orchestrator.js \
             document-library-core.js \
             document-library.js \
             document-retrieval-adapter.js \
