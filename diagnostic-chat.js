@@ -261,7 +261,7 @@
   function formatLocalDiagnosis(result) {
     const diagnosis = result && result.diagnosis;
     if (!diagnosis || diagnosis.matched !== true || !Array.isArray(diagnosis.results) || !diagnosis.results.length) {
-      return (diagnosis && diagnosis.message ? diagnosis.message + "\\n" : "") +
+      return (diagnosis && diagnosis.message ? diagnosis.message + "\n" : "") +
         (diagnosis && diagnosis.reason ? diagnosis.reason : copy("لم تتوفر مطابقة كافية. أضف قياسات أو راجع الدليل المعتمد.", "No sufficient match. Add measurements or consult an approved manual.", "Correspondance insuffisante. Ajoutez des mesures ou consultez un manuel approuvé."));
     }
     const lines = [copy("تقييم محلي أولي — هذه احتمالات وليست سببًا مؤكدًا.", "Preliminary local assessment — these are possibilities, not a confirmed cause.", "Évaluation locale préliminaire — possibilités, pas une cause confirmée.")];
@@ -277,7 +277,7 @@
       });
     });
     lines.push("", copy("نقاط المطابقة ليست احتمالات إحصائية. لا تنفذ أي تدخل قبل مراجعة دليل المصنع وإجراءات السلامة.", "Match scores are not statistical probabilities. Verify the OEM manual and safety procedures before intervention.", "Les scores ne sont pas des probabilités statistiques. Vérifiez le manuel constructeur et les procédures de sécurité avant intervention."));
-    return lines.join("\\n");
+    return lines.join("\n");
   }
 
   async function runLocalDiagnosticAssessment() {
