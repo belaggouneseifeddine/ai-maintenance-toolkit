@@ -179,3 +179,11 @@ test("semantic PDF search persists local multilingual vectors and keeps lexical 
   assert.ok(library.includes("documentSemanticEnable"));
   assert.ok(library.includes("~118 MB"));
 });
+
+test("diagnostic chat retrieves approved PDF evidence automatically without a manual retrieval button", () => {
+  const chat = read("diagnostic-chat.js");
+  assert.ok(chat.includes("retrieveEvidence().catch"));
+  assert.ok(chat.includes("await retrieveEvidence()"));
+  assert.equal(chat.includes("استرجاع الأدلة المعتمدة من PDF"), false);
+  assert.ok(chat.includes("sourceRef: item.sourceRef"));
+});
