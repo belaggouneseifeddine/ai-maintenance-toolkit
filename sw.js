@@ -1,4 +1,4 @@
-const CACHE_NAME = "maintenance-ai-toolkit-v62";
+const CACHE_NAME = "maintenance-ai-toolkit-v63";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -42,10 +42,22 @@ const APP_SHELL = [
   "./navigation-redesign.js",
   "./document-library-core.js",
   "./document-library.js",
+  "./document-semantic-search.js",
   "./document-library.css",
   "./document-retrieval-adapter.js",
   "./document-review-workspaces.js",
-  "./diagnostic-document-evidence.js"
+  "./diagnostic-document-evidence.js",
+  "./vendor/transformers/transformers.min.js",
+  "./vendor/pdfjs/pdf.min.mjs",
+  "./vendor/pdfjs/pdf.worker.min.mjs",
+  "./vendor/tesseract/tesseract.min.js",
+  "./vendor/tesseract/worker.min.js",
+  "./vendor/tesseract/core/tesseract-core-simd-lstm.wasm.js",
+  "./vendor/tesseract/core/tesseract-core-simd-lstm.wasm",
+  "./vendor/tessdata/ara.traineddata.gz",
+  "./vendor/tessdata/eng.traineddata.gz",
+  "./vendor/tessdata/fra.traineddata.gz",
+  "./vendor/THIRD-PARTY-NOTICES.txt"
 ];
 
 const OPTIONAL_APP_SHELL = [
