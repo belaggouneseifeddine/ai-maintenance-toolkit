@@ -262,7 +262,7 @@
           const items = Array.from(container.querySelectorAll("label")).slice(0, 12).map(label => {
             const checkbox = label.querySelector('input[type="checkbox"]');
             return {
-              label: String(label.textContent || "").replace(/\\s+/g, " ").trim().slice(0, 240),
+              label: String(label.textContent || "").replace(/\s+/g, " ").trim().slice(0, 240),
               checked: !!(checkbox && checkbox.checked)
             };
           }).filter(item => item.label);
