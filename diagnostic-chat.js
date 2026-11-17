@@ -573,9 +573,10 @@
       addMessage("assistant", copy("أداة تقرير تسليم النوبة المحلي غير متاحة.", "The local shift-handover tool is unavailable.", "L’outil local de relève est indisponible."));
       return;
     }
-    const period = /(?:آخر\s*8\s*ساعات|last\s*8\s*hours|8\s*dernières\s*heures)/i.test(value) ? "8"
+    const requestedPeriod = /(?:آخر\s*8\s*ساعات|last\s*8\s*hours|8\s*dernières\s*heures)/i.test(value) ? "8"
       : /(?:مخصص|فترة\s*محددة|custom\s*period|période\s*personnalisée)/i.test(value) ? "custom" : "today";
     const dates = value.match(/(\d{4}-\d{2}-\d{2})[^\d]+(\d{4}-\d{2}-\d{2})/);
+    const period = dates ? "custom" : requestedPeriod;
     const result = await localAssistant.invokeTool("createShiftHandoverDraft", {
       period,
       from: dates ? dates[1] : undefined,
