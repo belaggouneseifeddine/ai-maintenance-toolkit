@@ -76,3 +76,14 @@ test("orchestrator restores a validated local session without changing its evide
   assert.equal(assistant.getSession().facts[0].revisions[0].provenance, "user_reported");
   assert.throws(() => assistant.restore({ ...withFact, schemaVersion: "99.0.0" }), /assistant_session_snapshot_invalid/);
 });
+
+test("orchestrator updates equipment context with bounded allow-listed fields", () => {
+  const assistant = Orchestrator.createLocalOrchestrator({ tools: {} });
+  assistant.start({ sessionId: "equipment-context-001", equipment: { type: "pump" } });
+  const updated = assistant.updateEquipment({ manufacturer: "KSB", model: "Etanorm", assetId: "P-101" });
+  assert.deepEqual(updated.equipment, {
+    type: "pump", manufacturer: "KSB", model: "Etanorm", assetId: "P-101"
+  });
+  assert.throws(() => assistant.updateEquipment({ serialNumber: "secret" }), /invalid_equipment_context_field/);
+  assert.throws(() => assistant.updateEquipment({ model: "x".repeat(121) }), /invalid_equipment_context_field/);
+});
