@@ -22,6 +22,11 @@ test("local learning memory stores metadata and requires contributor-confirmed e
   assert.ok(source.includes("recordDocumentReviewed"));
   assert.ok(source.includes("recordKnowledgeClaim"));
   assert.ok(source.includes("getLearningDashboard"));
+  assert.ok(source.includes("recordImageObservation"));
+  assert.ok(source.includes("getImageObservationCandidates"));
+  assert.ok(source.includes('eventType: "image_observation"'));
+  assert.ok(source.includes("eligibleForVisionTraining: false"));
+  assert.ok(source.includes("Open and visually review the original image"));
   assert.ok(source.includes("sharedWithOtherUsers: false"));
   assert.ok(source.includes("rightsStatus: \"user-responsibility-not-verified\""));
   assert.equal(source.includes("fetch("), false);
@@ -61,6 +66,9 @@ test("technician feedback is explicit and does not automatically train or mutate
   assert.ok(review.includes('method === "image-ocr"'));
   assert.ok(review.includes("learningReviewDashboard"));
   assert.ok(review.includes("getLearningDashboard"));
+  assert.ok(review.includes("recordImageObservation"));
+  assert.ok(review.includes("imageObservationForm"));
+  assert.ok(review.includes("getImageObservationCandidates"));
   assert.ok(read("sw.js").includes('"./learning-memory.js"'));
   assert.ok(read("sw.js").includes('"./learning-feedback-ui.js"'));
 });
