@@ -42,6 +42,27 @@
       const validation = Session.validateSession(current);
       if (!validation.ok) throw new Error("assistant_session_invalid");
     }
+    function updateEquipment(input) {
+      requireSession();
+      if (!input || typeof input !== "object" || Array.isArray(input)) {
+        throw new TypeError("invalid_equipment_context");
+      }
+      const allowed = ["type", "manufacturer", "model", "assetId"];
+      for (const key of Object.keys(input)) {
+        if (!allowed.includes(key) || typeof input[key] !== "string" || input[key].length > 120) {
+          throw new TypeError("invalid_equipment_context_field");
+        }
+      }
+      const next = JSON.parse(JSON.stringify(current));
+      for (const key of allowed) {
+        if (Object.prototype.hasOwnProperty.call(input, key)) next.equipment[key] = input[key].trim();
+      }
+      next.updatedAt = new Date().toISOString();
+      const validation = Session.validateSession(next);
+      if (!validation.ok) throw new TypeError("assistant_session_invalid");
+      current = next;
+      return current;
+    }
     function addMessage(role, content, messageId) {
       requireSession();
       current = Session.appendMessage(current, {
@@ -105,6 +126,7 @@
       start,
       restore,
       getSession: () => current,
+      updateEquipment,
       addMessage,
       addFact,
       invokeTool,
