@@ -82,6 +82,48 @@
         .replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, " ").trim();
     }
 
+    function localDate(date) {
+      return date.getFullYear() + "-" + String(date.getMonth() + 1).padStart(2, "0") +
+        "-" + String(date.getDate()).padStart(2, "0");
+    }
+    function calculatePmDue(task) {
+      if (!task || typeof task.last !== "string") return "";
+      const parts = task.last.split("-").map(Number);
+      if (parts.length !== 3 || !parts.every(Number.isInteger)) return "";
+      const [year, month, day] = parts;
+      const base = new Date(year, month - 1, day);
+      if (month < 1 || month > 12 || day < 1 ||
+          base.getFullYear() !== year || base.getMonth() !== month - 1 || base.getDate() !== day) return "";
+      if (task.repeat === "monthly") {
+        const nextMonth = month === 12 ? 1 : month + 1;
+        const nextYear = month === 12 ? year + 1 : year;
+        const lastDay = new Date(nextYear, nextMonth, 0).getDate();
+        return localDate(new Date(nextYear, nextMonth - 1, Math.min(day, lastDay)));
+      }
+      if (task.repeat !== "days" || !Number.isInteger(Number(task.days)) ||
+          Number(task.days) < 1 || Number(task.days) > 3650) return "";
+      base.setDate(base.getDate() + Number(task.days));
+      return localDate(base);
+    }
+    function readPreventiveTasks() {
+      try {
+        if (!root.localStorage || typeof root.localStorage.getItem !== "function") {
+          return { ok: false, status: "local_storage_unavailable", tasks: [] };
+        }
+        const raw = root.localStorage.getItem("maintenance-ai-toolkit-pm-v1");
+        const parsed = raw ? JSON.parse(raw) : [];
+        if (!Array.isArray(parsed)) return { ok: false, status: "invalid_pm_store", tasks: [] };
+        return {
+          ok: true,
+          tasks: parsed.slice(0, 5000).filter(task => task && typeof task === "object" &&
+            typeof task.machine === "string" && typeof task.task === "string" &&
+            typeof task.last === "string" && ["monthly", "days"].includes(task.repeat))
+        };
+      } catch (_) {
+        return { ok: false, status: "pm_store_read_failed", tasks: [] };
+      }
+    }
+
     const tools = {
       diagnose: {
         safetySensitive: true,
@@ -131,6 +173,39 @@
             status: record.status.slice(0, 80)
           }));
           return { ok: true, status: records.length ? "records_found" : "no_matching_records", count: records.length, records };
+        }
+      },
+      getPreventiveMaintenanceSchedule: {
+        validate: input => !!input && typeof input === "object" &&
+          (input.query == null || (typeof input.query === "string" && input.query.length <= 160)) &&
+          (input.limit == null || (Number.isInteger(input.limit) && input.limit >= 1 && input.limit <= 30)),
+        execute: async input => {
+          const stored = readPreventiveTasks();
+          if (!stored.ok) return stored;
+          const query = normalizeRecordText(input.query || "");
+          const today = localDate(new Date());
+          const tasks = stored.tasks.filter(task => !query ||
+            normalizeRecordText(task.machine + " " + task.task).includes(query))
+            .slice(0, input.limit || 20).map(task => {
+              const dueDate = calculatePmDue(task);
+              return {
+                machine: task.machine.slice(0, 240),
+                task: task.task.slice(0, 300),
+                lastPerformed: task.last,
+                repeat: task.repeat,
+                intervalDays: task.repeat === "days" ? Number(task.days) : null,
+                dueDate,
+                status: !dueDate ? "invalid_schedule" : dueDate < today ? "overdue" : dueDate === today ? "due_today" : "upcoming",
+                notes: typeof task.notes === "string" ? task.notes.slice(0, 500) : ""
+              };
+            });
+          return {
+            ok: true,
+            status: tasks.length ? "schedule_found" : "no_matching_pm_tasks",
+            asOfDate: today,
+            count: tasks.length,
+            tasks
+          };
         }
       },
       getEquipmentContext: {
