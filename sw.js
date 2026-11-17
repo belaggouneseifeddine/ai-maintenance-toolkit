@@ -73,7 +73,12 @@ const OPTIONAL_APP_SHELL = [
   "./vendor/tessdata/ara.traineddata.gz",
   "./vendor/tessdata/eng.traineddata.gz",
   "./vendor/tessdata/fra.traineddata.gz",
-  "./vendor/THIRD-PARTY-NOTICES.txt"
+  "./vendor/THIRD-PARTY-NOTICES.txt",
+  "./vendor/licenses/transformers-LICENSE",
+  "./vendor/licenses/pdfjs-LICENSE",
+  "./vendor/licenses/tesseract-js-LICENSE",
+  "./vendor/licenses/tesseract-core-LICENSE",
+  "./vendor/licenses/tessdata-fast-LICENSE"
 ];
 const CORE_APP_SHELL = APP_SHELL.filter(asset => !OPTIONAL_APP_SHELL.includes(asset));
 
