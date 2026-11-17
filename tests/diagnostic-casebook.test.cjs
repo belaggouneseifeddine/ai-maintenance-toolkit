@@ -2,7 +2,8 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const Casebook = require("../diagnostic-casebook.js");
-const lowFlow = JSON.parse(fs.readFileSync("knowledge/diagnostic-cases/centrifugal-pump-low-flow.json", "utf8"));\nconst sourceRegistry = JSON.parse(fs.readFileSync("knowledge/sources.json", "utf8"));
+const lowFlow = JSON.parse(fs.readFileSync("knowledge/diagnostic-cases/centrifugal-pump-low-flow.json", "utf8"));
+const sourceRegistry = JSON.parse(fs.readFileSync("knowledge/sources.json", "utf8"));
 
 test("low-flow candidate case satisfies the case contract", () => {
   const result = Casebook.validateCase(lowFlow);
@@ -36,7 +37,8 @@ test("triage keeps all hypotheses unresolved and never emits probabilities", () 
   assert.equal(result.status, "candidate_triage_only");
   assert.equal(result.runtimeEligible, false);
   assert.ok(result.hypotheses.every(h => h.status === "unresolved"));
-  assert.equal(Object.hasOwn(result, "probabilities"), false);\n  assert.ok(result.hypotheses.every(h => !Object.hasOwn(h, "probability")));
+  assert.equal(Object.hasOwn(result, "probabilities"), false);
+  assert.ok(result.hypotheses.every(h => !Object.hasOwn(h, "probability")));
 });
 
 test("missing, estimated and incomplete readings are not silently promoted to measured evidence", () => {
