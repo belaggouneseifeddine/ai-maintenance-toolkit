@@ -47,6 +47,8 @@ jobs:
           if [ -f SAFETY.md ]; then cp SAFETY.md _site/; fi
           if [ -f icon-192.png ]; then cp icon-192.png _site/; fi
           if [ -f icon-512.png ]; then cp icon-512.png _site/; fi
+      - name: Vendor pinned PDF and OCR runtime for offline use
+        run: bash scripts/vendor-document-runtime.sh _site
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
