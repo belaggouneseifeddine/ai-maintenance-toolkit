@@ -614,8 +614,8 @@
       "owner": "bbartling",
       "lastUpdated": null,
       "lastPushed": null,
-      "latestRelease": "5.0.20",
-      "version": "5.0.20 (application VERSION; PyPI package version 4.5.11)",
+      "latestRelease": null,
+      "version": "VERSION file 5.0.20; PyPI package metadata 4.5.11 (not a verified GitHub release tag)",
       "lastChecked": "2026-11-17",
       "codeLicense": "MIT (verified in LICENSE and pyproject.toml)",
       "dataLicense": "not separately verified for any benchmark, demo, or telemetry data",
@@ -645,7 +645,8 @@
         "Not a general industrial root-cause knowledge base.",
         "Rule-based FDD outputs require point-role mapping, unit validation, operating-mode checks and asset applicability.",
         "Do not infer root cause or remaining useful life from anomaly/FDD flags alone.",
-        "Do not copy rule text/data until exact rule provenance and data rights are reviewed."
+        "Do not copy rule text/data until exact rule provenance and data rights are reviewed.",
+        "The VERSION file and PyPI package metadata report different version numbers; no GitHub release tag or latest commit date was verified in this pass."
       ],
       "dataLeakage": "No benchmark leakage assessment performed; any future evaluation must split by site, asset and time, not random overlapping windows.",
       "dependencies": "Python package requires Python >=3.10 and openpyxl; platform stack has separate services and dependencies. Not suitable as a direct Android or Cloudflare Worker runtime dependency.",
