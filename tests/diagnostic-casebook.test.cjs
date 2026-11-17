@@ -36,7 +36,7 @@ test("triage keeps all hypotheses unresolved and never emits probabilities", () 
   assert.equal(result.status, "candidate_triage_only");
   assert.equal(result.runtimeEligible, false);
   assert.ok(result.hypotheses.every(h => h.status === "unresolved"));
-  assert.equal(JSON.stringify(result).includes("probability"), false);
+  assert.equal(Object.hasOwn(result, "probabilities"), false);\n  assert.ok(result.hypotheses.every(h => !Object.hasOwn(h, "probability")));
 });
 
 test("missing, estimated and incomplete readings are not silently promoted to measured evidence", () => {
