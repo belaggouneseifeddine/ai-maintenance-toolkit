@@ -570,7 +570,7 @@
   }
 
   function isSafetyChecklistRequest(value) {
-    return /(?:قائمة\\s*(?:تحقق\\s*)?السلامة|تحقق\\s*السلامة|فحص\\s*السلامة|هل\\s*أبدأ\\s*(?:التدخل|الصيانة)|safety\\s*checklist|pre[- ]job\\s*safety|before\\s*(?:maintenance|intervention)|liste\\s*(?:de\\s*)?sécurité|checklist\\s*(?:de\\s*)?sécurité)/i.test(String(value || ""));
+    return /(?:قائمة\s*(?:تحقق\s*)?السلامة|تحقق\s*السلامة|فحص\s*السلامة|هل\s*أبدأ\s*(?:التدخل|الصيانة)|safety\s*checklist|pre[- ]job\s*safety|before\s*(?:maintenance|intervention)|liste\s*(?:de\s*)?sécurité|checklist\s*(?:de\s*)?sécurité)/i.test(String(value || ""));
   }
 
   async function answerSafetyChecklistRequest() {
@@ -591,11 +591,11 @@
     lines.push("", data.allChecked
       ? copy("كل مربعات القائمة محددة، لكن هذا ليس تصريح عمل أو إثباتًا مستقلًا للعزل أو انعدام الطاقة. يجب تطبيق إجراءات الموقع والتحقق بواسطة الشخص المؤهل.", "All boxes are checked, but this is not a work permit or independent proof of isolation/zero energy. Site procedures and competent-person verification still apply.", "Toutes les cases sont cochées, mais cela ne constitue ni un permis de travail ni une preuve indépendante d’isolement/absence d’énergie. Les procédures du site et la vérification par une personne compétente restent obligatoires.")
       : copy("توجد بنود غير محددة. لا تبدأ التدخل إذا بقي أي بند غير مؤكد؛ أكمل التحقق أو صعّد للمسؤول.", "Some items remain unchecked. Do not begin if any item is uncertain; complete verification or escalate.", "Certains points ne sont pas cochés. Ne commencez pas si un point reste incertain ; terminez la vérification ou escaladez."));
-    addMessage("assistant", lines.join("\\n"));
+    addMessage("assistant", lines.join("\n"));
   }
 
   function isEquipmentContextRequest(value) {
-    return /(?:بيانات\\s*(?:المعدة|الآلة)|معلومات\\s*(?:المعدة|الآلة)|سياق\\s*المعدة|equipment\\s*(?:context|details)|machine\\s*(?:context|details)|informations\\s*(?:de\\s*)?l’équipement|contexte\\s*(?:de\\s*)?l’équipement)/i.test(String(value || ""));
+    return /(?:بيانات\s*(?:المعدة|الآلة)|معلومات\s*(?:المعدة|الآلة)|سياق\s*المعدة|equipment\s*(?:context|details)|machine\s*(?:context|details)|informations\s*(?:de\s*)?l’équipement|contexte\s*(?:de\s*)?l’équipement)/i.test(String(value || ""));
   }
 
   async function answerEquipmentContextRequest() {
@@ -619,7 +619,7 @@
       copy("الشركة المصنّعة: ", "Manufacturer: ", "Fabricant : ") + (equipment.manufacturer || copy("غير محددة", "Not specified", "Non spécifié")),
       copy("الموديل: ", "Model: ", "Modèle : ") + (equipment.model || copy("غير محدد", "Not specified", "Non spécifié")),
       copy("هذه بيانات السياق المسجلة فقط؛ لا أستنتج موديلًا أو مواصفات غير مدخلة.", "These are recorded context fields only; no model or specification is inferred.", "Ces champs reflètent uniquement le contexte enregistré ; aucun modèle ni aucune spécification ne sont déduits.")
-    ].join("\\n"));
+    ].join("\n"));
   }
 
   function isShiftHandoverRequest(value) {
@@ -756,6 +756,18 @@
     if (!value) return;
     clearRetrievedExcerpts();
     addMessage("user", value);
+    if (isSafetyChecklistRequest(value)) {
+      answerSafetyChecklistRequest().catch(() => {
+        addMessage("assistant", copy("تعذر فتح أو قراءة قائمة السلامة.", "The safety checklist could not be opened or read.", "Impossible d’ouvrir ou de lire la liste de sécurité."));
+      });
+      return;
+    }
+    if (isEquipmentContextRequest(value)) {
+      answerEquipmentContextRequest().catch(() => {
+        addMessage("assistant", copy("حدث خطأ أثناء قراءة سياق المعدة المحلي.", "An error occurred while reading local equipment context.", "Une erreur est survenue lors de la lecture du contexte équipement local."));
+      });
+      return;
+    }
     if (isShiftHandoverRequest(value)) {
       answerShiftHandoverRequest(value).catch(() => {
         addMessage("assistant", copy("حدث خطأ أثناء إعداد مسودة تسليم النوبة المحلية.", "An error occurred while preparing the local shift-handover draft.", "Une erreur est survenue lors de la préparation du brouillon de relève."));
