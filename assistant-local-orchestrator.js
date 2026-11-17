@@ -22,13 +22,15 @@
     let current = null;
     let sequence = 0;
 
+    function snapshot() { return current ? JSON.parse(JSON.stringify(current)) : null; }
+
     function nextId(prefix) {
       sequence += 1;
       return prefix + "-" + Date.now().toString(36) + "-" + sequence.toString(36);
     }
     function start(input) {
       current = Session.createSession(input || {});
-      return current;
+      return snapshot();
     }
     function restore(snapshot) {
       const validation = Session.validateSession(snapshot);
@@ -118,14 +120,14 @@
         ok: true,
         status: results.some(item => item.status === "blocked") ? "safety_blocked" : "completed",
         results,
-        session: current
+        session: snapshot()
       };
     }
     return Object.freeze({
       version: VERSION,
       start,
       restore,
-      getSession: () => current ? JSON.parse(JSON.stringify(current)) : null,
+      getSession: snapshot,
       updateEquipment,
       addMessage,
       addFact,
