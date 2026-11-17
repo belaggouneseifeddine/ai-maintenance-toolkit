@@ -7,6 +7,47 @@
   }[c]));
   const status = (id, message) => { const el = $(id); if (el) el.textContent = message; };
 
+
+  async function refreshLearningDashboard() {
+    const host = $("learningReviewDashboard");
+    const memory = window.MaintenanceLearningMemory;
+    if (!host || !memory) return;
+    try {
+      const [summary, candidates] = await Promise.all([memory.getLearningDashboard(), memory.getEvaluationCandidates()]);
+      host.replaceChildren();
+      const stats = document.createElement("p");
+      stats.className = "hint";
+      stats.textContent = "وثائق مستوردة: " + summary.documentCount +
+        " | وثائق معتمدة فنيًا: " + summary.reviewedDocumentCount +
+        " | ادعاءات مسجلة: " + summary.claimCount +
+        " | ادعاءات معتمدة: " + summary.approvedClaimCount +
+        " | نتائج تشخيص تنتظر المراجعة: " + summary.outcomeCandidateCount +
+        " | حالات متعارضة: " + summary.conflictingOutcomeCount;
+      const privacy = document.createElement("p");
+      privacy.className = "hint";
+      privacy.textContent = "التخزين محلي على هذا الجهاز. لا مشاركة بين المستخدمين، ولا تعديل لأوزان النموذج أو قاعدة الأعطال تلقائيًا.";
+      host.append(stats, privacy);
+      const list = document.createElement("div");
+      list.className = "document-candidate-list";
+      candidates.forEach(candidate => {
+        const item = document.createElement("article");
+        item.className = "document-result";
+        const heading = document.createElement("strong");
+        heading.textContent = candidate.equipmentFamily || "عائلة معدة غير محددة";
+        const detail = document.createElement("p");
+        detail.className = "hint";
+        detail.textContent = "النتيجة: " + candidate.outcome +
+          (candidate.confirmedFaultId ? " | العطل المبلغ عنه: " + candidate.confirmedFaultId : "") +
+          " | " + candidate.reviewStatus;
+        item.append(heading, detail);
+        list.appendChild(item);
+      });
+      if (candidates.length) host.appendChild(list);
+    } catch (error) {
+      host.textContent = "تعذر قراءة سجل التعلم المحلي: " + (error && error.message ? error.message : "خطأ غير معروف");
+    }
+  }
+
   async function refreshDocuments() {
     const docs = await library().list();
     const select = $("reviewDocumentSelect");
@@ -46,6 +87,7 @@
     section.className = "card document-workspace";
     section.innerHTML =
       '<h2>مراجعة الوثائق والأدلة التشخيصية</h2>' +
+      '<h3>سجل التعلم المحلي ومراجعة النتائج</h3><div id="learningReviewDashboard" aria-live="polite"><p class="hint">جارٍ تحميل حالة التعلم المحلي…</p></div>' +
       '<p class="hint">كل شيء يُحفظ محليًا على هذا الجهاز. يقبل التطبيق ملفات PDF التي يرفعها المستخدم دون فحص أو اعتماد قانوني للحقوق؛ ويتحمل المستخدم مسؤولية امتلاكه حق استخدام الملف. لا يصبح النص المستخرج دليلًا تشخيصيًا بمجرد استخراجه: يجب مراجعته فنيًا وربطه بالصفحة الأصلية ونطاق المعدة. أي تعديل على المراجعة الفنية أو نطاق الوثيقة يبطل اعتماد الادعاءات السابقة.</p>' +
       '<label for="reviewDocumentSelect">الوثيقة</label><select id="reviewDocumentSelect"><option value="">اختر وثيقة</option></select>' +
       '<label for="reviewManufacturer">الشركة المصنّعة</label><input id="reviewManufacturer" placeholder="مثال: Grundfos / ABB / Schneider Electric">' +
@@ -214,6 +256,7 @@
         });
         status("documentReviewStatus", "تم حفظ المراجعة محليًا. يلزم اعتماد ادعاء محدد وصفحته قبل إتاحته للتشخيص.");
         await refreshDocuments();
+        await refreshLearningDashboard();
       } catch (error) {
         status("documentReviewStatus", error.message);
       }
@@ -241,11 +284,13 @@
           ? "تم اعتماد الادعاء بعد اجتياز المراجعة الفنية وربطه بالصفحة الأصلية."
           : "تم حفظ الادعاء كمراجَع، لكنه غير مؤهل للاستخدام التشخيصي.");
         await refreshDocuments();
+        await refreshLearningDashboard();
       } catch (error) {
         status("pageClaimStatus", error.message);
       }
     });
     refreshDocuments().catch(error => status("documentReviewStatus", error.message));
+    refreshLearningDashboard();
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", mount);
