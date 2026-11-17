@@ -586,6 +586,44 @@
     addMessage("assistant", lines.join("\n"));
   }
 
+  function isPreventiveMaintenanceRequest(value) {
+    return /الصيانة\\s*الوقائية|مهام\\s*الصيانة|المهام\\s*(?:المستحقة|المتأخرة)|pm\\s*schedule|preventive\\s*maintenance|maintenance\\s*schedule|maintenance\\s*due|maintenance\\s*plan|maintenance\\s*préventive|échéancier\\s*(?:de\\s*)?maintenance/i.test(String(value || ""));
+  }
+
+  async function answerPreventiveMaintenanceRequest(value) {
+    if (!localAssistant || typeof localAssistant.invokeTool !== "function") {
+      addMessage("assistant", copy("أداة خطة الصيانة الوقائية المحلية غير متاحة.", "The local preventive-maintenance tool is unavailable.", "L’outil local de maintenance préventive est indisponible."));
+      return;
+    }
+    const detected = detectEquipment(value);
+    const query = detected ? detected.id : (equipmentContext || pendingEquipment || "");
+    const result = await localAssistant.invokeTool("getPreventiveMaintenanceSchedule", { query, limit: 20 });
+    if (!result.ok || !result.data || result.data.ok !== true) {
+      addMessage("assistant", copy("تعذر قراءة خطة الصيانة الوقائية المحلية. لم يتم تعديل أي مهمة.", "The local preventive-maintenance plan could not be read. No task was changed.", "Impossible de lire le plan local de maintenance préventive. Aucune tâche n’a été modifiée."));
+      return;
+    }
+    const tasks = Array.isArray(result.data.tasks) ? result.data.tasks : [];
+    if (!tasks.length) {
+      addMessage("assistant", copy("لا توجد مهام وقائية مطابقة محفوظة على هذا الجهاز. لم أفترض أي فترات صيانة.", "No matching preventive tasks are stored on this device. I have not assumed any maintenance intervals.", "Aucune tâche préventive correspondante n’est enregistrée sur cet appareil. Aucun intervalle n’a été supposé."));
+      return;
+    }
+    const lines = [copy("خطة الصيانة الوقائية المحلية — حسب البيانات المسجلة:", "Local preventive-maintenance plan — based on saved data:", "Plan local de maintenance préventive — selon les données enregistrées :")];
+    tasks.forEach((task, index) => {
+      const status = task.status === "overdue" ? copy("متأخرة", "Overdue", "En retard")
+        : task.status === "due_today" ? copy("مستحقة اليوم", "Due today", "À effectuer aujourd’hui")
+        : task.status === "upcoming" ? copy("لاحقة", "Upcoming", "À venir")
+        : copy("جدول غير صالح؛ راجع الخطة", "Invalid schedule; review the plan", "Plan invalide ; vérifier le programme");
+      lines.push("", (index + 1) + ". " + task.machine + " — " + task.task);
+      lines.push(copy("آخر تنفيذ: ", "Last performed: ", "Dernière exécution : ") + task.lastPerformed);
+      lines.push(copy("الاستحقاق التالي: ", "Next due: ", "Prochaine échéance : ") + (task.dueDate || "—") + " (" + status + ")");
+      if (task.repeat === "days") lines.push(copy("الفاصل المسجل: ", "Saved interval: ", "Intervalle enregistré : ") + task.intervalDays + copy(" يومًا", " days", " jours"));
+      else if (task.repeat === "monthly") lines.push(copy("التكرار المسجل: شهري", "Saved recurrence: monthly", "Récurrence enregistrée : mensuelle"));
+      if (task.notes) lines.push(copy("ملاحظة: ", "Note: ", "Note : ") + task.notes);
+    });
+    lines.push("", copy("المواعيد محسوبة من الفترات التي أدخلها المستخدم فقط. تحقق من خطة المصنع والموقع قبل تنفيذ المهمة.", "Due dates are calculated only from user-entered intervals. Verify the OEM and site plan before performing the task.", "Les échéances sont calculées uniquement à partir des intervalles saisis. Vérifiez le plan constructeur et le plan du site avant toute intervention."));
+    addMessage("assistant", lines.join("\n"));
+  }
+
   function handleMessage(text) {
     const value = String(text || "").trim();
     if (!value) return;
@@ -594,6 +632,12 @@
     if (isMaintenanceHistoryRequest(value)) {
       answerMaintenanceHistoryRequest(value).catch(() => {
         addMessage("assistant", copy("حدث خطأ أثناء قراءة السجل المحلي.", "An error occurred while reading the local log.", "Une erreur est survenue lors de la lecture du journal local."));
+      });
+      return;
+    }
+    if (isPreventiveMaintenanceRequest(value)) {
+      answerPreventiveMaintenanceRequest(value).catch(() => {
+        addMessage("assistant", copy("حدث خطأ أثناء قراءة خطة الصيانة الوقائية.", "An error occurred while reading the preventive-maintenance plan.", "Une erreur est survenue lors de la lecture du plan de maintenance préventive."));
       });
       return;
     }
