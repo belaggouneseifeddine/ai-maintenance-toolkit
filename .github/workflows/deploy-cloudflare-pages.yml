@@ -26,6 +26,12 @@ jobs:
         with:
           node-version: "24"
 
+      - name: Verify application and provider tests
+        run: |
+          node --test tests/*.test.cjs
+          node --experimental-default-type=module --test tests/*.test.mjs
+          node scripts/quality-check.mjs
+
       - name: Verify deployment credentials are configured
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
