@@ -35,7 +35,7 @@
     }
     if (!Array.isArray(item.sources)) errors.push("sources must be an array");
     if (item.status !== "candidate" && (!Array.isArray(item.sources) || !item.sources.length || item.sources.some(s => s.reviewStatus !== "reviewed" || !s.sectionOrPage))) errors.push("reviewed status requires reviewed claim-level sources with section/page");
-    if (item.status === "field_validated" && (!item.verification.length || item.limitations.some(v => /not been performed|not yet been reviewed/i.test(v)))) errors.push("field_validated case cannot retain unresolved validation limitations");
+    if (item.status === "field_validated" && (!Array.isArray(item.verification) || !item.verification.length || !Array.isArray(item.limitations) || item.limitations.some(v => /not been performed|not yet been reviewed/i.test(v)))) errors.push("field_validated case cannot retain unresolved validation limitations");
     if (item.licenseStatus !== "reuse_permitted" && item.status === "field_validated") errors.push("field-validated runtime content requires explicit reuse permission");
     if (JSON.stringify(item).match(/\b(?:probability|confidence)\s*:\s*0?\.\d+/i)) errors.push("uncalibrated numeric probability/confidence is not permitted");
     return { ok: errors.length === 0, errors };
