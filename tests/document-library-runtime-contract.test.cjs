@@ -18,6 +18,11 @@ test("PDF import is local-first, bounded, and records page-level extraction prov
   assert.match(source, /ocrConfidence/);
   assert.match(source, /eligibleForDiagnosis: false/);
   assert.equal(source.includes("fetch("), false, "PDF contents must not be uploaded by the document library");
+  assert.ok(source.includes("./vendor/pdfjs/pdf.min.mjs"), "PDF.js must load from same-origin assets");
+  assert.ok(source.includes("./vendor/pdfjs/pdf.worker.min.mjs"), "PDF worker must load from same-origin assets");
+  assert.ok(source.includes("./vendor/tesseract/tesseract.min.js"), "Tesseract must load from same-origin assets");
+  assert.ok(source.includes("./vendor/tessdata/"), "OCR language data must load from same-origin assets");
+  assert.equal(/https:\\/\\/(?:cdnjs|cdn\\.jsdelivr)/i.test(source), false, "PDF/OCR runtime must not depend on a CDN");
 });
 
 test("OCR and PDF extraction keep the original one-based PDF page anchor", () => {
@@ -98,7 +103,14 @@ test("all document assets are included in both deployment artifacts and optional
     assert.ok(pages.includes(asset), "GitHub Pages workflow must include " + asset);
     assert.ok(cloudflare.includes(asset), "Cloudflare Pages workflow must include " + asset);
   }
-  assert.match(sw, /maintenance-ai-toolkit-v60/);
+  assert.match(sw, /maintenance-ai-toolkit-v61/);
+  for (const asset of ["vendor/pdfjs/pdf.min.mjs","vendor/pdfjs/pdf.worker.min.mjs","vendor/tesseract/tesseract.min.js","vendor/tesseract/worker.min.js","vendor/tesseract/core/tesseract-core-simd-lstm.wasm.js","vendor/tessdata/ara.traineddata.gz","vendor/tessdata/eng.traineddata.gz","vendor/tessdata/fra.traineddata.gz"]) {
+    assert.ok(sw.includes(asset), "service worker must cache " + asset);
+  }
+  const vendorScript = read("scripts/vendor-document-runtime.sh");
+  assert.ok(vendorScript.includes("pdfjs-dist@4.10.38"));
+  assert.ok(vendorScript.includes("tesseract.js@5.1.1"));
+  assert.ok(vendorScript.includes("ara eng fra"));
   assert.match(sw, /const OPTIONAL_APP_SHELL = \[/);
 });
 
