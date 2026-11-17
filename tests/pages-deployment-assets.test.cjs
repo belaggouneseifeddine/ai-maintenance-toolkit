@@ -73,7 +73,7 @@ test("navigation redesign owns six destinations and P1 shell owns theme only", (
   assert.ok(html.includes('data-tab="homeDashboard"'));
   assert.ok(html.includes('data-tab="v03"'));
   assert.ok(html.includes('<section id="homeDashboard" class="panel active"'));
-  for (const destination of ["diagnose", "knowledge", "safety", "log", "v03", "ai"]) assert.ok(html.includes('data-go="' + destination + '"`), "Missing home shortcut: " + destination);
+  for (const destination of ["diagnose", "knowledge", "safety", "log", "v03", "ai"]) assert.ok(html.includes('data-go="' + destination + '"'), "Missing home shortcut: " + destination);
   for (const id of ["homeDashboard", "diagnose", "knowledge", "safety", "log", "v03"]) {
     assert.ok(navigation.includes("id:'" + id + "'"), "Missing navigation destination: " + id);
   }
