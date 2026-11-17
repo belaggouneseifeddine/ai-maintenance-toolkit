@@ -59,6 +59,7 @@ jobs:
             document-retrieval-adapter.js \
             document-review-workspaces.js \
             diagnostic-document-evidence.js \
+            diagnostic-casebook.js \
             sw.js; do
             node --check "$file"
           done
