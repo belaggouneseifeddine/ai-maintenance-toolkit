@@ -27,7 +27,7 @@
 - The assistant tool registry also returns an advisory warning for safety-sensitive diagnosis instead of blocking the local diagnostic tool.
 - The warning is visible in the assistant's diagnostic response. It is not a safety clearance and does not authorize physical intervention.
 
-### Local assistant and evidence ranking
+### Local assistant, measurements and evidence ranking
 
 - Local assistant tools remain allow-listed and locally executed.
 - Tool outputs are JSON-cloned before being returned to the orchestrator.
