@@ -33,7 +33,7 @@ jobs:
       - name: Run Worker provider and CORS tests
         run: |
           if compgen -G "tests/*.test.mjs" > /dev/null; then
-            node --experimental-default-type=module --test tests/*.test.mjs
+            node --test tests/*.test.mjs
           else
             echo "No Worker module tests are present on this ref."
           fi
