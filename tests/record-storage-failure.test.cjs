@@ -3,7 +3,7 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const vm = require("node:vm");
 
-const html = fs.readFileSync(require.resolve("../app-legacy.js"), "utf8");
+const html = fs.readFileSync(require.resolve("../maintenance-records.js"), "utf8");
 
 test("saveRecords reports a local-storage write failure instead of claiming success", () => {
   const start = html.indexOf("function saveRecords(a){");
