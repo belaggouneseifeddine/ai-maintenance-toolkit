@@ -64,3 +64,54 @@ test("document search delegates only to the reviewed local retrieval adapter", a
   assert.equal(result.data.results[0].citation, "p. 12");
   assert.equal((await registry.call("searchReviewedDocuments", { query: " " })).status, "invalid_input");
 });
+
+test("maintenance history tool reads only validated local records and filters by equipment", async () => {
+  const previousStorage = global.localStorage;
+  const data = [{
+    date: "2026-11-16", machine: "Pump P-101 KSB", fault: "Low flow",
+    action: "Cleaned suction strainer", status: "Repaired"
+  }, {
+    date: "2026-11-15", machine: "Motor M-22", fault: "High temperature",
+    action: "Checked cooling fan", status: "In progress"
+  }, {
+    date: 7, machine: "invalid", fault: "invalid", action: "invalid", status: "invalid"
+  }];
+  global.localStorage = { getItem: key => key === "maintenance-ai-toolkit-records-v1" ? JSON.stringify(data) : null };
+  try {
+    const tools = LocalTools.createLocalTools();
+    const registry = Registry.createToolRegistry({ tools: tools.tools, safetyGate: tools.safetyGate });
+    const result = await registry.call("getMaintenanceHistory", {
+      equipment: { type: "pump", manufacturer: "KSB" }, limit: 5
+    });
+    assert.equal(result.ok, true);
+    assert.equal(result.data.count, 1);
+    assert.equal(result.data.records[0].machine, "Pump P-101 KSB");
+    assert.equal(result.data.records[0].fault, "Low flow");
+  } finally {
+    if (previousStorage === undefined) delete global.localStorage;
+    else global.localStorage = previousStorage;
+  }
+});
+
+test("maintenance history tool returns a bounded recent list and fails safely on malformed storage", async () => {
+  const previousStorage = global.localStorage;
+  try {
+    global.localStorage = { getItem: () => JSON.stringify(Array.from({ length: 25 }, (_, i) => ({
+      date: "2026-11-" + String(i + 1).padStart(2, "0"),
+      machine: "Pump " + i, fault: "Low flow", action: "Inspection", status: "In progress"
+    }))) };
+    const tools = LocalTools.createLocalTools();
+    const registry = Registry.createToolRegistry({ tools: tools.tools });
+    const result = await registry.call("getMaintenanceHistory", { limit: 20 });
+    assert.equal(result.data.count, 20);
+    assert.equal(result.data.records.length, 20);
+    global.localStorage = { getItem: () => "{bad json" };
+    const malformed = await registry.call("getMaintenanceHistory", {});
+    assert.equal(malformed.ok, true);
+    assert.equal(malformed.data.status, "local_record_read_failed");
+    assert.deepEqual(malformed.data.records, []);
+  } finally {
+    if (previousStorage === undefined) delete global.localStorage;
+    else global.localStorage = previousStorage;
+  }
+});
