@@ -353,6 +353,10 @@ const checks = [
   ["Safety gate, auto-draft, three-language switch and record filters are wired", () => {
     assert.match(html, /safetyChecks\.some\(box=>!box\.checked\)/);
     assert.match(html, /id="safetyGateNotice"/);
+    assert.match(html, /const safetyReviewIncomplete=/);
+    assert.match(html, /يمكنك متابعة التشخيص/);
+    assert.doesNotMatch(html, /gate\\.scrollIntoView/);
+    assert.doesNotMatch(html, /openSafetyFromGate/);
     assert.match(html, /maintenance-ai-toolkit-draft-v1/);
     assert.match(html, /localStorage\.setItem\(DRAFT_KEY/);
     assert.match(html, /id="languageSwitcher"/);
