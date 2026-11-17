@@ -119,7 +119,12 @@
     const confirmedFaultId = bounded(item.confirmedFaultId, 120);
     if (outcome === "confirmed" && !confirmedFaultId) throw new Error("A confirmed fault ID is required.");
     const evidenceSummary = bounded(item.evidenceSummary, 1000);
-    if (outcome === "confirmed" && !evidenceSummary) throw new Error("Evidence from inspection or repair is required before recording a confirmed outcome.");
+    if (!evidenceSummary) throw new Error("Inspection or repair evidence is required for every recorded outcome.");
+    const prediction = (await list()).find(event => event.eventType === "diagnostic_prediction" && event.caseId === caseId);
+    if (!prediction) throw new Error("The diagnostic prediction for this case was not found.");
+    if (outcome === "confirmed" && !(prediction.hypothesisIds || []).includes(confirmedFaultId)) {
+      throw new Error("The confirmed fault must match one of the recorded diagnostic hypotheses.");
+    }
     return put({
       id: id(), eventType: "diagnostic_outcome", schemaVersion: 1, caseId,
       outcome, confirmedFaultId: outcome === "confirmed" ? confirmedFaultId : "",
@@ -142,6 +147,27 @@
     }).filter(Boolean);
   }
 
+  async function removeDocument(documentId) {
+    const target = bounded(documentId, 120);
+    if (!target) return;
+    const events = await list();
+    const db = await openDb();
+    const toDelete = events.filter(event => event.eventType === "document_ingested" && event.documentId === target);
+    const updated = events.filter(event => event.eventType === "diagnostic_prediction" &&
+      Array.isArray(event.evidenceDocumentIds) && event.evidenceDocumentIds.includes(target));
+    await new Promise((resolve, reject) => {
+      const tx = db.transaction(STORE, "readwrite");
+      const store = tx.objectStore(STORE);
+      toDelete.forEach(event => store.delete(event.id));
+      updated.forEach(event => {
+        event.evidenceDocumentIds = event.evidenceDocumentIds.filter(id => id !== target);
+        store.put(event);
+      });
+      tx.oncomplete = resolve;
+      tx.onerror = () => reject(tx.error || new Error("Could not remove document learning references."));
+    });
+  }
+
   async function clear() {
     const db = await openDb();
     await new Promise((resolve, reject) => {
@@ -159,6 +185,7 @@
     recordDiagnostic,
     recordOutcome,
     getEvaluationCandidates,
+    removeDocument,
     list,
     clear
   });
