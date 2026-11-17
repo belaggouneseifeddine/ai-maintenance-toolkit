@@ -364,6 +364,7 @@
         (diagnosis && diagnosis.reason ? diagnosis.reason : copy("لم تتوفر مطابقة كافية. أضف قياسات أو راجع الدليل المعتمد.", "No sufficient match. Add measurements or consult an approved manual.", "Correspondance insuffisante. Ajoutez des mesures ou consultez un manuel approuvé."));
     }
     const lines = [copy("تقييم محلي أولي — هذه احتمالات وليست سببًا مؤكدًا.", "Preliminary local assessment — these are possibilities, not a confirmed cause.", "Évaluation locale préliminaire — possibilités, pas une cause confirmée.")];
+    if (diagnosis.safetyWarning && diagnosis.safetyWarning.message) lines.push("", "⚠ " + diagnosis.safetyWarning.message);
     diagnosis.results.slice(0, 3).forEach((item, index) => {
       lines.push("", (index + 1) + ". " + (item.title || item.id));
       if (item.confidenceLabel) lines.push("   " + item.confidenceLabel);
@@ -398,9 +399,8 @@
       consent: { sendToAI: false }
     };
     const result = await localAssistant.invokeTool("diagnose", { request });
-    if (result.status === "blocked") {
-      addMessage("assistant", copy("بوابة السلامة المحلية أوقفت التشخيص الآلي لهذه المدخلات. أوقف العمل عند وجود خطر، واتبع LOTO وإجراءات الموقع وصعّد للمسؤول المؤهل.", "The local safety gate blocked automated diagnosis for this input. Stop work if a hazard is present, follow LOTO and site procedures, and escalate to qualified personnel.", "La barrière de sécurité locale a bloqué le diagnostic automatique. Arrêtez le travail en cas de danger, appliquez la consignation et faites remonter au personnel qualifié."));
-      return;
+    if (result.safetyNotice && result.safetyNotice.message) {
+      addMessage("assistant", "⚠ " + result.safetyNotice.message);
     }
     if (!result.ok) {
       addMessage("assistant", copy("تعذر تشغيل محرك التشخيص المحلي. بقيت المحادثة وسجلها المحلي متاحين دون إرسال خارجي.", "The local diagnostic engine could not run. The conversation and local history remain available; nothing was sent externally.", "Le moteur de diagnostic local n’a pas pu s’exécuter. La conversation et son historique local restent disponibles ; aucune donnée n’a été envoyée."));
