@@ -111,6 +111,99 @@
     };
   }
 
+  function entropy(distribution) {
+    return distribution.reduce((sum, probability) =>
+      probability > 0 ? sum - probability * Math.log2(probability) : sum, 0);
+  }
+
+  function expectedInformationGain(input) {
+    const hypotheses = Array.isArray(input && input.hypotheses) ? input.hypotheses : [];
+    const tests = Array.isArray(input && input.tests) ? input.tests : [];
+    if (!hypotheses.length || !tests.length) return { ok: false, status: "insufficient_candidates", ranking: [] };
+    const ids = hypotheses.map(item => String(item && item.id || ""));
+    if (ids.some(id => !id) || new Set(ids).size !== ids.length) {
+      return { ok: false, status: "invalid_hypothesis_ids", ranking: [] };
+    }
+    const rawPriors = hypotheses.map(item => Number(item.prior));
+    if (rawPriors.some(value => !Number.isFinite(value) || value < 0)) {
+      return { ok: false, status: "invalid_priors", ranking: [] };
+    }
+    const priorTotal = rawPriors.reduce((sum, value) => sum + value, 0);
+    if (!(priorTotal > 0)) return { ok: false, status: "zero_prior_mass", ranking: [] };
+    const priors = rawPriors.map(value => value / priorTotal);
+    const priorEntropy = entropy(priors);
+    const ranking = [];
+
+    for (const test of tests) {
+      const outcomes = Array.isArray(test && test.outcomes) ? test.outcomes : [];
+      if (outcomes.length < 2) {
+        ranking.push({ id: test && test.id || "", status: "insufficient_outcomes" });
+        continue;
+      }
+      const likelihoodsByHypothesis = new Map(ids.map(id => [id, []]));
+      let valid = true;
+      for (const outcome of outcomes) {
+        const likelihoods = outcome && outcome.likelihoods;
+        if (!likelihoods || typeof likelihoods !== "object") { valid = false; break; }
+        for (const id of ids) {
+          const value = Number(likelihoods[id]);
+          if (!Number.isFinite(value) || value < 0 || value > 1) { valid = false; break; }
+          likelihoodsByHypothesis.get(id).push(value);
+        }
+        if (!valid) break;
+      }
+      if (valid) {
+        for (const values of likelihoodsByHypothesis.values()) {
+          const total = values.reduce((sum, value) => sum + value, 0);
+          if (Math.abs(total - 1) > 0.001) { valid = false; break; }
+        }
+      }
+      if (!valid) {
+        ranking.push({ id: test && test.id || "", status: "invalid_or_incomplete_likelihoods" });
+        continue;
+      }
+
+      let expectedPosteriorEntropy = 0;
+      let outcomesValid = true;
+      for (let outcomeIndex = 0; outcomeIndex < outcomes.length; outcomeIndex++) {
+        const outcomeProbability = ids.reduce((sum, id, hypothesisIndex) =>
+          sum + priors[hypothesisIndex] * likelihoodsByHypothesis.get(id)[outcomeIndex], 0);
+        if (!(outcomeProbability > 0)) continue;
+        const posterior = ids.map((id, hypothesisIndex) =>
+          priors[hypothesisIndex] * likelihoodsByHypothesis.get(id)[outcomeIndex] / outcomeProbability);
+        const posteriorTotal = posterior.reduce((sum, value) => sum + value, 0);
+        if (Math.abs(posteriorTotal - 1) > 0.001) { outcomesValid = false; break; }
+        expectedPosteriorEntropy += outcomeProbability * entropy(posterior);
+      }
+      if (!outcomesValid) {
+        ranking.push({ id: test && test.id || "", status: "posterior_normalization_failed" });
+        continue;
+      }
+      const eig = Math.max(0, priorEntropy - expectedPosteriorEntropy);
+      ranking.push({
+        id: String(test.id || ""),
+        status: "ranked",
+        expectedInformationGainBits: Number(eig.toFixed(6)),
+        cost: Number.isFinite(Number(test.cost)) ? Number(test.cost) : null,
+        timeMinutes: Number.isFinite(Number(test.timeMinutes)) ? Number(test.timeMinutes) : null,
+        safetyWarning: test.hazardous === true || test.safetyReviewRequired === true
+          ? String(test.safetyWarning || "This test requires competent-person and site-procedure review.")
+          : null,
+        likelihoodSource: String(test.likelihoodSource || "not_recorded"),
+        calibrated: false
+      });
+    }
+    const validRanking = ranking.filter(item => item.status === "ranked")
+      .sort((a, b) => b.expectedInformationGainBits - a.expectedInformationGainBits);
+    return {
+      ok: true,
+      status: validRanking.length ? "ranked" : "no_valid_test_models",
+      priorEntropyBits: Number(priorEntropy.toFixed(6)),
+      ranking: validRanking.concat(ranking.filter(item => item.status !== "ranked")),
+      note: "Information gain is conditional on supplied likelihoods. It is not a calibrated fault probability; missing or unsupported likelihoods are rejected."
+    };
+  }
+
   function enrich(input, result) {
     if (!result || !Array.isArray(result.hypotheses) || !result.hypotheses.length) {
       return {
@@ -146,6 +239,7 @@
     inferEvidenceGroup,
     updatePosterior,
     scoreHypothesis,
+    expectedInformationGain,
     enrich
   };
   if (typeof module !== "undefined" && module.exports) module.exports = root.MaintenanceBayesianEngine;
