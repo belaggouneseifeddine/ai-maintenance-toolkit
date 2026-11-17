@@ -60,6 +60,7 @@ jobs:
             document-review-workspaces.js \
             diagnostic-document-evidence.js \
             diagnostic-casebook.js \
+            app-legacy.js \
             sw.js; do
             node --check "$file"
           done
