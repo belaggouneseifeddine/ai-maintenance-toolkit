@@ -209,12 +209,12 @@ footer{line-height:1.8}
 </div>
 
 <div class="card" id="documentLibraryPanel">
-  <h2>مكتبة وثائق PDF واستخراج المعرفة</h2>
-  <p class="hint">استورد الدليل إلى هذا الجهاز، واستخرج النص حسب صفحات PDF، ثم ابحث فيه وراجع الادعاءات الفنية قبل إتاحتها للتشخيص. لا تُرفع الملفات أو محتوياتها إلى الخادم.</p>
-  <div class="notice">PDF نصي أو ممسوح ضوئيًا. OCR اختياري بالعربية أو الفرنسية أو الإنجليزية. يحتاج محرك القراءة وبيانات اللغة إلى تنزيل أول مرة. حد الملف 40 MB و1200 صفحة، وOCR حتى 150 صفحة مصورة لكل ملف لتقليل استهلاك ذاكرة الهاتف. الحقوق غير معتمدة تلقائيًا.</div>
+  <h2>مكتبة الوثائق والصور واستخراج المعرفة</h2>
+  <p class="hint">استورد كتيبات PDF أو صور لوحات البيانات والمكونات، واستخرج النص محليًا ثم ابحث فيه وراجع الادعاءات الفنية قبل إتاحتها للتشخيص. لا تُرفع الملفات أو محتوياتها إلى الخادم.</p>
+  <div class="notice">PDF نصي أو ممسوح ضوئيًا، وصور JPG/PNG/WebP. OCR بالعربية أو الفرنسية أو الإنجليزية. يحتاج محرك القراءة وبيانات اللغة إلى تنزيل أول مرة. حد الملف 40 MB و1200 صفحة، وOCR حتى 150 صفحة مصورة لكل ملف لتقليل استهلاك ذاكرة الهاتف. الحقوق غير معتمدة تلقائيًا.</div>
   <form id="documentImportForm">
-    <label for="documentPdfFile">اختر ملف PDF</label>
-    <input id="documentPdfFile" type="file" accept="application/pdf,.pdf" required>
+    <label for="documentPdfFile">اختر PDF أو صورة للمعدة / لوحة البيانات</label>
+    <input id="documentPdfFile" type="file" accept="application/pdf,.pdf,image/jpeg,image/png,image/webp" required>
     <div class="document-ocr-controls">
       <label class="document-ocr-toggle"><input id="documentOcrEnabled" type="checkbox"> تفعيل OCR للصفحات المصورة</label>
       <label for="documentOcrLanguage">لغة OCR</label>
@@ -225,7 +225,7 @@ footer{line-height:1.8}
         <option value="eng+fra+ara">English + Français + العربية</option>
       </select>
     </div>
-    <button class="btn" id="documentImportButton" type="submit">استيراد وفهرسة محلية</button>
+    <button class="btn" id="documentImportButton" type="submit">استخراج وفهرسة محلية</button>
   </form>
   <p id="documentLibraryStatus" role="status" aria-live="polite">الملفات والنصوص تحفظ في IndexedDB على هذا الجهاز فقط.</p>
   <form id="documentSearchForm">
@@ -581,6 +581,7 @@ if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigato
 <script src="./diagnostic-chat.js"></script>
 <script src="./document-library-core.js"></script>
 <script src="./document-semantic-search.js"></script>
+<script src="./learning-memory.js"></script>
 <script src="./document-library.js"></script>
 <script src="./document-retrieval-adapter.js"></script>
 <script src="./document-review-workspaces.js"></script>
