@@ -41,9 +41,9 @@ test -s "$OUT_DIR/vendor/pdfjs/pdf.min.mjs"
 test -s "$OUT_DIR/vendor/pdfjs/pdf.worker.min.mjs"
 test -s "$OUT_DIR/vendor/tesseract/tesseract.min.js"
 test -s "$OUT_DIR/vendor/tesseract/worker.min.js"
-for core in wasm simd lstm simd-lstm; do
-  test -s "$OUT_DIR/vendor/tesseract/core/tesseract-core-${core}.wasm.js"
-  test -s "$OUT_DIR/vendor/tesseract/core/tesseract-core-${core}.wasm"
+for core in tesseract-core tesseract-core-simd tesseract-core-lstm tesseract-core-simd-lstm; do
+  test -s "$OUT_DIR/vendor/tesseract/core/${core}.wasm.js"
+  test -s "$OUT_DIR/vendor/tesseract/core/${core}.wasm"
 done
 for language in ara eng fra; do test -s "$OUT_DIR/vendor/tessdata/${language}.traineddata.gz"; done
 
