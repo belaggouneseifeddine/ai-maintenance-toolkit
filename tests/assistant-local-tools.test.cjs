@@ -121,6 +121,7 @@ test("preventive-maintenance tool reads local plans and calculates monthly due d
   global.localStorage = {
     getItem: key => key === "maintenance-ai-toolkit-pm-v1" ? JSON.stringify([
       { machine: "Pump P-101", task: "Inspect seal", last: "2024-01-31", repeat: "monthly", days: null, notes: "OEM plan" },
+      { machine: "مضخة P-202", task: "فحص الختم", last: "2026-11-01", repeat: "days", days: 30, notes: "" },
       { machine: "Motor M-22", task: "Check cooling fan", last: "2026-11-01", repeat: "days", days: 14, notes: "" },
       { machine: "Unknown", task: "No interval", last: "2026-11-01", repeat: "days", days: 0 }
     ]) : null
@@ -130,8 +131,9 @@ test("preventive-maintenance tool reads local plans and calculates monthly due d
     const registry = Registry.createToolRegistry({ tools: tools.tools });
     const result = await registry.call("getPreventiveMaintenanceSchedule", { query: "pump", limit: 10 });
     assert.equal(result.ok, true);
-    assert.equal(result.data.count, 1);
+    assert.equal(result.data.count, 2);
     assert.equal(result.data.tasks[0].dueDate, "2024-02-29");
+    assert.equal(result.data.tasks[1].machine, "مضخة P-202");
     assert.equal(result.data.tasks[0].status, "overdue");
     assert.equal(result.data.tasks[0].repeat, "monthly");
   } finally {
