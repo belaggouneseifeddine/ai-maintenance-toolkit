@@ -2,7 +2,7 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const Casebook = require("../diagnostic-casebook.js");
-const lowFlow = JSON.parse(fs.readFileSync("knowledge/diagnostic-cases/centrifugal-pump-low-flow.json", "utf8"));
+const lowFlow = JSON.parse(fs.readFileSync("knowledge/diagnostic-cases/centrifugal-pump-low-flow.json", "utf8"));\nconst sourceRegistry = JSON.parse(fs.readFileSync("knowledge/sources.json", "utf8"));
 
 test("low-flow candidate case satisfies the case contract", () => {
   const result = Casebook.validateCase(lowFlow);
@@ -53,4 +53,18 @@ test("unsafe and invasive inspections are not selected as the next automatic obs
   const result = Casebook.triageLowFlow({ measurements: [] }, lowFlow);
   assert.ok(result.nextEvidence);
   assert.equal(result.nextEvidence.safetyClass, "installed_instrument_observation");
+});
+
+test("every cited source is registered and reuse-restricted sources remain reference-only", () => {
+  const ids = new Set([
+    ...sourceRegistry.sources.map(s => s.id),
+    ...(sourceRegistry.reference_only_documents || []).map(s => s.id)
+  ]);
+  for (const source of lowFlow.sources) assert.ok(ids.has(source.sourceId), "unregistered source: " + source.sourceId);
+  for (const id of ["ksb-mdx-maintenance-manual-2021-8-01", "ksb-centrifugal-pump-lexicon-operating-point", "ashrae-handbook-2024-chapter-44-centrifugal-pumps"]) {
+    const source = sourceRegistry.reference_only_documents.find(s => s.id === id);
+    assert.ok(source);
+    assert.equal(source.fetchAllowed, false);
+    assert.match(source.licenseStatus, /reference-only/i);
+  }
 });
