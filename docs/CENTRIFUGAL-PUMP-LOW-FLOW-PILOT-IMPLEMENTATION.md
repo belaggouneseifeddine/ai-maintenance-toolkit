@@ -14,7 +14,7 @@
 
 This first runner is intentionally not a diagnostic classifier. It does not assign scores, likelihoods or probabilities, and it does not claim a root cause. It preserves hypotheses as unresolved and can only suggest an installed-instrument observation as the next evidence-gathering step. PLC values, historian values, estimates and direct measurements remain distinct.
 
-The current two open-access papers in the source registry are research references for narrow laboratory setups. They do **not** substantiate the six-way low-flow differential. The case therefore remains `candidate`, with `licenseStatus: reference_only`, and is not loaded into the live diagnosis engine.
+The source register now also records three bounded reference-only sources: the GIW/KSB MDX manual (Section 12.1, Table 12-2, p.83; MDX slurry-pump scope only), the KSB pump lexicon (operating point and operating limits), and ASHRAE Handbook 2024 Chapter 44 (hydronic-system curves). They support parts of the operating-point framework and selected MDX examples, not a universal six-way diagnosis. Reuse is not permitted by this registry; the OEM manual and handbook remain link-and-cite references only. The case therefore remains `candidate`, with `licenseStatus: reference_only`, and is not loaded into the live diagnosis engine.
 
 ## Next work
 
