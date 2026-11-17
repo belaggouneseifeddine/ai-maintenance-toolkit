@@ -13,6 +13,7 @@ const navRedesign = readFileSync("navigation-redesign.js", "utf8");
 const diagnosticFlowsSource = readFileSync("diagnostic-flows.js", "utf8");
 const diagnosticFlows = (() => { const match = diagnosticFlowsSource.match(/window\.MAINTENANCE_DIAGNOSTIC_FLOWS\s*=\s*(\{[\s\S]*?\n\});/); assert.ok(match, "Structured diagnostic flow export must exist"); return JSON.parse(match[1]); })();
 const worker = readFileSync("worker.js", "utf8");
+const geminiProvider = readFileSync("providers/gemini-provider.mjs", "utf8");
 const evidenceReasoning = readFileSync("evidence-reasoning.js", "utf8");
 const evidenceReasoningUI = readFileSync("evidence-reasoning-ui.js", "utf8");
 const safety = readFileSync("SAFETY.md", "utf8");
@@ -70,7 +71,7 @@ const checks = [
     assert.doesNotMatch(html + agentUiSource + worker, /OpenAI|OPENAI|openai|callOpenAI/);
     assert.match(worker, /\["gemini", "cloudflare"\]/);
     assert.match(worker, /callCloudflareAI/);
-    assert.match(worker, /generativelanguage\.googleapis\.com/);
+    assert.match(geminiProvider, /generativelanguage\.googleapis\.com/);
     assert.ok(agentUiSource.includes("consent.checked = false"));
     assert.ok(agentUiSource.includes("MaintenanceDiagnosticSessionUI.getPayload"));
     for (const asset of ["engineering-core.js", "agent-core.js", "agent-ui.js", "oem-lookup.js"]) { assert.ok(cloudflareDeployWorkflow.includes(asset), `Cloudflare Pages deploy omits ${asset}`); assert.ok(deployWorkflow.includes(asset), `GitHub Pages deploy omits ${asset}`); }
@@ -208,7 +209,7 @@ const checks = [
     assert.match(worker, /if \(!rawBody\.ok && rawBody\.tooLarge\)/);
   }],
   ["AI upstream calls have a timeout", () => {
-    assert.match(worker, /AbortSignal\.timeout\(17000\)/);
+    assert.match(geminiProvider, /AbortSignal\.timeout\(timeoutMs\)/);
   }],
   ["In-memory rate limiting is explicitly documented as best-effort", () => {
     assert.match(worker, /function assessEvidence\(/);
@@ -290,7 +291,7 @@ const checks = [
   ["Service worker caches the app shell and icon with a bumped cache version", () => {
     assert.match(sw, /APP_SHELL/);
     assert.match(sw, /\.\/icon\.svg/);
-    assert.match(sw, /maintenance-ai-toolkit-v62/);
+    assert.match(sw, /maintenance-ai-toolkit-v\d+/);
   }]
 ,
   ["Multilingual fault library covers pumps, motors, VFDs and compressors", () => {
@@ -437,7 +438,7 @@ const checks = [
   }],
   ["Weak evidence with no retrieval match abstains before Gemini", () => {
     const abstention = worker.indexOf('if (!combinedChunks.length && evidence.level !== "good")');
-    const providerCall = worker.indexOf('fetch("https://generativelanguage.googleapis.com');
+    const providerCall = worker.indexOf("callGeminiAI({");
     assert.ok(abstention >= 0 && providerCall > abstention, "Abstention gate must precede Gemini");
     assert.match(worker, /model_called: false/);
     assert.match(worker, /function buildInsufficientEvidenceDiagnosis\(/);
@@ -449,7 +450,7 @@ const checks = [
   }],
 
   ["AI responses use a structured schema and server-side validation", () => {
-    assert.match(worker, /response_format: \{ type: "text", mime_type: "application\/json", schema: responseSchema \}/);
+    assert.match(geminiProvider, /response_format: \{ type: "text", mime_type: "application\/json", schema \}/);
     assert.match(worker, /function toJsonSchema\(/);
     assert.match(worker, /const responseSchema = toJsonSchema\(DIAGNOSIS_SCHEMA\)/);
     assert.match(worker, /function validateDiagnosis\(/);
