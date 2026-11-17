@@ -257,10 +257,10 @@
     await new Promise((resolve, reject) => {
       const tx = db.transaction(["documents", "chunks", "postings", "files"], "readwrite");
       const metadata = Object.assign({}, documentRecord);
-      const originalPdf = metadata.fileBlob;
+      const originalFile = metadata.fileBlob;
       delete metadata.fileBlob;
       tx.objectStore("documents").put(metadata);
-      tx.objectStore("files").put({ documentId: metadata.id, blob: originalPdf });
+      tx.objectStore("files").put({ documentId: metadata.id, blob: originalFile });
       const chunkStore = tx.objectStore("chunks");
       chunks.forEach(chunk => chunkStore.put(chunk));
       const postingStore = tx.objectStore("postings");
@@ -316,11 +316,87 @@
     };
     status("حفظ النص والفهرس والملف محليًا…");
     await persistDocument(Object.assign({}, record, { fileBlob: file.slice(0, file.size, "application/pdf") }), extracted.chunks);
+    if (window.MaintenanceLearningMemory) {
+      window.MaintenanceLearningMemory.recordDocumentIngested({
+        documentId: id, sha256: digest, sourceType: "pdf", extractionMethod: "pdf-text-and-ocr",
+        extractionStatus: record.extractionStatus, pageCount: record.pageCount, chunkCount: record.chunkCount,
+        ocrLanguages: record.ocrLanguages
+      }).catch(error => console.warn("Local learning event was not recorded.", error));
+    }
     if (window.MaintenanceDocumentSemanticSearch && window.MaintenanceDocumentSemanticSearch.isReady()) {
       window.MaintenanceDocumentSemanticSearch.indexChunks(extracted.chunks).catch(error => console.warn("Semantic index update deferred.", error));
     }
     status("اكتمل الاستيراد: " + record.title + " — نص PDF: " + record.pagesWithText + " صفحة، OCR: " + record.pagesWithOcr + " صفحة، بلا نص: " + record.pagesWithoutText + " صفحة، " + record.chunkCount + " مقطعًا. لم تُرسل الوثيقة إلى خادم." + (record.ocrSkippedByLimit ? " تم تجاوز OCR لعدد " + record.ocrSkippedByLimit + " صفحة بسبب حد الهاتف." : ""));
     await renderDocuments();
+  }
+
+
+  async function importImage(file) {
+    if (!file) return;
+    const allowed = new Set(["image/jpeg", "image/png", "image/webp"]);
+    if (!allowed.has(file.type)) throw new Error("الصيغ المدعومة للصور: JPG وPNG وWebP.");
+    if (file.size <= 0 || file.size > 15 * 1024 * 1024) throw new Error("حجم الصورة يجب ألا يتجاوز 15 ميغابايت.");
+    if (typeof createImageBitmap !== "function") throw new Error("معالجة الصور غير مدعومة في هذا المتصفح.");
+    const buffer = await file.arrayBuffer();
+    const digest = await sha256(buffer);
+    const existing = (await getAll("documents")).find(item => item.sha256 === digest);
+    if (existing) { status("هذه الصورة موجودة مسبقًا: " + existing.title); return; }
+    status("تهيئة الصورة وOCR المحلي…");
+    const bitmap = await createImageBitmap(file);
+    const scale = Math.min(1, Math.sqrt(MAX_OCR_PIXELS / Math.max(1, bitmap.width * bitmap.height)));
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.max(1, Math.round(bitmap.width * scale));
+    canvas.height = Math.max(1, Math.round(bitmap.height * scale));
+    const context = canvas.getContext("2d", { alpha: false });
+    if (!context) { bitmap.close(); throw new Error("تعذر تهيئة مساحة OCR للصورة."); }
+    context.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+    bitmap.close();
+    const languages = String($("documentOcrLanguage") ? $("documentOcrLanguage").value : "eng").split("+").filter(x => ["ara", "eng", "fra"].includes(x));
+    let worker;
+    try {
+      const Tesseract = await loadTesseract();
+      worker = await Tesseract.createWorker(languages.join("+") || "eng", 1, {
+        workerPath: "./vendor/tesseract/worker.min.js",
+        corePath: "./vendor/tesseract/core/",
+        langPath: "./vendor/tessdata",
+        cacheMethod: "write"
+      });
+      const recognized = await worker.recognize(canvas);
+      const text = String(recognized && recognized.data && recognized.data.text || "").trim();
+      const confidence = recognized && recognized.data ? recognized.data.confidence : null;
+      if (text.length < 8) throw new Error("لم يستخرج OCR نصًا كافيًا. جرّب صورة أوضح أو لغة أخرى.");
+      const id = "doc-" + digest.slice(0, 24);
+      const chunks = [];
+      appendPageChunks(chunks, id, 1, text, "image-ocr", confidence);
+      const record = {
+        id, title: file.name.replace(/\.[^.]+$/, ""), fileName: file.name,
+        fileSize: file.size, mimeType: file.type, sourceType: "image", sha256: digest,
+        importedAt: new Date().toISOString(), pageCount: 1, pagesWithText: 0,
+        pagesWithOcr: 1, pagesNeedingOcr: 1, pagesWithoutText: 0,
+        ocrAttemptedPages: 1, ocrSkippedByLimit: 0, ocrLanguages: languages,
+        chunkCount: chunks.length, parser: "tesseract.js-" + TESSERACT_VERSION,
+        extractionStatus: "image-ocr", rightsStatus: "user-supplied-rights-not-verified",
+        reviewStatus: "unreviewed", eligibleForDiagnosis: false,
+        imageWidth: canvas.width, imageHeight: canvas.height
+      };
+      status("حفظ الصورة والنص المستخرج محليًا…");
+      await persistDocument(Object.assign({}, record, { fileBlob: file.slice(0, file.size, file.type) }), chunks);
+      if (window.MaintenanceDocumentSemanticSearch && window.MaintenanceDocumentSemanticSearch.isReady()) {
+        window.MaintenanceDocumentSemanticSearch.indexChunks(chunks).catch(error => console.warn("Semantic image index update deferred.", error));
+      }
+      if (window.MaintenanceLearningMemory) {
+        window.MaintenanceLearningMemory.recordDocumentIngested({
+          documentId: id, sha256: digest, sourceType: "image", extractionMethod: "image-ocr",
+          extractionStatus: record.extractionStatus, pageCount: 1, chunkCount: chunks.length, ocrLanguages: languages
+        }).catch(error => console.warn("Local learning event was not recorded.", error));
+      }
+      status("اكتمل OCR للصورة وحُفظت محليًا. النص المستخرج مرشح غير معتمد ولا يدخل التشخيص تلقائيًا.");
+      await renderDocuments();
+    } finally {
+      if (worker) await worker.terminate();
+      canvas.width = 1;
+      canvas.height = 1;
+    }
   }
 
   async function searchDocuments(query) {
@@ -460,7 +536,7 @@
     }
     const url = URL.createObjectURL(fileRecord.blob);
     currentObjectUrls.push(url);
-    viewer.location.replace(url + "#page=" + page);
+    viewer.location.replace(doc.sourceType === "image" ? url : url + "#page=" + page);
     return true;
   }
 
@@ -592,11 +668,14 @@
       event.preventDefault();
       const input = $("documentPdfFile");
       const file = input && input.files && input.files[0];
-      if (!file) return status("اختر ملف PDF أولًا.");
+      if (!file) return status("اختر ملف PDF أو صورة أولًا.");
       const button = $("documentImportButton");
       button.disabled = true;
-      try { await importFile(file); input.value = ""; }
-      catch (error) { status(error && error.message ? error.message : "فشل استيراد الوثيقة."); }
+      try {
+        if (file.type === "application/pdf" || /\.pdf$/i.test(file.name)) await importFile(file);
+        else await importImage(file);
+        input.value = "";
+      } catch (error) { status(error && error.message ? error.message : "فشل استيراد الوثيقة."); }
       finally { button.disabled = false; }
     });
     $("documentSearchForm").addEventListener("submit", async event => {
@@ -788,7 +867,8 @@
       return record;
     },
     openSourcePage,
-    importFile
+    importFile,
+    importImage
   };
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
   else init();
