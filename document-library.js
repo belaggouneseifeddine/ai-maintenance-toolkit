@@ -584,7 +584,7 @@
       new Date(doc.importedAt).toLocaleDateString() + '</p><p class="hint">' +
       ("استخراج نص PDF: " + (doc.pagesWithText || 0) + " صفحة، OCR: " + (doc.pagesWithOcr || 0) + " صفحة، بلا نص: " + (doc.pagesWithoutText || 0)) +
       ' — غير معتمد فنيًا، وغير مؤهل للتشخيص تلقائيًا.</p></div>' +
-      '<div class="actions"><button type="button" class="btn secondary" data-open-doc="' + escapeHtml(doc.id) + '">فتح PDF</button>' +
+      '<div class="actions"><button type="button" class="btn secondary" data-open-doc="' + escapeHtml(doc.id) + '">فتح المصدر</button>' +
       '<button type="button" class="btn danger" data-delete-doc="' + escapeHtml(doc.id) + '">حذف</button></div></article>').join("");
     list.querySelectorAll("[data-open-doc]").forEach(button => button.addEventListener("click", () => openSourcePage(button.dataset.openDoc, 1).catch(error => status(error.message))));
     list.querySelectorAll("[data-delete-doc]").forEach(button => button.addEventListener("click", () => {
