@@ -37,6 +37,12 @@ Official references:
 
 The frontend sends equipment, symptom, alarm code, observations, measurement status, and language to the configured Worker. Do not submit plant names, customer data, credentials, confidential manuals, or sensitive maintenance records.
 
+## Provider adapter boundary
+
+Gemini Interactions API calls are isolated in `providers/gemini-provider.mjs`; Cloudflare Workers AI calls are isolated in `providers/cloudflare-provider.mjs`. The Worker selects one provider explicitly through `AI_PROVIDER` and does not silently switch providers after a failure.
+
+The Gemini adapter applies bounded retries to transient network and provider-capacity errors, respects a capped `Retry-After` delay, uses a request timeout, requests `store: false`, and rejects empty or malformed JSON output before the Worker applies its full diagnosis schema and safety validation. These checks validate transport and structure, not engineering accuracy.
+
 ## API and safety notes
 
 - Worker source: `worker.js`
