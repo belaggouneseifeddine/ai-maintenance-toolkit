@@ -81,3 +81,5 @@
 
 - Contract tests now assert that the required learning APIs are exported and that image decisions require a distinct reviewer label, written rationale, and remain excluded from diagnosis and vision training.
 - Static contract assertions are not a substitute for executing the Node test suite or testing the review workflow on Android. Those remain outstanding.
+
+- Before making a decision, the second reviewer must open the original local image and explicitly confirm their own visual inspection. The decision API rejects reviews without this confirmation; the checkbox is enabled only after the source-opening action succeeds.
