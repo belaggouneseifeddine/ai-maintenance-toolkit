@@ -615,7 +615,7 @@
     }
     const detected = detectEquipment(value);
     const query = detected ? detected.id : (equipmentContext || pendingEquipment || "");
-    const result = await localAssistant.invokeTool("getPreventiveMaintenanceSchedule", { query, limit: 20 });
+    const result = await localAssistant.invokeTool("getPreventiveMaintenanceSchedule", { query, limit: 10 });
     if (!result.ok || !result.data || result.data.ok !== true) {
       addMessage("assistant", copy("تعذر قراءة خطة الصيانة الوقائية المحلية. لم يتم تعديل أي مهمة.", "The local preventive-maintenance plan could not be read. No task was changed.", "Impossible de lire le plan local de maintenance préventive. Aucune tâche n’a été modifiée."));
       return;
