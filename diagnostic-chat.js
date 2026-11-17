@@ -508,12 +508,11 @@
     const holder = $("diagnosticChatEvidence");
     if (!holder) return;
     holder.replaceChildren();
-    const button = root.document.createElement("button");
-    button.type = "button";
-    button.className = "btn secondary";
-    button.textContent = copy("استرجاع الأدلة المعتمدة من PDF", "Retrieve approved PDF evidence", "Récupérer les preuves PDF approuvées");
-    button.addEventListener("click", retrieveEvidence);
-    holder.appendChild(button);
+    holder.textContent = copy(
+      "تُسترجع الأدلة المعتمدة تلقائيًا أثناء التشخيص المحلي وعند طلب التحليل التوليدي.",
+      "Approved evidence is retrieved automatically during local diagnosis and when generative analysis is requested.",
+      "Les preuves approuvées sont récupérées automatiquement pendant le diagnostic local et lors d'une demande d'analyse générative."
+    );
   }
   async function retrieveEvidence() {
     const holder = $("diagnosticChatEvidence");
@@ -551,7 +550,11 @@
     retrievedExcerpts = result.results.slice(0, 3).map(item => ({
       documentTitle: String(item.documentTitle || "PDF").slice(0, 160),
       citation: String(item.citation || "").slice(0, 240),
-      text: String(item.text || "").slice(0, 350)
+      text: String(item.text || "").slice(0, 350),
+      sourceRef: item.sourceRef || null,
+      reviewStatus: item.reviewStatus || "unknown",
+      rightsStatus: item.rightsStatus || "unknown",
+      evidenceRole: item.evidenceRole || "unknown"
     })).filter(item => item.text);
     retrievedContext = retrievalContext;
     result.results.forEach(item => {
@@ -580,6 +583,7 @@
       addMessage("assistant", copy("لم يتم إرسال أي شيء. فعّل موافقة الإرسال ثم اضغط زر التحليل إذا أردت استخدام المزود الخارجي.", "Nothing was sent. Enable the sharing consent and press the analysis button if you want to use the external provider.", "Aucune donnée n’a été envoyée. Activez le consentement puis cliquez sur le bouton d’analyse pour utiliser le fournisseur externe."));
       return;
     }
+    await retrieveEvidence();
     if (!$("aiMachine")?.value.trim() || !$("aiSymptom")?.value.trim()) {
       addMessage("assistant", copy("أكمل تحديد المعدة والعَرَض أولًا حتى لا نرسل طلبًا ناقصًا.", "Identify the equipment and symptom first so an incomplete request is not sent.", "Identifiez d’abord l’équipement et le symptôme afin de ne pas envoyer une demande incomplète."));
       return;
