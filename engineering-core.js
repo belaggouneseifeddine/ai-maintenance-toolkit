@@ -122,6 +122,31 @@
       }
     }
 
+    let approvedPdfExcerpts = [];
+    if (input.approvedPdfExcerpts != null && Array.isArray(input.approvedPdfExcerpts)) {
+      approvedPdfExcerpts = input.approvedPdfExcerpts.slice(0, 3).filter(item =>
+        item && typeof item === "object" && !Array.isArray(item) &&
+        item.reviewStatus === "approved" && item.eligibleForDiagnosis === true &&
+        item.evidenceRole === "approved-page-claim" &&
+        item.sourceRef && typeof item.sourceRef.documentId === "string" &&
+        Number.isInteger(item.sourceRef.pageNumber) && item.sourceRef.pageNumber > 0 &&
+        typeof item.text === "string" && item.text.trim().length > 0
+      ).map(item => ({
+        documentTitle: boundedString(item.documentTitle, 160, "approvedPdfExcerpts.documentTitle", errors, false),
+        citation: boundedString(item.citation, 240, "approvedPdfExcerpts.citation", errors, false),
+        text: boundedString(item.text, 1800, "approvedPdfExcerpts.text", errors, false),
+        reviewStatus: "approved",
+        rightsStatus: boundedString(item.rightsStatus, 80, "approvedPdfExcerpts.rightsStatus", errors, false),
+        eligibleForDiagnosis: true,
+        evidenceRole: "approved-page-claim",
+        sourceRef: {
+          documentId: boundedString(item.sourceRef.documentId, 120, "approvedPdfExcerpts.sourceRef.documentId", errors, true),
+          pageNumber: item.sourceRef.pageNumber,
+          claimId: boundedString(item.sourceRef.claimId, 120, "approvedPdfExcerpts.sourceRef.claimId", errors, false)
+        }
+      }));
+    }
+
     let attachments = [];
     if (input.attachments != null) {
       if (!Array.isArray(input.attachments) || input.attachments.length > LIMITS.attachmentCount) {
@@ -162,6 +187,7 @@
         symptom,
         observations,
         measurements,
+        approvedPdfExcerpts,
         attachments,
         consent: { sendToAI },
         context: {
