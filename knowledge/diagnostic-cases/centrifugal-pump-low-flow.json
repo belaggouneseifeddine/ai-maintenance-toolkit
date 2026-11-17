@@ -1,0 +1,191 @@
+{
+  "schemaVersion": 1,
+  "caseId": "CP-004",
+  "title": "Low flow — centrifugal pump differential diagnosis",
+  "equipmentFamily": "centrifugal_pump",
+  "status": "candidate",
+  "applicability": [
+    "Centrifugal pump with identifiable installed pump curve and known speed/impeller configuration",
+    "Liquid service; exact fluid and system arrangement must be captured",
+    "Not a substitute for OEM instructions or site operating procedures"
+  ],
+  "mechanism": "Low measured flow is an operating-point symptom, not a root cause. The operating point depends on the pump curve and system resistance; low speed, suction-side restriction, discharge/system restriction, internal wear, gas in the liquid path and measurement error can produce overlapping observations.",
+  "symptoms": [
+    "Flow indication is below the site or process expectation",
+    "Reported process delivery is reduced or unstable"
+  ],
+  "requiredContext": [
+    "Pump manufacturer, exact model, impeller diameter/configuration and applicable curve revision",
+    "Driver type, actual speed or VFD frequency and operating mode",
+    "Fluid identity, temperature and relevant properties",
+    "Suction source level, suction piping arrangement and valve lineup",
+    "Discharge piping, control valve and downstream system state",
+    "Whether the condition is new, gradual, intermittent or linked to a recent change"
+  ],
+  "hypotheses": [
+    {
+      "id": "suction-restriction",
+      "cause": "Suction-side restriction or inadequate source condition",
+      "supportingEvidence": [
+        "Suction pressure loss or strainer differential pressure has changed relative to a comparable baseline at comparable flow",
+        "Source level or suction valve indication differs from the normal operating record"
+      ],
+      "contradictingEvidence": [
+        "Validated suction measurements and source conditions remain consistent with the applicable baseline at comparable operating conditions"
+      ],
+      "confounders": [
+        "Pressure tap location, plugged impulse line, faulty transmitter, changing flow or fluid temperature"
+      ]
+    },
+    {
+      "id": "discharge-system-resistance",
+      "cause": "Discharge-side restriction or increased system resistance",
+      "supportingEvidence": [
+        "Discharge pressure and system state differ from the documented operating baseline in a pattern consistent with increased resistance",
+        "Valve-position indication or downstream equipment state changed with the onset of low flow"
+      ],
+      "contradictingEvidence": [
+        "Discharge path and valve lineup are verified unchanged and pressure-flow behavior matches the expected system curve"
+      ],
+      "confounders": [
+        "Incorrect valve feedback, check-valve behavior, changing downstream demand or pressure instrument error"
+      ]
+    },
+    {
+      "id": "reduced-pump-speed",
+      "cause": "Reduced actual pump speed or incorrect drive operating state",
+      "supportingEvidence": [
+        "Measured or independently verified speed differs from the applicable normal operating state",
+        "VFD frequency or command history changed at the same time as the flow reduction"
+      ],
+      "contradictingEvidence": [
+        "Actual speed is independently verified and consistent with the correct pump curve and operating state"
+      ],
+      "confounders": [
+        "Command frequency is not proof of shaft speed; slip, coupling or feedback faults may matter"
+      ]
+    },
+    {
+      "id": "internal-hydraulic-wear",
+      "cause": "Internal wear, excessive clearances or impeller damage",
+      "supportingEvidence": [
+        "Performance has deteriorated progressively against a comparable baseline at verified speed and system conditions",
+        "Inspection after approved isolation identifies wear or damage"
+      ],
+      "contradictingEvidence": [
+        "Performance returns to expected behavior after correcting an external system or measurement issue"
+      ],
+      "confounders": [
+        "Fluid properties, impeller configuration, speed, system curve and measurement uncertainty"
+      ]
+    },
+    {
+      "id": "flow-measurement-error",
+      "cause": "Flow instrument, installation or signal-quality error",
+      "supportingEvidence": [
+        "Flow indication conflicts with independent process observations or a suitable independent measurement",
+        "Instrument diagnostics, calibration history or signal quality indicate a possible fault"
+      ],
+      "contradictingEvidence": [
+        "Independent, suitable measurements confirm the low-flow condition under matching operating conditions"
+      ],
+      "confounders": [
+        "Different measurement technologies, installation requirements, averaging periods or non-steady operation"
+      ]
+    },
+    {
+      "id": "gas-or-loss-of-prime",
+      "cause": "Gas entrainment, air ingress or loss of prime where applicable",
+      "supportingEvidence": [
+        "Unstable pressure/flow behavior coincides with evidence of gas ingress or loss of prime",
+        "The pump design and approved operating procedure make the suspected gas/prime mechanism applicable"
+      ],
+      "contradictingEvidence": [
+        "Pump is confirmed fully primed and the process fluid/installation provides no credible gas-ingress path"
+      ],
+      "confounders": [
+        "Pump type, venting arrangement, fluid vapor pressure, suction leak and sensor dynamics"
+      ]
+    }
+  ],
+  "measurements": [
+    { "name": "Flow rate", "unit": "m³/h or site unit", "location": "Installed flowmeter; record tag and pipe location", "operatingCondition": "Stable operating point; record speed, valve state and fluid", "sourceTypes": ["direct_measurement", "plc_value", "historian_value", "estimated", "unknown"], "baselineRequired": true },
+    { "name": "Suction pressure", "unit": "kPa(g), bar(g) or absolute unit as installed", "location": "Identify exact suction pressure tap relative to pump datum", "operatingCondition": "Same timestamp as flow and discharge pressure where possible; record speed and fluid temperature", "sourceTypes": ["direct_measurement", "plc_value", "historian_value", "estimated", "unknown"], "baselineRequired": true },
+    { "name": "Discharge pressure", "unit": "kPa(g), bar(g) or absolute unit as installed", "location": "Identify exact discharge pressure tap", "operatingCondition": "Same timestamp as flow and suction pressure where possible; record downstream valve state", "sourceTypes": ["direct_measurement", "plc_value", "historian_value", "estimated", "unknown"], "baselineRequired": true },
+    { "name": "Pump speed", "unit": "rpm; VFD frequency in Hz is a separate field", "location": "Drive feedback or independent speed measurement; state which", "operatingCondition": "Record command, feedback and load state separately", "sourceTypes": ["direct_measurement", "plc_value", "historian_value", "estimated", "unknown"], "baselineRequired": true },
+    { "name": "Source liquid level", "unit": "m or site level unit", "location": "Tank level transmitter/gauge and datum", "operatingCondition": "Record concurrent suction/flow condition", "sourceTypes": ["direct_measurement", "plc_value", "historian_value", "estimated", "unknown"], "baselineRequired": true },
+    { "name": "Fluid temperature", "unit": "°C or °F", "location": "Defined process temperature sensor point", "operatingCondition": "Record fluid identity and whether stable/transient", "sourceTypes": ["direct_measurement", "plc_value", "historian_value", "estimated", "unknown"], "baselineRequired": true },
+    { "name": "Strainer differential pressure", "unit": "kPa or bar", "location": "Across strainer, only if permanently instrumented", "operatingCondition": "Compare at comparable flow and fluid conditions", "sourceTypes": ["direct_measurement", "plc_value", "historian_value", "estimated", "unknown"], "baselineRequired": true }
+  ],
+  "tests": [
+    {
+      "id": "compare-flow-pressure-speed",
+      "name": "Compare concurrent flow, suction pressure, discharge pressure and actual speed",
+      "prerequisites": ["Use existing installed instruments and approved HMI/historian read-only values", "Confirm units, tag locations, timestamp alignment and instrument quality", "Do not change valve positions or drive settings for this observation"],
+      "safetyClass": "installed_instrument_observation",
+      "discriminates": ["suction-restriction", "discharge-system-resistance", "reduced-pump-speed", "internal-hydraulic-wear", "flow-measurement-error"],
+      "expectedOutcomes": [
+        "A coherent change in suction-side conditions redirects review toward source/suction hypotheses but does not prove a blockage",
+        "A verified speed change redirects review toward the drive/operating-state hypothesis",
+        "A flow indication inconsistent with independent evidence redirects review toward instrument validation",
+        "Pressure-flow behavior inconsistent with the applicable pump and system curves requires model/configuration review before cause ranking"
+      ],
+      "interpretationLimits": ["A pressure value without tap location, unit, timestamp and operating condition is incomplete", "PLC command/frequency is not equivalent to independently measured shaft speed", "Do not use generic pressure or flow thresholds"]
+    },
+    {
+      "id": "review-source-and-valve-state",
+      "name": "Review source level and installed valve-position indications",
+      "prerequisites": ["Read installed indicators from a safe location", "Treat position feedback as an indication until independently verified"],
+      "safetyClass": "installed_instrument_observation",
+      "discriminates": ["suction-restriction", "discharge-system-resistance", "gas-or-loss-of-prime"],
+      "expectedOutcomes": [
+        "A changed source level or suction lineup supports further review of suction availability",
+        "A changed discharge lineup or downstream state supports further review of system resistance",
+        "No recorded change leaves these hypotheses unresolved rather than disproved"
+      ],
+      "interpretationLimits": ["A displayed valve position may not equal physical valve position", "Do not manipulate valves as an experiment"]
+    },
+    {
+      "id": "plan-isolated-inspection",
+      "name": "Plan physical inspection only after approved shutdown and isolation",
+      "prerequisites": ["Approved work order and site energy-control procedure", "Verified isolation, depressurization, drainage and stored-energy controls", "Qualified personnel and fluid-specific controls"],
+      "safetyClass": "planned_isolated_inspection",
+      "discriminates": ["suction-restriction", "internal-hydraulic-wear", "gas-or-loss-of-prime"],
+      "expectedOutcomes": [
+        "Physical evidence of obstruction or damage supports the corresponding hypothesis within the inspected scope",
+        "No visible obstruction does not exclude hidden restrictions, incorrect clearances or intermittent process conditions"
+      ],
+      "interpretationLimits": ["This is not an instruction to open equipment; use exact OEM and site procedures", "Inspection findings must be recorded with component, location and photographs where permitted"]
+    }
+  ],
+  "limits": [
+    "No universal numeric flow, pressure, vibration, current or temperature threshold is defined by this case",
+    "The exact pump curve, impeller, speed, fluid, datum, system curve and instrument installation govern interpretation",
+    "Do not infer cavitation solely from low flow, noise or one suction-pressure reading",
+    "Do not treat anomaly detection or a heuristic ranking as root-cause confirmation",
+    "Preserve measured, PLC-indicated, historian, estimated and unknown provenance separately"
+  ],
+  "stopConditions": [
+    "Unexpected severe vibration, abnormal noise, rapid temperature rise, visible hazardous leakage or an OEM/site stop alarm",
+    "Loss of prime or suspected dry running where the pump is not approved for that condition",
+    "Uncertain isolation, pressurized/hot/hazardous fluid exposure or need to remove a guard/open a line",
+    "Contradictory or implausible instrument values that cannot be safely validated"
+  ],
+  "verification": [
+    "Repeat flow, suction pressure, discharge pressure and speed measurements at a documented comparable operating point",
+    "Record the repaired or changed component and the exact intervention",
+    "Confirm stable operation against the correct OEM curve and site acceptance criteria",
+    "Keep the case unresolved if post-repair evidence is missing or operating conditions are not comparable"
+  ],
+  "sources": [
+    { "sourceId": "centrifugal-pump-fault-pmc-2022", "claimScope": "Research methods for selected seeded faults on one multistage pump test rig only; does not establish low-flow root-cause rules", "reviewStatus": "reviewed", "sectionOrPage": "Sections 1 and 3–6; Figures 2–4; Tables 2–5", "reuseStatus": "CC-BY-4.0 source; paraphrase with attribution; no figures/tables copied" },
+    { "sourceId": "water-pump-bearing-fault-pmc-2021", "claimScope": "Laboratory bearing-fault research only; not a low-flow root-cause source", "reviewStatus": "reviewed", "sectionOrPage": "Sections 1 and 3–6", "reuseStatus": "CC-BY-4.0 source; paraphrase with attribution; no raw data copied" }
+  ],
+  "licenseStatus": "reference_only",
+  "limitations": [
+    "The two registered open-access papers do not support the differential low-flow claims in this case",
+    "No exact-model OEM pump curve or primary source has yet been reviewed for this case",
+    "The case is candidate-only and must not be loaded into the live diagnosis ranking",
+    "Field validation and qualified technical review have not been performed"
+  ]
+}
