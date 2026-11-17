@@ -3,6 +3,9 @@ import assert from "node:assert/strict";
 import vm from "node:vm";
 
 const html = readFileSync("index.html", "utf8");
+const appLegacy = readFileSync("app-legacy.js", "utf8");
+const appShellCss = readFileSync("app-shell.css", "utf8");
+const appSource = html + "\n" + appLegacy + "\n" + appShellCss;
 const ux = readFileSync("ux-redesign.js", "utf8");
 const uxCss = readFileSync("ux-redesign.css", "utf8");
 const navRedesign = readFileSync("navigation-redesign.js", "utf8");
@@ -38,9 +41,9 @@ const answerToolsSource = readFileSync("answer-tools.js", "utf8");
 const agentUiSource = readFileSync("agent-ui.js", "utf8");
 const i18n = readFileSync("i18n.js", "utf8");
 const engineWindow = {};
-const inlineScript = html.match(/<script>\s*([\s\S]*?)<\/script>/);
-assert.ok(inlineScript, "Inline application script must exist");
-new vm.Script(inlineScript[1], { filename: "index-inline.js" });
+assert.ok(appSource.includes('<script src="./app-legacy.js"></script>'), "Extracted application bootstrap must be loaded as a versioned asset");
+assert.ok(appSource.includes('<link rel="stylesheet" href="./app-shell.css">'), "Extracted application shell stylesheet must be loaded");
+new vm.Script(appLegacy, { filename: "app-legacy.js" });
 new vm.Script(i18n, { filename: "i18n.js" });
 const engineContext = { window: engineWindow, globalThis: engineWindow, console };
 vm.runInNewContext(normalizationSource, engineContext);
@@ -48,16 +51,16 @@ vm.runInNewContext(diagnosticEngineSource, engineContext);
 
 const checks = [
   ["Local diagnosis remains offline and configured Gemini/Cloudflare AI requires explicit consent", () => {
-    assert.ok(html.includes('<script src="./engineering-core.js"></script>'));
-    assert.ok(html.includes('<script src="./agent-core.js"></script>'));
-    assert.ok(html.includes('<script src="./agent-ui.js"></script>'));
-    assert.ok(html.includes('<script src="./evidence-reasoning.js"></script>'));
-    assert.ok(html.includes('<script src="./evidence-reasoning-ui.js"></script>'));
-    assert.ok(html.includes("MaintenanceAgentUI.runLocal()"));
-    assert.ok(html.includes('id="askAi" type="submit"'));
+    assert.ok(appSource.includes('<script src="./engineering-core.js"></script>'));
+    assert.ok(appSource.includes('<script src="./agent-core.js"></script>'));
+    assert.ok(appSource.includes('<script src="./agent-ui.js"></script>'));
+    assert.ok(appSource.includes('<script src="./evidence-reasoning.js"></script>'));
+    assert.ok(appSource.includes('<script src="./evidence-reasoning-ui.js"></script>'));
+    assert.ok(appSource.includes("MaintenanceAgentUI.runLocal()"));
+    assert.ok(appSource.includes('id="askAi" type="submit"'));
     assert.doesNotMatch(html, /id="aiEndpoint"/);
-    assert.match(html, /id="aiCloudConsent" type="checkbox"/);
-    assert.match(html, /id="askCloudAI" type="button"/);
+    assert.match(appSource, /id="aiCloudConsent" type="checkbox"/);
+    assert.match(appSource, /id="askCloudAI" type="button"/);
     assert.ok(agentUiSource.includes("consent: { sendToAI: false }"));
     assert.ok(agentUiSource.includes("async function runCloudAI()"));
     assert.ok(agentUiSource.includes("WORKER_ENDPOINT"));
@@ -74,13 +77,13 @@ const checks = [
     assert.ok(sw.includes('"./evidence-reasoning.js"'));
   }],
   ["Shared normalization is loaded by the UI, Worker and Pages deployment", () => {
-    assert.match(html, /<script src="\.\/normalization\.js"><\/script>/);
+    assert.match(appSource, /<script src="\.\/normalization\.js"><\/script>/);
     assert.match(worker, /import "\.\/normalization\.js";/);
     for (const asset of ["diagnostic-flows.js", "normalization.js", "diagnostic-engine.js"]) assert.ok(pagesRuntimeAssets.has(asset));
     assert.ok(engineWindow.MaintenanceNormalization.aliasReviewCount > 0);
     assert.ok(engineWindow.MaintenanceNormalization.getReviewAliases().every(item => item.status === "review_required"));
   }],
-  ["Arabic RTL document", () => assert.match(html, /<html lang="ar" dir="rtl">/)],
+  ["Arabic RTL document", () => assert.match(appSource, /<html lang="ar" dir="rtl">/)],
   ["Structured pump low-flow flow has stable IDs and validated answer guidance", () => {
     const flow = diagnosticFlows.flows["pump|low_flow"];
     assert.equal(diagnosticFlows.schemaVersion, 3);
@@ -99,20 +102,20 @@ const checks = [
       assert.equal(new Set(structured.answers.map(answer => answer.id)).size, structured.answers.length, "Answer IDs must be unique in " + key);
       for (const answer of structured.answers) assert.ok(answer.id && answer.label && answer.guidance);
     }
-    assert.match(html, /diagnostic-flows\.js/);
-    assert.match(html, /MAINTENANCE_DIAGNOSTIC_FLOWS\.flows\["pump\|low_flow"\]/);
-    assert.match(html, /MAINTENANCE_DIAGNOSTIC_FLOWS\.flows\["compressor\|low_pressure"\]/);
-    assert.match(html, /MAINTENANCE_DIAGNOSTIC_FLOWS\.flows\["valve\|not_start"\]/);
+    assert.match(appSource, /diagnostic-flows\.js/);
+    assert.match(appSource, /MAINTENANCE_DIAGNOSTIC_FLOWS\.flows\["pump\|low_flow"\]/);
+    assert.match(appSource, /MAINTENANCE_DIAGNOSTIC_FLOWS\.flows\["compressor\|low_pressure"\]/);
+    assert.match(appSource, /MAINTENANCE_DIAGNOSTIC_FLOWS\.flows\["valve\|not_start"\]/);
   }],
   ["Optional answer cache is opt-in, expires, and excludes safety escalation; speech controls are available", () => {
-    assert.match(html, /id="speakAiAnswer"/);
+    assert.match(appSource, /id="speakAiAnswer"/);
     assert.match(answerToolsSource, /speechSynthesis/);
     assert.match(sw, /answer-tools\.js/);
     for (const asset of ["knowledge-review.js", "answer-tools.js"]) assert.ok(pagesRuntimeAssets.has(asset));
   }],
   ["Local knowledge review requires a human review and never publishes automatically", () => {
-    assert.match(html, /id="knowledgeReviewCard"/);
-    assert.match(html, /id="krExportOutput"/);
+    assert.match(appSource, /id="knowledgeReviewCard"/);
+    assert.match(appSource, /id="krExportOutput"/);
     assert.match(knowledgeReviewSource, /maintenance-ai-toolkit-knowledge-review-v1/);
     assert.match(knowledgeReviewSource, /reviewed_for_consideration/);
     assert.match(knowledgeReviewSource, /notes.length<10/);
@@ -122,14 +125,14 @@ const checks = [
     assert.match(deployWorkflow, /knowledge-review\.js/);
   }],
   ["UX dashboard is wired, starts as home, and preserves existing navigation", () => {
-    assert.ok(html.includes("ux-redesign.js"));
-    assert.ok(html.includes("ux-redesign.css"));
-    assert.equal((html.match(/type="reset"[^>]*>التشخيص/g)||[]).length, 1, "Diagnosis form should show exactly one reset button with the requested Arabic label");
+    assert.ok(appSource.includes("ux-redesign.js"));
+    assert.ok(appSource.includes("ux-redesign.css"));
+    assert.equal((appSource.match(/type="reset"[^>]*>التشخيص/g)||[]).length, 1, "Diagnosis form should show exactly one reset button with the requested Arabic label");
     assert.match(i18n, /resetFields:"التشخيص"/);
     assert.match(i18n, /resetFields:"Diagnostic"/);
     assert.match(i18n, /resetFields:"Diagnosis"/);
-    assert.ok(html.includes("localStorage.removeItem(DRAFT_KEY);lastDiagnosisDraft=null"), "Reset must clear the autosaved diagnosis draft");
-    assert.ok(html.includes("data-tab=\"diagnose\">التشخيص</button>"), "Navigation should avoid duplicating the home quick-action label");
+    assert.ok(appSource.includes("localStorage.removeItem(DRAFT_KEY);lastDiagnosisDraft=null"), "Reset must clear the autosaved diagnosis draft");
+    assert.ok(appSource.includes("data-tab=\"diagnose\">التشخيص</button>"), "Navigation should avoid duplicating the home quick-action label");
     assert.match(ux, /homeDashboard/);
     assert.match(ux, /maintenance-ai-toolkit-records-v1/);
     assert.match(uxCss, /ux-actions/);
@@ -146,32 +149,32 @@ const checks = [
   }],
   ["Core navigation panels", () => {
     for (const id of ["diagnose", "ai", "knowledge", "safety", "log"]) {
-      assert.match(html, new RegExp('id="' + id + '"'));
+      assert.match(appSource, new RegExp('id="' + id + '"'));
     }
   }],
   ["Equipment categories include pump, motor, VFD, PLC and gearbox", () => {
     for (const value of ["pump", "motor", "vfd", "electrical_control", "gearbox"]) {
-      assert.ok(html.includes('value="' + value + '"'), "Missing equipment category: " + value);
+      assert.ok(appSource.includes('value="' + value + '"'), "Missing equipment category: " + value);
     }
   }],
-  ["User-entered maintenance records are HTML-escaped", () => assert.match(html, /function escapeHtml\s*\(/)],
-  ["Maintenance records persist locally", () => assert.match(html, /localStorage\.setItem\(KEY/)],
-  ["CSV export exists", () => assert.match(html, /maintenance-log\.csv/)],
+  ["User-entered maintenance records are HTML-escaped", () => assert.match(appSource, /function escapeHtml\s*\(/)],
+  ["Maintenance records persist locally", () => assert.match(appSource, /localStorage\.setItem\(KEY/)],
+  ["CSV export exists", () => assert.match(appSource, /maintenance-log\.csv/)],
   ["CSV export neutralizes spreadsheet formula injection", () => {
-    assert.ok(html.includes("function csvCell(value)"));
-    assert.ok(html.includes("row.map(csvCell)"));
-    assert.match(html, /const safe=/);
+    assert.ok(appSource.includes("function csvCell(value)"));
+    assert.ok(appSource.includes("row.map(csvCell)"));
+    assert.match(appSource, /const safe=/);
   }],
   ["AI requests require explicit user consent before sending maintenance data", () => {
     assert.doesNotMatch(html, /id="aiConsent"/);
     assert.doesNotMatch(html, /id="aiEndpoint"/);
-    assert.match(html, /MaintenanceAgentUI\.runLocal\(\)/);
+    assert.match(appSource, /MaintenanceAgentUI\.runLocal\(\)/);
     assert.match(agentUiSource, /consent: \{ sendToAI: false \}/);
     assert.match(agentUiSource, /Guided diagnostic evidence IDs/);
   }],
   ["Cloudflare API request requires consent, uses a timeout, and preserves readable output", () => {
-    assert.match(html, /#aiResult\{white-space:pre-wrap/);
-    assert.match(html, /MaintenanceAgentUI\.runLocal\(\)/);
+    assert.match(appSource, /#aiResult\{white-space:pre-wrap/);
+    assert.match(appSource, /MaintenanceAgentUI\.runLocal\(\)/);
     assert.doesNotMatch(html, /fetch\(endpoint/);
   }],
   ["Frontend uses the Cloudflare endpoint and does not contain provider API keys", () => {
@@ -212,9 +215,9 @@ const checks = [
     assert.match(worker, /selectedRanker/);
   }],
   ["Mobile UI includes keyboard focus and reduced-motion support", () => {
-    assert.match(html, /:focus-visible/);
-    assert.match(html, /prefers-reduced-motion/);
-    assert.match(html, /Mobile-first visual polish/);
+    assert.match(appSource, /:focus-visible/);
+    assert.match(appSource, /prefers-reduced-motion/);
+    assert.match(appSource, /Mobile-first visual polish/);
   }],
   ["Knowledge base includes pump, motor, compressor, hydraulic, valve, instrumentation, conveyor, bearing, PLC and thermal coverage", () => {
     for (const term of [/Centrifugal and other process pumps/i, /Electric motors and driven equipment/i, /Compressors and compressed-air networks/i, /Hydraulic/i, /valve/i, /instrumentation/i, /conveyor/i, /Bearings and lubrication systems/i, /PLC and HMI/i, /Thermal systems/i]) {
@@ -239,37 +242,37 @@ const checks = [
     assert.match(motorCasebook, /DC bus can remain charged/i);
   }],
   ["Follow-up answers generate evidence-specific next steps rather than being only logged", () => {
-    assert.match(html, /function followupGuidance\(machine,symptom,answer\)/);
-    assert.match(html, /let branchSteps=followupGuidance\(machine,symptom,followup\)/);
-    assert.match(html, /خطوة تالية بحسب إجابتك/);
+    assert.match(appSource, /function followupGuidance\(machine,symptom,answer\)/);
+    assert.match(appSource, /let branchSteps=followupGuidance\(machine,symptom,followup\)/);
+    assert.match(appSource, /خطوة تالية بحسب إجابتك/);
   }],
   ["High-pressure hydraulic leak answer always directs away from contact and to escalation", () => {
-    assert.match(html, /hydraulic\|leak/);
-    assert.match(html, /خطر حقن سائل عالي الضغط لا يمكن استبعاده/);
-    assert.match(html, /لا تستخدم اليد للبحث عن التسرب/);
+    assert.match(appSource, /hydraulic\|leak/);
+    assert.match(appSource, /خطر حقن سائل عالي الضغط لا يمكن استبعاده/);
+    assert.match(appSource, /لا تستخدم اليد للبحث عن التسرب/);
   }],
   ["High-pressure thermal branch forbids restart and safety-valve adjustment", () => {
-    assert.match(html, /thermal\|high_pressure/);
-    assert.match(html, /لا تعِد التشغيل ولا تعدّل أو تعزل صمام أمان/);
+    assert.match(appSource, /thermal\|high_pressure/);
+    assert.match(appSource, /لا تعِد التشغيل ولا تعدّل أو تعزل صمام أمان/);
   }],
   ["Urgent and high report priorities display conservative escalation guidance", () => {
-    assert.match(html, /priority==='urgent'\?'<div class="notice" role="alert">/);
-    assert.match(html, /لا تبدأ أو تواصل العمل إذا كان الوضع غير آمن/);
-    assert.match(html, /لا تتجاوز الحواجز أو interlocks أو أجهزة الحماية/);
-    assert.match(html, /نسّق مع مسؤول الصيانة والإنتاج قبل الاختبار/);
+    assert.match(appSource, /priority==='urgent'\?'<div class="notice" role="alert">/);
+    assert.match(appSource, /لا تبدأ أو تواصل العمل إذا كان الوضع غير آمن/);
+    assert.match(appSource, /لا تتجاوز الحواجز أو interlocks أو أجهزة الحماية/);
+    assert.match(appSource, /نسّق مع مسؤول الصيانة والإنتاج قبل الاختبار/);
   }],
   ["Diagnostic report captures asset context, priority, provenance and printable output", () => {
-    for (const id of ["assetId", "priority", "technician", "manualRef"]) assert.match(html, new RegExp('id="' + id + '"'));
-    assert.match(html, /Maintenance Inspection Report/);
-    assert.match(html, /window\.print\(\)/);
-    assert.match(html, /print-only/);
-    assert.match(html, /escapeHtml\(assetId\|\|'غير محدد'\)/);
-    assert.match(html, /مرجع الدليل الذي أدخله المستخدم/);
-    assert.match(html, /لا يمثل هذا التقرير اعتمادًا هندسيًا أو تصريح عمل/);
+    for (const id of ["assetId", "priority", "technician", "manualRef"]) assert.match(appSource, new RegExp('id="' + id + '"'));
+    assert.match(appSource, /Maintenance Inspection Report/);
+    assert.match(appSource, /window\.print\(\)/);
+    assert.match(appSource, /print-only/);
+    assert.match(appSource, /escapeHtml\(assetId\|\|'غير محدد'\)/);
+    assert.match(appSource, /مرجع الدليل الذي أدخله المستخدم/);
+    assert.match(appSource, /لا يمثل هذا التقرير اعتمادًا هندسيًا أو تصريح عمل/);
   }],
   ["Diagnostic branch output escapes generated guidance and retains optional answers", () => {
-    assert.match(html, /branchSteps\.map\(s=>'<li>'\+escapeHtml\(s\)/);
-    assert.match(html, /إجابة السؤال الموجّه/);
+    assert.match(appSource, /branchSteps\.map\(s=>'<li>'\+escapeHtml\(s\)/);
+    assert.match(appSource, /إجابة السؤال الموجّه/);
   }],
   ["AI instructions prohibit bypassing safety systems", () => {
     assert.match(worker, /never recommend bypassing guards, interlocks, alarms, or protective devices/i);
@@ -351,47 +354,47 @@ const checks = [
     assert.equal(result.results[0].id, "pump-mechanical-seal-leak");
   }],
   ["Safety gate, auto-draft, three-language switch and record filters are wired", () => {
-    assert.match(html, /safetyChecks\.some\(box=>!box\.checked\)/);
-    assert.match(html, /id="safetyGateNotice"/);
-    assert.match(html, /const safetyReviewIncomplete=/);
-    assert.match(html, /يمكنك متابعة التشخيص/);
+    assert.match(appSource, /safetyChecks\.some\(box=>!box\.checked\)/);
+    assert.match(appSource, /id="safetyGateNotice"/);
+    assert.match(appSource, /const safetyReviewIncomplete=/);
+    assert.match(appSource, /يمكنك متابعة التشخيص/);
     assert.doesNotMatch(html, /gate\\.scrollIntoView/);
     assert.doesNotMatch(html, /openSafetyFromGate/);
-    assert.match(html, /maintenance-ai-toolkit-draft-v1/);
-    assert.match(html, /localStorage\.setItem\(DRAFT_KEY/);
-    assert.match(html, /id="languageSwitcher"/);
-    assert.match(html, /id="recordSearch"/);
-    assert.match(html, /id="recordStatusFilter"/);
-    assert.match(html, /id="recordDateFilter"/);
+    assert.match(appSource, /maintenance-ai-toolkit-draft-v1/);
+    assert.match(appSource, /localStorage\.setItem\(DRAFT_KEY/);
+    assert.match(appSource, /id="languageSwitcher"/);
+    assert.match(appSource, /id="recordSearch"/);
+    assert.match(appSource, /id="recordStatusFilter"/);
+    assert.match(appSource, /id="recordDateFilter"/);
     assert.match(i18n, /fr:/);
     assert.match(i18n, /en:/);
     assert.match(i18n, /document\.documentElement\.dir=current==="ar"\?"rtl":"ltr"/);
   }],
   ["Stored user content is HTML-escaped before insertion and CSV formula injection is mitigated", () => {
-    assert.match(html, /function escapeHtml\(s\)\{return String\(s\)\.replace\(\/\[&<>"\x27\]\/g/);
-    assert.match(html, /escapeHtml\(r\.machine\)/);
-    assert.match(html, /escapeHtml\(r\.fault\)/);
-    assert.match(html, /escapeHtml\(r\.action\)/);
-    assert.match(html, /function csvCell\(value\)/);
-    assert.match(html, /const safe=/);
-    assert.match(html, /test\(text\)/);
+    assert.match(appSource, /function escapeHtml\(s\)\{return String\(s\)\.replace\(\/\[&<>"\x27\]\/g/);
+    assert.match(appSource, /escapeHtml\(r\.machine\)/);
+    assert.match(appSource, /escapeHtml\(r\.fault\)/);
+    assert.match(appSource, /escapeHtml\(r\.action\)/);
+    assert.match(appSource, /function csvCell\(value\)/);
+    assert.match(appSource, /const safe=/);
+    assert.match(appSource, /test\(text\)/);
   }],
   ["Local-storage read and write failures are handled", () => {
-    assert.match(html, /function getRecords\(\)\{try\{/);
-    assert.match(html, /function saveRecords\(a\)\{try\{/);
-    assert.match(html, /Storage may be unavailable or full/);
+    assert.match(appSource, /function getRecords\(\)\{try\{/);
+    assert.match(appSource, /function saveRecords\(a\)\{try\{/);
+    assert.match(appSource, /Storage may be unavailable or full/);
   }],
   ["Existing local-storage key and CSV export remain unchanged", () => {
-    assert.match(html, /const KEY='maintenance-ai-toolkit-records-v1'/);
-    assert.match(html, /maintenance-log\.csv/);
-    assert.match(html, /function csvCell\(value\)/);
+    assert.match(appSource, /const KEY='maintenance-ai-toolkit-records-v1'/);
+    assert.match(appSource, /maintenance-log\.csv/);
+    assert.match(appSource, /function csvCell\(value\)/);
   }],
   ["v0.3 tools are wired and stored locally", () => {
-    assert.ok(html.includes("maintenance-v03.js"));
+    assert.ok(appSource.includes("maintenance-v03.js"));
     assert.ok(sw.includes("maintenance-v03.css"));
     assert.ok(sw.includes("decision-trees.json"));
     for (const asset of ["maintenance-v03.js", "maintenance-v03.css", "decision-trees.json"]) assert.ok(pagesRuntimeAssets.has(asset));
-    assert.match(html, /maintenance-ai-toolkit-records-v1/);
+    assert.match(appSource, /maintenance-ai-toolkit-records-v1/);
   }],
   ["Pump decision tree requires LOTO gate and has safe escalation", () => {
     const tree = JSON.parse(readFileSync("decision-trees.json", "utf8"));
@@ -452,9 +455,9 @@ const checks = [
     assert.match(worker, /validSourceIds/);
   }],
   ["AI clarification accepts unknown measurements and never requests hazardous live measurements", () => {
-    assert.match(html, /id="aiMeasurementStatus"/);
-    assert.match(html, /لا أعرف \/ لست متأكدًا/);
-    assert.match(html, /لا توجد قراءة متاحة/);
+    assert.match(appSource, /id="aiMeasurementStatus"/);
+    assert.match(appSource, /لا أعرف \/ لست متأكدًا/);
+    assert.match(appSource, /لا توجد قراءة متاحة/);
     assert.match(agentUiSource, /observations: notes/);
     assert.match(worker, /Never ask the user to perform a live measurement/);
     assert.match(worker, /readings collected by an authorized qualified person/);
@@ -467,13 +470,13 @@ const checks = [
     assert.match(worker, /env\.AI_RATE_LIMITER\.limit/);
   }],
   ["AI sessions are saved locally after a structured response", () => {
-    assert.match(html, /MaintenanceAgentUI\.runLocal\(\)/);
+    assert.match(appSource, /MaintenanceAgentUI\.runLocal\(\)/);
     assert.match(agentUiSource, /output\.textContent = baseOutput \+ guidedOutput/);
     assert.match(agentUiSource, /consent: \{ sendToAI: false \}/);
   }],
 
   ["Dedicated home screen and six-tab mobile navigation preserve existing feature panels", () => {
-    assert.match(html, /navigation-redesign\.js/);
+    assert.match(appSource, /navigation-redesign\.js/);
     assert.ok(pagesRuntimeAssets.has("navigation-redesign.js"));
     assert.match(sw, /navigation-redesign\.js/);
     assert.match(navRedesign, /id:'homeDashboard'/);
@@ -591,7 +594,7 @@ const checks = [
     ];
     for (const id of requiredIds) assert.ok(ids.includes(id), "Missing coverage case: " + id);
     for (const type of ["electronics", "electrical_panel", "plc", "cnc", "servo_drive", "hmi", "industrial_network", "robotics", "safety_circuit", "fan-blower", "steam_system", "dust_collector", "cooling"]) {
-      assert.ok(html.includes('<option value="' + type + '">'), "Machine selector missing category: " + type);
+      assert.ok(appSource.includes('<option value="' + type + '">'), "Machine selector missing category: " + type);
     }
     const sourceIds = new Set(manufacturerSources.sources.map(source => source.id));
     for (const fault of faults.faults) {
@@ -658,8 +661,8 @@ const checks = [
       if (record.alarmCode) assert.ok(record.source.printedPage || record.source.section, record.id + " needs page or section");
     }
     assert.ok(worker.includes("knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md"), "Worker retrieval must include OEM verified knowledge");
-    assert.ok(html.includes('id="oemLookupCard"') && html.includes('id="oemLookupSearch"'), "Knowledge tab must expose the OEM evidence lookup");
-    assert.ok(html.includes('<script src="./oem-lookup.js"></script>'), "OEM lookup script must be loaded by the UI");
+    assert.ok(appSource.includes('id="oemLookupCard"') && appSource.includes('id="oemLookupSearch"'), "Knowledge tab must expose the OEM evidence lookup");
+    assert.ok(appSource.includes('<script src="./oem-lookup.js"></script>'), "OEM lookup script must be loaded by the UI");
     assert.ok(oemLookupSource.includes("./knowledge/oem-verified-faults.json"), "OEM lookup must load the structured evidence database");
     assert.ok(oemLookupSource.includes("src.manualUrl") && oemLookupSource.includes("src.section"), "OEM lookup must display source links and manual sections");
     assert.ok(cloudflareDeployWorkflow.includes("oem-lookup.js"), "Cloudflare Pages deploy must copy the OEM lookup script");
