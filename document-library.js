@@ -567,6 +567,7 @@
       tx.onerror = () => reject(tx.error || new Error("تعذر حذف الوثيقة."));
     });
     if (window.MaintenanceDocumentSemanticSearch) await window.MaintenanceDocumentSemanticSearch.removeDocument(documentId).catch(() => {});
+    if (window.MaintenanceLearningMemory) await window.MaintenanceLearningMemory.removeDocument(documentId).catch(() => {});
     await renderDocuments();
   }
 
