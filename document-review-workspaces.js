@@ -45,7 +45,7 @@
       if (candidates.length) host.appendChild(list);
       if (imageCandidates.length) {
         const imageHeading = document.createElement("h4");
-        imageHeading.textContent = "ملاحظات الصور المرشحة للمراجعة الفنية";
+        imageHeading.textContent = "ملاحظات الصور وسجل المراجعة التقنية المستقلة";
         host.appendChild(imageHeading);
         imageCandidates.forEach(candidate => {
           const item = document.createElement("article");
@@ -54,8 +54,60 @@
           heading.textContent = candidate.component + " — " + candidate.condition;
           const detail = document.createElement("p");
           detail.className = "hint";
-          detail.textContent = candidate.observation + " | ثقة الملاحظ: " + candidate.confidenceLabel + " | " + candidate.reviewStatus;
+          detail.textContent = candidate.observation + " | ثقة الملاحظ: " + candidate.confidenceLabel +
+            " | المساهم الأصلي: " + candidate.contributor + " | " + candidate.reviewStatus;
           item.append(heading, detail);
+          if (candidate.reviewEvidence) {
+            const reviewed = document.createElement("p");
+            reviewed.className = "hint";
+            reviewed.textContent = "قرار المراجع " + candidate.technicalReviewer + ": " +
+              (candidate.reviewDecision === "approved" ? "مقبول تقنيًا" : "مرفوض") + " — " + candidate.reviewEvidence;
+            item.appendChild(reviewed);
+          }
+          if (candidate.reviewStatus === "candidate-requires-technical-review") {
+            const reviewer = document.createElement("input");
+            reviewer.type = "text";
+            reviewer.maxLength = 120;
+            reviewer.placeholder = "اسم / صفة المراجع الفني المستقل";
+            reviewer.setAttribute("aria-label", "المراجع الفني المستقل");
+            const evidence = document.createElement("textarea");
+            evidence.maxLength = 1000;
+            evidence.rows = 3;
+            evidence.placeholder = "مبررات القرار: ما الذي تمت مراجعته؟ ما الدليل؟ وما حدود الاستنتاج؟ (30 حرفًا على الأقل)";
+            evidence.setAttribute("aria-label", "دليل المراجعة الفنية");
+            const actions = document.createElement("div");
+            actions.className = "actions";
+            ["approved", "rejected"].forEach(decision => {
+              const button = document.createElement("button");
+              button.type = "button";
+              button.className = decision === "approved" ? "btn" : "btn secondary";
+              button.textContent = decision === "approved" ? "اعتماد تقني" : "رفض الملاحظة";
+              button.addEventListener("click", async () => {
+                button.disabled = true;
+                try {
+                  await memory.reviewImageObservation({
+                    observationId: candidate.id,
+                    reviewer: reviewer.value,
+                    evidenceSummary: evidence.value,
+                    decision
+                  });
+                  await refreshLearningDashboard();
+                } catch (error) {
+                  const message = document.createElement("p");
+                  message.className = "hint";
+                  message.textContent = error && error.message ? error.message : "تعذرت مراجعة الملاحظة.";
+                  item.appendChild(message);
+                  button.disabled = false;
+                }
+              });
+              actions.appendChild(button);
+            });
+            item.append(reviewer, evidence, actions);
+          }
+          const eligibility = document.createElement("p");
+          eligibility.className = "hint";
+          eligibility.textContent = "حتى بعد الاعتماد التقني، لا تدخل الملاحظة تلقائيًا في التشخيص أو تدريب نموذج الرؤية.";
+          item.appendChild(eligibility);
           host.appendChild(item);
         });
       }
