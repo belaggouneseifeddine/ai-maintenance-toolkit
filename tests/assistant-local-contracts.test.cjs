@@ -119,9 +119,9 @@ test("tool input validation and oversized output are rejected", async () => {
 test("tool output is cloned before leaving the registry", async () => {
   const payload = { nested: { value: 1 } };
   const registry = Registry.createToolRegistry({
-    tools: { read: { validate: () => true, execute: async () => payload } }
+    tools: { getEquipmentContext: { validate: () => true, execute: async () => payload } }
   });
-  const result = await registry.call("read", {});
+  const result = await registry.call("getEquipmentContext", {});
   payload.nested.value = 2;
   assert.equal(result.data.nested.value, 1);
   result.data.nested.value = 3;
