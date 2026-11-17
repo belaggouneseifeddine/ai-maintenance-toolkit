@@ -744,7 +744,7 @@
       "potentialUse": "Study asset/signal/alarms lineage, offline installation, read-only OT integration and auditability.",
       "reportedScope": "Historian, analytics, alarms, dashboards, process models, documents and read-only assistant access.",
       "licenseStatus": "Apache-2.0 verified for repository code; sample/demo datasets and trademark/logo rights are separate and not verified for reuse",
-      "accessStatus": "README and LICENSE reviewed",
+      "accessStatus": "README and repository license metadata reviewed; raw LICENSE file and SPEC.md were not fetched in this audit.",
       "decision": "architecture-reference-only-no-runtime-dependency",
       "owner": "PlantCraft",
       "lastUpdated": "2026-11-09",
