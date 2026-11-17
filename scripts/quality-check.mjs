@@ -4,9 +4,10 @@ import vm from "node:vm";
 
 const html = readFileSync("index.html", "utf8");
 const appLegacy = readFileSync("app-legacy.js", "utf8");
+const maintenanceRecords = readFileSync("maintenance-records.js", "utf8");
 const appShellCss = readFileSync("app-shell.css", "utf8");
 const designSystemCss = readFileSync("design-system.css", "utf8");
-const appSource = html + "\n" + appLegacy + "\n" + appShellCss + "\n" + designSystemCss;
+const appSource = html + "\n" + maintenanceRecords + "\n" + appLegacy + "\n" + appShellCss + "\n" + designSystemCss;
 const ux = readFileSync("ux-redesign.js", "utf8");
 const uxCss = readFileSync("ux-redesign.css", "utf8");
 const navRedesign = readFileSync("navigation-redesign.js", "utf8");
@@ -47,6 +48,7 @@ assert.ok(appSource.includes('<script src="./app-legacy.js"></script>'), "Extrac
 assert.ok(appSource.includes('<link rel="stylesheet" href="./app-shell.css">'), "Extracted application shell stylesheet must be loaded");
 assert.ok(appSource.includes('<link rel="stylesheet" href="./design-system.css">'), "Unified design system must be loaded after legacy stylesheets");
 assert.match(designSystemCss, /grid-template-columns:repeat\(6,minmax\(0,1fr\)\)!important/);
+new vm.Script(maintenanceRecords, { filename: "maintenance-records.js" });
 new vm.Script(appLegacy, { filename: "app-legacy.js" });
 new vm.Script(i18n, { filename: "i18n.js" });
 const engineContext = { window: engineWindow, globalThis: engineWindow, console };
