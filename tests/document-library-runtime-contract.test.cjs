@@ -1,3 +1,5 @@
+  assert.equal(source.includes("https://cdnjs.cloudflare.com"), false, "PDF.js must not depend on a CDN");
+  assert.equal(source.includes("https://cdn.jsdelivr.net"), false, "Tesseract must not depend on a CDN");
 const test = require("node:test");
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
@@ -22,7 +24,6 @@ test("PDF import is local-first, bounded, and records page-level extraction prov
   assert.ok(source.includes("./vendor/pdfjs/pdf.worker.min.mjs"), "PDF worker must load from same-origin assets");
   assert.ok(source.includes("./vendor/tesseract/tesseract.min.js"), "Tesseract must load from same-origin assets");
   assert.ok(source.includes("./vendor/tessdata/"), "OCR language data must load from same-origin assets");
-  assert.equal(/https:\\/\\/(?:cdnjs|cdn\\.jsdelivr)/i.test(source), false, "PDF/OCR runtime must not depend on a CDN");
 });
 
 test("OCR and PDF extraction keep the original one-based PDF page anchor", () => {
