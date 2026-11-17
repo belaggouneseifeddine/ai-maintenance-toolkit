@@ -87,3 +87,26 @@ test("orchestrator updates equipment context with bounded allow-listed fields", 
   assert.throws(() => assistant.updateEquipment({ serialNumber: "secret" }), /invalid_equipment_context_field/);
   assert.throws(() => assistant.updateEquipment({ model: "x".repeat(121) }), /invalid_equipment_context_field/);
 });
+
+
+test("maintenance history tool output remains historical context and is not promoted into diagnostic facts", async () => {
+  const assistant = Orchestrator.createLocalOrchestrator({
+    tools: {
+      getMaintenanceHistory: {
+        validate: input => !!input && typeof input === "object",
+        execute: async () => ({
+          ok: true,
+          status: "records_found",
+          records: [{ date: "2026-11-16", machine: "Pump P-101", fault: "Low flow", action: "Cleaned strainer", status: "Repaired" }]
+        })
+      }
+    }
+  });
+  assistant.start({ sessionId: "history-is-not-evidence-001", equipment: { type: "pump" } });
+  const result = await assistant.invokeTool("getMaintenanceHistory", {});
+  assert.equal(result.ok, true);
+  assert.equal(result.data.records[0].fault, "Low flow");
+  assert.equal(assistant.getSession().facts.length, 0);
+  assert.equal(assistant.getSession().toolEvents[0].toolName, "getMaintenanceHistory");
+  assert.equal(assistant.getSession().toolEvents[0].status, "completed");
+});
