@@ -82,6 +82,24 @@
         .replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, " ").trim();
     }
 
+    function expandEquipmentSearchTerms(values) {
+      const aliases = {
+        pump: ["pump", "مضخ", "pompe"],
+        motor: ["motor", "محرك", "moteur"],
+        compressor: ["compressor", "ضاغط", "compresseur"],
+        vfd: ["vfd", "variator", "variateur", "مغير السرعة"],
+        valve: ["valve", "صمام", "vanne"],
+        gearbox: ["gearbox", "علبة التروس", "réducteur"],
+        bearing: ["bearing", "محمل", "رولمان", "roulement"]
+      };
+      const terms = [];
+      values.map(normalizeRecordText).filter(Boolean).forEach(term => {
+        const variants = aliases[term] || [term];
+        variants.forEach(variant => { if (!terms.includes(variant)) terms.push(variant); });
+      });
+      return terms;
+    }
+
     function localDate(date) {
       return date.getFullYear() + "-" + String(date.getMonth() + 1).padStart(2, "0") +
         "-" + String(date.getDate()).padStart(2, "0");
@@ -160,8 +178,7 @@
           const stored = readMaintenanceRecords();
           if (!stored.ok) return stored;
           const equipment = input.equipment || {};
-          const terms = [input.query, equipment.type, equipment.manufacturer, equipment.model]
-            .map(normalizeRecordText).filter(Boolean);
+          const terms = expandEquipmentSearchTerms([input.query, equipment.type, equipment.manufacturer, equipment.model]);
           const records = stored.records.filter(record => {
             const haystack = normalizeRecordText([record.machine, record.fault, record.action, record.status].join(" "));
             return !terms.length || terms.some(term => haystack.includes(term));
@@ -182,10 +199,10 @@
         execute: async input => {
           const stored = readPreventiveTasks();
           if (!stored.ok) return stored;
-          const query = normalizeRecordText(input.query || "");
+          const queries = expandEquipmentSearchTerms([input.query]);
           const today = localDate(new Date());
-          const tasks = stored.tasks.filter(task => !query ||
-            normalizeRecordText(task.machine + " " + task.task).includes(query))
+          const tasks = stored.tasks.filter(task => !queries.length ||
+            queries.some(query => normalizeRecordText(task.machine + " " + task.task).includes(query)))
             .slice(0, input.limit || 20).map(task => {
               const dueDate = calculatePmDue(task);
               return {
