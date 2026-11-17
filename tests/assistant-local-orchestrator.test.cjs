@@ -29,7 +29,7 @@ test("local orchestrator records a multi-turn conversation without a model/provi
   assert.equal(Session.validateSession(second.session).ok, true);
 });
 
-test("orchestrator records safety blocks and never executes blocked tools", async () => {
+test("orchestrator records advisory safety warnings and still executes local diagnostics", async () => {
   let executions = 0;
   const assistant = Orchestrator.createLocalOrchestrator({
     tools: {
@@ -46,10 +46,12 @@ test("orchestrator records safety blocks and never executes blocked tools", asyn
     message: "افحص المعدة",
     toolCalls: [{ name: "diagnose", input: {} }]
   });
-  assert.equal(result.status, "safety_blocked");
-  assert.equal(result.results[0].status, "blocked");
+  assert.equal(result.status, "completed");
+  assert.equal(result.results[0].status, "completed");
+  assert.equal(result.results[0].safetyNotice.reason, "hazard_not_reviewed");
   assert.equal(executions, 0);
-  assert.equal(result.session.toolEvents[0].status, "blocked");
+  assert.equal(result.session.toolEvents[0].status, "completed");
+  assert.equal(executions, 1);
 });
 
 test("orchestrator rejects use before session start and keeps LLM facts proposed", () => {
