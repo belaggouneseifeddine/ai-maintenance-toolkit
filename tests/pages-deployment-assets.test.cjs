@@ -70,6 +70,8 @@ test("navigation redesign owns six destinations and P1 shell owns theme only", (
   const shell = fs.readFileSync(path.join(__dirname, "..", "p1-app-shell.js"), "utf8");
   const styles = fs.readFileSync(path.join(__dirname, "..", "p1-app-shell.css"), "utf8");
   const design = fs.readFileSync(path.join(__dirname, "..", "design-system.css"), "utf8");
+  assert.ok(html.includes('data-tab="homeDashboard"'));
+  assert.ok(html.includes('data-tab="v03"'));
   for (const id of ["homeDashboard", "diagnose", "knowledge", "safety", "log", "v03"]) {
     assert.ok(navigation.includes("id:'" + id + "'"), "Missing navigation destination: " + id);
   }
