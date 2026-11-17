@@ -42,6 +42,42 @@
     return matches;
   }
 
+  function summarizeMeasurements(input) {
+    const readings = Array.isArray(input) ? input.slice(0, 20).map(item => ({
+      name: String(item && item.name || ""),
+      value: typeof (item && item.value) === "number" && Number.isFinite(item.value) ? item.value : null,
+      unit: String(item && item.unit || ""),
+      sourceType: String(item && item.sourceType || "unknown"),
+      sensorStatus: String(item && item.sensorStatus || "unknown"),
+      qualityFlag: String(item && item.qualityFlag || "unknown"),
+      timestamp: String(item && item.timestamp || ""),
+      operatingCondition: String(item && item.operatingCondition || "")
+    })) : [];
+    const warnings = [];
+    readings.forEach((item, index) => {
+      if (item.value == null) warnings.push({ code: "measurement_missing", index, name: item.name });
+      if (item.sourceType === "estimated") warnings.push({ code: "estimated_value_not_measured", index, name: item.name });
+      if (item.sourceType === "plc_value" || item.sourceType === "historian_value") warnings.push({ code: "control_system_value_not_independent_measurement", index, name: item.name, sourceType: item.sourceType });
+      if (item.sensorStatus === "suspect" || item.sensorStatus === "failed") warnings.push({ code: "sensor_status_warning", index, name: item.name, sensorStatus: item.sensorStatus });
+      if (item.qualityFlag === "noisy" || item.qualityFlag === "stale" || item.qualityFlag === "contradictory") warnings.push({ code: "measurement_quality_warning", index, name: item.name, qualityFlag: item.qualityFlag });
+    });
+    const groups = new Map();
+    readings.filter(item => item.value != null && item.timestamp && item.operatingCondition)
+      .forEach((item, index) => {
+        const key = [normalizeText(item.name), normalizeText(item.unit), item.timestamp, normalizeText(item.operatingCondition)].join("|");
+        groups.set(key, [...(groups.get(key) || []), { value: item.value, index }]);
+      });
+    const conflicts = [];
+    for (const [key, values] of groups) {
+      if (new Set(values.map(item => item.value)).size > 1) {
+        const first = readings[values[0].index];
+        conflicts.push({ code: "conflicting_readings_same_context", name: first.name, unit: first.unit, timestamp: first.timestamp, operatingCondition: first.operatingCondition, indexes: values.map(item => item.index) });
+      }
+    }
+    conflicts.forEach(item => warnings.push(item));
+    return { readings, warnings, conflicts, usedForNumericThresholdDecision: false };
+  }
+
   function diagnose(input, library) {
     const data = library || root.MAINTENANCE_FAULTS;
     const lang = ["ar", "fr", "en"].includes(input && input.language) ? input.language : "ar";
@@ -85,12 +121,14 @@
     }[lang];
 
     if (!data || !Array.isArray(data.faults)) {
-      return { matched: false, message: t.noMatch, reason: t.weakReason, results: [], advisory: t.advisory, language: lang };
+      return { matched: false, message: t.noMatch, reason: t.weakReason, results: [], advisory: t.advisory, measurementEvidence, language: lang };
     }
 
     const equipment = canonicalEquipment(input && input.equipmentType);
     const symptom = canonicalSymptom(input && input.symptom);
-    const notes = normalizeText(input && input.observations);
+    const measurementEvidence = summarizeMeasurements(input && input.measurements);
+    const measurementTerms = measurementEvidence.readings.map(item => item.name).filter(Boolean).join(" ");
+    const notes = normalizeText([input && input.observations, measurementTerms].filter(Boolean).join(" "));
     const results = data.faults.map(fault => {
       const equipmentMatch = canonicalEquipment(fault.equipmentType) === equipment;
       const symptomMatch = (fault.symptoms || []).some(item => { const candidate = canonicalSymptom(item); return candidate === symptom || (symptom === "noise_vibration" && ["noise","vibration"].includes(candidate)); });
@@ -149,10 +187,11 @@
         normalizationReview: aliasHints,
         results: [],
         advisory: t.advisory,
+        measurementEvidence,
         language: lang
       };
     }
-    return { matched: true, message: "", reason: "", results, advisory: t.advisory, language: lang };
+    return { matched: true, message: "", reason: "", results, advisory: t.advisory, measurementEvidence, language: lang };
   }
 
   /* Exploratory candidates are deliberately limited to known equipment/symptom pairs.
