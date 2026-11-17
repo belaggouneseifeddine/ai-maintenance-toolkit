@@ -811,6 +811,7 @@
         eligibleForDiagnosis: false
       });
       await new Promise((resolve,reject)=>{const tx=db.transaction("documents","readwrite");tx.objectStore("documents").put(doc);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);});
+      if (window.MaintenanceLearningMemory) await window.MaintenanceLearningMemory.recordDocumentReviewed({ documentId: doc.id, reviewRevision: doc.reviewRevision, reviewStatus: doc.reviewStatus, reviewer, manufacturer, equipmentFamily, edition }).catch(error => console.warn("Document review learning event was not saved.", error));
       await renderDocuments();
       return doc;
     },
@@ -858,6 +859,7 @@
         extractionMethod: "human-reviewed-page-claim"
       };
       await new Promise((resolve,reject)=>{const tx=db.transaction("claims","readwrite");tx.objectStore("claims").put(record);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);});
+      if (window.MaintenanceLearningMemory) await window.MaintenanceLearningMemory.recordKnowledgeClaim({ documentId: doc.id, claimId: record.id, pageNumber, reviewStatus: record.reviewStatus, reviewer, equipmentFamily: record.equipmentFamily, modelApplicability: record.modelApplicability, evidenceClass: record.evidenceClass, extractionMethods: record.pageExtractionMethods, sourcePageVerified: record.sourcePageVerified, ocrVisuallyVerified: record.ocrVisuallyVerified === true }).catch(error => console.warn("Knowledge claim learning event was not saved.", error));
       if (approved) {
         const approvedClaims=(await getAll("claims")).filter(item=>item.documentId===doc.id&&item.reviewStatus==="approved");
         if (approvedClaims.length && doc.reviewStatus==="approved") {
