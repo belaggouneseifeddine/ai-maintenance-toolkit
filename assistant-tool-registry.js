@@ -16,7 +16,7 @@
     if (typeof serialized !== "string" || serialized.length > MAX_OUTPUT_CHARS) {
       return { ok: false, error: "tool_output_too_large" };
     }
-    return { ok: true, value };
+    return { ok: true, value: JSON.parse(serialized) };
   }
   function createToolRegistry(options) {
     const config = options || {};
