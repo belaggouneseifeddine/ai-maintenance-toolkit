@@ -9,7 +9,7 @@ trap 'rm -rf "$TMP_DIR"' EXIT
 mkdir -p "$OUT_DIR/vendor/pdfjs" "$OUT_DIR/vendor/tesseract/core" "$OUT_DIR/vendor/tessdata"
 
 npm install --prefix "$TMP_DIR" --no-save --no-audit --no-fund \
-  "pdfjs-dist@4.10.38" "tesseract.js@5.1.1" "tesseract.js-core@5.1.0"
+  "pdfjs-dist@4.10.38" "tesseract.js@5.1.1" "tesseract.js-core@5.1.1"
 
 cp "$TMP_DIR/node_modules/pdfjs-dist/build/pdf.min.mjs" "$OUT_DIR/vendor/pdfjs/"
 cp "$TMP_DIR/node_modules/pdfjs-dist/build/pdf.worker.min.mjs" "$OUT_DIR/vendor/pdfjs/"
@@ -20,8 +20,9 @@ cp "$TMP_DIR"/node_modules/tesseract.js-core/tesseract-core-simd-lstm.wasm "$OUT
 
 for language in ara eng fra; do
   curl --fail --location --silent --show-error \
-    "https://raw.githubusercontent.com/tesseract-ocr/tessdata_fast/4.1.0/${language}.traineddata.gz" \
-    -o "$OUT_DIR/vendor/tessdata/${language}.traineddata.gz"
+    "https://raw.githubusercontent.com/tesseract-ocr/tessdata_fast/main/${language}.traineddata.gz" \
+    -o "$TMP_DIR/${language}.traineddata"
+  gzip -9 -c "$TMP_DIR/${language}.traineddata" > "$OUT_DIR/vendor/tessdata/${language}.traineddata.gz"
 done
 
 test -s "$OUT_DIR/vendor/pdfjs/pdf.min.mjs"
