@@ -96,7 +96,7 @@ test("all document assets are included in both deployment artifacts and optional
   const pages = read(".github/workflows/deploy-pages.yml");
   const cloudflare = read(".github/workflows/deploy-cloudflare-pages.yml");
   const assets = [
-    "app-shell.css", "app-legacy.js", "document-library-core.js", "document-semantic-search.js", "document-library.js", "document-library.css",
+    "design-system.css", "app-shell.css", "app-legacy.js", "document-library-core.js", "document-semantic-search.js", "document-library.js", "document-library.css",
     "document-retrieval-adapter.js", "document-review-workspaces.js", "diagnostic-document-evidence.js"
   ];
   for (const asset of assets) {
@@ -136,6 +136,12 @@ test("extracted frontend bootstrap and stylesheet are loaded and parse independe
   const styles = read("app-shell.css");
   assert.ok(html.includes('<script src="./app-legacy.js"></script>'));
   assert.ok(html.includes('<link rel="stylesheet" href="./app-shell.css">'));
+  assert.ok(html.includes('<link rel="stylesheet" href="./design-system.css">'));
+  const design = read("design-system.css");
+  assert.ok(design.includes("--brand:#173b5e"));
+  assert.ok(design.includes("--accent:#0798b5"));
+  assert.ok(design.includes("--warn:#a96b12"));
+  assert.ok(design.includes("grid-template-columns:repeat(6,minmax(0,1fr))!important"));
   assert.ok(styles.includes(":root"));
   assert.ok(styles.includes("@media"));
   new vm.Script(bootstrap, { filename: "app-legacy.js" });
