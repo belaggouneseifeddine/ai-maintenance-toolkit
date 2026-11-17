@@ -163,6 +163,7 @@ test("semantic PDF search persists local multilingual vectors and keeps lexical 
   assert.ok(semantic.includes('const MODEL_ID = "Xenova/paraphrase-multilingual-MiniLM-L12-v2"'));
   assert.ok(semantic.includes('createObjectStore("vectors"'));
   assert.ok(semantic.includes("indexChunks"));
+  assert.ok(semantic.includes("textFingerprint === fingerprint"), "unchanged chunks must not be re-embedded");
   assert.ok(semantic.includes("cosine(queryVector, row.vector)"));
   assert.ok(semantic.includes("useBrowserCache = true"));
   assert.ok(library.includes("reciprocalRankScore"));
