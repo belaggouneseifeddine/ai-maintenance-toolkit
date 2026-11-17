@@ -254,6 +254,32 @@
           };
         }
       },
+      getSafetyChecklistStatus: {
+        validate: input => input == null || (typeof input === "object" && !Array.isArray(input)),
+        execute: async () => {
+          const container = root.document && root.document.querySelector("#safetyChecks");
+          if (!container) return { ok: false, status: "safety_checklist_unavailable", items: [] };
+          const items = Array.from(container.querySelectorAll("label")).slice(0, 12).map(label => {
+            const checkbox = label.querySelector('input[type="checkbox"]');
+            return {
+              label: String(label.textContent || "").replace(/\\s+/g, " ").trim().slice(0, 240),
+              checked: !!(checkbox && checkbox.checked)
+            };
+          }).filter(item => item.label);
+          if (!items.length) return { ok: false, status: "safety_checklist_empty", items: [] };
+          const checkedCount = items.filter(item => item.checked).length;
+          return {
+            ok: true,
+            status: checkedCount === items.length ? "all_items_checked" : "items_remaining",
+            checkedCount,
+            total: items.length,
+            allChecked: checkedCount === items.length,
+            items,
+            safetyClearance: false,
+            limitation: "Checklist state is user-entered and does not authorize work or replace site procedures, permits, LOTO verification, or competent-person approval."
+          };
+        }
+      },
       createShiftHandoverDraft: {
         validate: input => !!input && typeof input === "object" &&
           ["8", "today", "custom"].includes(input.period || "today") &&
