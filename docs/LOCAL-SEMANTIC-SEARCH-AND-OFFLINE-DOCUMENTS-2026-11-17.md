@@ -53,7 +53,7 @@
 3. The first embedding-model activation requires internet and about 118 MB of model assets. Browser storage can be evicted by the operating system; the app must detect a missing cache and explain that the model needs to be downloaded again.
 4. The embedding model is general multilingual text, not trained on industrial maintenance terminology. Search relevance must be measured against a reviewed query/document set before the results are used to influence diagnosis.
 5. A semantic hit is only a retrieval candidate. It does not verify technical correctness, applicability to an OEM model, copyright permission, or diagnostic causality.
-6. The new information-gain API is not yet connected to the technician-facing next-test selector. Its likelihood tables must be source-backed and reviewed per equipment family before production use.
+6. The new information-gain API is exposed as a local assistant tool but is not yet connected to the technician-facing next-test selector. It refuses to rank unless an application-injected trusted source resolver confirms the reviewed likelihood source; no such production resolver or approved likelihood table is registered yet. Likelihood tables must be source-backed and reviewed per equipment family before production use.
 7. The local assistant still has no private trained language model and no autonomous natural-language tool planner. Its local orchestrator and deterministic chat routing are not a from-scratch LLM.
 
 ## Required verification
