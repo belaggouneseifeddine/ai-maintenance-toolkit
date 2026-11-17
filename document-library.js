@@ -316,6 +316,9 @@
     };
     status("حفظ النص والفهرس والملف محليًا…");
     await persistDocument(Object.assign({}, record, { fileBlob: file.slice(0, file.size, "application/pdf") }), extracted.chunks);
+    if (window.MaintenanceDocumentSemanticSearch && window.MaintenanceDocumentSemanticSearch.isReady()) {
+      window.MaintenanceDocumentSemanticSearch.indexChunks(extracted.chunks).catch(error => console.warn("Semantic index update deferred.", error));
+    }
     status("اكتمل الاستيراد: " + record.title + " — نص PDF: " + record.pagesWithText + " صفحة، OCR: " + record.pagesWithOcr + " صفحة، بلا نص: " + record.pagesWithoutText + " صفحة، " + record.chunkCount + " مقطعًا. لم تُرسل الوثيقة إلى خادم." + (record.ocrSkippedByLimit ? " تم تجاوز OCR لعدد " + record.ocrSkippedByLimit + " صفحة بسبب حد الهاتف." : ""));
     await renderDocuments();
   }
@@ -487,6 +490,7 @@
       tx.oncomplete = resolve;
       tx.onerror = () => reject(tx.error || new Error("تعذر حذف الوثيقة."));
     });
+    if (window.MaintenanceDocumentSemanticSearch) await window.MaintenanceDocumentSemanticSearch.removeDocument(documentId).catch(() => {});
     await renderDocuments();
   }
 
@@ -538,8 +542,46 @@
     });
   }
 
+  async function enableSemanticSearch(button) {
+    const api = window.MaintenanceDocumentSemanticSearch;
+    if (!api) throw new Error("وحدة البحث الدلالي غير متاحة في هذه النسخة.");
+    button.disabled = true;
+    button.textContent = "جارٍ تحميل النموذج متعدد اللغات…";
+    status("سيتم تنزيل نموذج محلي حجمه نحو 118 ميغابايت عند أول تفعيل. استخدم Wi-Fi إن أمكن؛ بعد التخزين يمكن إجراء البحث دون اتصال.");
+    try {
+      await api.enable();
+      const chunks = await getAll("chunks");
+      let indexed = 0;
+      const batchSize = 8;
+      for (let offset = 0; offset < chunks.length; offset += batchSize) {
+        const result = await api.indexChunks(chunks.slice(offset, offset + batchSize));
+        indexed += result.indexed;
+        button.textContent = "فهرسة المقاطع: " + indexed + "/" + chunks.length;
+      }
+      status("اكتمل تفعيل البحث الدلالي المحلي. المقاطع المفهرسة: " + indexed + ". سيبقى البحث اللفظي متاحًا أيضًا.");
+      button.textContent = "البحث الدلالي المحلي مفعّل";
+      button.disabled = true;
+    } catch (error) {
+      button.disabled = false;
+      button.textContent = "إعادة محاولة تفعيل البحث الدلالي";
+      status("تعذر تفعيل النموذج المحلي. يستمر البحث اللفظي دون تغيير. " + (error && error.message ? error.message : ""));
+      throw error;
+    }
+  }
+
   function init() {
     if (!$("documentImportForm")) return;
+    const searchForm = $("documentSearchForm");
+    if (searchForm && !$("documentSemanticEnable")) {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.id = "documentSemanticEnable";
+      button.className = "btn secondary";
+      button.textContent = "تفعيل البحث الدلالي المحلي (تنزيل أولي ~118 MB)";
+      button.title = "يعمل النموذج على الجهاز ويُخزّن محليًا بعد تنزيله لأول مرة.";
+      button.addEventListener("click", () => enableSemanticSearch(button).catch(() => {}));
+      searchForm.appendChild(button);
+    }
     $("documentImportForm").addEventListener("submit", async event => {
       event.preventDefault();
       const input = $("documentPdfFile");
