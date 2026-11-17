@@ -359,12 +359,41 @@
   }
   function formatLocalDiagnosis(result) {
     const diagnosis = result && result.diagnosis;
-    if (!diagnosis || diagnosis.matched !== true || !Array.isArray(diagnosis.results) || !diagnosis.results.length) {
-      return (diagnosis && diagnosis.message ? diagnosis.message + "\n" : "") +
-        (diagnosis && diagnosis.reason ? diagnosis.reason : copy("لم تتوفر مطابقة كافية. أضف قياسات أو راجع الدليل المعتمد.", "No sufficient match. Add measurements or consult an approved manual.", "Correspondance insuffisante. Ajoutez des mesures ou consultez un manuel approuvé."));
-    }
     const lines = [copy("تقييم محلي أولي — هذه احتمالات وليست سببًا مؤكدًا.", "Preliminary local assessment — these are possibilities, not a confirmed cause.", "Évaluation locale préliminaire — possibilités, pas une cause confirmée.")];
-    if (diagnosis.safetyWarning && diagnosis.safetyWarning.message) lines.push("", "⚠ " + diagnosis.safetyWarning.message);
+    if (diagnosis && diagnosis.safetyWarning && diagnosis.safetyWarning.message) lines.push("", "⚠ " + diagnosis.safetyWarning.message);
+    const evidence = diagnosis && diagnosis.measurementEvidence;
+    if (evidence && Array.isArray(evidence.readings) && evidence.readings.length) {
+      lines.push("", copy("القراءات المدخلة ومصدرها:", "Entered readings and their provenance:", "Mesures saisies et leur provenance :"));
+      const sourceLabels = {
+        direct_measurement: "قياس مباشر",
+        plc_value: "قراءة PLC",
+        historian_value: "قراءة Historian",
+        estimated: "قيمة تقديرية",
+        user_reported: "إبلاغ الفني",
+        unknown: "مصدر غير محدد"
+      };
+      evidence.readings.slice(0, 12).forEach(item => {
+        const value = item.value == null ? "غير متاح" : String(item.value);
+        lines.push("   • " + item.name + ": " + value + (item.unit ? " " + item.unit : "") + " — " + (sourceLabels[item.sourceType] || sourceLabels.unknown));
+      });
+      const warningLabels = {
+        measurement_missing: "قياس غير متاح",
+        estimated_value_not_measured: "قيمة تقديرية وليست قياسًا فعليًا",
+        control_system_value_not_independent_measurement: "قراءة PLC/Historian ليست قياسًا مستقلًا",
+        sensor_status_warning: "حالة الحساس مشكوك فيها أو فاشلة",
+        measurement_quality_warning: "جودة القراءة تحتاج مراجعة",
+        conflicting_readings_same_context: "قراءات متعارضة لنفس ظروف التشغيل"
+      };
+      if (Array.isArray(evidence.warnings) && evidence.warnings.length) {
+        lines.push(copy("تنبيهات جودة البيانات:", "Data-quality warnings:", "Alertes de qualité des données :"));
+        evidence.warnings.slice(0, 8).forEach(item => lines.push("   ⚠ " + (warningLabels[item.code] || item.code)));
+      }
+    }
+    if (!diagnosis || diagnosis.matched !== true || !Array.isArray(diagnosis.results) || !diagnosis.results.length) {
+      lines.push("", (diagnosis && diagnosis.message ? diagnosis.message + "\n" : "") +
+        (diagnosis && diagnosis.reason ? diagnosis.reason : copy("لم تتوفر مطابقة كافية. أضف قياسات أو راجع الدليل المعتمد.", "No sufficient match. Add measurements or consult an approved manual.", "Correspondance insuffisante. Ajoutez des mesures ou consultez un manuel approuvé.")));
+      return lines.join("\n");
+    }
     diagnosis.results.slice(0, 3).forEach((item, index) => {
       lines.push("", (index + 1) + ". " + (item.title || item.id));
       if (item.confidenceLabel) lines.push("   " + item.confidenceLabel);
@@ -376,7 +405,7 @@
         if (check) lines.push("   • " + check);
       });
     });
-    lines.push("", copy("نقاط المطابقة ليست احتمالات إحصائية. لا تنفذ أي تدخل قبل مراجعة دليل المصنع وإجراءات السلامة.", "Match scores are not statistical probabilities. Verify the OEM manual and safety procedures before intervention.", "Les scores ne sont pas des probabilités statistiques. Vérifiez le manuel constructeur et les procédures de sécurité avant intervention."));
+    lines.push("", copy("نقاط المطابقة ليست احتمالات إحصائية. راجع مصدر القياس وحالة الحساس وظروف التشغيل قبل تفسيره. لا تنفذ أي تدخل قبل مراجعة دليل المصنع وإجراءات الموقع.", "Match scores are not statistical probabilities. Check measurement source, sensor status and operating conditions before interpretation. Verify OEM and site procedures before intervention.", "Les scores ne sont pas des probabilités statistiques. Vérifiez la source de mesure, l'état du capteur et les conditions de fonctionnement avant interprétation."));
     return lines.join("\n");
   }
 
