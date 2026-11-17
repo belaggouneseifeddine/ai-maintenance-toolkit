@@ -116,7 +116,8 @@
       probability > 0 ? sum - probability * Math.log2(probability) : sum, 0);
   }
 
-  function expectedInformationGain(input) {
+  function expectedInformationGain(input, options) {
+    const resolveSource = options && typeof options.resolveSource === "function" ? options.resolveSource : null;
     const hypotheses = Array.isArray(input && input.hypotheses) ? input.hypotheses : [];
     const tests = Array.isArray(input && input.tests) ? input.tests : [];
     if (!hypotheses.length || !tests.length) return { ok: false, status: "insufficient_candidates", ranking: [] };
@@ -136,13 +137,14 @@
 
     for (const test of tests) {
       const sourceRef = test && test.sourceRef;
-      const sourceBacked = test && test.reviewStatus === "approved" &&
-        typeof test.likelihoodSource === "string" && test.likelihoodSource.trim().length > 0 &&
-        sourceRef && typeof sourceRef === "object" &&
-        ((typeof sourceRef.url === "string" && sourceRef.url.startsWith("https://")) ||
-         (typeof sourceRef.documentId === "string" && Number.isInteger(sourceRef.pageNumber) && sourceRef.pageNumber > 0));
+      let sourceBacked = false;
+      if (resolveSource && test && test.reviewStatus === "approved" &&
+          typeof test.likelihoodSource === "string" && test.likelihoodSource.trim().length > 0 &&
+          sourceRef && typeof sourceRef === "object") {
+        try { sourceBacked = resolveSource(sourceRef, test) === true; } catch (_) { sourceBacked = false; }
+      }
       if (!sourceBacked) {
-        ranking.push({ id: test && test.id || "", status: "unverified_likelihood_source" });
+        ranking.push({ id: test && test.id || "", status: resolveSource ? "unverified_likelihood_source" : "source_verification_unavailable" });
         continue;
       }
       const outcomes = Array.isArray(test && test.outcomes) ? test.outcomes : [];
