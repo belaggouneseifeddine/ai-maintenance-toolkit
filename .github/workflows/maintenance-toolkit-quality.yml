@@ -52,6 +52,8 @@ jobs:
             assistant-tool-registry.js \
             assistant-local-orchestrator.js \
             assistant-local-tools.js \
+            bayesian-engine.js \
+            document-semantic-search.js \
             document-library-core.js \
             document-library.js \
             document-retrieval-adapter.js \
@@ -61,3 +63,4 @@ jobs:
             node --check "$file"
           done
           node --input-type=module --check < worker.js
+          bash -n scripts/vendor-document-runtime.sh
