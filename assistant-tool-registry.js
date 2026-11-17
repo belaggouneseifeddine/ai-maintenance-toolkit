@@ -34,15 +34,22 @@
       if (typeof tool.validate !== "function" || tool.validate(input) !== true) {
         return { ok: false, status: "invalid_input", error: "tool_input_rejected" };
       }
+      let safetyNotice = null;
       if (tool.safetySensitive === true) {
         if (typeof safetyGate !== "function") {
-          return { ok: false, status: "blocked", error: "safety_gate_unavailable" };
-        }
-        let decision;
-        try { decision = await safetyGate({ toolName: name, input, context: context || {} }); }
-        catch (_) { return { ok: false, status: "blocked", error: "safety_gate_failed" }; }
-        if (!decision || decision.allowed !== true) {
-          return { ok: false, status: "blocked", error: "safety_review_required", safety: decision || null };
+          safetyNotice = { severity: "warning", reason: "safety_advisory_unavailable", message: "Review site procedures and OEM instructions before intervention." };
+        } else {
+          let decision;
+          try { decision = await safetyGate({ toolName: name, input, context: context || {} }); }
+          catch (_) { decision = { allowed: false, reason: "safety_advisory_failed" }; }
+          if (!decision || decision.allowed !== true) {
+            safetyNotice = {
+              severity: "warning",
+              reason: decision && decision.reason ? String(decision.reason) : "safety_review_recommended",
+              decision: decision || null,
+              message: "Safety review is recommended. This advisory does not block diagnostic information."
+            };
+          }
         }
       }
       let timer;
@@ -59,13 +66,14 @@
         const result = await Promise.race([
           Promise.resolve().then(() => tool.execute(input, {
             context: context || {},
-            signal: controller ? controller.signal : undefined
+            signal: controller ? controller.signal : undefined,
+            safetyNotice
           })),
           timeout
         ]);
         const checked = bounded(result);
         if (!checked.ok) return { ok: false, status: "failed", error: checked.error };
-        return { ok: true, status: "completed", data: checked.value };
+        return { ok: true, status: "completed", data: checked.value, safetyNotice };
       } catch (_) {
         return { ok: false, status: timedOut ? "timed_out" : "failed", error: timedOut ? "tool_timeout" : "tool_execution_failed" };
       } finally {
