@@ -2,6 +2,7 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const LocalTools = require("../assistant-local-tools.js");
 const Registry = require("../assistant-tool-registry.js");
+const Bayesian = require("../bayesian-engine.js");
 
 test("diagnostic tool continues after deterministic safety review and returns a warning", async () => {
   let executed = 0;
@@ -355,4 +356,30 @@ test("shift handover tool keeps worst-case maintenance and PM output within the 
     if (previousStorage === undefined) delete global.localStorage;
     else global.localStorage = previousStorage;
   }
+});
+
+test("local assistant exposes source-backed expected information gain and rejects unreviewed likelihoods", async () => {
+  const tools = LocalTools.createLocalTools({ bayesianEngine: Bayesian });
+  const registry = Registry.createToolRegistry({ tools: tools.tools });
+  const base = {
+    hypotheses: [{ id: "A", prior: 0.5 }, { id: "B", prior: 0.5 }],
+    tests: [{
+      id: "pump-pressure-test",
+      reviewStatus: "approved",
+      likelihoodSource: "reviewed-pilot-reference",
+      sourceRef: { url: "https://example.test/pump-pilot#section-2" },
+      outcomes: [
+        { id: "high", likelihoods: { A: 0.9, B: 0.1 } },
+        { id: "low", likelihoods: { A: 0.1, B: 0.9 } }
+      ]
+    }]
+  };
+  const result = await registry.call("rankNextDiagnosticTests", base);
+  assert.equal(result.status, "completed");
+  assert.equal(result.data.ranking[0].id, "pump-pressure-test");
+  const unreviewed = await registry.call("rankNextDiagnosticTests", {
+    ...base,
+    tests: [{ ...base.tests[0], reviewStatus: "candidate" }]
+  });
+  assert.equal(unreviewed.data.ranking[0].status, "unverified_likelihood_source");
 });
