@@ -52,7 +52,7 @@ test("expected information gain ranks tests only when likelihoods are complete",
         outcomes: [{ id: "yes", likelihoods: { A: 1 } }, { id: "no", likelihoods: { A: 0 } }]
       }
     ]
-  });
+  }, { resolveSource: () => true });
   assert.equal(result.ok, true);
   assert.equal(result.ranking[0].id, "discriminating-test");
   assert.ok(result.ranking[0].expectedInformationGainBits > 0.5);
@@ -74,7 +74,7 @@ test("hazardous test remains visible with an advisory warning, not silently remo
         { id: "low", likelihoods: { A: 0.2, B: 0.8 } }
       ]
     }]
-  });
+  }, { resolveSource: () => true });
   assert.equal(result.ranking[0].id, "live-measurement");
   assert.match(result.ranking[0].safetyWarning, /Qualified electrical work/);
 });
@@ -92,6 +92,23 @@ test("unreviewed likelihood provenance is rejected", () => {
         { id: "no", likelihoods: { A: 0.1, B: 0.9 } }
       ]
     }]
-  });
+  }, { resolveSource: () => true });
   assert.equal(result.ranking[0].status, "unverified_likelihood_source");
+});
+
+test("information gain refuses to trust source metadata without a trusted resolver", () => {
+  const result = Bayesian.expectedInformationGain({
+    hypotheses: [{ id: "A", prior: 0.5 }, { id: "B", prior: 0.5 }],
+    tests: [{
+      id: "claimed-source-test",
+      reviewStatus: "approved",
+      likelihoodSource: "claimed",
+      sourceRef: { url: "https://example.test/claimed" },
+      outcomes: [
+        { id: "yes", likelihoods: { A: 0.9, B: 0.1 } },
+        { id: "no", likelihoods: { A: 0.1, B: 0.9 } }
+      ]
+    }]
+  });
+  assert.equal(result.ranking[0].status, "source_verification_unavailable");
 });
