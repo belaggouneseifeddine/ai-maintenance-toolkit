@@ -325,12 +325,12 @@
           const pm = storedTasks.tasks.map(task => {
             const dueDate = calculatePmDue(task);
             return {
-              machine: task.machine.slice(0, 80),
-              task: task.task.slice(0, 120),
+              machine: task.machine.slice(0, 60),
+              task: task.task.slice(0, 100),
               lastPerformed: task.last,
               dueDate,
               status: !dueDate ? "invalid_schedule" : dueDate < today ? "overdue" : dueDate === today ? "due_today" : "upcoming",
-              notes: typeof task.notes === "string" ? task.notes.slice(0, 120) : ""
+              notes: typeof task.notes === "string" ? task.notes.slice(0, 80) : ""
             };
           });
           return {
@@ -344,12 +344,12 @@
             totalMatchingRecords: matchingRecords.length,
             recordsTruncated: matchingRecords.length > selected.length,
             records: selected,
-            pmDue: pm.filter(task => task.status === "overdue" || task.status === "due_today").slice(0, 8),
+            pmDue: pm.filter(task => task.status === "overdue" || task.status === "due_today").slice(0, 6),
             totalPmDue: pm.filter(task => task.status === "overdue" || task.status === "due_today").length,
-            pmDueTruncated: pm.filter(task => task.status === "overdue" || task.status === "due_today").length > 8,
-            invalidPmSchedules: pm.filter(task => task.status === "invalid_schedule").slice(0, 8),
+            pmDueTruncated: pm.filter(task => task.status === "overdue" || task.status === "due_today") .length > 6,
+            invalidPmSchedules: pm.filter(task => task.status === "invalid_schedule").slice(0, 6),
             totalInvalidPmSchedules: pm.filter(task => task.status === "invalid_schedule").length,
-            invalidPmSchedulesTruncated: pm.filter(task => task.status === "invalid_schedule").length > 8,
+            invalidPmSchedulesTruncated: pm.filter(task => task.status === "invalid_schedule").length > 6,
             note: typeof input.note === "string" ? input.note.trim().slice(0, 240) : "",
             limitations: [
               "Draft only; it has not been saved or shared.",
