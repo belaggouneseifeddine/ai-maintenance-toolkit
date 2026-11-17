@@ -65,12 +65,18 @@ test("P1 app-shell assets are deployed and cached for offline use", () => {
 });
 
 
-test("P1 navigation contains exactly five requested destinations and defaults to dark mode", () => {
+test("navigation redesign owns six destinations and P1 shell owns theme only", () => {
+  const navigation = fs.readFileSync(path.join(__dirname, "..", "navigation-redesign.js"), "utf8");
   const shell = fs.readFileSync(path.join(__dirname, "..", "p1-app-shell.js"), "utf8");
   const styles = fs.readFileSync(path.join(__dirname, "..", "p1-app-shell.css"), "utf8");
-  for (const id of ["diagnose", "knowledge", "safety", "log", "v03"]) assert.ok(shell.includes("['" + id + "'"), "Missing primary destination: " + id);
+  const design = fs.readFileSync(path.join(__dirname, "..", "design-system.css"), "utf8");
+  for (const id of ["homeDashboard", "diagnose", "knowledge", "safety", "log", "v03"]) {
+    assert.ok(navigation.includes("id:'" + id + "'"), "Missing navigation destination: " + id);
+  }
+  assert.match(navigation, /nav\.classList\.add\('bottom-navigation'\)/);
   assert.match(shell, /saved='dark'/);
   assert.match(shell, /maintenance-ai-toolkit-theme-v1/);
-  assert.match(styles, /:root\[data-theme="dark"\]/);
-  assert.match(styles, /grid-template-columns:repeat\(5,minmax\(0,1fr\)\)/);
+  assert.doesNotMatch(shell, /homeTab|moreTab|aiTab|nav\.addEventListener/);
+  assert.match(styles, /grid-template-columns:repeat\(6,minmax\(0,1fr\)\)/);
+  assert.match(design, /grid-template-columns:repeat\(6,minmax\(0,1fr\)\)!important/);
 });
