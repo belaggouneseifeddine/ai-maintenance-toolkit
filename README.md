@@ -50,7 +50,8 @@ Never commit API keys or put them in browser code, local storage, or the public 
 
 - `index.html` — application structure and runtime asset loading
 - `app-shell.css`, `design-system.css`, `ux-redesign.css`, `p1-app-shell.css` — staged presentation layers; the Industrial Premium token layer is loaded last
-- `app-legacy.js` — extracted legacy bootstrap (still scheduled for modularization; extraction is not a completed frontend rewrite)
+- `maintenance-records.js` — local maintenance-record persistence, rendering, import/export and report helpers
+- `app-legacy.js` — remaining extracted legacy bootstrap (still scheduled for further modularization; extraction is not a completed frontend rewrite)
 - `diagnostic-engine.js`, `faults.json`, `diagnostic-flows.js` — rule-based diagnostics plus local exploratory reasoning
 - `knowledge/manufacturer-sources.json` — scoped source references; entries are not automatically treated as verified fault evidence
 - `i18n.js` — translations
