@@ -143,14 +143,14 @@
       }
     }[lang];
 
+    const measurementEvidence = summarizeMeasurements(input && input.measurements);
+    const supportingDocuments = summarizeApprovedDocuments(input && input.approvedPdfExcerpts);
     if (!data || !Array.isArray(data.faults)) {
       return { matched: false, message: t.noMatch, reason: t.weakReason, results: [], advisory: t.advisory, measurementEvidence, supportingDocuments, language: lang };
     }
 
     const equipment = canonicalEquipment(input && input.equipmentType);
     const symptom = canonicalSymptom(input && input.symptom);
-    const measurementEvidence = summarizeMeasurements(input && input.measurements);
-    const supportingDocuments = summarizeApprovedDocuments(input && input.approvedPdfExcerpts);
     const measurementTerms = measurementEvidence.readings.map(item => item.name).filter(Boolean).join(" ");
     const notes = normalizeText([input && input.observations, measurementTerms].filter(Boolean).join(" "));
     const results = data.faults.map(fault => {
@@ -216,7 +216,7 @@
         language: lang
       };
     }
-    return { matched: true, message: "", reason: "", results, advisory: t.advisory, measurementEvidence, language: lang };
+    return { matched: true, message: "", reason: "", results, advisory: t.advisory, measurementEvidence, supportingDocuments, language: lang };
   }
 
   /* Exploratory candidates are deliberately limited to known equipment/symptom pairs.
