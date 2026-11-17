@@ -109,53 +109,194 @@
     }
   ],
   "measurements": [
-    { "name": "Flow rate", "unit": "m³/h or site unit", "location": "Installed flowmeter; record tag and pipe location", "operatingCondition": "Stable operating point; record speed, valve state and fluid", "sourceTypes": ["direct_measurement", "plc_value", "historian_value", "estimated", "unknown"], "baselineRequired": true },
-    { "name": "Suction pressure", "unit": "kPa(g), bar(g) or absolute unit as installed", "location": "Identify exact suction pressure tap relative to pump datum", "operatingCondition": "Same timestamp as flow and discharge pressure where possible; record speed and fluid temperature", "sourceTypes": ["direct_measurement", "plc_value", "historian_value", "estimated", "unknown"], "baselineRequired": true },
-    { "name": "Discharge pressure", "unit": "kPa(g), bar(g) or absolute unit as installed", "location": "Identify exact discharge pressure tap", "operatingCondition": "Same timestamp as flow and suction pressure where possible; record downstream valve state", "sourceTypes": ["direct_measurement", "plc_value", "historian_value", "estimated", "unknown"], "baselineRequired": true },
-    { "name": "Pump speed", "unit": "rpm; VFD frequency in Hz is a separate field", "location": "Drive feedback or independent speed measurement; state which", "operatingCondition": "Record command, feedback and load state separately", "sourceTypes": ["direct_measurement", "plc_value", "historian_value", "estimated", "unknown"], "baselineRequired": true },
-    { "name": "Source liquid level", "unit": "m or site level unit", "location": "Tank level transmitter/gauge and datum", "operatingCondition": "Record concurrent suction/flow condition", "sourceTypes": ["direct_measurement", "plc_value", "historian_value", "estimated", "unknown"], "baselineRequired": true },
-    { "name": "Fluid temperature", "unit": "°C or °F", "location": "Defined process temperature sensor point", "operatingCondition": "Record fluid identity and whether stable/transient", "sourceTypes": ["direct_measurement", "plc_value", "historian_value", "estimated", "unknown"], "baselineRequired": true },
-    { "name": "Strainer differential pressure", "unit": "kPa or bar", "location": "Across strainer, only if permanently instrumented", "operatingCondition": "Compare at comparable flow and fluid conditions", "sourceTypes": ["direct_measurement", "plc_value", "historian_value", "estimated", "unknown"], "baselineRequired": true }
+    {
+      "name": "Flow rate",
+      "unit": "m³/h or site unit",
+      "location": "Installed flowmeter; record tag and pipe location",
+      "operatingCondition": "Stable operating point; record speed, valve state and fluid",
+      "sourceTypes": [
+        "direct_measurement",
+        "plc_value",
+        "historian_value",
+        "estimated",
+        "unknown"
+      ],
+      "baselineRequired": true
+    },
+    {
+      "name": "Suction pressure",
+      "unit": "kPa(g), bar(g) or absolute unit as installed",
+      "location": "Identify exact suction pressure tap relative to pump datum",
+      "operatingCondition": "Same timestamp as flow and discharge pressure where possible; record speed and fluid temperature",
+      "sourceTypes": [
+        "direct_measurement",
+        "plc_value",
+        "historian_value",
+        "estimated",
+        "unknown"
+      ],
+      "baselineRequired": true
+    },
+    {
+      "name": "Discharge pressure",
+      "unit": "kPa(g), bar(g) or absolute unit as installed",
+      "location": "Identify exact discharge pressure tap",
+      "operatingCondition": "Same timestamp as flow and suction pressure where possible; record downstream valve state",
+      "sourceTypes": [
+        "direct_measurement",
+        "plc_value",
+        "historian_value",
+        "estimated",
+        "unknown"
+      ],
+      "baselineRequired": true
+    },
+    {
+      "name": "Pump speed",
+      "unit": "rpm; VFD frequency in Hz is a separate field",
+      "location": "Drive feedback or independent speed measurement; state which",
+      "operatingCondition": "Record command, feedback and load state separately",
+      "sourceTypes": [
+        "direct_measurement",
+        "plc_value",
+        "historian_value",
+        "estimated",
+        "unknown"
+      ],
+      "baselineRequired": true
+    },
+    {
+      "name": "Source liquid level",
+      "unit": "m or site level unit",
+      "location": "Tank level transmitter/gauge and datum",
+      "operatingCondition": "Record concurrent suction/flow condition",
+      "sourceTypes": [
+        "direct_measurement",
+        "plc_value",
+        "historian_value",
+        "estimated",
+        "unknown"
+      ],
+      "baselineRequired": true
+    },
+    {
+      "name": "Fluid temperature",
+      "unit": "°C or °F",
+      "location": "Defined process temperature sensor point",
+      "operatingCondition": "Record fluid identity and whether stable/transient",
+      "sourceTypes": [
+        "direct_measurement",
+        "plc_value",
+        "historian_value",
+        "estimated",
+        "unknown"
+      ],
+      "baselineRequired": true
+    },
+    {
+      "name": "Strainer differential pressure",
+      "unit": "kPa or bar",
+      "location": "Across strainer, only if permanently instrumented",
+      "operatingCondition": "Compare at comparable flow and fluid conditions",
+      "sourceTypes": [
+        "direct_measurement",
+        "plc_value",
+        "historian_value",
+        "estimated",
+        "unknown"
+      ],
+      "baselineRequired": true
+    }
   ],
   "tests": [
     {
       "id": "compare-flow-pressure-speed",
       "name": "Compare concurrent flow, suction pressure, discharge pressure and actual speed",
-      "prerequisites": ["Use existing installed instruments and approved HMI/historian read-only values", "Confirm units, tag locations, timestamp alignment and instrument quality", "Do not change valve positions or drive settings for this observation"],
+      "prerequisites": [
+        "Use existing installed instruments and approved HMI/historian read-only values",
+        "Confirm units, tag locations, timestamp alignment and instrument quality",
+        "Do not change valve positions or drive settings for this observation"
+      ],
       "safetyClass": "installed_instrument_observation",
-      "discriminates": ["suction-restriction", "discharge-system-resistance", "reduced-pump-speed", "internal-hydraulic-wear", "flow-measurement-error"],\n      "requiredMeasurements": ["Flow rate", "Suction pressure", "Discharge pressure", "Pump speed"],
+      "discriminates": [
+        "suction-restriction",
+        "discharge-system-resistance",
+        "reduced-pump-speed",
+        "internal-hydraulic-wear",
+        "flow-measurement-error"
+      ],
+      "requiredMeasurements": [
+        "Flow rate",
+        "Suction pressure",
+        "Discharge pressure",
+        "Pump speed"
+      ],
       "expectedOutcomes": [
         "A coherent change in suction-side conditions redirects review toward source/suction hypotheses but does not prove a blockage",
         "A verified speed change redirects review toward the drive/operating-state hypothesis",
         "A flow indication inconsistent with independent evidence redirects review toward instrument validation",
         "Pressure-flow behavior inconsistent with the applicable pump and system curves requires model/configuration review before cause ranking"
       ],
-      "interpretationLimits": ["A pressure value without tap location, unit, timestamp and operating condition is incomplete", "PLC command/frequency is not equivalent to independently measured shaft speed", "Do not use generic pressure or flow thresholds"]
+      "interpretationLimits": [
+        "A pressure value without tap location, unit, timestamp and operating condition is incomplete",
+        "PLC command/frequency is not equivalent to independently measured shaft speed",
+        "Do not use generic pressure or flow thresholds"
+      ]
     },
     {
       "id": "review-source-and-valve-state",
       "name": "Review source level and installed valve-position indications",
-      "prerequisites": ["Read installed indicators from a safe location", "Treat position feedback as an indication until independently verified"],
+      "prerequisites": [
+        "Read installed indicators from a safe location",
+        "Treat position feedback as an indication until independently verified"
+      ],
       "safetyClass": "installed_instrument_observation",
-      "discriminates": ["suction-restriction", "discharge-system-resistance", "gas-or-loss-of-prime"],\n      "requiredMeasurements": ["Source liquid level", "Suction pressure"],
+      "discriminates": [
+        "suction-restriction",
+        "discharge-system-resistance",
+        "gas-or-loss-of-prime"
+      ],
+      "requiredMeasurements": [
+        "Source liquid level",
+        "Suction pressure"
+      ],
       "expectedOutcomes": [
         "A changed source level or suction lineup supports further review of suction availability",
         "A changed discharge lineup or downstream state supports further review of system resistance",
         "No recorded change leaves these hypotheses unresolved rather than disproved"
       ],
-      "interpretationLimits": ["A displayed valve position may not equal physical valve position", "Do not manipulate valves as an experiment"]
+      "interpretationLimits": [
+        "A displayed valve position may not equal physical valve position",
+        "Do not manipulate valves as an experiment"
+      ]
     },
     {
       "id": "plan-isolated-inspection",
       "name": "Plan physical inspection only after approved shutdown and isolation",
-      "prerequisites": ["Approved work order and site energy-control procedure", "Verified isolation, depressurization, drainage and stored-energy controls", "Qualified personnel and fluid-specific controls"],
+      "prerequisites": [
+        "Approved work order and site energy-control procedure",
+        "Verified isolation, depressurization, drainage and stored-energy controls",
+        "Qualified personnel and fluid-specific controls"
+      ],
       "safetyClass": "planned_isolated_inspection",
-      "discriminates": ["suction-restriction", "internal-hydraulic-wear", "gas-or-loss-of-prime"],\n      "requiredMeasurements": ["Flow rate", "Suction pressure", "Discharge pressure"]
+      "discriminates": [
+        "suction-restriction",
+        "internal-hydraulic-wear",
+        "gas-or-loss-of-prime"
+      ],
+      "requiredMeasurements": [
+        "Flow rate",
+        "Suction pressure",
+        "Discharge pressure"
+      ],
       "expectedOutcomes": [
         "Physical evidence of obstruction or damage supports the corresponding hypothesis within the inspected scope",
         "No visible obstruction does not exclude hidden restrictions, incorrect clearances or intermittent process conditions"
       ],
-      "interpretationLimits": ["This is not an instruction to open equipment; use exact OEM and site procedures", "Inspection findings must be recorded with component, location and photographs where permitted"]
+      "interpretationLimits": [
+        "This is not an instruction to open equipment; use exact OEM and site procedures",
+        "Inspection findings must be recorded with component, location and photographs where permitted"
+      ]
     }
   ],
   "limits": [
@@ -178,8 +319,20 @@
     "Keep the case unresolved if post-repair evidence is missing or operating conditions are not comparable"
   ],
   "sources": [
-    { "sourceId": "centrifugal-pump-fault-pmc-2022", "claimScope": "Research methods for selected seeded faults on one multistage pump test rig only; does not establish low-flow root-cause rules", "reviewStatus": "reviewed", "sectionOrPage": "Sections 1 and 3–6; Figures 2–4; Tables 2–5", "reuseStatus": "CC-BY-4.0 source; paraphrase with attribution; no figures/tables copied" },
-    { "sourceId": "water-pump-bearing-fault-pmc-2021", "claimScope": "Laboratory bearing-fault research only; not a low-flow root-cause source", "reviewStatus": "reviewed", "sectionOrPage": "Sections 1 and 3–6", "reuseStatus": "CC-BY-4.0 source; paraphrase with attribution; no raw data copied" }
+    {
+      "sourceId": "centrifugal-pump-fault-pmc-2022",
+      "claimScope": "Research methods for selected seeded faults on one multistage pump test rig only; does not establish low-flow root-cause rules",
+      "reviewStatus": "reviewed",
+      "sectionOrPage": "Sections 1 and 3–6; Figures 2–4; Tables 2–5",
+      "reuseStatus": "CC-BY-4.0 source; paraphrase with attribution; no figures/tables copied"
+    },
+    {
+      "sourceId": "water-pump-bearing-fault-pmc-2021",
+      "claimScope": "Laboratory bearing-fault research only; not a low-flow root-cause source",
+      "reviewStatus": "reviewed",
+      "sectionOrPage": "Sections 1 and 3–6",
+      "reuseStatus": "CC-BY-4.0 source; paraphrase with attribution; no raw data copied"
+    }
   ],
   "licenseStatus": "reference_only",
   "limitations": [
