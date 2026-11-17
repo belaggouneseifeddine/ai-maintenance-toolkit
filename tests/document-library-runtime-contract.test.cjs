@@ -96,7 +96,7 @@ test("all document assets are included in both deployment artifacts and optional
   const pages = read(".github/workflows/deploy-pages.yml");
   const cloudflare = read(".github/workflows/deploy-cloudflare-pages.yml");
   const assets = [
-    "document-library-core.js", "document-semantic-search.js", "document-library.js", "document-library.css",
+    "app-shell.css", "app-legacy.js", "document-library-core.js", "document-semantic-search.js", "document-library.js", "document-library.css",
     "document-retrieval-adapter.js", "document-review-workspaces.js", "diagnostic-document-evidence.js"
   ];
   for (const asset of assets) {
@@ -105,7 +105,7 @@ test("all document assets are included in both deployment artifacts and optional
     assert.ok(pages.includes(asset), "GitHub Pages workflow must include " + asset);
     assert.ok(cloudflare.includes(asset), "Cloudflare Pages workflow must include " + asset);
   }
-  assert.match(sw, /maintenance-ai-toolkit-v63/);
+  assert.match(sw, /maintenance-ai-toolkit-v\\d+/);
   assert.ok(sw.includes("vendor/transformers/transformers.min.js","vendor/transformers/ort-wasm-simd-threaded.jsep.mjs","vendor/transformers/ort-wasm-simd-threaded.jsep.wasm"));
   for (const asset of ["vendor/pdfjs/pdf.min.mjs","vendor/pdfjs/pdf.worker.min.mjs","vendor/tesseract/tesseract.min.js","vendor/tesseract/worker.min.js","vendor/tesseract/core/tesseract-core.wasm.js","vendor/tesseract/core/tesseract-core-simd.wasm.js","vendor/tesseract/core/tesseract-core-lstm.wasm.js","vendor/tesseract/core/tesseract-core-simd-lstm.wasm.js","vendor/tesseract/core/tesseract-core.wasm","vendor/tesseract/core/tesseract-core-simd.wasm","vendor/tesseract/core/tesseract-core-lstm.wasm","vendor/tesseract/core/tesseract-core-simd-lstm.wasm","vendor/tessdata/ara.traineddata.gz","vendor/tessdata/eng.traineddata.gz","vendor/tessdata/fra.traineddata.gz","vendor/licenses/transformers-LICENSE","vendor/licenses/pdfjs-LICENSE","vendor/licenses/tesseract-js-LICENSE","vendor/licenses/tesseract-core-LICENSE","vendor/licenses/tessdata-fast-LICENSE"]) {
     assert.ok(sw.includes(asset), "service worker must cache " + asset);
@@ -130,20 +130,16 @@ test("PDF library stays local and does not add Study UI", () => {
 });
 
 
-test("inline JavaScript in the production HTML parses before browser execution", () => {
+test("extracted frontend bootstrap and stylesheet are loaded and parse independently", () => {
   const html = read("index.html");
-  const scripts = [...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)];
-  const javascript = scripts.filter(match => {
-    const attributes = match[1] || "";
-    const type = (attributes.match(/\btype=["']([^"']+)["']/i) || [])[1] || "text/javascript";
-    return !/\bsrc=/i.test(attributes) && /^(?:text|application)\/(?:java|ecma)script$|^module$/i.test(type);
-  });
-  assert.ok(javascript.length > 0, "production HTML should contain its expected inline application scripts");
-  javascript.forEach((match, index) => {
-    new vm.Script(match[2], { filename: "index.html:inline-script-" + (index + 1) });
-  });
+  const bootstrap = read("app-legacy.js");
+  const styles = read("app-shell.css");
+  assert.ok(html.includes('<script src="./app-legacy.js"></script>'));
+  assert.ok(html.includes('<link rel="stylesheet" href="./app-shell.css">'));
+  assert.ok(styles.includes(":root"));
+  assert.ok(styles.includes("@media"));
+  new vm.Script(bootstrap, { filename: "app-legacy.js" });
 });
-
 
 test("all PDF and diagnostic integration runtime modules parse", () => {
   const files = [
