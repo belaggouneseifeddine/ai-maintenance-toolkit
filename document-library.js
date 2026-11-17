@@ -322,9 +322,15 @@
 
   async function searchDocuments(query) {
     const terms = [...new Set(CORE.tokenize(query))];
-    if (!terms.length) return [];
+    const semanticApi = window.MaintenanceDocumentSemanticSearch;
+    let semanticRows = [];
+    if (semanticApi && semanticApi.isReady()) {
+      try { semanticRows = await semanticApi.search(query, MAX_RESULTS * 3); }
+      catch (error) { console.warn("Local semantic retrieval unavailable; using lexical retrieval.", error); }
+    }
     const db = await openDb();
     const postings = await new Promise((resolve, reject) => {
+      if (!terms.length) return resolve([]);
       const tx = db.transaction("postings", "readonly");
       const store = tx.objectStore("postings");
       const result = [];
@@ -337,15 +343,15 @@
         };
         request.onerror = () => reject(request.error);
       });
-      if (!remaining) resolve([]);
     });
-    if (!postings.length) return [];
+    const candidateIds = [...new Set(postings.concat(semanticRows.map(row => row.chunkId)))];
+    if (!candidateIds.length) return [];
     const chunks = await new Promise((resolve, reject) => {
       const tx = db.transaction("chunks", "readonly");
       const store = tx.objectStore("chunks");
       const found = [];
-      let remaining = postings.length;
-      postings.forEach(id => {
+      let remaining = candidateIds.length;
+      candidateIds.forEach(id => {
         const request = store.get(id);
         request.onsuccess = () => {
           if (request.result) found.push(request.result);
@@ -354,14 +360,29 @@
         request.onerror = () => reject(request.error);
       });
     });
-    const ranked = CORE.rankChunks(query, chunks, MAX_RESULTS);
+    const lexical = terms.length ? CORE.rankChunks(query, chunks, MAX_RESULTS * 3) : [];
+    const lexicalRank = new Map(lexical.map((item, index) => [item.doc.id, { rank: index + 1, score: item.score, matched: item.matched }]));
+    const semanticRank = new Map(semanticRows.map((item, index) => [item.chunkId, { rank: index + 1, score: item.score }]));
+    const ranked = chunks.map(doc => {
+      const lex = lexicalRank.get(doc.id);
+      const sem = semanticRank.get(doc.id);
+      const reciprocalRankScore = (lex ? 1 / (60 + lex.rank) : 0) + (sem ? 1 / (60 + sem.rank) : 0);
+      return { doc, lexicalScore: lex ? lex.score : null, matchedTerms: lex ? lex.matched : 0,
+        semanticScore: sem ? sem.score : null, reciprocalRankScore,
+        retrievalMethods: [lex ? "bm25" : null, sem ? "multilingual-embedding" : null].filter(Boolean) };
+    }).filter(item => item.reciprocalRankScore > 0)
+      .sort((a, b) => b.reciprocalRankScore - a.reciprocalRankScore)
+      .slice(0, MAX_RESULTS);
     const documents = await getAll("documents");
     const byId = new Map(documents.map(doc => [doc.id, doc]));
     return ranked.map(item => {
       const doc = byId.get(item.doc.documentId);
       return Object.assign({}, item.doc, {
-        score: item.score,
-        matchedTerms: item.matched,
+        score: item.reciprocalRankScore,
+        lexicalScore: item.lexicalScore,
+        semanticScore: item.semanticScore,
+        retrievalMethods: item.retrievalMethods,
+        matchedTerms: item.matchedTerms,
         documentTitle: doc ? doc.title : item.doc.documentId,
         fileName: doc ? doc.fileName : "",
         sourceUrl: doc ? doc.sourceUrl || null : null,
