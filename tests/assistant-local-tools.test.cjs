@@ -383,3 +383,42 @@ test("local assistant exposes source-backed expected information gain and reject
   });
   assert.equal(unreviewed.data.ranking[0].status, "unverified_likelihood_source");
 });
+
+test("local diagnosis automatically retrieves only approved page-linked PDF claims", async () => {
+  let captured = null;
+  const approved = {
+    documentTitle: "Pump OEM manual", citation: "p. 12", text: "Reviewed statement",
+    reviewStatus: "approved", rightsStatus: "licensed-for-use",
+    eligibleForDiagnosis: true, evidenceRole: "approved-page-claim",
+    sourceRef: { documentId: "manual-1", pageNumber: 12, claimId: "claim-12" }
+  };
+  const tools = LocalTools.createLocalTools({
+    engineeringCore: {
+      routeRequest: () => ({ ok: true, decision: { route: "local_diagnostic" } }),
+      executeLocalDiagnosis: async input => {
+        captured = input.approvedPdfExcerpts;
+        return { ok: true, diagnosis: { matched: false, results: [] } };
+      }
+    },
+    diagnosticEngine: {},
+    faultLibrary: { faults: [] },
+    documentRetrieval: {
+      forDiagnostics: async () => ({ ok: true, results: [
+        approved,
+        { ...approved, reviewStatus: "candidate", sourceRef: { documentId: "manual-1", pageNumber: 13 } },
+        { ...approved, sourceRef: { documentId: "manual-1", pageNumber: 0 } }
+      ] })
+    }
+  });
+  const registry = Registry.createToolRegistry({ tools: tools.tools, safetyGate: tools.safetyGate });
+  const result = await registry.call("diagnose", {
+    request: {
+      intent: "diagnose", language: "ar",
+      equipment: { type: "centrifugal-pump", manufacturer: "Example", model: "P-100" },
+      symptom: "low flow", observations: [], measurements: []
+    }
+  });
+  assert.equal(result.status, "completed");
+  assert.equal(captured.length, 1);
+  assert.equal(captured[0].sourceRef.pageNumber, 12);
+});
