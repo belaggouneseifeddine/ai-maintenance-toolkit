@@ -17,6 +17,7 @@ Move Maintenance AI Toolkit from layered prototype code toward a maintainable, l
 
 - Extracted the inline application stylesheet into `app-shell.css`.
 - Extracted the inline legacy bootstrap into `app-legacy.js` at the same script position, preserving synchronous execution order.
+- Extracted maintenance-record persistence, rendering, and import/export into `maintenance-records.js`; the module exposes a small compatibility API for the remaining legacy UI.
 - Added `design-system.css` as the final stylesheet layer with the established Industrial Premium palette: navy structure, cyan interaction accents, amber safety/warning accents, and coordinated light/dark tokens.
 - Corrected the bottom navigation to allocate six columns for the six navigation destinations.
 - Added all new assets to the service-worker shell and both static-site artifact workflows.
@@ -34,7 +35,7 @@ Move Maintenance AI Toolkit from layered prototype code toward a maintainable, l
 
 ## Audit findings that remain open
 
-1. `app-legacy.js` is still a large legacy bootstrap. Extraction improves HTML separation but does not yet split its state, records, form handling, rendering, and export responsibilities into independent modules.
+1. `app-legacy.js` is still a large legacy bootstrap. Record storage and import/export are separated, but diagnosis form state, guided session UI, rendering, and report orchestration still need independent modules.
 2. Several visual layers still overlap (`app-shell.css`, `ux-redesign.css`, `p1-app-shell.css`, and `design-system.css`). The new token layer provides a consistent final system; later work should consolidate obsolete rules only after screenshot and interaction regression checks.
 3. `worker.js` remains a large route/orchestration module. Gemini provider behavior is now separated, but route handling, request validation, retrieval, safety routing, prompt construction, and diagnosis validation still need bounded modules and tests.
 4. CORS origin allowlisting is not authentication. Public Worker abuse controls, privacy boundaries, rate-limit behavior, and deployment secrets need a separate security review. Do not claim the API is authenticated.
