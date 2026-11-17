@@ -1,7 +1,8 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
 const Core = require("../engineering-core.js");
-const Diagnostic = require("../diagnostic-engine.js");
+require("../diagnostic-engine.js");
+const Diagnostic = global.MaintenanceDiagnosticEngine;
 
 test("measurement normalization preserves actual, PLC, historian and estimated provenance", () => {
   const result = Core.normalizeRequest({
