@@ -206,8 +206,8 @@
               const Tesseract = await loadTesseract();
               ocrWorker = await Tesseract.createWorker(languages, 1, {
                 workerPath: "./vendor/tesseract/worker.min.js",
-                corePath: "./vendor/tesseract/core/tesseract-core-simd-lstm.wasm.js",
-                langPath: "./vendor/tessdata/",
+                corePath: "./vendor/tesseract/core/",
+                langPath: "./vendor/tessdata",
                 cacheMethod: "write",
                 logger: message => {
                   if (message && message.status === "recognizing text") {
