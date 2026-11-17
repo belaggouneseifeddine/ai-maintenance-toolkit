@@ -7,12 +7,12 @@ const registerPath = path.join(__dirname, "..", "knowledge", "open-knowledge-sou
 
 test("open knowledge source register is discovery-only and does not claim unverified reuse rights", () => {
   const register = JSON.parse(fs.readFileSync(registerPath, "utf8"));
-  assert.equal(register.schemaVersion, 1);
   assert.match(register.purpose, /not an imported fault database/i);
   assert.match(register.policy, /exact license/i);
   assert.match(register.policy, /do not by themselves grant redistribution rights/i);
   assert.ok(Array.isArray(register.sources));
   assert.ok(register.sources.length > 0);
+  assert.equal(register.schemaVersion, 2);
   const ids = new Set();
   for (const source of register.sources) {
     assert.ok(source.id && typeof source.id === "string");
@@ -25,4 +25,22 @@ test("open knowledge source register is discovery-only and does not claim unveri
       assert.match(source.decision, /do-not-import|ideas-only|discovery-only|review/i);
     }
   }
+  const upstream = register.sources.filter(source =>
+    source.url.includes("github.com/yilin-2511/industrial-ops-rag-agent") ||
+    source.url.includes("github.com/PlantCraft/PlantCraft") ||
+    source.url.includes("github.com/bbartling/open-fdd")
+  );
+  const canonicalUrls = new Set(upstream.map(source => source.url.replace(/\/$/, "").toLowerCase()));
+  assert.equal(canonicalUrls.size, upstream.length, "one canonical record per upstream repository URL");
+  const plantcraft = register.sources.find(source => source.id === "plantcraft");
+  assert.equal(plantcraft.owner, "PlantCraft");
+  assert.equal(plantcraft.url, "https://github.com/PlantCraft/PlantCraft");
+  assert.match(plantcraft.codeLicense, /Apache-2.0/);
+  assert.match(plantcraft.dataLicense, /not separately verified/i);
+  const openFdd = register.sources.find(source => source.id === "open-fdd");
+  assert.ok(openFdd, "Open-FDD must be tracked");
+  assert.equal(openFdd.owner, "bbartling");
+  assert.match(openFdd.codeLicense, /MIT/);
+  assert.match(openFdd.dataLicense, /not separately verified/i);
+  assert.match(openFdd.decision, /reference-only|pending/i);
 });
