@@ -60,3 +60,11 @@
 2. Add image-specific quality checks and an explicit manual transcription fallback for unreadable labels; do not infer damaged components from OCR.
 3. Build an opt-in shared contribution backend only after explicit product/privacy approval, with authentication, consent, tenant isolation, retention/deletion and moderation.
 4. Evaluate vision-language inference separately for visual condition assessment. OCR and visual diagnosis must remain separate capabilities.
+
+### Human-verified visual observations from uploaded images
+
+- The review workspace now offers a separate image-observation form for image sources. It requires opening the original local image, explicitly confirming that it was inspected, identifying the visible component, selecting a visible condition, describing only what is actually seen, and recording supporting context.
+- Visual condition labels include normal appearance, wear, corrosion, crack, leakage trace, contamination/deposit, visible heat effect, deformation, unknown and other.
+- A human confidence label is stored as a qualitative label, not as a probability. The record is tagged `candidate-requires-technical-review` and `eligibleForVisionTraining: false`.
+- The dashboard lists these image observations for later technical review. The original image remains local in the document library; the learning event stores structured observation metadata and a link to the document ID, not a duplicate image or a claim that a model recognized the defect.
+- OCR-derived image claims and visual observations are separate paths: OCR supports reading nameplates/text; visual observations are manually entered by a technician. Neither path currently performs automated visual defect recognition.
