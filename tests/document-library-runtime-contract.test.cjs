@@ -23,7 +23,7 @@ test("PDF import is local-first, bounded, and records page-level extraction prov
   assert.ok(source.includes("./vendor/pdfjs/pdf.min.mjs"), "PDF.js must load from same-origin assets");
   assert.ok(source.includes("./vendor/pdfjs/pdf.worker.min.mjs"), "PDF worker must load from same-origin assets");
   assert.ok(source.includes("./vendor/tesseract/tesseract.min.js"), "Tesseract must load from same-origin assets");
-  assert.ok(source.includes("./vendor/tessdata/"), "OCR language data must load from same-origin assets");
+  assert.ok(source.includes('langPath: "./vendor/tessdata"'), "OCR language data must load from same-origin assets");
 });
 
 test("OCR and PDF extraction keep the original one-based PDF page anchor", () => {
@@ -106,7 +106,7 @@ test("all document assets are included in both deployment artifacts and optional
   }
   assert.match(sw, /maintenance-ai-toolkit-v63/);
   assert.ok(sw.includes("vendor/transformers/transformers.min.js"));
-  for (const asset of ["vendor/pdfjs/pdf.min.mjs","vendor/pdfjs/pdf.worker.min.mjs","vendor/tesseract/tesseract.min.js","vendor/tesseract/worker.min.js","vendor/tesseract/core/tesseract-core-simd-lstm.wasm.js","vendor/tessdata/ara.traineddata.gz","vendor/tessdata/eng.traineddata.gz","vendor/tessdata/fra.traineddata.gz","vendor/licenses/transformers-LICENSE","vendor/licenses/pdfjs-LICENSE","vendor/licenses/tesseract-js-LICENSE","vendor/licenses/tesseract-core-LICENSE","vendor/licenses/tessdata-fast-LICENSE"]) {
+  for (const asset of ["vendor/pdfjs/pdf.min.mjs","vendor/pdfjs/pdf.worker.min.mjs","vendor/tesseract/tesseract.min.js","vendor/tesseract/worker.min.js","vendor/tesseract/core/tesseract-core.wasm.js","vendor/tesseract/core/tesseract-core-simd.wasm.js","vendor/tesseract/core/tesseract-core-lstm.wasm.js","vendor/tesseract/core/tesseract-core-simd-lstm.wasm.js","vendor/tessdata/ara.traineddata.gz","vendor/tessdata/eng.traineddata.gz","vendor/tessdata/fra.traineddata.gz","vendor/licenses/transformers-LICENSE","vendor/licenses/pdfjs-LICENSE","vendor/licenses/tesseract-js-LICENSE","vendor/licenses/tesseract-core-LICENSE","vendor/licenses/tessdata-fast-LICENSE"]) {
     assert.ok(sw.includes(asset), "service worker must cache " + asset);
   }
   const vendorScript = read("scripts/vendor-document-runtime.sh");
