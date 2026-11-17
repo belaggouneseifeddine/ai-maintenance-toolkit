@@ -564,6 +564,64 @@
     ].join("\n\n").slice(-1200);
   }
 
+  function openSafetyChecklistPanel() {
+    const tab = root.document && root.document.querySelector('.tab[data-tab="safety"]');
+    if (tab && typeof tab.click === "function") tab.click();
+  }
+
+  function isSafetyChecklistRequest(value) {
+    return /(?:قائمة\\s*(?:تحقق\\s*)?السلامة|تحقق\\s*السلامة|فحص\\s*السلامة|هل\\s*أبدأ\\s*(?:التدخل|الصيانة)|safety\\s*checklist|pre[- ]job\\s*safety|before\\s*(?:maintenance|intervention)|liste\\s*(?:de\\s*)?sécurité|checklist\\s*(?:de\\s*)?sécurité)/i.test(String(value || ""));
+  }
+
+  async function answerSafetyChecklistRequest() {
+    openSafetyChecklistPanel();
+    if (!localAssistant || typeof localAssistant.invokeTool !== "function") {
+      addMessage("assistant", copy("فتحت قائمة السلامة إن كانت متاحة، لكن تعذر قراءة حالتها. لا تبدأ التدخل قبل التحقق يدويًا من جميع البنود وفق إجراء الموقع.", "I opened the safety checklist if available, but could not read its state. Do not begin until every item is verified under site procedures.", "La liste de sécurité a été ouverte si disponible, mais son état n’a pas pu être lu. Ne commencez pas avant d’avoir vérifié chaque point selon la procédure du site."));
+      return;
+    }
+    const result = await localAssistant.invokeTool("getSafetyChecklistStatus", {});
+    if (!result.ok || !result.data || result.data.ok !== true) {
+      addMessage("assistant", copy("تعذر قراءة قائمة السلامة. لا أستطيع تأكيد جاهزية التدخل؛ راجع البنود يدويًا وصعّد أي بند غير مؤكد.", "The safety checklist could not be read. I cannot confirm readiness; review each item manually and escalate any uncertainty.", "Impossible de lire la liste de sécurité. Je ne peux pas confirmer l’aptitude à intervenir ; vérifiez chaque point et escaladez toute incertitude."));
+      return;
+    }
+    const data = result.data;
+    const lines = [copy("حالة قائمة التحقق المحلية:", "Local checklist status:", "État de la liste locale :"),
+      data.checkedCount + " / " + data.total + " " + copy("بنود محددة", "items checked", "points cochés")];
+    data.items.forEach((item, index) => lines.push((item.checked ? "[✓] " : "[ ] ") + (index + 1) + ". " + item.label));
+    lines.push("", data.allChecked
+      ? copy("كل مربعات القائمة محددة، لكن هذا ليس تصريح عمل أو إثباتًا مستقلًا للعزل أو انعدام الطاقة. يجب تطبيق إجراءات الموقع والتحقق بواسطة الشخص المؤهل.", "All boxes are checked, but this is not a work permit or independent proof of isolation/zero energy. Site procedures and competent-person verification still apply.", "Toutes les cases sont cochées, mais cela ne constitue ni un permis de travail ni une preuve indépendante d’isolement/absence d’énergie. Les procédures du site et la vérification par une personne compétente restent obligatoires.")
+      : copy("توجد بنود غير محددة. لا تبدأ التدخل إذا بقي أي بند غير مؤكد؛ أكمل التحقق أو صعّد للمسؤول.", "Some items remain unchecked. Do not begin if any item is uncertain; complete verification or escalate.", "Certains points ne sont pas cochés. Ne commencez pas si un point reste incertain ; terminez la vérification ou escaladez."));
+    addMessage("assistant", lines.join("\\n"));
+  }
+
+  function isEquipmentContextRequest(value) {
+    return /(?:بيانات\\s*(?:المعدة|الآلة)|معلومات\\s*(?:المعدة|الآلة)|سياق\\s*المعدة|equipment\\s*(?:context|details)|machine\\s*(?:context|details)|informations\\s*(?:de\\s*)?l’équipement|contexte\\s*(?:de\\s*)?l’équipement)/i.test(String(value || ""));
+  }
+
+  async function answerEquipmentContextRequest() {
+    if (!localAssistant || typeof localAssistant.invokeTool !== "function") {
+      addMessage("assistant", copy("أداة سياق المعدة غير متاحة في هذه الجلسة.", "The equipment-context tool is unavailable in this session.", "L’outil de contexte équipement est indisponible."));
+      return;
+    }
+    const result = await localAssistant.invokeTool("getEquipmentContext", { equipment: {
+      type: equipmentContext || pendingEquipment || String($("aiMachine")?.value || "").trim(),
+      manufacturer: String($("aiManufacturer")?.value || "").trim(),
+      model: String($("aiModel")?.value || "").trim()
+    }});
+    if (!result.ok || !result.data || !result.data.equipment) {
+      addMessage("assistant", copy("تعذر قراءة سياق المعدة المحلي.", "The local equipment context could not be read.", "Impossible de lire le contexte équipement local."));
+      return;
+    }
+    const equipment = result.data.equipment;
+    addMessage("assistant", [
+      copy("بيانات المعدة المعروفة في هذه الجلسة:", "Equipment details known in this session:", "Données équipement connues dans cette session :"),
+      copy("النوع: ", "Type: ", "Type : ") + (equipment.type || copy("غير محدد", "Not specified", "Non spécifié")),
+      copy("الشركة المصنّعة: ", "Manufacturer: ", "Fabricant : ") + (equipment.manufacturer || copy("غير محددة", "Not specified", "Non spécifié")),
+      copy("الموديل: ", "Model: ", "Modèle : ") + (equipment.model || copy("غير محدد", "Not specified", "Non spécifié")),
+      copy("هذه بيانات السياق المسجلة فقط؛ لا أستنتج موديلًا أو مواصفات غير مدخلة.", "These are recorded context fields only; no model or specification is inferred.", "Ces champs reflètent uniquement le contexte enregistré ; aucun modèle ni aucune spécification ne sont déduits.")
+    ].join("\\n"));
+  }
+
   function isShiftHandoverRequest(value) {
     return /(?:تقرير\s*(?:تسليم|استلام)\s*(?:النوبة|الوردية)|تسليم\s*(?:النوبة|الوردية)|shift\s*handover|handover\s*report|rapport\s*(?:de\s*)?relève|passation\s*(?:de\s*)?consignes)/i.test(String(value || ""));
   }
