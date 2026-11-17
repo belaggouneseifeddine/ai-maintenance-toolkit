@@ -61,3 +61,18 @@ test("orchestrator rejects use before session start and keeps LLM facts proposed
     provenance: "llm_suggested", status: "accepted"
   }), /llm_fact_requires_explicit_review/);
 });
+
+test("orchestrator restores a validated local session without changing its evidence provenance", () => {
+  const assistant = Orchestrator.createLocalOrchestrator({ tools: {} });
+  const original = Session.createSession({ sessionId: "restore-session-001", language: "en", equipment: { type: "pump" } });
+  const withMessage = Session.appendMessage(original, {
+    messageId: "restore-message-001", role: "user", content: "Low flow observed"
+  });
+  const withFact = Session.recordFact(withMessage, {
+    factId: "symptom", value: "low flow", provenance: "user_reported", status: "accepted"
+  });
+  const restored = assistant.restore(withFact);
+  assert.deepEqual(restored, withFact);
+  assert.equal(assistant.getSession().facts[0].revisions[0].provenance, "user_reported");
+  assert.throws(() => assistant.restore({ ...withFact, schemaVersion: "99.0.0" }), /assistant_session_snapshot_invalid/);
+});
