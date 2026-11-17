@@ -46,18 +46,7 @@ const APP_SHELL = [
   "./document-library.css",
   "./document-retrieval-adapter.js",
   "./document-review-workspaces.js",
-  "./diagnostic-document-evidence.js",
-  "./vendor/transformers/transformers.min.js",
-  "./vendor/pdfjs/pdf.min.mjs",
-  "./vendor/pdfjs/pdf.worker.min.mjs",
-  "./vendor/tesseract/tesseract.min.js",
-  "./vendor/tesseract/worker.min.js",
-  "./vendor/tesseract/core/tesseract-core-simd-lstm.wasm.js",
-  "./vendor/tesseract/core/tesseract-core-simd-lstm.wasm",
-  "./vendor/tessdata/ara.traineddata.gz",
-  "./vendor/tessdata/eng.traineddata.gz",
-  "./vendor/tessdata/fra.traineddata.gz",
-  "./vendor/THIRD-PARTY-NOTICES.txt"
+  "./diagnostic-document-evidence.js"
 ];
 
 const OPTIONAL_APP_SHELL = [
@@ -73,7 +62,18 @@ const OPTIONAL_APP_SHELL = [
   "./document-library.css",
   "./document-retrieval-adapter.js",
   "./document-review-workspaces.js",
-  "./diagnostic-document-evidence.js"
+  "./diagnostic-document-evidence.js",
+  "./vendor/transformers/transformers.min.js",
+  "./vendor/pdfjs/pdf.min.mjs",
+  "./vendor/pdfjs/pdf.worker.min.mjs",
+  "./vendor/tesseract/tesseract.min.js",
+  "./vendor/tesseract/worker.min.js",
+  "./vendor/tesseract/core/tesseract-core-simd-lstm.wasm.js",
+  "./vendor/tesseract/core/tesseract-core-simd-lstm.wasm",
+  "./vendor/tessdata/ara.traineddata.gz",
+  "./vendor/tessdata/eng.traineddata.gz",
+  "./vendor/tessdata/fra.traineddata.gz",
+  "./vendor/THIRD-PARTY-NOTICES.txt"
 ];
 const CORE_APP_SHELL = APP_SHELL.filter(asset => !OPTIONAL_APP_SHELL.includes(asset));
 
