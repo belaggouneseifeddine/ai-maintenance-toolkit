@@ -37,7 +37,7 @@
       if (!validation || validation.ok !== true) throw new TypeError("assistant_session_snapshot_invalid");
       current = JSON.parse(JSON.stringify(snapshot));
       sequence = Math.max(sequence, current.messages.length + current.toolEvents.length + current.facts.length);
-      return current;
+      return snapshot();
     }
     function requireSession() {
       if (!current) throw new Error("assistant_session_not_started");
@@ -63,7 +63,7 @@
       const validation = Session.validateSession(next);
       if (!validation.ok) throw new TypeError("assistant_session_invalid");
       current = next;
-      return current;
+      return snapshot();
     }
     function addMessage(role, content, messageId) {
       requireSession();
@@ -72,12 +72,12 @@
         role,
         content: String(content || "")
       });
-      return current;
+      return snapshot();
     }
     function addFact(fact) {
       requireSession();
       current = Session.recordFact(current, fact || {});
-      return current;
+      return snapshot();
     }
     async function invokeTool(name, input, extraContext) {
       requireSession();
