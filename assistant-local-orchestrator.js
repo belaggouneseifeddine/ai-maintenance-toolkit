@@ -125,7 +125,7 @@
       version: VERSION,
       start,
       restore,
-      getSession: () => current,
+      getSession: () => current ? JSON.parse(JSON.stringify(current)) : null,
       updateEquipment,
       addMessage,
       addFact,
