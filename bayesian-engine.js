@@ -135,6 +135,16 @@
     const ranking = [];
 
     for (const test of tests) {
+      const sourceRef = test && test.sourceRef;
+      const sourceBacked = test && test.reviewStatus === "approved" &&
+        typeof test.likelihoodSource === "string" && test.likelihoodSource.trim().length > 0 &&
+        sourceRef && typeof sourceRef === "object" &&
+        ((typeof sourceRef.url === "string" && sourceRef.url.startsWith("https://")) ||
+         (typeof sourceRef.documentId === "string" && Number.isInteger(sourceRef.pageNumber) && sourceRef.pageNumber > 0));
+      if (!sourceBacked) {
+        ranking.push({ id: test && test.id || "", status: "unverified_likelihood_source" });
+        continue;
+      }
       const outcomes = Array.isArray(test && test.outcomes) ? test.outcomes : [];
       if (outcomes.length < 2) {
         ranking.push({ id: test && test.id || "", status: "insufficient_outcomes" });
