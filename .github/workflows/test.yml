@@ -26,4 +26,4 @@ jobs:
       - name: Run unit and integration tests
         run: |
           node --test tests/*.test.cjs
-          node --experimental-default-type=module --test tests/*.test.mjs
+          node --test tests/*.test.mjs
