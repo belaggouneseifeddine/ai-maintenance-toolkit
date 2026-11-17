@@ -149,7 +149,7 @@
     const reviews = latestBy(events.filter(x => x.eventType === "document_reviewed"), "documentId");
     const claims = latestBy(events.filter(x => x.eventType === "knowledge_claim"), "claimId");
     const outcomes = await getEvaluationCandidates();
-    const imageObservations = events.filter(x => x.eventType === "image_observation");
+    const imageObservations = await getImageObservationCandidates();
     return {
       documentCount: ingested.length,
       reviewedDocumentCount: reviews.filter(x => x.reviewStatus === "approved").length,
@@ -160,6 +160,7 @@
       conflictingOutcomeCount: outcomes.filter(x => x.conflictingOutcomes).length,
       imageObservationCount: imageObservations.length,
       imageObservationCandidates: imageObservations.filter(x => x.reviewStatus === "candidate-requires-technical-review").length,
+      technicallyReviewedImageObservations: imageObservations.filter(x => x.reviewStatus !== "candidate-requires-technical-review").length,
       storage: "device-local-indexeddb",
       sharedWithOtherUsers: false,
       modelWeightsUpdated: false
@@ -194,13 +195,57 @@
   }
 
   async function getImageObservationCandidates() {
-    return (await list()).filter(event => event.eventType === "image_observation")
-      .map(event => ({
+    const events = await list();
+    const reviews = events.filter(event => event.eventType === "image_observation_review");
+    const latestReview = new Map();
+    reviews.forEach(review => {
+      const previous = latestReview.get(review.observationId);
+      if (!previous || previous.createdAt <= review.createdAt) latestReview.set(review.observationId, review);
+    });
+    return events.filter(event => event.eventType === "image_observation").map(event => {
+      const review = latestReview.get(event.id) || null;
+      return {
         id: event.id, documentId: event.documentId, component: event.component,
         condition: event.condition, observation: event.observation,
-        confidenceLabel: event.confidenceLabel, reviewStatus: event.reviewStatus,
-        eligibleForVisionTraining: false, createdAt: event.createdAt
-      }));
+        evidenceSummary: event.evidenceSummary, confidenceLabel: event.confidenceLabel,
+        contributor: event.reviewer, reviewStatus: review ? review.reviewStatus : event.reviewStatus,
+        reviewDecision: review ? review.decision : null,
+        technicalReviewer: review ? review.reviewer : null,
+        reviewEvidence: review ? review.evidenceSummary : null,
+        eligibleForVisionTraining: false, eligibleForDiagnosis: false,
+        createdAt: event.createdAt, reviewedAt: review ? review.createdAt : null
+      };
+    });
+  }
+
+  async function reviewImageObservation(input) {
+    const item = input || {};
+    const observationId = bounded(item.observationId, 160);
+    const reviewer = bounded(item.reviewer, 120);
+    const evidenceSummary = bounded(item.evidenceSummary, 1000);
+    const decision = item.decision;
+    if (!observationId || !reviewer || evidenceSummary.length < 30) {
+      throw new Error("Observation, independent reviewer and at least 30 characters of review evidence are required.");
+    }
+    if (!["approved", "rejected"].includes(decision)) throw new Error("Technical review decision must be approved or rejected.");
+    const events = await list();
+    const observation = events.find(event => event.eventType === "image_observation" && event.id === observationId);
+    if (!observation) throw new Error("Image observation was not found.");
+    if (reviewer.toLocaleLowerCase() === String(observation.reviewer || "").toLocaleLowerCase()) {
+      throw new Error("The technical reviewer must be different from the original contributor.");
+    }
+    const previousReviews = events.filter(event => event.eventType === "image_observation_review" && event.observationId === observationId);
+    if (previousReviews.length) throw new Error("This observation already has a technical decision. Create a new observation for a new review cycle.");
+    return put({
+      id: id(), eventType: "image_observation_review", schemaVersion: 1,
+      observationId, documentId: observation.documentId,
+      decision, reviewStatus: decision === "approved"
+        ? "technically-approved-not-training-eligible" : "rejected-after-technical-review",
+      reviewer, contributor: observation.reviewer,
+      evidenceSummary, sourceVerified: observation.sourceVerified === true,
+      eligibleForVisionTraining: false, eligibleForDiagnosis: false,
+      createdAt: new Date().toISOString()
+    });
   }
 
   async function recordDiagnostic(input) {
@@ -278,7 +323,7 @@
     if (!target) return;
     const events = await list();
     const db = await openDb();
-    const toDelete = events.filter(event => ["document_ingested", "document_reviewed", "knowledge_claim", "image_observation"].includes(event.eventType) && event.documentId === target);
+    const toDelete = events.filter(event => ["document_ingested", "document_reviewed", "knowledge_claim", "image_observation", "image_observation_review"].includes(event.eventType) && event.documentId === target);
     const updated = events.filter(event => event.eventType === "diagnostic_prediction" &&
       Array.isArray(event.evidenceDocumentIds) && event.evidenceDocumentIds.includes(target));
     await new Promise((resolve, reject) => {
@@ -308,6 +353,12 @@
     version: "1.0.0",
     storage: "device-local-indexeddb",
     recordDocumentIngested,
+    recordDocumentReviewed,
+    recordKnowledgeClaim,
+    getLearningDashboard,
+    recordImageObservation,
+    getImageObservationCandidates,
+    reviewImageObservation,
     recordDiagnostic,
     recordOutcome,
     getEvaluationCandidates,
