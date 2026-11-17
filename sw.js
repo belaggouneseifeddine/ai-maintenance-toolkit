@@ -64,6 +64,8 @@ const OPTIONAL_APP_SHELL = [
   "./document-review-workspaces.js",
   "./diagnostic-document-evidence.js",
   "./vendor/transformers/transformers.min.js",
+  "./vendor/transformers/ort-wasm-simd-threaded.jsep.mjs",
+  "./vendor/transformers/ort-wasm-simd-threaded.jsep.wasm",
   "./vendor/pdfjs/pdf.min.mjs",
   "./vendor/pdfjs/pdf.worker.min.mjs",
   "./vendor/tesseract/tesseract.min.js",
