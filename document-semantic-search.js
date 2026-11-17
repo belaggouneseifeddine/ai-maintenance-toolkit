@@ -35,6 +35,7 @@
       if (!library || typeof library.pipeline !== "function") throw new Error("Local Transformers.js bundle is unavailable.");
       if (library.env) {
         library.env.useBrowserCache = true;
+        library.env.useWasmCache = true;
         library.env.allowRemoteModels = true;
         library.env.allowLocalModels = false;
         if (library.env.backends && library.env.backends.onnx && library.env.backends.onnx.wasm) {
@@ -42,7 +43,8 @@
         }
       }
       extractor = await library.pipeline("feature-extraction", MODEL_ID, {
-        quantized: true,
+        dtype: "q8",
+        revision: "2c4055b12046f11709e9df2c122e59ffbdc2f900",
         progress_callback: event => {
           if (typeof root.dispatchEvent === "function" && typeof root.CustomEvent === "function") {
             root.dispatchEvent(new root.CustomEvent("maintenance-semantic-progress", { detail: event }));
