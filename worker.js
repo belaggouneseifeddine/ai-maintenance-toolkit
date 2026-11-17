@@ -1,5 +1,6 @@
 import "./normalization.js";
 import { callCloudflareAI } from "./providers/cloudflare-provider.mjs";
+import { callGeminiAI } from "./providers/gemini-provider.mjs";
 const ALLOWED_ORIGINS = new Set([
   "https://maintenance-ai-toolkit.pages.dev",
   "https://belaggouneseifeddine.github.io"
@@ -109,17 +110,6 @@ function toJsonSchema(node) {
     }
   }
   return out;
-}
-function extractInteractionText(data) {
-  if (typeof data?.output_text === "string") return data.output_text.trim();
-  const steps = Array.isArray(data?.output) ? data.output : Array.isArray(data?.steps) ? data.steps : [];
-  const texts = [];
-  for (const step of steps) {
-    if (step?.type !== "model_output" && step?.type !== "text") continue;
-    const content = Array.isArray(step.content) ? step.content : [];
-    for (const item of content) if (typeof item?.text === "string") texts.push(item.text);
-  }
-  return texts.join("\n").trim();
 }
 function validTextList(v, max, len = 500) { return Array.isArray(v) && v.length <= max && v.every(x => typeof x === "string" && x.length <= len); }
 function getDiagnosisValidationDiagnostics(v, language, sourceIds) {
@@ -894,65 +884,29 @@ Use only the evidence supplied. Rank plausible causes, show how to distinguish t
       }
       rawOutput = result.outputText;
     } else {
-      const model = env.AI_MODEL || "gemini-3.8-flash";
-      const requestBody = JSON.stringify({
-        model,
+      const result = await callGeminiAI({
+        apiKey,
+        model: env.AI_MODEL || "gemini-3.8-flash",
         input: userPrompt,
-        system_instruction: systemInstruction,
-        response_format: { type: "text", mime_type: "application/json", schema: responseSchema },
-        generation_config: { max_output_tokens: 1800 },
-        store: false
+        systemInstruction,
+        schema: responseSchema
       });
-      const retryableStatuses = new Set([429, 500, 502, 503, 504]);
-      const retryDelays = [700, 1600];
-      let upstream;
-      let lastNetworkError = null;
-
-      for (let attempt = 0; attempt <= retryDelays.length; attempt++) {
-        try {
-          upstream = await fetch("https://generativelanguage.googleapis.com/v1beta/interactions", {
-            method: "POST",
-            headers: {
-              "x-goog-api-key": apiKey,
-              "Content-Type": "application/json"
-            },
-            signal: AbortSignal.timeout(17000),
-            body: requestBody
-          });
-          lastNetworkError = null;
-        } catch (err) {
-          lastNetworkError = err;
-          if (attempt < retryDelays.length) {
-            await new Promise(resolve => setTimeout(resolve, retryDelays[attempt]));
-            continue;
-          }
-          break;
-        }
-        if (!retryableStatuses.has(upstream.status) || attempt >= retryDelays.length) break;
-        const retryAfter = Number(upstream.headers.get("Retry-After") || 0);
-        const delay = retryAfter > 0
-          ? Math.min(retryAfter * 1000, 5000)
-          : retryDelays[attempt];
-        await new Promise(resolve => setTimeout(resolve, delay));
-      }
-
-      if (lastNetworkError) {
-        return json({ error: "AI provider request failed before receiving an HTTP response.", retryable: true }, 502, origin);
-      }
-      if (!upstream.ok) {
-        const retryable = retryableStatuses.has(upstream.status);
+      if (!result.ok) {
+        const message = result.errorCode === "provider_not_configured"
+          ? "Gemini backend is not configured. Set the GEMINI_API_KEY Worker secret."
+          : result.errorCode === "provider_temporarily_unavailable" || result.errorCode === "provider_network_error"
+            ? "Gemini is temporarily unavailable or rate-limited. Please retry shortly."
+            : result.errorCode === "provider_http_error"
+              ? "Gemini API returned an error (" + result.status + ")."
+              : "Gemini returned an unreadable or invalid response. Please retry.";
         return json({
-          error: retryable
-            ? "Gemini is temporarily busy or rate-limited. Please retry shortly."
-            : "Gemini API returned an error (" + upstream.status + ").",
-          provider_status: upstream.status,
+          error: message,
+          ...(Number.isInteger(result.status) ? { provider_status: result.status } : {}),
           provider_message: "Check the Worker secret, model availability, and Gemini quota in the provider console. Raw provider details are intentionally not returned to clients.",
-          retryable: retryable
+          retryable: result.retryable
         }, 502, origin);
       }
-      let data;
-      try { data = await upstream.json(); } catch { return json({ error: "Gemini returned an unreadable response." }, 502, origin); }
-      rawOutput = extractInteractionText(data);
+      rawOutput = result.outputText;
     }
     if (typeof rawOutput !== "string" || !rawOutput) {
       return json({ error: "AI provider response did not contain a text answer." }, 502, origin);
