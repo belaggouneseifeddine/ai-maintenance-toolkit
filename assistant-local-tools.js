@@ -270,7 +270,7 @@
           const from = input.from || "";
           const to = input.to || "";
           const validDate = value => {
-            if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(value)) return false;
+            if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
             const parts = value.split("-").map(Number);
             const date = new Date(parts[0], parts[1] - 1, parts[2]);
             return date.getFullYear() === parts[0] && date.getMonth() === parts[1] - 1 && date.getDate() === parts[2];
