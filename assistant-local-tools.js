@@ -172,8 +172,10 @@
             intent: "diagnose",
             consent: { sendToAI: false }
           }, engine, await loadFaultLibrary());
-          return Object.assign({}, result, executionContext && executionContext.safetyNotice
-            ? { safetyWarning: executionContext.safetyNotice } : {});
+          if (executionContext && executionContext.safetyNotice && result && result.diagnosis) {
+            result.diagnosis.safetyWarning = executionContext.safetyNotice;
+          }
+          return result;
         }
       },
       searchReviewedDocuments: {
