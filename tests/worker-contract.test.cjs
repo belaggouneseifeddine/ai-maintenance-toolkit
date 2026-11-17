@@ -14,6 +14,7 @@ let mockUpstreamMode = "success";
 let mockUpstreamStatuses = [];
 let mockNetworkFailure = false;
 let mockKnowledge = "# مضخة طرد مركزي — ضعف التدفق\\n\\nتتضمن هذه الملاحظة الفنية مراجعة القراءات المتاحة ومقارنة الضغط والتدفق بخط الأساس ودليل المصنع. لا تستخدمها كقيمة ضبط ولا كبديل لإجراءات الموقع.";
+const geminiProviderPromise = import("../providers/gemini-provider.mjs");
 const context = {
   Request, Response, URL, AbortSignal, TextEncoder, TextDecoder, ReadableStream, setTimeout, clearTimeout, console,
   fetch: async (url, options = {}) => {
@@ -35,6 +36,15 @@ const context = {
       return new Response(JSON.stringify({ output: [{ type: "model_output", content: [{ type: "text", text: JSON.stringify(diagnosis) }] }] }), { status: 200, headers: { "content-type": "application/json" } });
     }
     return new Response("not found", { status: 404 });
+  },
+  callGeminiAI: async options => {
+    const provider = await geminiProviderPromise;
+    return provider.callGeminiAI({
+      ...options,
+      fetchImpl: context.fetch,
+      retryDelays: [0, 0],
+      sleep: async () => {}
+    });
   },
   callCloudflareAI: async options => {
     cloudflareCalls++;
