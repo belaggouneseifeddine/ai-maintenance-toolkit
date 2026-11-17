@@ -254,6 +254,79 @@
           };
         }
       },
+      createShiftHandoverDraft: {
+        validate: input => !!input && typeof input === "object" &&
+          ["8", "today", "custom"].includes(input.period || "today") &&
+          (input.from == null || (typeof input.from === "string" && input.from.length === 10)) &&
+          (input.to == null || (typeof input.to === "string" && input.to.length === 10)) &&
+          (input.note == null || (typeof input.note === "string" && input.note.length <= 240)),
+        execute: async input => {
+          const storedRecords = readMaintenanceRecords();
+          if (!storedRecords.ok) return { ok: false, status: storedRecords.status, records: [] };
+          const storedTasks = readPreventiveTasks();
+          if (!storedTasks.ok) return { ok: false, status: storedTasks.status, records: [] };
+          const period = input.period || "today";
+          const today = localDate(new Date());
+          const from = input.from || "";
+          const to = input.to || "";
+          const validDate = value => {
+            if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(value)) return false;
+            const parts = value.split("-").map(Number);
+            const date = new Date(parts[0], parts[1] - 1, parts[2]);
+            return date.getFullYear() === parts[0] && date.getMonth() === parts[1] - 1 && date.getDate() === parts[2];
+          };
+          if (period === "custom" && (!validDate(from) || !validDate(to) || from > to)) {
+            return { ok: false, status: "invalid_date_range", records: [] };
+          }
+          const cutoff = Date.now() - 8 * 60 * 60 * 1000;
+          const selected = storedRecords.records.filter(record => {
+            if (period === "today") return record.date === today;
+            if (period === "custom") return validDate(record.date) && record.date >= from && record.date <= to;
+            if (record.createdAt) {
+              const timestamp = new Date(record.createdAt).getTime();
+              return Number.isFinite(timestamp) && timestamp >= cutoff;
+            }
+            return record.date === today;
+          }).slice(0, 30).map(record => ({
+            date: record.date.slice(0, 40),
+            machine: record.machine.slice(0, 120),
+            fault: record.fault.slice(0, 300),
+            action: record.action.slice(0, 400),
+            status: record.status.slice(0, 50),
+            timestampAvailable: typeof record.createdAt === "string" && Number.isFinite(new Date(record.createdAt).getTime())
+          }));
+          const pm = storedTasks.tasks.map(task => {
+            const dueDate = calculatePmDue(task);
+            return {
+              machine: task.machine.slice(0, 120),
+              task: task.task.slice(0, 180),
+              lastPerformed: task.last,
+              dueDate,
+              status: !dueDate ? "invalid_schedule" : dueDate < today ? "overdue" : dueDate === today ? "due_today" : "upcoming",
+              notes: typeof task.notes === "string" ? task.notes.slice(0, 200) : ""
+            };
+          });
+          return {
+            ok: true,
+            status: "draft_created",
+            type: "shift_handover_draft",
+            persisted: false,
+            generatedAt: new Date().toISOString(),
+            period: { type: period, from: period === "custom" ? from : null, to: period === "custom" ? to : null },
+            recordCount: selected.length,
+            records: selected,
+            pmDue: pm.filter(task => task.status === "overdue" || task.status === "due_today").slice(0, 30),
+            invalidPmSchedules: pm.filter(task => task.status === "invalid_schedule").slice(0, 20),
+            note: typeof input.note === "string" ? input.note.trim().slice(0, 240) : "",
+            limitations: [
+              "Draft only; it has not been saved or shared.",
+              "Records reflect local user-entered data and are not independently verified.",
+              "Legacy records without timestamps are included only when their date is today for the last-8-hours view.",
+              "PM due dates use only saved intervals; invalid schedules require review."
+            ]
+          };
+        }
+      },
       createDraftReport: {
         validate: input => !!input && typeof input === "object" &&
           typeof input.language === "string" &&
