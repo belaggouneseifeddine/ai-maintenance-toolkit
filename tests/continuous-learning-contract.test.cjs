@@ -28,7 +28,7 @@ test("image ingestion is local OCR only and remains unreviewed and ineligible fo
   const html = read("index.html");
   assert.ok(library.includes("async function importImage(file)"));
   assert.ok(library.includes('"image/jpeg", "image/png", "image/webp"'));
-  assert.ok(library.includes("createImageBitmap(file)"));
+  assert.ok(library.includes("createImageBitmap(file, { resizeWidth: 2048, resizeHeight: 2048, resizeQuality: \"high\" })"));
   assert.ok(library.includes('appendPageChunks(chunks, id, 1, text, "image-ocr", confidence)'));
   assert.ok(library.includes('sourceType: "image"'));
   assert.ok(library.includes('reviewStatus: "unreviewed", eligibleForDiagnosis: false'));
