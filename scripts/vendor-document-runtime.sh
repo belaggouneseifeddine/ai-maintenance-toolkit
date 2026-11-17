@@ -20,8 +20,8 @@ cp "$TMP_DIR/node_modules/tesseract.js/dist/tesseract.min.js" "$OUT_DIR/vendor/t
 cp "$TMP_DIR/node_modules/tesseract.js/dist/worker.min.js" "$OUT_DIR/vendor/tesseract/"
 cp "$TMP_DIR/node_modules/tesseract.js/LICENSE" "$OUT_DIR/vendor/licenses/tesseract-js-LICENSE"
 cp "$TMP_DIR/node_modules/tesseract.js-core/LICENSE" "$OUT_DIR/vendor/licenses/tesseract-core-LICENSE"
-cp "$TMP_DIR"/node_modules/tesseract.js-core/tesseract-core-simd-lstm.wasm.js "$OUT_DIR/vendor/tesseract/core/"
-cp "$TMP_DIR"/node_modules/tesseract.js-core/tesseract-core-simd-lstm.wasm "$OUT_DIR/vendor/tesseract/core/"
+cp "$TMP_DIR"/node_modules/tesseract.js-core/tesseract-core*.js "$OUT_DIR/vendor/tesseract/core/"
+cp "$TMP_DIR"/node_modules/tesseract.js-core/tesseract-core*.wasm "$OUT_DIR/vendor/tesseract/core/"
 
 for language in ara eng fra; do
   curl --fail --location --silent --show-error \
@@ -41,8 +41,10 @@ test -s "$OUT_DIR/vendor/pdfjs/pdf.min.mjs"
 test -s "$OUT_DIR/vendor/pdfjs/pdf.worker.min.mjs"
 test -s "$OUT_DIR/vendor/tesseract/tesseract.min.js"
 test -s "$OUT_DIR/vendor/tesseract/worker.min.js"
-test -s "$OUT_DIR/vendor/tesseract/core/tesseract-core-simd-lstm.wasm.js"
-test -s "$OUT_DIR/vendor/tesseract/core/tesseract-core-simd-lstm.wasm"
+for core in wasm simd lstm simd-lstm; do
+  test -s "$OUT_DIR/vendor/tesseract/core/tesseract-core-${core}.wasm.js"
+  test -s "$OUT_DIR/vendor/tesseract/core/tesseract-core-${core}.wasm"
+done
 for language in ara eng fra; do test -s "$OUT_DIR/vendor/tessdata/${language}.traineddata.gz"; done
 
 cat > "$OUT_DIR/vendor/THIRD-PARTY-NOTICES.txt" <<'NOTICE'
