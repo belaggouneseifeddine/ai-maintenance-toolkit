@@ -746,7 +746,7 @@
       "accessStatus": "README and LICENSE reviewed",
       "decision": "architecture-reference-only-no-runtime-dependency",
       "owner": "PlantCraft",
-      "lastUpdated": null,
+      "lastUpdated": "2026-11-09",
       "lastPushed": null,
       "latestRelease": "v0.6.0",
       "codeLicense": "Apache-2.0 (repository LICENSE/README)",
@@ -772,13 +772,14 @@
         "Sample data provenance and license are not separately established.",
         "The current upstream owner is the PlantCraft GitHub organization, not the original maintainer login jonathanwvd.",
         "The project is a broad process-plant suite, not a validated fault-case dataset.",
-        "Offline installation and read-only plant integration are useful architectural patterns; its multi-container stack is not suitable as an Android runtime dependency."
+        "Offline installation and read-only plant integration are useful architectural patterns; its multi-container stack is not suitable as an Android runtime dependency.",
+        "Repository documentation reports suite 0.6.1 updated 2026-11-09, while the latest tagged GitHub release page reviewed is v0.6.0 (2026-11-02); these are recorded separately, not treated as the same version."
       ],
       "dependencies": "Multi-service application with backend/frontend and deployment dependencies; not a lightweight Android/Worker library.",
       "androidWorkerCompatibility": "Architecture reference only; no runtime dependency or direct port.",
       "reuseConditions": "Retain Apache-2.0 license and NOTICE for code reuse; do not reuse names/logos; do not copy sample or telemetry data until its own terms are verified.",
       "reviewStatus": "reviewed-2026-11-09",
-      "version": "0.6.0",
+      "version": "0.6.1 (documentation states suite 0.6.1; latest tagged release reviewed is v0.6.0)",
       "lastChecked": "2026-11-17"
     },
     {
