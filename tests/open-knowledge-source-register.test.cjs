@@ -13,7 +13,7 @@ test("open knowledge source register is discovery-only and does not claim unveri
   assert.ok(Array.isArray(register.sources));
   assert.ok(register.sources.length > 0);
   assert.equal(register.schemaVersion, 2);
-  const allUrls = register.sources.map(source => source.url.replace(/\\/+$/, "").toLowerCase());
+  const allUrls = register.sources.map(source => (source.url.endsWith("/") ? source.url.slice(0, -1) : source.url).toLowerCase());
   assert.equal(new Set(allUrls).size, allUrls.length, "upstream repository URLs must be unique");
   const ids = new Set();
   for (const source of register.sources) {
