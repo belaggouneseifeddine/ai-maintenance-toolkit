@@ -291,3 +291,29 @@ test("safety checklist tool never turns all checked boxes into authorization to 
     else global.document = previousDocument;
   }
 });
+
+
+test("shift handover tool reports truncation when local records exceed the bounded response", async () => {
+  const previousStorage = global.localStorage;
+  const now = new Date();
+  const today = now.getFullYear() + "-" + String(now.getMonth() + 1).padStart(2, "0") + "-" + String(now.getDate()).padStart(2, "0");
+  const records = Array.from({ length: 12 }, (_, index) => ({
+    date: today, machine: "Pump " + index, fault: "Fault " + index,
+    action: "Inspection " + index, status: "In progress"
+  }));
+  global.localStorage = {
+    getItem: key => key === "maintenance-ai-toolkit-records-v1" ? JSON.stringify(records) : "[]"
+  };
+  try {
+    const tools = LocalTools.createLocalTools();
+    const registry = Registry.createToolRegistry({ tools: tools.tools });
+    const result = await registry.call("createShiftHandoverDraft", { period: "today" });
+    assert.equal(result.ok, true);
+    assert.equal(result.data.recordCount, 8);
+    assert.equal(result.data.totalMatchingRecords, 12);
+    assert.equal(result.data.recordsTruncated, true);
+  } finally {
+    if (previousStorage === undefined) delete global.localStorage;
+    else global.localStorage = previousStorage;
+  }
+});
