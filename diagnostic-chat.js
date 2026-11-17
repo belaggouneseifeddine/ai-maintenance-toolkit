@@ -268,6 +268,23 @@
     field.dispatchEvent(new Event("input", { bubbles: true }));
     field.dispatchEvent(new Event("change", { bubbles: true }));
   }
+  function syncLocalAssistantEquipmentContext() {
+    if (!localAssistant || typeof localAssistant.updateEquipment !== "function") return;
+    const values = {
+      type: equipmentContext || pendingEquipment || String($("aiMachine")?.value || "").trim(),
+      manufacturer: String($("aiManufacturer")?.value || "").trim(),
+      model: String($("aiModel")?.value || "").trim()
+    };
+    Object.keys(values).forEach(key => { if (!values[key]) delete values[key]; });
+    if (!Object.keys(values).length) return;
+    try {
+      localAssistant.updateEquipment(values);
+      persistLocalAssistantSession();
+    } catch (_) {
+      // Equipment context is advisory; do not interrupt the visible chat.
+    }
+  }
+
   function currentSession() {
     return root.MaintenanceDiagnosticSessionUI && root.MaintenanceDiagnosticSessionUI.getSession
       ? root.MaintenanceDiagnosticSessionUI.getSession() : null;
@@ -325,6 +342,7 @@
       addMessage("assistant", copy("ما العرض الرئيسي؟ صف ما يحدث، مثل: تدفق ضعيف، لا تبدأ، فصل أو اهتزاز.", "What is the main symptom? For example: low flow, failure to start, trip, or vibration.", "Quel est le symptôme principal ? Par exemple : faible débit, non-démarrage, déclenchement ou vibration."));
       return false;
     }
+    syncLocalAssistantEquipmentContext();
     started = true;
     const session = currentSession();
     if (!session) {
@@ -643,6 +661,7 @@
     }
     const modelMatch = value.match(/(?:\bmodel\b|موديل|الموديل|طراز|modèle)\s*[:：]\s*([^,،;؛\n]{2,80})/i);
     if (modelMatch) setField("aiModel", modelMatch[1].trim());
+    syncLocalAssistantEquipmentContext();
     if (!started) {
       notes.push(value);
       beginIfReady(value);
