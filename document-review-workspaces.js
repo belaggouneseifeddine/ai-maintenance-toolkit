@@ -57,8 +57,8 @@
       '<label class="check"><input id="reviewDocumentApproved" type="checkbox"> اعتماد الوثيقة بعد المراجعة الفنية</label>' +
       '<button type="button" class="btn" id="saveDocumentReview">حفظ مراجعة الوثيقة</button><p id="documentReviewStatus" role="status" aria-live="polite"></p>' +
       '<hr><h3>استخراج ادعاء تشخيصي من صفحة محددة</h3>' +
-      '<p class="hint">اختر رقم صفحة PDF الأصلي، اعرض النص المستخرج، ثم اختصره إلى ادعاء واحد مع شروطه ووحداته. رقم الصفحة المطبوع يُسجل منفصلًا لأنه قد يختلف عن رقم صفحة الملف.</p>' +
-      '<label for="claimPage">رقم صفحة PDF الأصلي (يبدأ من 1)</label><input id="claimPage" type="number" min="1" step="1" placeholder="مثال: 42">' +
+      '<p class="hint">اختر صفحة PDF أو صورة المصدر (الصورة تعامل كصفحة 1)، اعرض النص المستخرج، ثم اختصره إلى ادعاء واحد مع شروطه ووحداته. يجب فتح المصدر الأصلي والتحقق بصريًا من OCR قبل الاعتماد.</p>' +
+      '<label for="claimPage">رقم صفحة PDF أو الصورة (الصورة = 1)</label><input id="claimPage" type="number" min="1" step="1" placeholder="مثال: 42">' +
       '<label for="claimPrintedPage">رقم الصفحة المطبوع داخل الدليل (اختياري)</label><input id="claimPrintedPage" placeholder="مثال: 37 أو A-12">' +
       '<button type="button" class="btn secondary" id="previewClaimPage">عرض النص المستخرج من الصفحة</button>' +
       '<button type="button" class="btn secondary" id="openClaimSourcePage">فتح صفحة PDF الأصلية للمقارنة</button>' +
@@ -151,10 +151,10 @@
           : "لم يُكتشف نمط واضح لقيم ووحدات أو رموز فنية؛ تحقق من الصفحة الأصلية يدويًا.";
         const methods = [...new Set(evidence.chunks.map(chunk => chunk.extractionMethod))];
         const confidences = evidence.chunks.map(chunk => chunk.ocrConfidence).filter(Number.isFinite);
-        currentPageHasOcr = methods.includes("ocr");
+        currentPageHasOcr = methods.some(method => method === "ocr" || method === "image-ocr");
         previewedPageKey = selectedPageKey();
         $("openClaimSourcePage").disabled = false;
-        status("claimPageStatus", "تم استخراج " + evidence.chunks.length + " مقطعًا من صفحة PDF " + evidence.pageNumber +
+        status("claimPageStatus", "تم استخراج " + evidence.chunks.length + " مقطعًا من المصدر، الصفحة " + evidence.pageNumber +
           " | الطريقة: " + methods.join(", ") +
           (confidences.length ? " | OCR confidence: " + Math.min(...confidences) + "–" + Math.max(...confidences) + "%" : "") +
           " | افتح الصفحة الأصلية وقارن الادعاء بالمصدر قبل اعتماده." +
@@ -192,7 +192,7 @@
         openedSourceKey = selectedReviewKey();
         $("claimSourcePageVerified").disabled = false;
         if (currentPageHasOcr) $("claimOcrVisuallyVerified").disabled = false;
-        status("claimPageStatus", "تم فتح صفحة PDF الأصلية. قارن الادعاء بالمصدر، ثم أكد مراجعة الصفحة. إذا كان النص مستخرجًا بـOCR فتحقق أيضًا من الأرقام والوحدات ورموز الموديل.");
+        status("claimPageStatus", "تم فتح المصدر الأصلي. قارن الادعاء بالصورة أو صفحة PDF، ثم أكد المراجعة. إذا كان النص مستخرجًا بـOCR فتحقق أيضًا من الأرقام والوحدات ورموز الموديل.");
       } catch (error) {
         openedSourceKey = "";
         status("claimPageStatus", error.message);
