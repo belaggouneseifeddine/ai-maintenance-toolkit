@@ -6,7 +6,7 @@
   const VERSION = "1.0.0";
   const MAX_OUTPUT_CHARS = 12000;
   const ALLOWED = new Set([
-    "diagnose", "searchReviewedDocuments", "getEquipmentContext",
+    "diagnose", "rankNextDiagnosticTests", "searchReviewedDocuments", "getEquipmentContext",
     "getMaintenanceHistory", "getPreventiveMaintenanceSchedule", "createShiftHandoverDraft", "getSafetyChecklistStatus", "checkSafety", "createDraftReport"
   ]);
 
