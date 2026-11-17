@@ -4,7 +4,7 @@
   "extractedOn": "2026-11-09",
   "purpose": "Non-operational coverage metadata extracted from a public repository for gap analysis. Contains no copied fault descriptions, repair instructions, schedules, numeric telemetry, or standards text.",
   "source": {
-    "id": "industrial-ops-rag-agent",
+    "id": "industrial-ops-rag-agent-snapshot",
     "repository": "yilin-2511/industrial-ops-rag-agent",
     "url": "https://github.com/yilin-2511/industrial-ops-rag-agent",
     "filesReviewed": [
