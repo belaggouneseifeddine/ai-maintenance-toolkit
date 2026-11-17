@@ -3,7 +3,7 @@ const assert = require("node:assert/strict");
 const LocalTools = require("../assistant-local-tools.js");
 const Registry = require("../assistant-tool-registry.js");
 
-test("diagnostic tool is blocked by deterministic safety review before execution", async () => {
+test("diagnostic tool continues after deterministic safety review and returns a warning", async () => {
   let executed = 0;
   const tools = LocalTools.createLocalTools({
     engineeringCore: {
@@ -17,9 +17,10 @@ test("diagnostic tool is blocked by deterministic safety review before execution
   const result = await registry.call("diagnose", {
     request: { intent: "diagnose", language: "ar", equipment: { type: "pump" }, symptom: "leak" }
   });
-  assert.equal(result.status, "blocked");
-  assert.equal(result.error, "safety_review_required");
-  assert.equal(executed, 0);
+  assert.equal(result.status, "completed");
+  assert.equal(result.safetyNotice.reason, "deterministic_safety_review_required");
+  assert.equal(result.data.safetyWarning.reason, "deterministic_safety_review_required");
+  assert.equal(executed, 1);
 });
 
 test("diagnostic tool invokes only the injected local engine after safety passes", async () => {
