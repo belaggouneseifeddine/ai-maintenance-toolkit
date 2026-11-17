@@ -30,7 +30,7 @@
 :root[data-theme="dark"] .hypothesis-evidence.contradicts{background:#402b24;color:#f3c4ad}
 :root[data-theme="dark"] .diagnostic-disclaimer{background:#3c3320;color:#f0d9a8}
 #themeToggle{min-height:44px}
-.nav.bottom-navigation{grid-template-columns:repeat(6,minmax(0,1fr))!important}
+.nav.bottom-navigation{grid-template-columns:repeat(5,minmax(0,1fr))!important}
 .nav.bottom-navigation .tab{min-width:0;white-space:normal;overflow-wrap:anywhere}
 @media(max-width:390px){.nav.bottom-navigation .tab{font-size:.65rem;padding-inline:1px}.bottom-tab-icon{font-size:1.05rem}}
 .assistant-dashboard{margin:0 0 14px}
