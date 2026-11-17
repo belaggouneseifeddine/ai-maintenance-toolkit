@@ -136,6 +136,8 @@ test("extracted frontend bootstrap and stylesheet are loaded and parse independe
   const styles = read("app-shell.css");
   assert.ok(html.includes('<script src="./maintenance-records.js"></script>'));
   assert.ok(html.includes('<script src="./app-legacy.js"></script>'));
+  assert.ok(html.indexOf('<script src="./maintenance-records.js"></script>') < html.indexOf('<script src="./app-legacy.js"></script>'));
+  assert.ok(bootstrap.includes("window.MaintenanceRecords"));
   assert.ok(html.includes('<link rel="stylesheet" href="./app-shell.css">'));
   assert.ok(html.includes('<link rel="stylesheet" href="./design-system.css">'));
   const design = read("design-system.css");
