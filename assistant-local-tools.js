@@ -10,6 +10,7 @@
     const core = config.engineeringCore || root.MaintenanceEngineeringCore;
     const engine = config.diagnosticEngine || root.MaintenanceDiagnosticEngine;
     const bayesian = config.bayesianEngine || root.MaintenanceBayesianEngine;
+    const resolveLikelihoodSource = config.resolveLikelihoodSource || root.MaintenanceEvidenceSourceResolver;
     const retrieval = config.documentRetrieval || root.MaintenanceDocumentRetrieval;
     const getGuidedContext = typeof config.getGuidedContext === "function"
       ? config.getGuidedContext : () => null;
@@ -155,7 +156,7 @@
           if (!bayesian || typeof bayesian.expectedInformationGain !== "function") {
             return { ok: false, status: "information_gain_unavailable" };
           }
-          return bayesian.expectedInformationGain(input);
+          return bayesian.expectedInformationGain(input, { resolveSource: resolveLikelihoodSource });
         }
       },
       diagnose: {
