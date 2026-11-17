@@ -20,7 +20,7 @@ test("diagnostic tool continues after deterministic safety review and returns a 
   });
   assert.equal(result.status, "completed");
   assert.equal(result.safetyNotice.reason, "deterministic_safety_review_required");
-  assert.equal(result.data.safetyWarning.reason, "deterministic_safety_review_required");
+  assert.equal(result.data.diagnosis.safetyWarning.reason, "deterministic_safety_review_required");
   assert.equal(executed, 1);
 });
 
