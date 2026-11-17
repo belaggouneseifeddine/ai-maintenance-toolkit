@@ -59,6 +59,29 @@
       return { allowed: true, reason: "no_deterministic_safety_trigger_detected" };
     }
 
+    function readMaintenanceRecords() {
+      try {
+        if (!root.localStorage || typeof root.localStorage.getItem !== "function") {
+          return { ok: false, status: "local_storage_unavailable", records: [] };
+        }
+        const raw = root.localStorage.getItem("maintenance-ai-toolkit-records-v1");
+        const parsed = raw ? JSON.parse(raw) : [];
+        if (!Array.isArray(parsed)) return { ok: false, status: "invalid_local_record_store", records: [] };
+        const records = parsed.slice(0, 5000).filter(record =>
+          record && typeof record === "object" && !Array.isArray(record) &&
+          ["date", "machine", "fault", "action", "status"].every(key => typeof record[key] === "string")
+        );
+        return { ok: true, records };
+      } catch (_) {
+        return { ok: false, status: "local_record_read_failed", records: [] };
+      }
+    }
+
+    function normalizeRecordText(value) {
+      return String(value || "").toLocaleLowerCase().normalize("NFD")
+        .replace(/[\\u0300-\\u036f]/g, "").replace(/\\s+/g, " ").trim();
+    }
+
     const tools = {
       diagnose: {
         safetySensitive: true,
@@ -86,7 +109,32 @@
           return retrieval.forDiagnostics(input.query, input.context || {});
         }
       },
+      getMaintenanceHistory: {
+        validate: input => !!input && typeof input === "object" &&
+          (input.query == null || (typeof input.query === "string" && input.query.length <= 160)) &&
+          (input.equipment == null || (typeof input.equipment === "object" && !Array.isArray(input.equipment))) &&
+          (input.limit == null || (Number.isInteger(input.limit) && input.limit >= 1 && input.limit <= 20)),
+        execute: async input => {
+          const stored = readMaintenanceRecords();
+          if (!stored.ok) return stored;
+          const equipment = input.equipment || {};
+          const terms = [input.query, equipment.type, equipment.manufacturer, equipment.model]
+            .map(normalizeRecordText).filter(Boolean);
+          const records = stored.records.filter(record => {
+            const haystack = normalizeRecordText([record.machine, record.fault, record.action, record.status].join(" "));
+            return !terms.length || terms.some(term => haystack.includes(term));
+          }).slice(0, input.limit || 10).map(record => ({
+            date: record.date.slice(0, 40),
+            machine: record.machine.slice(0, 240),
+            fault: record.fault.slice(0, 800),
+            action: record.action.slice(0, 1000),
+            status: record.status.slice(0, 80)
+          }));
+          return { ok: true, status: records.length ? "records_found" : "no_matching_records", count: records.length, records };
+        }
+      },
       getEquipmentContext: {
+
         validate: input => !!input && typeof input === "object" &&
           (input.equipment == null || (typeof input.equipment === "object" && !Array.isArray(input.equipment))),
         execute: async (input, context) => ({
