@@ -14,7 +14,83 @@
   let localAssistant = null;
   let assistantFactCounter = 0;
 
-  function startLocalAssistantSession() {
+  const LOCAL_SESSION_STORAGE_KEY = "maintenance-assistant-session-v1";
+
+  function persistLocalAssistantSession() {
+    if (!localAssistant || typeof localAssistant.getSession !== "function" || !root.localStorage) return false;
+    try {
+      const snapshot = {
+        schema: "maintenance-assistant-local-session",
+        version: 1,
+        savedAt: new Date().toISOString(),
+        session: localAssistant.getSession(),
+        chat: {
+          messages: messages.slice(-100),
+          notes: notes.slice(-30),
+          started,
+          pendingEquipment,
+          pendingSymptom,
+          equipmentContext
+        },
+        guidedDiagnostic: root.MaintenanceDiagnosticSessionUI &&
+          typeof root.MaintenanceDiagnosticSessionUI.getPayload === "function"
+          ? root.MaintenanceDiagnosticSessionUI.getPayload() : {}
+      };
+      const serialized = JSON.stringify(snapshot);
+      if (serialized.length > 240000) return false;
+      root.localStorage.setItem(LOCAL_SESSION_STORAGE_KEY, serialized);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  function restoreLocalAssistantSession() {
+    if (!root.localStorage) return false;
+    let snapshot;
+    try {
+      const raw = root.localStorage.getItem(LOCAL_SESSION_STORAGE_KEY);
+      if (!raw || raw.length > 240000) return false;
+      snapshot = JSON.parse(raw);
+    } catch (_) {
+      return false;
+    }
+    if (!snapshot || snapshot.schema !== "maintenance-assistant-local-session" ||
+        snapshot.version !== 1 || !snapshot.session || !snapshot.chat) return false;
+    const Session = root.MaintenanceAssistantSession;
+    if (!Session || typeof Session.validateSession !== "function" ||
+        !Session.validateSession(snapshot.session).ok) return false;
+    const chat = snapshot.chat;
+    pendingEquipment = typeof chat.pendingEquipment === "string" ? chat.pendingEquipment.slice(0, 120) : "";
+    pendingSymptom = typeof chat.pendingSymptom === "string" ? chat.pendingSymptom.slice(0, 120) : "";
+    equipmentContext = typeof chat.equipmentContext === "string" ? chat.equipmentContext.slice(0, 160) : "";
+    notes = Array.isArray(chat.notes) ? chat.notes.filter(item => typeof item === "string").slice(-30) : [];
+    const equipment = snapshot.session.equipment || {};
+    setField("aiMachine", equipmentContext || equipment.type || "");
+    setField("aiManufacturer", equipment.manufacturer || "");
+    setField("aiModel", equipment.model || "");
+    setField("aiSymptom", pendingSymptom || "");
+    startLocalAssistantSession(snapshot.session);
+    if (!localAssistant) return false;
+    messages = snapshot.session.messages
+      .filter(item => item && (item.role === "user" || item.role === "assistant"))
+      .slice(-100)
+      .map(item => ({ role: item.role, text: item.content, time: item.createdAt || "" }));
+    let guidedRestored = false;
+    if (snapshot.guidedDiagnostic && snapshot.guidedDiagnostic.diagnosticFlowId &&
+        root.MaintenanceDiagnosticSessionUI && typeof root.MaintenanceDiagnosticSessionUI.restore === "function") {
+      const result = root.MaintenanceDiagnosticSessionUI.restore(snapshot.guidedDiagnostic);
+      guidedRestored = !!(result && result.ok);
+    }
+    started = !!(chat.started && guidedRestored);
+    renderMessages();
+    renderReplies();
+    renderEvidenceButton();
+    persistLocalAssistantSession();
+    return messages.length > 0;
+  }
+
+  function startLocalAssistantSession(existingSession) {
     const api = root.MaintenanceLocalAssistantOrchestrator;
     if (!api || typeof api.createLocalOrchestrator !== "function") {
       localAssistant = null;
@@ -33,16 +109,20 @@
         tools: localTools.tools,
         safetyGate: localTools.safetyGate
       });
-      localAssistant.start({
-        sessionId: "chat-" + Date.now().toString(36),
-        language: language(),
-        equipment: {
-          type: String($("aiMachine")?.value || "").trim(),
-          manufacturer: String($("aiManufacturer")?.value || "").trim(),
-          model: String($("aiModel")?.value || "").trim()
-        }
-      });
-      assistantFactCounter = 0;
+      if (existingSession && typeof localAssistant.restore === "function") {
+        localAssistant.restore(existingSession);
+      } else {
+        localAssistant.start({
+          sessionId: "chat-" + Date.now().toString(36),
+          language: language(),
+          equipment: {
+            type: String($("aiMachine")?.value || "").trim(),
+            manufacturer: String($("aiManufacturer")?.value || "").trim(),
+            model: String($("aiModel")?.value || "").trim()
+          }
+        });
+      }
+      assistantFactCounter = localAssistant.getSession().messages.length;
     } catch (_) {
       localAssistant = null;
     }
@@ -62,6 +142,7 @@
           sourceRef: { type: "conversation_message", messageId }
         });
       }
+      persistLocalAssistantSession();
     } catch (_) {
       // The visible conversation remains usable if local history recording fails.
     }
@@ -606,7 +687,7 @@
     });
     $("diagnosticChatReset").addEventListener("click", resetConversation);
     $("diagnosticChatAskGenerative").addEventListener("click", askGenerative);
-    resetConversation();
+    if (!restoreLocalAssistantSession()) resetConversation();
     initialized = true;
   }
   root.MaintenanceDiagnosticChat = Object.freeze({ init, handleMessage, reset: resetConversation, classifyInput, extractModelDesignation, getApprovedExcerpts, getConversationContext, getTechnicianChatInput, getLocalAssistantSession: () => localAssistant && localAssistant.getSession() || null });
