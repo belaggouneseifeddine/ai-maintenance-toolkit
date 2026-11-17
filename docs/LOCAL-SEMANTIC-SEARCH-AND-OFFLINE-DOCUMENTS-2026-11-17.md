@@ -10,6 +10,15 @@
 - `scripts/vendor-document-runtime.sh` pins the package versions and builds the deployment-side `vendor/` directory. The vendor files are generated into the static-site artifact; they are not committed as copied binaries.
 - The Service Worker precaches these heavier runtime assets as optional resources. The app shell remains installable if an optional vendor asset cannot be fetched; OCR/PDF processing requires that the relevant assets have been cached once.
 
+### Image ingestion and local learning memory
+
+- The document picker now accepts JPEG, PNG and WebP images (up to 15 MB) in addition to PDF. Images are resized to a maximum of 4 megapixels and OCR-processed locally using the selected Arabic, English or French language packs. This extracts text and equipment/nameplate fields; it does not visually diagnose component damage.
+- Original images, OCR text and page-1 source references are stored locally. Image-derived text remains unreviewed and ineligible for diagnosis until a reviewer approves a source-linked claim.
+- `learning-memory.js` stores local document-ingestion events and diagnostic hypothesis snapshots without retaining raw uploaded document text or raw measurement values.
+- After a matched local diagnosis, the technician can record whether a proposed fault was confirmed, not confirmed or inconclusive, with an evidence note. Confirmed outcomes must match a hypothesis from that recorded case.
+- Learning records remain on the current device. They are candidate evaluation examples only; they do not modify fault data, Bayesian likelihoods, diagnostic rankings or model weights.
+- Deleting a source document also removes its local ingestion event and unlinks it from stored diagnostic evidence references.
+
 ### Semantic retrieval
 
 - `document-semantic-search.js` uses Transformers.js 3.8.1 with the `q8` model variant of `Xenova/paraphrase-multilingual-MiniLM-L12-v2`, pinned to model revision `2c4055b12046f11709e9df2c122e59ffbdc2f900`.
