@@ -78,6 +78,29 @@
     return { readings, warnings, conflicts, usedForNumericThresholdDecision: false };
   }
 
+  function summarizeApprovedDocuments(input) {
+    if (!Array.isArray(input)) return [];
+    return input.slice(0, 3).filter(item =>
+      item && item.reviewStatus === "approved" && item.eligibleForDiagnosis === true &&
+      item.evidenceRole === "approved-page-claim" &&
+      item.sourceRef && typeof item.sourceRef.documentId === "string" &&
+      Number.isInteger(item.sourceRef.pageNumber) && item.sourceRef.pageNumber > 0 &&
+      typeof item.text === "string" && item.text.trim().length > 0
+    ).map(item => ({
+      documentTitle: String(item.documentTitle || "PDF").slice(0, 160),
+      citation: String(item.citation || "").slice(0, 240),
+      text: String(item.text || "").slice(0, 1800),
+      reviewStatus: "approved",
+      rightsStatus: String(item.rightsStatus || "unknown"),
+      evidenceRole: "approved-page-claim",
+      sourceRef: {
+        documentId: item.sourceRef.documentId,
+        pageNumber: item.sourceRef.pageNumber,
+        claimId: String(item.sourceRef.claimId || "").slice(0, 120)
+      }
+    }));
+  }
+
   function diagnose(input, library) {
     const data = library || root.MAINTENANCE_FAULTS;
     const lang = ["ar", "fr", "en"].includes(input && input.language) ? input.language : "ar";
@@ -121,12 +144,13 @@
     }[lang];
 
     if (!data || !Array.isArray(data.faults)) {
-      return { matched: false, message: t.noMatch, reason: t.weakReason, results: [], advisory: t.advisory, measurementEvidence, language: lang };
+      return { matched: false, message: t.noMatch, reason: t.weakReason, results: [], advisory: t.advisory, measurementEvidence, supportingDocuments, language: lang };
     }
 
     const equipment = canonicalEquipment(input && input.equipmentType);
     const symptom = canonicalSymptom(input && input.symptom);
     const measurementEvidence = summarizeMeasurements(input && input.measurements);
+    const supportingDocuments = summarizeApprovedDocuments(input && input.approvedPdfExcerpts);
     const measurementTerms = measurementEvidence.readings.map(item => item.name).filter(Boolean).join(" ");
     const notes = normalizeText([input && input.observations, measurementTerms].filter(Boolean).join(" "));
     const results = data.faults.map(fault => {
@@ -188,6 +212,7 @@
         results: [],
         advisory: t.advisory,
         measurementEvidence,
+        supportingDocuments,
         language: lang
       };
     }
@@ -459,7 +484,7 @@
     });
   }
 
-  const api = { normalizeText, canonicalEquipment, canonicalSymptom, diagnose, summarizeMeasurements, analyse, renderLocalReasoning, retrieveLocalKnowledge, LOCAL_KNOWLEDGE_INDEX, GENERAL_REFERENCES };
+  const api = { normalizeText, canonicalEquipment, canonicalSymptom, diagnose, summarizeMeasurements, summarizeApprovedDocuments, analyse, renderLocalReasoning, retrieveLocalKnowledge, LOCAL_KNOWLEDGE_INDEX, GENERAL_REFERENCES };
   root.MaintenanceDiagnosticEngine = api;
   root.diagnose = diagnose;
   if (root.document) {
