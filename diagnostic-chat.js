@@ -607,7 +607,13 @@
     const session = currentSession();
     if (!session || !session.nextQuestion) {
       notes.push(value);
-      addMessage("assistant", copy("تم حفظ الملاحظة ضمن سياق المحادثة، لكن جلسة الأسئلة الحالية اكتملت. لا أغيّر التشخيص دون مسار أو دليل جديد.", "The note was retained in this conversation, but the current question flow is complete. I will not change the diagnostic state without a supported path or new evidence.", "La note est conservée dans cette conversation, mais le parcours actuel est terminé. Je ne modifierai pas l’analyse sans parcours pris en charge ou nouvel élément."));
+      if (!session) {
+        addMessage("assistant", copy("أضفت الملاحظة إلى الحالة. سأعيد تشغيل التقييم المحلي على كامل الملاحظات المتاحة، مع إبقاء النتائج أولية.", "I added the note to the case. I will rerun the local assessment using the available observations; results remain preliminary.", "J’ai ajouté cette note au dossier. Je relance l’évaluation locale avec les observations disponibles ; les résultats restent préliminaires."));
+        await runLocalDiagnosticAssessment();
+        renderEvidenceButton();
+        return;
+      }
+      addMessage("assistant", copy("تم حفظ الملاحظة ضمن سياق المحادثة، لكن مسار الأسئلة الموجّه اكتمل. لا أغيّر فرضياته دون مسار أو دليل جديد قابل للتقييم.", "The note was retained, but the guided question flow is complete. I will not change its hypotheses without a supported path or new assessable evidence.", "La note est conservée, mais le parcours guidé est terminé. Je ne modifierai pas ses hypothèses sans parcours pris en charge ou nouvel élément évaluable."));
       renderEvidenceButton();
       return;
     }
