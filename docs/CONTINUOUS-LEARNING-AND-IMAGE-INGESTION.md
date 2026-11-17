@@ -68,3 +68,16 @@
 - A human confidence label is stored as a qualitative label, not as a probability. The record is tagged `candidate-requires-technical-review` and `eligibleForVisionTraining: false`.
 - The dashboard lists these image observations for later technical review. The original image remains local in the document library; the learning event stores structured observation metadata and a link to the document ID, not a duplicate image or a claim that a model recognized the defect.
 - OCR-derived image claims and visual observations are separate paths: OCR supports reading nameplates/text; visual observations are manually entered by a technician. Neither path currently performs automated visual defect recognition.
+
+## Independent technical review for image observations — 2026-11-18
+
+- The public MaintenanceLearningMemory API now exposes the document-review, claim-review, dashboard and image-observation methods used by the UI. Previously these functions existed internally but were not exported, so the dashboard and image-observation save path could fail at runtime.
+- Each image observation can receive one recorded technical decision: approved or rejected. A decision requires a reviewer label different from the contributor label and a written evidence rationale of at least 30 characters.
+- The review record preserves the observation ID, document ID, contributor label, reviewer label, decision, rationale and timestamp. Deleting the source document also removes its image observation review events.
+- A technically approved observation remains not eligible for diagnosis or vision-model training. Approval records a review decision only; it does not establish reviewer identity, legal rights, or scientific validity. Reviewer names are self-entered and are not authenticated.
+- The dashboard now shows pending and decided observations, including the decision rationale. A second review cycle requires a new observation rather than silently overwriting the previous decision.
+
+## Verification update
+
+- Contract tests now assert that the required learning APIs are exported and that image decisions require a distinct reviewer label, written rationale, and remain excluded from diagnosis and vision training.
+- Static contract assertions are not a substitute for executing the Node test suite or testing the review workflow on Android. Those remain outstanding.
