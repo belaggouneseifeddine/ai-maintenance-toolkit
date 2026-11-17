@@ -40,7 +40,7 @@ test("expected information gain ranks tests only when likelihoods are complete",
       },
       {
         id: "uninformative-test",
-        reviewStatus: "approved", sourceRef: { url: "https://example.test/likelihoods#table-2" },
+        reviewStatus: "approved", likelihoodSource: "synthetic-test-fixture", sourceRef: { url: "https://example.test/likelihoods#table-2" },
         outcomes: [
           { id: "yes", likelihoods: { A: 0.5, B: 0.5 } },
           { id: "no", likelihoods: { A: 0.5, B: 0.5 } }
@@ -48,7 +48,7 @@ test("expected information gain ranks tests only when likelihoods are complete",
       },
       {
         id: "missing-likelihood",
-        reviewStatus: "approved", sourceRef: { url: "https://example.test/likelihoods#table-3" },
+        reviewStatus: "approved", likelihoodSource: "synthetic-test-fixture", sourceRef: { url: "https://example.test/likelihoods#table-3" },
         outcomes: [{ id: "yes", likelihoods: { A: 1 } }, { id: "no", likelihoods: { A: 0 } }]
       }
     ]
@@ -66,7 +66,7 @@ test("hazardous test remains visible with an advisory warning, not silently remo
     hypotheses: [{ id: "A", prior: 0.5 }, { id: "B", prior: 0.5 }],
     tests: [{
       id: "live-measurement",
-      reviewStatus: "approved", sourceRef: { url: "https://example.test/safety#measurement" },
+      reviewStatus: "approved", likelihoodSource: "synthetic-test-fixture", sourceRef: { url: "https://example.test/safety#measurement" },
       hazardous: true,
       safetyWarning: "Qualified electrical work and site isolation procedure required.",
       outcomes: [
