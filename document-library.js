@@ -827,7 +827,7 @@
       if (claim.approved === true && (!String(claim.equipmentFamily || doc.equipmentFamily || "").trim() || !String(claim.modelApplicability || "").trim())) throw new Error("لا يمكن اعتماد ادعاء دون تحديد عائلة المعدة ونطاق الموديل أو التصريح بأنه عام.");
       const pageEvidence = await getPageEvidence(doc.id, pageNumber);
       if (!pageEvidence.chunks.length) throw new Error("لا توجد مقاطع مستخرجة لهذه الصفحة. أعد استخراجها أو اختر صفحة تحتوي نصًا قابلًا للمراجعة.");
-      const ocrChunks = pageEvidence.chunks.filter(item => item.extractionMethod === "ocr");
+      const ocrChunks = pageEvidence.chunks.filter(item => item.extractionMethod === "ocr" || item.extractionMethod === "image-ocr");
       const ocrConfidenceValues = ocrChunks.map(item => item.ocrConfidence).filter(Number.isFinite);
       if (ocrConfidenceValues.some(value => value < 0 || value > 100)) throw new Error("قيمة OCR confidence خارج النطاق المتوقع؛ أعد استخراج الصفحة.");
       if (claim.approved === true && claim.sourcePageVerified !== true) {
