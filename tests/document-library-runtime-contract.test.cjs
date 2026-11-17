@@ -24,6 +24,7 @@ test("PDF import is local-first, bounded, and records page-level extraction prov
   assert.ok(source.includes("./vendor/pdfjs/pdf.worker.min.mjs"), "PDF worker must load from same-origin assets");
   assert.ok(source.includes("./vendor/tesseract/tesseract.min.js"), "Tesseract must load from same-origin assets");
   assert.ok(source.includes('langPath: "./vendor/tessdata"'), "OCR language data must load from same-origin assets");
+  assert.ok(source.includes('corePath: "./vendor/tesseract/core/"'), "Tesseract must select a compatible local core build");
 });
 
 test("OCR and PDF extraction keep the original one-based PDF page anchor", () => {
@@ -113,6 +114,9 @@ test("all document assets are included in both deployment artifacts and optional
   assert.ok(vendorScript.includes("@huggingface/transformers@3.8.1"));
   assert.ok(vendorScript.includes("pdfjs-dist@4.10.38"));
   assert.ok(vendorScript.includes("tesseract.js@5.1.1"));
+  assert.ok(vendorScript.includes("tesseract-core*.js"));
+  assert.ok(vendorScript.includes("tesseract-core*.wasm"));
+  assert.ok(vendorScript.includes("tessdata-fast-LICENSE"));
   assert.ok(vendorScript.includes("ara eng fra"));
   assert.match(sw, /const OPTIONAL_APP_SHELL = \[/);
 });
