@@ -138,8 +138,16 @@
   async function getLearningDashboard() {
     const events = await list();
     const ingested = events.filter(x => x.eventType === "document_ingested");
-    const reviews = events.filter(x => x.eventType === "document_reviewed");
-    const claims = events.filter(x => x.eventType === "knowledge_claim");
+    const latestBy = (rows, key) => {
+      const map = new Map();
+      rows.forEach(row => {
+        const previous = map.get(row[key]);
+        if (!previous || previous.createdAt <= row.createdAt) map.set(row[key], row);
+      });
+      return [...map.values()];
+    };
+    const reviews = latestBy(events.filter(x => x.eventType === "document_reviewed"), "documentId");
+    const claims = latestBy(events.filter(x => x.eventType === "knowledge_claim"), "claimId");
     const outcomes = await getEvaluationCandidates();
     return {
       documentCount: ingested.length,
