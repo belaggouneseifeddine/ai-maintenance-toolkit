@@ -399,9 +399,6 @@
       consent: { sendToAI: false }
     };
     const result = await localAssistant.invokeTool("diagnose", { request });
-    if (result.safetyNotice && result.safetyNotice.message) {
-      addMessage("assistant", "⚠ " + result.safetyNotice.message);
-    }
     if (!result.ok) {
       addMessage("assistant", copy("تعذر تشغيل محرك التشخيص المحلي. بقيت المحادثة وسجلها المحلي متاحين دون إرسال خارجي.", "The local diagnostic engine could not run. The conversation and local history remain available; nothing was sent externally.", "Le moteur de diagnostic local n’a pas pu s’exécuter. La conversation et son historique local restent disponibles ; aucune donnée n’a été envoyée."));
       return;
