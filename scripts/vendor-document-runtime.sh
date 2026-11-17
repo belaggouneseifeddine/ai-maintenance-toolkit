@@ -20,7 +20,7 @@ cp "$TMP_DIR"/node_modules/tesseract.js-core/tesseract-core-simd-lstm.wasm "$OUT
 
 for language in ara eng fra; do
   curl --fail --location --silent --show-error \
-    "https://raw.githubusercontent.com/tesseract-ocr/tessdata_fast/main/${language}.traineddata.gz" \
+    "https://raw.githubusercontent.com/tesseract-ocr/tessdata_fast/main/${language}.traineddata" \
     -o "$TMP_DIR/${language}.traineddata"
   gzip -9 -c "$TMP_DIR/${language}.traineddata" > "$OUT_DIR/vendor/tessdata/${language}.traineddata.gz"
 done
@@ -36,7 +36,7 @@ for language in ara eng fra; do test -s "$OUT_DIR/vendor/tessdata/${language}.tr
 cat > "$OUT_DIR/vendor/THIRD-PARTY-NOTICES.txt" <<'NOTICE'
 PDF.js 4.10.38: Apache-2.0. See https://github.com/mozilla/pdf.js
 Tesseract.js 5.1.1: Apache-2.0. See https://github.com/naptha/tesseract.js
-Tesseract.js-core 5.1.0: Apache-2.0. See https://github.com/naptha/tesseract.js
+Tesseract.js-core 5.1.1: Apache-2.0. See https://github.com/naptha/tesseract.js
 Tesseract tessdata_fast language data (ara, eng, fra): Apache-2.0. See https://github.com/tesseract-ocr/tessdata_fast
 Versions are pinned in scripts/vendor-document-runtime.sh. Preserve these notices with the distributed assets.
 NOTICE
