@@ -29,6 +29,7 @@ test("expected information gain ranks tests only when likelihoods are complete",
     tests: [
       {
         id: "discriminating-test",
+        reviewStatus: "approved", sourceRef: { url: "https://example.test/likelihoods#table-1" },
         outcomes: [
           { id: "a", likelihoods: { A: 0.9, B: 0.1 } },
           { id: "b", likelihoods: { A: 0.1, B: 0.9 } }
@@ -39,6 +40,7 @@ test("expected information gain ranks tests only when likelihoods are complete",
       },
       {
         id: "uninformative-test",
+        reviewStatus: "approved", sourceRef: { url: "https://example.test/likelihoods#table-2" },
         outcomes: [
           { id: "yes", likelihoods: { A: 0.5, B: 0.5 } },
           { id: "no", likelihoods: { A: 0.5, B: 0.5 } }
@@ -46,6 +48,7 @@ test("expected information gain ranks tests only when likelihoods are complete",
       },
       {
         id: "missing-likelihood",
+        reviewStatus: "approved", sourceRef: { url: "https://example.test/likelihoods#table-3" },
         outcomes: [{ id: "yes", likelihoods: { A: 1 } }, { id: "no", likelihoods: { A: 0 } }]
       }
     ]
@@ -63,6 +66,7 @@ test("hazardous test remains visible with an advisory warning, not silently remo
     hypotheses: [{ id: "A", prior: 0.5 }, { id: "B", prior: 0.5 }],
     tests: [{
       id: "live-measurement",
+      reviewStatus: "approved", sourceRef: { url: "https://example.test/safety#measurement" },
       hazardous: true,
       safetyWarning: "Qualified electrical work and site isolation procedure required.",
       outcomes: [
@@ -73,4 +77,21 @@ test("hazardous test remains visible with an advisory warning, not silently remo
   });
   assert.equal(result.ranking[0].id, "live-measurement");
   assert.match(result.ranking[0].safetyWarning, /Qualified electrical work/);
+});
+
+test("unreviewed likelihood provenance is rejected", () => {
+  const result = Bayesian.expectedInformationGain({
+    hypotheses: [{ id: "A", prior: 0.5 }, { id: "B", prior: 0.5 }],
+    tests: [{
+      id: "unreviewed-test",
+      likelihoodSource: "technician estimate",
+      reviewStatus: "candidate",
+      sourceRef: { url: "https://example.test/unreviewed" },
+      outcomes: [
+        { id: "yes", likelihoods: { A: 0.9, B: 0.1 } },
+        { id: "no", likelihoods: { A: 0.1, B: 0.9 } }
+      ]
+    }]
+  });
+  assert.equal(result.ranking[0].status, "unverified_likelihood_source");
 });
