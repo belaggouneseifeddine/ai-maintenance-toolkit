@@ -1,5 +1,3 @@
-  assert.equal(source.includes("https://cdnjs.cloudflare.com"), false, "PDF.js must not depend on a CDN");
-  assert.equal(source.includes("https://cdn.jsdelivr.net"), false, "Tesseract must not depend on a CDN");
 const test = require("node:test");
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
@@ -10,6 +8,8 @@ const read = file => fs.readFileSync(path.join(root, file), "utf8");
 
 test("PDF import is local-first, bounded, and records page-level extraction provenance", () => {
   const source = read("document-library.js");
+  assert.equal(source.includes("https://cdnjs.cloudflare.com"), false, "PDF.js must not depend on a CDN");
+  assert.equal(source.includes("https://cdn.jsdelivr.net"), false, "Tesseract must not depend on a CDN");
   assert.ok(source.includes('PDFJS_VERSION = "4.10.38"'));
   assert.ok(source.includes('TESSERACT_VERSION = "5.1.1"'));
   assert.ok(source.includes("MAX_FILE_BYTES = 40 * 1024 * 1024"));
