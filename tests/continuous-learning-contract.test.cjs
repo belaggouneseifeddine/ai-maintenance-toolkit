@@ -32,6 +32,9 @@ test("local learning memory stores metadata and requires contributor-confirmed e
   assert.ok(source.includes("reviewImageObservation,"));
   assert.ok(source.includes('eventType: "image_observation_review"'));
   assert.ok(source.includes("technical reviewer must be different"));
+  assert.ok(source.includes("evidenceSummary.length < 30"));
+  assert.ok(source.includes("independent reviewer must open and inspect the original image"));
+  assert.ok(source.includes("item.sourceVerified === true"));
   assert.ok(source.includes("technically-approved-not-training-eligible"));
   assert.ok(source.includes("eligibleForDiagnosis: false"));
   assert.ok(source.includes('eventType: "image_observation"'));
@@ -82,6 +85,8 @@ test("technician feedback is explicit and does not automatically train or mutate
   assert.ok(review.includes("memory.reviewImageObservation"));
   assert.ok(review.includes("المراجع الفني المستقل"));
   assert.ok(review.includes("مبررات القرار"));
+  assert.ok(review.includes("فتح الصورة الأصلية للمراجعة المستقلة"));
+  assert.ok(review.includes("فتحت الصورة الأصلية وفحصتها بنفسي"));
   assert.ok(review.includes("لا تدخل الملاحظة تلقائيًا"));
   assert.ok(read("sw.js").includes('"./learning-memory.js"'));
   assert.ok(read("sw.js").includes('"./learning-feedback-ui.js"'));
