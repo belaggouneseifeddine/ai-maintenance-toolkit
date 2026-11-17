@@ -482,12 +482,13 @@
         !root.MaintenanceDiagnosticSession) return { ok: false, code: "invalid_snapshot" };
     const parts = payload.diagnosticFlowId.split("|");
     if (parts.length !== 2 || !parts[0] || !parts[1]) return { ok: false, code: "invalid_flow_id" };
-    const key = resolveInput(parts[0], parts[1]);
-    if (key !== payload.diagnosticFlowId) return { ok: false, code: "flow_id_not_resolved" };
+    const key = parts[0] + "|" + parts[1];
     const fresh = root.MaintenanceDiagnosticSession.createSession({
       equipment: parts[0], symptom: parts[1], language: lang()
     });
-    if (!fresh || fresh.ok !== true) return { ok: false, code: fresh && fresh.code || "flow_unavailable" };
+    if (!fresh || fresh.ok !== true || fresh.flowId !== key) {
+      return { ok: false, code: fresh && fresh.code || "flow_unavailable" };
+    }
     let restored = fresh;
     for (const entry of payload.diagnosticAnswers) {
       if (!entry || typeof entry.answerId !== "string" ||
