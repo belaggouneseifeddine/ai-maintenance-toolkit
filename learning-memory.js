@@ -137,13 +137,23 @@
   async function getEvaluationCandidates() {
     const events = await list();
     const predictions = new Map(events.filter(x => x.eventType === "diagnostic_prediction").map(x => [x.caseId, x]));
-    const outcomes = events.filter(x => x.eventType === "diagnostic_outcome" && x.contributorConfirmed === true);
-    return outcomes.map(outcome => {
-      const prediction = predictions.get(outcome.caseId);
-      return prediction ? { caseId: outcome.caseId, equipmentFamily: prediction.equipmentFamily,
-        predictedFaultIds: prediction.hypothesisIds, outcome: outcome.outcome,
-        confirmedFaultId: outcome.confirmedFaultId, evidenceSummary: outcome.evidenceSummary,
-        reviewStatus: "candidate-requires-technical-review" } : null;
+    const grouped = new Map();
+    events.filter(x => x.eventType === "diagnostic_outcome" && x.contributorConfirmed === true).forEach(outcome => {
+      if (!grouped.has(outcome.caseId)) grouped.set(outcome.caseId, []);
+      grouped.get(outcome.caseId).push(outcome);
+    });
+    return [...grouped.entries()].map(([caseId, outcomes]) => {
+      const prediction = predictions.get(caseId);
+      if (!prediction) return null;
+      const signatures = new Set(outcomes.map(x => x.outcome + ":" + x.confirmedFaultId));
+      const latest = outcomes[outcomes.length - 1];
+      return {
+        caseId, equipmentFamily: prediction.equipmentFamily,
+        predictedFaultIds: prediction.hypothesisIds, outcome: latest.outcome,
+        confirmedFaultId: latest.confirmedFaultId, evidenceSummary: latest.evidenceSummary,
+        conflictingOutcomes: signatures.size > 1,
+        reviewStatus: signatures.size > 1 ? "conflicting-outcomes-requires-review" : "candidate-requires-technical-review"
+      };
     }).filter(Boolean);
   }
 
