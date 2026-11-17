@@ -59,7 +59,7 @@ nav.addEventListener('click',e=>{const b=e.target.closest('.tab');if(!b)return;c
 document.addEventListener('click',e=>{
  const go=e.target.closest('[data-go]');if(!go)return;
  const key=go.getAttribute('data-go');
- const map={diagnose:'diagnose',log:'log',v03:'v03',ai:'diagnose'};
+ const map={diagnose:'diagnose',knowledge:'knowledge',safety:'safety',log:'log',v03:'v03',ai:'diagnose'};
  if(map[key]){activate(map[key],true);if(key==='ai'){setTimeout(()=>{const input=$('#aiSymptom');if(input)input.focus({preventScroll:true})},180)}}
 });
 const langSwitch=$('#languageSwitcher');if(langSwitch)langSwitch.addEventListener('change',applyLabels);
