@@ -317,3 +317,41 @@ test("shift handover tool reports truncation when local records exceed the bound
     else global.localStorage = previousStorage;
   }
 });
+
+
+test("shift handover tool keeps worst-case maintenance and PM output within the registry response limit", async () => {
+  const previousStorage = global.localStorage;
+  const now = new Date();
+  const date = value => value.getFullYear() + "-" + String(value.getMonth() + 1).padStart(2, "0") + "-" + String(value.getDate()).padStart(2, "0");
+  const today = date(now);
+  const yesterday = date(new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1));
+  const long = "x".repeat(500);
+  const records = Array.from({ length: 20 }, (_, index) => ({
+    date: today, machine: long + index, fault: long, action: long, status: "In progress"
+  }));
+  const tasks = [
+    ...Array.from({ length: 20 }, (_, index) => ({
+      machine: long + index, task: long, last: yesterday, repeat: "days", days: 1, notes: long
+    })),
+    ...Array.from({ length: 20 }, (_, index) => ({
+      machine: long + index, task: long, last: yesterday, repeat: "days", days: 0, notes: long
+    }))
+  ];
+  global.localStorage = {
+    getItem: key => key === "maintenance-ai-toolkit-records-v1" ? JSON.stringify(records)
+      : key === "maintenance-ai-toolkit-pm-v1" ? JSON.stringify(tasks) : null
+  };
+  try {
+    const tools = LocalTools.createLocalTools();
+    const registry = Registry.createToolRegistry({ tools: tools.tools });
+    const result = await registry.call("createShiftHandoverDraft", { period: "today" });
+    assert.equal(result.ok, true);
+    assert.equal(result.data.records.length, 8);
+    assert.equal(result.data.pmDue.length, 6);
+    assert.equal(result.data.invalidPmSchedules.length, 6);
+    assert.ok(JSON.stringify(result.data).length < 12000);
+  } finally {
+    if (previousStorage === undefined) delete global.localStorage;
+    else global.localStorage = previousStorage;
+  }
+});
