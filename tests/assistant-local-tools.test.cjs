@@ -163,3 +163,80 @@ test("preventive-maintenance tool marks invalid plans rather than assigning a de
     else global.localStorage = previousStorage;
   }
 });
+
+
+test("shift handover tool builds a local draft from matching records and due PM tasks without persisting", async () => {
+  const previousStorage = global.localStorage;
+  const now = new Date();
+  const date = value => value.getFullYear() + "-" + String(value.getMonth() + 1).padStart(2, "0") + "-" + String(value.getDate()).padStart(2, "0");
+  const today = date(now);
+  const yesterdayDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
+  const yesterday = date(yesterdayDate);
+  const data = {
+    "maintenance-ai-toolkit-records-v1": [
+      { date: today, machine: "Pump P-101", fault: "Low flow", action: "Inspected strainer", status: "In progress" },
+      { date: yesterday, machine: "Motor M-1", fault: "Noise", action: "Inspection pending", status: "In progress" }
+    ],
+    "maintenance-ai-toolkit-pm-v1": [
+      { machine: "Pump P-101", task: "Inspect seal", last: yesterday, repeat: "days", days: 1, notes: "Site plan" },
+      { machine: "Motor M-1", task: "Check bearing", last: today, repeat: "monthly", days: null }
+    ]
+  };
+  const writes = [];
+  global.localStorage = {
+    getItem: key => Object.prototype.hasOwnProperty.call(data, key) ? JSON.stringify(data[key]) : null,
+    setItem: (...args) => writes.push(args)
+  };
+  try {
+    const tools = LocalTools.createLocalTools();
+    const registry = Registry.createToolRegistry({ tools: tools.tools });
+    const result = await registry.call("createShiftHandoverDraft", { period: "today", note: "handover" });
+    assert.equal(result.ok, true);
+    assert.equal(result.data.status, "draft_created");
+    assert.equal(result.data.persisted, false);
+    assert.equal(result.data.recordCount, 1);
+    assert.equal(result.data.records[0].machine, "Pump P-101");
+    assert.equal(result.data.pmDue.length, 1);
+    assert.equal(result.data.pmDue[0].status, "due_today");
+    assert.equal(result.data.note, "handover");
+    assert.deepEqual(writes, []);
+  } finally {
+    if (previousStorage === undefined) delete global.localStorage;
+    else global.localStorage = previousStorage;
+  }
+});
+
+test("shift handover tool validates custom date ranges and never fabricates a report", async () => {
+  const previousStorage = global.localStorage;
+  global.localStorage = { getItem: () => "[]" };
+  try {
+    const tools = LocalTools.createLocalTools();
+    const registry = Registry.createToolRegistry({ tools: tools.tools });
+    const result = await registry.call("createShiftHandoverDraft", {
+      period: "custom", from: "2026-11-20", to: "2026-11-19"
+    });
+    assert.equal(result.ok, true);
+    assert.equal(result.data.ok, false);
+    assert.equal(result.data.status, "invalid_date_range");
+  } finally {
+    if (previousStorage === undefined) delete global.localStorage;
+    else global.localStorage = previousStorage;
+  }
+});
+
+test("shift handover tool fails closed when local maintenance storage is malformed", async () => {
+  const previousStorage = global.localStorage;
+  global.localStorage = { getItem: key => key === "maintenance-ai-toolkit-records-v1" ? "{bad json" : "[]" };
+  try {
+    const tools = LocalTools.createLocalTools();
+    const registry = Registry.createToolRegistry({ tools: tools.tools });
+    const result = await registry.call("createShiftHandoverDraft", { period: "today" });
+    assert.equal(result.ok, true);
+    assert.equal(result.data.ok, false);
+    assert.equal(result.data.status, "local_record_read_failed");
+    assert.deepEqual(result.data.records, []);
+  } finally {
+    if (previousStorage === undefined) delete global.localStorage;
+    else global.localStorage = previousStorage;
+  }
+});
