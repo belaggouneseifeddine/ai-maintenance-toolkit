@@ -571,6 +571,12 @@
 
   function init() {
     if (!$("documentImportForm")) return;
+    window.addEventListener("maintenance-semantic-progress", event => {
+      const detail = event && event.detail || {};
+      if (detail.status === "progress" && Number.isFinite(Number(detail.progress))) {
+        status("تنزيل نموذج البحث الدلالي المحلي: " + Math.round(Number(detail.progress)) + "% — " + String(detail.file || ""));
+      }
+    });
     const searchForm = $("documentSearchForm");
     if (searchForm && !$("documentSemanticEnable")) {
       const button = document.createElement("button");
