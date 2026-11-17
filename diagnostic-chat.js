@@ -575,8 +575,11 @@
     }
     const period = /(?:آخر\\s*8\\s*ساعات|last\\s*8\\s*hours|8\\s*dernières\\s*heures)/i.test(value) ? "8"
       : /(?:مخصص|فترة\\s*محددة|custom\\s*period|période\\s*personnalisée)/i.test(value) ? "custom" : "today";
+    const dates = value.match(/(\\d{4}-\\d{2}-\\d{2})[^\\d]+(\\d{4}-\\d{2}-\\d{2})/);
     const result = await localAssistant.invokeTool("createShiftHandoverDraft", {
       period,
+      from: dates ? dates[1] : undefined,
+      to: dates ? dates[2] : undefined,
       note: value.slice(0, 240)
     });
     if (!result.ok || !result.data || result.data.ok !== true) {
