@@ -4,7 +4,7 @@
   const DB_NAME = "maintenance-ai-semantic-index";
   const DB_VERSION = 1;
   const MODEL_ID = "Xenova/paraphrase-multilingual-MiniLM-L12-v2";
-  const MODEL_VERSION = "minilm-l12-multilingual-q8-v1";
+  const MODEL_VERSION = "minilm-l12-multilingual-q8-2c4055b";
   let dbPromise;
   let pipelinePromise;
   let extractor;
