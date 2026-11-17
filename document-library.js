@@ -622,7 +622,14 @@
         const context = options && options.context || {};
         const equipment = String(context.equipment || "");
         const model = String(context.model || "");
-        const matches = claims.map(claim => {
+        let semanticRows = [];
+        const semanticApi = window.MaintenanceDocumentSemanticSearch;
+        if (semanticApi && semanticApi.isReady()) {
+          try { semanticRows = await semanticApi.search(query, MAX_RESULTS * 8); }
+          catch (error) { console.warn("Semantic diagnostic retrieval unavailable; using lexical claims.", error); }
+        }
+        const semanticRank = new Map(semanticRows.map((row, index) => [row.chunkId, { rank: index + 1, score: row.score }]));
+        const candidates = claims.map(claim => {
           const doc = byId.get(claim.documentId);
           if (!doc) return null;
           const claimTerms = CORE.tokenize(claim.text);
@@ -639,16 +646,28 @@
             doc.reviewStatus === "approved" &&
             claim.reviewStatus === "approved" &&
             sourceReviewEligible;
-          if (!eligible || !familyMatches || !modelMatches || !matchedTerms) return null;
-          return { claim, score: matchedTerms / Math.max(1, terms.length) };
+          const sourceChunkIds = Array.isArray(claim.sourceChunkIds) ? claim.sourceChunkIds : [];
+          const semanticMatches = sourceChunkIds.map(id => semanticRank.get(id)).filter(Boolean).sort((a, b) => a.rank - b.rank);
+          const semantic = semanticMatches[0] || null;
+          if (!eligible || !familyMatches || !modelMatches || (!matchedTerms && !semantic)) return null;
+          return { claim, doc, matchedTerms, semantic };
         }).filter(Boolean);
-        matches.sort((a, b) => b.score - a.score ||
-          String(b.claim.reviewedAt || "").localeCompare(String(a.claim.reviewedAt || "")));
-        return matches.slice(0, MAX_RESULTS).map(({ claim, score }) => {
-          const doc = byId.get(claim.documentId);
+        const lexicalCandidates = candidates.filter(item => item.matchedTerms > 0)
+          .sort((a, b) => b.matchedTerms - a.matchedTerms);
+        const lexicalRank = new Map(lexicalCandidates.map((item, index) => [item.claim.id, index + 1]));
+        const matches = candidates.map(item => {
+          const lex = lexicalRank.get(item.claim.id);
+          const sem = item.semantic && item.semantic.rank;
+          return Object.assign({}, item, {
+            score: (lex ? 1 / (60 + lex) : 0) + (sem ? 1 / (60 + sem) : 0),
+            retrievalMethods: [lex ? "bm25" : null, sem ? "multilingual-embedding" : null].filter(Boolean)
+          });
+        });
+        matches.sort((a, b) => b.score - a.score);
+        return matches.slice(0, MAX_RESULTS).map(({ claim, doc, score, retrievalMethods }) => {
           const item = { documentId: doc.id, pageNumber: claim.pageNumber, text: claim.text, extractionMethod: claim.extractionMethod || "human-reviewed-page-claim", ocrConfidence: null };
           return Object.assign({}, item, {
-            consumer, score, documentTitle: doc.title, fileName: doc.fileName,
+            consumer, score, retrievalMethods, documentTitle: doc.title, fileName: doc.fileName,
             citation: CORE.makeCitation(doc, claim.pageNumber), sha256: doc.sha256,
             rightsStatus: claim.rightsStatus, reviewStatus: claim.reviewStatus,
             evidenceClass: claim.evidenceClass, eligibleForDiagnosis: true,
