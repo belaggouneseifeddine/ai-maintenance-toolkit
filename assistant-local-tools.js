@@ -191,10 +191,10 @@
             return matchesEquipmentFamily && matchesSpecificModel;
           }).slice(0, input.limit || 10).map(record => ({
             date: record.date.slice(0, 40),
-            machine: record.machine.slice(0, 240),
-            fault: record.fault.slice(0, 800),
-            action: record.action.slice(0, 1000),
-            status: record.status.slice(0, 80)
+            machine: record.machine.slice(0, 120),
+            fault: record.fault.slice(0, 300),
+            action: record.action.slice(0, 400),
+            status: record.status.slice(0, 50)
           }));
           return { ok: true, status: records.length ? "records_found" : "no_matching_records", count: records.length, records };
         }
@@ -202,7 +202,7 @@
       getPreventiveMaintenanceSchedule: {
         validate: input => !!input && typeof input === "object" &&
           (input.query == null || (typeof input.query === "string" && input.query.length <= 160)) &&
-          (input.limit == null || (Number.isInteger(input.limit) && input.limit >= 1 && input.limit <= 30)),
+          (input.limit == null || (Number.isInteger(input.limit) && input.limit >= 1 && input.limit <= 10)),
         execute: async input => {
           const stored = readPreventiveTasks();
           if (!stored.ok) return stored;
@@ -220,7 +220,7 @@
                 intervalDays: task.repeat === "days" ? Number(task.days) : null,
                 dueDate,
                 status: !dueDate ? "invalid_schedule" : dueDate < today ? "overdue" : dueDate === today ? "due_today" : "upcoming",
-                notes: typeof task.notes === "string" ? task.notes.slice(0, 500) : ""
+                notes: typeof task.notes === "string" ? task.notes.slice(0, 250) : ""
               };
             });
           return {
