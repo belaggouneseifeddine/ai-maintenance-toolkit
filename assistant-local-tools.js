@@ -94,7 +94,10 @@
       };
       const terms = [];
       values.map(normalizeRecordText).filter(Boolean).forEach(term => {
-        const variants = aliases[term] || [term];
+        const match = Object.entries(aliases).find(([key, variants]) =>
+          term === key || term.includes(key) || variants.some(variant => term.includes(normalizeRecordText(variant)))
+        );
+        const variants = match ? match[1] : [term];
         variants.forEach(variant => { if (!terms.includes(variant)) terms.push(variant); });
       });
       return terms;
