@@ -332,13 +332,34 @@
       "reviewStatus": "reviewed",
       "sectionOrPage": "Sections 1 and 3–6",
       "reuseStatus": "CC-BY-4.0 source; paraphrase with attribution; no raw data copied"
+    },
+    {
+      "sourceId": "ksb-mdx-maintenance-manual-2021-8-01",
+      "claimScope": "Section 12.1 Table 12-2 lists insufficient-flow causes for the GIW/KSB MDX slurry pump family only; use as a bounded example, not a universal fault matrix.",
+      "reviewStatus": "reviewed",
+      "sectionOrPage": "Section 12.1, Tables 12-1 and 12-2, printed p.83",
+      "reuseStatus": "Reference-only; no redistribution permission verified; no text or tables copied."
+    },
+    {
+      "sourceId": "ksb-centrifugal-pump-lexicon-operating-point",
+      "claimScope": "General definition of the operating point as intersection of pump and system curves; no model-specific thresholds.",
+      "reviewStatus": "reviewed",
+      "sectionOrPage": "Operating point; Operating conditions; Operating limit",
+      "reuseStatus": "Reference-only; no open reuse license verified."
+    },
+    {
+      "sourceId": "ashrae-handbook-2024-chapter-44-centrifugal-pumps",
+      "claimScope": "Hydronic-system explanation of pump and system curves and their operating-point intersection; scope limited to hydronic systems.",
+      "reviewStatus": "reviewed",
+      "sectionOrPage": "Sections 4–6, especially Section 6",
+      "reuseStatus": "Copyrighted reference-only; no redistribution permission assumed."
     }
   ],
   "licenseStatus": "reference_only",
   "limitations": [
-    "The two registered open-access papers do not support the differential low-flow claims in this case",
-    "No exact-model OEM pump curve or primary source has yet been reviewed for this case",
-    "The case is candidate-only and must not be loaded into the live diagnosis ranking",
-    "Field validation and qualified technical review have not been performed"
+    "The KSB MDX troubleshooting matrix is specific to that slurry-pump family; do not generalize its thresholds or remedy instructions.",
+    "KSB Lexicon and ASHRAE support the operating-point/system-curve framework but do not validate every industrial process application.",
+    "No exact-model OEM pump curve or primary source has yet been reviewed for the user's actual pump.",
+    "Field validation and qualified technical review have not been performed."
   ]
 }
