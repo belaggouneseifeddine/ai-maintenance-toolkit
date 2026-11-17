@@ -305,7 +305,7 @@
             return { ok: false, status: "invalid_date_range", records: [] };
           }
           const cutoff = Date.now() - 8 * 60 * 60 * 1000;
-          const selected = storedRecords.records.filter(record => {
+          const matchingRecords = storedRecords.records.filter(record => {
             if (period === "today") return record.date === today;
             if (period === "custom") return validDate(record.date) && record.date >= from && record.date <= to;
             if (record.createdAt) {
@@ -313,23 +313,24 @@
               return Number.isFinite(timestamp) && timestamp >= cutoff;
             }
             return record.date === today;
-          }).slice(0, 30).map(record => ({
+          });
+          const selected = matchingRecords.slice(0, 8).map(record => ({
             date: record.date.slice(0, 40),
-            machine: record.machine.slice(0, 120),
-            fault: record.fault.slice(0, 300),
-            action: record.action.slice(0, 400),
-            status: record.status.slice(0, 50),
+            machine: record.machine.slice(0, 80),
+            fault: record.fault.slice(0, 200),
+            action: record.action.slice(0, 220),
+            status: record.status.slice(0, 40),
             timestampAvailable: typeof record.createdAt === "string" && Number.isFinite(new Date(record.createdAt).getTime())
           }));
           const pm = storedTasks.tasks.map(task => {
             const dueDate = calculatePmDue(task);
             return {
-              machine: task.machine.slice(0, 120),
-              task: task.task.slice(0, 180),
+              machine: task.machine.slice(0, 80),
+              task: task.task.slice(0, 120),
               lastPerformed: task.last,
               dueDate,
               status: !dueDate ? "invalid_schedule" : dueDate < today ? "overdue" : dueDate === today ? "due_today" : "upcoming",
-              notes: typeof task.notes === "string" ? task.notes.slice(0, 200) : ""
+              notes: typeof task.notes === "string" ? task.notes.slice(0, 120) : ""
             };
           });
           return {
@@ -340,9 +341,15 @@
             generatedAt: new Date().toISOString(),
             period: { type: period, from: period === "custom" ? from : null, to: period === "custom" ? to : null },
             recordCount: selected.length,
+            totalMatchingRecords: matchingRecords.length,
+            recordsTruncated: matchingRecords.length > selected.length,
             records: selected,
-            pmDue: pm.filter(task => task.status === "overdue" || task.status === "due_today").slice(0, 30),
-            invalidPmSchedules: pm.filter(task => task.status === "invalid_schedule").slice(0, 20),
+            pmDue: pm.filter(task => task.status === "overdue" || task.status === "due_today").slice(0, 8),
+            totalPmDue: pm.filter(task => task.status === "overdue" || task.status === "due_today").length,
+            pmDueTruncated: pm.filter(task => task.status === "overdue" || task.status === "due_today").length > 8,
+            invalidPmSchedules: pm.filter(task => task.status === "invalid_schedule").slice(0, 8),
+            totalInvalidPmSchedules: pm.filter(task => task.status === "invalid_schedule").length,
+            invalidPmSchedulesTruncated: pm.filter(task => task.status === "invalid_schedule").length > 8,
             note: typeof input.note === "string" ? input.note.trim().slice(0, 240) : "",
             limitations: [
               "Draft only; it has not been saved or shared.",
