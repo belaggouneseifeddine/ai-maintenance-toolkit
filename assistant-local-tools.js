@@ -9,6 +9,7 @@
     const config = options || {};
     const core = config.engineeringCore || root.MaintenanceEngineeringCore;
     const engine = config.diagnosticEngine || root.MaintenanceDiagnosticEngine;
+    const bayesian = config.bayesianEngine || root.MaintenanceBayesianEngine;
     const retrieval = config.documentRetrieval || root.MaintenanceDocumentRetrieval;
     const getGuidedContext = typeof config.getGuidedContext === "function"
       ? config.getGuidedContext : () => null;
@@ -146,6 +147,17 @@
     }
 
     const tools = {
+      rankNextDiagnosticTests: {
+        validate: input => !!input && typeof input === "object" &&
+          Array.isArray(input.hypotheses) && input.hypotheses.length > 0 && input.hypotheses.length <= 20 &&
+          Array.isArray(input.tests) && input.tests.length > 0 && input.tests.length <= 30,
+        execute: async input => {
+          if (!bayesian || typeof bayesian.expectedInformationGain !== "function") {
+            return { ok: false, status: "information_gain_unavailable" };
+          }
+          return bayesian.expectedInformationGain(input);
+        }
+      },
       diagnose: {
         safetySensitive: true,
         validate: validDiagnosticInput,
