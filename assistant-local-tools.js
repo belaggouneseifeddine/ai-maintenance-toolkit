@@ -149,16 +149,18 @@
       diagnose: {
         safetySensitive: true,
         validate: validDiagnosticInput,
-        execute: async input => {
+        execute: async (input, executionContext) => {
           if (!core || typeof core.executeLocalDiagnosis !== "function" || !engine) {
             throw new Error("local_diagnostic_engine_unavailable");
           }
           const request = requestFrom(input);
-          return core.executeLocalDiagnosis({
+          const result = await core.executeLocalDiagnosis({
             ...request,
             intent: "diagnose",
             consent: { sendToAI: false }
           }, engine, await loadFaultLibrary());
+          return Object.assign({}, result, executionContext && executionContext.safetyNotice
+            ? { safetyWarning: executionContext.safetyNotice } : {});
         }
       },
       searchReviewedDocuments: {
