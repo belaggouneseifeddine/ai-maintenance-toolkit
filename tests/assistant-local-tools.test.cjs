@@ -359,7 +359,7 @@ test("shift handover tool keeps worst-case maintenance and PM output within the 
 });
 
 test("local assistant exposes source-backed expected information gain and rejects unreviewed likelihoods", async () => {
-  const tools = LocalTools.createLocalTools({ bayesianEngine: Bayesian });
+  const tools = LocalTools.createLocalTools({ bayesianEngine: Bayesian, resolveLikelihoodSource: () => true });
   const registry = Registry.createToolRegistry({ tools: tools.tools });
   const base = {
     hypotheses: [{ id: "A", prior: 0.5 }, { id: "B", prior: 0.5 }],
