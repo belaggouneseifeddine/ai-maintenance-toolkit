@@ -531,7 +531,7 @@
       const excerpt = item.text.length > 620 ? item.text.slice(0, 620) + "…" : item.text;
       return '<article class="document-result"><div class="document-result-meta"><strong>' + escapeHtml(item.documentTitle) +
         '</strong><span>' + escapeHtml("الصفحة " + item.pageNumber) + '</span></div><p>' + escapeHtml(excerpt) +
-        '</p><p class="hint">المصدر: ' + escapeHtml(item.citation) + ' — طريقة الاستخراج: ' + escapeHtml(item.extractionMethod === "ocr" ? "OCR" : "نص PDF") + (item.ocrConfidence == null ? "" : " — ثقة OCR: " + item.ocrConfidence + "%") + ' — لم تتم مراجعة المقطع فنيًا.</p>' +
+        '</p><p class="hint">المصدر: ' + escapeHtml(item.citation) + ' — طريقة الاستخراج: ' + escapeHtml(item.extractionMethod === "ocr" ? "OCR" : "نص PDF") + (item.ocrConfidence == null ? "" : " — ثقة OCR: " + item.ocrConfidence + "%") + ' — حالة المراجعة: ' + escapeHtml(item.reviewStatus || "غير مراجع") + ' — الاسترجاع: ' + escapeHtml((item.retrievalMethods || ["bm25"]).join(" + ")) + (item.semanticScore == null ? "" : " — تشابه دلالي: " + item.semanticScore.toFixed(3) + " (ليس احتمالًا)") + '</p>' +
         '<button class="btn secondary" type="button" data-open-result="' + index + '">فتح المصدر عند الصفحة</button></article>';
     }).join("");
     output.querySelectorAll("[data-open-result]").forEach(button => {
