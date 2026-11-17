@@ -753,12 +753,12 @@
       "dataLicense": "not separately verified for demo/scenario/telemetry data",
       "filesReviewed": [
         "README.md",
-        "LICENSE",
-        "SPEC.md",
+        "repository license metadata (Apache-2.0)",
         "docs/install.md",
-        "docs/how-we-build.md"
+        "docs/how-we-build.md",
+        "releases page (v0.6.0)"
       ],
-      "contentsReviewed": "Reviewed the public repository README and Apache-2.0 notice; release page identifies v0.6.0 (2026-11-02); installation and build documentation describe offline bundle, read-only plant integrations, local-first deployment and optional language-model activation. Sample/demo data rights remain unverified.",
+      "contentsReviewed": "Reviewed the public README and repository license metadata; docs/install.md and docs/how-we-build.md; release page identifies v0.6.0 (2026-11-02). Documentation describes offline bundle, read-only plant integrations, local-first deployment and optional language-model activation. The raw LICENSE file and SPEC.md were not fetched in this audit; sample/demo data rights remain unverified.",
       "equipment": [
         "process plants",
         "historian tags",
