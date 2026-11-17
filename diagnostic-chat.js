@@ -493,6 +493,27 @@
       return;
     }
     addMessage("assistant", formatLocalDiagnosis(result.data));
+    const diagnosis = result.data && result.data.diagnosis ? result.data.diagnosis : result.data;
+    if (root.MaintenanceLearningMemory && diagnosis) {
+      try {
+        const memory = await root.MaintenanceLearningMemory.recordDiagnostic({
+          equipmentFamily: String(request.equipment.type || "").slice(0, 100),
+          hypotheses: Array.isArray(diagnosis.results) ? diagnosis.results : [],
+          measurementSources: request.measurements.map(item => item.sourceType),
+          qualityWarnings: diagnosis.measurementEvidence && Array.isArray(diagnosis.measurementEvidence.warnings)
+            ? diagnosis.measurementEvidence.warnings.map(item => item.code) : [],
+          evidenceDocumentIds: Array.isArray(diagnosis.supportingDocuments)
+            ? diagnosis.supportingDocuments.map(item => item.sourceRef && item.sourceRef.documentId).filter(Boolean) : []
+        });
+        if (typeof root.dispatchEvent === "function" && typeof root.CustomEvent === "function") {
+          root.dispatchEvent(new root.CustomEvent("maintenance-diagnostic-learning-case", {
+            detail: { caseId: memory.caseId, diagnosis }
+          }));
+        }
+      } catch (error) {
+        console.warn("Local diagnostic learning record was not saved.", error);
+      }
+    }
   }
 
   function submitKnownAnswer(answerId, label) {
