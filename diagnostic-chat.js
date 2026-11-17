@@ -609,7 +609,9 @@
       notes.push(value);
       if (!session) {
         addMessage("assistant", copy("أضفت الملاحظة إلى الحالة. سأعيد تشغيل التقييم المحلي على كامل الملاحظات المتاحة، مع إبقاء النتائج أولية.", "I added the note to the case. I will rerun the local assessment using the available observations; results remain preliminary.", "J’ai ajouté cette note au dossier. Je relance l’évaluation locale avec les observations disponibles ; les résultats restent préliminaires."));
-        await runLocalDiagnosticAssessment();
+        runLocalDiagnosticAssessment().catch(() => {
+          addMessage("assistant", copy("تعذر تحديث التقييم المحلي بهذه الملاحظة.", "The local assessment could not be updated with this observation.", "L’évaluation locale n’a pas pu être mise à jour avec cette observation."));
+        });
         renderEvidenceButton();
         return;
       }
