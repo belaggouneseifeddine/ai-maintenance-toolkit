@@ -312,6 +312,7 @@
         symptom: request.symptom,
         observations: request.observations.join("\\n"),
         measurements: request.measurements,
+        approvedPdfExcerpts: request.approvedPdfExcerpts,
         manufacturer: request.equipment.manufacturer,
         model: request.equipment.model,
         context: request.context,
