@@ -57,8 +57,8 @@
     const tests = caseRecord.tests.map(t => ({
       id: t.id, name: t.name, safetyClass: t.safetyClass,
       discriminates: t.discriminates,
-      missingDiscriminators: t.discriminates.filter(id => !known.has(id)),
-      eligibleAsNextObservation: t.safetyClass === "installed_instrument_observation" && t.discriminates.some(id => hypotheses.some(h => h.id === id))
+      missingMeasurements: (t.requiredMeasurements || []).filter(name => !known.has(name.toLowerCase())),
+      eligibleAsNextObservation: t.safetyClass === "installed_instrument_observation" && (t.requiredMeasurements || []).some(name => !known.has(name.toLowerCase()))
     })).filter(t => t.eligibleAsNextObservation).sort((a,b) => b.missingMeasurements.length-a.missingMeasurements.length);
     return {
       status: "candidate_triage_only",
