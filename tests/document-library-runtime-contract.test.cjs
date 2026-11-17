@@ -106,7 +106,7 @@ test("all document assets are included in both deployment artifacts and optional
   }
   assert.match(sw, /maintenance-ai-toolkit-v63/);
   assert.ok(sw.includes("vendor/transformers/transformers.min.js"));
-  for (const asset of ["vendor/pdfjs/pdf.min.mjs","vendor/pdfjs/pdf.worker.min.mjs","vendor/tesseract/tesseract.min.js","vendor/tesseract/worker.min.js","vendor/tesseract/core/tesseract-core-simd-lstm.wasm.js","vendor/tessdata/ara.traineddata.gz","vendor/tessdata/eng.traineddata.gz","vendor/tessdata/fra.traineddata.gz"]) {
+  for (const asset of ["vendor/pdfjs/pdf.min.mjs","vendor/pdfjs/pdf.worker.min.mjs","vendor/tesseract/tesseract.min.js","vendor/tesseract/worker.min.js","vendor/tesseract/core/tesseract-core-simd-lstm.wasm.js","vendor/tessdata/ara.traineddata.gz","vendor/tessdata/eng.traineddata.gz","vendor/tessdata/fra.traineddata.gz","vendor/licenses/transformers-LICENSE","vendor/licenses/pdfjs-LICENSE","vendor/licenses/tesseract-js-LICENSE","vendor/licenses/tesseract-core-LICENSE","vendor/licenses/tessdata-fast-LICENSE"]) {
     assert.ok(sw.includes(asset), "service worker must cache " + asset);
   }
   const vendorScript = read("scripts/vendor-document-runtime.sh");
