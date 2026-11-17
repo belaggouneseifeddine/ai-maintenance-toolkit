@@ -317,7 +317,7 @@
     status("حفظ النص والفهرس والملف محليًا…");
     await persistDocument(Object.assign({}, record, { fileBlob: file.slice(0, file.size, "application/pdf") }), extracted.chunks);
     if (window.MaintenanceLearningMemory) {
-      window.MaintenanceLearningMemory.recordDocumentIngested({
+      await window.MaintenanceLearningMemory.recordDocumentIngested({
         documentId: id, sha256: digest, sourceType: "pdf", extractionMethod: "pdf-text-and-ocr",
         extractionStatus: record.extractionStatus, pageCount: record.pageCount, chunkCount: record.chunkCount,
         ocrLanguages: record.ocrLanguages
@@ -385,7 +385,7 @@
         window.MaintenanceDocumentSemanticSearch.indexChunks(chunks).catch(error => console.warn("Semantic image index update deferred.", error));
       }
       if (window.MaintenanceLearningMemory) {
-        window.MaintenanceLearningMemory.recordDocumentIngested({
+        await window.MaintenanceLearningMemory.recordDocumentIngested({
           documentId: id, sha256: digest, sourceType: "image", extractionMethod: "image-ocr",
           extractionStatus: record.extractionStatus, pageCount: 1, chunkCount: chunks.length, ocrLanguages: languages
         }).catch(error => console.warn("Local learning event was not recorded.", error));
