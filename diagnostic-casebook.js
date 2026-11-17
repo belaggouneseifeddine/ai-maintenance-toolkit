@@ -29,12 +29,12 @@
     }
     if (!Array.isArray(item.tests) || !item.tests.length) errors.push("at least one discriminating test is required");
     else for (const t of item.tests) {
-      for (const k of ["id","name","prerequisites","safetyClass","discriminates","expectedOutcomes","interpretationLimits"]) if (t[k] === undefined) errors.push("test missing " + k + ": " + (t.id || "unnamed"));
+      for (const k of ["id","name","prerequisites","safetyClass","discriminates","requiredMeasurements","expectedOutcomes","interpretationLimits"]) if (t[k] === undefined) errors.push("test missing " + k + ": " + (t.id || "unnamed"));
       if (!["installed_instrument_observation","external_observation","planned_isolated_inspection","qualified_personnel_only","not_permitted"].includes(t.safetyClass)) errors.push("invalid safetyClass: " + t.id);
       if (!Array.isArray(t.discriminates) || t.discriminates.length < 2) errors.push("test must discriminate at least two hypotheses: " + t.id);
     }
     if (!Array.isArray(item.sources)) errors.push("sources must be an array");
-    if (item.status !== "candidate" && (!item.sources.length || item.sources.some(s => s.reviewStatus !== "reviewed" || !s.sectionOrPage))) errors.push("reviewed status requires reviewed claim-level sources with section/page");
+    if (item.status !== "candidate" && (!Array.isArray(item.sources) || !item.sources.length || item.sources.some(s => s.reviewStatus !== "reviewed" || !s.sectionOrPage))) errors.push("reviewed status requires reviewed claim-level sources with section/page");
     if (item.status === "field_validated" && (!item.verification.length || item.limitations.some(v => /not been performed|not yet been reviewed/i.test(v)))) errors.push("field_validated case cannot retain unresolved validation limitations");
     if (item.licenseStatus !== "reuse_permitted" && item.status === "field_validated") errors.push("field-validated runtime content requires explicit reuse permission");
     if (JSON.stringify(item).match(/\b(?:probability|confidence)\s*:\s*0?\.\d+/i)) errors.push("uncalibrated numeric probability/confidence is not permitted");
@@ -59,7 +59,7 @@
       discriminates: t.discriminates,
       missingDiscriminators: t.discriminates.filter(id => !known.has(id)),
       eligibleAsNextObservation: t.safetyClass === "installed_instrument_observation" && t.discriminates.some(id => hypotheses.some(h => h.id === id))
-    })).filter(t => t.eligibleAsNextObservation).sort((a,b) => b.missingDiscriminators.length-a.missingDiscriminators.length);
+    })).filter(t => t.eligibleAsNextObservation).sort((a,b) => b.missingMeasurements.length-a.missingMeasurements.length);
     return {
       status: "candidate_triage_only",
       runtimeEligible: false,
