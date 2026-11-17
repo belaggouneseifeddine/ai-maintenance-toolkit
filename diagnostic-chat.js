@@ -564,6 +564,53 @@
     ].join("\n\n").slice(-1200);
   }
 
+  function isShiftHandoverRequest(value) {
+    return /(?:تقرير\\s*(?:تسليم|استلام)\\s*(?:النوبة|الوردية)|تسليم\\s*(?:النوبة|الوردية)|shift\\s*handover|handover\\s*report|rapport\\s*(?:de\\s*)?relève|passation\\s*(?:de\\s*)?consignes)/i.test(String(value || ""));
+  }
+
+  async function answerShiftHandoverRequest(value) {
+    if (!localAssistant || typeof localAssistant.invokeTool !== "function") {
+      addMessage("assistant", copy("أداة تقرير تسليم النوبة المحلي غير متاحة.", "The local shift-handover tool is unavailable.", "L’outil local de relève est indisponible."));
+      return;
+    }
+    const period = /(?:آخر\\s*8\\s*ساعات|last\\s*8\\s*hours|8\\s*dernières\\s*heures)/i.test(value) ? "8"
+      : /(?:مخصص|فترة\\s*محددة|custom\\s*period|période\\s*personnalisée)/i.test(value) ? "custom" : "today";
+    const result = await localAssistant.invokeTool("createShiftHandoverDraft", {
+      period,
+      note: value.slice(0, 240)
+    });
+    if (!result.ok || !result.data || result.data.ok !== true) {
+      const reason = result.data && result.data.status === "invalid_date_range"
+        ? copy("الفترة المخصصة تحتاج تاريخ بداية ونهاية صالحين؛ لم أنشئ التقرير.", "A custom period requires valid start and end dates; no report was created.", "Une période personnalisée nécessite des dates valides ; aucun rapport n’a été créé.")
+        : copy("تعذر إعداد مسودة تسليم النوبة من البيانات المحلية. لم يتم تعديل أي سجل.", "The local shift-handover draft could not be prepared. No records were changed.", "Impossible de préparer la relève à partir des données locales. Aucun enregistrement n’a été modifié.");
+      addMessage("assistant", reason);
+      return;
+    }
+    const draft = result.data;
+    const lines = [
+      copy("مسودة تقرير تسليم النوبة — غير محفوظة", "Shift-handover report draft — not saved", "Brouillon de rapport de relève — non enregistré"),
+      copy("وقت الإنشاء: ", "Generated: ", "Généré : ") + new Date(draft.generatedAt).toLocaleString(),
+      copy("الفترة: ", "Period: ", "Période : ") + (draft.period.type === "8" ? copy("آخر 8 ساعات", "Last 8 hours", "8 dernières heures") : draft.period.type === "today" ? copy("اليوم", "Today", "Aujourd’hui") : draft.period.from + " → " + draft.period.to),
+      copy("عدد سجلات التدخل المطابقة: ", "Matching maintenance records: ", "Enregistrements correspondants : ") + draft.recordCount
+    ];
+    if (draft.records.length) draft.records.forEach((record, index) => {
+      lines.push("", (index + 1) + ". " + record.date + " — " + record.machine + " [" + record.status + "]");
+      lines.push(copy("العطل/الملاحظة: ", "Fault/observation: ", "Panne/observation : ") + record.fault);
+      lines.push(copy("الإجراء المسجل: ", "Recorded action: ", "Action enregistrée : ") + record.action);
+    });
+    else lines.push("", copy("لا توجد سجلات مطابقة للفترة المحددة.", "No matching records for the selected period.", "Aucun enregistrement pour la période sélectionnée."));
+    lines.push("", copy("المهام الوقائية المتأخرة أو المستحقة اليوم:", "Overdue or due-today PM tasks:", "Tâches préventives en retard ou dues aujourd’hui :"));
+    if (draft.pmDue.length) draft.pmDue.forEach(task => lines.push("• " + task.machine + " — " + task.task + " | " + task.status + " | " + (task.dueDate || "—")));
+    else lines.push(copy("لا توجد مهام مسجلة متأخرة أو مستحقة اليوم.", "No saved tasks are overdue or due today.", "Aucune tâche enregistrée n’est en retard ou due aujourd’hui."));
+    if (draft.invalidPmSchedules.length) {
+      lines.push("", copy("جداول تحتاج مراجعة (تاريخ/فترة غير صالحة):", "Schedules requiring review (invalid date/interval):", "Programmes à vérifier (date/intervalle invalide) :"));
+      draft.invalidPmSchedules.forEach(task => lines.push("• " + task.machine + " — " + task.task));
+    }
+    if (draft.note) lines.push("", copy("ملاحظة الطلب: ", "Request note: ", "Note de demande : ") + draft.note);
+    lines.push("", copy("تنبيه: هذه مسودة من سجلات محلية أدخلها المستخدمون، وليست تحققًا مستقلًا من تنفيذ الأعمال. لم تُحفظ أو تُشارك.", "Notice: this draft uses locally entered records and does not independently verify work completion. It has not been saved or shared.", "Attention : ce brouillon utilise des saisies locales et ne vérifie pas indépendamment les travaux. Il n’a été ni enregistré ni partagé."));
+    addMessage("assistant", lines.join("\\n"));
+  }
+
   function isMaintenanceHistoryRequest(value) {
     return /(?:سجل\s*(?:الصيانة|التدخلات)|تاريخ\s*(?:الصيانة|الأعطال)|الأعطال\s*(?:السابقة|الماضية)|التدخلات\s*(?:السابقة|الماضية)|maintenance\s*history|service\s*history|previous\s*(?:faults|repairs)|past\s*(?:maintenance|repairs)|historique\s*(?:de\s*)?(?:maintenance|interventions|pannes)|interventions\s*précédentes)/i.test(String(value || ""));
   }
@@ -647,6 +694,12 @@
     if (!value) return;
     clearRetrievedExcerpts();
     addMessage("user", value);
+    if (isShiftHandoverRequest(value)) {
+      answerShiftHandoverRequest(value).catch(() => {
+        addMessage("assistant", copy("حدث خطأ أثناء إعداد مسودة تسليم النوبة المحلية.", "An error occurred while preparing the local shift-handover draft.", "Une erreur est survenue lors de la préparation du brouillon de relève."));
+      });
+      return;
+    }
     if (isMaintenanceHistoryRequest(value)) {
       answerMaintenanceHistoryRequest(value).catch(() => {
         addMessage("assistant", copy("حدث خطأ أثناء قراءة السجل المحلي.", "An error occurred while reading the local log.", "Une erreur est survenue lors de la lecture du journal local."));
