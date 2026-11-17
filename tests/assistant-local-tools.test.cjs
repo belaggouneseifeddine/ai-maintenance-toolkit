@@ -9,7 +9,7 @@ test("diagnostic tool continues after deterministic safety review and returns a 
   const tools = LocalTools.createLocalTools({
     engineeringCore: {
       routeRequest: () => ({ ok: true, decision: { route: "safety_review", safetyReviewRequired: true } }),
-      executeLocalDiagnosis: () => { executed++; return { ok: true }; }
+      executeLocalDiagnosis: () => { executed++; return { ok: true, diagnosis: {} }; }
     },
     diagnosticEngine: { diagnose() {} },
     faultLibrary: { faults: [] }
