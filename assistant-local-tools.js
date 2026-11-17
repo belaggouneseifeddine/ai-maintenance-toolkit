@@ -188,7 +188,7 @@
               approvedPdfExcerpts = (evidence && Array.isArray(evidence.results) ? evidence.results : [])
                 .filter(item => item && item.reviewStatus === "approved" &&
                   item.eligibleForDiagnosis === true && item.evidenceRole === "approved-page-claim" &&
-                  item.sourceRef && item.sourceRef.documentId && Number.isInteger(item.sourceRef.pageNumber))
+                  item.sourceRef && typeof item.sourceRef.documentId === "string" && item.sourceRef.documentId.length > 0 && Number.isInteger(item.sourceRef.pageNumber) && item.sourceRef.pageNumber > 0)
                 .slice(0, 3);
             } catch (error) {
               console.warn("Approved PDF retrieval unavailable for local diagnosis.", error);
