@@ -531,7 +531,6 @@ $('clearRecords').addEventListener('click',()=>{
   localStorage.removeItem(KEY);renderRecords();
 });
 
-$('openSafetyFromGate').addEventListener('click',()=>document.querySelector('.tab[data-tab="safety"]').click());
 document.querySelectorAll('#safetyChecks input').forEach(box=>box.addEventListener('change',()=>{const all=[...document.querySelectorAll('#safetyChecks input')];$('safetyGateNotice').style.display=(!all.length||all.some(item=>!item.checked))?'block':'none';}));
 ['recordSearch','recordStatusFilter','recordDateFilter'].forEach(id=>$(id).addEventListener('input',renderRecords));
 $('clearRecordFilters').addEventListener('click',()=>{$('recordSearch').value='';$('recordStatusFilter').value='';$('recordDateFilter').value='';renderRecords();});
