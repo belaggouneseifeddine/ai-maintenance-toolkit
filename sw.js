@@ -1,7 +1,9 @@
-const CACHE_NAME = "maintenance-ai-toolkit-v67";
+const CACHE_NAME = "maintenance-ai-toolkit-v68";
 const APP_SHELL = [
   "./",
   "./index.html",
+  "./app-shell.css",
+  "./app-legacy.js",
   "./assistant-session-contract.js",
   "./assistant-tool-registry.js",
   "./assistant-local-orchestrator.js",
