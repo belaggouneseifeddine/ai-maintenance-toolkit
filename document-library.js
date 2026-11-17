@@ -342,7 +342,7 @@
     const existing = (await getAll("documents")).find(item => item.sha256 === digest);
     if (existing) { status("هذه الصورة موجودة مسبقًا: " + existing.title); return; }
     status("تهيئة الصورة وOCR المحلي…");
-    const bitmap = await createImageBitmap(file);
+    const bitmap = await createImageBitmap(file, { resizeWidth: 2048, resizeHeight: 2048, resizeQuality: "high" });
     const scale = Math.min(1, Math.sqrt(MAX_OCR_PIXELS / Math.max(1, bitmap.width * bitmap.height)));
     const canvas = document.createElement("canvas");
     canvas.width = Math.max(1, Math.round(bitmap.width * scale));
