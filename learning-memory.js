@@ -228,6 +228,7 @@
       throw new Error("Observation, independent reviewer and at least 30 characters of review evidence are required.");
     }
     if (!["approved", "rejected"].includes(decision)) throw new Error("Technical review decision must be approved or rejected.");
+    if (item.sourceVerified !== true) throw new Error("The independent reviewer must open and inspect the original image before deciding.");
     const events = await list();
     const observation = events.find(event => event.eventType === "image_observation" && event.id === observationId);
     if (!observation) throw new Error("Image observation was not found.");
@@ -242,7 +243,7 @@
       decision, reviewStatus: decision === "approved"
         ? "technically-approved-not-training-eligible" : "rejected-after-technical-review",
       reviewer, contributor: observation.reviewer,
-      evidenceSummary, sourceVerified: observation.sourceVerified === true,
+      evidenceSummary, sourceVerified: item.sourceVerified === true,
       eligibleForVisionTraining: false, eligibleForDiagnosis: false,
       createdAt: new Date().toISOString()
     });
