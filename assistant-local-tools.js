@@ -181,10 +181,14 @@
           const stored = readMaintenanceRecords();
           if (!stored.ok) return stored;
           const equipment = input.equipment || {};
-          const terms = expandEquipmentSearchTerms([input.query, equipment.type, equipment.manufacturer, equipment.model]);
+          const typeTerms = expandEquipmentSearchTerms([input.query, equipment.type]);
+          const specificTerms = [equipment.manufacturer, equipment.model]
+            .map(normalizeRecordText).filter(Boolean);
           const records = stored.records.filter(record => {
             const haystack = normalizeRecordText([record.machine, record.fault, record.action, record.status].join(" "));
-            return !terms.length || terms.some(term => haystack.includes(term));
+            const matchesEquipmentFamily = !typeTerms.length || typeTerms.some(term => haystack.includes(term));
+            const matchesSpecificModel = specificTerms.every(term => haystack.includes(term));
+            return matchesEquipmentFamily && matchesSpecificModel;
           }).slice(0, input.limit || 10).map(record => ({
             date: record.date.slice(0, 40),
             machine: record.machine.slice(0, 240),
