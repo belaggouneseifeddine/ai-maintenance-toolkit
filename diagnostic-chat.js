@@ -424,6 +424,7 @@
     const allowedSensor = new Set(["normal", "suspect", "failed", "unknown"]);
     const allowedQuality = new Set(["normal", "noisy", "stale", "contradictory", "unknown"]);
     rows.forEach((line, index) => {
+      if (measurements.length >= 10) { invalidLines.push(index + 1); return; }
       const fields = line.split("|").map(value => value.trim());
       if (fields.length < 4 || !fields[0] || !fields[2]) {
         invalidLines.push(index + 1);
