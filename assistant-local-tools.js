@@ -167,8 +167,36 @@
             throw new Error("local_diagnostic_engine_unavailable");
           }
           const request = requestFrom(input);
+          const measurementTerms = Array.isArray(request.measurements) ? request.measurements.map(item =>
+            [item && item.name, item && item.value, item && item.unit].filter(Boolean).join(" ")
+          ).join(" ") : "";
+          const retrievalQuery = [
+            request.equipment && request.equipment.type,
+            request.equipment && request.equipment.manufacturer,
+            request.equipment && request.equipment.model,
+            request.symptom,
+            ...(Array.isArray(request.observations) ? request.observations : []),
+            measurementTerms
+          ].filter(Boolean).join(" ").slice(0, 1000);
+          let approvedPdfExcerpts = [];
+          if (retrieval && typeof retrieval.forDiagnostics === "function" && retrievalQuery) {
+            try {
+              const evidence = await retrieval.forDiagnostics(retrievalQuery, {
+                equipment: request.equipment && request.equipment.type || "",
+                model: request.equipment && request.equipment.model || ""
+              });
+              approvedPdfExcerpts = (evidence && Array.isArray(evidence.results) ? evidence.results : [])
+                .filter(item => item && item.reviewStatus === "approved" &&
+                  item.eligibleForDiagnosis === true && item.evidenceRole === "approved-page-claim" &&
+                  item.sourceRef && item.sourceRef.documentId && Number.isInteger(item.sourceRef.pageNumber))
+                .slice(0, 3);
+            } catch (error) {
+              console.warn("Approved PDF retrieval unavailable for local diagnosis.", error);
+            }
+          }
           const result = await core.executeLocalDiagnosis({
             ...request,
+            approvedPdfExcerpts,
             intent: "diagnose",
             consent: { sendToAI: false }
           }, engine, await loadFaultLibrary());
