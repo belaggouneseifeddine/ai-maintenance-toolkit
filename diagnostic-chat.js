@@ -380,8 +380,56 @@
     return lines.join("\n");
   }
 
+  function collectMeasurementReadings() {
+    const raw = String($("aiMeasurementReadings")?.value || "");
+    const rows = raw.split(/\r?\n/).map(line => line.trim()).filter(Boolean);
+    const measurements = [];
+    const invalidLines = [];
+    const sourceMap = {
+      direct_measurement: "direct_measurement", direct: "direct_measurement", actual: "direct_measurement", "قياس مباشر": "direct_measurement",
+      plc_value: "plc_value", plc: "plc_value",
+      historian_value: "historian_value", historian: "historian_value",
+      estimated: "estimated", estimate: "estimated", "تقديري": "estimated",
+      user_reported: "user_reported", reported: "user_reported", "مبلغ عنه": "user_reported"
+    };
+    const allowedSensor = new Set(["normal", "suspect", "failed", "unknown"]);
+    const allowedQuality = new Set(["normal", "noisy", "stale", "contradictory", "unknown"]);
+    rows.forEach((line, index) => {
+      const fields = line.split("|").map(value => value.trim());
+      if (fields.length < 4 || !fields[0] || !fields[2]) {
+        invalidLines.push(index + 1);
+        return;
+      }
+      const valueText = fields[1];
+      const value = valueText ? Number(valueText.replace(",", ".")) : null;
+      if (valueText && !Number.isFinite(value)) {
+        invalidLines.push(index + 1);
+        return;
+      }
+      const sourceKey = String(fields[3] || "unknown").toLowerCase();
+      const sensorStatus = allowedSensor.has(String(fields[6] || "unknown").toLowerCase()) ? String(fields[6] || "unknown").toLowerCase() : "unknown";
+      const qualityFlag = allowedQuality.has(String(fields[7] || "unknown").toLowerCase()) ? String(fields[7] || "unknown").toLowerCase() : "unknown";
+      measurements.push({
+        name: fields[0], value, unit: fields[2],
+        sourceType: sourceMap[sourceKey] || "unknown",
+        timestamp: fields[4] || "",
+        operatingCondition: fields[5] || "",
+        sensorStatus, qualityFlag
+      });
+    });
+    return { measurements, invalidLines };
+  }
+
   async function runLocalDiagnosticAssessment() {
     if (!localAssistant || typeof localAssistant.invokeTool !== "function") return;
+    const parsedMeasurements = collectMeasurementReadings();
+    if (parsedMeasurements.invalidLines.length) {
+      addMessage("assistant", copy(
+        "لم أستطع قراءة أسطر القياس " + parsedMeasurements.invalidLines.join(", ") + ". استخدم الفاصل | وبنية الحقول الموضحة، أو اترك السطر كملاحظة نصية.",
+        "I could not parse measurement lines " + parsedMeasurements.invalidLines.join(", ") + ". Use the | separators and documented fields, or keep the line as a text observation.",
+        "Impossible de lire les lignes de mesure " + parsedMeasurements.invalidLines.join(", ") + ". Utilisez les séparateurs | et les champs indiqués, ou conservez la ligne comme observation."
+      ));
+    }
     const request = {
       intent: "diagnose",
       language: language(),
@@ -395,7 +443,7 @@
         ...notes.slice(-8),
         String($("aiObservations")?.value || "").trim()
       ].filter(Boolean).slice(0, 10),
-      measurements: [],
+      measurements: parsedMeasurements.measurements,
       consent: { sendToAI: false }
     };
     const result = await localAssistant.invokeTool("diagnose", { request });
