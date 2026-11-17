@@ -587,7 +587,7 @@
   }
 
   function isPreventiveMaintenanceRequest(value) {
-    return /الصيانة\\s*الوقائية|مهام\\s*الصيانة|المهام\\s*(?:المستحقة|المتأخرة)|pm\\s*schedule|preventive\\s*maintenance|maintenance\\s*schedule|maintenance\\s*due|maintenance\\s*plan|maintenance\\s*préventive|échéancier\\s*(?:de\\s*)?maintenance/i.test(String(value || ""));
+    return /الصيانة\s*الوقائية|مهام\s*الصيانة|المهام\s*(?:المستحقة|المتأخرة)|pm\s*schedule|preventive\s*maintenance|maintenance\s*schedule|maintenance\s*due|maintenance\s*plan|maintenance\s*préventive|échéancier\s*(?:de\s*)?maintenance/i.test(String(value || ""));
   }
 
   async function answerPreventiveMaintenanceRequest(value) {
