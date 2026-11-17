@@ -565,7 +565,7 @@
   }
 
   function isShiftHandoverRequest(value) {
-    return /(?:تقرير\\s*(?:تسليم|استلام)\\s*(?:النوبة|الوردية)|تسليم\\s*(?:النوبة|الوردية)|shift\\s*handover|handover\\s*report|rapport\\s*(?:de\\s*)?relève|passation\\s*(?:de\\s*)?consignes)/i.test(String(value || ""));
+    return /(?:تقرير\s*(?:تسليم|استلام)\s*(?:النوبة|الوردية)|تسليم\s*(?:النوبة|الوردية)|shift\s*handover|handover\s*report|rapport\s*(?:de\s*)?relève|passation\s*(?:de\s*)?consignes)/i.test(String(value || ""));
   }
 
   async function answerShiftHandoverRequest(value) {
@@ -573,9 +573,9 @@
       addMessage("assistant", copy("أداة تقرير تسليم النوبة المحلي غير متاحة.", "The local shift-handover tool is unavailable.", "L’outil local de relève est indisponible."));
       return;
     }
-    const period = /(?:آخر\\s*8\\s*ساعات|last\\s*8\\s*hours|8\\s*dernières\\s*heures)/i.test(value) ? "8"
-      : /(?:مخصص|فترة\\s*محددة|custom\\s*period|période\\s*personnalisée)/i.test(value) ? "custom" : "today";
-    const dates = value.match(/(\\d{4}-\\d{2}-\\d{2})[^\\d]+(\\d{4}-\\d{2}-\\d{2})/);
+    const period = /(?:آخر\s*8\s*ساعات|last\s*8\s*hours|8\s*dernières\s*heures)/i.test(value) ? "8"
+      : /(?:مخصص|فترة\s*محددة|custom\s*period|période\s*personnalisée)/i.test(value) ? "custom" : "today";
+    const dates = value.match(/(\d{4}-\d{2}-\d{2})[^\d]+(\d{4}-\d{2}-\d{2})/);
     const result = await localAssistant.invokeTool("createShiftHandoverDraft", {
       period,
       from: dates ? dates[1] : undefined,
@@ -611,7 +611,7 @@
     }
     if (draft.note) lines.push("", copy("ملاحظة الطلب: ", "Request note: ", "Note de demande : ") + draft.note);
     lines.push("", copy("تنبيه: هذه مسودة من سجلات محلية أدخلها المستخدمون، وليست تحققًا مستقلًا من تنفيذ الأعمال. لم تُحفظ أو تُشارك.", "Notice: this draft uses locally entered records and does not independently verify work completion. It has not been saved or shared.", "Attention : ce brouillon utilise des saisies locales et ne vérifie pas indépendamment les travaux. Il n’a été ni enregistré ni partagé."));
-    addMessage("assistant", lines.join("\\n"));
+    addMessage("assistant", lines.join("\n"));
   }
 
   function isMaintenanceHistoryRequest(value) {
