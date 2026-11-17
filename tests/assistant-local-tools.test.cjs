@@ -71,6 +71,9 @@ test("maintenance history tool reads only validated local records and filters by
     date: "2026-11-16", machine: "Pump P-101 KSB", fault: "Low flow",
     action: "Cleaned suction strainer", status: "Repaired"
   }, {
+    date: "2026-11-14", machine: "Pump P-102 Grundfos", fault: "Leak",
+    action: "Seal inspection", status: "In progress"
+  }, {
     date: "2026-11-15", machine: "Motor M-22", fault: "High temperature",
     action: "Checked cooling fan", status: "In progress"
   }, {
