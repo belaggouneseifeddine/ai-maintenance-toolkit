@@ -172,7 +172,7 @@ test("report generation uses supplied data only and leaves root cause unconfirme
   assert.equal(result.ok, true);
   assert.equal(result.status, "draft_created");
   assert.equal(result.data.confirmedCause, "");
-  assert.deepEqual(result.data.measurements[0], { name: "temperature", value: 80, unit: "°C" });
+  assert.deepEqual(result.data.measurements[0], { name: "temperature", value: 80, unit: "°C", sourceType: "unknown", sensorStatus: "unknown", qualityFlag: "unknown" });
   assert.equal(result.data.sourceReferences.length, 0);
 });
 
