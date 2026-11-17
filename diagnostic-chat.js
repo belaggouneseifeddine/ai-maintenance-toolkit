@@ -389,6 +389,16 @@
         evidence.warnings.slice(0, 8).forEach(item => lines.push("   ⚠ " + (warningLabels[item.code] || item.code)));
       }
     }
+    if (diagnosis && Array.isArray(diagnosis.supportingDocuments) && diagnosis.supportingDocuments.length) {
+      lines.push("", copy("مراجع PDF المعتمدة المرتبطة بالسياق:", "Approved PDF references relevant to this context:", "Références PDF approuvées pour ce contexte :"));
+      diagnosis.supportingDocuments.forEach(item => {
+        lines.push("   • " + (item.documentTitle || "PDF") + " — " + (item.citation || ""));
+        if (item.text) lines.push("     " + item.text);
+        if (item.reviewStatus !== "approved" || item.evidenceRole !== "approved-page-claim") {
+          lines.push("     ⚠ " + copy("هذه المعلومة غير مؤهلة للاستخدام التشخيصي.", "This information is not eligible for diagnostic use.", "Cette information n'est pas admissible comme preuve diagnostique."));
+        }
+      });
+    }
     if (!diagnosis || diagnosis.matched !== true || !Array.isArray(diagnosis.results) || !diagnosis.results.length) {
       lines.push("", (diagnosis && diagnosis.message ? diagnosis.message + "\n" : "") +
         (diagnosis && diagnosis.reason ? diagnosis.reason : copy("لم تتوفر مطابقة كافية. أضف قياسات أو راجع الدليل المعتمد.", "No sufficient match. Add measurements or consult an approved manual.", "Correspondance insuffisante. Ajoutez des mesures ou consultez un manuel approuvé.")));
