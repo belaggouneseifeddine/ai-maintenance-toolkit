@@ -79,7 +79,7 @@
 
     function normalizeRecordText(value) {
       return String(value || "").toLocaleLowerCase().normalize("NFD")
-        .replace(/[\\u0300-\\u036f]/g, "").replace(/\\s+/g, " ").trim();
+        .replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, " ").trim();
     }
 
     const tools = {
