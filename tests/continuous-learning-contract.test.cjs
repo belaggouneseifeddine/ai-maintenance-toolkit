@@ -25,6 +25,15 @@ test("local learning memory stores metadata and requires contributor-confirmed e
   assert.ok(source.includes("getLearningDashboard"));
   assert.ok(source.includes("recordImageObservation"));
   assert.ok(source.includes("getImageObservationCandidates"));
+  assert.ok(source.includes("reviewImageObservation"));
+  assert.ok(source.includes("recordDocumentReviewed,"));
+  assert.ok(source.includes("recordKnowledgeClaim,"));
+  assert.ok(source.includes("getLearningDashboard,"));
+  assert.ok(source.includes("reviewImageObservation,"));
+  assert.ok(source.includes('eventType: "image_observation_review"'));
+  assert.ok(source.includes("technical reviewer must be different"));
+  assert.ok(source.includes("technically-approved-not-training-eligible"));
+  assert.ok(source.includes("eligibleForDiagnosis: false"));
   assert.ok(source.includes('eventType: "image_observation"'));
   assert.ok(source.includes("eligibleForVisionTraining: false"));
   assert.ok(source.includes("Open and visually review the original image"));
@@ -70,6 +79,10 @@ test("technician feedback is explicit and does not automatically train or mutate
   assert.ok(review.includes("recordImageObservation"));
   assert.ok(review.includes("imageObservationForm"));
   assert.ok(review.includes("getImageObservationCandidates"));
+  assert.ok(review.includes("memory.reviewImageObservation"));
+  assert.ok(review.includes("المراجع الفني المستقل"));
+  assert.ok(review.includes("مبررات القرار"));
+  assert.ok(review.includes("لا تدخل الملاحظة تلقائيًا"));
   assert.ok(read("sw.js").includes('"./learning-memory.js"'));
   assert.ok(read("sw.js").includes('"./learning-feedback-ui.js"'));
 });
