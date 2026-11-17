@@ -30,7 +30,7 @@ jobs:
       - name: Test local diagnostic engine
         run: node --test tests/*.test.cjs
       - name: Run ESM provider and Worker contract tests
-        run: node --experimental-default-type=module --test tests/*.test.mjs
+        run: node --test tests/*.test.mjs
       - name: Run application quality checks
         run: node scripts/quality-check.mjs
       - name: Configure Pages
