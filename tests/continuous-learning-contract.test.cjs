@@ -17,6 +17,7 @@ test("local learning memory stores metadata and requires contributor-confirmed e
   assert.ok(source.includes("conflicting-outcomes-requires-review"));
   assert.ok(source.includes("prediction.hypothesisIds || []"));
   assert.ok(source.includes("async function removeDocument(documentId)"));
+  assert.ok(source.includes('"knowledge_claim", "image_observation"'));
   assert.ok(source.includes("MAX_EVENTS = 5000"));
   assert.ok(source.includes("heuristic-not-calibrated-probability"));
   assert.ok(source.includes("recordDocumentReviewed"));
