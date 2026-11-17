@@ -31,7 +31,7 @@ test("OCR and PDF extraction keep the original one-based PDF page anchor", () =>
   const source = read("document-library.js");
   assert.ok(source.includes("for (let pageNumber = 1; pageNumber <= pageCount; pageNumber++)"));
   assert.ok(source.includes("appendPageChunks(chunks, documentId, pageNumber, pageText"));
-  assert.ok(source.includes('viewer.location.replace(url + "#page=" + page)'));
+  assert.ok(source.includes('viewer.location.replace(doc.sourceType === "image" ? url : url + "#page=" + page)'));
   assert.ok(source.includes("pageNumber: page,"));
   assert.ok(source.includes("printedPageNumber"));
 });
