@@ -81,14 +81,14 @@
   async function loadPdfJs() {
     if (window.pdfjsLib) return window.pdfjsLib;
     if (pdfjsPromise) return pdfjsPromise;
-    pdfjsPromise = import("https://cdnjs.cloudflare.com/ajax/libs/pdf.js/" + PDFJS_VERSION + "/pdf.min.mjs")
+    pdfjsPromise = import("./vendor/pdfjs/pdf.min.mjs")
       .then(lib => {
-        lib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/" + PDFJS_VERSION + "/pdf.worker.min.mjs";
+        lib.GlobalWorkerOptions.workerSrc = "./vendor/pdfjs/pdf.worker.min.mjs";
         return lib;
       })
       .catch(error => {
         pdfjsPromise = null;
-        throw new Error("تعذر تحميل محرك قراءة PDF. اتصل بالإنترنت مرة واحدة ثم أعد المحاولة. " + (error && error.message ? error.message : ""));
+        throw new Error("تعذر تحميل محرك PDF المحلي. تحقق من اكتمال حزمة التطبيق غير المتصلة. " + (error && error.message ? error.message : ""));
       });
     return pdfjsPromise;
   }
@@ -123,12 +123,12 @@
     if (tesseractPromise) return tesseractPromise;
     tesseractPromise = new Promise((resolve, reject) => {
       const script = document.createElement("script");
-      script.src = "https://cdn.jsdelivr.net/npm/tesseract.js@" + TESSERACT_VERSION + "/dist/tesseract.min.js";
+      script.src = "./vendor/tesseract/tesseract.min.js";
       script.async = true;
       script.onload = () => window.Tesseract
         ? resolve(window.Tesseract)
         : reject(new Error("لم يتم تحميل مكتبة OCR بصورة صحيحة."));
-      script.onerror = () => reject(new Error("تعذر تحميل محرك OCR. تحقق من الاتصال بالإنترنت ثم أعد المحاولة."));
+      script.onerror = () => reject(new Error("تعذر تحميل محرك OCR المحلي. تحقق من اكتمال حزمة التطبيق غير المتصلة."));
       document.head.appendChild(script);
     }).catch(error => {
       tesseractPromise = null;
@@ -205,6 +205,10 @@
               status("تحميل محرك OCR وبيانات اللغة: " + languages.join("+") + "…");
               const Tesseract = await loadTesseract();
               ocrWorker = await Tesseract.createWorker(languages, 1, {
+                workerPath: "./vendor/tesseract/worker.min.js",
+                corePath: "./vendor/tesseract/core/tesseract-core-simd-lstm.wasm.js",
+                langPath: "./vendor/tessdata/",
+                cacheMethod: "write",
                 logger: message => {
                   if (message && message.status === "recognizing text") {
                     const percent = Number.isFinite(message.progress) ? Math.round(message.progress * 100) : 0;
