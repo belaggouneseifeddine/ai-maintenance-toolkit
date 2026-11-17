@@ -87,6 +87,74 @@
     });
   }
 
+  async function recordDocumentReviewed(input) {
+    const item = input || {};
+    const documentId = bounded(item.documentId, 120);
+    const reviewer = bounded(item.reviewer, 120);
+    if (!documentId || !reviewer) throw new Error("Document ID and reviewer are required.");
+    const status = ["reviewed", "approved"].includes(item.reviewStatus) ? item.reviewStatus : "reviewed";
+    return put({
+      id: id(), eventType: "document_reviewed", schemaVersion: 1,
+      documentId, reviewRevision: Number.isInteger(item.reviewRevision) ? item.reviewRevision : 0,
+      reviewStatus: status, reviewer,
+      manufacturer: bounded(item.manufacturer, 120),
+      equipmentFamily: bounded(item.equipmentFamily, 120),
+      edition: bounded(item.edition, 80),
+      rightsStatus: "user-responsibility-not-verified",
+      createdAt: new Date().toISOString()
+    });
+  }
+
+  async function recordKnowledgeClaim(input) {
+    const item = input || {};
+    const documentId = bounded(item.documentId, 120);
+    const claimId = bounded(item.claimId, 160);
+    const reviewer = bounded(item.reviewer, 120);
+    const pageNumber = Number(item.pageNumber);
+    if (!documentId || !claimId || !reviewer || !Number.isInteger(pageNumber) || pageNumber < 1) {
+      throw new Error("Document, claim, page and reviewer metadata are required.");
+    }
+    const methods = Array.isArray(item.extractionMethods)
+      ? [...new Set(item.extractionMethods.filter(x => ["pdf-text", "ocr", "image-ocr"].includes(x)))].slice(0, 3) : [];
+    const status = ["reviewed", "approved"].includes(item.reviewStatus) ? item.reviewStatus : "reviewed";
+    if (status === "approved" && item.sourcePageVerified !== true) throw new Error("Approved claims require source-page verification.");
+    if (status === "approved" && methods.some(x => x === "ocr" || x === "image-ocr") && item.ocrVisuallyVerified !== true) {
+      throw new Error("OCR claims require visual verification of the original source.");
+    }
+    return put({
+      id: id(), eventType: "knowledge_claim", schemaVersion: 1,
+      documentId, claimId, pageNumber, reviewStatus: status, reviewer,
+      equipmentFamily: bounded(item.equipmentFamily, 120),
+      modelApplicability: bounded(item.modelApplicability, 120),
+      evidenceClass: bounded(item.evidenceClass, 60),
+      extractionMethods: methods,
+      sourcePageVerified: item.sourcePageVerified === true,
+      ocrVisuallyVerified: item.ocrVisuallyVerified === true,
+      rightsStatus: "user-responsibility-not-verified",
+      createdAt: new Date().toISOString()
+    });
+  }
+
+  async function getLearningDashboard() {
+    const events = await list();
+    const ingested = events.filter(x => x.eventType === "document_ingested");
+    const reviews = events.filter(x => x.eventType === "document_reviewed");
+    const claims = events.filter(x => x.eventType === "knowledge_claim");
+    const outcomes = await getEvaluationCandidates();
+    return {
+      documentCount: ingested.length,
+      reviewedDocumentCount: reviews.filter(x => x.reviewStatus === "approved").length,
+      claimCount: claims.length,
+      approvedClaimCount: claims.filter(x => x.reviewStatus === "approved").length,
+      pendingClaimCount: claims.filter(x => x.reviewStatus !== "approved").length,
+      outcomeCandidateCount: outcomes.length,
+      conflictingOutcomeCount: outcomes.filter(x => x.conflictingOutcomes).length,
+      storage: "device-local-indexeddb",
+      sharedWithOtherUsers: false,
+      modelWeightsUpdated: false
+    };
+  }
+
   async function recordDiagnostic(input) {
     const item = input || {};
     const caseId = bounded(item.caseId, 120) || id();
@@ -162,7 +230,7 @@
     if (!target) return;
     const events = await list();
     const db = await openDb();
-    const toDelete = events.filter(event => event.eventType === "document_ingested" && event.documentId === target);
+    const toDelete = events.filter(event => ["document_ingested", "document_reviewed", "knowledge_claim"].includes(event.eventType) && event.documentId === target);
     const updated = events.filter(event => event.eventType === "diagnostic_prediction" &&
       Array.isArray(event.evidenceDocumentIds) && event.evidenceDocumentIds.includes(target));
     await new Promise((resolve, reject) => {
