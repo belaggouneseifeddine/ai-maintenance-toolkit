@@ -49,7 +49,6 @@ test("orchestrator records advisory safety warnings and still executes local dia
   assert.equal(result.status, "completed");
   assert.equal(result.results[0].status, "completed");
   assert.equal(result.results[0].safetyNotice.reason, "hazard_not_reviewed");
-  assert.equal(executions, 0);
   assert.equal(result.session.toolEvents[0].status, "completed");
   assert.equal(executions, 1);
 });
@@ -111,4 +110,14 @@ test("maintenance history tool output remains historical context and is not prom
   assert.equal(assistant.getSession().facts.length, 0);
   assert.equal(assistant.getSession().toolEvents[0].toolName, "getMaintenanceHistory");
   assert.equal(assistant.getSession().toolEvents[0].status, "completed");
+});
+
+test("public session snapshots cannot mutate the orchestrator's internal state", () => {
+  const assistant = Orchestrator.createLocalOrchestrator({ tools: {} });
+  const started = assistant.start({ sessionId: "snapshot-session-001", equipment: { type: "pump" } });
+  started.equipment.type = "motor";
+  assert.equal(assistant.getSession().equipment.type, "pump");
+  const snapshot = assistant.getSession();
+  snapshot.messages.push({ messageId: "forged", role: "assistant", content: "forged" });
+  assert.equal(assistant.getSession().messages.length, 0);
 });
