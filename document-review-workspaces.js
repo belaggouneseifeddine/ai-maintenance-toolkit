@@ -65,6 +65,31 @@
             item.appendChild(reviewed);
           }
           if (candidate.reviewStatus === "candidate-requires-technical-review") {
+            const openOriginal = document.createElement("button");
+            openOriginal.type = "button";
+            openOriginal.className = "btn secondary";
+            openOriginal.textContent = "فتح الصورة الأصلية للمراجعة المستقلة";
+            const sourceCheckLabel = document.createElement("label");
+            const sourceCheck = document.createElement("input");
+            sourceCheck.type = "checkbox";
+            sourceCheck.disabled = true;
+            sourceCheckLabel.append(sourceCheck, document.createTextNode(" فتحت الصورة الأصلية وفحصتها بنفسي"));
+            openOriginal.addEventListener("click", async () => {
+              openOriginal.disabled = true;
+              try {
+                const opened = await library().openSourcePage(candidate.documentId, 1);
+                if (opened !== true) throw new Error("تعذر فتح الصورة الأصلية.");
+                sourceCheck.disabled = false;
+                openOriginal.textContent = "تم فتح الصورة الأصلية";
+              } catch (error) {
+                const message = document.createElement("p");
+                message.className = "hint";
+                message.textContent = error && error.message ? error.message : "تعذر فتح الصورة.";
+                item.appendChild(message);
+              } finally {
+                openOriginal.disabled = false;
+              }
+            });
             const reviewer = document.createElement("input");
             reviewer.type = "text";
             reviewer.maxLength = 120;
@@ -89,6 +114,7 @@
                     observationId: candidate.id,
                     reviewer: reviewer.value,
                     evidenceSummary: evidence.value,
+                    sourceVerified: sourceCheck.checked,
                     decision
                   });
                   await refreshLearningDashboard();
@@ -102,7 +128,7 @@
               });
               actions.appendChild(button);
             });
-            item.append(reviewer, evidence, actions);
+            item.append(openOriginal, sourceCheckLabel, reviewer, evidence, actions);
           }
           const eligibility = document.createElement("p");
           eligibility.className = "hint";
