@@ -459,7 +459,7 @@
     });
   }
 
-  const api = { normalizeText, canonicalEquipment, canonicalSymptom, diagnose, analyse, renderLocalReasoning, retrieveLocalKnowledge, LOCAL_KNOWLEDGE_INDEX, GENERAL_REFERENCES };
+  const api = { normalizeText, canonicalEquipment, canonicalSymptom, diagnose, summarizeMeasurements, analyse, renderLocalReasoning, retrieveLocalKnowledge, LOCAL_KNOWLEDGE_INDEX, GENERAL_REFERENCES };
   root.MaintenanceDiagnosticEngine = api;
   root.diagnose = diagnose;
   if (root.document) {
