@@ -115,3 +115,15 @@ test("tool input validation and oversized output are rejected", async () => {
   assert.equal((await registry.call("searchReviewedDocuments", { query: "manual" })).error, "tool_output_too_large");
   assert.equal((await registry.call("searchReviewedDocuments", { query: 123 })).status, "invalid_input");
 });
+
+test("tool output is cloned before leaving the registry", async () => {
+  const payload = { nested: { value: 1 } };
+  const registry = Registry.createToolRegistry({
+    tools: { read: { validate: () => true, execute: async () => payload } }
+  });
+  const result = await registry.call("read", {});
+  payload.nested.value = 2;
+  assert.equal(result.data.nested.value, 1);
+  result.data.nested.value = 3;
+  assert.equal(payload.nested.value, 2);
+});
