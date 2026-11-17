@@ -476,6 +476,36 @@
     return answerById(answerId);
   }
 
+  function restore(payload) {
+    if (!payload || typeof payload.diagnosticFlowId !== "string" ||
+        !Array.isArray(payload.diagnosticAnswers) || payload.diagnosticAnswers.length > 40 ||
+        !root.MaintenanceDiagnosticSession) return { ok: false, code: "invalid_snapshot" };
+    const parts = payload.diagnosticFlowId.split("|");
+    if (parts.length !== 2 || !parts[0] || !parts[1]) return { ok: false, code: "invalid_flow_id" };
+    const key = parts[0] + "|" + parts[1];
+    const fresh = root.MaintenanceDiagnosticSession.createSession({
+      equipment: parts[0], symptom: parts[1], language: lang()
+    });
+    if (!fresh || fresh.ok !== true || fresh.flowId !== key) {
+      return { ok: false, code: fresh && fresh.code || "flow_unavailable" };
+    }
+    let restored = fresh;
+    for (const entry of payload.diagnosticAnswers) {
+      if (!entry || typeof entry.answerId !== "string" ||
+          !restored.nextQuestion || restored.nextQuestion.id !== entry.questionId) {
+        return { ok: false, code: "answer_sequence_mismatch" };
+      }
+      const next = root.MaintenanceDiagnosticSession.answer(restored, entry.answerId);
+      if (!next || next.ok !== true) return { ok: false, code: next && next.code || "answer_restore_failed" };
+      restored = next.session;
+    }
+    session = restored;
+    flowKey = key;
+    flowNotice = "";
+    render();
+    return { ok: true, session };
+  }
+
   function reset() {
     session = null;
     flowKey = "";
@@ -483,7 +513,7 @@
     render();
   }
 
-  root.MaintenanceDiagnosticSessionUI = Object.freeze({ getPayload, init, resolveInput, getSession: () => session, answerById, answerText, matchAnswerOption, reset });
+  root.MaintenanceDiagnosticSessionUI = Object.freeze({ getPayload, init, resolveInput, getSession: () => session, answerById, answerText, matchAnswerOption, restore, reset });
   if (typeof module !== "undefined" && module.exports) module.exports = root.MaintenanceDiagnosticSessionUI;
   if (root.document) init();
 })(typeof globalThis !== "undefined" ? globalThis : this);
