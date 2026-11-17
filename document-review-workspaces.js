@@ -22,7 +22,7 @@
         " | ادعاءات مسجلة: " + summary.claimCount +
         " | ادعاءات معتمدة: " + summary.approvedClaimCount +
         " | نتائج تشخيص تنتظر المراجعة: " + summary.outcomeCandidateCount +
-        " | حالات متعارضة: " + summary.conflictingOutcomeCount;
+        " | حالات متعارضة: " + summary.conflictingOutcomeCount + " | ملاحظات صور تنتظر مراجعة فنية: " + summary.imageObservationCandidates;
       const privacy = document.createElement("p");
       privacy.className = "hint";
       privacy.textContent = "التخزين محلي على هذا الجهاز. لا مشاركة بين المستخدمين، ولا تعديل لأوزان النموذج أو قاعدة الأعطال تلقائيًا.";
@@ -118,6 +118,18 @@
       '<label for="claimNotes">ملاحظات التحقق</label><textarea id="claimNotes" rows="3" placeholder="تحقق من النص والسياق والطراز والوحدات والصفحة."></textarea>' +
       '<label class="check"><input id="claimApproved" type="checkbox"> اعتماد هذا الادعاء للاستخدام التشخيصي</label>' +
       '<button type="button" class="btn" id="savePageClaim">حفظ الادعاء المرتبط بالصفحة</button><p id="pageClaimStatus" role="status" aria-live="polite"></p>' +
+      '<hr><h3>تسجيل ملاحظة بصرية من صورة المعدة</h3>' +
+      '<p class="hint">هذه الخطوة تسجل ملاحظة بشرية مرتبطة بالصورة الأصلية؛ لا تستخدم OCR ولا تدّعي أن التطبيق اكتشف العيب بصريًا. كل ملاحظة مرشح يحتاج مراجعة فنية مستقلة، ولا يدخل تدريب نموذج الرؤية أو التشخيص تلقائيًا.</p>' +
+      '<div id="imageObservationForm" hidden>' +
+      '<button type="button" class="btn secondary" id="openImageObservationSource">فتح الصورة الأصلية للمراجعة</button>' +
+      '<label class="check"><input id="imageSourceVerified" type="checkbox" disabled> فتحت الصورة الأصلية وفحصت الجزء المصوّر</label>' +
+      '<label for="imageObservationComponent">المكوّن الظاهر</label><input id="imageObservationComponent" placeholder="مثال: bearing housing / mechanical seal">' +
+      '<label for="imageObservationCondition">الحالة المرصودة</label><select id="imageObservationCondition"><option value="unknown">غير محددة</option><option value="normal">مظهر طبيعي</option><option value="wear">تآكل / اهتراء</option><option value="corrosion">تآكل كيميائي / صدأ</option><option value="crack">شق / كسر</option><option value="leakage">أثر تسرب</option><option value="contamination">تلوث / ترسب</option><option value="overheating_sign">أثر حرارة ظاهر</option><option value="deformation">تشوه</option><option value="other">أخرى</option></select>' +
+      '<label for="imageObservationText">وصف ما تراه فقط</label><textarea id="imageObservationText" rows="3" placeholder="صف العلامة المرئية ومكانها دون استنتاج سبب غير مثبت."></textarea>' +
+      '<label for="imageObservationConfidence">ثقة الملاحظ البشري (ليست احتمالًا)</label><select id="imageObservationConfidence"><option value="low">منخفضة</option><option value="medium">متوسطة</option><option value="high">مرتفعة</option></select>' +
+      '<label for="imageObservationEvidence">سياق ودليل إضافي</label><textarea id="imageObservationEvidence" rows="3" placeholder="حالة المعدة وقت التصوير، زاوية التصوير، فحص مباشر أو قياس يؤيد الملاحظة."></textarea>' +
+      '<label for="imageObservationReviewer">المراجع / الفني</label><input id="imageObservationReviewer" placeholder="صفة المراجع أو دوره">' +
+      '<button type="button" class="btn" id="saveImageObservation">حفظ الملاحظة كمرشح تعلم محلي</button><p id="imageObservationStatus" role="status" aria-live="polite"></p></div>' +
       '<h3>الادعاءات المسجلة</h3><div id="reviewedClaimsList"></div>';
     host.appendChild(section);
 
@@ -150,6 +162,51 @@
     ["claimText", "claimFamily", "claimModel", "claimEvidenceClass"].forEach(id => {
       $(id).addEventListener("input", invalidateClaimReview);
       $(id).addEventListener("change", invalidateClaimReview);
+    });
+
+    async function updateImageObservationVisibility() {
+      const panel = $("imageObservationForm");
+      if (!panel) return;
+      const docs = await library().list();
+      const selected = docs.find(doc => doc.id === $("reviewDocumentSelect").value);
+      panel.hidden = !(selected && selected.sourceType === "image");
+      $("imageSourceVerified").checked = false;
+      $("imageSourceVerified").disabled = true;
+    }
+    $("reviewDocumentSelect").addEventListener("change", () => updateImageObservationVisibility());
+    $("openImageObservationSource").addEventListener("click", async () => {
+      try {
+        const id = $("reviewDocumentSelect").value;
+        const docs = await library().list();
+        const selected = docs.find(doc => doc.id === id && doc.sourceType === "image");
+        if (!selected) throw new Error("اختر صورة مستوردة أولًا.");
+        const opened = await library().openSourcePage(id, 1);
+        if (opened !== true) throw new Error("تعذر فتح الصورة الأصلية.");
+        $("imageSourceVerified").disabled = false;
+        status("imageObservationStatus", "تم فتح الصورة الأصلية. افحص المكوّن قبل تسجيل الملاحظة.");
+      } catch (error) {
+        status("imageObservationStatus", error.message);
+      }
+    });
+    $("saveImageObservation").addEventListener("click", async () => {
+      try {
+        const id = $("reviewDocumentSelect").value;
+        if (!$("imageSourceVerified").checked) throw new Error("افتح الصورة الأصلية وأكد فحصها أولًا.");
+        await window.MaintenanceLearningMemory.recordImageObservation({
+          documentId: id,
+          component: $("imageObservationComponent").value,
+          condition: $("imageObservationCondition").value,
+          observation: $("imageObservationText").value,
+          confidenceLabel: $("imageObservationConfidence").value,
+          evidenceSummary: $("imageObservationEvidence").value,
+          reviewer: $("imageObservationReviewer").value,
+          sourceVerified: true
+        });
+        status("imageObservationStatus", "حُفظت الملاحظة كمرشح محلي ينتظر مراجعة فنية. لم تدخل قاعدة الأعطال أو تدريب نموذج.");
+        await refreshLearningDashboard();
+      } catch (error) {
+        status("imageObservationStatus", error.message);
+      }
     });
     ["reviewDocumentSelect", "claimPage"].forEach(id => {
       $(id).addEventListener("change", () => {
@@ -290,7 +347,7 @@
       }
     });
     refreshDocuments().catch(error => status("documentReviewStatus", error.message));
-    refreshLearningDashboard();
+    refreshLearningDashboard(); updateImageObservationVisibility();
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", mount);
