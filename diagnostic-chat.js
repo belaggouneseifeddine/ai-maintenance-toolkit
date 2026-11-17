@@ -465,11 +465,57 @@
     ].join("\n\n").slice(-1200);
   }
 
+  function isMaintenanceHistoryRequest(value) {
+    return /(?:سجل\\s*(?:الصيانة|التدخلات)|تاريخ\\s*(?:الصيانة|الأعطال)|الأعطال\\s*(?:السابقة|الماضية)|التدخلات\\s*(?:السابقة|الماضية)|maintenance\\s*history|service\\s*history|previous\\s*(?:faults|repairs)|past\\s*(?:maintenance|repairs)|historique\\s*(?:de\\s*)?(?:maintenance|interventions|pannes)|interventions\\s*précédentes)/i.test(String(value || ""));
+  }
+
+  async function answerMaintenanceHistoryRequest(value) {
+    if (!localAssistant || typeof localAssistant.invokeTool !== "function") {
+      addMessage("assistant", copy("أداة سجل الصيانة المحلي غير متاحة في هذه الجلسة.", "The local maintenance-history tool is unavailable in this session.", "L’outil local d’historique de maintenance est indisponible dans cette session."));
+      return;
+    }
+    const detected = detectEquipment(value);
+    const equipment = {
+      type: equipmentContext || (detected && detected.id) || String($("aiMachine")?.value || "").trim(),
+      manufacturer: String($("aiManufacturer")?.value || "").trim(),
+      model: String($("aiModel")?.value || "").trim()
+    };
+    const result = await localAssistant.invokeTool("getMaintenanceHistory", {
+      query: detected ? detected.id : "",
+      equipment,
+      limit: 10
+    });
+    if (!result.ok || !result.data || result.data.ok !== true) {
+      addMessage("assistant", copy("تعذر قراءة سجل الصيانة المحلي. لم يتم تغيير أي سجل.", "The local maintenance log could not be read. No records were changed.", "Impossible de lire le journal local. Aucun enregistrement n’a été modifié."));
+      return;
+    }
+    const records = Array.isArray(result.data.records) ? result.data.records : [];
+    if (!records.length) {
+      addMessage("assistant", copy("لا توجد سجلات صيانة مطابقة في هذا الجهاز. لم أستنتج وجود أعطال سابقة.", "No matching maintenance records were found on this device. I have not inferred any previous faults.", "Aucun historique de maintenance correspondant n’a été trouvé sur cet appareil. Je n’ai déduit aucune panne antérieure."));
+      return;
+    }
+    const lines = [copy("السجلات المحلية المطابقة (الأحدث أولًا):", "Matching local records (newest first):", "Enregistrements locaux correspondants (du plus récent au plus ancien) :")];
+    records.forEach((record, index) => {
+      lines.push("", (index + 1) + ". " + record.date + " — " + record.machine);
+      lines.push(copy("العطل: ", "Fault: ", "Panne : ") + record.fault);
+      lines.push(copy("الإجراء المسجل: ", "Recorded action: ", "Action enregistrée : ") + record.action);
+      lines.push(copy("الحالة: ", "Status: ", "Statut : ") + record.status);
+    });
+    lines.push("", copy("هذه بيانات السجل كما أدخلها المستخدمون على هذا الجهاز؛ لا تمثل تحققًا مستقلًا من الإصلاح أو السبب الجذري.", "These are records entered on this device; they are not independent verification of the repair or root cause.", "Ces données proviennent des saisies enregistrées sur cet appareil ; elles ne constituent pas une vérification indépendante de la réparation ou de la cause racine."));
+    addMessage("assistant", lines.join("\\n"));
+  }
+
   function handleMessage(text) {
     const value = String(text || "").trim();
     if (!value) return;
     clearRetrievedExcerpts();
     addMessage("user", value);
+    if (isMaintenanceHistoryRequest(value)) {
+      answerMaintenanceHistoryRequest(value).catch(() => {
+        addMessage("assistant", copy("حدث خطأ أثناء قراءة السجل المحلي.", "An error occurred while reading the local log.", "Une erreur est survenue lors de la lecture du journal local."));
+      });
+      return;
+    }
     const modelMatch = value.match(/(?:\bmodel\b|موديل|الموديل|طراز|modèle)\s*[:：]\s*([^,،;؛\n]{2,80})/i);
     if (modelMatch) setField("aiModel", modelMatch[1].trim());
     if (!started) {
