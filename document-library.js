@@ -81,14 +81,14 @@
   async function loadPdfJs() {
     if (window.pdfjsLib) return window.pdfjsLib;
     if (pdfjsPromise) return pdfjsPromise;
-    pdfjsPromise = import("https://cdnjs.cloudflare.com/ajax/libs/pdf.js/" + PDFJS_VERSION + "/pdf.min.mjs")
+    pdfjsPromise = import("./vendor/pdfjs/pdf.min.mjs")
       .then(lib => {
-        lib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/" + PDFJS_VERSION + "/pdf.worker.min.mjs";
+        lib.GlobalWorkerOptions.workerSrc = "./vendor/pdfjs/pdf.worker.min.mjs";
         return lib;
       })
       .catch(error => {
         pdfjsPromise = null;
-        throw new Error("تعذر تحميل محرك قراءة PDF. اتصل بالإنترنت مرة واحدة ثم أعد المحاولة. " + (error && error.message ? error.message : ""));
+        throw new Error("تعذر تحميل محرك PDF المحلي. تحقق من اكتمال حزمة التطبيق غير المتصلة. " + (error && error.message ? error.message : ""));
       });
     return pdfjsPromise;
   }
@@ -123,12 +123,12 @@
     if (tesseractPromise) return tesseractPromise;
     tesseractPromise = new Promise((resolve, reject) => {
       const script = document.createElement("script");
-      script.src = "https://cdn.jsdelivr.net/npm/tesseract.js@" + TESSERACT_VERSION + "/dist/tesseract.min.js";
+      script.src = "./vendor/tesseract/tesseract.min.js";
       script.async = true;
       script.onload = () => window.Tesseract
         ? resolve(window.Tesseract)
         : reject(new Error("لم يتم تحميل مكتبة OCR بصورة صحيحة."));
-      script.onerror = () => reject(new Error("تعذر تحميل محرك OCR. تحقق من الاتصال بالإنترنت ثم أعد المحاولة."));
+      script.onerror = () => reject(new Error("تعذر تحميل محرك OCR المحلي. تحقق من اكتمال حزمة التطبيق غير المتصلة."));
       document.head.appendChild(script);
     }).catch(error => {
       tesseractPromise = null;
@@ -205,6 +205,10 @@
               status("تحميل محرك OCR وبيانات اللغة: " + languages.join("+") + "…");
               const Tesseract = await loadTesseract();
               ocrWorker = await Tesseract.createWorker(languages, 1, {
+                workerPath: "./vendor/tesseract/worker.min.js",
+                corePath: "./vendor/tesseract/core/tesseract-core-simd-lstm.wasm.js",
+                langPath: "./vendor/tessdata/",
+                cacheMethod: "write",
                 logger: message => {
                   if (message && message.status === "recognizing text") {
                     const percent = Number.isFinite(message.progress) ? Math.round(message.progress * 100) : 0;
@@ -312,15 +316,24 @@
     };
     status("حفظ النص والفهرس والملف محليًا…");
     await persistDocument(Object.assign({}, record, { fileBlob: file.slice(0, file.size, "application/pdf") }), extracted.chunks);
+    if (window.MaintenanceDocumentSemanticSearch && window.MaintenanceDocumentSemanticSearch.isReady()) {
+      window.MaintenanceDocumentSemanticSearch.indexChunks(extracted.chunks).catch(error => console.warn("Semantic index update deferred.", error));
+    }
     status("اكتمل الاستيراد: " + record.title + " — نص PDF: " + record.pagesWithText + " صفحة، OCR: " + record.pagesWithOcr + " صفحة، بلا نص: " + record.pagesWithoutText + " صفحة، " + record.chunkCount + " مقطعًا. لم تُرسل الوثيقة إلى خادم." + (record.ocrSkippedByLimit ? " تم تجاوز OCR لعدد " + record.ocrSkippedByLimit + " صفحة بسبب حد الهاتف." : ""));
     await renderDocuments();
   }
 
   async function searchDocuments(query) {
     const terms = [...new Set(CORE.tokenize(query))];
-    if (!terms.length) return [];
+    const semanticApi = window.MaintenanceDocumentSemanticSearch;
+    let semanticRows = [];
+    if (semanticApi && semanticApi.isReady()) {
+      try { semanticRows = await semanticApi.search(query, MAX_RESULTS * 3); }
+      catch (error) { console.warn("Local semantic retrieval unavailable; using lexical retrieval.", error); }
+    }
     const db = await openDb();
     const postings = await new Promise((resolve, reject) => {
+      if (!terms.length) return resolve([]);
       const tx = db.transaction("postings", "readonly");
       const store = tx.objectStore("postings");
       const result = [];
@@ -333,15 +346,15 @@
         };
         request.onerror = () => reject(request.error);
       });
-      if (!remaining) resolve([]);
     });
-    if (!postings.length) return [];
+    const candidateIds = [...new Set(postings.concat(semanticRows.map(row => row.chunkId)))];
+    if (!candidateIds.length) return [];
     const chunks = await new Promise((resolve, reject) => {
       const tx = db.transaction("chunks", "readonly");
       const store = tx.objectStore("chunks");
       const found = [];
-      let remaining = postings.length;
-      postings.forEach(id => {
+      let remaining = candidateIds.length;
+      candidateIds.forEach(id => {
         const request = store.get(id);
         request.onsuccess = () => {
           if (request.result) found.push(request.result);
@@ -350,14 +363,29 @@
         request.onerror = () => reject(request.error);
       });
     });
-    const ranked = CORE.rankChunks(query, chunks, MAX_RESULTS);
+    const lexical = terms.length ? CORE.rankChunks(query, chunks, MAX_RESULTS * 3) : [];
+    const lexicalRank = new Map(lexical.map((item, index) => [item.doc.id, { rank: index + 1, score: item.score, matched: item.matched }]));
+    const semanticRank = new Map(semanticRows.map((item, index) => [item.chunkId, { rank: index + 1, score: item.score }]));
+    const ranked = chunks.map(doc => {
+      const lex = lexicalRank.get(doc.id);
+      const sem = semanticRank.get(doc.id);
+      const reciprocalRankScore = (lex ? 1 / (60 + lex.rank) : 0) + (sem ? 1 / (60 + sem.rank) : 0);
+      return { doc, lexicalScore: lex ? lex.score : null, matchedTerms: lex ? lex.matched : 0,
+        semanticScore: sem ? sem.score : null, reciprocalRankScore,
+        retrievalMethods: [lex ? "bm25" : null, sem ? "multilingual-embedding" : null].filter(Boolean) };
+    }).filter(item => item.reciprocalRankScore > 0)
+      .sort((a, b) => b.reciprocalRankScore - a.reciprocalRankScore)
+      .slice(0, MAX_RESULTS);
     const documents = await getAll("documents");
     const byId = new Map(documents.map(doc => [doc.id, doc]));
     return ranked.map(item => {
       const doc = byId.get(item.doc.documentId);
       return Object.assign({}, item.doc, {
-        score: item.score,
-        matchedTerms: item.matched,
+        score: item.reciprocalRankScore,
+        lexicalScore: item.lexicalScore,
+        semanticScore: item.semanticScore,
+        retrievalMethods: item.retrievalMethods,
+        matchedTerms: item.matchedTerms,
         documentTitle: doc ? doc.title : item.doc.documentId,
         fileName: doc ? doc.fileName : "",
         sourceUrl: doc ? doc.sourceUrl || null : null,
@@ -462,6 +490,7 @@
       tx.oncomplete = resolve;
       tx.onerror = () => reject(tx.error || new Error("تعذر حذف الوثيقة."));
     });
+    if (window.MaintenanceDocumentSemanticSearch) await window.MaintenanceDocumentSemanticSearch.removeDocument(documentId).catch(() => {});
     await renderDocuments();
   }
 
@@ -502,7 +531,7 @@
       const excerpt = item.text.length > 620 ? item.text.slice(0, 620) + "…" : item.text;
       return '<article class="document-result"><div class="document-result-meta"><strong>' + escapeHtml(item.documentTitle) +
         '</strong><span>' + escapeHtml("الصفحة " + item.pageNumber) + '</span></div><p>' + escapeHtml(excerpt) +
-        '</p><p class="hint">المصدر: ' + escapeHtml(item.citation) + ' — طريقة الاستخراج: ' + escapeHtml(item.extractionMethod === "ocr" ? "OCR" : "نص PDF") + (item.ocrConfidence == null ? "" : " — ثقة OCR: " + item.ocrConfidence + "%") + ' — لم تتم مراجعة المقطع فنيًا.</p>' +
+        '</p><p class="hint">المصدر: ' + escapeHtml(item.citation) + ' — طريقة الاستخراج: ' + escapeHtml(item.extractionMethod === "ocr" ? "OCR" : "نص PDF") + (item.ocrConfidence == null ? "" : " — ثقة OCR: " + item.ocrConfidence + "%") + ' — حالة المراجعة: ' + escapeHtml(item.reviewStatus || "غير مراجع") + ' — الاسترجاع: ' + escapeHtml((item.retrievalMethods || ["bm25"]).join(" + ")) + (item.semanticScore == null ? "" : " — تشابه دلالي: " + item.semanticScore.toFixed(3) + " (ليس احتمالًا)") + '</p>' +
         '<button class="btn secondary" type="button" data-open-result="' + index + '">فتح المصدر عند الصفحة</button></article>';
     }).join("");
     output.querySelectorAll("[data-open-result]").forEach(button => {
@@ -513,8 +542,46 @@
     });
   }
 
+  async function enableSemanticSearch(button) {
+    const api = window.MaintenanceDocumentSemanticSearch;
+    if (!api) throw new Error("وحدة البحث الدلالي غير متاحة في هذه النسخة.");
+    button.disabled = true;
+    button.textContent = "جارٍ تحميل النموذج متعدد اللغات…";
+    status("سيتم تنزيل نموذج محلي حجمه نحو 118 ميغابايت عند أول تفعيل. استخدم Wi-Fi إن أمكن؛ بعد التخزين يمكن إجراء البحث دون اتصال.");
+    try {
+      await api.enable();
+      const chunks = await getAll("chunks");
+      let indexed = 0;
+      const batchSize = 8;
+      for (let offset = 0; offset < chunks.length; offset += batchSize) {
+        const result = await api.indexChunks(chunks.slice(offset, offset + batchSize));
+        indexed += result.indexed;
+        button.textContent = "فهرسة المقاطع: " + indexed + "/" + chunks.length;
+      }
+      status("اكتمل تفعيل البحث الدلالي المحلي. المقاطع المفهرسة: " + indexed + ". سيبقى البحث اللفظي متاحًا أيضًا.");
+      button.textContent = "البحث الدلالي المحلي مفعّل";
+      button.disabled = true;
+    } catch (error) {
+      button.disabled = false;
+      button.textContent = "إعادة محاولة تفعيل البحث الدلالي";
+      status("تعذر تفعيل النموذج المحلي. يستمر البحث اللفظي دون تغيير. " + (error && error.message ? error.message : ""));
+      throw error;
+    }
+  }
+
   function init() {
     if (!$("documentImportForm")) return;
+    const searchForm = $("documentSearchForm");
+    if (searchForm && !$("documentSemanticEnable")) {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.id = "documentSemanticEnable";
+      button.className = "btn secondary";
+      button.textContent = "تفعيل البحث الدلالي المحلي (تنزيل أولي ~118 MB)";
+      button.title = "يعمل النموذج على الجهاز ويُخزّن محليًا بعد تنزيله لأول مرة.";
+      button.addEventListener("click", () => enableSemanticSearch(button).catch(() => {}));
+      searchForm.appendChild(button);
+    }
     $("documentImportForm").addEventListener("submit", async event => {
       event.preventDefault();
       const input = $("documentPdfFile");
@@ -555,7 +622,14 @@
         const context = options && options.context || {};
         const equipment = String(context.equipment || "");
         const model = String(context.model || "");
-        const matches = claims.map(claim => {
+        let semanticRows = [];
+        const semanticApi = window.MaintenanceDocumentSemanticSearch;
+        if (semanticApi && semanticApi.isReady()) {
+          try { semanticRows = await semanticApi.search(query, MAX_RESULTS * 8); }
+          catch (error) { console.warn("Semantic diagnostic retrieval unavailable; using lexical claims.", error); }
+        }
+        const semanticRank = new Map(semanticRows.map((row, index) => [row.chunkId, { rank: index + 1, score: row.score }]));
+        const candidates = claims.map(claim => {
           const doc = byId.get(claim.documentId);
           if (!doc) return null;
           const claimTerms = CORE.tokenize(claim.text);
@@ -572,16 +646,28 @@
             doc.reviewStatus === "approved" &&
             claim.reviewStatus === "approved" &&
             sourceReviewEligible;
-          if (!eligible || !familyMatches || !modelMatches || !matchedTerms) return null;
-          return { claim, score: matchedTerms / Math.max(1, terms.length) };
+          const sourceChunkIds = Array.isArray(claim.sourceChunkIds) ? claim.sourceChunkIds : [];
+          const semanticMatches = sourceChunkIds.map(id => semanticRank.get(id)).filter(Boolean).sort((a, b) => a.rank - b.rank);
+          const semantic = semanticMatches[0] || null;
+          if (!eligible || !familyMatches || !modelMatches || (!matchedTerms && !semantic)) return null;
+          return { claim, doc, matchedTerms, semantic };
         }).filter(Boolean);
-        matches.sort((a, b) => b.score - a.score ||
-          String(b.claim.reviewedAt || "").localeCompare(String(a.claim.reviewedAt || "")));
-        return matches.slice(0, MAX_RESULTS).map(({ claim, score }) => {
-          const doc = byId.get(claim.documentId);
+        const lexicalCandidates = candidates.filter(item => item.matchedTerms > 0)
+          .sort((a, b) => b.matchedTerms - a.matchedTerms);
+        const lexicalRank = new Map(lexicalCandidates.map((item, index) => [item.claim.id, index + 1]));
+        const matches = candidates.map(item => {
+          const lex = lexicalRank.get(item.claim.id);
+          const sem = item.semantic && item.semantic.rank;
+          return Object.assign({}, item, {
+            score: (lex ? 1 / (60 + lex) : 0) + (sem ? 1 / (60 + sem) : 0),
+            retrievalMethods: [lex ? "bm25" : null, sem ? "multilingual-embedding" : null].filter(Boolean)
+          });
+        });
+        matches.sort((a, b) => b.score - a.score);
+        return matches.slice(0, MAX_RESULTS).map(({ claim, doc, score, retrievalMethods }) => {
           const item = { documentId: doc.id, pageNumber: claim.pageNumber, text: claim.text, extractionMethod: claim.extractionMethod || "human-reviewed-page-claim", ocrConfidence: null };
           return Object.assign({}, item, {
-            consumer, score, documentTitle: doc.title, fileName: doc.fileName,
+            consumer, score, retrievalMethods, documentTitle: doc.title, fileName: doc.fileName,
             citation: CORE.makeCitation(doc, claim.pageNumber), sha256: doc.sha256,
             rightsStatus: claim.rightsStatus, reviewStatus: claim.reviewStatus,
             evidenceClass: claim.evidenceClass, eligibleForDiagnosis: true,
