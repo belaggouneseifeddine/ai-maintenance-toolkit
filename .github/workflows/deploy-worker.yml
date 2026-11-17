@@ -26,6 +26,14 @@ jobs:
         with:
           node-version: "24"
 
+      - name: Verify Worker provider and application contracts
+        run: |
+          node --test tests/*.test.cjs
+          node --experimental-default-type=module --test tests/*.test.mjs
+          node --input-type=module --check < worker.js
+          node --check providers/gemini-provider.mjs
+          node --check providers/cloudflare-provider.mjs
+
       - name: Validate Cloudflare deployment credentials
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
