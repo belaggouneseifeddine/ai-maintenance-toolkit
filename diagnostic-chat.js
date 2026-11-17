@@ -9,6 +9,7 @@
   let pendingSymptom = "";
   let equipmentContext = "";
   let retrievalSequence = 0;
+  let lastEvidenceQuery = "";
   let retrievedExcerpts = [];
   let retrievedContext = null;
   let localAssistant = null;
@@ -517,12 +518,24 @@
   function renderEvidenceButton() {
     const holder = $("diagnosticChatEvidence");
     if (!holder) return;
-    holder.replaceChildren();
-    holder.textContent = copy(
-      "تُسترجع الأدلة المعتمدة تلقائيًا أثناء التشخيص المحلي وعند طلب التحليل التوليدي.",
-      "Approved evidence is retrieved automatically during local diagnosis and when generative analysis is requested.",
-      "Les preuves approuvées sont récupérées automatiquement pendant le diagnostic local et lors d'une demande d'analyse générative."
-    );
+    const queryKey = [
+      pendingEquipment, pendingSymptom,
+      String($("aiModel")?.value || ""),
+      String($("aiCode")?.value || ""),
+      String($("aiObservations")?.value || ""),
+      ...notes,
+      ...messages.map(message => message.text)
+    ].filter(Boolean).join(" ").slice(0, 3000);
+    if (!queryKey) {
+      holder.textContent = copy("ستظهر مراجع PDF المعتمدة تلقائيًا عند بدء التشخيص.", "Approved PDF references will appear automatically when diagnosis starts.", "Les références PDF approuvées apparaîtront automatiquement au début du diagnostic.");
+      return;
+    }
+    if (queryKey === lastEvidenceQuery) return;
+    lastEvidenceQuery = queryKey;
+    holder.textContent = copy("جارٍ استرجاع الأدلة المعتمدة محليًا…", "Retrieving approved evidence locally…", "Récupération locale des preuves approuvées…");
+    retrieveEvidence().catch(() => {
+      holder.textContent = copy("تعذر استرجاع المراجع الآن؛ يستمر التشخيص المحلي دونها.", "References could not be retrieved now; local diagnosis continues without them.", "Impossible de récupérer les références ; le diagnostic local continue sans elles.");
+    });
   }
   async function retrieveEvidence() {
     const holder = $("diagnosticChatEvidence");
