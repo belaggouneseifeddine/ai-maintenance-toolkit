@@ -466,7 +466,7 @@
   }
 
   function isMaintenanceHistoryRequest(value) {
-    return /(?:سجل\\s*(?:الصيانة|التدخلات)|تاريخ\\s*(?:الصيانة|الأعطال)|الأعطال\\s*(?:السابقة|الماضية)|التدخلات\\s*(?:السابقة|الماضية)|maintenance\\s*history|service\\s*history|previous\\s*(?:faults|repairs)|past\\s*(?:maintenance|repairs)|historique\\s*(?:de\\s*)?(?:maintenance|interventions|pannes)|interventions\\s*précédentes)/i.test(String(value || ""));
+    return /(?:سجل\s*(?:الصيانة|التدخلات)|تاريخ\s*(?:الصيانة|الأعطال)|الأعطال\s*(?:السابقة|الماضية)|التدخلات\s*(?:السابقة|الماضية)|maintenance\s*history|service\s*history|previous\s*(?:faults|repairs)|past\s*(?:maintenance|repairs)|historique\s*(?:de\s*)?(?:maintenance|interventions|pannes)|interventions\s*précédentes)/i.test(String(value || ""));
   }
 
   async function answerMaintenanceHistoryRequest(value) {
@@ -502,7 +502,7 @@
       lines.push(copy("الحالة: ", "Status: ", "Statut : ") + record.status);
     });
     lines.push("", copy("هذه بيانات السجل كما أدخلها المستخدمون على هذا الجهاز؛ لا تمثل تحققًا مستقلًا من الإصلاح أو السبب الجذري.", "These are records entered on this device; they are not independent verification of the repair or root cause.", "Ces données proviennent des saisies enregistrées sur cet appareil ; elles ne constituent pas une vérification indépendante de la réparation ou de la cause racine."));
-    addMessage("assistant", lines.join("\\n"));
+    addMessage("assistant", lines.join("\n"));
   }
 
   function handleMessage(text) {
