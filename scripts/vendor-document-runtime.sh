@@ -37,7 +37,7 @@ for language in ara eng fra; do test -s "$OUT_DIR/vendor/tessdata/${language}.tr
 
 cat > "$OUT_DIR/vendor/THIRD-PARTY-NOTICES.txt" <<'NOTICE'
 Transformers.js 3.8.1: Apache-2.0. See https://github.com/huggingface/transformers.js
-Model Xenova/paraphrase-multilingual-MiniLM-L12-v2: Apache-2.0 model family; quantized ONNX weights downloaded on explicit user activation from Hugging Face. See https://huggingface.co/Xenova/paraphrase-multilingual-MiniLM-L12-v2
+Base model sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2: Apache-2.0. The Xenova ONNX export repository does not show a separately verified license notice in this audit; weights are not bundled or redistributed and are fetched only after user activation. Verify export terms before redistribution. See https://huggingface.co/Xenova/paraphrase-multilingual-MiniLM-L12-v2
 PDF.js 4.10.38: Apache-2.0. See https://github.com/mozilla/pdf.js
 Tesseract.js 5.1.1: Apache-2.0. See https://github.com/naptha/tesseract.js
 Tesseract.js-core 5.1.1: Apache-2.0. See https://github.com/naptha/tesseract.js
