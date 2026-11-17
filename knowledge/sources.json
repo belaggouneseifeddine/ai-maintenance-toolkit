@@ -175,5 +175,72 @@
       "repository_index": "knowledge/REFERENCE-ONLY-AUTOMATES-PROGRAMMABLES-INDUSTRIELS.md",
       "notes": "Bibliographic metadata and original chapter locator only. Do not store or republish PDF text, diagrams, figures, tables, or extensive paraphrases. General PLC textbook; not an OEM or model-specific service manual."
     }
+  ],
+  "reference_only_documents": [
+    {
+      "id": "ksb-mdx-maintenance-manual-2021-8-01",
+      "title": "MDX Maintenance Manual — Installation/Operating Manual 2021.8/01-US",
+      "publisher": "GIW / KSB",
+      "url": "https://live-commerce-proxy-e2e-sales.ksb.com/rest/v2/ksb/users/anonymous/odata/disfile?application=PDF&checksum=f6cc9b83f3663238095654889227a3b8195138e954538e8f4cf4f6fe1669e811&documentNumber=2021.8&documentPart=US&documentType=YTO&documentVersion=01&extension=PDF&mimetype=application%2Fpdf&salesOrg=5054",
+      "sectionsReviewed": [
+        "Section 12.1, Tables 12-1 and 12-2, printed page 83"
+      ],
+      "equipmentScope": "GIW/KSB MDX slurry pump family only; not a generic centrifugal-pump procedure.",
+      "claimsSupported": [
+        "Examples of insufficient-flow causes for this MDX manual: blocked suction/discharge piping, higher-than-expected system head, incomplete venting/priming, excess entrained air, partial impeller clogging and insufficient available suction head."
+      ],
+      "limitations": [
+        "The manual itself warns that additional documentation may not apply to every pump; verify exact pump serial/model and supplied documentation.",
+        "Its low-flow percentage recommendation is model/family-specific and must not be copied as a universal threshold.",
+        "The manual is used as a linked reference only; no redistribution permission was verified."
+      ],
+      "licenseStatus": "No open reuse license verified; reference-only; do not copy manual text or tables.",
+      "fetchAllowed": false,
+      "reviewStatus": "source-passage-reviewed-2026-11-17"
+    },
+    {
+      "id": "ksb-centrifugal-pump-lexicon-operating-point",
+      "title": "KSB Centrifugal Pump Lexicon — Operating point / operating behaviour",
+      "publisher": "KSB",
+      "url": "https://www.ksb.com/en-global/centrifugal-pump-lexicon/o",
+      "sectionsReviewed": [
+        "Operating point",
+        "Operating conditions",
+        "Operating limit"
+      ],
+      "equipmentScope": "General centrifugal-pump concepts; actual application and pump design remain controlling.",
+      "claimsSupported": [
+        "The operating point is the intersection of pump H/Q and system Hsys/Q curves; changes to pump or system curves shift the operating point."
+      ],
+      "limitations": [
+        "General engineering reference, not a substitute for the exact pump curve or OEM manual.",
+        "No numeric operating limit is generalized from this article."
+      ],
+      "licenseStatus": "No open reuse license verified; reference-only; link and cite only.",
+      "fetchAllowed": false,
+      "reviewStatus": "source-passage-reviewed-2026-11-17"
+    },
+    {
+      "id": "ashrae-handbook-2024-chapter-44-centrifugal-pumps",
+      "title": "ASHRAE Handbook 2024 — Chapter 44: Centrifugal Pumps",
+      "publisher": "ASHRAE",
+      "url": "https://handbook.ashrae.org/handbooks/S24/IP/S24_Ch44/S24_Ch44_ip.aspx",
+      "sectionsReviewed": [
+        "Section 4: Pump Performance Curves",
+        "Section 5: Hydronic System Curves",
+        "Section 6: Pump and Hydronic System Curves"
+      ],
+      "equipmentScope": "Centrifugal pumps in hydronic systems; not every industrial process application.",
+      "claimsSupported": [
+        "The system operating point is the intersection of pump and system curves; system resistance includes pipe, fitting, valve and fluid-property effects."
+      ],
+      "limitations": [
+        "Hydronic application scope; adapt only the general curve concept after confirming industrial system applicability.",
+        "Copyrighted handbook; no redistribution or text reproduction rights assumed."
+      ],
+      "licenseStatus": "Copyrighted reference-only; no redistribution permission verified.",
+      "fetchAllowed": false,
+      "reviewStatus": "source-passage-reviewed-2026-11-17"
+    }
   ]
 }
