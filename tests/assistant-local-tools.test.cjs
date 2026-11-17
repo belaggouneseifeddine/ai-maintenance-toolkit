@@ -115,3 +115,46 @@ test("maintenance history tool returns a bounded recent list and fails safely on
     else global.localStorage = previousStorage;
   }
 });
+
+test("preventive-maintenance tool reads local plans and calculates monthly due dates without inventing intervals", async () => {
+  const previousStorage = global.localStorage;
+  global.localStorage = {
+    getItem: key => key === "maintenance-ai-toolkit-pm-v1" ? JSON.stringify([
+      { machine: "Pump P-101", task: "Inspect seal", last: "2024-01-31", repeat: "monthly", days: null, notes: "OEM plan" },
+      { machine: "Motor M-22", task: "Check cooling fan", last: "2026-11-01", repeat: "days", days: 14, notes: "" },
+      { machine: "Unknown", task: "No interval", last: "2026-11-01", repeat: "days", days: 0 }
+    ]) : null
+  };
+  try {
+    const tools = LocalTools.createLocalTools();
+    const registry = Registry.createToolRegistry({ tools: tools.tools });
+    const result = await registry.call("getPreventiveMaintenanceSchedule", { query: "pump", limit: 10 });
+    assert.equal(result.ok, true);
+    assert.equal(result.data.count, 1);
+    assert.equal(result.data.tasks[0].dueDate, "2024-02-29");
+    assert.equal(result.data.tasks[0].status, "overdue");
+    assert.equal(result.data.tasks[0].repeat, "monthly");
+  } finally {
+    if (previousStorage === undefined) delete global.localStorage;
+    else global.localStorage = previousStorage;
+  }
+});
+
+test("preventive-maintenance tool marks invalid plans rather than assigning a default interval", async () => {
+  const previousStorage = global.localStorage;
+  global.localStorage = {
+    getItem: () => JSON.stringify([
+      { machine: "Pump P-101", task: "Inspect", last: "2026-11-01", repeat: "days", days: 0 }
+    ])
+  };
+  try {
+    const tools = LocalTools.createLocalTools();
+    const registry = Registry.createToolRegistry({ tools: tools.tools });
+    const result = await registry.call("getPreventiveMaintenanceSchedule", {});
+    assert.equal(result.data.tasks[0].status, "invalid_schedule");
+    assert.equal(result.data.tasks[0].dueDate, "");
+  } finally {
+    if (previousStorage === undefined) delete global.localStorage;
+    else global.localStorage = previousStorage;
+  }
+});
