@@ -210,11 +210,11 @@
           const today = localDate(new Date());
           const tasks = stored.tasks.filter(task => !queries.length ||
             queries.some(query => normalizeRecordText(task.machine + " " + task.task).includes(query)))
-            .slice(0, input.limit || 20).map(task => {
+            .slice(0, input.limit || 8).map(task => {
               const dueDate = calculatePmDue(task);
               return {
-                machine: task.machine.slice(0, 240),
-                task: task.task.slice(0, 300),
+                machine: task.machine.slice(0, 120),
+                task: task.task.slice(0, 180),
                 lastPerformed: task.last,
                 repeat: task.repeat,
                 intervalDays: task.repeat === "days" ? Number(task.days) : null,
