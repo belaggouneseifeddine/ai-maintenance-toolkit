@@ -149,6 +149,7 @@
     const reviews = latestBy(events.filter(x => x.eventType === "document_reviewed"), "documentId");
     const claims = latestBy(events.filter(x => x.eventType === "knowledge_claim"), "claimId");
     const outcomes = await getEvaluationCandidates();
+    const imageObservations = events.filter(x => x.eventType === "image_observation");
     return {
       documentCount: ingested.length,
       reviewedDocumentCount: reviews.filter(x => x.reviewStatus === "approved").length,
@@ -157,10 +158,49 @@
       pendingClaimCount: claims.filter(x => x.reviewStatus !== "approved").length,
       outcomeCandidateCount: outcomes.length,
       conflictingOutcomeCount: outcomes.filter(x => x.conflictingOutcomes).length,
+      imageObservationCount: imageObservations.length,
+      imageObservationCandidates: imageObservations.filter(x => x.reviewStatus === "candidate-requires-technical-review").length,
       storage: "device-local-indexeddb",
       sharedWithOtherUsers: false,
       modelWeightsUpdated: false
     };
+  }
+
+
+  async function recordImageObservation(input) {
+    const item = input || {};
+    const documentId = bounded(item.documentId, 120);
+    const reviewer = bounded(item.reviewer, 120);
+    const component = bounded(item.component, 120);
+    const observation = bounded(item.observation, 500);
+    const evidenceSummary = bounded(item.evidenceSummary, 800);
+    const condition = ["normal", "wear", "corrosion", "crack", "leakage", "contamination", "overheating_sign", "deformation", "unknown", "other"].includes(item.condition)
+      ? item.condition : "unknown";
+    if (!documentId || !reviewer || !component || !observation || !evidenceSummary) {
+      throw new Error("Image, component, observation, reviewer and evidence note are required.");
+    }
+    if (item.sourceVerified !== true) throw new Error("Open and visually review the original image before recording an observation.");
+    return put({
+      id: id(), eventType: "image_observation", schemaVersion: 1,
+      documentId, sourcePage: 1, component, condition, observation,
+      evidenceSummary, reviewer,
+      confidenceLabel: ["low", "medium", "high"].includes(item.confidenceLabel) ? item.confidenceLabel : "low",
+      sourceVerified: true,
+      reviewStatus: "candidate-requires-technical-review",
+      rightsStatus: "user-responsibility-not-verified",
+      eligibleForVisionTraining: false,
+      createdAt: new Date().toISOString()
+    });
+  }
+
+  async function getImageObservationCandidates() {
+    return (await list()).filter(event => event.eventType === "image_observation")
+      .map(event => ({
+        id: event.id, documentId: event.documentId, component: event.component,
+        condition: event.condition, observation: event.observation,
+        confidenceLabel: event.confidenceLabel, reviewStatus: event.reviewStatus,
+        eligibleForVisionTraining: false, createdAt: event.createdAt
+      }));
   }
 
   async function recordDiagnostic(input) {
