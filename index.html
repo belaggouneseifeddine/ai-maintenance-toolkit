@@ -211,12 +211,12 @@ footer{line-height:1.8}
 <div class="card" id="documentLibraryPanel">
   <h2>مكتبة الوثائق والصور واستخراج المعرفة</h2>
   <p class="hint">استورد كتيبات PDF أو صور لوحات البيانات والمكونات، واستخرج النص محليًا ثم ابحث فيه وراجع الادعاءات الفنية قبل إتاحتها للتشخيص. لا تُرفع الملفات أو محتوياتها إلى الخادم.</p>
-  <div class="notice">PDF نصي أو ممسوح ضوئيًا، وصور JPG/PNG/WebP. OCR بالعربية أو الفرنسية أو الإنجليزية. يحتاج محرك القراءة وبيانات اللغة إلى تنزيل أول مرة. حد الملف 40 MB و1200 صفحة، وOCR حتى 150 صفحة مصورة لكل ملف لتقليل استهلاك ذاكرة الهاتف. الحقوق غير معتمدة تلقائيًا.</div>
+  <div class="notice">PDF نصي أو ممسوح ضوئيًا، وصور JPG/PNG/WebP حتى 15 MB. OCR بالعربية أو الفرنسية أو الإنجليزية. OCR الصور يستخرج النصوص ولوحات البيانات فقط، ولا يشخّص التلف المرئي للمكونات. يحتاج محرك القراءة وبيانات اللغة إلى تنزيل أول مرة. PDF حتى 40 MB و1200 صفحة، وOCR حتى 150 صفحة مصورة لكل ملف. الحقوق غير معتمدة تلقائيًا.</div>
   <form id="documentImportForm">
     <label for="documentPdfFile">اختر PDF أو صورة للمعدة / لوحة البيانات</label>
     <input id="documentPdfFile" type="file" accept="application/pdf,.pdf,image/jpeg,image/png,image/webp" required>
     <div class="document-ocr-controls">
-      <label class="document-ocr-toggle"><input id="documentOcrEnabled" type="checkbox"> تفعيل OCR للصفحات المصورة</label>
+      <label class="document-ocr-toggle"><input id="documentOcrEnabled" type="checkbox"> تفعيل OCR لصفحات PDF المصورة</label>
       <label for="documentOcrLanguage">لغة OCR</label>
       <select id="documentOcrLanguage">
         <option value="eng">English</option>
