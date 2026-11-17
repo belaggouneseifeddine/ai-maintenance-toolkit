@@ -278,7 +278,7 @@
     if (!target) return;
     const events = await list();
     const db = await openDb();
-    const toDelete = events.filter(event => ["document_ingested", "document_reviewed", "knowledge_claim"].includes(event.eventType) && event.documentId === target);
+    const toDelete = events.filter(event => ["document_ingested", "document_reviewed", "knowledge_claim", "image_observation"].includes(event.eventType) && event.documentId === target);
     const updated = events.filter(event => event.eventType === "diagnostic_prediction" &&
       Array.isArray(event.evidenceDocumentIds) && event.evidenceDocumentIds.includes(target));
     await new Promise((resolve, reject) => {
