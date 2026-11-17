@@ -45,3 +45,28 @@ test("conflicting values under identical recorded conditions are flagged without
   assert.equal(result.conflicts[0].code, "conflicting_readings_same_context");
   assert.equal(result.readings.length, 2);
 });
+
+test("only approved page-linked PDF claims enter the local diagnosis payload", () => {
+  const approved = {
+    documentTitle: "Pump manual",
+    citation: "Pump manual, p. 12",
+    text: "Approved claim excerpt",
+    reviewStatus: "approved",
+    rightsStatus: "licensed-for-use",
+    eligibleForDiagnosis: true,
+    evidenceRole: "approved-page-claim",
+    sourceRef: { documentId: "doc-1", pageNumber: 12, claimId: "claim-1" }
+  };
+  const unreviewed = { ...approved, reviewStatus: "candidate", sourceRef: { documentId: "doc-1", pageNumber: 13 } };
+  const invalidPage = { ...approved, sourceRef: { documentId: "doc-1", pageNumber: 0 } };
+  const request = Core.normalizeRequest({
+    intent: "diagnose", language: "ar",
+    equipment: { type: "centrifugal-pump" }, symptom: "low flow",
+    approvedPdfExcerpts: [approved, unreviewed, invalidPage]
+  });
+  assert.equal(request.ok, true);
+  assert.equal(request.value.approvedPdfExcerpts.length, 1);
+  const summary = Diagnostic.summarizeApprovedDocuments([approved, unreviewed, invalidPage]);
+  assert.equal(summary.length, 1);
+  assert.equal(summary[0].sourceRef.pageNumber, 12);
+});
