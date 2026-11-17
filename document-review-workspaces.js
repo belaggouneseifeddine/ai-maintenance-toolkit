@@ -13,7 +13,7 @@
     const memory = window.MaintenanceLearningMemory;
     if (!host || !memory) return;
     try {
-      const [summary, candidates] = await Promise.all([memory.getLearningDashboard(), memory.getEvaluationCandidates()]);
+      const [summary, candidates, imageCandidates] = await Promise.all([memory.getLearningDashboard(), memory.getEvaluationCandidates(), memory.getImageObservationCandidates()]);
       host.replaceChildren();
       const stats = document.createElement("p");
       stats.className = "hint";
@@ -43,6 +43,22 @@
         list.appendChild(item);
       });
       if (candidates.length) host.appendChild(list);
+      if (imageCandidates.length) {
+        const imageHeading = document.createElement("h4");
+        imageHeading.textContent = "ملاحظات الصور المرشحة للمراجعة الفنية";
+        host.appendChild(imageHeading);
+        imageCandidates.forEach(candidate => {
+          const item = document.createElement("article");
+          item.className = "document-result";
+          const heading = document.createElement("strong");
+          heading.textContent = candidate.component + " — " + candidate.condition;
+          const detail = document.createElement("p");
+          detail.className = "hint";
+          detail.textContent = candidate.observation + " | ثقة الملاحظ: " + candidate.confidenceLabel + " | " + candidate.reviewStatus;
+          item.append(heading, detail);
+          host.appendChild(item);
+        });
+      }
     } catch (error) {
       host.textContent = "تعذر قراءة سجل التعلم المحلي: " + (error && error.message ? error.message : "خطأ غير معروف");
     }
