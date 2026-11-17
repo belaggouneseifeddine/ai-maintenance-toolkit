@@ -7,7 +7,7 @@
   const MAX_OUTPUT_CHARS = 12000;
   const ALLOWED = new Set([
     "diagnose", "searchReviewedDocuments", "getEquipmentContext",
-    "getMaintenanceHistory", "getPreventiveMaintenanceSchedule", "checkSafety", "createDraftReport"
+    "getMaintenanceHistory", "getPreventiveMaintenanceSchedule", "createShiftHandoverDraft", "checkSafety", "createDraftReport"
   ]);
 
   function bounded(value) {
