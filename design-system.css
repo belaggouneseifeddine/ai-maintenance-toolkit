@@ -36,7 +36,7 @@ header{
 }
 header .eyebrow{border-color:rgba(125,211,232,.35);background:rgba(7,152,181,.16)}
 .nav.bottom-navigation{
-  grid-template-columns:repeat(6,minmax(0,1fr))!important;
+  grid-template-columns:repeat(5,minmax(0,1fr))!important;
   border-color:rgba(148,163,184,.45);
 }
 .nav.bottom-navigation .tab{color:var(--muted)}
@@ -85,7 +85,7 @@ button:focus-visible,a:focus-visible{
 #safetyGateNotice,.notice{border-color:#efd39c}
 footer{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
 @media(min-width:760px){
-  .nav.bottom-navigation{grid-template-columns:repeat(6,minmax(0,1fr))!important}
+  .nav.bottom-navigation{grid-template-columns:repeat(5,minmax(0,1fr))!important}
 }
 :root[data-theme="dark"]{
   color-scheme:dark;
