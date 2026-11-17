@@ -169,5 +169,5 @@ test("semantic PDF search persists local multilingual vectors and keeps lexical 
   assert.ok(library.includes("CORE.rankChunks(query, chunks"));
   assert.ok(library.includes("semanticApi.isReady()"));
   assert.ok(library.includes("documentSemanticEnable"));
-  assert.ok(library.includes("لا تتم"));
+  assert.ok(library.includes("~118 MB"));
 });
