@@ -32,10 +32,10 @@
       current = Session.createSession(input || {});
       return snapshot();
     }
-    function restore(snapshot) {
-      const validation = Session.validateSession(snapshot);
+    function restore(sessionSnapshot) {
+      const validation = Session.validateSession(sessionSnapshot);
       if (!validation || validation.ok !== true) throw new TypeError("assistant_session_snapshot_invalid");
-      current = JSON.parse(JSON.stringify(snapshot));
+      current = JSON.parse(JSON.stringify(sessionSnapshot));
       sequence = Math.max(sequence, current.messages.length + current.toolEvents.length + current.facts.length);
       return snapshot();
     }
