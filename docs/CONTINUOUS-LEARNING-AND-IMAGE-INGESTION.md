@@ -44,3 +44,19 @@
 - Test that a failed/empty OCR operation does not create a partial document or learning event.
 - Confirm the feedback panel stores the correct diagnostic case ID and only records a confirmed fault after the required evidence is supplied.
 - Cross-user learning is not implemented; it requires a separate backend and explicit privacy/product decisions.
+
+## Learning workflow update — image and document claims
+
+- The review workspace now accepts OCR-extracted claims from uploaded images as well as PDF pages. Images are treated as source page 1 and can be opened from the original local blob.
+- A claim extracted by either PDF OCR or image OCR cannot be approved unless the original source is opened and the OCR text, numbers, units and model identifiers are visually checked. This closes the previous gap where `image-ocr` was not classified as OCR during claim approval.
+- Document-review and knowledge-claim metadata are now also recorded in the local learning-memory event log. The log stores identifiers, source page, equipment/model scope, extraction method, reviewer and review state; it does not duplicate the extracted claim text or upload source files.
+- The document review workspace displays a local learning dashboard: imported documents, currently approved document reviews, saved claims, approved claims, diagnostic outcome candidates and conflicting outcomes. Counts use the latest review state for each document/claim.
+- Deleting a document removes its ingestion, document-review and knowledge-claim events, in addition to the existing document chunks, claims and semantic vectors.
+- No cross-user sharing, cloud contribution endpoint, automatic fault-library promotion, or model-weight training has been added.
+
+## Next implementation stage
+
+1. Add a structured review/export format for rights-cleared and technically approved claims, preserving source/page/model provenance.
+2. Add image-specific quality checks and an explicit manual transcription fallback for unreadable labels; do not infer damaged components from OCR.
+3. Build an opt-in shared contribution backend only after explicit product/privacy approval, with authentication, consent, tenant isolation, retention/deletion and moderation.
+4. Evaluate vision-language inference separately for visual condition assessment. OCR and visual diagnosis must remain separate capabilities.
