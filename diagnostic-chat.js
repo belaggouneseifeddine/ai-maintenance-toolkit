@@ -661,12 +661,15 @@
       lines.push(copy("الإجراء المسجل: ", "Recorded action: ", "Action enregistrée : ") + record.action);
     });
     else lines.push("", copy("لا توجد سجلات مطابقة للفترة المحددة.", "No matching records for the selected period.", "Aucun enregistrement pour la période sélectionnée."));
+    if (draft.recordsTruncated) lines.push(copy("تم عرض أول 8 سجلات فقط من أصل ", "Showing the first 8 records out of ", "Affichage des 8 premiers enregistrements sur ") + draft.totalMatchingRecords + ".");
     lines.push("", copy("المهام الوقائية المتأخرة أو المستحقة اليوم:", "Overdue or due-today PM tasks:", "Tâches préventives en retard ou dues aujourd’hui :"));
     if (draft.pmDue.length) draft.pmDue.forEach(task => lines.push("• " + task.machine + " — " + task.task + " | " + task.status + " | " + (task.dueDate || "—")));
     else lines.push(copy("لا توجد مهام مسجلة متأخرة أو مستحقة اليوم.", "No saved tasks are overdue or due today.", "Aucune tâche enregistrée n’est en retard ou due aujourd’hui."));
+    if (draft.pmDueTruncated) lines.push(copy("تم اختصار قائمة المهام المستحقة؛ العدد الكلي: ", "Due-task list was shortened; total: ", "Liste des tâches échues réduite ; total : ") + draft.totalPmDue + ".");
     if (draft.invalidPmSchedules.length) {
       lines.push("", copy("جداول تحتاج مراجعة (تاريخ/فترة غير صالحة):", "Schedules requiring review (invalid date/interval):", "Programmes à vérifier (date/intervalle invalide) :"));
       draft.invalidPmSchedules.forEach(task => lines.push("• " + task.machine + " — " + task.task));
+      if (draft.invalidPmSchedulesTruncated) lines.push(copy("تم اختصار القائمة؛ العدد الكلي: ", "List shortened; total: ", "Liste réduite ; total : ") + draft.totalInvalidPmSchedules + ".");
     }
     if (draft.note) lines.push("", copy("ملاحظة الطلب: ", "Request note: ", "Note de demande : ") + draft.note);
     lines.push("", copy("تنبيه: هذه مسودة من سجلات محلية أدخلها المستخدمون، وليست تحققًا مستقلًا من تنفيذ الأعمال. لم تُحفظ أو تُشارك.", "Notice: this draft uses locally entered records and does not independently verify work completion. It has not been saved or shared.", "Attention : ce brouillon utilise des saisies locales et ne vérifie pas indépendamment les travaux. Il n’a été ni enregistré ni partagé."));
