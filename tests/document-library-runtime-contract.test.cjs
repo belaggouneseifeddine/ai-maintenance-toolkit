@@ -95,7 +95,7 @@ test("all document assets are included in both deployment artifacts and optional
   const pages = read(".github/workflows/deploy-pages.yml");
   const cloudflare = read(".github/workflows/deploy-cloudflare-pages.yml");
   const assets = [
-    "document-library-core.js", "document-library.js", "document-library.css",
+    "document-library-core.js", "document-semantic-search.js", "document-library.js", "document-library.css",
     "document-retrieval-adapter.js", "document-review-workspaces.js", "diagnostic-document-evidence.js"
   ];
   for (const asset of assets) {
@@ -104,11 +104,13 @@ test("all document assets are included in both deployment artifacts and optional
     assert.ok(pages.includes(asset), "GitHub Pages workflow must include " + asset);
     assert.ok(cloudflare.includes(asset), "Cloudflare Pages workflow must include " + asset);
   }
-  assert.match(sw, /maintenance-ai-toolkit-v61/);
+  assert.match(sw, /maintenance-ai-toolkit-v62/);
+  assert.ok(sw.includes("vendor/transformers/transformers.min.js"));
   for (const asset of ["vendor/pdfjs/pdf.min.mjs","vendor/pdfjs/pdf.worker.min.mjs","vendor/tesseract/tesseract.min.js","vendor/tesseract/worker.min.js","vendor/tesseract/core/tesseract-core-simd-lstm.wasm.js","vendor/tessdata/ara.traineddata.gz","vendor/tessdata/eng.traineddata.gz","vendor/tessdata/fra.traineddata.gz"]) {
     assert.ok(sw.includes(asset), "service worker must cache " + asset);
   }
   const vendorScript = read("scripts/vendor-document-runtime.sh");
+  assert.ok(vendorScript.includes("@huggingface/transformers@3.8.1"));
   assert.ok(vendorScript.includes("pdfjs-dist@4.10.38"));
   assert.ok(vendorScript.includes("tesseract.js@5.1.1"));
   assert.ok(vendorScript.includes("ara eng fra"));
@@ -142,6 +144,7 @@ test("inline JavaScript in the production HTML parses before browser execution",
 test("all PDF and diagnostic integration runtime modules parse", () => {
   const files = [
     "document-library-core.js",
+    "document-semantic-search.js",
     "document-library.js",
     "document-retrieval-adapter.js",
     "document-review-workspaces.js",
@@ -151,4 +154,20 @@ test("all PDF and diagnostic integration runtime modules parse", () => {
   for (const file of files) {
     new vm.Script(read(file), { filename: file });
   }
+});
+
+test("semantic PDF search persists local multilingual vectors and keeps lexical fallback", () => {
+  const semantic = read("document-semantic-search.js");
+  const library = read("document-library.js");
+  assert.ok(semantic.includes('const DB_NAME = "maintenance-ai-semantic-index"'));
+  assert.ok(semantic.includes('const MODEL_ID = "Xenova/paraphrase-multilingual-MiniLM-L12-v2"'));
+  assert.ok(semantic.includes('createObjectStore("vectors"'));
+  assert.ok(semantic.includes("indexChunks"));
+  assert.ok(semantic.includes("cosine(queryVector, row.vector)"));
+  assert.ok(semantic.includes("useBrowserCache = true"));
+  assert.ok(library.includes("reciprocalRankScore"));
+  assert.ok(library.includes("CORE.rankChunks(query, chunks"));
+  assert.ok(library.includes("semanticApi.isReady()"));
+  assert.ok(library.includes("documentSemanticEnable"));
+  assert.ok(library.includes("لا تتم"));
 });
