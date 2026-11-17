@@ -12,7 +12,7 @@
     panel.className = "result";
     panel.innerHTML =
       '<h3>الأدلة المعتمدة من وثائق PDF</h3>' +
-      '<p class="hint">يسترجع هذا الجزء الادعاءات التي روجعت مع صفحة PDF ونطاق المعدة وحقوق الاستخدام. لا يستخدم نصوص OCR الخام كدليل، ولا يؤكد سبب العطل أو يتجاوز بوابة السلامة.</p>' +
+      '<p class="hint">يسترجع هذا الجزء الادعاءات التي روجعت مع صفحة PDF ونطاق المعدة وحقوق الاستخدام. لا يستخدم نصوص OCR الخام كدليل، ولا يؤكد سبب العطل؛ وتظهر تنبيهات السلامة دون تعطيل استرجاع الأدلة.</p>' +
       '<button type="button" class="btn secondary" id="retrieveDiagnosticClaims">استرجاع الأدلة المعتمدة فقط</button>' +
       '<div id="diagnosticClaimResults" aria-live="polite"></div>';
     anchor.insertAdjacentElement("afterend", panel);
