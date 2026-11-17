@@ -240,3 +240,54 @@ test("shift handover tool fails closed when local maintenance storage is malform
     else global.localStorage = previousStorage;
   }
 });
+
+
+test("safety checklist tool reads user-entered checkbox state without granting safety clearance", async () => {
+  const previousDocument = global.document;
+  global.document = {
+    querySelector: selector => selector === "#safetyChecks" ? {
+      querySelectorAll: () => [
+        { textContent: "Energy isolated", querySelector: () => ({ checked: true }) },
+        { textContent: "Zero energy verified", querySelector: () => ({ checked: false }) }
+      ]
+    } : null
+  };
+  try {
+    const tools = LocalTools.createLocalTools();
+    const registry = Registry.createToolRegistry({ tools: tools.tools });
+    const result = await registry.call("getSafetyChecklistStatus", {});
+    assert.equal(result.ok, true);
+    assert.equal(result.data.ok, true);
+    assert.equal(result.data.checkedCount, 1);
+    assert.equal(result.data.total, 2);
+    assert.equal(result.data.status, "items_remaining");
+    assert.equal(result.data.safetyClearance, false);
+    assert.equal(result.data.items[1].checked, false);
+  } finally {
+    if (previousDocument === undefined) delete global.document;
+    else global.document = previousDocument;
+  }
+});
+
+test("safety checklist tool never turns all checked boxes into authorization to work", async () => {
+  const previousDocument = global.document;
+  global.document = {
+    querySelector: () => ({
+      querySelectorAll: () => [
+        { textContent: "Stop machine", querySelector: () => ({ checked: true }) },
+        { textContent: "Apply LOTO", querySelector: () => ({ checked: true }) }
+      ]
+    })
+  };
+  try {
+    const tools = LocalTools.createLocalTools();
+    const registry = Registry.createToolRegistry({ tools: tools.tools });
+    const result = await registry.call("getSafetyChecklistStatus", {});
+    assert.equal(result.data.allChecked, true);
+    assert.equal(result.data.safetyClearance, false);
+    assert.match(result.data.limitation, /does not authorize work/);
+  } finally {
+    if (previousDocument === undefined) delete global.document;
+    else global.document = previousDocument;
+  }
+});
