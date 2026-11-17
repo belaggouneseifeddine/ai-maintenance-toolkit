@@ -19,9 +19,9 @@ Move Maintenance AI Toolkit from layered prototype code toward a maintainable, l
 - Extracted the inline legacy bootstrap into `app-legacy.js` at the same script position, preserving synchronous execution order.
 - Extracted maintenance-record persistence, rendering, and import/export into `maintenance-records.js`; the module exposes a small compatibility API for the remaining legacy UI.
 - Added `design-system.css` as the final stylesheet layer with the established Industrial Premium palette: navy structure, cyan interaction accents, amber safety/warning accents, and coordinated light/dark tokens.
-- Added the missing independent home dashboard and completed the six destinations: Home, Diagnosis, Knowledge, Safety, History, and More. The optional AI panel is embedded inside Diagnosis rather than occupying a separate navigation slot.
+- Added the missing home dashboard inside the Diagnosis workspace and consolidated the primary navigation to five destinations: Diagnosis, Knowledge, Safety, History, and More. The optional AI panel is embedded inside Diagnosis rather than occupying a separate navigation slot.
 - Removed conflicting navigation mutations from `p1-app-shell.js`; it now owns theme switching only, while `navigation-redesign.js` is the single navigation controller.
-- Corrected the bottom navigation to allocate six columns for the six navigation destinations.
+- Corrected the bottom navigation to allocate five columns for the five navigation destinations.
 - Added all new assets to the service-worker shell and both static-site artifact workflows.
 - Added the two previously omitted learning modules (`learning-feedback-ui.js` and `learning-memory.js`) to both static-site artifact copy lists.
 - Updated runtime and quality contracts to validate the extracted assets and design tokens.
