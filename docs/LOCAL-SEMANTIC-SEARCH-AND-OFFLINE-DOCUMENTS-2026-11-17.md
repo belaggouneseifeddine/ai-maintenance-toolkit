@@ -12,8 +12,8 @@
 
 ### Semantic retrieval
 
-- `document-semantic-search.js` uses Transformers.js 3.8.1 and the multilingual `Xenova/paraphrase-multilingual-MiniLM-L12-v2` embedding model.
-- The model is activated explicitly by the user because the quantized model download is approximately 118 MB. It must not be auto-downloaded over mobile data.
+- `document-semantic-search.js` uses Transformers.js 3.8.1 with the `q8` model variant of `Xenova/paraphrase-multilingual-MiniLM-L12-v2`, pinned to model revision `2c4055b12046f11709e9df2c122e59ffbdc2f900`.
+- The model is activated explicitly by the user because the q8 ONNX model file is 118 MB. Download progress is displayed, and the download is never triggered automatically. It must not be auto-downloaded over mobile data.
 - First activation requires connectivity to fetch model assets. Transformers.js browser caching is enabled; after the model has been cached, inference can run locally without sending PDF text or queries to a model API.
 - Embeddings are stored in a separate IndexedDB database (`maintenance-ai-semantic-index`) keyed by PDF chunk ID and document ID.
 - PDF chunks retain their original document, page number, extraction method, OCR confidence, rights state and review state in the document library.
