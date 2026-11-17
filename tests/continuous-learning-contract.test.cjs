@@ -19,6 +19,11 @@ test("local learning memory stores metadata and requires contributor-confirmed e
   assert.ok(source.includes("async function removeDocument(documentId)"));
   assert.ok(source.includes("MAX_EVENTS = 5000"));
   assert.ok(source.includes("heuristic-not-calibrated-probability"));
+  assert.ok(source.includes("recordDocumentReviewed"));
+  assert.ok(source.includes("recordKnowledgeClaim"));
+  assert.ok(source.includes("getLearningDashboard"));
+  assert.ok(source.includes("sharedWithOtherUsers: false"));
+  assert.ok(source.includes("rightsStatus: \"user-responsibility-not-verified\""));
   assert.equal(source.includes("fetch("), false);
   assert.equal(source.includes("navigator.sendBeacon"), false);
 });
@@ -35,6 +40,9 @@ test("image ingestion is local OCR only and remains unreviewed and ineligible fo
   assert.ok(library.includes('doc.sourceType === "image" ? url'));
   assert.ok(html.includes("image/jpeg,image/png,image/webp"));
   assert.ok(library.includes("recordDocumentIngested"));
+  assert.ok(library.includes('item.extractionMethod === "image-ocr"'));
+  assert.ok(library.includes("recordKnowledgeClaim"));
+  assert.ok(library.includes("recordDocumentReviewed"));
 });
 
 test("technician feedback is explicit and does not automatically train or mutate the diagnostic engine", () => {
@@ -49,6 +57,10 @@ test("technician feedback is explicit and does not automatically train or mutate
   assert.ok(ui.includes("لا تدرب النموذج تلقائيًا"));
   assert.ok(index.includes("learning-memory.js"));
   assert.ok(index.includes("learning-feedback-ui.js"));
+  const review = read("document-review-workspaces.js");
+  assert.ok(review.includes('method === "image-ocr"'));
+  assert.ok(review.includes("learningReviewDashboard"));
+  assert.ok(review.includes("getLearningDashboard"));
   assert.ok(read("sw.js").includes('"./learning-memory.js"'));
   assert.ok(read("sw.js").includes('"./learning-feedback-ui.js"'));
 });
