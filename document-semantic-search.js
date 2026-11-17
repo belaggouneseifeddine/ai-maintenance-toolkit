@@ -66,6 +66,13 @@
     return vector;
   }
 
+  function textFingerprint(value) {
+    const text = String(value || "");
+    let hash = 2166136261;
+    for (let i = 0; i < text.length; i++) { hash ^= text.charCodeAt(i); hash = Math.imul(hash, 16777619); }
+    return (hash >>> 0).toString(16).padStart(8, "0");
+  }
+
   async function indexChunks(chunks) {
     if (!Array.isArray(chunks) || !chunks.length) return { indexed: 0, skipped: 0 };
     await loadPipeline();
@@ -74,6 +81,13 @@
     let skipped = 0;
     for (const chunk of chunks) {
       if (!chunk || !chunk.id || !chunk.documentId || !String(chunk.text || "").trim()) { skipped++; continue; }
+      const fingerprint = textFingerprint(chunk.text);
+      const existing = await new Promise((resolve, reject) => {
+        const request = db.transaction("vectors", "readonly").objectStore("vectors").get(chunk.id);
+        request.onsuccess = () => resolve(request.result || null);
+        request.onerror = () => reject(request.error);
+      });
+      if (existing && existing.modelVersion === MODEL_VERSION && existing.textFingerprint === fingerprint) { skipped++; continue; }
       const vector = await embed(chunk.text);
       await new Promise((resolve, reject) => {
         const tx = db.transaction("vectors", "readwrite");
@@ -81,6 +95,7 @@
           chunkId: chunk.id,
           documentId: chunk.documentId,
           modelVersion: MODEL_VERSION,
+          textFingerprint: fingerprint,
           dimensions: vector.length,
           vector,
           embeddedAt: new Date().toISOString()
