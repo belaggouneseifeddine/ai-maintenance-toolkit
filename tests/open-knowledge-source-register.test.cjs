@@ -65,6 +65,15 @@ test("open knowledge source register is discovery-only and does not claim unveri
   assert.match(groupedStudy.codeLicense, /No repository LICENSE/i);
   assert.match(groupedStudy.decision, /reference-only|no-code-import/);
 
+  const openFdd = register.sources.find(source => source.id === "open-fdd");
+  assert.ok(openFdd, "Open-FDD must be tracked");
+  assert.match(openFdd.contentsReviewed, /77 SQL rules/);
+  assert.match(openFdd.contentsReviewed, /71 pandas twins/);
+  assert.match(openFdd.qualityNotes.join(" "), /52\/77/);
+  assert.match(openFdd.qualityNotes.join(" "), /no per-rule source references/i);
+  assert.match(openFdd.codeLicense, /MIT/);
+  assert.match(openFdd.dataLicense, /not separately verified/i);
+
   const bearing = register.sources.find(source => source.id === "bearing-datasets");
   assert.match(bearing.contentsReviewed, /69 datasets/);
   assert.match(bearing.licenseStatus, /per-dataset/i);
