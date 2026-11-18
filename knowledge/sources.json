@@ -38,7 +38,7 @@
         "raw_figures"
       ],
       "status": "candidate",
-      "reviewDate": "2026-11-09",
+      "reviewDate": "2026-11-18",
       "licenseVerification": "CC-BY-4.0 confirmed on PMC full text",
       "sectionsReviewed": [
         "1. Introduction",
@@ -82,7 +82,8 @@
         "raw_figures"
       ],
       "status": "candidate",
-      "licenseVerification": "CC-BY-4.0 confirmed on the MDPI article page and PMC full-text record"
+      "licenseVerification": "CC-BY-4.0 confirmed on the MDPI article page and PMC full-text record",
+      "reviewDate": "2026-11-18"
     }
   ],
   "reference_only_portals": [
