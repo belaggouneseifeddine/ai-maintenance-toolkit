@@ -766,23 +766,23 @@
       "type": "industrial-platform-architecture",
       "potentialUse": "Study asset/signal/alarms lineage, offline installation, read-only OT integration and auditability.",
       "reportedScope": "Historian, analytics, alarms, dashboards, process models, documents and read-only assistant access.",
-      "licenseStatus": "Apache-2.0 verified for repository code; sample/demo datasets and trademark/logo rights are separate and not verified for reuse",
-      "accessStatus": "README and repository license metadata reviewed; raw LICENSE file and SPEC.md were not fetched in this audit.",
-      "decision": "architecture-reference-only-no-runtime-dependency",
+      "licenseStatus": "GitHub and README identify Apache-2.0, but LICENSE and NOTICE text were not independently reviewed; code reuse remains pending exact file verification. No external fault dataset license was verified.",
+      "accessStatus": "README, release page, install guide and security/how-we-build documentation inspected through GitHub pages; direct LICENSE/NOTICE fetch was unavailable.",
+      "decision": "architecture-reference-only-pending-license-file-review",
       "owner": "PlantCraft",
       "lastUpdated": "2026-11-09",
       "lastPushed": null,
-      "latestRelease": "v0.6.0",
-      "codeLicense": "Apache-2.0 (repository LICENSE/README)",
-      "dataLicense": "not separately verified for demo/scenario/telemetry data",
+      "latestRelease": "v0.6.0 (GitHub release page)",
+      "codeLicense": "Apache-2.0 listed by GitHub and stated in README; raw LICENSE and NOTICE text not independently fetched in this audit",
+      "dataLicense": "No separate public fault-dataset license identified; demo plant is simulated (100 control loops) and must not be treated as field data.",
       "filesReviewed": [
-        "README.md",
-        "repository license metadata (Apache-2.0)",
+        "GitHub README page",
+        "GitHub release v0.6.0 page",
         "docs/install.md",
-        "docs/how-we-build.md",
-        "releases page (v0.6.0)"
+        "SECURITY.md page",
+        "docs/how-we-build.md"
       ],
-      "contentsReviewed": "Reviewed the public README and repository license metadata; docs/install.md and docs/how-we-build.md; release page identifies v0.6.0 (2026-11-02). Documentation describes offline bundle, read-only plant integrations, local-first deployment and optional language-model activation. The raw LICENSE file and SPEC.md were not fetched in this audit; sample/demo data rights remain unverified.",
+      "contentsReviewed": "Reviewed the public GitHub README, v0.6.0 release notes, install guide (updated 2026-11-09, which says suite 0.6.1), security policy and how-we-build page. Describes a self-hosted suite: Historian, Analytics, Alarms, View, Models, Documents, Simulator, Desk and Notebooks. Reads OPC UA, PI Web API, MQTT, Modbus TCP, SQL and CSV; documents are indexed with document/revision/page citations; optional LLM and read-only MCP are off until administrator configuration.",
       "equipment": [
         "process plants",
         "historian tags",
@@ -791,20 +791,20 @@
         "models and dashboards"
       ],
       "qualityNotes": [
-        "Broad self-hosted industrial operations suite; repository describes an alpha-stage platform.",
-        "It provides asset/historian/alarm/workflow architecture but no validated pump-specific causal diagnosis in the reviewed material.",
-        "Sample data provenance and license are not separately established.",
-        "The current upstream owner is the PlantCraft GitHub organization, not the original maintainer login jonathanwvd.",
-        "The project is a broad process-plant suite, not a validated fault-case dataset.",
-        "Offline installation and read-only plant integration are useful architectural patterns; its multi-container stack is not suitable as an Android runtime dependency.",
-        "Repository documentation reports suite 0.6.1 updated 2026-11-09, while the latest tagged GitHub release page reviewed is v0.6.0 (2026-11-02); these are recorded separately, not treated as the same version."
+        "Project is explicitly alpha; a GitHub release v0.6.0 and install guide suite version 0.6.1 are both shown and should be reconciled.",
+        "Strong reference for self-hosted offline plant software, document provenance, read-only OT integration and security-by-default.",
+        "The full suite requires a Linux/Windows/macOS server with Docker; docs recommend 8 GB RAM for a trial and 16 GB for all apps. Not an Android app.",
+        "PlantCraft states it never writes to controllers or historians; only the simulated plant is writable.",
+        "The optional language model and read-only MCP server are off until administrator setup; local plant data is not sent unless configured.",
+        "Analytics checks bad data, oscillation, sticking valves and manual mode; it is process/BAS analytics, not a general causal pump fault engine.",
+        "The demo plant's known faults are simulated; no real-world fault dataset was inspected."
       ],
-      "dependencies": "Multi-service application with backend/frontend and deployment dependencies; not a lightweight Android/Worker library.",
-      "androidWorkerCompatibility": "Architecture reference only; no runtime dependency or direct port.",
-      "reuseConditions": "Retain Apache-2.0 license and NOTICE for code reuse; do not reuse names/logos; do not copy sample or telemetry data until its own terms are verified.",
-      "reviewStatus": "reviewed-2026-11-09",
-      "version": "0.6.1 (documentation states suite 0.6.1; latest tagged release reviewed is v0.6.0)",
-      "lastChecked": "2026-11-17"
+      "dependencies": "Self-hosted Docker containers, Linux/Windows/macOS server, 8 GB+ RAM for trial; plant connectors for OPC UA, PI Web API, MQTT, Modbus TCP, SQL and CSV. Not suitable for Android/Cloudflare Worker runtime.",
+      "androidWorkerCompatibility": "Architecture reference only. Could borrow the read-only integration, signed offline bundle, document citations and AI-off-by-default patterns; not the server stack.",
+      "reuseConditions": "Do not reuse code until the actual LICENSE and NOTICE files are reviewed. No demo telemetry or simulated fault data is to be imported as real maintenance evidence.",
+      "reviewStatus": "documentation-and-release-reviewed-license-file-pending-2026-11-18",
+      "version": "GitHub latest release v0.6.0 (2026-11-02); install guide states suite 0.6.1 (updated 2026-11-09)",
+      "lastChecked": "2026-11-18"
     },
     {
       "id": "uci-hydraulic-447",
