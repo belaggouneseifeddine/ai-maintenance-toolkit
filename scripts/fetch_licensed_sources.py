@@ -143,6 +143,9 @@ def main() -> int:
             if args.validate_only:
                 print(f"VALID\t{source['id']}\t{source['license']}")
                 continue
+            if source.get("fetchAllowed", True) is False:
+                print(f"SKIPPED\t{source['id']}\tfetchAllowed=false; metadata-only; manual review required")
+                continue
 
             html_bytes, final_url = fetch_page(source)
             parser_obj = TextExtractor()
