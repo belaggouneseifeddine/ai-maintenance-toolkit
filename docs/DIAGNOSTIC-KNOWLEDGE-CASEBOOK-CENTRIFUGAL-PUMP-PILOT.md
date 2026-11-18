@@ -239,6 +239,7 @@ No pump case enters runtime until every claim has a permitted source, exact sect
 ### Changes on the isolated review branch
 
 - Measurement parsing now rejects empty strings, whitespace-only values, booleans, non-finite numbers, ambiguous decimal-comma strings and values whose provenance is `unknown`. A numeric zero remains valid.
+- Semantic document indexing now clears a rejected IndexedDB-open promise so a later retry can recover after a transient browser-storage failure; a regression test exercises the fail-then-retry path.
 - Repeated readings for the same parameter are checked for incompatible units and conflicting values under the same operating condition. Conflicting readings are excluded from the accepted evidence set and surfaced for reconciliation; no generic tolerance is invented.
 - Direct measurements, PLC values, historian values and estimates remain separate provenance classes. Estimates are counted separately and are not relabelled as direct measurements.
 - Each test now requires explicit `timeCost` and `costLevel` fields. The current values are `unknown` because no reviewed site-specific time/cost evidence has been supplied.
@@ -248,6 +249,8 @@ No pump case enters runtime until every claim has a permitted source, exact sect
 ### Deliberate non-selection
 
 The current CP-004 candidate has no source-reviewed per-outcome likelihood model, no validated prior distribution and no reviewed test time/cost estimates. Therefore it returns no ranked `nextEvidence` and does not calculate expected information gain. This is intentional: a missing-data count is not information gain, and a heuristic score is not a calibrated probability. A future selector must validate source-backed likelihoods, prior provenance, test safety class, time and cost before ranking.
+
+The semantic vector search still reads the complete vector store with `getAll()` and performs a linear cosine scan. This is acceptable only for small local indexes; large manuals or multi-document libraries need measured Android memory/latency tests and an incremental or partitioned index before scale claims.
 
 ### Remaining Pilot gaps
 
