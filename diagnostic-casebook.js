@@ -311,6 +311,7 @@
         controlSystemValueCount: accepted.filter(item => ["plc_value", "historian_value"].includes(item.sourceType)).length,
         estimatedMeasurementCount: parsed.filter(item => item.sourceType === "estimated").length,
         unknownProvenanceCount: parsed.filter(item => item.sourceType === "unknown" || !ALLOWED_SOURCE_TYPES.has(item.sourceType)).length,
+        controllerCommandCount: parsed.filter(item => item.signalRole === "controller_command").length,
         qualityRejectedCount: qualityRejected.length,
         noisyMeasurementCount: parsed.filter(item => item.qualityFlag === "noisy").length,
         staleMeasurementCount: parsed.filter(item => item.qualityFlag === "stale").length,
