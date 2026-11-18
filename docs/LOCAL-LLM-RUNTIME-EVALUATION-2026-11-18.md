@@ -374,3 +374,15 @@ The repository previously treated a denied deterministic safety decision as a wa
 - the safety gate returns anything other than explicit `allowed: true`.
 
 The related contract, orchestrator and local-tool tests were changed to assert zero execution on denial and successful execution only after an explicit allow decision. This is a fail-closed behavior change and must pass the full test suite before merge.
+
+
+## 15. Qwen3.5-0.8B model-card caveats that affect integration
+
+A closer review of the current Qwen3.5-0.8B LiteRT-LM model card adds two constraints:
+
+1. **Engine/session isolation:** the model card documents recurrent-state leakage when multiple conversations reuse one `Engine` on LiteRT-LM releases through 0.19.1, and prescribes a fresh Engine per conversation. It notes a fix on LiteRT-LM main but not yet in the cited release. The Android host must therefore create a fresh Engine for each assistant session unless a later pinned release is verified to fix this. The adapter's `unloadModel`/resource lifecycle must actually close the prior Engine.
+2. **Tool calling is not native in this artifact's template:** the model card states that passing a tool does not produce `tool_calls`; the current chat template has no tool section. The first Qwen trial must therefore test our own constrained JSON action-envelope prompt (not assume LiteRT-LM native function calling works). If JSON action reliability is inadequate, evaluate a model with a verified tool-calling template rather than weakening validation.
+
+The current CPU artifact's tokenizer section was updated to match the upstream tokenizer on Arabic with diacritics in the 2026-10-16 revision. This establishes tokenization parity, not Arabic technical-answer quality; Arabic maintenance cases still require direct evaluation.
+
+Reference: https://huggingface.co/litert-community/Qwen3.5-0.8B
