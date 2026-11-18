@@ -185,6 +185,28 @@ test("semantic PDF search persists local multilingual vectors and keeps lexical 
   assert.ok(library.includes("~118 MB"));
 });
 
+test("diagnostic chat unwraps local tool envelopes before rendering approved PDF evidence", () => {
+  const chat = read("diagnostic-chat.js");
+  assert.ok(chat.includes("normalizeLocalToolResult(toolResponse)"));
+  assert.match(chat, /!Array\.isArray\(result\.results\)/);
+  const api = require("../diagnostic-chat.js");
+  const payload = {
+    ok: true,
+    status: "approved_claims_retrieved",
+    results: [{ documentTitle: "Pump manual", citation: "p. 12", text: "Check suction pressure." }]
+  };
+  assert.deepEqual(api.normalizeLocalToolResult({
+    ok: true, status: "completed", data: payload
+  }), payload);
+  assert.deepEqual(api.normalizeLocalToolResult(payload), payload);
+  assert.equal(api.normalizeLocalToolResult({
+    ok: false, status: "failed", error: "tool_execution_failed"
+  }).ok, false);
+  assert.equal(api.normalizeLocalToolResult({
+    ok: true, status: "completed"
+  }).data, undefined);
+});
+
 test("diagnostic chat retrieves approved PDF evidence automatically without a manual retrieval button", () => {
   const chat = read("diagnostic-chat.js");
   assert.ok(chat.includes("retrieveEvidence().catch"));
