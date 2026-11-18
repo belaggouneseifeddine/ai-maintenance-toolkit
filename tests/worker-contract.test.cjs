@@ -4,7 +4,11 @@ const fs = require("node:fs");
 const vm = require("node:vm");
 const SafetyGate = require("../worker/safety-gate.mjs");
 
-const source = fs.readFileSync(require.resolve("../normalization.js"), "utf8") + "\n" + fs.readFileSync(require.resolve("../worker.js"), "utf8").replace('import "./normalization.js";', "").replace('import { callCloudflareAI } from "./providers/cloudflare-provider.mjs";', "").replace('import { callGeminiAI } from "./providers/gemini-provider.mjs";', "");\n  .replace('import { normalizeEvidenceText, detectSafetyGate, buildSafetyGateDiagnosis } from "./worker/safety-gate.mjs";', "");
+const source = fs.readFileSync(require.resolve("../normalization.js"), "utf8") + "\n" + fs.readFileSync(require.resolve("../worker.js"), "utf8")
+  .replace('import "./normalization.js";', "")
+  .replace('import { callCloudflareAI } from "./providers/cloudflare-provider.mjs";', "")
+  .replace('import { callGeminiAI } from "./providers/gemini-provider.mjs";', "")
+  .replace('import { normalizeEvidenceText, detectSafetyGate, buildSafetyGateDiagnosis } from "./worker/safety-gate.mjs";', "");
 let upstreamPayload = null;
 let upstreamCalls = 0;
 let cloudflareCalls = 0;
