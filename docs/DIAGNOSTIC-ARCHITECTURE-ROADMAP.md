@@ -391,6 +391,8 @@ The Worker flow-pair regression tests, URMA primary-license gate tests and unlic
 | UCI hydraulic condition-monitoring dataset 447 | CC BY 4.0 on official UCI page | Official dataset metadata and variable descriptions; raw data not downloaded | Isolated laboratory benchmark only; not repair knowledge |
 | LBNL FDD datasets, OEDI submission 5763 | CC BY 4.0 confirmed through the OEDI license link | OEDI metadata and linked license; raw CSV/PDF/TTL not downloaded | HVAC FDD benchmark candidate only; data quality still uninspected |
 | jonathanwvd/awesome-industrial-datasets | CC BY-NC 4.0 for catalogue content; each linked dataset has its own license | Current README (398 entries), LICENSE and UCI hydraulic JSON catalogue entry | Discovery index only; no catalogue text or linked data copied |
+| JonMuel/hydraulic-condition-monitoring | MIT code; UCI data CC BY 4.0; derived model artifact terms not separately identified | README, LICENSE, data README, model_info, feature schema and FastAPI inference service | Research reference only; no model import; valve-class prediction is not root-cause diagnosis |
+| RocketWill/operating-state-aware-monitoring | No code LICENSE; source headers All Rights Reserved; UCI data CC BY 4.0; Paderborn rights not reverified | README, hydraulic/Paderborn data notes, bearing split protocol, grouped evaluation source | Methodology reference only; do not copy code or data |
 
 DataLeakage controls for any later benchmark: split by physical asset, bearing/run, building, fault scenario and time; never randomly split overlapping windows from the same recording or operating cycle. Telemetry labels remain benchmark labels, not maintenance instructions.
 
