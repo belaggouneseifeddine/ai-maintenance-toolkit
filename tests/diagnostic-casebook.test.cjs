@@ -79,6 +79,15 @@ test("missing, estimated and incomplete readings are not silently promoted to me
   assert.ok(result.hypotheses.every(h => h.status === "unresolved"));
 });
 
+test("boolean and non-finite readings are rejected as invalid measurements", () => {
+  const result = Casebook.triageLowFlow({ measurements: [
+    { name: "Flow rate", value: true, unit: "m3/h", location: "FT-101", operatingCondition: "steady", sourceType: "direct_measurement" },
+    { name: "Suction pressure", value: "NaN", unit: "bar(g)", location: "PT-101", operatingCondition: "steady", sourceType: "plc_value" }
+  ] }, lowFlow);
+  assert.equal(result.evidenceQuality.acceptedMeasurementCount, 0);
+  assert.equal(result.evidenceQuality.incompleteMeasurementCount, 2);
+});
+
 test("direct, PLC, historian, estimated and unknown readings retain separate provenance", () => {
   const readings = [
     { name: "Flow rate", value: 12, unit: "m3/h", location: "FT-101", operatingCondition: "steady", sourceType: "direct_measurement" },
