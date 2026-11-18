@@ -280,7 +280,7 @@
       "url": "https://github.com/yilin-2511/industrial-ops-rag-agent",
       "type": "candidate-knowledge-snapshot",
       "potentialUse": "Compare equipment taxonomy and candidate pump hypotheses after source and technical review.",
-      "reportedScope": "Copied data/knowledge_base.json (9 equipment classes, 55 records) into candidate quarantine; 9 pump records separately extracted.",
+      "reportedScope": "Metadata-only coverage snapshot: 55 fault-record count across 9 equipment classes, with 9 pump records counted for gap analysis. No upstream JSON, fault text, standards extract, pump extract or code is retained.",
       "licenseStatus": "Repository code MIT only; no separate data license is verified for embedded knowledge and standards-derived content; cited GB/T standard content rights remain unresolved.",
       "accessStatus": "Actual README, LICENSE, JSON/CSV, requirements, evaluation data and selected Python retrieval/agent modules inspected; no upstream content or code copied and no code executed.",
       "decision": "discovery-only-no-fault-text-import",
