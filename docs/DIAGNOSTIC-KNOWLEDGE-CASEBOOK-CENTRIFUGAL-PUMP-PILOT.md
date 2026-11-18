@@ -252,6 +252,15 @@ The current CP-004 candidate has no source-reviewed per-outcome likelihood model
 
 The semantic vector search still reads the complete vector store with `getAll()` and performs a linear cosine scan. This is acceptable only for small local indexes; large manuals or multi-document libraries need measured Android memory/latency tests and an incremental or partitioned index before scale claims.
 
+### OEM-source integrity audit — adjacent knowledge pack
+
+- The current `oem-verified-faults.json` contains 99 manual-claim records across 8 manufacturers and 17 distinct manual source IDs. The repository metadata reports 99 claim reviews; this audit did not independently re-open all 17 manuals.
+- All 17 source IDs resolve to `knowledge/manufacturer-sources.json`; all 28 manufacturer profiles in `manufacturer-machine-fault-matrix.json` also resolve their listed document IDs.
+- The review branch adds an explicit `reference_only_no_redistribution` license state to every OEM claim and a conservative per-manual license/reuse state with `fetchAllowed:false`. This records that no open redistribution license was verified; it does not invalidate the prior manual-claim review or imply field validation.
+- The 99 records cover Siemens (29), Mitsubishi Electric (10 across two labels), Wuxi XINJE (15), INOVANCE (9), GSK CNC (3), Delta Electronics (31) and Syntec (2). Most of the count is concentrated in Delta ASDA-B2-F and Siemens controller/drive manuals; this is not broad coverage of pumps, motors or mechanical equipment.
+- `knowledge/sources.json` is the general/research source list; the OEM/manual registry is `knowledge/manufacturer-sources.json`. The two registries must not be conflated.
+- `faults.json` exists at 1,128,130 bytes, but the repository file connector returned an empty body for this large file, including a line-range request. Its records/count were not re-parsed in this audit. `knowledge/faults-supplement.json` contains 3 structured records. No root `faults.json` edit was made.
+
 ### Remaining Pilot gaps
 
 - CP-004 (low flow) is the only structured pump candidate currently present. Cavitation, air lock/loss of prime, suction blockage, mechanical-seal leakage and bearing degradation still need separate structured cases; prose notes are not substitutes.
