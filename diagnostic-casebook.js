@@ -60,13 +60,13 @@
       return;
     }
     if (policy.timestampRequired !== true) errors.push("measurementQualityPolicy.timestampRequired must be true");
-    if (!Array.isArray(policy.sensorStatusAllowedForEvidence) || !policy.sensorStatusAllowedForEvidence.includes("verified")) errors.push("evidence requires verified sensor status");
-    if (!Array.isArray(policy.qualityFlagsAllowedForEvidence) || !policy.qualityFlagsAllowedForEvidence.includes("good")) errors.push("evidence requires good quality flag");
+    if (!Array.isArray(policy.sensorStatusAllowedForEvidence) || policy.sensorStatusAllowedForEvidence.length !== 1 || policy.sensorStatusAllowedForEvidence[0] !== "verified") errors.push("evidence requires verified sensor status only");
+    if (!Array.isArray(policy.qualityFlagsAllowedForEvidence) || policy.qualityFlagsAllowedForEvidence.length !== 1 || policy.qualityFlagsAllowedForEvidence[0] !== "good") errors.push("evidence requires good quality flag only");
     if (!Array.isArray(policy.evidenceSourceTypes) || !policy.evidenceSourceTypes.length || policy.evidenceSourceTypes.some(v => !EVIDENCE_SOURCE_TYPES.has(v))) errors.push("evidenceSourceTypes may contain only direct, PLC feedback or historian values");
-    if (!Array.isArray(policy.independentSourceTypes) || !policy.independentSourceTypes.includes("direct_measurement")) errors.push("direct measurements must remain identifiable as independent evidence");
-    if (!Array.isArray(policy.controlSystemSourceTypes) || !policy.controlSystemSourceTypes.includes("plc_value") || !policy.controlSystemSourceTypes.includes("historian_value")) errors.push("PLC and historian values must remain separate from independent measurements");
-    if (!Array.isArray(policy.estimatedSourceTypes) || !policy.estimatedSourceTypes.includes("estimated")) errors.push("estimated values must remain explicitly classified");
-    if (!Array.isArray(policy.excludedSignalRoles) || !["controller_command", "estimate", "unknown"].every(v => policy.excludedSignalRoles.includes(v))) errors.push("controller commands, estimates and unknown signal roles must be excluded from evidence");
+    if (!Array.isArray(policy.independentSourceTypes) || policy.independentSourceTypes.length !== 1 || policy.independentSourceTypes[0] !== "direct_measurement") errors.push("direct measurements must remain the only independent source type");
+    if (!Array.isArray(policy.controlSystemSourceTypes) || policy.controlSystemSourceTypes.length !== 2 || !policy.controlSystemSourceTypes.includes("plc_value") || !policy.controlSystemSourceTypes.includes("historian_value")) errors.push("PLC and historian values must remain separate from independent measurements");
+    if (!Array.isArray(policy.estimatedSourceTypes) || policy.estimatedSourceTypes.length !== 1 || policy.estimatedSourceTypes[0] !== "estimated") errors.push("estimated values must remain explicitly classified");
+    if (!Array.isArray(policy.excludedSignalRoles) || policy.excludedSignalRoles.length !== 3 || !["controller_command", "estimate", "unknown"].every(v => policy.excludedSignalRoles.includes(v))) errors.push("controller commands, estimates and unknown signal roles must be excluded from evidence");
     if (policy.unitHandling !== "preserve_exact_units_no_automatic_conversion") errors.push("unit handling must preserve reported units without automatic conversion");
   }
 
@@ -312,7 +312,9 @@
         estimatedMeasurementCount: parsed.filter(item => item.sourceType === "estimated").length,
         unknownProvenanceCount: parsed.filter(item => item.sourceType === "unknown" || !ALLOWED_SOURCE_TYPES.has(item.sourceType)).length,
         controllerCommandCount: parsed.filter(item => item.signalRole === "controller_command").length,
-        qualityRejectedCount: qualityRejected.length,
+        evidenceExcludedCount: qualityRejected.length,
+        qualityRejectedCount: parsed.filter(item => !policy.sensorStatusAllowedForEvidence.includes(item.sensorStatus) || !policy.qualityFlagsAllowedForEvidence.includes(item.qualityFlag)).length,
+        invalidMeasurementCount: parsed.filter(item => !item.structurallyValid).length,
         noisyMeasurementCount: parsed.filter(item => item.qualityFlag === "noisy").length,
         staleMeasurementCount: parsed.filter(item => item.qualityFlag === "stale").length,
         failedSensorCount: parsed.filter(item => item.sensorStatus === "failed").length,
