@@ -299,8 +299,7 @@ User-provided screenshot confirms:
 - Build identifiers shown: M336BUXXSGGZFE1 / M336BODM G GZB3 / M336BUXXSGGZB3 (retain exact screenshot transcription as build metadata only; verify directly on device if needed).
 
 Still unconfirmed:
-- Available internal storage.
-- Exact physical RAM confirmation (6 GB is the selected conservative design baseline, not a screenshot-verified memory reading).
+- Available internal storage and physical RAM were not visible in the screenshot; the user subsequently confirmed a 10 GB free-space budget and selected 6 GB physical RAM as the design baseline.
 - Chrome version and WebGPU availability.
 
 This Android 16 / One UI 8.0 confirmation is suitable to record for planning, but does not by itself establish LiteRT-LM runtime compatibility or inference performance on the device.
