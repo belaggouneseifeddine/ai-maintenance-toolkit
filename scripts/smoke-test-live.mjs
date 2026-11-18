@@ -14,9 +14,18 @@ if (page.status !== 200 || !page.contentType.includes("text/html")) {
   throw new Error(`Published Pages smoke test failed: HTTP ${page.status}, content-type=${page.contentType}`);
 }
 if (!page.body.includes('id="diagnosisForm"') ||
-    !page.body.includes("MaintenanceAgentUI") ||
+    !page.body.includes("agent-ui.js") ||
+    !page.body.includes("diagnostic-chat.js") ||
     !page.body.includes("diagnostic-session-ui.js")) {
-  throw new Error("Published app is missing the local diagnosis form or local diagnostic-agent wiring");
+  throw new Error("Published app is missing the local diagnosis form or its runtime script references");
+}
+const [agentUi, diagnosticChat] = await Promise.all([
+  get(new URL("./agent-ui.js", page.finalUrl)),
+  get(new URL("./diagnostic-chat.js", page.finalUrl))
+]);
+if (agentUi.status !== 200 || !agentUi.body.includes("MaintenanceAgentUI") ||
+    diagnosticChat.status !== 200 || !diagnosticChat.body.includes("MaintenanceLocalAssistantOrchestrator")) {
+  throw new Error("Published local diagnostic-agent runtime scripts are missing or incomplete");
 }
 if (page.body.includes('id="aiEndpoint"')) {
   throw new Error("Published app unexpectedly exposes the retired cloud-AI endpoint control");
