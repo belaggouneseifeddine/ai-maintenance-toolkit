@@ -114,7 +114,7 @@
       "type": "dataset-tooling-catalogue",
       "potentialUse": "Offline research benchmark adapter for bearings and rotating machinery.",
       "reportedScope": "README reports 69 datasets; common metadata format; vibration/acoustic signals, labels and operating metadata. Each dataset is downloaded from original source.",
-      "licenseStatus": "MIT covers the repository code only. CWRU and FEMTO manifests say license unspecified; Paderborn is CC-BY-NC-4.0; URMA-CRTI is marked CC-BY-4.0 in the third-party manifest, but its primary Zenodo record was not independently checked.",
+      "licenseStatus": "MIT covers repository code only; each dataset has its own per-dataset license. CWRU and FEMTO manifests say license unspecified; Paderborn is CC-BY-NC-4.0; URMA-CRTI is marked CC-BY-4.0 in the third-party manifest, but its primary Zenodo record was not independently checked.",
       "accessStatus": "README, LICENSE, pyproject.toml and four dataset manifests inspected; raw signals not downloaded.",
       "decision": "metadata-only-per-dataset-license-review",
       "owner": "VictorBauler",
