@@ -241,7 +241,9 @@
         "A pressure value without tap location, unit, timestamp and operating condition is incomplete",
         "PLC command/frequency is not equivalent to independently measured shaft speed",
         "Do not use generic pressure or flow thresholds"
-      ]
+      ],
+      "timeCost": "unknown",
+      "costLevel": "unknown"
     },
     {
       "id": "review-source-and-valve-state",
@@ -268,7 +270,9 @@
       "interpretationLimits": [
         "A displayed valve position may not equal physical valve position",
         "Do not manipulate valves as an experiment"
-      ]
+      ],
+      "timeCost": "unknown",
+      "costLevel": "unknown"
     },
     {
       "id": "plan-isolated-inspection",
@@ -296,7 +300,9 @@
       "interpretationLimits": [
         "This is not an instruction to open equipment; use exact OEM and site procedures",
         "Inspection findings must be recorded with component, location and photographs where permitted"
-      ]
+      ],
+      "timeCost": "unknown",
+      "costLevel": "unknown"
     }
   ],
   "limits": [
