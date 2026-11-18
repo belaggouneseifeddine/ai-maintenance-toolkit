@@ -282,7 +282,7 @@
       "type": "candidate-knowledge-snapshot",
       "potentialUse": "Compare equipment taxonomy and candidate pump hypotheses after source and technical review.",
       "reportedScope": "Copied data/knowledge_base.json (9 equipment classes, 55 records) into candidate quarantine; 9 pump records separately extracted.",
-      "licenseStatus": "MIT applies to repository code only. No separate permission was found for the GB/T-derived CSV or embedded maintenance knowledge.",
+      "licenseStatus": "MIT applies to repository code only; no separate data license was found for GB/T-derived CSV or embedded maintenance knowledge.",
       "accessStatus": "Actual JSON, README and LICENSE inspected; fault_cases.json and standards CSVs excluded.",
       "decision": "discovery-only-no-fault-text-import",
       "limitations": "42/55 records repeat causes as diagnosis steps; no claim-level standard pages/model scope; other records lack measurable expected outcomes and safe preconditions.",
@@ -292,7 +292,7 @@
       "lastPushed": "2026-06-02",
       "latestRelease": null,
       "codeLicense": "MIT (repository LICENSE; code only)",
-      "dataLicense": "not declared separately; standards-derived knowledge and embedded records have unresolved reuse rights",
+      "dataLicense": "not-declared-separately",
       "filesReviewed": [
         "README.md",
         "LICENSE",
@@ -330,14 +330,15 @@
         "industrial-ops-rag-agent"
       ],
       "lastReviewed": "2026-11-18",
-      "android": "Do not port the Python stack or maintenance text. Discovery pointer only."
+      "android": "Do not port the Python stack or maintenance text. Discovery pointer only.",
+      "dataLicenseNotes": "Standards-derived knowledge and embedded records have unresolved reuse rights; do not import fault text or CSV rows."
     },
     {
       "id": "jonmuel-hydraulic-condition-monitoring",
       "title": "Hydraulic Condition Monitoring — reproducible ML case study",
       "url": "https://github.com/JonMuel/hydraulic-condition-monitoring",
-      "type": "ml-model-and-demo",
-      "potentialUse": "Reproducible offline evaluation reference; validate its split strategy and dataset terms before use.",
+      "type": "industrial_dataset_research_repository",
+      "potentialUse": "methodology_reference_only",
       "reportedScope": "UCI hydraulic condition monitoring dataset; notebook, exported model, FastAPI demo.",
       "licenseStatus": "repository code MIT; UCI dataset terms are separate",
       "accessStatus": "README and LICENSE reviewed",
@@ -921,7 +922,9 @@
       "dataLeakage": "Hydraulic: split by contiguous condition block; Paderborn: split by bearing ID, never by recording windows. The README explicitly says condition blocks are not verified independent experimental runs.",
       "dependencies": "Python, NumPy, pandas, scikit-learn and a Conda environment; research scripts and local raw data paths.",
       "android": "Do not port code. Reuse the methodological lesson—asset/run/block-aware splits—only as a design principle.",
-      "lastReviewed": "2026-11-18"
+      "lastReviewed": "2026-11-18",
+      "type": "industrial_dataset_research_repository",
+      "potentialUse": "methodology_reference_only"
     }
   ],
   "lastReviewed": "2026-11-18",
