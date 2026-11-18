@@ -49,6 +49,7 @@ jobs:
             agent-ui.js \
             diagnostic-chat.js \
             local-llm-runtime.js \
+            assistant-model-agent.js \
             assistant-session-contract.js \
             assistant-tool-registry.js \
             assistant-local-orchestrator.js \
