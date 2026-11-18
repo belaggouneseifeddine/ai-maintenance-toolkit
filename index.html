@@ -23,40 +23,48 @@
 <section id="diagnose" class="panel">
 <section id="homeDashboard" class="ux-home-dashboard" aria-labelledby="homeTitle">
   <div class="ux-hero">
-    <span class="ux-status">INDUSTRIAL MAINTENANCE • LOCAL FIRST</span>
-    <h1 id="homeTitle">مركز الصيانة الصناعية</h1>
-    <p>ابدأ بالتشخيص المحلي، اربط الأدلة بالصفحات الأصلية، واستعن بالذكاء التوليدي فقط عندما تحتاجه وتوافق على إرسال الحالة.</p>
+    <span class="ux-status" data-ux-key="eyebrow">مركز الصيانة الصناعية • محلي أولًا</span>
+    <h1 id="homeTitle" data-ux-key="title">ماذا تحتاج أن تفعل الآن؟</h1>
+    <p data-ux-key="sub">شخّص بأمان، وثّق العمل، واسترجع المعرفة الفنية من مكان واحد.</p>
+    <span class="ux-prototype" id="ux-badge" data-ux-key="badge">نسخة أولية</span>
     <div class="actions">
-      <button class="btn" type="button" data-go="diagnose">ابدأ تشخيصًا محليًا</button>
-      <button class="btn secondary" type="button" data-go="knowledge">افتح قاعدة المعرفة</button>
+      <button class="btn" type="button" data-go="diagnose" data-ux-key="diagnose">ابدأ تشخيصًا</button>
+      <button class="btn secondary" type="button" data-go="knowledge" data-ux-key="knowledge">المعرفة والوثائق</button>
     </div>
   </div>
-  <div class="ux-stats" aria-label="مكونات التطبيق">
-    <div class="ux-stat"><span>محرك التشخيص</span><strong>محلي</strong><small>لا يحتاج إلى مزود AI خارجي</small></div>
-    <div class="ux-stat"><span>الذكاء التوليدي</span><strong>اختياري</strong><small>يُستدعى بعد موافقتك فقط</small></div>
-    <div class="ux-stat"><span>مكتبة الوثائق</span><strong>على الجهاز</strong><small>ملفاتك وسجلاتك محلية</small></div>
-  </div>
-  <div class="ux-section-head"><h2>مساحات العمل</h2></div>
+  <section class="ux-overview" aria-label="Overview">
+    <h2 data-ux-key="overview">نظرة عامة</h2>
+    <div class="ux-stats">
+      <article class="ux-stat"><span data-ux-key="total">إجمالي السجلات</span><strong id="ux-total">0</strong></article>
+      <article class="ux-stat"><span data-ux-key="open">قيد المتابعة</span><strong id="ux-open">0</strong></article>
+      <article class="ux-stat"><span data-ux-key="due">مهام مستحقة</span><strong id="ux-due">0</strong></article>
+    </div>
+  </section>
+  <div class="ux-section-head"><h2 data-ux-key="workspaces">مساحات العمل</h2></div>
   <div class="ux-actions">
-    <button class="ux-action ux-action-primary" type="button" data-go="diagnose"><span class="ux-action-icon" aria-hidden="true">⌕</span><span><b>التشخيص</b><small>جمع الأعراض والقياسات وترتيب الفرضيات</small></span><span class="ux-arrow" aria-hidden="true">←</span></button>
-    <button class="ux-action" type="button" data-go="knowledge"><span class="ux-action-icon" aria-hidden="true">▤</span><span><b>المعرفة والوثائق</b><small>استيراد PDF والصور والبحث في الصفحات</small></span><span class="ux-arrow" aria-hidden="true">←</span></button>
-    <button class="ux-action" type="button" data-go="safety"><span class="ux-action-icon" aria-hidden="true">⬡</span><span><b>السلامة</b><small>قوائم التحقق وموانع التدخل</small></span><span class="ux-arrow" aria-hidden="true">←</span></button>
-    <button class="ux-action" type="button" data-go="log"><span class="ux-action-icon" aria-hidden="true">▣</span><span><b>سجل الصيانة</b><small>الحالات والإجراءات ونتائج الإصلاح</small></span><span class="ux-arrow" aria-hidden="true">←</span></button>
-    <button class="ux-action" type="button" data-go="v03"><span class="ux-action-icon" aria-hidden="true">⋯</span><span><b>أدوات إضافية</b><small>الصيانة الوقائية والتقارير والإعدادات</small></span><span class="ux-arrow" aria-hidden="true">←</span></button>
-    <button class="ux-action" type="button" data-go="ai"><span class="ux-action-icon" aria-hidden="true">✧</span><span><b>مساعد AI</b><small>مراجعة إضافية اختيارية للحالة المحلية</small></span><span class="ux-arrow" aria-hidden="true">←</span></button>
+    <button class="ux-action ux-action-primary" type="button" data-go="diagnose"><span class="ux-action-icon" aria-hidden="true">⌕</span><span><b data-ux-key="diagnose">التشخيص</b><small data-ux-key="diagnoseSub">جمع الأعراض والقياسات وترتيب الفرضيات</small></span><span class="ux-arrow" aria-hidden="true">←</span></button>
+    <button class="ux-action" type="button" data-go="knowledge"><span class="ux-action-icon" aria-hidden="true">▤</span><span><b data-ux-key="knowledge">المعرفة والوثائق</b><small data-ux-key="knowledgeSub">استيراد PDF والصور والبحث مع مرجع الصفحة</small></span><span class="ux-arrow" aria-hidden="true">←</span></button>
+    <button class="ux-action" type="button" data-go="safety"><span class="ux-action-icon" aria-hidden="true">⬡</span><span><b data-ux-key="safety">السلامة</b><small data-ux-key="safetySub">قوائم التحقق وموانع التدخل</small></span><span class="ux-arrow" aria-hidden="true">←</span></button>
+    <button class="ux-action" type="button" data-go="log"><span class="ux-action-icon" aria-hidden="true">▣</span><span><b data-ux-key="log">سجل الصيانة</b><small data-ux-key="logSub">الحالات والإجراءات ونتائج الإصلاح</small></span><span class="ux-arrow" aria-hidden="true">←</span></button>
+    <button class="ux-action" type="button" data-go="v03"><span class="ux-action-icon" aria-hidden="true">⋯</span><span><b data-ux-key="handover">أدوات إضافية</b><small data-ux-key="handoverSub">الصيانة الوقائية والتقارير والإعدادات</small></span><span class="ux-arrow" aria-hidden="true">←</span></button>
+    <button class="ux-action" type="button" data-go="ai"><span class="ux-action-icon" aria-hidden="true">✧</span><span><b data-ux-key="ai">مساعد AI</b><small data-ux-key="aiSub">مراجعة خارجية اختيارية بعد موافقتك</small></span><span class="ux-arrow" aria-hidden="true">←</span></button>
   </div>
   <div class="ux-safety">
     <span class="ux-safety-icon" aria-hidden="true">!</span>
-    <div><h2>السلامة قبل التشخيص</h2><p>لا تنفّذ قياسات حية أو تفتح معدات مضغوطة أو تتجاوز interlocks لمجرد إكمال خطوات التطبيق. اتبع إجراءات العزل وتعليمات الموقع والشركة المصنّعة.</p></div>
+    <div><h2 data-ux-key="safetyTitle">السلامة قبل التشخيص</h2><p data-ux-key="safetyText">اتبع إجراء LOTO المعتمد وتحقق من الطاقة المخزنة. لا تفتح نظامًا مضغوطًا أو تلمس أجزاء حية أو تتجاوز interlocks.</p></div>
   </div>
+  <section class="ux-recent">
+    <div class="ux-section-head"><h2 data-ux-key="recent">أحدث السجلات</h2><button type="button" class="ux-link" data-go="log" data-ux-key="all">عرض سجل الصيانة</button></div>
+    <div id="ux-recent-list" aria-live="polite"></div>
+  </section>
   <div class="card">
-    <h2>كيف يعمل المساعد؟</h2>
+    <h2 data-ux-key="howTitle">كيف يعمل المساعد؟</h2>
     <ol>
-      <li>المحرك المحلي يبدأ بجمع بيانات المعدة والسياق والأعراض والقياسات المتاحة.</li>
-      <li>يرتب الفرضيات ويقترح الفحص التالي مع إظهار حدود الأدلة وعدم اليقين.</li>
-      <li>يمكن استرجاع مقتطفات الوثائق المعتمدة مع مرجع الصفحة الأصلية.</li>
-      <li>الذكاء التوليدي خدمة خارجية اختيارية؛ لا تُرسل الحالة إليه إلا بعد موافقة واضحة.</li>
-      <li>تُحفظ ملاحظات الفني ونتائج الإصلاح محليًا، ولا تُدرّب أوزان النموذج تلقائيًا.</li>
+      <li data-ux-key="howLocal">المحرك المحلي يبدأ بجمع بيانات المعدة والسياق والأعراض والقياسات.</li>
+      <li data-ux-key="howHypotheses">يرتب الفرضيات ويقترح الفحص التالي مع توضيح عدم اليقين.</li>
+      <li data-ux-key="howDocs">يسترجع الوثائق المعتمدة مع مرجع الصفحة الأصلية.</li>
+      <li data-ux-key="howAI">الذكاء التوليدي خدمة خارجية اختيارية؛ لا تُرسل الحالة إلا بعد موافقة واضحة.</li>
+      <li data-ux-key="howLearning">تُحفظ ملاحظات الفني محليًا؛ لا يحدث تدريب لأوزان النموذج تلقائيًا.</li>
     </ol>
   </div>
 </section>
