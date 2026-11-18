@@ -233,3 +233,98 @@ No paper text, figures, tables or raw data were copied. The two sources are regi
 ### Pilot gate
 
 No pump case enters runtime until every claim has a permitted source, exact section/page, equipment scope, units, measurement location, operating conditions, supporting and opposing evidence, safe test prerequisites, expected results for competing hypotheses, stop conditions, post-repair verification and automated tests for missing, contradictory, noisy and invalid measurements. Actual measurements, PLC-indicated values and estimates must remain distinct. No general numeric threshold is allowed without the applicable model/curve/fluid/installation source.
+
+## Implementation audit and hardening — 2026-11-18
+
+### Changes on the isolated review branch
+
+- Measurement parsing now rejects empty strings, whitespace-only values, booleans, non-finite numbers, ambiguous decimal-comma strings and values whose provenance is `unknown`. A numeric zero remains valid.
+- Semantic document indexing now clears a rejected IndexedDB-open promise so a later retry can recover after a transient browser-storage failure; a regression test exercises the fail-then-retry path.
+- Repeated readings for the same parameter are checked for incompatible units and conflicting values under the same operating condition. Conflicting readings are excluded from the accepted evidence set and surfaced for reconciliation; no generic tolerance is invented.
+- Direct measurements, PLC values, historian values and estimates remain separate provenance classes. Estimates are counted separately and are not relabelled as direct measurements.
+- Each test now requires explicit `timeCost` and `costLevel` fields. The current values are `unknown` because no reviewed site-specific time/cost evidence has been supplied.
+- Case validation can check source IDs against the source register. Unknown source IDs fail validation; a case cannot claim `reuse_permitted` while relying on a reference-only, non-commercial, unverified or otherwise restricted source.
+- Candidate triage lists only installed-instrument or external observations as possible next-evidence candidates. It no longer auto-selects a test by counting missing fields.
+
+### Deliberate non-selection
+
+The current CP-004 candidate has no source-reviewed per-outcome likelihood model, no validated prior distribution and no reviewed test time/cost estimates. Therefore it returns no ranked `nextEvidence` and does not calculate expected information gain. This is intentional: a missing-data count is not information gain, and a heuristic score is not a calibrated probability. A future selector must validate source-backed likelihoods, prior provenance, test safety class, time and cost before ranking.
+
+The semantic vector search still reads the complete vector store with `getAll()` and performs a linear cosine scan. This is acceptable only for small local indexes; large manuals or multi-document libraries need measured Android memory/latency tests and an incremental or partitioned index before scale claims.
+
+### OEM-source integrity audit — adjacent knowledge pack
+
+- The current `oem-verified-faults.json` contains 99 manual-claim records across 8 manufacturers and 17 distinct manual source IDs. The repository metadata reports 99 claim reviews; this audit did not independently re-open all 17 manuals.
+- All 17 source IDs resolve to `knowledge/manufacturer-sources.json`; all 28 manufacturer profiles in `manufacturer-machine-fault-matrix.json` also resolve their listed document IDs.
+- The review branch adds an explicit `reference_only_no_redistribution` license state to every OEM claim and a conservative per-manual license/reuse state with `fetchAllowed:false`. This records that no open redistribution license was verified; it does not invalidate the prior manual-claim review or imply field validation.
+- The 99 records cover Siemens (29), Mitsubishi Electric (10 across two labels), Wuxi XINJE (15), INOVANCE (9), GSK CNC (3), Delta Electronics (31) and Syntec (2). Most of the count is concentrated in Delta ASDA-B2-F and Siemens controller/drive manuals; this is not broad coverage of pumps, motors or mechanical equipment.
+- `knowledge/sources.json` is the general/research source list; the OEM/manual registry is `knowledge/manufacturer-sources.json`. The two registries must not be conflated.
+- `faults.json` exists at 1,128,130 bytes, but the repository file connector returned an empty body for this large file, including a line-range request. Its records/count were not re-parsed in this audit. `knowledge/faults-supplement.json` contains 3 structured records. No root `faults.json` edit was made.
+
+### Remaining Pilot gaps
+
+- CP-004 (low flow) is the only structured pump candidate currently present. Cavitation, air lock/loss of prime, suction blockage, mechanical-seal leakage and bearing degradation still need separate structured cases; prose notes are not substitutes.
+- The current source set supports bounded research and reference claims, but does not establish a complete, model-independent causal matrix for low flow.
+- No pump-specific likelihoods, calibrated priors, verified time/cost estimates or field-confirmed outcome dataset are available.
+- Candidate casebook code and JSON remain outside the live diagnosis runtime. No candidate record was promoted into `faults.json`, the runtime retrieval corpus or OEM-verified records.
+- Android device behavior, PDF import/retrieval page citations and end-to-end technician workflow still require real-device verification.
+
+### Verification required for this branch
+
+Run the focused casebook tests, full Node suite, knowledge/source validation, JavaScript syntax checks and the published-site smoke test in CI. Passing repository CI does not replace field validation or Android offline testing.
+
+## Review update — 2026-11-18
+
+### Current case maturity
+
+| Case | Current representation | Runtime decision |
+|---|---|---|
+| CP-001 Cavitation | Differential hypothesis in this design document; no separate structured JSON case yet | Excluded |
+| CP-002 Air lock | Differential hypothesis in this design document; no separate structured JSON case yet | Excluded |
+| CP-003 Suction blockage | Differential hypothesis in this design document; no separate structured JSON case yet | Excluded |
+| CP-004 Low flow | Structured candidate at knowledge/diagnostic-cases/centrifugal-pump-low-flow.json; claim traceability and measurement-quality contract added | Excluded |
+| CP-005 Mechanical seal leakage | Research and design candidate only; no separate structured JSON case yet | Excluded |
+| CP-006 Bearing degradation | Research and design candidate only; no separate structured JSON case yet | Excluded |
+
+Only CP-004 currently has a structured case record. The other five are not silently promoted from prose to machine-readable diagnosis rules.
+
+### Claim-level evidence and reuse boundary
+
+The low-flow record now maps every mechanism, applicability statement, symptom, context requirement, hypothesis, measurement, test, limit, stop condition, verification item and limitation to a claimTraceability row.
+
+- The KSB MDX manual is a bounded example for the MDX slurry-pump family only (Section 12.1, Tables 12-1/12-2, printed page 83). It is not a universal centrifugal-pump fault matrix.
+- The KSB Lexicon supports the pump/system-curve operating-point framework; it does not provide a universal threshold or a model-specific repair instruction.
+- ASHRAE Chapter 44 is limited to its hydronic-system context.
+- Three hypotheses have bounded KSB support; other hypotheses and all unverified design/safety requirements are explicitly marked source_gap rather than attributed to an unrelated research paper.
+- Two open-access research papers about seeded bearing/mechanical-seal/impeller experiments were removed from the CP-004 source list because they do not establish low-flow causes. They remain research candidates for later bearing and seal cases.
+
+All three retained technical references remain reference_only; no OEM or handbook text, tables, figures or numeric thresholds were copied. CP-004 remains candidate, reference_only and unavailable to runtime.
+
+### Measurement-quality contract
+
+A reading is eligible as evidence only when it has:
+
+- A numeric value and explicit unit, location/tag and operating condition.
+- An ISO-8601 timestamp with an explicit timezone.
+- sensorStatus: verified and qualityFlag: good.
+- A recognized measurement definition and compatible source provenance.
+- A signal role that distinguishes a physical measurement, PLC feedback, historian-derived value, controller command or estimate.
+
+The triage contract preserves the following distinctions:
+
+- Direct measurements are counted as independent measurements.
+- PLC feedback and historian values remain visible as control-system evidence, not independent physical measurements.
+- PLC commands are not accepted as actual shaft speed.
+- Estimates and unknown provenance remain recorded as context but cannot satisfy a required measurement.
+- No automatic unit conversion is performed; mixed units are flagged until normalized by a reviewed conversion.
+- Same-parameter values are considered contradictory only when location, operating condition and timestamp align; different timestamps are not falsely treated as simultaneous conflicts.
+- Noisy, stale, failed or suspect sensors are excluded from the evidence set.
+
+The casebook still refuses to rank a next test. It lists safe observations as unranked candidates and blocks selection until per-outcome likelihoods, priors and time/cost estimates are source-reviewed and validated. This is deliberate; a heuristic score is not a calibrated probability or a validated value-of-information model.
+
+### Remaining blockers before any runtime admission
+
+1. Complete source-backed, claim-level case records for cavitation, air lock, suction blockage, mechanical-seal leakage and bearing degradation.
+2. Review the exact pump model, impeller, speed, fluid, installation datum and OEM performance curve before defining model-specific measurement interpretation or acceptance criteria.
+3. Add field cases with known outcomes and independent measurements; test missing, contradictory, noisy, stale and failed-sensor inputs across operating states.
+4. Only after those gates pass, estimate and validate outcome likelihoods and test time/cost, then evaluate information-gain selection under safety constraints.

@@ -15,8 +15,8 @@
     {
       "id": "water-pump-bearing-fault-pmc-2021",
       "title": "A Novel Feature Extraction and Fault Detection Technique for the Intelligent Fault Identification of Water Pump Bearings",
-      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC8234243/fullTextXML",
-      "publisher": "PubMed Central",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8234243/",
+      "publisher": "PubMed Central full-text HTML",
       "license": "CC-BY-4.0",
       "license_url": "https://creativecommons.org/licenses/by/4.0/",
       "license_evidence_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8234243/",
@@ -38,7 +38,7 @@
         "raw_figures"
       ],
       "status": "candidate",
-      "reviewDate": "2026-11-09",
+      "reviewDate": "2026-11-18",
       "licenseVerification": "CC-BY-4.0 confirmed on PMC full text",
       "sectionsReviewed": [
         "1. Introduction",
@@ -60,11 +60,11 @@
     {
       "id": "centrifugal-pump-fault-pmc-2022",
       "title": "Multistage Centrifugal Pump Fault Diagnosis Using Informative Ratio Principal Component Analysis",
-      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC8747656/fullTextXML",
-      "publisher": "PubMed Central",
+      "url": "https://www.mdpi.com/1424-8220/22/1/179",
+      "publisher": "MDPI / Sensors",
       "license": "CC-BY-4.0",
       "license_url": "https://creativecommons.org/licenses/by/4.0/",
-      "license_evidence_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8747656/",
+      "license_evidence_url": "https://www.mdpi.com/1424-8220/22/1/179",
       "license_verified_on": "2026-10-22",
       "source_last_updated": null,
       "last_update_status": "not_independently_confirmed",
@@ -81,7 +81,16 @@
         "raw_tables",
         "raw_figures"
       ],
-      "status": "candidate"
+      "status": "candidate",
+      "licenseVerification": "CC-BY-4.0 was recorded in the earlier license review, but the current automated publisher fetch returned HTTP 403. Keep this source metadata-only until the full text and license page can be re-reviewed.",
+      "reviewDate": "2026-11-18",
+      "fetchAllowed": false,
+      "sectionsReviewed": [],
+      "scopeReviewed": "Metadata-only candidate. The MDPI publisher endpoint returned HTTP 403 to the automated review runner on 2026-11-18; full article text was not reviewed in this pass.",
+      "evidenceRole": "metadata-only-candidate",
+      "limitations": [
+        "The publisher page returned HTTP 403 to the 2026-11-18 CI fetch; no article text, claims, tables or data were ingested in this pass."
+      ]
     }
   ],
   "reference_only_portals": [

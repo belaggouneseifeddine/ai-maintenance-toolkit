@@ -24,6 +24,9 @@
       };
       request.onsuccess = () => resolve(request.result);
       request.onerror = () => reject(request.error || new Error("Could not open semantic index."));
+    }).catch(error => {
+      dbPromise = null;
+      throw error;
     });
     return dbPromise;
   }

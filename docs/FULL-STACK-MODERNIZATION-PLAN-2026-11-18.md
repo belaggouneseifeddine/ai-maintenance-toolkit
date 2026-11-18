@@ -4,12 +4,15 @@
 
 Move Maintenance AI Toolkit from layered prototype code toward a maintainable, local-first industrial maintenance product. This work is staged: a refactor is not treated as complete until the same behavior is covered by tests and verified in the installed PWA.
 
-## Current integration branch
+## Integrated baseline — status checked 2026-11-18
 
-- Working branch: `work/full-stack-modernization-2026-11-18`
-- Draft integration PR: https://github.com/belaggouneseifeddine/ai-maintenance-toolkit/pull/142
-- Production branch: `main`
-- No merge, Cloudflare Pages deployment, Worker deployment, or live AI request is performed by this work.
+- Integration branch: `work/full-stack-modernization-2026-11-18`
+- PR #142: merged at 2026-11-18 00:09:24 UTC; merge commit `c80e467c927674b599c9d23b19341a3d725cd420`.
+- Latest observed `main` commit during this audit: `28bd2ecea8282e8f6d7bb915d83e8509d198b06e`.
+- GitHub Pages deployment workflow run `44212465981`: successful. The published site returned HTTP 200 and its local diagnosis runtime scripts passed the Pages smoke test: https://belaggouneseifeddine.github.io/ai-maintenance-toolkit/
+- CI evidence on the latest observed main commit: 351 Node tests passed; 62/62 static quality checks passed; JavaScript/Worker syntax and whitespace checks passed.
+- The Pages deployment did not deploy the Cloudflare Worker. `.github/workflows/deploy-worker.yml` is manual-only; no Worker deployment run was found in the checked workflow history. The live Worker smoke test was not executed in this audit.
+- Cloudflare Pages and Android-installed-PWA behavior were not verified by the successful GitHub Pages smoke test. A real Android offline/install check remains open.
 
 ## Work completed in this first slice
 

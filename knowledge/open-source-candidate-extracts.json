@@ -11,11 +11,14 @@
       "LICENSE",
       "data/knowledge_base.json",
       "data/fault_cases.json",
-      "requirements.txt"
+      "requirements.txt",
+      "src/agents/integrated_agent.py",
+      "src/retrieval/four_channel_retriever.py"
     ],
     "codeLicense": "MIT",
     "dataLicense": "not-declared-separately-in-reviewed-files",
-    "evidenceStatus": "repository-content-reviewed-data-rights-unresolved"
+    "evidenceStatus": "repository-content-reviewed-data-rights-unresolved",
+    "reviewedAt": "2026-11-18"
   },
   "extraction": {
     "equipmentTypes": [
@@ -105,6 +108,11 @@
       "Source labels cite standards or generic manuals without page, revision, model scope or claim-level evidence.",
       "The single case history is insufficient for statistical validation and contains a named handler field; do not import it.",
       "Generic maintenance intervals are not transferable to specific assets without OEM/site duty and environment context."
+    ],
+    "codeReview": [
+      "integrated_agent.py builds a prompt for use_llm=True but does not call model_router.generate() in the inspected path.",
+      "four_channel_retriever.py documents weights that differ from implementation; actual weights are 0.35 vector, 0.50 equipment/symptom, 0.15 keyword and 0.00 Jaccard.",
+      "No separate deterministic safety gate or claim-level source-page enforcement was found in the inspected integrated prompt path."
     ]
   },
   "integrationDecision": {
@@ -112,7 +120,7 @@
     "allowedUse": "coverage-gap-analysis-and-schema-design-only",
     "nextAction": "Map taxonomy against existing equipmentType values; import no fault claims until independent sources and reuse rights are verified."
   },
-  "reviewedAt": "2026-11-09",
+  "reviewedAt": "2026-11-18",
   "metadataOnly": true,
   "sourceContentStored": false,
   "rawFaultTextStored": false,

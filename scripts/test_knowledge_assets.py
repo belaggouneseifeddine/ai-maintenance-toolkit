@@ -30,17 +30,25 @@ class KnowledgeAssetsTests(unittest.TestCase):
             self.assertIn(source["license"], data["policy"]["accepted_licenses"])
             self.assertTrue(source.get("equipment"))
 
-    def test_source_fetcher_supports_documented_europe_pmc_xml_endpoints(self):
+    def test_source_fetcher_uses_canonical_publisher_pages_and_retries_transient_errors(self):
         registry = json.loads(REGISTRY_PATH.read_text(encoding="utf-8"))
         source_urls = {source["url"] for source in registry["sources"]}
-        self.assertIn("https://www.ebi.ac.uk/europepmc/webservices/rest/PMC8234243/fullTextXML", source_urls)
-        self.assertIn("https://www.ebi.ac.uk/europepmc/webservices/rest/PMC8747656/fullTextXML", source_urls)
+        self.assertIn("https://pmc.ncbi.nlm.nih.gov/articles/PMC8234243/", source_urls)
+        self.assertIn("https://www.mdpi.com/1424-8220/22/1/179", source_urls)
+        mdpi_source = next(source for source in registry["sources"] if source["id"] == "centrifugal-pump-fault-pmc-2022")
+        self.assertFalse(mdpi_source.get("fetchAllowed", True))
+        self.assertIn("HTTP 403", mdpi_source["limitations"][-1])
+        self.assertFalse(any("europepmc/webservices/rest" in url for url in source_urls))
         fetcher = SCRIPT_PATH.read_text(encoding="utf-8")
         self.assertIn('"Accept": "application/xml, text/xml, application/xhtml+xml, text/html;q=0.9"', fetcher)
-        self.assertNotIn('application/xhtml+xml, text/html;q=0.9, */*', fetcher)
-        self.assertIn('urlparse(final_url).scheme != "https"', fetcher)
-        self.assertIn('if content_type not in {', fetcher)
-        self.assertIn('if len(text) < 300:', fetcher)
+        self.assertIn("TIMEOUT_SECONDS = 30", fetcher)
+        self.assertIn("MAX_ATTEMPTS = 3", fetcher)
+        self.assertIn('source.get("fetchAllowed", True) is False', fetcher)
+        self.assertIn("RETRY_BACKOFF_SECONDS = (1, 3)", fetcher)
+        self.assertIn("RETRYABLE_HTTP_STATUS = {408, 425, 429, 500, 502, 503, 504}", fetcher)
+        self.assertIn("urlparse(final_url).scheme != \"https\"", fetcher)
+        self.assertIn("if content_type not in {", fetcher)
+        self.assertIn("if len(text) < 300:", fetcher)
         self.assertIn('"application/xml", "text/xml"', fetcher)
 
     def test_reference_only_books_have_indexes_and_are_not_fetchable(self):

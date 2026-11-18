@@ -23,7 +23,9 @@
       "sectionOrChapter",
       "printedPageOrPDFPage",
       "evidenceSummary",
-      "reviewDate"
+      "reviewDate",
+      "sourceId resolves to knowledge/manufacturer-sources.json",
+      "source licenseStatus and reuse/redistribution status are recorded"
     ],
     "neverInfer": [
       "Do not infer a code meaning from another product family or a portal landing page.",
@@ -61,7 +63,9 @@
         "section": "A3 Axis monitoring functions → 3.5 Measuring system monitoring; MD36310 $MA_ENC_ZERO_MONITORING",
         "printedPage": 105,
         "manualUrl": "https://support.industry.siemens.com/cs/attachments/download/109760797/840Dsl_828D_basic_fct_man_0818_en-US.pdf",
-        "evidenceSummary": "The official manual explicitly lists these alarm numbers and active/passive encoder response."
+        "evidenceSummary": "The official manual explicitly lists these alarm numbers and active/passive encoder response.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -88,7 +92,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Apply only to the stated model/software scope. Confirm installed manual revision and exact alarm text before action."
+      "limitations": "Apply only to the stated model/software scope. Confirm installed manual revision and exact alarm text before action.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "sinumerik-25001",
@@ -115,7 +120,9 @@
         "section": "A3 Axis monitoring functions → 3.5 Measuring system monitoring; MD36310 $MA_ENC_ZERO_MONITORING",
         "printedPage": 105,
         "manualUrl": "https://support.industry.siemens.com/cs/attachments/download/109760797/840Dsl_828D_basic_fct_man_0818_en-US.pdf",
-        "evidenceSummary": "The official manual explicitly lists these alarm numbers and active/passive encoder response."
+        "evidenceSummary": "The official manual explicitly lists these alarm numbers and active/passive encoder response.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -142,7 +149,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Apply only to the stated model/software scope. Confirm installed manual revision and exact alarm text before action."
+      "limitations": "Apply only to the stated model/software scope. Confirm installed manual revision and exact alarm text before action.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "sinumerik-25020",
@@ -169,7 +177,9 @@
         "section": "A3 Axis monitoring functions → 3.5 Measuring system monitoring; MD36310 $MA_ENC_ZERO_MONITORING",
         "printedPage": 105,
         "manualUrl": "https://support.industry.siemens.com/cs/attachments/download/109760797/840Dsl_828D_basic_fct_man_0818_en-US.pdf",
-        "evidenceSummary": "The official manual explicitly lists these alarm numbers and active/passive encoder response."
+        "evidenceSummary": "The official manual explicitly lists these alarm numbers and active/passive encoder response.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -196,7 +206,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Apply only to the stated model/software scope. Confirm installed manual revision and exact alarm text before action."
+      "limitations": "Apply only to the stated model/software scope. Confirm installed manual revision and exact alarm text before action.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "sinumerik-25021",
@@ -223,7 +234,9 @@
         "section": "A3 Axis monitoring functions → 3.5 Measuring system monitoring; MD36310 $MA_ENC_ZERO_MONITORING",
         "printedPage": 105,
         "manualUrl": "https://support.industry.siemens.com/cs/attachments/download/109760797/840Dsl_828D_basic_fct_man_0818_en-US.pdf",
-        "evidenceSummary": "The official manual explicitly lists these alarm numbers and active/passive encoder response."
+        "evidenceSummary": "The official manual explicitly lists these alarm numbers and active/passive encoder response.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -250,7 +263,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Apply only to the stated model/software scope. Confirm installed manual revision and exact alarm text before action."
+      "limitations": "Apply only to the stated model/software scope. Confirm installed manual revision and exact alarm text before action.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "sinamics-g120d-f31100",
@@ -277,7 +291,9 @@
         "section": "6.4 List of alarms and faults",
         "printedPage": 88,
         "manualUrl": "https://support.industry.siemens.com/cs/attachments/109757509/G120D_getting_started_0418_en-US.pdf",
-        "evidenceSummary": "The official manual section 6.4 lists the exact code and description; summaries are paraphrased."
+        "evidenceSummary": "The official manual section 6.4 lists the exact code and description; summaries are paraphrased.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -301,7 +317,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Applies to the cited G120D documentation and firmware context. Check the current List Manual for the installed version."
+      "limitations": "Applies to the cited G120D documentation and firmware context. Check the current List Manual for the installed version.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "sinamics-g120d-f31101",
@@ -328,7 +345,9 @@
         "section": "6.4 List of alarms and faults",
         "printedPage": 88,
         "manualUrl": "https://support.industry.siemens.com/cs/attachments/109757509/G120D_getting_started_0418_en-US.pdf",
-        "evidenceSummary": "The official manual section 6.4 lists the exact code and description; summaries are paraphrased."
+        "evidenceSummary": "The official manual section 6.4 lists the exact code and description; summaries are paraphrased.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -352,7 +371,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Applies to the cited G120D documentation and firmware context. Check the current List Manual for the installed version."
+      "limitations": "Applies to the cited G120D documentation and firmware context. Check the current List Manual for the installed version.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "sinamics-g120d-f31118",
@@ -379,7 +399,9 @@
         "section": "6.4 List of alarms and faults",
         "printedPage": 88,
         "manualUrl": "https://support.industry.siemens.com/cs/attachments/109757509/G120D_getting_started_0418_en-US.pdf",
-        "evidenceSummary": "The official manual section 6.4 lists the exact code and description; summaries are paraphrased."
+        "evidenceSummary": "The official manual section 6.4 lists the exact code and description; summaries are paraphrased.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -403,7 +425,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Applies to the cited G120D documentation and firmware context. Check the current List Manual for the installed version."
+      "limitations": "Applies to the cited G120D documentation and firmware context. Check the current List Manual for the installed version.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "sinamics-g120d-f32110",
@@ -430,7 +453,9 @@
         "section": "6.4 List of alarms and faults",
         "printedPage": 88,
         "manualUrl": "https://support.industry.siemens.com/cs/attachments/109757509/G120D_getting_started_0418_en-US.pdf",
-        "evidenceSummary": "The official manual section 6.4 lists the exact code and description; summaries are paraphrased."
+        "evidenceSummary": "The official manual section 6.4 lists the exact code and description; summaries are paraphrased.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -454,7 +479,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Applies to the cited G120D documentation and firmware context. Check the current List Manual for the installed version."
+      "limitations": "Applies to the cited G120D documentation and firmware context. Check the current List Manual for the installed version.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "sinamics-g120d-f32111",
@@ -481,7 +507,9 @@
         "section": "6.4 List of alarms and faults",
         "printedPage": 88,
         "manualUrl": "https://support.industry.siemens.com/cs/attachments/109757509/G120D_getting_started_0418_en-US.pdf",
-        "evidenceSummary": "The official manual section 6.4 lists the exact code and description; summaries are paraphrased."
+        "evidenceSummary": "The official manual section 6.4 lists the exact code and description; summaries are paraphrased.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -505,7 +533,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Applies to the cited G120D documentation and firmware context. Check the current List Manual for the installed version."
+      "limitations": "Applies to the cited G120D documentation and firmware context. Check the current List Manual for the installed version.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "sinamics-g120d-f32112",
@@ -532,7 +561,9 @@
         "section": "6.4 List of alarms and faults",
         "printedPage": 88,
         "manualUrl": "https://support.industry.siemens.com/cs/attachments/109757509/G120D_getting_started_0418_en-US.pdf",
-        "evidenceSummary": "The official manual section 6.4 lists the exact code and description; summaries are paraphrased."
+        "evidenceSummary": "The official manual section 6.4 lists the exact code and description; summaries are paraphrased.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -556,7 +587,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Applies to the cited G120D documentation and firmware context. Check the current List Manual for the installed version."
+      "limitations": "Applies to the cited G120D documentation and firmware context. Check the current List Manual for the installed version.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "sinamics-g120d-a32442",
@@ -583,7 +615,9 @@
         "section": "6.4 List of alarms and faults",
         "printedPage": 89,
         "manualUrl": "https://support.industry.siemens.com/cs/attachments/109757509/G120D_getting_started_0418_en-US.pdf",
-        "evidenceSummary": "The official manual section 6.4 lists the exact code and description; summaries are paraphrased."
+        "evidenceSummary": "The official manual section 6.4 lists the exact code and description; summaries are paraphrased.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -607,7 +641,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Applies to the cited G120D documentation and firmware context. Check the current List Manual for the installed version."
+      "limitations": "Applies to the cited G120D documentation and firmware context. Check the current List Manual for the installed version.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "sinamics-g120p-f30001",
@@ -634,7 +669,9 @@
         "section": "9.5 List of alarms and faults",
         "printedPage": 473,
         "manualUrl": "https://support.industry.siemens.com/cs/attachments/109739200/SINAMICS_G120P_Cabinet_en-US.pdf",
-        "evidenceSummary": "The official operating instructions list the exact fault code, cause and checks in section 9.5."
+        "evidenceSummary": "The official operating instructions list the exact fault code, cause and checks in section 9.5.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -658,7 +695,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Applies only to SINAMICS G120P cabinet units and the cited 04/2016 manual."
+      "limitations": "Applies only to SINAMICS G120P cabinet units and the cited 04/2016 manual.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "sinamics-g120p-f30002",
@@ -685,7 +723,9 @@
         "section": "9.5 List of alarms and faults",
         "printedPage": 473,
         "manualUrl": "https://support.industry.siemens.com/cs/attachments/109739200/SINAMICS_G120P_Cabinet_en-US.pdf",
-        "evidenceSummary": "The official operating instructions list the exact fault code, cause and checks in section 9.5."
+        "evidenceSummary": "The official operating instructions list the exact fault code, cause and checks in section 9.5.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -709,7 +749,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Applies only to SINAMICS G120P cabinet units and the cited 04/2016 manual."
+      "limitations": "Applies only to SINAMICS G120P cabinet units and the cited 04/2016 manual.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "sinamics-g120p-f30003",
@@ -736,7 +777,9 @@
         "section": "9.5 List of alarms and faults",
         "printedPage": 473,
         "manualUrl": "https://support.industry.siemens.com/cs/attachments/109739200/SINAMICS_G120P_Cabinet_en-US.pdf",
-        "evidenceSummary": "The official operating instructions list the exact fault code, cause and checks in section 9.5."
+        "evidenceSummary": "The official operating instructions list the exact fault code, cause and checks in section 9.5.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -760,7 +803,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Applies only to SINAMICS G120P cabinet units and the cited 04/2016 manual."
+      "limitations": "Applies only to SINAMICS G120P cabinet units and the cited 04/2016 manual.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "sinamics-g120p-f30004",
@@ -787,7 +831,9 @@
         "section": "9.5 List of alarms and faults",
         "printedPage": 473,
         "manualUrl": "https://support.industry.siemens.com/cs/attachments/109739200/SINAMICS_G120P_Cabinet_en-US.pdf",
-        "evidenceSummary": "The official operating instructions list the exact fault code, cause and checks in section 9.5."
+        "evidenceSummary": "The official operating instructions list the exact fault code, cause and checks in section 9.5.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -811,7 +857,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Applies only to SINAMICS G120P cabinet units and the cited 04/2016 manual."
+      "limitations": "Applies only to SINAMICS G120P cabinet units and the cited 04/2016 manual.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "sinamics-g120p-f30011",
@@ -838,7 +885,9 @@
         "section": "9.5 List of alarms and faults",
         "printedPage": 473,
         "manualUrl": "https://support.industry.siemens.com/cs/attachments/109739200/SINAMICS_G120P_Cabinet_en-US.pdf",
-        "evidenceSummary": "The official operating instructions list the exact fault code, cause and checks in section 9.5."
+        "evidenceSummary": "The official operating instructions list the exact fault code, cause and checks in section 9.5.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -862,7 +911,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Applies only to SINAMICS G120P cabinet units and the cited 04/2016 manual."
+      "limitations": "Applies only to SINAMICS G120P cabinet units and the cited 04/2016 manual.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "melsec-fx5-module-diagnostics",
@@ -889,7 +939,9 @@
         "section": "17.3 Troubleshooting Using the Engineering Tool → Module diagnostics / Event history",
         "printedPage": 277,
         "manualUrl": "https://dl.mitsubishielectric.com/dl/fa/document/manual/plcf/sh082452eng/sh082452engm.pdf",
-        "evidenceSummary": "The official manual documents module diagnostics on printed page 277 and event history on page 278."
+        "evidenceSummary": "The official manual documents module diagnostics on printed page 277 and event history on page 278.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -917,7 +969,8 @@
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Apply only to the stated model/software scope. Confirm installed manual revision and exact alarm text before action.",
-      "controllerModel": "MELSEC iQ-F FX5S / FX5UJ / FX5U / FX5UC PLC"
+      "controllerModel": "MELSEC iQ-F FX5S / FX5UJ / FX5U / FX5UC PLC",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "melsec-fx5-error-severity",
@@ -944,7 +997,9 @@
         "section": "17.4 Error Status and Operations on Occurrence of an Error",
         "printedPage": 279,
         "manualUrl": "https://dl.mitsubishielectric.com/dl/fa/document/manual/plcf/sh082452eng/sh082452engm.pdf",
-        "evidenceSummary": "The error status table specifies stop/continue behavior and required action for major, moderate and minor errors."
+        "evidenceSummary": "The error status table specifies stop/continue behavior and required action for major, moderate and minor errors.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -972,7 +1027,8 @@
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Apply only to the stated model/software scope. Confirm installed manual revision and exact alarm text before action.",
-      "controllerModel": "MELSEC iQ-F FX5S / FX5UJ / FX5U / FX5UC PLC"
+      "controllerModel": "MELSEC iQ-F FX5S / FX5UJ / FX5U / FX5UC PLC",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "melsec-fx5-preserve-error-history",
@@ -999,7 +1055,9 @@
         "section": "17.3 Troubleshooting Using the Engineering Tool → Event history",
         "printedPage": 278,
         "manualUrl": "https://dl.mitsubishielectric.com/dl/fa/document/manual/plcf/sh082452eng/sh082452engm.pdf",
-        "evidenceSummary": "The manual describes event-history scope and CSV export."
+        "evidenceSummary": "The manual describes event-history scope and CSV export.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -1024,7 +1082,8 @@
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Apply only to the stated model/software scope. Confirm installed manual revision and exact alarm text before action.",
-      "controllerModel": "MELSEC iQ-F FX5S / FX5UJ / FX5U / FX5UC PLC"
+      "controllerModel": "MELSEC iQ-F FX5S / FX5UJ / FX5U / FX5UC PLC",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "mitsubishi-mrj4-al16-al20-encoder-compatibility",
@@ -1053,7 +1112,9 @@
         "manualUrl": "https://dl.mitsubishielectric.com/dl/fa/document/catalog/servo/l03093/l03093e.pdf",
         "evidenceSummary": "The source explicitly links PC22 encoder compatibility setting with AL.16/AL.20 in the stated migration scenario.",
         "pageNotProvidedReason": "A page number was not independently confirmed during this review; the cited official manual section is provided as the traceable locator. Do not infer a page number.",
-        "pageLabel": "7-97"
+        "pageLabel": "7-97",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -1077,7 +1138,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Narrow compatibility note, not a universal diagnostic for AL.16 or AL.20."
+      "limitations": "Narrow compatibility note, not a universal diagnostic for AL.16 or AL.20.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "xinje-ds5k-e-010",
@@ -1104,7 +1166,9 @@
         "section": "7.1 Alarm code list / 7.2 Analysis of alarm types",
         "manualUrl": "https://cdn-en.xinje.com/DS5K%20servo%20manual.pdf",
         "printedPage": 173,
-        "evidenceSummary": "Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased."
+        "evidenceSummary": "Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -1125,7 +1189,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure."
+      "limitations": "Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "xinje-ds5k-e-021",
@@ -1152,7 +1217,9 @@
         "section": "7.1 Alarm code list / 7.2 Analysis of alarm types",
         "manualUrl": "https://cdn-en.xinje.com/DS5K%20servo%20manual.pdf",
         "printedPage": 173,
-        "evidenceSummary": "Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased."
+        "evidenceSummary": "Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -1173,7 +1240,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure."
+      "limitations": "Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "xinje-ds5k-e-030",
@@ -1200,7 +1268,9 @@
         "section": "7.1 Alarm code list / 7.2 Analysis of alarm types",
         "manualUrl": "https://cdn-en.xinje.com/DS5K%20servo%20manual.pdf",
         "printedPage": 175,
-        "evidenceSummary": "Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased."
+        "evidenceSummary": "Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -1221,7 +1291,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure."
+      "limitations": "Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "xinje-ds5k-e-040",
@@ -1248,7 +1319,9 @@
         "section": "7.1 Alarm code list / 7.2 Analysis of alarm types",
         "manualUrl": "https://cdn-en.xinje.com/DS5K%20servo%20manual.pdf",
         "printedPage": 175,
-        "evidenceSummary": "Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased."
+        "evidenceSummary": "Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -1269,7 +1342,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure."
+      "limitations": "Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "xinje-ds5k-e-221",
@@ -1296,7 +1370,9 @@
         "section": "7.1 Alarm code list / 7.2 Analysis of alarm types",
         "manualUrl": "https://cdn-en.xinje.com/DS5K%20servo%20manual.pdf",
         "printedPage": 180,
-        "evidenceSummary": "Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased."
+        "evidenceSummary": "Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -1317,7 +1393,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure."
+      "limitations": "Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "xinje-ds5k-e-222",
@@ -1344,7 +1421,9 @@
         "section": "7.1 Alarm code list / 7.2 Analysis of alarm types",
         "manualUrl": "https://cdn-en.xinje.com/DS5K%20servo%20manual.pdf",
         "printedPage": 180,
-        "evidenceSummary": "Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased."
+        "evidenceSummary": "Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -1365,7 +1444,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure."
+      "limitations": "Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "xinje-ds5k-e-236",
@@ -1392,7 +1472,9 @@
         "section": "7.1 Alarm code list / 7.2 Analysis of alarm types",
         "manualUrl": "https://cdn-en.xinje.com/DS5K%20servo%20manual.pdf",
         "printedPage": 181,
-        "evidenceSummary": "Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased."
+        "evidenceSummary": "Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -1413,7 +1495,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure."
+      "limitations": "Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "xinje-ds5k-e-237",
@@ -1440,7 +1523,9 @@
         "section": "7.1 Alarm code list / 7.2 Analysis of alarm types",
         "manualUrl": "https://cdn-en.xinje.com/DS5K%20servo%20manual.pdf",
         "printedPage": 181,
-        "evidenceSummary": "Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased."
+        "evidenceSummary": "Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -1461,7 +1546,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure."
+      "limitations": "Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "xinje-ds5k-e-238",
@@ -1488,7 +1574,9 @@
         "section": "7.1 Alarm code list / 7.2 Analysis of alarm types",
         "manualUrl": "https://cdn-en.xinje.com/DS5K%20servo%20manual.pdf",
         "printedPage": 181,
-        "evidenceSummary": "Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased."
+        "evidenceSummary": "Official XINJE DS5K manual lists the code in section 7.1 and/or explains its causes in section 7.2; summary is paraphrased.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -1509,7 +1597,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure."
+      "limitations": "Applies to XINJE DS5K series only; confirm installed variant and manual revision. The E-222 battery procedure requires the exact OEM safety procedure.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "oem-inovance-md200-err02-overcurrent-acceleration",
@@ -1535,7 +1624,9 @@
         "section": "3.2 Faults and Solutions",
         "printedPage": 32,
         "manualUrl": "https://www.inovance.eu/fileadmin/downloads/Manuals/EN/MD200/MD200_User_Guide_EN_C02_19012113.PDF",
-        "evidenceSummary": "The manual labels Err02 as overcurrent during acceleration and lists output short/ground fault, short acceleration time, unsuitable torque boost/V/f, low voltage, restarting a rotating motor, sudden load, undersized drive, braking resistor fault, and motor ground fault among possible causes."
+        "evidenceSummary": "The manual labels Err02 as overcurrent during acceleration and lists output short/ground fault, short acceleration time, unsuitable torque boost/V/f, low voltage, restarting a rotating motor, sudden load, undersized drive, braking resistor fault, and motor ground fault among possible causes.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -1557,7 +1648,8 @@
       "reviewDate": "2026-10-25",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope.",
-      "firmwareScope": "MD200 User Guide C02 (January 2023); firmware version is not specified in the cited fault table. Confirm the installed drive variant and applicable manual before applying."
+      "firmwareScope": "MD200 User Guide C02 (January 2023); firmware version is not specified in the cited fault table. Confirm the installed drive variant and applicable manual before applying.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "oem-inovance-md200-err03-overcurrent-deceleration",
@@ -1583,7 +1675,9 @@
         "section": "3.2 Faults and Solutions",
         "printedPage": 32,
         "manualUrl": "https://www.inovance.eu/fileadmin/downloads/Manuals/EN/MD200/MD200_User_Guide_EN_C02_19012113.PDF",
-        "evidenceSummary": "The manual identifies Err03 as overcurrent during deceleration and lists short/ground faults, short deceleration time, low voltage, sudden load, missing/unsuitable braking resistor, and motor ground fault as possible causes."
+        "evidenceSummary": "The manual identifies Err03 as overcurrent during deceleration and lists short/ground faults, short deceleration time, low voltage, sudden load, missing/unsuitable braking resistor, and motor ground fault as possible causes.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -1605,7 +1699,8 @@
       "reviewDate": "2026-10-25",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope.",
-      "firmwareScope": "MD200 User Guide C02 (January 2023); firmware version is not specified in the cited fault table. Confirm the installed drive variant and applicable manual before applying."
+      "firmwareScope": "MD200 User Guide C02 (January 2023); firmware version is not specified in the cited fault table. Confirm the installed drive variant and applicable manual before applying.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "oem-inovance-md200-err05-overvoltage-acceleration",
@@ -1631,7 +1726,9 @@
         "section": "3.2 Faults and Solutions",
         "printedPage": 33,
         "manualUrl": "https://www.inovance.eu/fileadmin/downloads/Manuals/EN/MD200/MD200_User_Guide_EN_C02_19012113.PDF",
-        "evidenceSummary": "The manual labels Err05 as overvoltage during acceleration and lists excessive input voltage, external force driving the motor, short acceleration time, and absent braking resistor as possible causes."
+        "evidenceSummary": "The manual labels Err05 as overvoltage during acceleration and lists excessive input voltage, external force driving the motor, short acceleration time, and absent braking resistor as possible causes.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -1653,7 +1750,8 @@
       "reviewDate": "2026-10-25",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope.",
-      "firmwareScope": "MD200 User Guide C02 (January 2023); firmware version is not specified in the cited fault table. Confirm the installed drive variant and applicable manual before applying."
+      "firmwareScope": "MD200 User Guide C02 (January 2023); firmware version is not specified in the cited fault table. Confirm the installed drive variant and applicable manual before applying.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "oem-inovance-md200-err09-undervoltage",
@@ -1679,7 +1777,9 @@
         "section": "3.2 Faults and Solutions",
         "printedPage": 34,
         "manualUrl": "https://www.inovance.eu/fileadmin/downloads/Manuals/EN/MD200/MD200_User_Guide_EN_C02_19012113.PDF",
-        "evidenceSummary": "The manual labels Err09 as undervoltage and lists momentary power failure, input voltage outside the permitted range, abnormal bus voltage, and possible rectifier/pre-charge/drive/control-board faults."
+        "evidenceSummary": "The manual labels Err09 as undervoltage and lists momentary power failure, input voltage outside the permitted range, abnormal bus voltage, and possible rectifier/pre-charge/drive/control-board faults.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -1701,7 +1801,8 @@
       "reviewDate": "2026-10-25",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope.",
-      "firmwareScope": "MD200 User Guide C02 (January 2023); firmware version is not specified in the cited fault table. Confirm the installed drive variant and applicable manual before applying."
+      "firmwareScope": "MD200 User Guide C02 (January 2023); firmware version is not specified in the cited fault table. Confirm the installed drive variant and applicable manual before applying.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "oem-inovance-md200-err12-input-phase-loss",
@@ -1727,7 +1828,9 @@
         "section": "3.2 Faults and Solutions",
         "printedPage": 34,
         "manualUrl": "https://www.inovance.eu/fileadmin/downloads/Manuals/EN/MD200/MD200_User_Guide_EN_C02_19012113.PDF",
-        "evidenceSummary": "The fault table names Err12 as input phase loss and lists abnormal three-phase input supply or internal drive/protection/control components as possible causes. The parameter note says the F9-12 input phase-loss protection applies only to single-phase MD200TXX models; do not generalize this parameter applicability to all MD200 variants."
+        "evidenceSummary": "The fault table names Err12 as input phase loss and lists abnormal three-phase input supply or internal drive/protection/control components as possible causes. The parameter note says the F9-12 input phase-loss protection applies only to single-phase MD200TXX models; do not generalize this parameter applicability to all MD200 variants.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -1749,7 +1852,8 @@
       "reviewDate": "2026-10-25",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope.",
-      "firmwareScope": "MD200 User Guide C02 (January 2023); firmware version is not specified in the cited fault table. Confirm the installed drive variant and applicable manual before applying."
+      "firmwareScope": "MD200 User Guide C02 (January 2023); firmware version is not specified in the cited fault table. Confirm the installed drive variant and applicable manual before applying.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "oem-inovance-md200-err14-drive-overtemperature",
@@ -1775,7 +1879,9 @@
         "section": "3.2 Faults and Solutions",
         "printedPage": 35,
         "manualUrl": "https://www.inovance.eu/fileadmin/downloads/Manuals/EN/MD200/MD200_User_Guide_EN_C02_19012113.PDF",
-        "evidenceSummary": "The MD200 manual labels Err14 as Module overheat. Listed possible causes include high ambient temperature, a blocked air filter, a damaged fan, a damaged module thermistor, or a faulty drive unit."
+        "evidenceSummary": "The MD200 manual labels Err14 as Module overheat. Listed possible causes include high ambient temperature, a blocked air filter, a damaged fan, a damaged module thermistor, or a faulty drive unit.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -1797,7 +1903,8 @@
       "reviewDate": "2026-10-25",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope.",
-      "firmwareScope": "MD200 User Guide C02 (January 2023); firmware version is not specified in the cited fault table. Confirm the installed drive variant and applicable manual before applying."
+      "firmwareScope": "MD200 User Guide C02 (January 2023); firmware version is not specified in the cited fault table. Confirm the installed drive variant and applicable manual before applying.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "oem-mitsubishi-c80-servo-alarm-10-insufficient-voltage",
@@ -1823,7 +1930,9 @@
         "section": "3.1 Servo Errors (S01/S03/S04), drive unit alarm table",
         "printedPage": 51,
         "manualUrl": "https://www.mitsubishielectric-cnc.com/wp-content/uploads/2025/02/C80-Series-Alarm-Parameter-Manual.pdf",
-        "evidenceSummary": "Alarm No. 10 is named Insufficient voltage; the manual says a drop of bus voltage was detected in the main circuit. It gives reset class PR, but detailed troubleshooting is delegated to the exact drive-unit instruction manual."
+        "evidenceSummary": "Alarm No. 10 is named Insufficient voltage; the manual says a drop of bus voltage was detected in the main circuit. It gives reset class PR, but detailed troubleshooting is delegated to the exact drive-unit instruction manual.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -1845,7 +1954,8 @@
       "reviewDate": "2026-10-25",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope.",
-      "firmwareScope": "C80 Series Alarm/Parameter Manual IB-1501560-F; the cited alarm table does not establish the installed machine-tool-builder configuration or drive firmware. Confirm both against the actual machine documentation."
+      "firmwareScope": "C80 Series Alarm/Parameter Manual IB-1501560-F; the cited alarm table does not establish the installed machine-tool-builder configuration or drive firmware. Confirm both against the actual machine documentation.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "oem-mitsubishi-c80-servo-alarm-18-encoder-initial-communication",
@@ -1871,7 +1981,9 @@
         "section": "3.1 Servo Errors (S01/S03/S04), drive unit alarm table",
         "printedPage": 51,
         "manualUrl": "https://www.mitsubishielectric-cnc.com/wp-content/uploads/2025/02/C80-Series-Alarm-Parameter-Manual.pdf",
-        "evidenceSummary": "Alarm No. 18 is named Main side encoder: Initial communication error; the details say initial communication with the motor-side encoder failed. Troubleshooting is not specified in this table and requires the exact drive-unit manual."
+        "evidenceSummary": "Alarm No. 18 is named Main side encoder: Initial communication error; the details say initial communication with the motor-side encoder failed. Troubleshooting is not specified in this table and requires the exact drive-unit manual.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -1893,7 +2005,8 @@
       "reviewDate": "2026-10-25",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope.",
-      "firmwareScope": "C80 Series Alarm/Parameter Manual IB-1501560-F; the cited alarm table does not establish the installed machine-tool-builder configuration or drive firmware. Confirm both against the actual machine documentation."
+      "firmwareScope": "C80 Series Alarm/Parameter Manual IB-1501560-F; the cited alarm table does not establish the installed machine-tool-builder configuration or drive firmware. Confirm both against the actual machine documentation.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "oem-mitsubishi-c80-servo-alarm-23-excessive-speed-error",
@@ -1919,7 +2032,9 @@
         "section": "3.1 Servo Errors (S01/S03/S04), drive unit alarm table",
         "printedPage": 52,
         "manualUrl": "https://www.mitsubishielectric-cnc.com/wp-content/uploads/2025/02/C80-Series-Alarm-Parameter-Manual.pdf",
-        "evidenceSummary": "Alarm No. 23 is Excessive speed error; the manual defines it as the difference between actual and commanded speed persisting longer than the configured excessive-speed-deviation timer. Reset class is NR."
+        "evidenceSummary": "Alarm No. 23 is Excessive speed error; the manual defines it as the difference between actual and commanded speed persisting longer than the configured excessive-speed-deviation timer. Reset class is NR.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -1941,7 +2056,8 @@
       "reviewDate": "2026-10-25",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope.",
-      "firmwareScope": "C80 Series Alarm/Parameter Manual IB-1501560-F; the cited alarm table does not establish the installed machine-tool-builder configuration or drive firmware. Confirm both against the actual machine documentation."
+      "firmwareScope": "C80 Series Alarm/Parameter Manual IB-1501560-F; the cited alarm table does not establish the installed machine-tool-builder configuration or drive firmware. Confirm both against the actual machine documentation.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "oem-mitsubishi-c80-servo-alarm-24-grounding",
@@ -1967,7 +2083,9 @@
         "section": "3.1 Servo Errors (S01/S03/S04), drive unit alarm table",
         "printedPage": 52,
         "manualUrl": "https://www.mitsubishielectric-cnc.com/wp-content/uploads/2025/02/C80-Series-Alarm-Parameter-Manual.pdf",
-        "evidenceSummary": "Alarm No. 24 is named Grounding; the manual states the motor power cable is in contact with FG (frame ground). Reset class is PR."
+        "evidenceSummary": "Alarm No. 24 is named Grounding; the manual states the motor power cable is in contact with FG (frame ground). Reset class is PR.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -1989,7 +2107,8 @@
       "reviewDate": "2026-10-25",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope.",
-      "firmwareScope": "C80 Series Alarm/Parameter Manual IB-1501560-F; the cited alarm table does not establish the installed machine-tool-builder configuration or drive firmware. Confirm both against the actual machine documentation."
+      "firmwareScope": "C80 Series Alarm/Parameter Manual IB-1501560-F; the cited alarm table does not establish the installed machine-tool-builder configuration or drive firmware. Confirm both against the actual machine documentation.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "oem-mitsubishi-c80-servo-alarm-25-absolute-position-lost",
@@ -2015,7 +2134,9 @@
         "section": "3.1 Servo Errors (S01/S03/S04), drive unit alarm table",
         "printedPage": 52,
         "manualUrl": "https://www.mitsubishielectric-cnc.com/wp-content/uploads/2025/02/C80-Series-Alarm-Parameter-Manual.pdf",
-        "evidenceSummary": "Alarm No. 25 is named Absolute position data lost; the manual states absolute-position data was lost in the encoder. Reset class is AR. Recovery must follow the exact machine-builder and encoder procedure."
+        "evidenceSummary": "Alarm No. 25 is named Absolute position data lost; the manual states absolute-position data was lost in the encoder. Reset class is AR. Recovery must follow the exact machine-builder and encoder procedure.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -2037,7 +2158,8 @@
       "reviewDate": "2026-10-25",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope.",
-      "firmwareScope": "C80 Series Alarm/Parameter Manual IB-1501560-F; the cited alarm table does not establish the installed machine-tool-builder configuration or drive firmware. Confirm both against the actual machine documentation."
+      "firmwareScope": "C80 Series Alarm/Parameter Manual IB-1501560-F; the cited alarm table does not establish the installed machine-tool-builder configuration or drive firmware. Confirm both against the actual machine documentation.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "oem-mitsubishi-c80-emg-plc-emergency-stop",
@@ -2063,7 +2185,9 @@
         "section": "8 Emergency Stop Alarms (EMG)",
         "printedPage": 106,
         "manualUrl": "https://www.mitsubishielectric-cnc.com/wp-content/uploads/2025/02/C80-Series-Alarm-Parameter-Manual.pdf",
-        "evidenceSummary": "The manual states that the PLC emergency-stop signal is turned ON during user-PLC sequence processing and instructs checking the conditions that turn the signal ON and removing the cause. Other EMG labels in the same section have distinct causes and must not be conflated."
+        "evidenceSummary": "The manual states that the PLC emergency-stop signal is turned ON during user-PLC sequence processing and instructs checking the conditions that turn the signal ON and removing the cause. Other EMG labels in the same section have distinct causes and must not be conflated.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -2085,7 +2209,8 @@
       "reviewDate": "2026-10-25",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope.",
-      "firmwareScope": "C80 Series Alarm/Parameter Manual IB-1501560-F; the cited alarm table does not establish the installed machine-tool-builder configuration or drive firmware. Confirm both against the actual machine documentation."
+      "firmwareScope": "C80 Series Alarm/Parameter Manual IB-1501560-F; the cited alarm table does not establish the installed machine-tool-builder configuration or drive firmware. Confirm both against the actual machine documentation.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "oem-siemens-s7-1200-fs-event-0005-overtemperature",
@@ -2111,7 +2236,9 @@
         "section": "6.2 Fault diagnostics; Event ID 0x0005",
         "printedPage": 122,
         "manualUrl": "https://support.industry.siemens.com/dl/files/552/104547552/att_896075/v1/s71200_f_user_manual_en-US_en-US.pdf",
-        "evidenceSummary": "The manual labels event 0x0005 Overtemperature for all listed fail-safe signal modules and states the module-case high-temperature limit has been exceeded; it directs checking ambient temperature and power cycling after the fault is eliminated."
+        "evidenceSummary": "The manual labels event 0x0005 Overtemperature for all listed fail-safe signal modules and states the module-case high-temperature limit has been exceeded; it directs checking ambient temperature and power cycling after the fault is eliminated.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -2133,7 +2260,8 @@
       "reviewDate": "2026-10-25",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope.",
-      "firmwareScope": "SIMATIC S7-1200 Functional Safety Manual V4.6 (November 2022); confirm the installed F-module part number, CPU/firmware compatibility and machine configuration."
+      "firmwareScope": "SIMATIC S7-1200 Functional Safety Manual V4.6 (November 2022); confirm the installed F-module part number, CPU/firmware compatibility and machine configuration.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "oem-siemens-s7-1200-fs-event-004d-profisafe-crc",
@@ -2159,7 +2287,9 @@
         "section": "6.2 Fault diagnostics; Event ID 0x004D",
         "printedPage": 122,
         "manualUrl": "https://support.industry.siemens.com/dl/files/552/104547552/att_896075/v1/s71200_f_user_manual_en-US_en-US.pdf",
-        "evidenceSummary": "The manual describes event 0x004D as PROFIsafe communication error (CRC), indicating inconsistent data frames; possible cause is communication interference between fail-safe CPU and F-module, including excessive electromagnetic interference or sign-of-life monitoring error. Corrective measures include checking the communication connection and eliminating interference."
+        "evidenceSummary": "The manual describes event 0x004D as PROFIsafe communication error (CRC), indicating inconsistent data frames; possible cause is communication interference between fail-safe CPU and F-module, including excessive electromagnetic interference or sign-of-life monitoring error. Corrective measures include checking the communication connection and eliminating interference.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -2181,7 +2311,8 @@
       "reviewDate": "2026-10-25",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope.",
-      "firmwareScope": "SIMATIC S7-1200 Functional Safety Manual V4.6 (November 2022); confirm the installed F-module part number, CPU/firmware compatibility and machine configuration."
+      "firmwareScope": "SIMATIC S7-1200 Functional Safety Manual V4.6 (November 2022); confirm the installed F-module part number, CPU/firmware compatibility and machine configuration.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "oem-siemens-s7-1200-fs-event-004e-profisafe-timeout",
@@ -2207,7 +2338,9 @@
         "section": "6.2 Fault diagnostics; Event ID 0x004E",
         "printedPage": 122,
         "manualUrl": "https://support.industry.siemens.com/dl/files/552/104547552/att_896075/v1/s71200_f_user_manual_en-US_en-US.pdf",
-        "evidenceSummary": "The manual labels event 0x004E PROFIsafe communication failure (timeout) and states that the F-monitoring time was exceeded. It recommends checking the F-monitoring time and examining the safety program and other CPU activities such as interrupts, Ethernet communication, OB scheduling, and long program paths."
+        "evidenceSummary": "The manual labels event 0x004E PROFIsafe communication failure (timeout) and states that the F-monitoring time was exceeded. It recommends checking the F-monitoring time and examining the safety program and other CPU activities such as interrupts, Ethernet communication, OB scheduling, and long program paths.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -2229,7 +2362,8 @@
       "reviewDate": "2026-10-25",
       "reviewerRole": "repository evidence review",
       "limitations": "Confirm exact controller/drive model, firmware, installed manual revision, and machine-builder configuration before applying. The cited manual supports the summary only within its stated scope.",
-      "firmwareScope": "SIMATIC S7-1200 Functional Safety Manual V4.6 (November 2022); confirm the installed F-module part number, CPU/firmware compatibility and machine configuration."
+      "firmwareScope": "SIMATIC S7-1200 Functional Safety Manual V4.6 (November 2022); confirm the installed F-module part number, CPU/firmware compatibility and machine configuration.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "oem-inovance-h5u-err-system-indicator",
@@ -2257,7 +2391,9 @@
         "manualUrl": "https://portal-file.inovance.com/owfile/ProdDoc/SC/19012251-SC/A00/19012251-SC_A00%E3%80%8AH5U%20Series%20Programmable%20Logic%20Control%20User%20Guide%20%E3%80%8BWithout%20CAN%2C%20ECAM%2C%20Electronic%20Gear-EN.pdf",
         "evidenceSummary": "The official H5U guide identifies the RUN, ERR, BAT and BF indicators and defines ERR as system failure, BAT as battery error, and BF as EtherCAT bus error. These records describe indicator meaning only, not a specific root cause.",
         "pageNotProvidedReason": "A page number was not independently confirmed during this review; the cited official manual section is provided as the traceable locator. Do not infer a page number.",
-        "printedPage": 20
+        "printedPage": 20,
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
@@ -2285,7 +2421,8 @@
         "fr": "Faire intervenir un spécialiste automatismes et le constructeur si ERR persiste, si un mouvement est inexpliqué, si la sécurité est concernée ou si le projet PLC est perdu."
       },
       "limitations": "Indicator meaning only; no exact H5U alarm code or root cause is asserted. Confirm the installed manual revision and retrieve the actual diagnostic event.",
-      "controllerModel": "INOVANCE H5U Series PLC"
+      "controllerModel": "INOVANCE H5U Series PLC",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "oem-inovance-h5u-bat-battery-indicator",
@@ -2313,7 +2450,9 @@
         "manualUrl": "https://portal-file.inovance.com/owfile/ProdDoc/SC/19012251-SC/A00/19012251-SC_A00%E3%80%8AH5U%20Series%20Programmable%20Logic%20Control%20User%20Guide%20%E3%80%8BWithout%20CAN%2C%20ECAM%2C%20Electronic%20Gear-EN.pdf",
         "evidenceSummary": "The official H5U guide identifies the RUN, ERR, BAT and BF indicators and defines ERR as system failure, BAT as battery error, and BF as EtherCAT bus error. These records describe indicator meaning only, not a specific root cause.",
         "pageNotProvidedReason": "A page number was not independently confirmed during this review; the cited official manual section is provided as the traceable locator. Do not infer a page number.",
-        "printedPage": 20
+        "printedPage": 20,
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
@@ -2341,7 +2480,8 @@
         "fr": "Faire intervenir le support si l’avertissement persiste, si les données rémanentes sont menacées ou si la procédure propre au CPU n’est pas claire."
       },
       "limitations": "Indicator meaning only; does not specify a battery part number, replacement interval or data-retention duration.",
-      "controllerModel": "INOVANCE H5U Series PLC"
+      "controllerModel": "INOVANCE H5U Series PLC",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "oem-inovance-h5u-bf-ethercat-indicator",
@@ -2369,7 +2509,9 @@
         "manualUrl": "https://portal-file.inovance.com/owfile/ProdDoc/SC/19012251-SC/A00/19012251-SC_A00%E3%80%8AH5U%20Series%20Programmable%20Logic%20Control%20User%20Guide%20%E3%80%8BWithout%20CAN%2C%20ECAM%2C%20Electronic%20Gear-EN.pdf",
         "evidenceSummary": "The official H5U guide identifies the RUN, ERR, BAT and BF indicators and defines ERR as system failure, BAT as battery error, and BF as EtherCAT bus error. These records describe indicator meaning only, not a specific root cause.",
         "pageNotProvidedReason": "A page number was not independently confirmed during this review; the cited official manual section is provided as the traceable locator. Do not infer a page number.",
-        "printedPage": 20
+        "printedPage": 20,
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
@@ -2397,7 +2539,8 @@
         "fr": "Faire intervenir un automaticien qualifié en cas de défauts bus récurrents, de mouvement inattendu, de perte de communication de sécurité ou d’esclave non identifié."
       },
       "limitations": "Indicator meaning only; not an EtherCAT fault-code mapping. Exact root cause must come from the installed topology and diagnostic log.",
-      "controllerModel": "INOVANCE H5U Series PLC"
+      "controllerModel": "INOVANCE H5U Series PLC",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "xinje-xnet-error-1-remote-device-connection",
@@ -2425,7 +2568,9 @@
         "manualUrl": "https://cdn-en.xinje.com/XNET%20manual.pdf",
         "evidenceSummary": "The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced.",
         "pageNotProvidedReason": "A page number was not independently confirmed during this review; the cited official manual section is provided as the traceable locator. Do not infer a page number.",
-        "pdfPage": 131
+        "pdfPage": 131,
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
@@ -2453,7 +2598,8 @@
         "fr": "Faire intervenir les responsables automatismes et informatique/réseau en cas d’erreurs persistantes, de sessions distantes inexpliquées ou de suspicion de problème d’identifiants/sécurité."
       },
       "limitations": "Applies only to the X-NET/XINJEConfig remote-connection diagnostic table in the cited manual. These are not PLC ladder, servo-drive or machine-builder alarm codes. No printed page number was available in the reviewed extracted text.",
-      "controllerModel": "XINJE X-NET fieldbus / XINJEConfig remote-connection diagnostics"
+      "controllerModel": "XINJE X-NET fieldbus / XINJEConfig remote-connection diagnostics",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "xinje-xnet-error-16-sponsor-not-logged-in",
@@ -2481,7 +2627,9 @@
         "manualUrl": "https://cdn-en.xinje.com/XNET%20manual.pdf",
         "evidenceSummary": "The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced.",
         "pageNotProvidedReason": "A page number was not independently confirmed during this review; the cited official manual section is provided as the traceable locator. Do not infer a page number.",
-        "pdfPage": 131
+        "pdfPage": 131,
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
@@ -2509,7 +2657,8 @@
         "fr": "Faire intervenir les responsables automatismes et informatique/réseau en cas d’erreurs persistantes, de sessions distantes inexpliquées ou de suspicion de problème d’identifiants/sécurité."
       },
       "limitations": "Applies only to the X-NET/XINJEConfig remote-connection diagnostic table in the cited manual. These are not PLC ladder, servo-drive or machine-builder alarm codes. No printed page number was available in the reviewed extracted text.",
-      "controllerModel": "XINJE X-NET fieldbus / XINJEConfig remote-connection diagnostics"
+      "controllerModel": "XINJE X-NET fieldbus / XINJEConfig remote-connection diagnostics",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "xinje-xnet-error-17-recipient-not-logged-in",
@@ -2537,7 +2686,9 @@
         "manualUrl": "https://cdn-en.xinje.com/XNET%20manual.pdf",
         "evidenceSummary": "The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced.",
         "pageNotProvidedReason": "A page number was not independently confirmed during this review; the cited official manual section is provided as the traceable locator. Do not infer a page number.",
-        "pdfPage": 131
+        "pdfPage": 131,
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
@@ -2565,7 +2716,8 @@
         "fr": "Faire intervenir les responsables automatismes et informatique/réseau en cas d’erreurs persistantes, de sessions distantes inexpliquées ou de suspicion de problème d’identifiants/sécurité."
       },
       "limitations": "Applies only to the X-NET/XINJEConfig remote-connection diagnostic table in the cited manual. These are not PLC ladder, servo-drive or machine-builder alarm codes. No printed page number was available in the reviewed extracted text.",
-      "controllerModel": "XINJE X-NET fieldbus / XINJEConfig remote-connection diagnostics"
+      "controllerModel": "XINJE X-NET fieldbus / XINJEConfig remote-connection diagnostics",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "xinje-xnet-error-18-safe-mode-mismatch",
@@ -2593,7 +2745,9 @@
         "manualUrl": "https://cdn-en.xinje.com/XNET%20manual.pdf",
         "evidenceSummary": "The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced.",
         "pageNotProvidedReason": "A page number was not independently confirmed during this review; the cited official manual section is provided as the traceable locator. Do not infer a page number.",
-        "pdfPage": 131
+        "pdfPage": 131,
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
@@ -2621,7 +2775,8 @@
         "fr": "Faire intervenir les responsables automatismes et informatique/réseau en cas d’erreurs persistantes, de sessions distantes inexpliquées ou de suspicion de problème d’identifiants/sécurité."
       },
       "limitations": "Applies only to the X-NET/XINJEConfig remote-connection diagnostic table in the cited manual. These are not PLC ladder, servo-drive or machine-builder alarm codes. No printed page number was available in the reviewed extracted text.",
-      "controllerModel": "XINJE X-NET fieldbus / XINJEConfig remote-connection diagnostics"
+      "controllerModel": "XINJE X-NET fieldbus / XINJEConfig remote-connection diagnostics",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "xinje-xnet-error-19-password-error",
@@ -2649,7 +2804,9 @@
         "manualUrl": "https://cdn-en.xinje.com/XNET%20manual.pdf",
         "evidenceSummary": "The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced.",
         "pageNotProvidedReason": "A page number was not independently confirmed during this review; the cited official manual section is provided as the traceable locator. Do not infer a page number.",
-        "pdfPage": 131
+        "pdfPage": 131,
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
@@ -2677,7 +2834,8 @@
         "fr": "Faire intervenir les responsables automatismes et informatique/réseau en cas d’erreurs persistantes, de sessions distantes inexpliquées ou de suspicion de problème d’identifiants/sécurité."
       },
       "limitations": "Applies only to the X-NET/XINJEConfig remote-connection diagnostic table in the cited manual. These are not PLC ladder, servo-drive or machine-builder alarm codes. No printed page number was available in the reviewed extracted text.",
-      "controllerModel": "XINJE X-NET fieldbus / XINJEConfig remote-connection diagnostics"
+      "controllerModel": "XINJE X-NET fieldbus / XINJEConfig remote-connection diagnostics",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "xinje-xnet-error-255-login-failed",
@@ -2705,7 +2863,9 @@
         "manualUrl": "https://cdn-en.xinje.com/XNET%20manual.pdf",
         "evidenceSummary": "The official XINJE X-NET manual lists the stated error codes and brief explanations in the remote-connection diagnostic table. These are XINJEConfig/X-NET connection errors, not universal PLC alarm codes; the manual's antivirus-removal suggestion is intentionally not reproduced.",
         "pageNotProvidedReason": "A page number was not independently confirmed during this review; the cited official manual section is provided as the traceable locator. Do not infer a page number.",
-        "pdfPage": 131
+        "pdfPage": 131,
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
@@ -2733,7 +2893,8 @@
         "fr": "Faire intervenir les responsables automatismes et informatique/réseau en cas d’erreurs persistantes, de sessions distantes inexpliquées ou de suspicion de problème d’identifiants/sécurité."
       },
       "limitations": "Applies only to the X-NET/XINJEConfig remote-connection diagnostic table in the cited manual. These are not PLC ladder, servo-drive or machine-builder alarm codes. No printed page number was available in the reviewed extracted text.",
-      "controllerModel": "XINJE X-NET fieldbus / XINJEConfig remote-connection diagnostics"
+      "controllerModel": "XINJE X-NET fieldbus / XINJEConfig remote-connection diagnostics",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "sinamics-g120c-f07860",
@@ -2760,7 +2921,9 @@
         "section": "5.1 List of alarms and faults",
         "printedPage": 82,
         "manualUrl": "https://support.industry.siemens.com/cs/attachments/109744756/G120C_FSD_F_cmpct_op_instr_1116_en-US.pdf",
-        "evidenceSummary": "Official manual table 5.1 explicitly lists F07860 as “External fault 1” and provides the summarized corrective direction. The summary is paraphrased and limited to this model/frame/firmware context."
+        "evidenceSummary": "Official manual table 5.1 explicitly lists F07860 as “External fault 1” and provides the summarized corrective direction. The summary is paraphrased and limited to this model/frame/firmware context.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -2787,7 +2950,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Manual-claim reviewed, not field-verified. Applies only to the stated SINAMICS G120C frame range and cited manual revision. Verify the exact installed drive, firmware, PLC project and machine-builder instructions before action."
+      "limitations": "Manual-claim reviewed, not field-verified. Applies only to the stated SINAMICS G120C frame range and cited manual revision. Verify the exact installed drive, firmware, PLC project and machine-builder instructions before action.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "sinamics-g120c-f07900",
@@ -2814,7 +2978,9 @@
         "section": "5.1 List of alarms and faults",
         "printedPage": 82,
         "manualUrl": "https://support.industry.siemens.com/cs/attachments/109744756/G120C_FSD_F_cmpct_op_instr_1116_en-US.pdf",
-        "evidenceSummary": "Official manual table 5.1 explicitly lists F07900 as “Motor blocked” and provides the summarized corrective direction. The summary is paraphrased and limited to this model/frame/firmware context."
+        "evidenceSummary": "Official manual table 5.1 explicitly lists F07900 as “Motor blocked” and provides the summarized corrective direction. The summary is paraphrased and limited to this model/frame/firmware context.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -2841,7 +3007,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Manual-claim reviewed, not field-verified. Applies only to the stated SINAMICS G120C frame range and cited manual revision. Verify the exact installed drive, firmware, PLC project and machine-builder instructions before action."
+      "limitations": "Manual-claim reviewed, not field-verified. Applies only to the stated SINAMICS G120C frame range and cited manual revision. Verify the exact installed drive, firmware, PLC project and machine-builder instructions before action.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "sinamics-g120c-f07901",
@@ -2868,7 +3035,9 @@
         "section": "5.1 List of alarms and faults",
         "printedPage": 82,
         "manualUrl": "https://support.industry.siemens.com/cs/attachments/109744756/G120C_FSD_F_cmpct_op_instr_1116_en-US.pdf",
-        "evidenceSummary": "Official manual table 5.1 explicitly lists F07901 as “Motor overspeed” and provides the summarized corrective direction. The summary is paraphrased and limited to this model/frame/firmware context."
+        "evidenceSummary": "Official manual table 5.1 explicitly lists F07901 as “Motor overspeed” and provides the summarized corrective direction. The summary is paraphrased and limited to this model/frame/firmware context.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -2895,7 +3064,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Manual-claim reviewed, not field-verified. Applies only to the stated SINAMICS G120C frame range and cited manual revision. Verify the exact installed drive, firmware, PLC project and machine-builder instructions before action."
+      "limitations": "Manual-claim reviewed, not field-verified. Applies only to the stated SINAMICS G120C frame range and cited manual revision. Verify the exact installed drive, firmware, PLC project and machine-builder instructions before action.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "sinamics-g120c-f07902",
@@ -2922,7 +3092,9 @@
         "section": "5.1 List of alarms and faults",
         "printedPage": 82,
         "manualUrl": "https://support.industry.siemens.com/cs/attachments/109744756/G120C_FSD_F_cmpct_op_instr_1116_en-US.pdf",
-        "evidenceSummary": "Official manual table 5.1 explicitly lists F07902 as “Motor stalled” and provides the summarized corrective direction. The summary is paraphrased and limited to this model/frame/firmware context."
+        "evidenceSummary": "Official manual table 5.1 explicitly lists F07902 as “Motor stalled” and provides the summarized corrective direction. The summary is paraphrased and limited to this model/frame/firmware context.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -2949,7 +3121,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Manual-claim reviewed, not field-verified. Applies only to the stated SINAMICS G120C frame range and cited manual revision. Verify the exact installed drive, firmware, PLC project and machine-builder instructions before action."
+      "limitations": "Manual-claim reviewed, not field-verified. Applies only to the stated SINAMICS G120C frame range and cited manual revision. Verify the exact installed drive, firmware, PLC project and machine-builder instructions before action.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "sinamics-g120c-f08501",
@@ -2976,7 +3149,9 @@
         "section": "5.1 List of alarms and faults",
         "printedPage": 82,
         "manualUrl": "https://support.industry.siemens.com/cs/attachments/109744756/G120C_FSD_F_cmpct_op_instr_1116_en-US.pdf",
-        "evidenceSummary": "Official manual table 5.1 explicitly lists F08501 as “Setpoint timeout” and provides the summarized corrective direction. The summary is paraphrased and limited to this model/frame/firmware context."
+        "evidenceSummary": "Official manual table 5.1 explicitly lists F08501 as “Setpoint timeout” and provides the summarized corrective direction. The summary is paraphrased and limited to this model/frame/firmware context.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -3003,7 +3178,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Manual-claim reviewed, not field-verified. Applies only to the stated SINAMICS G120C frame range and cited manual revision. Verify the exact installed drive, firmware, PLC project and machine-builder instructions before action."
+      "limitations": "Manual-claim reviewed, not field-verified. Applies only to the stated SINAMICS G120C frame range and cited manual revision. Verify the exact installed drive, firmware, PLC project and machine-builder instructions before action.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "sinamics-g120c-f08502",
@@ -3030,7 +3206,9 @@
         "section": "5.1 List of alarms and faults",
         "printedPage": 82,
         "manualUrl": "https://support.industry.siemens.com/cs/attachments/109744756/G120C_FSD_F_cmpct_op_instr_1116_en-US.pdf",
-        "evidenceSummary": "Official manual table 5.1 explicitly lists F08502 as “Monitoring time, sign-of-life expired” and provides the summarized corrective direction. The summary is paraphrased and limited to this model/frame/firmware context."
+        "evidenceSummary": "Official manual table 5.1 explicitly lists F08502 as “Monitoring time, sign-of-life expired” and provides the summarized corrective direction. The summary is paraphrased and limited to this model/frame/firmware context.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -3057,7 +3235,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Manual-claim reviewed, not field-verified. Applies only to the stated SINAMICS G120C frame range and cited manual revision. Verify the exact installed drive, firmware, PLC project and machine-builder instructions before action."
+      "limitations": "Manual-claim reviewed, not field-verified. Applies only to the stated SINAMICS G120C frame range and cited manual revision. Verify the exact installed drive, firmware, PLC project and machine-builder instructions before action.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "sinamics-g120c-f08526",
@@ -3084,7 +3263,9 @@
         "section": "5.1 List of alarms and faults",
         "printedPage": 82,
         "manualUrl": "https://support.industry.siemens.com/cs/attachments/109744756/G120C_FSD_F_cmpct_op_instr_1116_en-US.pdf",
-        "evidenceSummary": "Official manual table 5.1 explicitly lists F08526 as “No cyclic connection” and provides the summarized corrective direction. The summary is paraphrased and limited to this model/frame/firmware context."
+        "evidenceSummary": "Official manual table 5.1 explicitly lists F08526 as “No cyclic connection” and provides the summarized corrective direction. The summary is paraphrased and limited to this model/frame/firmware context.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -3111,7 +3292,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Manual-claim reviewed, not field-verified. Applies only to the stated SINAMICS G120C frame range and cited manual revision. Verify the exact installed drive, firmware, PLC project and machine-builder instructions before action."
+      "limitations": "Manual-claim reviewed, not field-verified. Applies only to the stated SINAMICS G120C frame range and cited manual revision. Verify the exact installed drive, firmware, PLC project and machine-builder instructions before action.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "siemens-s7-1200-ob80-time-error",
@@ -3138,7 +3320,9 @@
         "section": "Time error interrupt events; monitoring and configuring the cycle time",
         "printedPage": 90,
         "manualUrl": "https://support.industry.siemens.com/cs/attachments/download/109772940/s71200_system_manual_en-US_en-US.pdf",
-        "evidenceSummary": "The official Siemens system manual lists the time-error conditions on printed page 90; the summary paraphrases those listed conditions."
+        "evidenceSummary": "The official Siemens system manual lists the time-error conditions on printed page 90; the summary paraphrases those listed conditions.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -3165,7 +3349,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "This is a diagnostic event explanation, not a universal root-cause diagnosis. Confirm CPU type, firmware, cycle configuration and current manual revision."
+      "limitations": "This is a diagnostic event explanation, not a universal root-cause diagnosis. Confirm CPU type, firmware, cycle configuration and current manual revision.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "siemens-s7-1200-fs-031e-readback-failure",
@@ -3192,7 +3377,9 @@
         "section": "Fail-safe signal module diagnostics → Fault diagnostics",
         "printedPage": 125,
         "manualUrl": "https://support.industry.siemens.com/dl/files/552/104547552/att_896075/v1/s71200_f_user_manual_en-US_en-US.pdf",
-        "evidenceSummary": "The official Siemens safety manual lists event ID 0x031E, the affected module variants, descriptions and possible causes on printed page 125."
+        "evidenceSummary": "The official Siemens safety manual lists event ID 0x031E, the affected module variants, descriptions and possible causes on printed page 125.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -3219,7 +3406,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Applies only to the listed SM 1226 F-DQ variants and cited manual edition; use the installed hardware and current safety documentation."
+      "limitations": "Applies only to the listed SM 1226 F-DQ variants and cited manual edition; use the installed hardware and current safety documentation.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "siemens-s7-1200-fs-0320-output-overload",
@@ -3246,7 +3434,9 @@
         "section": "Fail-safe signal module diagnostics → Fault diagnostics",
         "printedPage": 125,
         "manualUrl": "https://support.industry.siemens.com/dl/files/552/104547552/att_896075/v1/s71200_f_user_manual_en-US_en-US.pdf",
-        "evidenceSummary": "The official Siemens safety manual lists event ID 0x0320 as output-driver overload and describes channel passivation on printed page 125."
+        "evidenceSummary": "The official Siemens safety manual lists event ID 0x0320 as output-driver overload and describes channel passivation on printed page 125.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -3273,7 +3463,8 @@
       "evidenceStatus": "verified-source-exact-scope",
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
-      "limitations": "Specific to the module and manual edition cited. Confirm installed hardware, wiring and safety configuration before action."
+      "limitations": "Specific to the module and manual edition cited. Confirm installed hardware, wiring and safety configuration before action.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "recordType": "alarm-code",
@@ -3288,7 +3479,9 @@
         "section": "Alarm interface → alarm number and meaning list",
         "printedPage": 207,
         "manualUrl": "https://gskcnc.com/Support/218M01.pdf",
-        "evidenceSummary": "The official GSK218M manual describes the alarm interface and lists the specified program/operation alarm numbers and meanings. Summaries below are paraphrased."
+        "evidenceSummary": "The official GSK218M manual describes the alarm interface and lists the specified program/operation alarm numbers and meanings. Summaries below are paraphrased.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -3327,7 +3520,8 @@
         "en": "The GSK218M alarm list labels code 0000 as power not turned off after parameter input; the controller indicates that the parameter change has not been followed by the required power-off/restart step.",
         "ar": "تسمّي قائمة إنذارات GSK218M الرمز 0000 بأنه عدم فصل الطاقة بعد إدخال المعلمات؛ ويشير ذلك إلى أن تغيير المعلمة لم يتبعه إجراء إيقاف الطاقة المطلوب.",
         "fr": "La liste d’alarmes GSK218M associe le code 0000 à l’absence de mise hors tension après saisie d’un paramètre; le changement n’a pas été suivi de l’étape d’arrêt requise."
-      }
+      },
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "recordType": "alarm-code",
@@ -3342,7 +3536,9 @@
         "section": "Alarm interface → alarm number and meaning list",
         "printedPage": 207,
         "manualUrl": "https://gskcnc.com/Support/218M01.pdf",
-        "evidenceSummary": "The official GSK218M manual describes the alarm interface and lists the specified program/operation alarm numbers and meanings. Summaries below are paraphrased."
+        "evidenceSummary": "The official GSK218M manual describes the alarm interface and lists the specified program/operation alarm numbers and meanings. Summaries below are paraphrased.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -3381,7 +3577,8 @@
         "en": "The GSK218M alarm list labels code 0001 as file open fail. The message identifies a file-opening operation that did not complete; the specific file and operation context must be captured before intervention.",
         "ar": "تسمّي قائمة إنذارات GSK218M الرمز 0001 بأنه فشل فتح الملف. يشير الإنذار إلى تعذر إكمال عملية فتح ملف؛ ويجب تسجيل اسم الملف وسياق العملية قبل التدخل.",
         "fr": "La liste d’alarmes GSK218M associe le code 0001 à un échec d’ouverture de fichier. Il faut relever le fichier concerné et le contexte avant intervention."
-      }
+      },
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "recordType": "alarm-code",
@@ -3396,7 +3593,9 @@
         "section": "Alarm interface → alarm number and meaning list",
         "printedPage": 207,
         "manualUrl": "https://gskcnc.com/Support/218M01.pdf",
-        "evidenceSummary": "The official GSK218M manual describes the alarm interface and lists the specified program/operation alarm numbers and meanings. Summaries below are paraphrased."
+        "evidenceSummary": "The official GSK218M manual describes the alarm interface and lists the specified program/operation alarm numbers and meanings. Summaries below are paraphrased.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -3435,7 +3634,8 @@
         "en": "The GSK218M alarm list labels code 0002 as data input overflow. The entered value or data payload exceeds the input capacity or accepted range for the active operation; the affected field and entry context must be verified.",
         "ar": "تسمّي قائمة إنذارات GSK218M الرمز 0002 بأنه تجاوز سعة إدخال البيانات. يجب التحقق من الحقل المدخل وسياق العملية لأن القيمة أو البيانات قد تتجاوز السعة أو النطاق المقبول.",
         "fr": "La liste d’alarmes GSK218M associe le code 0002 à un dépassement de capacité des données saisies. Vérifier le champ et le contexte, car la valeur peut dépasser la capacité ou la plage acceptée."
-      }
+      },
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "delta-asda-b2-f-al001-overcurrent",
@@ -3463,7 +3663,9 @@
         "printedPageLabel": "9-2",
         "pdfPage": 203,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The ASDA-B2-F manual identifies AL001 as overcurrent in the servo drive main circuit."
+        "evidenceSummary": "The ASDA-B2-F manual identifies AL001 as overcurrent in the servo drive main circuit.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -3491,7 +3693,8 @@
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope.",
-      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "delta-asda-b2-f-al002-overvoltage",
@@ -3519,7 +3722,9 @@
         "printedPageLabel": "9-2",
         "pdfPage": 203,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL002 as main-circuit voltage above the specified standard voltage."
+        "evidenceSummary": "The manual identifies AL002 as main-circuit voltage above the specified standard voltage.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -3547,7 +3752,8 @@
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope.",
-      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "delta-asda-b2-f-al003-undervoltage",
@@ -3575,7 +3781,9 @@
         "printedPageLabel": "9-2",
         "pdfPage": 203,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL003 as main-circuit voltage below the specified standard voltage."
+        "evidenceSummary": "The manual identifies AL003 as main-circuit voltage below the specified standard voltage.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -3603,7 +3811,8 @@
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope.",
-      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "delta-asda-b2-f-al006-overload",
@@ -3631,7 +3840,9 @@
         "printedPageLabel": "9-2",
         "pdfPage": 203,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual labels AL006 as overload of the motor and servo drive."
+        "evidenceSummary": "The manual labels AL006 as overload of the motor and servo drive.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -3659,7 +3870,8 @@
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope.",
-      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "delta-asda-b2-f-al007-overspeed",
@@ -3687,7 +3899,9 @@
         "printedPageLabel": "9-2",
         "pdfPage": 203,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL007 when motor speed exceeds the normal speed range."
+        "evidenceSummary": "The manual identifies AL007 when motor speed exceeds the normal speed range.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -3715,7 +3929,8 @@
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope.",
-      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "delta-asda-b2-f-al009-position-deviation",
@@ -3743,7 +3958,9 @@
         "printedPageLabel": "9-2",
         "pdfPage": 203,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL009 when position-command deviation exceeds the permitted setting."
+        "evidenceSummary": "The manual identifies AL009 when position-command deviation exceeds the permitted setting.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -3771,7 +3988,8 @@
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope.",
-      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "delta-asda-b2-f-al011-encoder-error",
@@ -3799,7 +4017,9 @@
         "printedPageLabel": "9-2",
         "pdfPage": 203,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL011 as an encoder error in which the encoder generates an abnormal pulse."
+        "evidenceSummary": "The manual identifies AL011 as an encoder error in which the encoder generates an abnormal pulse.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -3827,7 +4047,8 @@
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope.",
-      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "delta-asda-b2-f-al016-igbt-overheat",
@@ -3855,7 +4076,9 @@
         "printedPageLabel": "9-2",
         "pdfPage": 203,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL016 when the IGBT temperature is too high."
+        "evidenceSummary": "The manual identifies AL016 when the IGBT temperature is too high.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -3883,7 +4106,8 @@
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope.",
-      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "delta-asda-b2-f-al022-main-circuit-phase-loss",
@@ -3911,7 +4135,9 @@
         "printedPageLabel": "9-2; corrective details 9-9",
         "pdfPage": 203,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL022 as an abnormal main-circuit supply condition associated with missing phase power; the exact power wiring and drive rating must be matched to the manual."
+        "evidenceSummary": "The manual identifies AL022 as an abnormal main-circuit supply condition associated with missing phase power; the exact power wiring and drive rating must be matched to the manual.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -3939,7 +4165,8 @@
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope.",
-      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "delta-asda-b2-f-al024-encoder-magnetic-field",
@@ -3967,7 +4194,9 @@
         "printedPageLabel": "9-2; corrective details 9-9",
         "pdfPage": 203,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL024 as an error in the initial magnetic field of the encoder U/V/W signals."
+        "evidenceSummary": "The manual identifies AL024 as an error in the initial magnetic field of the encoder U/V/W signals.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -3995,7 +4224,8 @@
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope.",
-      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "delta-asda-b2-f-al031-motor-power-wiring",
@@ -4023,7 +4253,9 @@
         "printedPageLabel": "9-11",
         "pdfPage": 212,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL031 as incorrect wiring of the motor power cable U, V, W or ground."
+        "evidenceSummary": "The manual identifies AL031 as incorrect wiring of the motor power cable U, V, W or ground.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -4051,7 +4283,8 @@
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope.",
-      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "delta-asda-b2-f-al060-absolute-position-lost",
@@ -4079,7 +4312,9 @@
         "printedPageLabel": "9-12",
         "pdfPage": 213,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL060 as loss of absolute position and discusses battery undervoltage, incomplete absolute-coordinate initialization, and battery-circuit connection issues in the troubleshooting section."
+        "evidenceSummary": "The manual identifies AL060 as loss of absolute position and discusses battery undervoltage, incomplete absolute-coordinate initialization, and battery-circuit connection issues in the troubleshooting section.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -4107,7 +4342,8 @@
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope.",
-      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "delta-asda-b2-f-al185-dmcnet-bus-hardware",
@@ -4135,7 +4371,9 @@
         "printedPageLabel": "9-14",
         "pdfPage": 215,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL185 as abnormal DMCNET bus hardware and directs attention to communication-cable condition and communication quality."
+        "evidenceSummary": "The manual identifies AL185 as abnormal DMCNET bus hardware and directs attention to communication-cable condition and communication quality.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -4163,7 +4401,8 @@
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Manual-claim-reviewed, not field-verified. Confirm the exact ASDA-B2-F drive, connected motor, machine-builder wiring, and installed manual revision before applying. The cited manual supports the summary only within its stated scope.",
-      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "syntec-mot-082-drive-response-packet-noise",
@@ -4191,7 +4430,9 @@
         "pageNotProvidedReason": "A stable printed/PDF page number was not confirmed in this review; the exact alarm ID and manual subsection are supplied as the locator.",
         "manualUrl": "https://www.syntecclub.com/cncrel/Manual/PDF/Syntec%20CNC%20Alarm%20Manual.pdf",
         "evidenceSummary": "The official Syntec alarm manual describes MOT-082 as a drive-response packet disturbed by noise for more than 10 ms and lists cable quality/noise interference among possible reasons.",
-        "pdfPage": 196
+        "pdfPage": 196,
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -4219,7 +4460,8 @@
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Manual-claim-reviewed, not field-verified. Alarm IDs and timing thresholds apply only within the Syntec manual's listed software-version scope and the actual controller/drive integration.",
-      "firmwareScope": "Syntec CNC Alarm Manual supported versions: 10.118.86L, 10.120.16L, 10.120.24B, 10.120.27 and previous versions; confirm installed CNC software and drive integration."
+      "firmwareScope": "Syntec CNC Alarm Manual supported versions: 10.118.86L, 10.120.16L, 10.120.24B, 10.120.27 and previous versions; confirm installed CNC software and drive integration.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "syntec-mot-083-drive-response-packet-watchdog",
@@ -4247,7 +4489,9 @@
         "pageNotProvidedReason": "A stable printed/PDF page number was not confirmed in this review; the exact alarm ID and manual subsection are supplied as the locator.",
         "manualUrl": "https://www.syntecclub.com/cncrel/Manual/PDF/Syntec%20CNC%20Alarm%20Manual.pdf",
         "evidenceSummary": "The official Syntec alarm manual describes MOT-083 in terms of an incorrect drive response-packet watchdog (M3) or EtherCAT working counter lasting more than 10 ms.",
-        "pdfPage": 238
+        "pdfPage": 238,
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -4275,7 +4519,8 @@
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Manual-claim-reviewed, not field-verified. Alarm IDs and timing thresholds apply only within the Syntec manual's listed software-version scope and the actual controller/drive integration.",
-      "firmwareScope": "Syntec CNC Alarm Manual supported versions: 10.118.86L, 10.120.16L, 10.120.24B, 10.120.27 and previous versions; confirm installed CNC software and drive integration."
+      "firmwareScope": "Syntec CNC Alarm Manual supported versions: 10.118.86L, 10.120.16L, 10.120.24B, 10.120.27 and previous versions; confirm installed CNC software and drive integration.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "delta-asda-b2-f-al004-motor-combination-error",
@@ -4303,7 +4548,9 @@
         "printedPageLabel": "9-5",
         "pdfPage": 206,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL004 when the drive is paired with the wrong motor."
+        "evidenceSummary": "The manual identifies AL004 when the drive is paired with the wrong motor.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -4331,7 +4578,8 @@
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm. Confirm installed configuration and current manual before action.",
-      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "delta-asda-b2-f-al005-regeneration-error",
@@ -4359,7 +4607,9 @@
         "printedPageLabel": "9-6",
         "pdfPage": 207,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL005 as a regeneration error and directs checks to the regenerative-resistor circuit/configuration."
+        "evidenceSummary": "The manual identifies AL005 as a regeneration error and directs checks to the regenerative-resistor circuit/configuration.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -4387,7 +4637,8 @@
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm. Confirm installed configuration and current manual before action.",
-      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "delta-asda-b2-f-al012-adjustment-error",
@@ -4415,7 +4666,9 @@
         "printedPageLabel": "9-7",
         "pdfPage": 208,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual describes AL012 when electrical adjustment exceeds the allowable value; abnormal current adjustment is listed as a cause."
+        "evidenceSummary": "The manual describes AL012 when electrical adjustment exceeds the allowable value; abnormal current adjustment is listed as a cause.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -4443,7 +4696,8 @@
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm. Confirm installed configuration and current manual before action.",
-      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "delta-asda-b2-f-al013-emergency-stop-active",
@@ -4471,7 +4725,9 @@
         "printedPageLabel": "9-7",
         "pdfPage": 208,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL013 when DI.EMGS is active; it clears automatically after the input is OFF."
+        "evidenceSummary": "The manual identifies AL013 when DI.EMGS is active; it clears automatically after the input is OFF.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -4499,7 +4755,8 @@
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm. Confirm installed configuration and current manual before action.",
-      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "delta-asda-b2-f-al014-reverse-limit-active",
@@ -4527,7 +4784,9 @@
         "printedPageLabel": "9-7",
         "pdfPage": 208,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL014 when the reverse-limit switch is activated."
+        "evidenceSummary": "The manual identifies AL014 when the reverse-limit switch is activated.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -4555,7 +4814,8 @@
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm. Confirm installed configuration and current manual before action.",
-      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "delta-asda-b2-f-al015-forward-limit-active",
@@ -4583,7 +4843,9 @@
         "printedPageLabel": "9-7",
         "pdfPage": 208,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL015 when the forward-limit switch is activated."
+        "evidenceSummary": "The manual identifies AL015 when the forward-limit switch is activated.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -4611,7 +4873,8 @@
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm. Confirm installed configuration and current manual before action.",
-      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "delta-asda-b2-f-al017-eeprom-access-error",
@@ -4639,7 +4902,9 @@
         "printedPageLabel": "9-8",
         "pdfPage": 209,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL017 as an error when the drive DSP accesses EEPROM and discusses parameter-write/ROM issues."
+        "evidenceSummary": "The manual identifies AL017 as an error when the drive DSP accesses EEPROM and discusses parameter-write/ROM issues.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -4667,7 +4932,8 @@
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm. Confirm installed configuration and current manual before action.",
-      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "delta-asda-b2-f-al018-abnormal-encoder-output",
@@ -4695,7 +4961,9 @@
         "printedPageLabel": "9-8",
         "pdfPage": 209,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual links AL018 to encoder faults or output pulses exceeding the hardware range, and points to related encoder alarms and P1-76/P1-46."
+        "evidenceSummary": "The manual links AL018 to encoder faults or output pulses exceeding the hardware range, and points to related encoder alarms and P1-76/P1-46.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -4723,7 +4991,8 @@
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm. Confirm installed configuration and current manual before action.",
-      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "delta-asda-b2-f-al019-rs232-communication-error",
@@ -4751,7 +5020,9 @@
         "printedPageLabel": "9-8",
         "pdfPage": 209,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL019 as an RS-232 communication error; it directs checks to communication parameters, address and accessed value."
+        "evidenceSummary": "The manual identifies AL019 as an RS-232 communication error; it directs checks to communication parameters, address and accessed value.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -4776,7 +5047,8 @@
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm.",
-      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "delta-asda-b2-f-al020-rs232-communication-timeout",
@@ -4804,7 +5076,9 @@
         "printedPageLabel": "9-8–9-9",
         "pdfPage": 209,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL020 as an RS-232 timeout and lists timeout settings, missing commands or cable faults as checks."
+        "evidenceSummary": "The manual identifies AL020 as an RS-232 timeout and lists timeout settings, missing commands or cable faults as checks.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -4829,7 +5103,8 @@
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm.",
-      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "delta-asda-b2-f-al023-overload-warning",
@@ -4857,7 +5132,9 @@
         "printedPageLabel": "9-9",
         "pdfPage": 210,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL023 as an overload warning and directs checks to the overload condition and parameter P1-56."
+        "evidenceSummary": "The manual identifies AL023 as an overload warning and directs checks to the overload condition and parameter P1-56.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -4882,7 +5159,8 @@
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm.",
-      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "delta-asda-b2-f-al025-encoder-internal-memory-counter-error",
@@ -4910,7 +5188,9 @@
         "printedPageLabel": "9-9",
         "pdfPage": 210,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL025 as an encoder internal-memory/counter error and lists grounding, cable routing and shielding checks."
+        "evidenceSummary": "The manual identifies AL025 as an encoder internal-memory/counter error and lists grounding, cable routing and shielding checks.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -4935,7 +5215,8 @@
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm.",
-      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "delta-asda-b2-f-al026-encoder-internal-data-unreliable",
@@ -4963,7 +5244,9 @@
         "printedPageLabel": "9-10",
         "pdfPage": 211,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL026 when encoder internal-data errors occur three times consecutively."
+        "evidenceSummary": "The manual identifies AL026 when encoder internal-data errors occur three times consecutively.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -4988,7 +5271,8 @@
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm.",
-      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "delta-asda-b2-f-al027-encoder-internal-reset-error",
@@ -5016,7 +5300,9 @@
         "printedPageLabel": "9-10",
         "pdfPage": 211,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL027 as an internal encoder-reset error and directs checks to encoder communication, supply stability and operating temperature."
+        "evidenceSummary": "The manual identifies AL027 as an internal encoder-reset error and directs checks to encoder communication, supply stability and operating temperature.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -5041,7 +5327,8 @@
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm.",
-      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "delta-asda-b2-f-al028-encoder-voltage-or-internal-error",
@@ -5069,7 +5356,9 @@
         "printedPageLabel": "9-10",
         "pdfPage": 211,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual associates AL028 with encoder voltage/internal error and discusses battery voltage above specification or an encoder internal fault."
+        "evidenceSummary": "The manual associates AL028 with encoder voltage/internal error and discusses battery voltage above specification or an encoder internal fault.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -5094,7 +5383,8 @@
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm.",
-      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "delta-asda-b2-f-al029-absolute-position-gray-code-error",
@@ -5122,7 +5412,9 @@
         "printedPageLabel": "9-11",
         "pdfPage": 212,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL029 as an absolute-position error and advises checking whether it recurs after a power cycle."
+        "evidenceSummary": "The manual identifies AL029 as an absolute-position error and advises checking whether it recurs after a power cycle.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -5147,7 +5439,8 @@
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm.",
-      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "delta-asda-b2-f-al034-encoder-internal-communication-error",
@@ -5175,7 +5468,9 @@
         "printedPageLabel": "9-11",
         "pdfPage": 212,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL034 as an internal communication error affecting an absolute encoder or another encoder type."
+        "evidenceSummary": "The manual identifies AL034 as an internal communication error affecting an absolute encoder or another encoder type.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -5200,7 +5495,8 @@
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm.",
-      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration.",
+      "licenseStatus": "reference_only_no_redistribution"
     },
     {
       "id": "delta-asda-b2-f-al035-encoder-overtemperature",
@@ -5228,7 +5524,9 @@
         "printedPageLabel": "9-11–9-12",
         "pdfPage": 212,
         "manualUrl": "https://filecenter.deltaww.com/Products/download/06/060201/Manual/DELTA_IA-ASD_ASDA-B2-F_UM_EN_20150925.pdf",
-        "evidenceSummary": "The manual identifies AL035 when encoder temperature exceeds 100°C and directs checks to the displayed temperature, heat dissipation and load."
+        "evidenceSummary": "The manual identifies AL035 when encoder temperature exceeds 100°C and directs checks to the displayed temperature, heat dissipation and load.",
+        "licenseStatus": "reference_only_no_redistribution",
+        "reuseStatus": "link_and_original_summary_only"
       },
       "safeChecks": {
         "en": [
@@ -5253,7 +5551,8 @@
       "reviewDate": "2026-10-24",
       "reviewerRole": "repository evidence review",
       "limitations": "Manual-claim-reviewed, not field-verified. Applies only to the cited ASDA-B2-F manual revision and documented alarm.",
-      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration."
+      "firmwareScope": "ASDA-B2-F Series User Manual V1.0 (September 2015); the cited alarm table does not specify drive firmware. Confirm exact drive variant, firmware and machine-builder integration.",
+      "licenseStatus": "reference_only_no_redistribution"
     }
   ],
   "manualClaimReviewedCount": 99,

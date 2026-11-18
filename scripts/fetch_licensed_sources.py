@@ -25,7 +25,10 @@ REGISTRY = ROOT / "knowledge" / "sources.json"
 DEFAULT_CACHE = ROOT / ".source-cache"
 USER_AGENT = "MaintenanceAIToolkit-KnowledgeFetcher/0.1 (license-aware; contact repo maintainer)"
 MAX_BYTES = 8 * 1024 * 1024
-TIMEOUT_SECONDS = 20
+TIMEOUT_SECONDS = 30
+MAX_ATTEMPTS = 3
+RETRY_BACKOFF_SECONDS = (1, 3)
+RETRYABLE_HTTP_STATUS = {408, 425, 429, 500, 502, 503, 504}
 
 
 class TextExtractor(HTMLParser):
@@ -87,21 +90,38 @@ def validate_source(source: dict, accepted_licenses: set[str]) -> None:
 
 def fetch_page(source: dict) -> tuple[bytes, str]:
     request = Request(source["url"], headers={"User-Agent": USER_AGENT, "Accept": "application/xml, text/xml, application/xhtml+xml, text/html;q=0.9"})
-    with urlopen(request, timeout=TIMEOUT_SECONDS) as response:
-        final_url = response.geturl()
-        if urlparse(final_url).scheme != "https":
-            raise ValueError(f"{source['id']}: redirected to non-HTTPS URL")
-        content_type = response.headers.get_content_type()
-        if content_type not in {
-            "text/html", "application/xhtml+xml", "application/xml", "text/xml"
-        }:
-            raise ValueError(f"{source['id']}: unexpected content type {content_type}")
-        body = response.read(MAX_BYTES + 1)
-        if len(body) > MAX_BYTES:
-            raise ValueError(f"{source['id']}: response exceeded {MAX_BYTES} bytes")
-        charset = response.headers.get_content_charset() or "utf-8"
-        return body.decode(charset, errors="replace").encode("utf-8"), final_url
-
+    last_error: Exception | None = None
+    for attempt in range(1, MAX_ATTEMPTS + 1):
+        try:
+            with urlopen(request, timeout=TIMEOUT_SECONDS) as response:
+                final_url = response.geturl()
+                if urlparse(final_url).scheme != "https":
+                    raise ValueError(f"{source['id']}: redirected to non-HTTPS URL")
+                content_type = response.headers.get_content_type()
+                if content_type not in {
+                    "text/html", "application/xhtml+xml", "application/xml", "text/xml"
+                }:
+                    raise ValueError(f"{source['id']}: unexpected content type {content_type}")
+                body = response.read(MAX_BYTES + 1)
+                if len(body) > MAX_BYTES:
+                    raise ValueError(f"{source['id']}: response exceeded {MAX_BYTES} bytes")
+                charset = response.headers.get_content_charset() or "utf-8"
+                return body.decode(charset, errors="replace").encode("utf-8"), final_url
+        except HTTPError as exc:
+            if exc.code not in RETRYABLE_HTTP_STATUS or attempt >= MAX_ATTEMPTS:
+                raise
+            last_error = exc
+        except (URLError, TimeoutError, OSError) as exc:
+            if attempt >= MAX_ATTEMPTS:
+                raise
+            last_error = exc
+        delay = RETRY_BACKOFF_SECONDS[min(attempt - 1, len(RETRY_BACKOFF_SECONDS) - 1)]
+        print(
+            f"RETRY\\t{source['id']}\\tattempt={attempt + 1}/{MAX_ATTEMPTS}\\t{last_error}",
+            file=sys.stderr,
+        )
+        time.sleep(delay)
+    raise RuntimeError(f"{source['id']}: exhausted retries: {last_error}")
 
 def main() -> int:
     parser = argparse.ArgumentParser()
@@ -122,6 +142,9 @@ def main() -> int:
             validate_source(source, accepted)
             if args.validate_only:
                 print(f"VALID\t{source['id']}\t{source['license']}")
+                continue
+            if source.get("fetchAllowed", True) is False:
+                print(f"SKIPPED\t{source['id']}\tfetchAllowed=false; metadata-only; manual review required")
                 continue
 
             html_bytes, final_url = fetch_page(source)
