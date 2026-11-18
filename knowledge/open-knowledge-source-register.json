@@ -340,9 +340,9 @@
       "type": "industrial_dataset_research_repository",
       "potentialUse": "methodology_reference_only",
       "reportedScope": "UCI hydraulic condition monitoring dataset; notebook, exported model, FastAPI demo.",
-      "licenseStatus": "repository code MIT; UCI dataset terms are separate",
+      "licenseStatus": "MIT code license confirmed; UCI data is CC-BY-4.0, but derived model artifact terms are unresolved; no model import pending review.",
       "accessStatus": "README and LICENSE reviewed",
-      "decision": "offline-evaluation-reference",
+      "decision": "research-reference-only-pending-review",
       "owner": "JonMuel",
       "codeLicense": "MIT reported in repository review",
       "dataLicense": "underlying UCI hydraulic data CC BY 4.0; separate from repository code",
@@ -911,7 +911,7 @@
       "accessStatus": "Public repository; README, selected protocol/source files inspected; no raw data imported or executed in this audit.",
       "codeLicenseStatus": "No reuse license found; source headers explicitly say All Rights Reserved",
       "dataLicenseStatus": "UCI hydraulic CC-BY-4.0; Paderborn terms require original-provider verification; repository code license does not grant data rights",
-      "decision": "methodology-reference-only-no-code-or-data-import",
+      "decision": "methodology-reference-only-pending-review",
       "qualityNotes": [
         "Strong leakage-control reference: hydraulic grouping by condition blocks and Paderborn grouping by physical bearing.",
         "Paderborn measuring-log Unit fields are reported empty; signal units/scaling remain unverified in the repository notes.",
@@ -924,7 +924,8 @@
       "android": "Do not port code. Reuse the methodological lesson—asset/run/block-aware splits—only as a design principle.",
       "lastReviewed": "2026-11-18",
       "type": "industrial_dataset_research_repository",
-      "potentialUse": "methodology_reference_only"
+      "potentialUse": "methodology_reference_only",
+      "licenseStatus": "No code license; source headers reserve all rights; Paderborn data rights are unresolved; do not import code or data."
     }
   ],
   "lastReviewed": "2026-11-18",
