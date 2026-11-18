@@ -887,8 +887,43 @@
       "androidWorkerCompatibility": "No Android/Worker runtime use; isolated benchmark only after primary license verification.",
       "reuseConditions": "Do not download or redistribute until the original Zenodo record explicitly confirms the exact license and citation.",
       "reviewStatus": "pending-primary-source-verification-2026-11-09"
+    },
+    {
+      "id": "rocketwill-operating-state-aware-monitoring",
+      "title": "Operating-state-aware monitoring across hydraulic and bearing datasets",
+      "owner": "RocketWill",
+      "url": "https://github.com/RocketWill/operating-state-aware-monitoring",
+      "lastUpdated": "2026-09-20",
+      "lastPushed": "2026-09-20",
+      "latestRelease": null,
+      "codeLicense": "No LICENSE file found; source files state All Rights Reserved",
+      "dataLicense": "UCI hydraulic source CC-BY-4.0; Paderborn dataset rights not verified from the original provider in this pass",
+      "filesReviewed": [
+        "README.md",
+        "data/hydraulic/README.md",
+        "data/paderborn/README.md",
+        "docs/paderborn/target-split-protocol.md",
+        "src/run_family_comparison.py",
+        "src/run_stability_check.py"
+      ],
+      "contentsReviewed": "Inspected the methodology and source code. Hydraulic analysis filters stable cycles, groups contiguous operating-condition blocks and uses StratifiedGroupKFold with disjoint train/test groups; it excludes virtual CE/CP and unresolved SE channels. Paderborn protocol splits by bearing ID, holds all recordings/conditions from one bearing together and documents duplicate recording groups. Raw sensor files are described as local and are not committed.",
+      "accessStatus": "Public repository; README, selected protocol/source files inspected; no raw data imported or executed in this audit.",
+      "codeLicenseStatus": "No reuse license found; source headers explicitly say All Rights Reserved",
+      "dataLicenseStatus": "UCI hydraulic CC-BY-4.0; Paderborn terms require original-provider verification; repository code license does not grant data rights",
+      "decision": "methodology-reference-only-no-code-or-data-import",
+      "qualityNotes": [
+        "Strong leakage-control reference: hydraulic grouping by condition blocks and Paderborn grouping by physical bearing.",
+        "Paderborn measuring-log Unit fields are reported empty; signal units/scaling remain unverified in the repository notes.",
+        "The repository identifies duplicate Paderborn recordings and excludes them from the first protocol.",
+        "Its hydraulic findings are descriptive predictive comparisons, not causal mechanisms or maintenance procedures.",
+        "No LICENSE file; source headers reserve all rights."
+      ],
+      "dataLeakage": "Hydraulic: split by contiguous condition block; Paderborn: split by bearing ID, never by recording windows. The README explicitly says condition blocks are not verified independent experimental runs.",
+      "dependencies": "Python, NumPy, pandas, scikit-learn and a Conda environment; research scripts and local raw data paths.",
+      "android": "Do not port code. Reuse the methodological lesson—asset/run/block-aware splits—only as a design principle.",
+      "lastReviewed": "2026-11-18"
     }
   ],
   "lastReviewed": "2026-11-18",
-  "reviewNote": "2026-11-18 review: source-level file and license checks updated for industrial-ops-rag-agent, BearingDatasets, AAS metamodel, MIMII, NASA ProgPy, pgmpy, PlantCraft, UCI hydraulic and LBNL FDD. No raw datasets or third-party maintenance text imported."
+  "reviewNote": "2026-11-18: added two hydraulic research candidates after inspecting actual repository files; no raw dataset or model imported."
 }
