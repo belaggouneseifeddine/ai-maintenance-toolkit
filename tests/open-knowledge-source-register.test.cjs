@@ -40,6 +40,9 @@ test("open knowledge source register is discovery-only and does not claim unveri
   assert.equal(plantcraft.url, "https://github.com/PlantCraft/PlantCraft");
   assert.match(plantcraft.codeLicense, /Apache-2.0/);
   assert.match(plantcraft.dataLicense, /not separately verified/i);
+  assert.match(plantcraft.licenseStatus, /not independently reviewed/i);
+  assert.match(plantcraft.version, /0.6.0.*0.6.1/);
+  assert.match(plantcraft.decision, /pending-license-file-review/);
 
   const openFdd = register.sources.find(source => source.id === "open-fdd");
   assert.ok(openFdd, "Open-FDD must be tracked");
