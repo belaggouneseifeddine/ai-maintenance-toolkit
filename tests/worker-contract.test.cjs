@@ -2,8 +2,9 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const vm = require("node:vm");
+const SafetyGate = require("../worker/safety-gate.mjs");
 
-const source = fs.readFileSync(require.resolve("../normalization.js"), "utf8") + "\n" + fs.readFileSync(require.resolve("../worker.js"), "utf8").replace('import "./normalization.js";', "").replace('import { callCloudflareAI } from "./providers/cloudflare-provider.mjs";', "").replace('import { callGeminiAI } from "./providers/gemini-provider.mjs";', "");
+const source = fs.readFileSync(require.resolve("../normalization.js"), "utf8") + "\n" + fs.readFileSync(require.resolve("../worker.js"), "utf8").replace('import "./normalization.js";', "").replace('import { callCloudflareAI } from "./providers/cloudflare-provider.mjs";', "").replace('import { callGeminiAI } from "./providers/gemini-provider.mjs";', "");\n  .replace('import { normalizeEvidenceText, detectSafetyGate, buildSafetyGateDiagnosis } from "./worker/safety-gate.mjs";', "");
 let upstreamPayload = null;
 let upstreamCalls = 0;
 let cloudflareCalls = 0;
@@ -17,6 +18,9 @@ let mockKnowledge = "# مضخة طرد مركزي — ضعف التدفق\\n\\n�
 const geminiProviderPromise = import("../providers/gemini-provider.mjs");
 const context = {
   Request, Response, URL, AbortSignal, TextEncoder, TextDecoder, ReadableStream, setTimeout, clearTimeout, console,
+  normalizeEvidenceText: SafetyGate.normalizeEvidenceText,
+  detectSafetyGate: SafetyGate.detectSafetyGate,
+  buildSafetyGateDiagnosis: SafetyGate.buildSafetyGateDiagnosis,
   fetch: async (url, options = {}) => {
     const target = String(url);
     if (target.includes("raw.githubusercontent.com")) { knowledgeCalls++; return new Response(mockKnowledge, { status: 200, headers: { "content-type": "text/plain" } }); }
