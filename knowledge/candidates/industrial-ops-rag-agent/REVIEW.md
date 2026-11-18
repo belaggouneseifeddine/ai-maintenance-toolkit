@@ -1,5 +1,7 @@
 # Review — Industrial Ops RAG Agent
 
+**Re-reviewed:** 2026-11-18
+
 ## Files inspected upstream
 
 - `README.md`
@@ -19,6 +21,13 @@ These files were inspected for structure and quality. Their content is not copie
 - The sample fault-case records do not provide enough source-page, model, operating-condition, measurement-location and safety context for operational diagnosis.
 - Several records cite standards by identifier or generic manuals without an independently reviewed edition/page/claim mapping.
 - The repository-level MIT license covers code; no separate data license for the embedded knowledge or standards-derived records was identified.
+
+## Additional implementation findings
+
+- The integrated agent's use_llm branch builds a prompt but does not invoke the model router's generation method.
+- The retrieval module's documented channel weights do not match its constants; Jaccard has zero weight in the implementation.
+- The reviewed prompt path does not show a separate deterministic safety gate or per-claim source-page enforcement.
+- No code was executed and no upstream content or code was copied.
 
 ## Rights decision
 
