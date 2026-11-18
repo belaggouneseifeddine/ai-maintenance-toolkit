@@ -304,3 +304,25 @@ Still unconfirmed:
 - Chrome version and WebGPU availability.
 
 This Android 16 / One UI 8.0 confirmation is suitable to record for planning, but does not by itself establish LiteRT-LM runtime compatibility or inference performance on the device.
+
+
+## 11. Confirmed target-device constraints and first implementation increment
+
+**User-confirmed device budget (2026-11-18):**
+- Physical RAM budget: **6 GB** (conservative design ceiling; do not count RAM Plus as physical memory).
+- Android: **16**.
+- One UI: **8.0**.
+- Internal storage capacity: **128 GB**.
+- Free internal storage: **10 GB**.
+
+This is sufficient to begin a controlled small-model evaluation, but it is not evidence that any particular model will fit in available runtime memory. Reserve storage for Android, the PWA, user PDFs, OCR assets, and model cache. Do not start with a 4B model. Compare small instruction-tuned Qwen and Gemma candidates using measured peak RAM, load time, token latency, thermal behavior and offline operation. Model download must remain user-initiated and Wi-Fi-first.
+
+**First code increment on this study branch:**
+- Added `local-llm-runtime.js`, a provider-free adapter contract for a future native local runtime bridge.
+- The adapter requires an explicit `executionMode: "local"` and `localOnly: true` capability declaration; it fails closed if the native bridge or model is absent.
+- It validates bounded conversation messages and generation limits, and exposes status/load/unload/generate/cancel only.
+- Added Node tests for missing runtime, remote runtime rejection, input validation, local generation, unload and cancellation.
+- This is an interface and test scaffold only. It does **not** embed LiteRT-LM, download weights, create an Android project, or prove device inference.
+- The adapter is loaded by the PWA shell and covered by CI syntax/test checks. No model weights are added to service-worker caches.
+
+**Next implementation gate:** create the Android host and LiteRT-LM Kotlin bridge only after selecting and verifying an exact model artifact/runtime version. Do not expose a fake “AI ready” status in the PWA before the native bridge reports a real local model loaded.
