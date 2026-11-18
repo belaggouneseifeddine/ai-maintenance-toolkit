@@ -390,7 +390,7 @@ The Worker flow-pair regression tests, URMA primary-license gate tests and unlic
 | jonathanwvd/PlantCraft (redirect from PlantCraft/PlantCraft) | Apache-2.0 code; demo/telemetry rights separate and unverified | README, LICENSE, NOTICE, trademark, install/security/how-we-build docs | Architecture reference for read-only OT connectors and offline signed bundles; alpha platform, no pump case import |
 | UCI hydraulic condition-monitoring dataset 447 | CC BY 4.0 on official UCI page | Official dataset metadata and variable descriptions; raw data not downloaded | Isolated laboratory benchmark only; not repair knowledge |
 | LBNL FDD datasets, OEDI submission 5763 | CC BY 4.0 confirmed through the OEDI license link | OEDI metadata and linked license; raw CSV/PDF/TTL not downloaded | HVAC FDD benchmark candidate only; data quality still uninspected |
-| jonathanwvd/awesome-industrial-datasets | Existing register records CC BY-NC 4.0 catalogue content; each linked dataset has its own license | Prior register entry retained; catalogue count not re-audited in this pass | Discovery index only; no catalogue text or linked data copied |
+| jonathanwvd/awesome-industrial-datasets | CC BY-NC 4.0 for catalogue content; each linked dataset has its own license | Current README (398 entries), LICENSE and UCI hydraulic JSON catalogue entry | Discovery index only; no catalogue text or linked data copied |
 
 DataLeakage controls for any later benchmark: split by physical asset, bearing/run, building, fault scenario and time; never randomly split overlapping windows from the same recording or operating cycle. Telemetry labels remain benchmark labels, not maintenance instructions.
 
