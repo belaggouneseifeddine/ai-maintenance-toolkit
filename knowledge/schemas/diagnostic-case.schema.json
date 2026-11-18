@@ -184,7 +184,9 @@
           "discriminates",
           "requiredMeasurements",
           "expectedOutcomes",
-          "interpretationLimits"
+          "interpretationLimits",
+          "timeCost",
+          "costLevel"
         ],
         "properties": {
           "id": {
@@ -238,6 +240,15 @@
             }
           },
           "timeCost": {
+            "enum": [
+              "low",
+              "medium",
+              "high",
+              "unknown"
+            ]
+          },
+          "costLevel": {
+            "type": "string",
             "enum": [
               "low",
               "medium",
