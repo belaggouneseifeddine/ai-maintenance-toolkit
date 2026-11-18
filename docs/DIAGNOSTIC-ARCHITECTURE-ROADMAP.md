@@ -340,3 +340,81 @@ Verified on commit `0c1b2287df7d0a94fff0160f7652befd56b0f6c5`:
 | Published app / Worker smoke | `node scripts/smoke-test-live.mjs` | `CORS_PREFLIGHT_OK`; published app and Worker health checks passed |
 
 The Worker flow-pair regression tests, URMA primary-license gate tests and unlicensed Industrial Ops content-removal tests all passed. The service-worker test still reports one of seven optional reference assets not cached; core offline app installation remains successful. The live smoke test checks health/CORS, not a full live generative-AI response. No Android handset test, provider completion test, RUL calibration, merge or deployment was performed.
+
+
+## 2026-11-18 verified status, research and revised priorities
+
+### Production and branch state
+
+- PR #142, “Full-stack modernization — frontend shell extraction and deployment integrity”, was merged at 2026-11-18 00:09:24 UTC. Current main was 28bd2ecea8282e8f6d7bb915d83e8509d198b06e at this audit.
+- GitHub Actions run 44212465981 completed successfully on main. Its build, Pages deployment and published-app/Worker smoke-test steps all passed. This is evidence of a successful GitHub Pages deployment; it is not evidence that the separate manual Cloudflare Pages workflow was run.
+- A new isolated branch, work/pump-pilot-safe-voi-audit-2026-11-18, contains the pump casebook safety/measurement changes and source-register refresh. It is not merged and has not been deployed.
+- Final branch CI at commit 55ec66931cbe1c349bdcf90dc92331028c9c3502: 359 Node tests passed, 0 failed; 13 ESM/provider contract tests passed, 0 failed. The diagnostic regression workflow also passed 359/359. No Android handset test was run.
+
+### Evidence and knowledge inventory
+
+- The repository's existing knowledge audit reports 284 core fault records, including 17 pump records, and notes that the pump records have no source references. The raw faults.json was not independently parsed in this pass because the GitHub file endpoint rejected its large response; treat the count as the repository audit's reported count, not a new independent count.
+- faults-supplement.json contains three general records; none is a structured centrifugal-pump pilot case.
+- oem-verified-faults.json contains 99 claim-reviewed entries across the existing manufacturer/model scope. The registry title must not be interpreted as field validation: source/page review is not proof of field performance, and the current pump scope has zero OEM-verified pump claims.
+- manufacturer-machine-fault-matrix.json contains 28 manufacturer profiles and 38 general templates. It is a lookup aid, not a model-specific failure database.
+- knowledge/sources.json contains two CC BY 4.0 pump research sources. Both remain research-scoped candidates; the audit report shows zero approved sources. KSB/ASHRAE references in the pilot remain reference-only.
+- The pump casebook folder has one structured case, CP-004 low-flow, with status candidate and licenseStatus reference_only. CP-001/002/003/005/006 are design templates in the Markdown casebook, not six independently reviewed structured cases.
+- The open-source source register was refreshed for ten records. No raw dataset, unlicensed standard-derived text, OEM manual text, figure or table was copied.
+
+### Diagnostic and reasoning status
+
+- The interactive diagnostic session remains separate from the pump casebook. Its pump low-flow flow still groups the problem into three broad hypotheses; it is not the six-case differential pilot.
+- bayesian-engine.js is explicitly qualitative: fixed prior 0.2 and likelihood ratio 1.5 are engineering heuristics, not calibrated field probabilities. Its expected-information-gain function requires source-verifiable priors and outcome likelihoods. The current pump case has no approved likelihood model.
+- assistant-local-tools.js exposes an expected-information-gain tool, but the interactive diagnostic-session.js does not automatically call the casebook selector. Do not claim that the current user-facing pump flow performs Bayesian test optimization.
+- The new branch improves only the build/test-time casebook triage: source provenance is kept separate; invalid, estimated and unknown values are not treated as measured observations; same-time conflicts and cross-source disagreements block selection; and an automatic next observation requires explicit site/read-only/stop-condition and test-prerequisite confirmations. Ranking uses hypothesis-discrimination coverage, not expected information gain, and accepts technician-supplied time/cost estimates. The module remains excluded from runtime.
+
+### Document ingestion, offline and security findings
+
+- The app now has a local document-library path with PDF.js, Tesseract OCR language assets and local retrieval. This supersedes the 2026-11-09 note that no PDF ingestion path existed. It is not yet a complete, approved PDF-to-structured-diagnostic-knowledge pipeline.
+- document-semantic-search.js uses Transformers.js locally, but sets allowRemoteModels=true and allowLocalModels=false. The first embedding use downloads Xenova model weights; the weights are not bundled. vendor-document-runtime.sh explicitly says the Xenova ONNX export's separate license notice was not verified. Therefore first-use semantic search is not offline and model redistribution is not cleared.
+- learning-memory.js stores local review/feedback events in IndexedDB. It does not train model weights or share user learning automatically. Local browser records are not shown as encrypted at rest.
+- The Worker has an origin allowlist, request-size/schema validation, prompt-injection handling and a deterministic safety gate. The AI_RATE_LIMITER binding is optional in code; its production binding was not independently verified. CORS/origin filtering is not authentication. No user identity, role-based access or shared audit trail was established by this source review.
+- app-legacy.js remains a large legacy script with DOM rendering and localStorage responsibilities alongside the extracted modules. The architecture is improving but is not yet a fully modular frontend.
+- The semantic embedding index is browser-side. The Worker retrieval path remains a separate lexical/BM25 path over curated repository documents; these are not one unified retrieval engine.
+
+### Open-source repository and dataset review
+
+| Candidate | Code / data rights | Actual material reviewed | Decision |
+|---|---|---|---|
+| yilin-2511/industrial-ops-rag-agent | MIT code; standards-derived knowledge/CSV rights not separately declared | README, LICENSE, knowledge_base.json, pump and motor standards CSVs, requirements.txt | Discovery/architecture reference only; do not import fault text or standards-derived rows |
+| VictorBauler/BearingDatasets | MIT code; per-dataset terms differ: Paderborn CC BY-NC 4.0; CWRU/FEMTO/XJTU-SY manifests do not state a data license | README, LICENSE, pyproject and four dataset manifests | Metadata only; raw data remain outside the app pending dataset-specific rights and leakage review |
+| admin-shell-io/aas-specs-metamodel | Existing register records CC BY 4.0; release-specific notice must be rechecked before copying | README, JSON schema mapping README, v3.2.0 release metadata | Asset/submodel schema reference; not a fault ontology |
+| MIMII-hitachi/mimii_baseline | Baseline code says all rights reserved; official MIMII dataset is CC BY-SA 4.0 | baseline.py, requirements.txt, repository license/tree and dataset record metadata | Do not copy baseline code; dataset benchmark only, not causal diagnosis |
+| NASA/progpy | NASA-1.3 declared in pyproject; bundled license PDFs were not text-reviewed; dataset rights separate | README and pyproject.toml, v1.9.0 release metadata | Prognostics research reference pending license-PDF review; no RUL claims imported |
+| pgmpy/pgmpy | MIT code; no industrial data supplied | Release metadata and project package scope | Bayesian algorithm reference only; priors/likelihoods still require industrial evidence |
+| jonathanwvd/PlantCraft (redirect from PlantCraft/PlantCraft) | Apache-2.0 code; demo/telemetry rights separate and unverified | README, LICENSE, NOTICE, trademark, install/security/how-we-build docs | Architecture reference for read-only OT connectors and offline signed bundles; alpha platform, no pump case import |
+| UCI hydraulic condition-monitoring dataset 447 | CC BY 4.0 on official UCI page | Official dataset metadata and variable descriptions; raw data not downloaded | Isolated laboratory benchmark only; not repair knowledge |
+| LBNL FDD datasets, OEDI submission 5763 | CC BY 4.0 confirmed through the OEDI license link | OEDI metadata and linked license; raw CSV/PDF/TTL not downloaded | HVAC FDD benchmark candidate only; data quality still uninspected |
+| jonathanwvd/awesome-industrial-datasets | Existing register records CC BY-NC 4.0 catalogue content; each linked dataset has its own license | Prior register entry retained; catalogue count not re-audited in this pass | Discovery index only; no catalogue text or linked data copied |
+
+DataLeakage controls for any later benchmark: split by physical asset, bearing/run, building, fault scenario and time; never randomly split overlapping windows from the same recording or operating cycle. Telemetry labels remain benchmark labels, not maintenance instructions.
+
+### Competitor review — official public documentation, not hands-on trials
+
+- IBM Maximo Condition Insight describes analysis of work orders, meters, time-series, FMEA and alerts, then maps asset condition to recommended maintenance actions. This is deeply integrated enterprise APM/EAM, not a like-for-like offline diagnostic PWA.
+- Siemens Senseye describes cloud predictive maintenance over existing legacy-machine, historian, IoT and sensor data, with AI plus human expertise and fleet-level risk prioritization. The Toolkit currently has no continuous fleet telemetry ingestion or validated machine-health forecasting.
+- Augury describes continuous condition monitoring, AI diagnostics and reliability-expert validation across many asset types. Its coverage and performance figures are vendor claims, not independently reproduced here.
+- AVEVA Predictive Analytics advertises anomaly detection, fault diagnostics, time-to-failure forecasting, case management and prescriptive actions. Its time-to-failure claims must not be treated as proof that this Toolkit can safely expose RUL without its own calibrated data.
+- Fiix describes a CMMS workflow with mobile offline work orders, private-CMMS AI assistance and Asset Health integration with Augury. MaintainX documents cached offline work orders and explicit sync behavior; UpKeep describes offline asset/work-order access and queued updates. These products are stronger references for work execution, inventory, team workflow and offline synchronization than the Toolkit's current local-only records.
+- PlantCraft is an open-source architecture reference for read-only OT connectors and offline bundles, not a proven substitute for the Toolkit's pump reasoning pilot.
+- No competitor account was provisioned and no paid or gated demo was tested. Marketing accuracy/ROI claims are not independently verified.
+
+### Revised priority order
+
+1. **P0 — model rights and offline integrity:** verify the Xenova ONNX model-weight license and source revision; either provide a rights-cleared local model bundle or make the first-use download explicit and optional. Add a test proving offline failure is graceful and never blocks the deterministic diagnostic engine.
+2. **P0 — Worker abuse protection:** verify the production AI_RATE_LIMITER binding, enforce server-side quota/rate controls and define an authentication or signed-install strategy. Origin allowlisting alone is not access control.
+3. **P1 — finish the centrifugal-pump pilot:** review a permitted primary source for each of Cavitation, Air Lock/Loss of Prime, Suction Blockage, Low Flow, Seal Leakage and Bearing Degradation. Add claim/page/revision/equipment scope and rights before adding any structured case.
+4. **P1 — connect casebook to interactive diagnosis:** only after pilot review, replace broad pump grouping with separate competing cases and a safe next-test workflow. Use expected information gain only when priors and test likelihoods are source-backed and review-approved; otherwise show a coverage heuristic without probability language.
+5. **P1 — PDF/image-to-knowledge workflow:** finish source-page anchoring, OCR visual review, rights status, claim extraction, duplicate/conflict detection, independent technical approval and regression fixtures. Keep uploaded documents local unless the user explicitly chooses a cloud provider.
+6. **P2 — refresh the generated knowledge audit:** reconcile the 284-fault report, 99 OEM claim registry, 28 manufacturer profiles/38 templates and evidence register from the actual current files; ensure the report is regenerated by the audit script rather than manually guessed.
+7. **P2 — modular frontend and storage:** reduce app-legacy.js responsibilities, document storage limits, add local-data export/restore validation and clearly disclose that browser storage is not encrypted.
+8. **P3 — team workflows and predictive maintenance:** add authenticated synchronization, roles, asset QR identity and audit trails only after local data integrity; separate anomaly detection, causal diagnosis and RUL, with grouped/time-based benchmark splits and calibration before any predictive claim.
+
+### Branch verification and boundary
+
+The isolated pump-pilot branch passed 359 Node tests and 13 ESM/provider contract tests with zero failures. The first run after the source-register refresh exposed a regression in the PlantCraft owner field; the register now preserves the project identity as PlantCraft and records jonathanwvd as the canonical repository owner. The final run passed. This branch remains unmerged and unpublished pending review.
