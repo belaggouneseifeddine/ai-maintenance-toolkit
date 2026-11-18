@@ -14,7 +14,8 @@
   }
 
   function finiteNumber(value) {
-    return value !== null && value !== undefined && value !== "" && Number.isFinite(Number(value));
+    const numeric = typeof value === "number" || (typeof value === "string" && value.trim() !== "");
+    return numeric && Number.isFinite(Number(value));
   }
 
   function validateCase(item) {
