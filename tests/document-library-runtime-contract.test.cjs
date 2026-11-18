@@ -144,7 +144,7 @@ test("extracted frontend bootstrap and stylesheet are loaded and parse independe
   assert.ok(design.includes("--brand:#173b5e"));
   assert.ok(design.includes("--accent:#0798b5"));
   assert.ok(design.includes("--warn:#a96b12"));
-  assert.ok(design.includes("grid-template-columns:repeat(6,minmax(0,1fr))!important"));
+  assert.ok(design.includes("grid-template-columns:repeat(5,minmax(0,1fr))!important"));
   assert.ok(styles.includes(":root"));
   assert.ok(styles.includes("@media"));
   new vm.Script(bootstrap, { filename: "app-legacy.js" });
