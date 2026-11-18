@@ -491,6 +491,8 @@ const checks = [
     assert.match(navRedesign, /diagnose\.insertBefore\(home,diagnose\.firstChild\)/);
     assert.match(navRedesign, /diagnose\.appendChild\(ai\)/);
     assert.match(navRedesign, /activate\('diagnose',false\)/);
+    assert.match(ux, /querySelectorAll\('\\[data-ux-key\\]'\)/);
+    assert.doesNotMatch(ux, /nav\\.insertBefore|nav\\.addEventListener/);
     assert.match(uxCss, /position:fixed/);
     assert.match(uxCss, /env\(safe-area-inset-bottom/);
     new vm.Script(navRedesign, { filename: "navigation-redesign.js" });
