@@ -267,3 +267,25 @@ Do not accept vendor benchmarks on flagship devices as a substitute for this tes
 - MLC LLM Android/Web documentation: https://llm.mlc.ai/docs/get_started/quick_start.html
 - llama.cpp OpenCL backend: https://github.com/ggml-org/llama.cpp/blob/master/docs/backend/OPENCL.md
 - Samsung Galaxy M33 specifications: https://www.samsung.com/sa_en/business/smartphones/galaxy-m/galaxy-m33-5g-sm-m336bznimea/
+
+
+## 13. Confirmed device design baseline — 6 GB physical RAM
+
+The user has selected **6 GB physical RAM as the engineering baseline** for the first implementation. This is a design constraint, not yet a measured benchmark of the phone. Do not count RAM Plus / virtual memory toward this budget.
+
+Consequences:
+- Prioritize compact instruction-tuned models and quantized runtime artifacts.
+- First on-device comparison should start with a Qwen 0.8B-class instruct artifact and Gemma 4 E2B; Qwen 2B is a stretch candidate to measure after the small baseline works.
+- Treat 4B-class models as out of scope for the initial release unless actual peak-memory, thermal and latency measurements later justify reconsideration.
+- Keep the PWA/WebView, Android host, runtime, tokenizer/context buffers and OS within the same 6 GB device budget. Do not estimate model feasibility from parameter count or download size alone.
+- Set an initial conservative context window and cap concurrent model/embedding workloads; unload or suspend embedding inference while generation is active if measurements show memory pressure.
+- The model must be optional: deterministic diagnostics, local tools and reviewed-document search remain usable when the model cannot load or is unloaded.
+- This confirmation does not establish Android version, One UI version, free storage, GPU backend, or actual inference performance. Those still require manual confirmation and device tests.
+
+Updated candidate order for the 6 GB baseline:
+1. Qwen 0.8B Instruct (small-model smoke test; exact LiteRT artifact and chat template must be verified).
+2. Gemma 4 E2B Mobile/LiteRT-LM (Google comparison candidate).
+3. Qwen 2B Instruct (quality-versus-memory comparison only after the first two).
+4. No 4B model in the first implementation scope.
+
+No model weights, runtime dependency, Android module, production code, main-branch change or deployment is included by this decision.
