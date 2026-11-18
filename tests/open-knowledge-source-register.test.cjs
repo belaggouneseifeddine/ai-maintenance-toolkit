@@ -81,7 +81,7 @@ test("open knowledge source register is discovery-only and does not claim unveri
 
   const lbnl = register.sources.find(source => source.id === "lbnl-fdd-datasets");
   assert.match(lbnl.dataLicense, /CC-BY-4.0/);
-  assert.match(lbnl.contentsReviewed, /FCU-focused/i);
+  assert.match(lbnl.contentsReviewed, /FCU subset/i);
   assert.match(lbnl.accessStatus, /not downloaded/i);
   assert.match(lbnl.decision, /benchmark-only/i);
 
