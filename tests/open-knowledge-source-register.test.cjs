@@ -29,20 +29,23 @@ test("open knowledge source register is discovery-only and does not claim unveri
   }
   const upstream = register.sources.filter(source =>
     source.url.includes("github.com/yilin-2511/industrial-ops-rag-agent") ||
-    source.url.includes("github.com/PlantCraft/PlantCraft") ||
+    source.url.includes("github.com/jonathanwvd/PlantCraft") ||
     source.url.includes("github.com/bbartling/open-fdd")
   );
   const canonicalUrls = new Set(upstream.map(source => source.url.replace(/\/$/, "").toLowerCase()));
   assert.equal(canonicalUrls.size, upstream.length, "one canonical record per upstream repository URL");
 
   const plantcraft = register.sources.find(source => source.id === "plantcraft");
-  assert.equal(plantcraft.owner, "PlantCraft");
-  assert.equal(plantcraft.url, "https://github.com/PlantCraft/PlantCraft");
-  assert.match(plantcraft.codeLicense, /Apache-2.0/);
-  assert.match(plantcraft.dataLicense, /not separately verified/i);
-  assert.match(plantcraft.licenseStatus, /not independently reviewed/i);
-  assert.match(plantcraft.version, /0.6.0.*0.6.1/);
-  assert.match(plantcraft.decision, /pending-license-file-review/);
+  assert.equal(plantcraft.owner, "jonathanwvd");
+  assert.equal(plantcraft.url, "https://github.com/jonathanwvd/PlantCraft");
+  assert.match(plantcraft.codeLicense, /Apache-2.0 verified/i);
+  assert.match(plantcraft.dataLicense, /synthetic/i);
+  assert.match(plantcraft.licenseStatus, /Apache-2.0 verified/i);
+  assert.match(plantcraft.version, /0.6.1/);
+  assert.match(plantcraft.decision, /architecture-reference-only/);
+  assert.ok(plantcraft.filesReviewed.includes("LICENSE"));
+  assert.ok(plantcraft.filesReviewed.includes("ATTRIBUTION.md"));
+  assert.match(plantcraft.contentsReviewed, /demo data is synthetic/i);
 
   const openFdd = register.sources.find(source => source.id === "open-fdd");
   assert.ok(openFdd, "Open-FDD must be tracked");
@@ -52,7 +55,7 @@ test("open knowledge source register is discovery-only and does not claim unveri
   assert.match(openFdd.decision, /reference-only|pending/i);
   assert.match(openFdd.contentsReviewed, /77 SQL rules/);
   assert.match(openFdd.contentsReviewed, /71 pandas twins/);
-  assert.match(openFdd.qualityNotes.join(" "), /52\/77/);
+  assert.match(openFdd.qualityNotes.join(" "), /52\/77 rules require run proof/);
   assert.match(openFdd.qualityNotes.join(" "), /no per-rule source references/i);
 
   const threeW = register.sources.find(source => source.id === "petrobras-3w");
@@ -75,6 +78,29 @@ test("open knowledge source register is discovery-only and does not claim unveri
   const bearing = register.sources.find(source => source.id === "bearing-datasets");
   assert.match(bearing.contentsReviewed, /69 datasets/);
   assert.match(bearing.licenseStatus, /per-dataset/i);
+
+  const lbnl = register.sources.find(source => source.id === "lbnl-fdd-datasets");
+  assert.match(lbnl.dataLicense, /CC-BY-4.0/);
+  assert.match(lbnl.contentsReviewed, /FCU-focused/i);
+  assert.match(lbnl.accessStatus, /not downloaded/i);
+  assert.match(lbnl.decision, /benchmark-only/i);
+
+  const uci = register.sources.find(source => source.id === "uci-hydraulic-447");
+  assert.match(uci.dataLicense, /CC-BY-4.0/);
+  assert.equal(uci.lastUpdated, null);
+  assert.match(uci.sourcePublishedOrDonatedDate, /2018-04-25/);
+  assert.match(uci.decision, /benchmark-only/i);
+
+  const induct = register.sources.find(source => source.id === "industrial-ai-troubleshooting-agent");
+  assert.ok(induct, "InduQT boiler RAG/MCP prototype must be tracked");
+  assert.equal(induct.owner, "ScottDuncanAI");
+  assert.match(induct.codeLicense, /Apache-2.0/);
+  assert.match(induct.dataLicense, /not independently verified/i);
+  assert.match(induct.licenseStatus, /not-yet-verified/i);
+  assert.match(induct.decision, /do-not-import/i);
+  assert.match(induct.qualityNotes.join(" "), /same historian/i);
+  assert.match(induct.qualityNotes.join(" "), /no held-out evaluation/i);
+  assert.ok(induct.filesReviewed.includes("ml_fault_detection.py"));
 
   const industrialOps = register.sources.find(source => source.id === "industrial-ops-rag-agent-snapshot");
   assert.match(industrialOps.contentsReviewed, /337 entries/);
