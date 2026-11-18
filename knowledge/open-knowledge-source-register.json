@@ -759,14 +759,14 @@
     {
       "id": "plantcraft",
       "title": "PlantCraft — industrial historian and analytics suite",
-      "url": "https://github.com/jonathanwvd/PlantCraft",
+      "url": "https://github.com/PlantCraft/PlantCraft",
       "type": "industrial-platform-architecture",
       "potentialUse": "Study asset/signal/alarms lineage, offline installation, read-only OT integration and auditability.",
       "reportedScope": "Historian, analytics, alarms, dashboards, process models, documents and read-only assistant access.",
       "licenseStatus": "Apache-2.0 for code; NOTICE and trademark exclusions apply. Sample/demo data and logos are not automatically covered by the code license.",
       "accessStatus": "README and repository license metadata reviewed; raw LICENSE file and SPEC.md were not fetched in this audit.",
       "decision": "architecture-reference-only-no-runtime-dependency",
-      "owner": "jonathanwvd",
+      "owner": "PlantCraft",
       "lastUpdated": "2026-11-09",
       "lastPushed": null,
       "latestRelease": "No latest GitHub release verified; docs/install.md says suite 0.6.1, updated 2026-11-09",
@@ -803,7 +803,9 @@
       "version": "0.6.1 (documentation states suite 0.6.1; latest tagged release reviewed is v0.6.0)",
       "lastChecked": "2026-11-17",
       "lastReviewed": "2026-11-18",
-      "android": "Architecture reference only; do not port the suite or assume its demo data is reusable."
+      "android": "Architecture reference only; do not port the suite or assume its demo data is reusable.",
+      "repositoryOwner": "jonathanwvd",
+      "canonicalUrl": "https://github.com/jonathanwvd/PlantCraft"
     },
     {
       "id": "uci-hydraulic-447",
