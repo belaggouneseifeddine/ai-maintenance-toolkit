@@ -352,7 +352,7 @@
     {
       "id": "lbnl-fdd-datasets",
       "title": "LBNL Fault Detection and Diagnostics datasets",
-      "url": "https://fdd.lbl.gov/fdd_datasets.html",
+      "url": "https://buildings.lbl.gov/datasets/fault-detection-diagnostics-fdd-data-sets",
       "type": "hvac-dataset-and-metadata",
       "owner": "Lawrence Berkeley National Laboratory with PNNL, NREL, ORNL and Drexel contributors",
       "lastUpdated": "2024-02-12",
@@ -365,8 +365,8 @@
         "data.gov catalogue record",
         "OEDI submission 5763 metadata and license"
       ],
-      "contentsReviewed": "Reviewed official LBNL and OEDI metadata. Seven HVAC equipment/system families are listed (RTU, single-duct AHU, dual-duct AHU, VAV box, FCU, chiller plant and boiler plant); each dataset is described as PDF documentation plus CSV time series and Brick TTL. OEDI record exposes three resources totaling about 749.45 kB and links CC-BY-4.0.",
-      "dataOrigin": "LBNL FDD datasets assembled from LBNL and collaborating national laboratories/universities; includes simulation, laboratory and field HVAC data.",
+      "contentsReviewed": "Official LBNL portal describes seven HVAC system families and 257 operating/fault conditions across simulation, laboratory and field datasets. OEDI submission 5763 metadata and its CC-BY-4.0 license link were reviewed: that submission exposes three resources (inventory PDF, FCU data ZIP and Brick TTL) totaling about 749.45 kB. The OEDI attachment is an FCU subset; it does not establish that all seven families are downloadable from that one record.",
+      "dataOrigin": "LBNL FDD datasets assembled with national-laboratory and university collaborators. The specific OEDI submission 5763 resources reviewed here are FCU-focused; other family files remain linked through the LBNL portal.",
       "equipment": [
         "HVAC",
         "fan coil units",
@@ -377,19 +377,21 @@
         "building systems"
       ],
       "qualityNotes": [
-        "Mixture of simulation, laboratory and real-building field data; keep source type and operating context separate.",
-        "Fault labels are HVAC benchmark annotations, not universal repair procedures or causal diagnoses.",
-        "The seven-system scope and raw files were not independently validated by downloading all bundles."
+        "The official portal describes seven equipment/system families, but OEDI submission 5763 exposes only three resources and is FCU-focused; do not imply that all seven raw datasets were downloaded from OEDI.",
+        "The FCU benchmark describes 48 fault scenarios plus one fault-free scenario, 29 points, one-minute sampling and a simulated building context.",
+        "Mixture of simulation, laboratory and real-building datasets across the broader portal; preserve each dataset's source type and operating context.",
+        "Fault labels are benchmark annotations, not universal repair procedures or causal root-cause diagnoses.",
+        "Raw FCU CSV ZIP and Brick TTL were not downloaded or executed; no model training or runtime test was performed."
       ],
       "dataLeakage": "Split by building, equipment, fault injection and operating scenario; avoid random time-window leakage.",
       "androidWorkerCompatibility": "Large offline benchmark only; no raw data in runtime.",
       "reuseConditions": "CC BY 4.0 attribution; cite LBNL and each contributing dataset/source; no raw data was copied.",
-      "decision": "reference-and-benchmark-candidate-no-runtime-import",
-      "reviewStatus": "metadata-license-reviewed-raw-files-not-downloaded-2026-11-18",
+      "decision": "isolated-hvac-benchmark-only-no-runtime-import",
+      "reviewStatus": "metadata-and-license-reviewed-files-not-downloaded-2026-11-18",
       "potentialUse": "HVAC fault-detection benchmark and domain-specific test design; no universal repair knowledge.",
-      "lastChecked": "2026-11-09",
+      "lastChecked": "2026-11-18",
       "licenseStatus": "CC-BY-4.0 confirmed through the OEDI record license link; verify per-file notices before redistribution.",
-      "accessStatus": "Metadata and license verified; raw CSV/TTL and inventory PDF were not downloaded in this run. The OEDI submission and official LBNL data portal are directly linked."
+      "accessStatus": "Official LBNL portal, OEDI submission 5763 metadata and CC-BY-4.0 license link reviewed. The attached FCU CSV ZIP and Brick TTL were not downloaded; other system-family files were not individually inspected."
     },
     {
       "id": "machine-fault-dataset-index",
@@ -761,50 +763,54 @@
     },
     {
       "id": "plantcraft",
-      "title": "PlantCraft — industrial historian and analytics suite",
-      "url": "https://github.com/PlantCraft/PlantCraft",
+      "title": "PlantCraft — self-hosted industrial operations and analytics suite",
+      "url": "https://github.com/jonathanwvd/PlantCraft",
       "type": "industrial-platform-architecture",
-      "potentialUse": "Study asset/signal/alarms lineage, offline installation, read-only OT integration and auditability.",
-      "reportedScope": "Historian, analytics, alarms, dashboards, process models, documents and read-only assistant access.",
-      "licenseStatus": "GitHub and README identify Apache-2.0, but LICENSE and NOTICE text were not independently reviewed; code reuse remains pending exact file verification. No external fault dataset license was verified.",
-      "accessStatus": "README, release page, install guide and security/how-we-build documentation inspected through GitHub pages; direct LICENSE/NOTICE fetch was unavailable.",
-      "decision": "architecture-reference-only-pending-license-file-review",
-      "owner": "PlantCraft",
-      "lastUpdated": "2026-11-09",
-      "lastPushed": null,
-      "latestRelease": "v0.6.0 (GitHub release page)",
-      "codeLicense": "Apache-2.0 listed by GitHub and stated in README; raw LICENSE and NOTICE text not independently fetched in this audit",
-      "dataLicense": "No separate public fault-dataset license identified; not separately verified. The demo plant is simulated (100 control loops) and must not be treated as field data.",
+      "potentialUse": "Architecture reference for asset/signal lineage, read-only OT connectivity, offline bundles, document citations and AI-off-by-default controls.",
+      "reportedScope": "Alpha self-hosted industrial historian, analytics, alarm, document and assistant platform; not a general causal fault-diagnosis knowledge base.",
+      "licenseStatus": "Apache-2.0 verified for repository code; synthetic demo-data provenance reviewed; no separate dataset license",
+      "accessStatus": "Canonical GitHub repository accessible; README, LICENSE, NOTICE, ATTRIBUTION, SECURITY and SPEC reviewed; no local build or runtime test performed.",
+      "decision": "architecture-reference-only-no-runtime-import",
+      "owner": "jonathanwvd",
+      "lastUpdated": "2026-11-16",
+      "lastPushed": "2026-11-16",
+      "latestRelease": "v0.6.1",
+      "codeLicense": "Apache-2.0 verified in LICENSE; NOTICE and ATTRIBUTION reviewed",
+      "dataLicense": "No separate dataset license identified; ATTRIBUTION.md states demo data is synthetic, not field telemetry",
       "filesReviewed": [
-        "GitHub README page",
-        "GitHub release v0.6.0 page",
-        "docs/install.md",
-        "SECURITY.md page",
-        "docs/how-we-build.md"
+        "README.md",
+        "LICENSE",
+        "NOTICE",
+        "ATTRIBUTION.md",
+        "SECURITY.md",
+        "SPEC.md"
       ],
-      "contentsReviewed": "Reviewed the public GitHub README, v0.6.0 release notes, install guide (updated 2026-11-09, which says suite 0.6.1), security policy and how-we-build page. Describes a self-hosted suite: Historian, Analytics, Alarms, View, Models, Documents, Simulator, Desk and Notebooks. Reads OPC UA, PI Web API, MQTT, Modbus TCP, SQL and CSV; documents are indexed with document/revision/page citations; optional LLM and read-only MCP are off until administrator configuration.",
+      "contentsReviewed": "Canonical repository and v0.6.1 release reviewed. README, LICENSE, NOTICE, ATTRIBUTION, SECURITY and SPEC inspected. Alpha self-hosted suite covers historian, analytics, alarms, dashboards, process models, documents, simulator and read-only assistant/MCP access; connectors include OPC UA, PI Web API, MQTT, Modbus TCP, SQL and CSV. ATTRIBUTION.md states all demo data is synthetic.",
       "equipment": [
         "process plants",
-        "historian tags",
-        "alarms",
+        "pumps",
+        "valves",
+        "fans",
+        "HVAC",
         "industrial assets",
-        "models and dashboards"
+        "historian tags",
+        "alarms"
       ],
       "qualityNotes": [
-        "Project is explicitly alpha; a GitHub release v0.6.0 and install guide suite version 0.6.1 are both shown and should be reconciled.",
-        "Strong reference for self-hosted offline plant software, document provenance, read-only OT integration and security-by-default.",
-        "The full suite requires a Linux/Windows/macOS server with Docker; docs recommend 8 GB RAM for a trial and 16 GB for all apps. Not an Android app.",
-        "PlantCraft states it never writes to controllers or historians; only the simulated plant is writable.",
-        "The optional language model and read-only MCP server are off until administrator setup; local plant data is not sent unless configured.",
-        "Analytics checks bad data, oscillation, sticking valves and manual mode; it is process/BAS analytics, not a general causal pump fault engine.",
-        "The demo plant's known faults are simulated; no real-world fault dataset was inspected."
+        "Apache-2.0 code license is verified from the repository LICENSE; NOTICE and ATTRIBUTION were reviewed.",
+        "ATTRIBUTION.md identifies demo data as synthetic; it must not be treated as real plant telemetry or validated fault evidence.",
+        "Project is explicitly alpha; no independent field fault benchmark or causal diagnostic validation was reviewed.",
+        "The full suite is a multi-service server deployment with Docker and substantial host requirements; it is not an Android or Cloudflare Worker runtime dependency.",
+        "Useful architecture patterns include read-only OT access, explicit document/revision/page citations, local deployment and optional AI/MCP disabled until administrator setup."
       ],
       "dependencies": "Self-hosted Docker containers, Linux/Windows/macOS server, 8 GB+ RAM for trial; plant connectors for OPC UA, PI Web API, MQTT, Modbus TCP, SQL and CSV. Not suitable for Android/Cloudflare Worker runtime.",
-      "androidWorkerCompatibility": "Architecture reference only. Could borrow the read-only integration, signed offline bundle, document citations and AI-off-by-default patterns; not the server stack.",
-      "reuseConditions": "Do not reuse code until the actual LICENSE and NOTICE files are reviewed. No demo telemetry or simulated fault data is to be imported as real maintenance evidence.",
-      "reviewStatus": "documentation-and-release-reviewed-license-file-pending-2026-11-18",
-      "version": "GitHub latest release v0.6.0 (2026-11-02); install guide states suite 0.6.1 (updated 2026-11-09)",
-      "lastChecked": "2026-11-18"
+      "androidWorkerCompatibility": "Architecture reference only. Do not port the multi-service server stack; consider only small design patterns such as read-only connectors and document provenance.",
+      "reuseConditions": "Repository code may be reused under Apache-2.0 with required notices. Demo data is synthetic and has no separately identified dataset license; do not import it as maintenance evidence.",
+      "reviewStatus": "license-and-demo-provenance-reviewed-2026-11-18",
+      "version": "v0.6.1 (GitHub release published 2026-11-16)",
+      "lastChecked": "2026-11-18",
+      "dataOrigin": "Project-authored synthetic demo plant and simulated telemetry; no real fault dataset was identified in the reviewed files.",
+      "dataLeakage": "Synthetic demo data only in reviewed files; it cannot establish field generalization or diagnostic performance."
     },
     {
       "id": "uci-hydraulic-447",
@@ -814,12 +820,12 @@
       "potentialUse": "Offline benchmark for hydraulic sensor quality, condition classification and leakage-resistant evaluation; not an operational troubleshooting manual.",
       "reportedScope": "2205 60-second test-rig cycles; pressure, motor power, flow, temperature, vibration and virtual efficiency channels; labels for cooler, valve, internal pump leakage and accumulator.",
       "licenseStatus": "CC-BY-4.0 confirmed on the official UCI dataset page; attribution required.",
-      "accessStatus": "Official archive and DOI identified; approximately 73.1 MB download; raw files were not downloaded or inspected.",
-      "decision": "download-on-demand-offline-benchmark-only",
+      "accessStatus": "Official UCI archive metadata and CC-BY-4.0 license reviewed; raw archive not downloaded or tested in this pass.",
+      "decision": "isolated-hydraulic-benchmark-only-no-runtime-import",
       "limitations": "Laboratory test rig; labels are not causal diagnoses; use group-aware splits to avoid cycle leakage.",
       "runtimeImport": false,
       "owner": "ZeMA / UCI Machine Learning Repository",
-      "lastUpdated": "2018-11-26",
+      "lastUpdated": null,
       "lastPushed": null,
       "latestRelease": null,
       "codeLicense": "not applicable",
@@ -837,9 +843,10 @@
         "accumulator"
       ],
       "qualityNotes": [
-        "Labels describe laboratory test-rig component condition grades, not root-cause explanations or safe repair instructions.",
-        "Fault conditions are superimposed; labels are not independent causal fault diagnoses.",
-        "No raw-file validation or field generalization test was run."
+        "Labels describe laboratory component condition grades for cooler, valve, pump internal leakage and accumulator; they are not causal narratives or repair instructions.",
+        "The dataset is from a single hydraulic test rig and should not be treated as field-generalizable.",
+        "Time-series cycles are correlated; use operating-condition/cycle-group or time-block splits rather than random row/window splits to reduce leakage.",
+        "Raw files were not downloaded, parsed or executed; only the official dataset metadata and license were reviewed."
       ],
       "dataLeakage": "Use operating-point/cycle-group splits; random row or window splitting can leak operating conditions and repeated-cycle patterns.",
       "androidWorkerCompatibility": "Benchmark only; raw dataset is too large for the phone/Worker runtime.",
@@ -848,7 +855,9 @@
       "aliases": [
         "uci-hydraulic-condition-monitoring",
         "https://doi.org/10.24432/C5CW21"
-      ]
+      ],
+      "sourcePublishedOrDonatedDate": "2018-04-25 (UCI donation date; last-modified date not reported on the reviewed page)",
+      "lastChecked": "2026-11-18"
     },
     {
       "id": "urma-crti-zenodo-19109150",
@@ -945,6 +954,63 @@
       "androidWorkerCompatibility": "Methodology reference only; Python research code and raw multivariate time series are not runtime dependencies.",
       "reuseConditions": "Do not reuse repository code or mirrored data without explicit rights. If using UCI data, obtain it from UCI under CC BY 4.0 and attribute the original authors.",
       "reviewStatus": "reviewed-2026-11-18-metadata-and-methodology"
+    },
+    {
+      "id": "industrial-ai-troubleshooting-agent",
+      "title": "Industrial AI Troubleshooting Agent (InduQT) — boiler RAG/MCP prototype",
+      "url": "https://github.com/ScottDuncanAI/industrial-ai-troubleshooting-agent",
+      "type": "agentic-rag-boiler-troubleshooting-prototype",
+      "owner": "ScottDuncanAI",
+      "lastUpdated": "2026-11-16",
+      "lastPushed": "2026-09-29",
+      "latestRelease": null,
+      "version": "No tagged GitHub release; main branch last pushed 2026-09-29 and repository metadata updated 2026-11-16",
+      "lastChecked": "2026-11-18",
+      "codeLicense": "Apache-2.0 verified in LICENSE",
+      "dataLicense": "Kaggle boiler-dataset license not independently verified at the primary source; historian DB, generated alarm records, RAG documents and knowledge graph have no separately reviewed dataset/content license",
+      "licenseStatus": "Apache-2.0 verified for code; dataset and RAG-document rights not-yet-verified; no data redistribution permission established",
+      "filesReviewed": [
+        "README.md",
+        "LICENSE",
+        "requirements.txt",
+        "how_it_works.md",
+        "historian_tools.py",
+        "alarm_metadata.py",
+        "rag_tools.py",
+        "knowledge_graph.py",
+        "tag_metadata.py",
+        "boiler_kg.json",
+        "ml_fault_detection.py",
+        "one RAG troubleshooting document"
+      ],
+      "contentsReviewed": "Reviewed the repository README, Apache-2.0 LICENSE, requirements, how_it_works, historian/alarm/RAG/knowledge-graph/tag metadata modules, boiler_kg.json, ML fault-detection script and one high-steam-temperature troubleshooting document. The prototype describes one CFB boiler, five days of 30 tags (86,400 readings), 6,005 alarm records generated from the historian with an ISA-18.2-style state machine, 62 RAG documents and 356 chunks. The sample troubleshooting document contains hard numeric limits and manual control actions without verifiable OEM source citations.",
+      "dataOrigin": "README points to a Kaggle 'Time Series of Industrial Boiler Operations' dataset. The exact Kaggle data license and file lineage were not independently verified at the primary source. Alarm events are generated from the same historian series; RAG documents and graph content are assembled in the repository.",
+      "equipment": [
+        "CFB boiler",
+        "steam superheater",
+        "desuperheater",
+        "feedwater system",
+        "steam valves",
+        "process instrumentation",
+        "industrial historian"
+      ],
+      "potentialUse": "Architecture reference for historian-backed retrieval, equipment knowledge graphs, MCP tool surfaces and trace/audit design; not a reusable maintenance knowledge source.",
+      "reportedScope": "Single-boiler proof of concept; not a general industrial troubleshooting product or field-validated causal diagnostic engine.",
+      "accessStatus": "Repository and selected text files accessible and reviewed; raw DuckDB historian database was not downloaded or independently inspected; no runtime execution or model test performed.",
+      "qualityNotes": [
+        "The demonstrated scope is one CFB boiler and a five-day, 30-tag time series; this is not a cross-equipment knowledge base.",
+        "The 6,005 alarm records are generated from the same historian using state-machine rules, not demonstrated as an independently sourced operator alarm log.",
+        "ml_fault_detection.py fits IsolationForest on a selected 530–545°C normal band and fits XGBoost to predict that same tag's out-of-range state from the remaining tags; no held-out evaluation is visible in the reviewed training function. This is anomaly/threshold prediction and feature ranking, not causal diagnosis.",
+        "The reviewed troubleshooting document includes exact setpoints and manual control actions without traceable OEM manual, page, revision or safety approval; do not copy or operationalize it.",
+        "The 62-document RAG corpus and 356 chunks have not been individually provenance- or license-reviewed; no text should be imported.",
+        "audit_trace.py hashes local trace files but does not provide an external signature or immutable anchor; do not describe it as tamper-proof."
+      ],
+      "dataLeakage": "Time-series rows are correlated; alarm labels are derived from the same historian, and the ML target is a threshold on TE_8332A. Without time-block/site/asset holdout and removal of target-derived features, random splits can leak operating regimes and produce optimistic scores.",
+      "dependencies": "Python 3.11, DuckDB, pandas, NumPy, scikit-learn, XGBoost, ChromaDB, sentence-transformers (~130 MB embeddings), NetworkX and MCP; README reports roughly 1.5 GB of dependencies and a Claude Code workflow.",
+      "androidWorkerCompatibility": "Not suitable as a direct Android or Cloudflare Worker dependency. Use only architecture ideas; the Python/MCP, DuckDB, vector-store and model stack is too heavy for the current mobile-first local runtime.",
+      "reuseConditions": "Apache-2.0 applies to repository code with its notices. Do not reuse the Kaggle dataset copy, alarm DB, RAG documents, numeric thresholds or control actions until each upstream file's rights, provenance, source page and safety review are established.",
+      "decision": "architecture-reference-only; do-not-import-data-or-troubleshooting-docs",
+      "reviewStatus": "repo-code-and-selected-content-reviewed-data-rights-pending-2026-11-18"
     }
   ]
 }
