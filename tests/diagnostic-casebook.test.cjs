@@ -164,6 +164,8 @@ test("estimated and unknown-provenance readings are retained but do not satisfy 
   assert.equal(result.evidenceQuality.acceptedMeasurementCount, 0);
   assert.equal(result.evidenceQuality.incompleteMeasurementCount, 2);
   assert.equal(result.evidenceQuality.estimatedMeasurementCount, 1);
+  assert.equal(result.evidenceQuality.qualityRejectedCount, 0);
+  assert.equal(result.evidenceQuality.evidenceExcludedCount, 2);
   assert.equal(result.evidenceQuality.unknownProvenanceCount, 1);
   assert.ok(result.evidenceQuality.missingMeasurementDefinitions.includes("Suction pressure"));
   assert.ok(result.hypotheses.every(h => h.status === "unresolved"));
@@ -178,6 +180,7 @@ test("noisy data and failed sensors are excluded from evidence", () => {
   assert.equal(result.evidenceQuality.noisyMeasurementCount, 1);
   assert.equal(result.evidenceQuality.failedSensorCount, 1);
   assert.equal(result.evidenceQuality.qualityRejectedCount, 2);
+  assert.equal(result.evidenceQuality.evidenceExcludedCount, 2);
 });
 
 test("PLC command values are not treated as actual measured speed", () => {
@@ -186,6 +189,7 @@ test("PLC command values are not treated as actual measured speed", () => {
   ] }, lowFlow, { sourceRegistry });
   assert.equal(result.evidenceQuality.acceptedMeasurementCount, 0);
   assert.equal(result.evidenceQuality.controllerCommandCount, 1);
+  assert.equal(result.evidenceQuality.evidenceExcludedCount, 1);
   assert.ok(result.evidenceQuality.missingMeasurementDefinitions.includes("Pump speed"));
 });
 
