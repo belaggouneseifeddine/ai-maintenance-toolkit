@@ -281,7 +281,7 @@
       "type": "candidate-knowledge-snapshot",
       "potentialUse": "Compare equipment taxonomy and candidate pump hypotheses after source and technical review.",
       "reportedScope": "Copied data/knowledge_base.json (9 equipment classes, 55 records) into candidate quarantine; 9 pump records separately extracted.",
-      "licenseStatus": "Repository code MIT only. Embedded knowledge and standards-derived data have no separately verified data license; cited GB/T standard content rights remain unresolved.",
+      "licenseStatus": "Repository code MIT only; no separate data license is verified for embedded knowledge and standards-derived content; cited GB/T standard content rights remain unresolved.",
       "accessStatus": "Actual JSON, README, LICENSE, evaluation file and CSV inspected; no upstream text, dataset, code or pump extract copied.",
       "decision": "discovery-only-no-fault-text-import",
       "limitations": "42/55 records repeat causes as diagnosis steps; no claim-level standard pages/model scope; other records lack measurable expected outcomes and safe preconditions.",
