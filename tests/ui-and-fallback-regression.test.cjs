@@ -52,6 +52,8 @@ test("AI adapter failure and timeout keep a stable local fallback path", () => {
 });
 
 const navigation = readFileSync(join(root, "navigation-redesign.js"), "utf8");
+const v03Module = readFileSync(join(root, "maintenance-v03.js"), "utf8");
+const homeModule = readFileSync(join(root, "ux-redesign.js"), "utf8");
 
 test("mobile navigation keeps five primary tabs and nests home and AI inside Diagnose", () => {
   const html = readFileSync(join(root, "index.html"), "utf8");
@@ -65,4 +67,10 @@ test("mobile navigation keeps five primary tabs and nests home and AI inside Dia
   assert.equal(html.includes('data-tab="ai"'), false);
   const nav = html.match(/<nav class="nav"[\s\S]*?<\/nav>/)?.[0] || "";
   assert.equal([...nav.matchAll(/data-tab=/g)].length, 5);
+  assert.match(v03Module, /n\.querySelector\('\.tab\[data-tab="v03"\]'\)/,
+    "the More panel must reuse the existing navigation button instead of adding a duplicate");
+  assert.match(homeModule, /querySelectorAll\('\[data-ux-key\]'\)/,
+    "the home dashboard must localize its existing markup");
+  assert.doesNotMatch(homeModule, /nav\.insertBefore|nav\.addEventListener/,
+    "the home dashboard must not create or own primary navigation");
 });
