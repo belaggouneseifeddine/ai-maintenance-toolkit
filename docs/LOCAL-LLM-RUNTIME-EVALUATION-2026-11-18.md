@@ -325,3 +325,42 @@ This is sufficient to begin a controlled small-model evaluation, but it is not e
 - The adapter is loaded by the PWA shell and covered by CI syntax/test checks. No model weights are added to service-worker caches.
 
 **Next implementation gate:** create the Android host and LiteRT-LM Kotlin bridge only after selecting and verifying an exact model artifact/runtime version. Do not expose a fake “AI ready” status in the PWA before the native bridge reports a real local model loaded.
+
+
+## 12. Constrained model-agent increment
+
+Added `assistant-model-agent.js` as a separate orchestration layer over the local runtime adapter and existing local assistant orchestrator.
+
+- Accepts only strict JSON action envelopes: `final` or `tool_call`.
+- The model may call only tools that are both declared in the injected catalog and present in the existing local tool registry.
+- Executes one tool at a time through `orchestrator.invokeTool`; it never evaluates generated code or accepts arbitrary URLs/commands.
+- Limits the tool loop to three model turns, bounds context and tool-result text, and records tool results in the existing session.
+- A local generation failure returns an explicit error. There is no remote-provider fallback.
+- Retrieved/user content is framed as untrusted data in the default instruction.
+
+This agent is a tested orchestration primitive, not yet wired into the technician-facing chat. Do not expose it as active AI until a real native runtime and model are present, the current safety-sensitive tool behavior has been corrected and verified, and the production UI has a truthful no-model state.
+
+## 13. Candidate model details verified on 2026-11-18
+
+### First device trial: Qwen3.5-0.8B Instruct, LiteRT-LM conversion
+
+The current `litert-community/Qwen3.5-0.8B` model card lists:
+- CPU artifact: `Qwen3.5-0.8B_int8.litertlm`, approximately **965 MB**.
+- GPU artifact for LiteRT-LM 0.19.x: `Qwen3.5-0.8B_int8_gpu_composite_v0190.litertlm`, approximately **888 MB**.
+- A newer dynamic-weight artifact requires LiteRT-LM 0.20.0 or later; do not select it for a 0.19.x runtime.
+- The card identifies Apache-2.0 and provides runtime-specific compatibility notes.
+
+For the user's Exynos/Mali-class phone, begin with the CPU artifact in the official Google AI Edge Gallery using a recent build, then compare the GPU artifact only if the app exposes a compatible backend and the CPU trial is stable. The published performance numbers are from other devices and are not transferable to this phone. The initial model trial is about runtime compatibility, Arabic/French/English behavior, tool-call JSON validity and memory/thermal use—not a claim of industrial diagnostic competence.
+
+### Google comparison: Gemma 4 E2B Instruct
+
+The LiteRT Community Gemma 4 E2B artifact set includes a general `.litertlm` file around **2.59 GB** and a web-specific artifact around **2.01 GB**. A published Galaxy S26 Ultra CPU measurement reports about 1.73 GB process memory, but this is not a measurement on the user's device. Keep Gemma as a second comparison after the smaller Qwen trial; do not download both at once with only 10 GB free.
+
+### Runtime pinning
+
+The LiteRT-LM Android guide documents the Kotlin API, streaming conversations and manual tool calling (`automaticToolCalling = false`). It shows a Gradle Maven dependency, but the application must pin a tested exact runtime version rather than use `latest.release`. The Qwen 0.8B card's current CPU artifact is documented with LiteRT-LM 0.19.2; verify the Android Maven artifact and model compatibility before creating the native host. The GPU artifact's backend/runtime pairing must be treated separately.
+
+References:
+- https://developers.google.com/edge/litert-lm/android
+- https://huggingface.co/litert-community/Qwen3.5-0.8B
+- https://huggingface.co/litert-community/gemma-4-E2B-it-litert-lm
