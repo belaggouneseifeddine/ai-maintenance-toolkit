@@ -22,7 +22,9 @@
     "verification",
     "sources",
     "licenseStatus",
-    "limitations"
+    "limitations",
+    "measurementQualityPolicy",
+    "claimTraceability"
   ],
   "properties": {
     "schemaVersion": {
@@ -329,6 +331,199 @@
       "minItems": 1,
       "items": {
         "type": "string"
+      }
+    },
+    "measurementQualityPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "timestampRequired",
+        "sensorStatusAllowedForEvidence",
+        "qualityFlagsAllowedForEvidence",
+        "evidenceSourceTypes",
+        "independentSourceTypes",
+        "controlSystemSourceTypes",
+        "estimatedSourceTypes",
+        "excludedSignalRoles",
+        "unitHandling"
+      ],
+      "properties": {
+        "timestampRequired": {
+          "const": true
+        },
+        "sensorStatusAllowedForEvidence": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "enum": [
+              "verified",
+              "suspect",
+              "failed",
+              "unknown"
+            ]
+          }
+        },
+        "qualityFlagsAllowedForEvidence": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "enum": [
+              "good",
+              "noisy",
+              "stale",
+              "contradictory",
+              "unknown"
+            ]
+          }
+        },
+        "evidenceSourceTypes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "enum": [
+              "direct_measurement",
+              "plc_value",
+              "historian_value",
+              "estimated",
+              "unknown"
+            ]
+          }
+        },
+        "independentSourceTypes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "enum": [
+              "direct_measurement",
+              "plc_value",
+              "historian_value",
+              "estimated",
+              "unknown"
+            ]
+          }
+        },
+        "controlSystemSourceTypes": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "direct_measurement",
+              "plc_value",
+              "historian_value",
+              "estimated",
+              "unknown"
+            ]
+          }
+        },
+        "estimatedSourceTypes": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "direct_measurement",
+              "plc_value",
+              "historian_value",
+              "estimated",
+              "unknown"
+            ]
+          }
+        },
+        "excludedSignalRoles": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "enum": [
+              "physical_measurement",
+              "controller_feedback",
+              "controller_command",
+              "historian_derived",
+              "estimate",
+              "unknown"
+            ]
+          }
+        },
+        "unitHandling": {
+          "const": "preserve_exact_units_no_automatic_conversion"
+        }
+      }
+    },
+    "claimTraceability": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "claimId",
+          "target",
+          "claimText",
+          "evidenceClass",
+          "sourceId",
+          "sectionOrPage",
+          "reviewStatus",
+          "licenseStatus",
+          "reuseStatus",
+          "note"
+        ],
+        "properties": {
+          "claimId": {
+            "type": "string",
+            "minLength": 5
+          },
+          "target": {
+            "type": "string",
+            "minLength": 3
+          },
+          "claimText": {
+            "type": "string",
+            "minLength": 3
+          },
+          "evidenceClass": {
+            "enum": [
+              "source_supported_bounded",
+              "source_context_only",
+              "engineering_hypothesis",
+              "design_proposal",
+              "measurement_quality_policy",
+              "site_safety_requirement",
+              "field_observation_definition",
+              "scope_limitation",
+              "validation_plan"
+            ]
+          },
+          "sourceId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "sectionOrPage": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "reviewStatus": {
+            "enum": [
+              "not_reviewed",
+              "reviewed",
+              "rejected"
+            ]
+          },
+          "licenseStatus": {
+            "enum": [
+              "source_gap",
+              "reference_only",
+              "reuse_permitted"
+            ]
+          },
+          "reuseStatus": {
+            "type": "string",
+            "minLength": 3
+          },
+          "note": {
+            "type": "string",
+            "minLength": 3
+          }
+        }
       }
     }
   }
