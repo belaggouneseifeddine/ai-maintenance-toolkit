@@ -774,7 +774,7 @@
       "lastPushed": null,
       "latestRelease": "v0.6.0 (GitHub release page)",
       "codeLicense": "Apache-2.0 listed by GitHub and stated in README; raw LICENSE and NOTICE text not independently fetched in this audit",
-      "dataLicense": "No separate public fault-dataset license identified; demo plant is simulated (100 control loops) and must not be treated as field data.",
+      "dataLicense": "No separate public fault-dataset license identified; not separately verified. The demo plant is simulated (100 control loops) and must not be treated as field data.",
       "filesReviewed": [
         "GitHub README page",
         "GitHub release v0.6.0 page",
