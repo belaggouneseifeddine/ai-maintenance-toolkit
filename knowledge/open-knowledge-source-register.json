@@ -987,9 +987,11 @@
         "tag_metadata.py",
         "boiler_kg.json",
         "ml_fault_detection.py",
-        "one RAG troubleshooting document"
+        "one RAG troubleshooting document",
+        "audit_trace.py",
+        "RAG docs/troubleshooting/trb_high_steam_temperature.md"
       ],
-      "contentsReviewed": "Reviewed the repository README, Apache-2.0 LICENSE, requirements, how_it_works, historian/alarm/RAG/knowledge-graph/tag metadata modules, boiler_kg.json, ML fault-detection script and one high-steam-temperature troubleshooting document. The prototype describes one CFB boiler, five days of 30 tags (86,400 readings), 6,005 alarm records generated from the historian with an ISA-18.2-style state machine, 62 RAG documents and 356 chunks. The sample troubleshooting document contains hard numeric limits and manual control actions without verifiable OEM source citations.",
+      "contentsReviewed": "Reviewed the repository README, Apache-2.0 LICENSE, requirements, how_it_works, historian/alarm/RAG/knowledge-graph/tag metadata modules, boiler_kg.json, ML fault-detection script and RAG docs/troubleshooting/trb_high_steam_temperature.md. The prototype describes one CFB boiler, five days of 30 tags (86,400 readings), 6,005 alarm records generated from the historian with an ISA-18.2-style state machine, 62 RAG documents and 356 chunks. The sample troubleshooting document contains hard numeric limits and manual control actions without verifiable OEM source citations.",
       "dataOrigin": "README points to a Kaggle 'Time Series of Industrial Boiler Operations' dataset. The exact Kaggle data license and file lineage were not independently verified at the primary source. Alarm events are generated from the same historian series; RAG documents and graph content are assembled in the repository.",
       "equipment": [
         "CFB boiler",
