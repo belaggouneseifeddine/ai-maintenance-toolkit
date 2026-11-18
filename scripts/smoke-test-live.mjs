@@ -1,8 +1,4 @@
 const pageUrl = "https://belaggouneseifeddine.github.io/ai-maintenance-toolkit/";
-const knownWorkerBases = [
-  "https://maintenance-ai-toolkit-api.maintenance-ai-toolkit-api-seif.workers.dev"
-];
-
 async function get(url) {
   const response = await fetch(url, { redirect: "follow", signal: AbortSignal.timeout(10000) });
   const body = await response.text();
@@ -30,6 +26,4 @@ if (agentUi.status !== 200 || !agentUi.body.includes("MaintenanceAgentUI") ||
 if (page.body.includes('id="aiEndpoint"')) {
   throw new Error("Published app unexpectedly exposes the retired cloud-AI endpoint control");
 }
-console.log(`PAGES_OK HTTP ${page.status} ${page.finalUrl} (local diagnosis UI)`);
-
 console.log(`PAGES_OK HTTP ${page.status} ${page.finalUrl} (local diagnosis UI and runtime assets)`);
