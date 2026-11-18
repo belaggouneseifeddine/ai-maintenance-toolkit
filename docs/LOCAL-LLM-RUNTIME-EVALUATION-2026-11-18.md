@@ -184,7 +184,7 @@ The native bridge should expose only these narrow operations. The JS layer remai
 - Model output is untrusted input.
 - No arbitrary code execution or direct model access to storage/database.
 - Tool registry is the only execution gateway.
-- Safety denial must block the corresponding action; a warning alone is insufficient for prohibited/high-risk operations.
+- Safety review results are advisory warnings in the diagnostic workflow; they do not automatically block professional users from accessing diagnostic information. The interface must make the warning and its limitations explicit.
 - Retrieved PDF content is untrusted data, not instructions to the assistant.
 - The model cannot approve extracted knowledge, change source trust, invent page references, or elevate evidence confidence.
 - Distinguish user observations, extracted evidence, reviewed evidence, model hypotheses and verified outcomes.
@@ -366,14 +366,17 @@ References:
 - https://huggingface.co/litert-community/gemma-4-E2B-it-litert-lm
 
 
-## 14. Safety-gate execution correction
+## 14. Safety warnings — advisory behavior selected by the user
 
-The repository previously treated a denied deterministic safety decision as a warning and still executed a `safetySensitive` local tool. This was unsafe. On this branch, `assistant-tool-registry.js` now returns `status: "blocked"` and does not invoke the tool when:
-- no safety gate is configured;
-- the safety gate throws or fails;
-- the safety gate returns anything other than explicit `allowed: true`.
+The user explicitly chose to keep safety-gate results as **advisory warnings**, because the application is intended for professional technicians, engineers and responsible personnel.
 
-The related contract, orchestrator and local-tool tests were changed to assert zero execution on denial and successful execution only after an explicit allow decision. This is a fail-closed behavior change and must pass the full test suite before merge.
+- Missing safety-gate configuration produces a visible warning, not an automatic execution block.
+- A safety-gate denial or error produces a visible warning, not an automatic execution block.
+- The local diagnostic tool can continue after the warning; the warning is returned with the tool result for presentation.
+- Input validation, allow-listed tool names, bounded outputs and session validation remain enforced.
+- The UI must not describe a warning as a safety clearance or imply that the application has verified site isolation, permits, or OEM procedures.
+
+Regression tests now assert that warning cases continue through the diagnostic tool and retain the warning metadata.
 
 
 ## 15. Qwen3.5-0.8B model-card caveats that affect integration
