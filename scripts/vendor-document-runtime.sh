@@ -8,7 +8,7 @@ trap 'rm -rf "$TMP_DIR"' EXIT
 
 mkdir -p "$OUT_DIR/vendor/pdfjs" "$OUT_DIR/vendor/tesseract/core" "$OUT_DIR/vendor/tessdata" "$OUT_DIR/vendor/transformers" "$OUT_DIR/vendor/licenses"
 
-npm install --prefix "$TMP_DIR" --no-save --no-audit --no-fund \
+npm install --prefix "$TMP_DIR" --no-save --no-audit --no-fund --onnxruntime-node-install-cuda=skip \
   "pdfjs-dist@4.10.38" "tesseract.js@5.1.1" "tesseract.js-core@5.1.1" "@huggingface/transformers@3.8.1"
 
 cp -R "$TMP_DIR/node_modules/@huggingface/transformers/dist/." "$OUT_DIR/vendor/transformers/"
@@ -25,11 +25,11 @@ cp "$TMP_DIR"/node_modules/tesseract.js-core/tesseract-core*.wasm "$OUT_DIR/vend
 
 for language in ara eng fra; do
   curl --fail --location --silent --show-error \
-    "https://raw.githubusercontent.com/tesseract-ocr/tessdata_fast/main/${language}.traineddata" \
+    "https://raw.githubusercontent.com/tesseract-ocr/tessdata_fast/87416418657359cb625c412a48b6e1d6d41c29bd/${language}.traineddata" \
     -o "$TMP_DIR/${language}.traineddata"
   gzip -9 -c "$TMP_DIR/${language}.traineddata" > "$OUT_DIR/vendor/tessdata/${language}.traineddata.gz"
 done
-curl --fail --location --silent --show-error "https://raw.githubusercontent.com/tesseract-ocr/tessdata_fast/main/LICENSE" -o "$OUT_DIR/vendor/licenses/tessdata-fast-LICENSE"
+curl --fail --location --silent --show-error "https://raw.githubusercontent.com/tesseract-ocr/tessdata_fast/87416418657359cb625c412a48b6e1d6d41c29bd/LICENSE" -o "$OUT_DIR/vendor/licenses/tessdata-fast-LICENSE"
 
 test -s "$OUT_DIR/vendor/licenses/transformers-LICENSE"
 test -s "$OUT_DIR/vendor/licenses/pdfjs-LICENSE"
