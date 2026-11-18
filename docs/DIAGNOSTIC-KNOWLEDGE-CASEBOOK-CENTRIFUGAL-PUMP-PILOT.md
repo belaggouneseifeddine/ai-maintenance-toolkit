@@ -233,3 +233,31 @@ No paper text, figures, tables or raw data were copied. The two sources are regi
 ### Pilot gate
 
 No pump case enters runtime until every claim has a permitted source, exact section/page, equipment scope, units, measurement location, operating conditions, supporting and opposing evidence, safe test prerequisites, expected results for competing hypotheses, stop conditions, post-repair verification and automated tests for missing, contradictory, noisy and invalid measurements. Actual measurements, PLC-indicated values and estimates must remain distinct. No general numeric threshold is allowed without the applicable model/curve/fluid/installation source.
+
+## Implementation audit and hardening — 2026-11-18
+
+### Changes on the isolated review branch
+
+- Measurement parsing now rejects empty strings, whitespace-only values, booleans, non-finite numbers, ambiguous decimal-comma strings and values whose provenance is `unknown`. A numeric zero remains valid.
+- Repeated readings for the same parameter are checked for incompatible units and conflicting values under the same operating condition. Conflicting readings are excluded from the accepted evidence set and surfaced for reconciliation; no generic tolerance is invented.
+- Direct measurements, PLC values, historian values and estimates remain separate provenance classes. Estimates are counted separately and are not relabelled as direct measurements.
+- Each test now requires explicit `timeCost` and `costLevel` fields. The current values are `unknown` because no reviewed site-specific time/cost evidence has been supplied.
+- Case validation can check source IDs against the source register. Unknown source IDs fail validation; a case cannot claim `reuse_permitted` while relying on a reference-only, non-commercial, unverified or otherwise restricted source.
+- Candidate triage lists only installed-instrument or external observations as possible next-evidence candidates. It no longer auto-selects a test by counting missing fields.
+
+### Deliberate non-selection
+
+The current CP-004 candidate has no source-reviewed per-outcome likelihood model, no validated prior distribution and no reviewed test time/cost estimates. Therefore it returns no ranked `nextEvidence` and does not calculate expected information gain. This is intentional: a missing-data count is not information gain, and a heuristic score is not a calibrated probability. A future selector must validate source-backed likelihoods, prior provenance, test safety class, time and cost before ranking.
+
+### Remaining Pilot gaps
+
+- CP-004 (low flow) is the only structured pump candidate currently present. Cavitation, air lock/loss of prime, suction blockage, mechanical-seal leakage and bearing degradation still need separate structured cases; prose notes are not substitutes.
+- The current source set supports bounded research and reference claims, but does not establish a complete, model-independent causal matrix for low flow.
+- No pump-specific likelihoods, calibrated priors, verified time/cost estimates or field-confirmed outcome dataset are available.
+- Candidate casebook code and JSON remain outside the live diagnosis runtime. No candidate record was promoted into `faults.json`, the runtime retrieval corpus or OEM-verified records.
+- Android device behavior, PDF import/retrieval page citations and end-to-end technician workflow still require real-device verification.
+
+### Verification required for this branch
+
+Run the focused casebook tests, full Node suite, knowledge/source validation, JavaScript syntax checks and the published-site smoke test in CI. Passing repository CI does not replace field validation or Android offline testing.
+
