@@ -82,8 +82,15 @@
         "raw_figures"
       ],
       "status": "candidate",
-      "licenseVerification": "CC-BY-4.0 confirmed on the MDPI article page and PMC full-text record",
-      "reviewDate": "2026-11-18"
+      "licenseVerification": "CC-BY-4.0 was recorded in the earlier license review, but the current automated publisher fetch returned HTTP 403. Keep this source metadata-only until the full text and license page can be re-reviewed.",
+      "reviewDate": "2026-11-18",
+      "fetchAllowed": false,
+      "sectionsReviewed": [],
+      "scopeReviewed": "Metadata-only candidate. The MDPI publisher endpoint returned HTTP 403 to the automated review runner on 2026-11-18; full article text was not reviewed in this pass.",
+      "evidenceRole": "metadata-only-candidate",
+      "limitations": [
+        "The publisher page returned HTTP 403 to the 2026-11-18 CI fetch; no article text, claims, tables or data were ingested in this pass."
+      ]
     }
   ],
   "reference_only_portals": [
