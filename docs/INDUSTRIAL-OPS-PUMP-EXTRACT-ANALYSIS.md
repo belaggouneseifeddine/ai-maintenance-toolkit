@@ -1,6 +1,6 @@
 # Industrial Ops RAG Agent — pump-content rights and quality review
 
-**Review date:** 2026-11-09  
+**Review date:** 2026-11-18  
 **Decision:** discovery-only; no fault-content import; no runtime use.
 
 ## Upstream files actually inspected
@@ -21,6 +21,13 @@ No upstream file or fault-text extract is retained in this repository. The previ
 - The pump CSV contains 5 rows while the README describes 3 pump fault types.
 - The reviewed records do not consistently provide the original standard/manual edition, page, model scope, operating conditions, measurement location, safe test prerequisites or claim-level evidence.
 - The sample case file is not sufficient to establish field truth, model-specific limits or a safe repair instruction.
+
+## Additional code review — 2026-11-18
+
+- `src/agents/integrated_agent.py` accepts `use_llm=True`, but the inspected branch only builds and returns a prompt; it does not call `model_router.generate()`. The advertised generation path is therefore a stub in this file.
+- `src/retrieval/four_channel_retriever.py` documents weights of 0.20/0.30/0.30/0.20, while the implementation uses 0.35/0.50/0.15/0.00. Jaccard scoring is disabled in the actual weights.
+- The integrated prompt asks for causes and maintenance actions; the inspected path does not enforce a separate deterministic safety gate or claim-level source-page requirement.
+- No Python code was executed and no raw data, fault text, standards text or code was copied.
 
 ## Rights and reuse
 
