@@ -34,15 +34,43 @@ test("open knowledge source register is discovery-only and does not claim unveri
   );
   const canonicalUrls = new Set(upstream.map(source => source.url.replace(/\/$/, "").toLowerCase()));
   assert.equal(canonicalUrls.size, upstream.length, "one canonical record per upstream repository URL");
+
   const plantcraft = register.sources.find(source => source.id === "plantcraft");
   assert.equal(plantcraft.owner, "PlantCraft");
   assert.equal(plantcraft.url, "https://github.com/PlantCraft/PlantCraft");
   assert.match(plantcraft.codeLicense, /Apache-2.0/);
   assert.match(plantcraft.dataLicense, /not separately verified/i);
+
   const openFdd = register.sources.find(source => source.id === "open-fdd");
   assert.ok(openFdd, "Open-FDD must be tracked");
   assert.equal(openFdd.owner, "bbartling");
   assert.match(openFdd.codeLicense, /MIT/);
   assert.match(openFdd.dataLicense, /not separately verified/i);
   assert.match(openFdd.decision, /reference-only|pending/i);
+
+  const threeW = register.sources.find(source => source.id === "petrobras-3w");
+  assert.ok(threeW, "Petrobras 3W must be tracked");
+  assert.match(threeW.codeLicense, /Apache-2.0/);
+  assert.match(threeW.dataLicense, /CC-BY-4.0/);
+  assert.match(threeW.decision, /benchmark-only/);
+  assert.match(threeW.reportedScope, /Dataset 2.0.0/);
+
+  const hydraulicStudy = register.sources.find(source => source.id === "hydraulic-condition-monitoring-case-study");
+  assert.ok(hydraulicStudy, "UCI hydraulic classifier study must be tracked");
+  assert.match(hydraulicStudy.codeLicense, /No repository LICENSE/i);
+  assert.match(hydraulicStudy.decision, /reference-only|no-code-import/);
+
+  const groupedStudy = register.sources.find(source => source.id === "operating-state-aware-monitoring");
+  assert.ok(groupedStudy, "operating-state-aware study must be tracked");
+  assert.match(groupedStudy.codeLicense, /No repository LICENSE/i);
+  assert.match(groupedStudy.decision, /reference-only|no-code-import/);
+
+  const bearing = register.sources.find(source => source.id === "bearing-datasets");
+  assert.match(bearing.contentsReviewed, /69 datasets/);
+  assert.match(bearing.licenseStatus, /per-dataset/i);
+
+  const industrialOps = register.sources.find(source => source.id === "industrial-ops-rag-agent-snapshot");
+  assert.match(industrialOps.contentsReviewed, /337 entries/);
+  assert.match(industrialOps.contentsReviewed, /425/);
+  assert.match(industrialOps.qualityNotes.join(" "), /42\/55/);
 });
