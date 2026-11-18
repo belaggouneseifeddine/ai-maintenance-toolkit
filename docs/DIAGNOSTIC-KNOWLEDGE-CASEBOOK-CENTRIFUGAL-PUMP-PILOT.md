@@ -233,3 +233,25 @@ No paper text, figures, tables or raw data were copied. The two sources are regi
 ### Pilot gate
 
 No pump case enters runtime until every claim has a permitted source, exact section/page, equipment scope, units, measurement location, operating conditions, supporting and opposing evidence, safe test prerequisites, expected results for competing hypotheses, stop conditions, post-repair verification and automated tests for missing, contradictory, noisy and invalid measurements. Actual measurements, PLC-indicated values and estimates must remain distinct. No general numeric threshold is allowed without the applicable model/curve/fluid/installation source.
+
+
+## 10. Implementation status — 2026-11-18
+
+The structured pilot remains a research candidate, not runtime knowledge.
+
+- knowledge/diagnostic-cases/centrifugal-pump-low-flow.json is the only structured centrifugal-pump case currently present in the casebook folder (CP-004, candidate, reference_only). CP-001, CP-002, CP-003, CP-005 and CP-006 remain design templates in this document; they are not six independently reviewed runtime cases.
+- diagnostic-casebook.js is a build/test-time module. It is not loaded by index.html, diagnostic-session.js or the Worker. This separation is intentional until the source, license and technical gates pass.
+- Candidate triage now preserves source provenance and separates direct, PLC, historian, estimated and unknown readings. Bad-quality readings, same-time conflicting values and cross-source disagreements block automatic next-test selection.
+- A next observation is withheld unless site authorization, read-only access, stop-condition review and the selected test's prerequisites are explicitly confirmed. Only installed-instrument observations can be selected automatically; invasive or qualified-personnel tests remain planning items.
+- The current selector uses hypothesis-discrimination coverage as a transparent planning heuristic and can apply technician-supplied time/cost estimates and limits. It does not calculate expected information gain. No approved source-backed outcome likelihoods or calibrated priors exist for this pump case, so no Bayesian information-gain result is claimed.
+- The separate qualitative Bayesian engine remains uncalibrated and must not be presented as a field probability model. The interactive diagnostic session is still a separate implementation and has not yet been connected to this casebook selector.
+- No numerical flow, pressure, vibration, current or temperature thresholds were added. The exact pump curve, impeller, speed, fluid, datum, system arrangement and instrument installation remain required context.
+- No new case was promoted, no OEM-verified pump record was created, and no copyrighted manual or dataset content was copied.
+
+### Remaining pilot acceptance gates
+
+1. Review a permitted primary source for each distinct case and record the exact claim, page/section, revision, equipment scope and reuse terms.
+2. Complete a technical review of the component map and the six separate differential cases with a qualified pump specialist.
+3. Add source-backed expected outcome patterns and likelihoods only where the source actually supports them; otherwise retain a non-probabilistic selector.
+4. Validate with real, authorized cases and independent reviewer decisions, including missing, contradictory, noisy, stale and faulty-sensor readings.
+5. Integrate into runtime only after the case, safety, provenance, licensing and regression gates pass.
