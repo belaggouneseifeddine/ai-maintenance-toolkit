@@ -355,25 +355,14 @@
           "type": "array",
           "minItems": 1,
           "items": {
-            "enum": [
-              "verified",
-              "suspect",
-              "failed",
-              "unknown"
-            ]
+            "const": "verified"
           }
         },
         "qualityFlagsAllowedForEvidence": {
           "type": "array",
           "minItems": 1,
           "items": {
-            "enum": [
-              "good",
-              "noisy",
-              "stale",
-              "contradictory",
-              "unknown"
-            ]
+            "const": "good"
           }
         },
         "evidenceSourceTypes": {
@@ -383,9 +372,7 @@
             "enum": [
               "direct_measurement",
               "plc_value",
-              "historian_value",
-              "estimated",
-              "unknown"
+              "historian_value"
             ]
           }
         },
@@ -393,37 +380,22 @@
           "type": "array",
           "minItems": 1,
           "items": {
-            "enum": [
-              "direct_measurement",
-              "plc_value",
-              "historian_value",
-              "estimated",
-              "unknown"
-            ]
+            "const": "direct_measurement"
           }
         },
         "controlSystemSourceTypes": {
           "type": "array",
           "items": {
             "enum": [
-              "direct_measurement",
               "plc_value",
-              "historian_value",
-              "estimated",
-              "unknown"
+              "historian_value"
             ]
           }
         },
         "estimatedSourceTypes": {
           "type": "array",
           "items": {
-            "enum": [
-              "direct_measurement",
-              "plc_value",
-              "historian_value",
-              "estimated",
-              "unknown"
-            ]
+            "const": "estimated"
           }
         },
         "excludedSignalRoles": {
@@ -431,10 +403,7 @@
           "minItems": 1,
           "items": {
             "enum": [
-              "physical_measurement",
-              "controller_feedback",
               "controller_command",
-              "historian_derived",
               "estimate",
               "unknown"
             ]
