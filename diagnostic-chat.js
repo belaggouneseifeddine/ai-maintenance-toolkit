@@ -558,6 +558,14 @@
       holder.textContent = copy("تعذر استرجاع المراجع الآن؛ يستمر التشخيص المحلي دونها.", "References could not be retrieved now; local diagnosis continues without them.", "Impossible de récupérer les références ; le diagnostic local continue sans elles.");
     });
   }
+  function normalizeLocalToolResult(response) {
+    if (response && response.ok === true && response.data &&
+        typeof response.data === "object" && !Array.isArray(response.data)) {
+      return response.data;
+    }
+    return response;
+  }
+
   async function retrieveEvidence() {
     const holder = $("diagnosticChatEvidence");
     const api = root.MaintenanceDocumentRetrieval;
@@ -582,12 +590,13 @@
       query,
       context: { equipment: equipmentContext || retrievalContext.machine || pendingEquipment, model: retrievalContext.model }
     };
-    const result = localAssistant && typeof localAssistant.invokeTool === "function"
+    const toolResponse = localAssistant && typeof localAssistant.invokeTool === "function"
       ? await localAssistant.invokeTool("searchReviewedDocuments", retrievalInput)
       : await api.forDiagnostics(query, retrievalInput.context);
+    const result = normalizeLocalToolResult(toolResponse);
     if (sequence !== retrievalSequence) return;
     holder.replaceChildren();
-    if (!result.ok || !result.results.length) {
+    if (!result || result.ok !== true || !Array.isArray(result.results) || !result.results.length) {
       holder.textContent = copy("لا توجد أدلة PDF معتمدة ومطابقة لهذا النطاق حاليًا. لا تُستخدم المقاطع الخام أو OCR غير المراجع.", "No approved, applicable PDF evidence was found. Raw or unreviewed OCR chunks are excluded.", "Aucune preuve PDF approuvée et applicable n’a été trouvée. Les fragments bruts ou OCR non vérifiés sont exclus.");
       return;
     }
@@ -1015,7 +1024,7 @@
     if (!restoreLocalAssistantSession()) resetConversation();
     initialized = true;
   }
-  root.MaintenanceDiagnosticChat = Object.freeze({ init, handleMessage, reset: resetConversation, classifyInput, extractModelDesignation, getApprovedExcerpts, getConversationContext, getTechnicianChatInput, getLocalAssistantSession: () => localAssistant && localAssistant.getSession() || null });
+  root.MaintenanceDiagnosticChat = Object.freeze({ init, handleMessage, reset: resetConversation, classifyInput, extractModelDesignation, normalizeLocalToolResult, getApprovedExcerpts, getConversationContext, getTechnicianChatInput, getLocalAssistantSession: () => localAssistant && localAssistant.getSession() || null });
   if (typeof module !== "undefined" && module.exports) module.exports = root.MaintenanceDiagnosticChat;
   if (root.document) {
     if (root.document.readyState === "loading") root.document.addEventListener("DOMContentLoaded", init);
