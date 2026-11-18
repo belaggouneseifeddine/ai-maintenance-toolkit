@@ -8,7 +8,7 @@ trap 'rm -rf "$TMP_DIR"' EXIT
 
 mkdir -p "$OUT_DIR/vendor/pdfjs" "$OUT_DIR/vendor/tesseract/core" "$OUT_DIR/vendor/tessdata" "$OUT_DIR/vendor/transformers" "$OUT_DIR/vendor/licenses"
 
-npm install --prefix "$TMP_DIR" --no-save --no-audit --no-fund --onnxruntime-node-install-cuda=skip \
+npm install --prefix "$TMP_DIR" --no-save --no-audit --no-fund --ignore-scripts \
   "pdfjs-dist@4.10.38" "tesseract.js@5.1.1" "tesseract.js-core@5.1.1" "@huggingface/transformers@3.8.1"
 
 cp -R "$TMP_DIR/node_modules/@huggingface/transformers/dist/." "$OUT_DIR/vendor/transformers/"
@@ -18,7 +18,7 @@ cp "$TMP_DIR/node_modules/pdfjs-dist/build/pdf.worker.min.mjs" "$OUT_DIR/vendor/
 cp "$TMP_DIR/node_modules/pdfjs-dist/LICENSE" "$OUT_DIR/vendor/licenses/pdfjs-LICENSE"
 cp "$TMP_DIR/node_modules/tesseract.js/dist/tesseract.min.js" "$OUT_DIR/vendor/tesseract/"
 cp "$TMP_DIR/node_modules/tesseract.js/dist/worker.min.js" "$OUT_DIR/vendor/tesseract/"
-cp "$TMP_DIR/node_modules/tesseract.js/LICENSE" "$OUT_DIR/vendor/licenses/tesseract-js-LICENSE"
+curl --fail --location --silent --show-error "https://raw.githubusercontent.com/naptha/tesseract.js/v5.1.1/LICENSE.md" -o "$OUT_DIR/vendor/licenses/tesseract-js-LICENSE"
 cp "$TMP_DIR/node_modules/tesseract.js-core/LICENSE" "$OUT_DIR/vendor/licenses/tesseract-core-LICENSE"
 cp "$TMP_DIR"/node_modules/tesseract.js-core/tesseract-core*.js "$OUT_DIR/vendor/tesseract/core/"
 cp "$TMP_DIR"/node_modules/tesseract.js-core/tesseract-core*.wasm "$OUT_DIR/vendor/tesseract/core/"
