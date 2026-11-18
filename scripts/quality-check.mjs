@@ -47,7 +47,7 @@ const engineWindow = {};
 assert.ok(appSource.includes('<script src="./app-legacy.js"></script>'), "Extracted application bootstrap must be loaded as a versioned asset");
 assert.ok(appSource.includes('<link rel="stylesheet" href="./app-shell.css">'), "Extracted application shell stylesheet must be loaded");
 assert.ok(appSource.includes('<link rel="stylesheet" href="./design-system.css">'), "Unified design system must be loaded after legacy stylesheets");
-assert.match(designSystemCss, /grid-template-columns:repeat\(6,minmax\(0,1fr\)\)!important/);
+assert.match(designSystemCss, /grid-template-columns:repeat\(5,minmax\(0,1fr\)\)!important/);
 new vm.Script(maintenanceRecords, { filename: "maintenance-records.js" });
 new vm.Script(appLegacy, { filename: "app-legacy.js" });
 new vm.Script(i18n, { filename: "i18n.js" });
@@ -481,18 +481,16 @@ const checks = [
     assert.match(agentUiSource, /consent: \{ sendToAI: false \}/);
   }],
 
-  ["Dedicated home screen and six-tab mobile navigation preserve existing feature panels", () => {
+  ["Five-tab mobile navigation nests the home dashboard and optional AI inside diagnosis", () => {
     assert.match(appSource, /navigation-redesign\.js/);
+    assert.match(appSource, /<section id="homeDashboard"/);
     assert.ok(pagesRuntimeAssets.has("navigation-redesign.js"));
     assert.match(sw, /navigation-redesign\.js/);
-    assert.match(navRedesign, /id:'homeDashboard'/);
-    assert.match(navRedesign, /id:'diagnose'/);
-    assert.match(navRedesign, /id:'knowledge'/);
-    assert.match(navRedesign, /id:'safety'/);
-    assert.match(navRedesign, /id:'log'/);
-    assert.match(navRedesign, /id:'v03'/);
-    assert.match(navRedesign, /activate\('homeDashboard',false\)/);
-    assert.match(navRedesign, /ai\.classList\.remove\('panel','active'\)/);
+    for (const id of ["diagnose", "knowledge", "safety", "log", "v03"]) assert.match(navRedesign, new RegExp("id:'" + id + "'"));
+    assert.match(navRedesign, /home\.classList\.remove\('panel','active'\)/);
+    assert.match(navRedesign, /diagnose\.insertBefore\(home,diagnose\.firstChild\)/);
+    assert.match(navRedesign, /diagnose\.appendChild\(ai\)/);
+    assert.match(navRedesign, /activate\('diagnose',false\)/);
     assert.match(uxCss, /position:fixed/);
     assert.match(uxCss, /env\(safe-area-inset-bottom/);
     new vm.Script(navRedesign, { filename: "navigation-redesign.js" });
