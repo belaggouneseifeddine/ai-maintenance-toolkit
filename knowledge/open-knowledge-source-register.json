@@ -60,31 +60,32 @@
       "type": "dataset-catalog",
       "potentialUse": "Discover original datasets across industrial domains; not a fault database.",
       "reportedScope": "README reports 199 datasets across manufacturing, chemical/process, mechanical, oil/gas, energy, robotics and OT security.",
-      "licenseStatus": "catalogue CC-BY-NC-4.0; each linked dataset has separate terms",
+      "licenseStatus": "Non-commercial reuse only for catalogue content under CC BY-NC 4.0; individual dataset licenses must be checked at the original source.",
       "accessStatus": "README and LICENSE reviewed",
-      "decision": "discovery-index-only-noncommercial-license",
+      "decision": "discovery-index-only-no-data-import",
       "owner": "jonathanwvd",
       "lastUpdated": "2026-11-09",
       "lastPushed": "2026-11-09",
       "latestRelease": null,
-      "codeLicense": "not applicable for content reuse",
-      "dataLicense": "CC-BY-NC-4.0 for the catalogue content; linked datasets have separate licenses",
+      "codeLicense": "CC-BY-NC-4.0 for catalogue/database content; not a software code license for linked datasets",
+      "dataLicense": "each linked dataset has its own terms; catalogue metadata must not be treated as the dataset license",
       "filesReviewed": [
         "README.md",
         "LICENSE",
-        "markdown/condition_monitoring_of_hydraulic_systems.md",
-        "markdown/3w.md",
-        "markdown/damadics_actuator_benchmark.md"
+        "json/condition_monitoring_of_hydraulic_systems.json"
       ],
-      "contentsReviewed": "Reviewed catalogue entries for UCI hydraulic, 3W and DAMADICS; 199 dataset entries are indexed.",
+      "contentsReviewed": "Current README reports 398 catalogue entries. LICENSE is CC BY-NC 4.0 for catalogue content. The hydraulic-system entry describes 2,205 lab load cycles, 60-second cycles, mixed-rate sensor signals and cycle-level labels for cooler, valve, internal pump leakage and accumulator. This is a discovery catalogue; linked dataset rights remain independent. The official UCI dataset page was checked separately for CC BY 4.0. No catalogue text or raw data copied.",
       "qualityNotes": [
-        "Useful discovery index, not a validated data source.",
-        "The catalogue's non-commercial license is incompatible with commercial reuse of its text without permission.",
-        "Each linked dataset must be checked at its original publisher."
+        "README reports 398 entries; count is catalogue metadata, not a count of accessible or license-cleared datasets.",
+        "The UCI hydraulic entry is a summary of laboratory telemetry and labels, not repair knowledge.",
+        "Catalogue license is non-commercial; linked dataset license is independent and may be absent or more restrictive."
       ],
       "androidWorkerCompatibility": "Use only as a discovery index; do not package its catalogue content into runtime.",
       "reuseConditions": "Do not copy catalogue descriptions into a commercial product; navigate to and verify each original source.",
-      "reviewStatus": "reviewed-2026-11-09"
+      "reviewStatus": "reviewed-2026-11-09",
+      "lastReviewed": "2026-11-18",
+      "reportedDatasetCount": 398,
+      "dataLeakage": "Use catalogue only to locate sources. For any later benchmark, inspect original dataset split protocol and group by physical asset, cycle, recording and operating condition."
     },
     {
       "id": "azure-predictive-maintenance-agents",
