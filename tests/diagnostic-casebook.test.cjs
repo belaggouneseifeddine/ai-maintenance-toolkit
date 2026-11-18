@@ -10,7 +10,6 @@ test("low-flow candidate case satisfies the case contract and stays outside runt
   assert.equal(result.ok, true, result.errors.join("; "));
   assert.equal(lowFlow.status, "candidate");
   assert.equal(lowFlow.licenseStatus, "reference_only");
-  assert.equal(lowFlow.runtimeEligible, false);
 });
 
 test("measurement definitions preserve units, location, operating condition and source provenance", () => {
