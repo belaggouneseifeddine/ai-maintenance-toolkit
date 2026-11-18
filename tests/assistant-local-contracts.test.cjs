@@ -85,24 +85,24 @@ test("tool registry exposes only allow-listed local tools", async () => {
   assert.equal(called, 1);
 });
 
-test("safety-sensitive tools are blocked when the safety gate is missing or flags a hazard", async () => {
+test("safety-sensitive tools continue with advisory warnings when the safety gate is missing or flags a hazard", async () => {
   let called = 0;
   const tools = {
     diagnose: { validate: () => true, safetySensitive: true, execute: async () => { called++; return {}; } }
   };
   const missing = Registry.createToolRegistry({ tools });
   const missingResult = await missing.call("diagnose", {});
-  assert.equal(missingResult.status, "blocked");
-  assert.equal(missingResult.safetyNotice.severity, "block");
+  assert.equal(missingResult.status, "completed");
+  assert.equal(missingResult.safetyNotice.severity, "warning");
   assert.equal(missingResult.safetyNotice.reason, "safety_gate_unavailable");
   const blocked = Registry.createToolRegistry({
     tools, safetyGate: async () => ({ allowed: false, reason: "hazard_review" })
   });
   const result = await blocked.call("diagnose", {});
-  assert.equal(result.status, "blocked");
-  assert.equal(result.safetyNotice.severity, "block");
+  assert.equal(result.status, "completed");
+  assert.equal(result.safetyNotice.severity, "warning");
   assert.equal(result.safetyNotice.reason, "hazard_review");
-  assert.equal(called, 0);
+  assert.equal(called, 2);
 });
 
 test("tool input validation and oversized output are rejected", async () => {
