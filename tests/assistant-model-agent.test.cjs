@@ -1,10 +1,14 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
+const Session = require("../assistant-session-contract.js");
+const Registry = require("../assistant-tool-registry.js");
 const Orchestrator = require("../assistant-local-orchestrator.js");
 const Agent = require("../assistant-model-agent.js");
 
 function setup(responses, options) {
   const assistant = Orchestrator.createLocalOrchestrator({
+    sessionContract: Session,
+    toolRegistry: Registry,
     tools: {
       getEquipmentContext: {
         validate: input => !!input && typeof input.assetId === "string",
@@ -60,7 +64,7 @@ test("agent rejects prose and malformed JSON instead of executing guesses", asyn
 });
 
 test("agent never falls back to a hosted provider when local generation fails", async () => {
-  const assistant = Orchestrator.createLocalOrchestrator({ tools: {} });
+  const assistant = Orchestrator.createLocalOrchestrator({ sessionContract: Session, toolRegistry: Registry, tools: {} });
   assistant.start({ sessionId: "model-agent-fail-001" });
   const agent = Agent.createLocalModelAgent({
     orchestrator: assistant,
