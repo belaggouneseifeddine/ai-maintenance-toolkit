@@ -326,20 +326,6 @@
   ],
   "sources": [
     {
-      "sourceId": "centrifugal-pump-fault-pmc-2022",
-      "claimScope": "Research methods for selected seeded faults on one multistage pump test rig only; does not establish low-flow root-cause rules",
-      "reviewStatus": "reviewed",
-      "sectionOrPage": "Sections 1 and 3–6; Figures 2–4; Tables 2–5",
-      "reuseStatus": "CC-BY-4.0 source; paraphrase with attribution; no figures/tables copied"
-    },
-    {
-      "sourceId": "water-pump-bearing-fault-pmc-2021",
-      "claimScope": "Laboratory bearing-fault research only; not a low-flow root-cause source",
-      "reviewStatus": "reviewed",
-      "sectionOrPage": "Sections 1 and 3–6",
-      "reuseStatus": "CC-BY-4.0 source; paraphrase with attribution; no raw data copied"
-    },
-    {
       "sourceId": "ksb-mdx-maintenance-manual-2021-8-01",
       "claimScope": "Section 12.1 Table 12-2 lists insufficient-flow causes for the GIW/KSB MDX slurry pump family only; use as a bounded example, not a universal fault matrix.",
       "reviewStatus": "reviewed",
@@ -367,5 +353,577 @@
     "KSB Lexicon and ASHRAE support the operating-point/system-curve framework but do not validate every industrial process application.",
     "No exact-model OEM pump curve or primary source has yet been reviewed for the user's actual pump.",
     "Field validation and qualified technical review have not been performed."
+  ],
+  "measurementQualityPolicy": {
+    "timestampRequired": true,
+    "sensorStatusAllowedForEvidence": [
+      "verified"
+    ],
+    "qualityFlagsAllowedForEvidence": [
+      "good"
+    ],
+    "evidenceSourceTypes": [
+      "direct_measurement",
+      "plc_value",
+      "historian_value"
+    ],
+    "independentSourceTypes": [
+      "direct_measurement"
+    ],
+    "controlSystemSourceTypes": [
+      "plc_value",
+      "historian_value"
+    ],
+    "estimatedSourceTypes": [
+      "estimated"
+    ],
+    "excludedSignalRoles": [
+      "controller_command",
+      "estimate",
+      "unknown"
+    ],
+    "unitHandling": "preserve_exact_units_no_automatic_conversion"
+  },
+  "claimTraceability": [
+    {
+      "claimId": "claim-mechanism",
+      "target": "mechanism",
+      "claimText": "Low measured flow is an operating-point symptom, not a root cause. The operating point depends on the pump curve and system resistance; low speed, suction-side restriction, discharge/system restriction, internal wear, gas in the liquid path and measurement error can produce overlapping observations.",
+      "evidenceClass": "source_context_only",
+      "sourceId": "ksb-centrifugal-pump-lexicon-operating-point",
+      "sectionOrPage": "Operating point; Operating conditions; Operating limit",
+      "reviewStatus": "reviewed",
+      "licenseStatus": "reference_only",
+      "reuseStatus": "link_only_no_text_reuse",
+      "note": "Supports the pump/system-curve operating-point framework only; it does not establish a specific root cause."
+    },
+    {
+      "claimId": "claim-applicability-0",
+      "target": "applicability/0",
+      "claimText": "Centrifugal pump with identifiable installed pump curve and known speed/impeller configuration",
+      "evidenceClass": "scope_limitation",
+      "sourceId": null,
+      "sectionOrPage": null,
+      "reviewStatus": "not_reviewed",
+      "licenseStatus": "source_gap",
+      "reuseStatus": "not_publishable",
+      "note": "No claim-specific source passage reviewed; keep this as a design proposal, field observation, hypothesis or site-safety requirement and do not promote it to verified knowledge."
+    },
+    {
+      "claimId": "claim-applicability-1",
+      "target": "applicability/1",
+      "claimText": "Liquid service; exact fluid and system arrangement must be captured",
+      "evidenceClass": "scope_limitation",
+      "sourceId": null,
+      "sectionOrPage": null,
+      "reviewStatus": "not_reviewed",
+      "licenseStatus": "source_gap",
+      "reuseStatus": "not_publishable",
+      "note": "No claim-specific source passage reviewed; keep this as a design proposal, field observation, hypothesis or site-safety requirement and do not promote it to verified knowledge."
+    },
+    {
+      "claimId": "claim-applicability-2",
+      "target": "applicability/2",
+      "claimText": "Not a substitute for OEM instructions or site operating procedures",
+      "evidenceClass": "scope_limitation",
+      "sourceId": null,
+      "sectionOrPage": null,
+      "reviewStatus": "not_reviewed",
+      "licenseStatus": "source_gap",
+      "reuseStatus": "not_publishable",
+      "note": "No claim-specific source passage reviewed; keep this as a design proposal, field observation, hypothesis or site-safety requirement and do not promote it to verified knowledge."
+    },
+    {
+      "claimId": "claim-symptoms-0",
+      "target": "symptoms/0",
+      "claimText": "Flow indication is below the site or process expectation",
+      "evidenceClass": "field_observation_definition",
+      "sourceId": null,
+      "sectionOrPage": null,
+      "reviewStatus": "not_reviewed",
+      "licenseStatus": "source_gap",
+      "reuseStatus": "not_publishable",
+      "note": "No claim-specific source passage reviewed; keep this as a design proposal, field observation, hypothesis or site-safety requirement and do not promote it to verified knowledge."
+    },
+    {
+      "claimId": "claim-symptoms-1",
+      "target": "symptoms/1",
+      "claimText": "Reported process delivery is reduced or unstable",
+      "evidenceClass": "field_observation_definition",
+      "sourceId": null,
+      "sectionOrPage": null,
+      "reviewStatus": "not_reviewed",
+      "licenseStatus": "source_gap",
+      "reuseStatus": "not_publishable",
+      "note": "No claim-specific source passage reviewed; keep this as a design proposal, field observation, hypothesis or site-safety requirement and do not promote it to verified knowledge."
+    },
+    {
+      "claimId": "claim-requiredcontext-0",
+      "target": "requiredContext/0",
+      "claimText": "Pump manufacturer, exact model, impeller diameter/configuration and applicable curve revision",
+      "evidenceClass": "design_proposal",
+      "sourceId": null,
+      "sectionOrPage": null,
+      "reviewStatus": "not_reviewed",
+      "licenseStatus": "source_gap",
+      "reuseStatus": "not_publishable",
+      "note": "No claim-specific source passage reviewed; keep this as a design proposal, field observation, hypothesis or site-safety requirement and do not promote it to verified knowledge."
+    },
+    {
+      "claimId": "claim-requiredcontext-1",
+      "target": "requiredContext/1",
+      "claimText": "Driver type, actual speed or VFD frequency and operating mode",
+      "evidenceClass": "design_proposal",
+      "sourceId": null,
+      "sectionOrPage": null,
+      "reviewStatus": "not_reviewed",
+      "licenseStatus": "source_gap",
+      "reuseStatus": "not_publishable",
+      "note": "No claim-specific source passage reviewed; keep this as a design proposal, field observation, hypothesis or site-safety requirement and do not promote it to verified knowledge."
+    },
+    {
+      "claimId": "claim-requiredcontext-2",
+      "target": "requiredContext/2",
+      "claimText": "Fluid identity, temperature and relevant properties",
+      "evidenceClass": "design_proposal",
+      "sourceId": null,
+      "sectionOrPage": null,
+      "reviewStatus": "not_reviewed",
+      "licenseStatus": "source_gap",
+      "reuseStatus": "not_publishable",
+      "note": "No claim-specific source passage reviewed; keep this as a design proposal, field observation, hypothesis or site-safety requirement and do not promote it to verified knowledge."
+    },
+    {
+      "claimId": "claim-requiredcontext-3",
+      "target": "requiredContext/3",
+      "claimText": "Suction source level, suction piping arrangement and valve lineup",
+      "evidenceClass": "design_proposal",
+      "sourceId": null,
+      "sectionOrPage": null,
+      "reviewStatus": "not_reviewed",
+      "licenseStatus": "source_gap",
+      "reuseStatus": "not_publishable",
+      "note": "No claim-specific source passage reviewed; keep this as a design proposal, field observation, hypothesis or site-safety requirement and do not promote it to verified knowledge."
+    },
+    {
+      "claimId": "claim-requiredcontext-4",
+      "target": "requiredContext/4",
+      "claimText": "Discharge piping, control valve and downstream system state",
+      "evidenceClass": "design_proposal",
+      "sourceId": null,
+      "sectionOrPage": null,
+      "reviewStatus": "not_reviewed",
+      "licenseStatus": "source_gap",
+      "reuseStatus": "not_publishable",
+      "note": "No claim-specific source passage reviewed; keep this as a design proposal, field observation, hypothesis or site-safety requirement and do not promote it to verified knowledge."
+    },
+    {
+      "claimId": "claim-requiredcontext-5",
+      "target": "requiredContext/5",
+      "claimText": "Whether the condition is new, gradual, intermittent or linked to a recent change",
+      "evidenceClass": "design_proposal",
+      "sourceId": null,
+      "sectionOrPage": null,
+      "reviewStatus": "not_reviewed",
+      "licenseStatus": "source_gap",
+      "reuseStatus": "not_publishable",
+      "note": "No claim-specific source passage reviewed; keep this as a design proposal, field observation, hypothesis or site-safety requirement and do not promote it to verified knowledge."
+    },
+    {
+      "claimId": "claim-hypotheses-suction-restriction",
+      "target": "hypotheses/suction-restriction",
+      "claimText": "Suction-side restriction or inadequate source condition. Supporting evidence: Suction pressure loss or strainer differential pressure has changed relative to a comparable baseline at comparable flow; Source level or suction valve indication differs from the normal operating record. Contradicting evidence: Validated suction measurements and source conditions remain consistent with the applicable baseline at comparable operating conditions",
+      "evidenceClass": "source_supported_bounded",
+      "sourceId": "ksb-mdx-maintenance-manual-2021-8-01",
+      "sectionOrPage": "Section 12.1, Tables 12-1 and 12-2, printed p.83",
+      "reviewStatus": "reviewed",
+      "licenseStatus": "reference_only",
+      "reuseStatus": "link_only_no_text_reuse",
+      "note": "The manual lists blocked suction piping and insufficient available suction head for the MDX slurry-pump family only."
+    },
+    {
+      "claimId": "claim-hypotheses-discharge-system-resistance",
+      "target": "hypotheses/discharge-system-resistance",
+      "claimText": "Discharge-side restriction or increased system resistance. Supporting evidence: Discharge pressure and system state differ from the documented operating baseline in a pattern consistent with increased resistance; Valve-position indication or downstream equipment state changed with the onset of low flow. Contradicting evidence: Discharge path and valve lineup are verified unchanged and pressure-flow behavior matches the expected system curve",
+      "evidenceClass": "source_supported_bounded",
+      "sourceId": "ksb-mdx-maintenance-manual-2021-8-01",
+      "sectionOrPage": "Section 12.1, Tables 12-1 and 12-2, printed p.83",
+      "reviewStatus": "reviewed",
+      "licenseStatus": "reference_only",
+      "reuseStatus": "link_only_no_text_reuse",
+      "note": "The manual lists blocked discharge piping and higher-than-expected system head for the MDX slurry-pump family only."
+    },
+    {
+      "claimId": "claim-hypotheses-reduced-pump-speed",
+      "target": "hypotheses/reduced-pump-speed",
+      "claimText": "Reduced actual pump speed or incorrect drive operating state. Supporting evidence: Measured or independently verified speed differs from the applicable normal operating state; VFD frequency or command history changed at the same time as the flow reduction. Contradicting evidence: Actual speed is independently verified and consistent with the correct pump curve and operating state",
+      "evidenceClass": "engineering_hypothesis",
+      "sourceId": null,
+      "sectionOrPage": null,
+      "reviewStatus": "not_reviewed",
+      "licenseStatus": "source_gap",
+      "reuseStatus": "not_publishable",
+      "note": "No claim-specific source passage reviewed; keep this as a design proposal, field observation, hypothesis or site-safety requirement and do not promote it to verified knowledge."
+    },
+    {
+      "claimId": "claim-hypotheses-internal-hydraulic-wear",
+      "target": "hypotheses/internal-hydraulic-wear",
+      "claimText": "Internal wear, excessive clearances or impeller damage. Supporting evidence: Performance has deteriorated progressively against a comparable baseline at verified speed and system conditions; Inspection after approved isolation identifies wear or damage. Contradicting evidence: Performance returns to expected behavior after correcting an external system or measurement issue",
+      "evidenceClass": "engineering_hypothesis",
+      "sourceId": null,
+      "sectionOrPage": null,
+      "reviewStatus": "not_reviewed",
+      "licenseStatus": "source_gap",
+      "reuseStatus": "not_publishable",
+      "note": "No claim-specific source passage reviewed; keep this as a design proposal, field observation, hypothesis or site-safety requirement and do not promote it to verified knowledge."
+    },
+    {
+      "claimId": "claim-hypotheses-flow-measurement-error",
+      "target": "hypotheses/flow-measurement-error",
+      "claimText": "Flow instrument, installation or signal-quality error. Supporting evidence: Flow indication conflicts with independent process observations or a suitable independent measurement; Instrument diagnostics, calibration history or signal quality indicate a possible fault. Contradicting evidence: Independent, suitable measurements confirm the low-flow condition under matching operating conditions",
+      "evidenceClass": "engineering_hypothesis",
+      "sourceId": null,
+      "sectionOrPage": null,
+      "reviewStatus": "not_reviewed",
+      "licenseStatus": "source_gap",
+      "reuseStatus": "not_publishable",
+      "note": "No claim-specific source passage reviewed; keep this as a design proposal, field observation, hypothesis or site-safety requirement and do not promote it to verified knowledge."
+    },
+    {
+      "claimId": "claim-hypotheses-gas-or-loss-of-prime",
+      "target": "hypotheses/gas-or-loss-of-prime",
+      "claimText": "Gas entrainment, air ingress or loss of prime where applicable. Supporting evidence: Unstable pressure/flow behavior coincides with evidence of gas ingress or loss of prime; The pump design and approved operating procedure make the suspected gas/prime mechanism applicable. Contradicting evidence: Pump is confirmed fully primed and the process fluid/installation provides no credible gas-ingress path",
+      "evidenceClass": "source_supported_bounded",
+      "sourceId": "ksb-mdx-maintenance-manual-2021-8-01",
+      "sectionOrPage": "Section 12.1, Tables 12-1 and 12-2, printed p.83",
+      "reviewStatus": "reviewed",
+      "licenseStatus": "reference_only",
+      "reuseStatus": "link_only_no_text_reuse",
+      "note": "The manual lists incomplete venting/priming and entrained air for the MDX slurry-pump family only."
+    },
+    {
+      "claimId": "claim-measurements-flow-rate",
+      "target": "measurements/flow-rate",
+      "claimText": "Flow rate: m³/h or site unit; Installed flowmeter; record tag and pipe location; Stable operating point; record speed, valve state and fluid",
+      "evidenceClass": "design_proposal",
+      "sourceId": null,
+      "sectionOrPage": null,
+      "reviewStatus": "not_reviewed",
+      "licenseStatus": "source_gap",
+      "reuseStatus": "not_publishable",
+      "note": "No claim-specific source passage reviewed; keep this as a design proposal, field observation, hypothesis or site-safety requirement and do not promote it to verified knowledge."
+    },
+    {
+      "claimId": "claim-measurements-suction-pressure",
+      "target": "measurements/suction-pressure",
+      "claimText": "Suction pressure: kPa(g), bar(g) or absolute unit as installed; Identify exact suction pressure tap relative to pump datum; Same timestamp as flow and discharge pressure where possible; record speed and fluid temperature",
+      "evidenceClass": "design_proposal",
+      "sourceId": null,
+      "sectionOrPage": null,
+      "reviewStatus": "not_reviewed",
+      "licenseStatus": "source_gap",
+      "reuseStatus": "not_publishable",
+      "note": "No claim-specific source passage reviewed; keep this as a design proposal, field observation, hypothesis or site-safety requirement and do not promote it to verified knowledge."
+    },
+    {
+      "claimId": "claim-measurements-discharge-pressure",
+      "target": "measurements/discharge-pressure",
+      "claimText": "Discharge pressure: kPa(g), bar(g) or absolute unit as installed; Identify exact discharge pressure tap; Same timestamp as flow and suction pressure where possible; record downstream valve state",
+      "evidenceClass": "design_proposal",
+      "sourceId": null,
+      "sectionOrPage": null,
+      "reviewStatus": "not_reviewed",
+      "licenseStatus": "source_gap",
+      "reuseStatus": "not_publishable",
+      "note": "No claim-specific source passage reviewed; keep this as a design proposal, field observation, hypothesis or site-safety requirement and do not promote it to verified knowledge."
+    },
+    {
+      "claimId": "claim-measurements-pump-speed",
+      "target": "measurements/pump-speed",
+      "claimText": "Pump speed: rpm; VFD frequency in Hz is a separate field; Drive feedback or independent speed measurement; state which; Record command, feedback and load state separately",
+      "evidenceClass": "design_proposal",
+      "sourceId": null,
+      "sectionOrPage": null,
+      "reviewStatus": "not_reviewed",
+      "licenseStatus": "source_gap",
+      "reuseStatus": "not_publishable",
+      "note": "No claim-specific source passage reviewed; keep this as a design proposal, field observation, hypothesis or site-safety requirement and do not promote it to verified knowledge."
+    },
+    {
+      "claimId": "claim-measurements-source-liquid-level",
+      "target": "measurements/source-liquid-level",
+      "claimText": "Source liquid level: m or site level unit; Tank level transmitter/gauge and datum; Record concurrent suction/flow condition",
+      "evidenceClass": "design_proposal",
+      "sourceId": null,
+      "sectionOrPage": null,
+      "reviewStatus": "not_reviewed",
+      "licenseStatus": "source_gap",
+      "reuseStatus": "not_publishable",
+      "note": "No claim-specific source passage reviewed; keep this as a design proposal, field observation, hypothesis or site-safety requirement and do not promote it to verified knowledge."
+    },
+    {
+      "claimId": "claim-measurements-fluid-temperature",
+      "target": "measurements/fluid-temperature",
+      "claimText": "Fluid temperature: °C or °F; Defined process temperature sensor point; Record fluid identity and whether stable/transient",
+      "evidenceClass": "design_proposal",
+      "sourceId": null,
+      "sectionOrPage": null,
+      "reviewStatus": "not_reviewed",
+      "licenseStatus": "source_gap",
+      "reuseStatus": "not_publishable",
+      "note": "No claim-specific source passage reviewed; keep this as a design proposal, field observation, hypothesis or site-safety requirement and do not promote it to verified knowledge."
+    },
+    {
+      "claimId": "claim-measurements-strainer-differential-pressure",
+      "target": "measurements/strainer-differential-pressure",
+      "claimText": "Strainer differential pressure: kPa or bar; Across strainer, only if permanently instrumented; Compare at comparable flow and fluid conditions",
+      "evidenceClass": "design_proposal",
+      "sourceId": null,
+      "sectionOrPage": null,
+      "reviewStatus": "not_reviewed",
+      "licenseStatus": "source_gap",
+      "reuseStatus": "not_publishable",
+      "note": "No claim-specific source passage reviewed; keep this as a design proposal, field observation, hypothesis or site-safety requirement and do not promote it to verified knowledge."
+    },
+    {
+      "claimId": "claim-tests-compare-flow-pressure-speed",
+      "target": "tests/compare-flow-pressure-speed",
+      "claimText": "Compare concurrent flow, suction pressure, discharge pressure and actual speed. Prerequisites: Use existing installed instruments and approved HMI/historian read-only values; Confirm units, tag locations, timestamp alignment and instrument quality; Do not change valve positions or drive settings for this observation. Safety class: installed_instrument_observation.",
+      "evidenceClass": "source_context_only",
+      "sourceId": "ksb-centrifugal-pump-lexicon-operating-point",
+      "sectionOrPage": "Operating point; Operating conditions; Operating limit",
+      "reviewStatus": "reviewed",
+      "licenseStatus": "reference_only",
+      "reuseStatus": "link_only_no_text_reuse",
+      "note": "The source supports curve-based context; the proposed observation sequence is a design proposal, not a KSB-prescribed test."
+    },
+    {
+      "claimId": "claim-tests-review-source-and-valve-state",
+      "target": "tests/review-source-and-valve-state",
+      "claimText": "Review source level and installed valve-position indications. Prerequisites: Read installed indicators from a safe location; Treat position feedback as an indication until independently verified. Safety class: installed_instrument_observation.",
+      "evidenceClass": "source_context_only",
+      "sourceId": "ksb-mdx-maintenance-manual-2021-8-01",
+      "sectionOrPage": "Section 12.1, Tables 12-1 and 12-2, printed p.83",
+      "reviewStatus": "reviewed",
+      "licenseStatus": "reference_only",
+      "reuseStatus": "link_only_no_text_reuse",
+      "note": "Manual examples inform the hypotheses; this is not a universal valve-manipulation or inspection procedure."
+    },
+    {
+      "claimId": "claim-tests-plan-isolated-inspection",
+      "target": "tests/plan-isolated-inspection",
+      "claimText": "Plan physical inspection only after approved shutdown and isolation. Prerequisites: Approved work order and site energy-control procedure; Verified isolation, depressurization, drainage and stored-energy controls; Qualified personnel and fluid-specific controls. Safety class: planned_isolated_inspection.",
+      "evidenceClass": "site_safety_requirement",
+      "sourceId": null,
+      "sectionOrPage": null,
+      "reviewStatus": "not_reviewed",
+      "licenseStatus": "source_gap",
+      "reuseStatus": "not_publishable",
+      "note": "No claim-specific source passage reviewed; keep this as a design proposal, field observation, hypothesis or site-safety requirement and do not promote it to verified knowledge."
+    },
+    {
+      "claimId": "claim-limits-0",
+      "target": "limits/0",
+      "claimText": "No universal numeric flow, pressure, vibration, current or temperature threshold is defined by this case",
+      "evidenceClass": "source_context_only",
+      "sourceId": "ksb-centrifugal-pump-lexicon-operating-point",
+      "sectionOrPage": "Operating point; Operating conditions; Operating limit",
+      "reviewStatus": "reviewed",
+      "licenseStatus": "reference_only",
+      "reuseStatus": "link_only_no_text_reuse",
+      "note": "Supports model-specific curve/operating-limit interpretation; no universal numeric threshold is taken from the source."
+    },
+    {
+      "claimId": "claim-limits-1",
+      "target": "limits/1",
+      "claimText": "The exact pump curve, impeller, speed, fluid, datum, system curve and instrument installation govern interpretation",
+      "evidenceClass": "source_context_only",
+      "sourceId": "ashrae-handbook-2024-chapter-44-centrifugal-pumps",
+      "sectionOrPage": "Sections 4–6, especially Section 6",
+      "reviewStatus": "reviewed",
+      "licenseStatus": "reference_only",
+      "reuseStatus": "link_only_no_text_reuse",
+      "note": "Hydronic pump/system curve context only; this does not establish a limit for every industrial process pump."
+    },
+    {
+      "claimId": "claim-limits-2",
+      "target": "limits/2",
+      "claimText": "Do not infer cavitation solely from low flow, noise or one suction-pressure reading",
+      "evidenceClass": "scope_limitation",
+      "sourceId": null,
+      "sectionOrPage": null,
+      "reviewStatus": "not_reviewed",
+      "licenseStatus": "source_gap",
+      "reuseStatus": "not_publishable",
+      "note": "No claim-specific source passage reviewed; keep this as a design proposal, field observation, hypothesis or site-safety requirement and do not promote it to verified knowledge."
+    },
+    {
+      "claimId": "claim-limits-3",
+      "target": "limits/3",
+      "claimText": "Do not treat anomaly detection or a heuristic ranking as root-cause confirmation",
+      "evidenceClass": "scope_limitation",
+      "sourceId": null,
+      "sectionOrPage": null,
+      "reviewStatus": "not_reviewed",
+      "licenseStatus": "source_gap",
+      "reuseStatus": "not_publishable",
+      "note": "No claim-specific source passage reviewed; keep this as a design proposal, field observation, hypothesis or site-safety requirement and do not promote it to verified knowledge."
+    },
+    {
+      "claimId": "claim-limits-4",
+      "target": "limits/4",
+      "claimText": "Preserve measured, PLC-indicated, historian, estimated and unknown provenance separately",
+      "evidenceClass": "scope_limitation",
+      "sourceId": null,
+      "sectionOrPage": null,
+      "reviewStatus": "not_reviewed",
+      "licenseStatus": "source_gap",
+      "reuseStatus": "not_publishable",
+      "note": "No claim-specific source passage reviewed; keep this as a design proposal, field observation, hypothesis or site-safety requirement and do not promote it to verified knowledge."
+    },
+    {
+      "claimId": "claim-stopconditions-0",
+      "target": "stopConditions/0",
+      "claimText": "Unexpected severe vibration, abnormal noise, rapid temperature rise, visible hazardous leakage or an OEM/site stop alarm",
+      "evidenceClass": "site_safety_requirement",
+      "sourceId": null,
+      "sectionOrPage": null,
+      "reviewStatus": "not_reviewed",
+      "licenseStatus": "source_gap",
+      "reuseStatus": "not_publishable",
+      "note": "No claim-specific source passage reviewed; keep this as a design proposal, field observation, hypothesis or site-safety requirement and do not promote it to verified knowledge."
+    },
+    {
+      "claimId": "claim-stopconditions-1",
+      "target": "stopConditions/1",
+      "claimText": "Loss of prime or suspected dry running where the pump is not approved for that condition",
+      "evidenceClass": "site_safety_requirement",
+      "sourceId": null,
+      "sectionOrPage": null,
+      "reviewStatus": "not_reviewed",
+      "licenseStatus": "source_gap",
+      "reuseStatus": "not_publishable",
+      "note": "No claim-specific source passage reviewed; keep this as a design proposal, field observation, hypothesis or site-safety requirement and do not promote it to verified knowledge."
+    },
+    {
+      "claimId": "claim-stopconditions-2",
+      "target": "stopConditions/2",
+      "claimText": "Uncertain isolation, pressurized/hot/hazardous fluid exposure or need to remove a guard/open a line",
+      "evidenceClass": "site_safety_requirement",
+      "sourceId": null,
+      "sectionOrPage": null,
+      "reviewStatus": "not_reviewed",
+      "licenseStatus": "source_gap",
+      "reuseStatus": "not_publishable",
+      "note": "No claim-specific source passage reviewed; keep this as a design proposal, field observation, hypothesis or site-safety requirement and do not promote it to verified knowledge."
+    },
+    {
+      "claimId": "claim-stopconditions-3",
+      "target": "stopConditions/3",
+      "claimText": "Contradictory or implausible instrument values that cannot be safely validated",
+      "evidenceClass": "site_safety_requirement",
+      "sourceId": null,
+      "sectionOrPage": null,
+      "reviewStatus": "not_reviewed",
+      "licenseStatus": "source_gap",
+      "reuseStatus": "not_publishable",
+      "note": "No claim-specific source passage reviewed; keep this as a design proposal, field observation, hypothesis or site-safety requirement and do not promote it to verified knowledge."
+    },
+    {
+      "claimId": "claim-verification-0",
+      "target": "verification/0",
+      "claimText": "Repeat flow, suction pressure, discharge pressure and speed measurements at a documented comparable operating point",
+      "evidenceClass": "source_context_only",
+      "sourceId": "ksb-centrifugal-pump-lexicon-operating-point",
+      "sectionOrPage": "Operating point; Operating conditions; Operating limit",
+      "reviewStatus": "reviewed",
+      "licenseStatus": "reference_only",
+      "reuseStatus": "link_only_no_text_reuse",
+      "note": "Supports comparison with the applicable pump/system operating point; the acceptance criteria must come from the exact OEM curve and site."
+    },
+    {
+      "claimId": "claim-verification-1",
+      "target": "verification/1",
+      "claimText": "Record the repaired or changed component and the exact intervention",
+      "evidenceClass": "validation_plan",
+      "sourceId": null,
+      "sectionOrPage": null,
+      "reviewStatus": "not_reviewed",
+      "licenseStatus": "source_gap",
+      "reuseStatus": "not_publishable",
+      "note": "No claim-specific source passage reviewed; keep this as a design proposal, field observation, hypothesis or site-safety requirement and do not promote it to verified knowledge."
+    },
+    {
+      "claimId": "claim-verification-2",
+      "target": "verification/2",
+      "claimText": "Confirm stable operation against the correct OEM curve and site acceptance criteria",
+      "evidenceClass": "validation_plan",
+      "sourceId": null,
+      "sectionOrPage": null,
+      "reviewStatus": "not_reviewed",
+      "licenseStatus": "source_gap",
+      "reuseStatus": "not_publishable",
+      "note": "No claim-specific source passage reviewed; keep this as a design proposal, field observation, hypothesis or site-safety requirement and do not promote it to verified knowledge."
+    },
+    {
+      "claimId": "claim-verification-3",
+      "target": "verification/3",
+      "claimText": "Keep the case unresolved if post-repair evidence is missing or operating conditions are not comparable",
+      "evidenceClass": "validation_plan",
+      "sourceId": null,
+      "sectionOrPage": null,
+      "reviewStatus": "not_reviewed",
+      "licenseStatus": "source_gap",
+      "reuseStatus": "not_publishable",
+      "note": "No claim-specific source passage reviewed; keep this as a design proposal, field observation, hypothesis or site-safety requirement and do not promote it to verified knowledge."
+    },
+    {
+      "claimId": "claim-limitations-0",
+      "target": "limitations/0",
+      "claimText": "The KSB MDX troubleshooting matrix is specific to that slurry-pump family; do not generalize its thresholds or remedy instructions.",
+      "evidenceClass": "scope_limitation",
+      "sourceId": null,
+      "sectionOrPage": null,
+      "reviewStatus": "not_reviewed",
+      "licenseStatus": "source_gap",
+      "reuseStatus": "not_publishable",
+      "note": "No claim-specific source passage reviewed; keep this as a design proposal, field observation, hypothesis or site-safety requirement and do not promote it to verified knowledge."
+    },
+    {
+      "claimId": "claim-limitations-1",
+      "target": "limitations/1",
+      "claimText": "KSB Lexicon and ASHRAE support the operating-point/system-curve framework but do not validate every industrial process application.",
+      "evidenceClass": "scope_limitation",
+      "sourceId": null,
+      "sectionOrPage": null,
+      "reviewStatus": "not_reviewed",
+      "licenseStatus": "source_gap",
+      "reuseStatus": "not_publishable",
+      "note": "No claim-specific source passage reviewed; keep this as a design proposal, field observation, hypothesis or site-safety requirement and do not promote it to verified knowledge."
+    },
+    {
+      "claimId": "claim-limitations-2",
+      "target": "limitations/2",
+      "claimText": "No exact-model OEM pump curve or primary source has yet been reviewed for the user's actual pump.",
+      "evidenceClass": "scope_limitation",
+      "sourceId": null,
+      "sectionOrPage": null,
+      "reviewStatus": "not_reviewed",
+      "licenseStatus": "source_gap",
+      "reuseStatus": "not_publishable",
+      "note": "No claim-specific source passage reviewed; keep this as a design proposal, field observation, hypothesis or site-safety requirement and do not promote it to verified knowledge."
+    },
+    {
+      "claimId": "claim-limitations-3",
+      "target": "limitations/3",
+      "claimText": "Field validation and qualified technical review have not been performed.",
+      "evidenceClass": "scope_limitation",
+      "sourceId": null,
+      "sectionOrPage": null,
+      "reviewStatus": "not_reviewed",
+      "licenseStatus": "source_gap",
+      "reuseStatus": "not_publishable",
+      "note": "No claim-specific source passage reviewed; keep this as a design proposal, field observation, hypothesis or site-safety requirement and do not promote it to verified knowledge."
+    }
   ]
 }
