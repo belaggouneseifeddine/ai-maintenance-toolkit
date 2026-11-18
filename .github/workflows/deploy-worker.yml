@@ -51,6 +51,9 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: wrangler deploy --config wrangler.toml
 
+      - name: Smoke-test deployed Worker health, CORS, validation and safety gates
+        run: node scripts/smoke-test-worker.mjs
+
       - name: Verify selected provider configuration
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
