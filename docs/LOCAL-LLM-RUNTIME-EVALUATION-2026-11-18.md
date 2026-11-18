@@ -364,3 +364,13 @@ References:
 - https://developers.google.com/edge/litert-lm/android
 - https://huggingface.co/litert-community/Qwen3.5-0.8B
 - https://huggingface.co/litert-community/gemma-4-E2B-it-litert-lm
+
+
+## 14. Safety-gate execution correction
+
+The repository previously treated a denied deterministic safety decision as a warning and still executed a `safetySensitive` local tool. This was unsafe. On this branch, `assistant-tool-registry.js` now returns `status: "blocked"` and does not invoke the tool when:
+- no safety gate is configured;
+- the safety gate throws or fails;
+- the safety gate returns anything other than explicit `allowed: true`.
+
+The related contract, orchestrator and local-tool tests were changed to assert zero execution on denial and successful execution only after an explicit allow decision. This is a fail-closed behavior change and must pass the full test suite before merge.
