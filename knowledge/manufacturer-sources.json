@@ -470,7 +470,11 @@
       "type": "exact-model-family-manual",
       "scope": "SINAMICS G120D converter; firmware V4.7 SP10; fault list in section 6.4, printed pages 88–89",
       "status": "manual-content-reviewed-for-listed-records",
-      "redistribution": "link-and-original-summary-only"
+      "redistribution": "link-and-original-summary-only",
+      "licenseStatus": "No open reuse license verified; treat as copyrighted reference-only. Do not copy manual text, tables or figures.",
+      "fetchAllowed": false,
+      "reuseStatus": "link-and-original-summary-only; no redistribution rights verified",
+      "auditNote": "Source record is linked from oem-verified-faults.json; the repository's prior claim review is not a new independent review in the 2026-11-18 audit."
     },
     {
       "id": "siemens-sinamics-g120p-operating-instructions-2016",
@@ -480,7 +484,11 @@
       "type": "exact-model-family-manual",
       "scope": "SINAMICS G120P cabinet units; section 9.5, alarms and faults, printed page 473; 04/2016 edition",
       "status": "manual-content-reviewed-for-listed-records",
-      "redistribution": "link-and-original-summary-only"
+      "redistribution": "link-and-original-summary-only",
+      "licenseStatus": "No open reuse license verified; treat as copyrighted reference-only. Do not copy manual text, tables or figures.",
+      "fetchAllowed": false,
+      "reuseStatus": "link-and-original-summary-only; no redistribution rights verified",
+      "auditNote": "Source record is linked from oem-verified-faults.json; the repository's prior claim review is not a new independent review in the 2026-11-18 audit."
     },
     {
       "id": "siemens-sinumerik-840dsl-828d-basic-functions-2018",
@@ -490,7 +498,11 @@
       "type": "exact-control-family-manual",
       "scope": "SINUMERIK 840D sl and 828D; axis measuring-system monitoring, section A3.5, printed page 105; 08/2018 edition",
       "status": "manual-content-reviewed-for-listed-records",
-      "redistribution": "link-and-original-summary-only"
+      "redistribution": "link-and-original-summary-only",
+      "licenseStatus": "No open reuse license verified; treat as copyrighted reference-only. Do not copy manual text, tables or figures.",
+      "fetchAllowed": false,
+      "reuseStatus": "link-and-original-summary-only; no redistribution rights verified",
+      "auditNote": "Source record is linked from oem-verified-faults.json; the repository's prior claim review is not a new independent review in the 2026-11-18 audit."
     },
     {
       "id": "mitsubishi-melsec-iqf-fx5-hardware-manual",
@@ -500,7 +512,11 @@
       "type": "exact-plc-family-manual",
       "scope": "FX5S, FX5UJ, FX5U and FX5UC; troubleshooting sections 17.3–17.7, printed pages 276–281; current PDF inspected 2026-10-24",
       "status": "manual-content-reviewed-for-listed-records",
-      "redistribution": "link-and-original-summary-only"
+      "redistribution": "link-and-original-summary-only",
+      "licenseStatus": "No open reuse license verified; treat as copyrighted reference-only. Do not copy manual text, tables or figures.",
+      "fetchAllowed": false,
+      "reuseStatus": "link-and-original-summary-only; no redistribution rights verified",
+      "auditNote": "Source record is linked from oem-verified-faults.json; the repository's prior claim review is not a new independent review in the 2026-11-18 audit."
     },
     {
       "id": "mitsubishi-mrj4-transition-handbook",
@@ -510,7 +526,11 @@
       "type": "exact-servo-family-handbook",
       "scope": "MR-J4-A encoder compatibility setting example; Part 7, section 4.1; only the stated HC-FS/HA-FS compatibility context",
       "status": "manual-content-reviewed-for-listed-records",
-      "redistribution": "link-and-original-summary-only"
+      "redistribution": "link-and-original-summary-only",
+      "licenseStatus": "No open reuse license verified; treat as copyrighted reference-only. Do not copy manual text, tables or figures.",
+      "fetchAllowed": false,
+      "reuseStatus": "link-and-original-summary-only; no redistribution rights verified",
+      "auditNote": "Source record is linked from oem-verified-faults.json; the repository's prior claim review is not a new independent review in the 2026-11-18 audit."
     },
     {
       "id": "siemens-sinumerik-828d-diagnostics-manual-495-2021",
@@ -540,7 +560,11 @@
       "type": "exact-servo-family-manual",
       "scope": "DS5K series; Data No. SC5 03 20230427EN; alarm sections 7.1–7.2, printed pages 172–181",
       "status": "manual-content-reviewed-for-listed-records",
-      "redistribution": "link-and-original-summary-only"
+      "redistribution": "link-and-original-summary-only",
+      "licenseStatus": "No open reuse license verified; treat as copyrighted reference-only. Do not copy manual text, tables or figures.",
+      "fetchAllowed": false,
+      "reuseStatus": "link-and-original-summary-only; no redistribution rights verified",
+      "auditNote": "Source record is linked from oem-verified-faults.json; the repository's prior claim review is not a new independent review in the 2026-11-18 audit."
     },
     {
       "id": "oem-inovance-md200-err02-overcurrent-acceleration-manual",
@@ -550,7 +574,11 @@
       "type": "official-manual-direct-link",
       "scope": "INOVANCE MD200 User Guide C02; section 3.2 Faults and Solutions, printed pages 32–35. Claims reviewed for Err02, Err03, Err05, Err09, Err12 and Err14 only; Err14 is named Module overheat in this revision.",
       "status": "manual-content-reviewed-for-listed-records",
-      "redistribution": "link-only; follow publisher terms"
+      "redistribution": "link-only; follow publisher terms",
+      "licenseStatus": "No open reuse license verified; treat as copyrighted reference-only. Do not copy manual text, tables or figures.",
+      "fetchAllowed": false,
+      "reuseStatus": "link-and-original-summary-only; no redistribution rights verified",
+      "auditNote": "Source record is linked from oem-verified-faults.json; the repository's prior claim review is not a new independent review in the 2026-11-18 audit."
     },
     {
       "id": "oem-mitsubishi-c80-servo-alarm-10-insufficient-voltage-manual",
@@ -560,7 +588,11 @@
       "type": "official-manual-direct-link",
       "scope": "C80 Series Alarm/Parameter Manual IB-1501560-F; section 3.1 Servo Errors, printed pages 51–52, plus section 8 Emergency Stop Alarms, printed page 106. Claims reviewed for servo alarms 10, 18, 23, 24, 25 and the specific PLC emergency-stop entry only. Drive-specific troubleshooting remains delegated to the exact drive manual.",
       "status": "manual-content-reviewed-for-listed-records",
-      "redistribution": "link-only; follow publisher terms"
+      "redistribution": "link-only; follow publisher terms",
+      "licenseStatus": "No open reuse license verified; treat as copyrighted reference-only. Do not copy manual text, tables or figures.",
+      "fetchAllowed": false,
+      "reuseStatus": "link-and-original-summary-only; no redistribution rights verified",
+      "auditNote": "Source record is linked from oem-verified-faults.json; the repository's prior claim review is not a new independent review in the 2026-11-18 audit."
     },
     {
       "id": "oem-siemens-s7-1200-fs-event-0005-overtemperature-manual",
@@ -570,7 +602,11 @@
       "type": "official-manual-direct-link",
       "scope": "SIMATIC S7-1200 Functional Safety Manual V4.6, 11/2022, A5E03470344-AC; section 6.2 Fault diagnostics, printed page 122. Claims reviewed for Event IDs 0x0005, 0x004D and 0x004E only.",
       "status": "manual-content-reviewed-for-listed-records",
-      "redistribution": "link-only; follow publisher terms"
+      "redistribution": "link-only; follow publisher terms",
+      "licenseStatus": "No open reuse license verified; treat as copyrighted reference-only. Do not copy manual text, tables or figures.",
+      "fetchAllowed": false,
+      "reuseStatus": "link-and-original-summary-only; no redistribution rights verified",
+      "auditNote": "Source record is linked from oem-verified-faults.json; the repository's prior claim review is not a new independent review in the 2026-11-18 audit."
     },
     {
       "id": "inovance-h5u-plc-user-guide",
@@ -580,7 +616,11 @@
       "type": "manufacturer-manual",
       "scope": "INOVANCE H5U PLC; hardware indicators and operating/maintenance; revision A00 June 2023",
       "status": "manual-reviewed-limited-claims",
-      "redistribution": "link-only; concise paraphrase; verify latest revision before use"
+      "redistribution": "link-only; concise paraphrase; verify latest revision before use",
+      "licenseStatus": "No open reuse license verified; treat as copyrighted reference-only. Do not copy manual text, tables or figures.",
+      "fetchAllowed": false,
+      "reuseStatus": "link-and-original-summary-only; no redistribution rights verified",
+      "auditNote": "Source record is linked from oem-verified-faults.json; the repository's prior claim review is not a new independent review in the 2026-11-18 audit."
     },
     {
       "id": "inovance-fault-code-query",
@@ -600,7 +640,11 @@
       "type": "manufacturer-manual",
       "scope": "X-NET fieldbus and motion fieldbus communication; document Data No. PD06 20151009 3.2",
       "status": "manual-reviewed-limited-claims",
-      "redistribution": "link-only; concise paraphrase; verify applicability to installed X-NET version"
+      "redistribution": "link-only; concise paraphrase; verify applicability to installed X-NET version",
+      "licenseStatus": "No open reuse license verified; treat as copyrighted reference-only. Do not copy manual text, tables or figures.",
+      "fetchAllowed": false,
+      "reuseStatus": "link-and-original-summary-only; no redistribution rights verified",
+      "auditNote": "Source record is linked from oem-verified-faults.json; the repository's prior claim review is not a new independent review in the 2026-11-18 audit."
     },
     {
       "id": "siemens-g120c-fsd-fsf-compact-instructions-2016",
@@ -610,7 +654,11 @@
       "type": "manufacturer-manual",
       "scope": "Specific alarm/fault table for SINAMICS G120C FSD through FSF; firmware V4.7 SP6; troubleshooting table 5.1, printed page 82",
       "status": "official-manual-reviewed-for-listed-claims",
-      "redistribution": "metadata-and-link only; do not republish manual content beyond short factual descriptions"
+      "redistribution": "metadata-and-link only; do not republish manual content beyond short factual descriptions",
+      "licenseStatus": "No open reuse license verified; treat as copyrighted reference-only. Do not copy manual text, tables or figures.",
+      "fetchAllowed": false,
+      "reuseStatus": "link-and-original-summary-only; no redistribution rights verified",
+      "auditNote": "Source record is linked from oem-verified-faults.json; the repository's prior claim review is not a new independent review in the 2026-11-18 audit."
     },
     {
       "id": "siemens-s7-1200-system-manual-v46",
@@ -620,7 +668,11 @@
       "type": "exact-model-family-manual",
       "scope": "SIMATIC S7-1200 system diagnostics and time-error events; revision/CPU firmware must be matched to installed device",
       "status": "manual-content-reviewed-for-listed-records",
-      "redistribution": "link-and-original-summary-only"
+      "redistribution": "link-and-original-summary-only",
+      "licenseStatus": "No open reuse license verified; treat as copyrighted reference-only. Do not copy manual text, tables or figures.",
+      "fetchAllowed": false,
+      "reuseStatus": "link-and-original-summary-only; no redistribution rights verified",
+      "auditNote": "Source record is linked from oem-verified-faults.json; the repository's prior claim review is not a new independent review in the 2026-11-18 audit."
     },
     {
       "id": "siemens-s7-1200-failsafe-manual-v46",
@@ -630,7 +682,11 @@
       "type": "exact-model-family-manual",
       "scope": "S7-1200 fail-safe signal modules; diagnostic events including read-back failure and output overload; equipment manual 11/2022",
       "status": "manual-content-reviewed-for-listed-records",
-      "redistribution": "link-and-original-summary-only"
+      "redistribution": "link-and-original-summary-only",
+      "licenseStatus": "No open reuse license verified; treat as copyrighted reference-only. Do not copy manual text, tables or figures.",
+      "fetchAllowed": false,
+      "reuseStatus": "link-and-original-summary-only; no redistribution rights verified",
+      "auditNote": "Source record is linked from oem-verified-faults.json; the repository's prior claim review is not a new independent review in the 2026-11-18 audit."
     },
     {
       "id": "gsk-218m-cnc-programming-operation-manual",
@@ -640,7 +696,11 @@
       "type": "exact-model-family-manual",
       "scope": "GSK218M CNC system; alarm interface and program/operation alarms; confirm manual revision and machine-builder configuration",
       "status": "manual-content-reviewed-for-listed-records",
-      "redistribution": "link-and-original-summary-only"
+      "redistribution": "link-and-original-summary-only",
+      "licenseStatus": "No open reuse license verified; treat as copyrighted reference-only. Do not copy manual text, tables or figures.",
+      "fetchAllowed": false,
+      "reuseStatus": "link-and-original-summary-only; no redistribution rights verified",
+      "auditNote": "Source record is linked from oem-verified-faults.json; the repository's prior claim review is not a new independent review in the 2026-11-18 audit."
     },
     {
       "id": "delta-asda-b2-f-user-manual",
@@ -650,7 +710,11 @@
       "type": "official-product-manual",
       "scope": "ASDA-B2-F series servo drive; Version 1.0, September 2015; alarm definitions in section 9.1 and corrective-action tables in section 9.4. Do not apply to ASDA-B2, ASDA-A3, ASDA-B3 or other series without their own manual.",
       "status": "manual-content-reviewed-for-listed-records",
-      "redistribution": "link-and-concise-original-summaries-only"
+      "redistribution": "link-and-concise-original-summaries-only",
+      "licenseStatus": "No open reuse license verified; treat as copyrighted reference-only. Do not copy manual text, tables or figures.",
+      "fetchAllowed": false,
+      "reuseStatus": "link-and-original-summary-only; no redistribution rights verified",
+      "auditNote": "Source record is linked from oem-verified-faults.json; the repository's prior claim review is not a new independent review in the 2026-11-18 audit."
     },
     {
       "id": "syntec-cnc-alarm-manual",
@@ -660,7 +724,11 @@
       "type": "official-product-alarm-manual",
       "scope": "Syntec CNC alarm manual; supported software versions listed in the manual include 10.118.86L, 10.120.16L, 10.120.24B, 10.120.27 and previous versions. Exact CNC/drive integration and machine-builder settings must be matched.",
       "status": "manual-content-reviewed-for-listed-records",
-      "redistribution": "link-and-concise-original-summaries-only"
+      "redistribution": "link-and-concise-original-summaries-only",
+      "licenseStatus": "No open reuse license verified; treat as copyrighted reference-only. Do not copy manual text, tables or figures.",
+      "fetchAllowed": false,
+      "reuseStatus": "link-and-original-summary-only; no redistribution rights verified",
+      "auditNote": "Source record is linked from oem-verified-faults.json; the repository's prior claim review is not a new independent review in the 2026-11-18 audit."
     },
     {
       "id": "atlas-copco-compressor-overheating",
