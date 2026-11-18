@@ -282,7 +282,7 @@
       "potentialUse": "Compare equipment taxonomy and candidate pump hypotheses after source and technical review.",
       "reportedScope": "Copied data/knowledge_base.json (9 equipment classes, 55 records) into candidate quarantine; 9 pump records separately extracted.",
       "licenseStatus": "Repository code MIT only; no separate data license is verified for embedded knowledge and standards-derived content; cited GB/T standard content rights remain unresolved.",
-      "accessStatus": "Actual JSON, README, LICENSE, evaluation file and CSV inspected; no upstream text, dataset, code or pump extract copied.",
+      "accessStatus": "Actual README, LICENSE, JSON/CSV, requirements, evaluation data and selected Python retrieval/agent modules inspected; no upstream content or code copied and no code executed.",
       "decision": "discovery-only-no-fault-text-import",
       "limitations": "42/55 records repeat causes as diagnosis steps; no claim-level standard pages/model scope; other records lack measurable expected outcomes and safe preconditions.",
       "runtimeImport": false,
@@ -299,9 +299,11 @@
         "data/fault_cases.json",
         "data/standards/gbt3215_pump_faults.csv",
         "eval/test_queries.json",
-        "requirements.txt"
+        "requirements.txt",
+        "src/agents/integrated_agent.py",
+        "src/retrieval/four_channel_retriever.py"
       ],
-      "contentsReviewed": "Re-inspected upstream README, MIT LICENSE, knowledge_base.json, fault_cases.json, the pump CSV, eval/test_queries.json and requirements.txt. knowledge_base.json has 9 equipment types and 55 fault records; 42/55 diagnosis_steps arrays exactly duplicate possible_causes. fault_cases.json contains one sample case. eval/test_queries.json contains 337 entries while README.md claims 425. The pump CSV has five data rows. No upstream data or code is retained here.",
+      "contentsReviewed": "Re-inspected upstream README, MIT LICENSE, knowledge_base.json, fault_cases.json, the pump CSV, eval/test_queries.json and requirements.txt. knowledge_base.json has 9 equipment types and 55 fault records; 42/55 diagnosis_steps arrays exactly duplicate possible_causes. fault_cases.json contains one sample case. eval/test_queries.json contains 337 entries while README.md claims 425. The pump CSV has five data rows. No upstream data or code is retained here. Additional code review on 2026-11-18 inspected integrated_agent.py and four_channel_retriever.py: use_llm=True only builds a prompt and does not invoke model_router.generate(); retriever documentation weights disagree with implementation (actual weights 0.35/0.50/0.15/0.00, so Jaccard is disabled). No runtime execution was performed.",
       "dataOrigin": "Embedded records cite GB/T/JB/T standards and generic manuals, but the exact original editions, pages, permissions and claim-to-source mapping are not established.",
       "equipment": [
         "pumps",
@@ -319,7 +321,10 @@
         "fault_cases.json contains one sample case only; it is not a validated casebook.",
         "README claims 425 evaluation queries but the checked JSON contains 337 entries.",
         "The pump CSV has five rows and cites GB/T 3215-2019; standard-derived content must not be redistributed without rights review.",
-        "fault_cases.json lacks sufficient model, operating-condition, measurement-location and source-page provenance for runtime use."
+        "fault_cases.json lacks sufficient model, operating-condition, measurement-location and source-page provenance for runtime use.",
+        "integrated_agent.py advertises optional LLM generation, but the reviewed use_llm branch only builds and returns a prompt; it does not call model_router.generate().",
+        "four_channel_retriever.py comments describe different channel weights from the implementation; actual weights are 0.35 vector, 0.50 equipment/symptom, 0.15 keyword and 0.00 Jaccard.",
+        "The integrated-agent prompt asks for fault causes and maintenance actions but the inspected path has no independent safety gate or source-page enforcement."
       ],
       "dataLeakage": "No model benchmark reviewed. Any future evaluation must split by source document, machine/model and case rather than randomly splitting near-duplicate records.",
       "dependencies": "Python RAG stack; requirements include vector retrieval, embeddings and web-app dependencies; not a browser/Worker runtime dependency.",
@@ -328,7 +333,8 @@
       "reviewStatus": "reviewed-2026-11-18-metadata-and-content-only",
       "aliases": [
         "industrial-ops-rag-agent"
-      ]
+      ],
+      "lastChecked": "2026-11-18"
     },
     {
       "id": "jonmuel-hydraulic-condition-monitoring",
