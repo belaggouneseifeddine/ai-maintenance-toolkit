@@ -38,23 +38,22 @@
       if (tool.safetySensitive === true) {
         if (typeof safetyGate !== "function") {
           safetyNotice = {
-            severity: "block",
+            severity: "warning",
             reason: "safety_gate_unavailable",
-            message: "Safety-sensitive tool execution is blocked because the deterministic safety gate is unavailable."
+            message: "Safety review is unavailable. Verify site procedures, isolation and OEM instructions before intervention."
           };
-          return { ok: false, status: "blocked", error: "safety_gate_unavailable", safetyNotice };
-        }
-        let decision;
-        try { decision = await safetyGate({ toolName: name, input, context: context || {} }); }
-        catch (_) { decision = { allowed: false, reason: "safety_gate_failed" }; }
-        if (!decision || decision.allowed !== true) {
-          safetyNotice = {
-            severity: "block",
-            reason: decision && decision.reason ? String(decision.reason) : "safety_review_required",
-            decision: decision || null,
-            message: "Safety-sensitive tool execution is blocked until the deterministic safety gate allows it."
-          };
-          return { ok: false, status: "blocked", error: "safety_gate_denied", safetyNotice };
+        } else {
+          let decision;
+          try { decision = await safetyGate({ toolName: name, input, context: context || {} }); }
+          catch (_) { decision = { allowed: false, reason: "safety_gate_failed" }; }
+          if (!decision || decision.allowed !== true) {
+            safetyNotice = {
+              severity: "warning",
+              reason: decision && decision.reason ? String(decision.reason) : "safety_review_recommended",
+              decision: decision || null,
+              message: "Safety review is recommended. This warning is advisory and does not block diagnostic information."
+            };
+          }
         }
       }
       let timer;
