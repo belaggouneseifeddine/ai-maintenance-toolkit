@@ -1,5 +1,7 @@
 import "./normalization.js";
 import { callCloudflareAI } from "./providers/cloudflare-provider.mjs";
+import { callGeminiAI } from "./providers/gemini-provider.mjs";
+import { normalizeEvidenceText, detectSafetyGate, buildSafetyGateDiagnosis } from "./worker/safety-gate.mjs";
 const ALLOWED_ORIGINS = new Set([
   "https://maintenance-ai-toolkit.pages.dev",
   "https://belaggouneseifeddine.github.io"
@@ -110,17 +112,6 @@ function toJsonSchema(node) {
   }
   return out;
 }
-function extractInteractionText(data) {
-  if (typeof data?.output_text === "string") return data.output_text.trim();
-  const steps = Array.isArray(data?.output) ? data.output : Array.isArray(data?.steps) ? data.steps : [];
-  const texts = [];
-  for (const step of steps) {
-    if (step?.type !== "model_output" && step?.type !== "text") continue;
-    const content = Array.isArray(step.content) ? step.content : [];
-    for (const item of content) if (typeof item?.text === "string") texts.push(item.text);
-  }
-  return texts.join("\n").trim();
-}
 function validTextList(v, max, len = 500) { return Array.isArray(v) && v.length <= max && v.every(x => typeof x === "string" && x.length <= len); }
 function getDiagnosisValidationDiagnostics(v, language, sourceIds) {
   const isObject = !!v && typeof v === "object" && !Array.isArray(v);
@@ -196,110 +187,6 @@ function formatDiagnosis(v) {
   return lines.join("\n");
 }
 
-
-function normalizeEvidenceText(value) {
-  return globalThis.MaintenanceNormalization
-    ? globalThis.MaintenanceNormalization.normalizeText(value)
-    : String(value || "").toLocaleLowerCase().normalize("NFD")
-      .replace(/[\u0300-\u036f\u064B-\u065F\u0670\u06D6-\u06ED]/g, "")
-      .replace(/[أإآٱ]/g, "ا").replace(/ى/g, "ي").replace(/ة/g, "ه").replace(/[ـ]/g, "")
-      .replace(/[^\p{L}\p{N}]+/gu, " ").trim().replace(/\s+/g, " ");
-}
-function detectSafetyGate({ machine, symptom, code, observations }) {
-  const text = normalizeEvidenceText([machine, symptom, code, observations].filter(Boolean).join(" "));
-  const unsafeActions = [
-    "bypass", "disable", "defeat", "override", "bridge", "jumper", "short circuit",
-    "contourner", "shunter", "desactiver", "neutraliser", "court circuiter", "supprimer",
-    "تجاوز", "تعطيل", "الغاء", "تجسير", "قصر", "فصل"
-  ];
-  const protectiveDevices = [
-    "interlock", "interlocks", "safety interlock", "guard", "emergency stop", "e stop",
-    "protective device", "safety circuit", "overload protection", "interverrouillage",
-    "arret urgence", "securite", "حمايه", "الحمايه", "انترلوك", "الانترلوك",
-    "مفتاح الامان", "زر الطوارئ", "قاطع الحمايه"
-  ];
-  const explicitlyNegated = [
-    "do not bypass", "dont bypass", "never bypass", "must not bypass", "should not bypass",
-    "ne pas contourner", "ne jamais contourner", "لا تتجاوز", "عدم تجاوز", "يمنع تجاوز",
-    "لا تعطل", "عدم تعطيل"
-  ].some(phrase => text.includes(normalizeEvidenceText(phrase)));
-  const asksToBypassProtection = !explicitlyNegated &&
-    unsafeActions.some(action => text.includes(normalizeEvidenceText(action))) &&
-    protectiveDevices.some(device => text.includes(normalizeEvidenceText(device)));
-
-  const leakTerms = ["leak", "leaking", "fuite", "fuir", "تسرب", "تهريب", "رشح", "نفث"];
-  const highPressureTerms = ["high pressure", "haute pression", "pression elevee", "ضغط عالي", "ضغط مرتفع", "ضغط عال"];
-  const hydraulicTerms = ["hydraulic", "hydraulics", "hydraulique", "هيدروليك", "هيدروليكي"];
-  const hasLeak = leakTerms.some(term => text.includes(normalizeEvidenceText(term)));
-  const highPressureLeak = hasLeak && (
-    highPressureTerms.some(term => text.includes(normalizeEvidenceText(term))) ||
-    hydraulicTerms.some(term => text.includes(normalizeEvidenceText(term)))
-  );
-
-  if (asksToBypassProtection) return "protection_bypass";
-  if (highPressureLeak) return "high_pressure_leak";
-  return null;
-}
-
-function buildSafetyGateDiagnosis({ trigger, machine, symptom, language }) {
-  const copy = {
-    ar: {
-      bypassWarning: "لا تتجاوز أو تعطّل الإنترلوك أو الحواجز أو أي جهاز حماية.",
-      bypassStop: "أوقف العمل إذا كان ذلك آمنًا، ولا تعِد التشغيل أو تختبر المعدة مع حماية معطلة.",
-      bypassReason: "طلب تجاوز نظام حماية؛ لا يمكن تقديم خطوات لتجاوزه. يلزم فحص معتمد وفق إجراء الموقع.",
-      leakWarning: "ابتعد عن منطقة التسرب؛ لا تستخدم اليد للبحث عنه ولا تلمس نفث السائل.",
-      leakStop: "لا تفك الوصلات ولا تفتح نظامًا مضغوطًا ولا تعِد التشغيل؛ اعزل الطاقة والضغط وفق إجراء الموقع وصعّد فورًا.",
-      leakReason: "تسرب هيدروليكي أو عالي الضغط محتمل؛ خطر الحقن تحت الجلد لا يمكن استبعاده عن بُعد.",
-      danger: "خطر سلامة يتطلب إيقاف العمل والتصعيد."
-    },
-    fr: {
-      bypassWarning: "Ne contournez ni ne désactivez un interverrouillage, un protecteur ou un dispositif de sécurité.",
-      bypassStop: "Arrêtez le travail si cela peut être fait en sécurité; ne redémarrez pas avec une protection neutralisée.",
-      bypassReason: "La demande vise à contourner une protection. Aucune procédure de contournement ne sera fournie; faites contrôler le système selon la procédure du site.",
-      leakWarning: "Éloignez-vous de la fuite; ne cherchez jamais une fuite hydraulique avec la main et ne touchez pas le jet.",
-      leakStop: "Ne desserrez aucun raccord, n’ouvrez pas le circuit sous pression et ne redémarrez pas. Isolez selon la procédure du site et escaladez immédiatement.",
-      leakReason: "Une fuite hydraulique ou haute pression est possible; un risque d’injection sous-cutanée ne peut pas être exclu à distance.",
-      danger: "Risque de sécurité nécessitant l’arrêt du travail et une escalade."
-    },
-    en: {
-      bypassWarning: "Do not bypass or disable an interlock, guard, or any protective device.",
-      bypassStop: "Stop work if safe to do so; do not restart or test equipment with protection disabled.",
-      bypassReason: "The request concerns bypassing a protective system. No bypass procedure will be provided; have the system assessed under the site procedure.",
-      leakWarning: "Move away from the leak; never use a hand to search for a leak or touch a fluid jet.",
-      leakStop: "Do not loosen fittings, open a pressurized system, or restart. Isolate energy and pressure under site procedures and escalate immediately.",
-      leakReason: "A hydraulic or high-pressure leak may be present; an injection injury hazard cannot be ruled out remotely.",
-      danger: "Safety hazard requiring work stoppage and escalation."
-    }
-  }[language] || null;
-  const text = copy || {
-    bypassWarning: "لا تتجاوز أو تعطّل أي جهاز حماية.",
-    bypassStop: "أوقف العمل واتبع إجراء الموقع.",
-    bypassReason: "طلب متعلق بتجاوز الحماية ويتطلب التصعيد.",
-    leakWarning: "ابتعد عن التسرب ولا تلمس السائل.",
-    leakStop: "لا تفتح نظامًا مضغوطًا؛ اعزل وصعّد وفق إجراء الموقع.",
-    leakReason: "خطر تسرب عالي الضغط يتطلب التصعيد.",
-    danger: "خطر سلامة يتطلب إيقاف العمل والتصعيد."
-  };
-  const leak = trigger === "high_pressure_leak";
-  const warning = leak ? text.leakWarning : text.bypassWarning;
-  const stop = leak ? text.leakStop : text.bypassStop;
-  const reason = leak ? text.leakReason : text.bypassReason;
-  const diagnosis = {
-    status: "escalation_required",
-    language,
-    safety: { gate_required: true, loto_required_before_intervention: true, warnings: [warning], stop_conditions: [stop] },
-    clarifying_questions: [],
-    possible_causes: [],
-    inspection_steps: [],
-    required_tools: [],
-    danger_signs: [text.danger],
-    escalation: { required: true, reason },
-    sources: [],
-    unknowns: [],
-    session_summary: { equipment: machine, symptom, confirmed_cause: "", work_status: "escalated" }
-  };
-  return diagnosis;
-}
 
 function assessEvidence({ machine, symptom, code, observations, language }) {
   const m = normalizeEvidenceText(machine), s = normalizeEvidenceText(symptom);
@@ -894,65 +781,29 @@ Use only the evidence supplied. Rank plausible causes, show how to distinguish t
       }
       rawOutput = result.outputText;
     } else {
-      const model = env.AI_MODEL || "gemini-3.8-flash";
-      const requestBody = JSON.stringify({
-        model,
+      const result = await callGeminiAI({
+        apiKey,
+        model: env.AI_MODEL || "gemini-3.8-flash",
         input: userPrompt,
-        system_instruction: systemInstruction,
-        response_format: { type: "text", mime_type: "application/json", schema: responseSchema },
-        generation_config: { max_output_tokens: 1800 },
-        store: false
+        systemInstruction,
+        schema: responseSchema
       });
-      const retryableStatuses = new Set([429, 500, 502, 503, 504]);
-      const retryDelays = [700, 1600];
-      let upstream;
-      let lastNetworkError = null;
-
-      for (let attempt = 0; attempt <= retryDelays.length; attempt++) {
-        try {
-          upstream = await fetch("https://generativelanguage.googleapis.com/v1beta/interactions", {
-            method: "POST",
-            headers: {
-              "x-goog-api-key": apiKey,
-              "Content-Type": "application/json"
-            },
-            signal: AbortSignal.timeout(17000),
-            body: requestBody
-          });
-          lastNetworkError = null;
-        } catch (err) {
-          lastNetworkError = err;
-          if (attempt < retryDelays.length) {
-            await new Promise(resolve => setTimeout(resolve, retryDelays[attempt]));
-            continue;
-          }
-          break;
-        }
-        if (!retryableStatuses.has(upstream.status) || attempt >= retryDelays.length) break;
-        const retryAfter = Number(upstream.headers.get("Retry-After") || 0);
-        const delay = retryAfter > 0
-          ? Math.min(retryAfter * 1000, 5000)
-          : retryDelays[attempt];
-        await new Promise(resolve => setTimeout(resolve, delay));
-      }
-
-      if (lastNetworkError) {
-        return json({ error: "AI provider request failed before receiving an HTTP response.", retryable: true }, 502, origin);
-      }
-      if (!upstream.ok) {
-        const retryable = retryableStatuses.has(upstream.status);
+      if (!result.ok) {
+        const message = result.errorCode === "provider_not_configured"
+          ? "Gemini backend is not configured. Set the GEMINI_API_KEY Worker secret."
+          : result.errorCode === "provider_temporarily_unavailable" || result.errorCode === "provider_network_error"
+            ? "Gemini is temporarily unavailable or rate-limited. Please retry shortly."
+            : result.errorCode === "provider_http_error"
+              ? "Gemini API returned an error (" + result.status + ")."
+              : "Gemini returned an unreadable or invalid response. Please retry.";
         return json({
-          error: retryable
-            ? "Gemini is temporarily busy or rate-limited. Please retry shortly."
-            : "Gemini API returned an error (" + upstream.status + ").",
-          provider_status: upstream.status,
+          error: message,
+          ...(Number.isInteger(result.status) ? { provider_status: result.status } : {}),
           provider_message: "Check the Worker secret, model availability, and Gemini quota in the provider console. Raw provider details are intentionally not returned to clients.",
-          retryable: retryable
+          retryable: result.retryable
         }, 502, origin);
       }
-      let data;
-      try { data = await upstream.json(); } catch { return json({ error: "Gemini returned an unreadable response." }, 502, origin); }
-      rawOutput = extractInteractionText(data);
+      rawOutput = result.outputText;
     }
     if (typeof rawOutput !== "string" || !rawOutput) {
       return json({ error: "AI provider response did not contain a text answer." }, 502, origin);

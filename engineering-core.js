@@ -93,21 +93,58 @@
         measurements = input.measurements.map((item, i) => {
           if (!item || typeof item !== "object" || Array.isArray(item)) {
             errors.push({ code: "invalid_type", field: "measurements[" + i + "]" });
-            return { name: "", value: null, unit: "" };
+            return { name: "", value: null, unit: "", sourceType: "unknown" };
           }
           const name = boundedString(item.name, LIMITS.measurementName, "measurements[" + i + "].name", errors, true);
           const unit = boundedString(item.unit, LIMITS.unit, "measurements[" + i + "].unit", errors, true);
-          if (typeof item.value !== "number" || !Number.isFinite(item.value)) {
+          const sourceTypes = new Set(["direct_measurement", "plc_value", "historian_value", "estimated", "user_reported", "unknown"]);
+          const sensorStatuses = new Set(["normal", "suspect", "failed", "unknown"]);
+          const qualityFlags = new Set(["normal", "noisy", "stale", "contradictory", "unknown"]);
+          const sourceType = sourceTypes.has(item.sourceType) ? item.sourceType : "unknown";
+          const sensorStatus = sensorStatuses.has(item.sensorStatus) ? item.sensorStatus : "unknown";
+          const qualityFlag = qualityFlags.has(item.qualityFlag) ? item.qualityFlag : "unknown";
+          if (item.value != null && (typeof item.value !== "number" || !Number.isFinite(item.value))) {
             errors.push({ code: "invalid_measurement", field: "measurements[" + i + "].value" });
           }
           return {
             name,
             value: typeof item.value === "number" && Number.isFinite(item.value) ? item.value : null,
             unit,
-            ...(typeof item.timestamp === "string" && item.timestamp.length <= 40 ? { timestamp: item.timestamp } : {})
+            sourceType,
+            sensorStatus,
+            qualityFlag,
+            ...(typeof item.timestamp === "string" && item.timestamp.length <= 40 ? { timestamp: item.timestamp } : {}),
+            ...(typeof item.operatingCondition === "string" ? { operatingCondition: boundedString(item.operatingCondition, 200, "measurements[" + i + "].operatingCondition", errors, false) } : {}),
+            ...(typeof item.sensorId === "string" ? { sensorId: boundedString(item.sensorId, 120, "measurements[" + i + "].sensorId", errors, false) } : {}),
+            ...(typeof item.sourceId === "string" ? { sourceId: boundedString(item.sourceId, 120, "measurements[" + i + "].sourceId", errors, false) } : {})
           };
         });
       }
+    }
+
+    let approvedPdfExcerpts = [];
+    if (input.approvedPdfExcerpts != null && Array.isArray(input.approvedPdfExcerpts)) {
+      approvedPdfExcerpts = input.approvedPdfExcerpts.slice(0, 3).filter(item =>
+        item && typeof item === "object" && !Array.isArray(item) &&
+        item.reviewStatus === "approved" && item.eligibleForDiagnosis === true &&
+        item.evidenceRole === "approved-page-claim" &&
+        item.sourceRef && typeof item.sourceRef.documentId === "string" &&
+        Number.isInteger(item.sourceRef.pageNumber) && item.sourceRef.pageNumber > 0 &&
+        typeof item.text === "string" && item.text.trim().length > 0
+      ).map(item => ({
+        documentTitle: boundedString(item.documentTitle, 160, "approvedPdfExcerpts.documentTitle", errors, false),
+        citation: boundedString(item.citation, 240, "approvedPdfExcerpts.citation", errors, false),
+        text: boundedString(item.text, 1800, "approvedPdfExcerpts.text", errors, false),
+        reviewStatus: "approved",
+        rightsStatus: boundedString(item.rightsStatus, 80, "approvedPdfExcerpts.rightsStatus", errors, false),
+        eligibleForDiagnosis: true,
+        evidenceRole: "approved-page-claim",
+        sourceRef: {
+          documentId: boundedString(item.sourceRef.documentId, 120, "approvedPdfExcerpts.sourceRef.documentId", errors, true),
+          pageNumber: item.sourceRef.pageNumber,
+          claimId: boundedString(item.sourceRef.claimId, 120, "approvedPdfExcerpts.sourceRef.claimId", errors, false)
+        }
+      }));
     }
 
     let attachments = [];
@@ -150,6 +187,7 @@
         symptom,
         observations,
         measurements,
+        approvedPdfExcerpts,
         attachments,
         consent: { sendToAI },
         context: {
@@ -273,6 +311,11 @@
         equipmentType: request.equipment.type,
         symptom: request.symptom,
         observations: request.observations.join("\\n"),
+        measurements: request.measurements,
+        approvedPdfExcerpts: request.approvedPdfExcerpts,
+        manufacturer: request.equipment.manufacturer,
+        model: request.equipment.model,
+        context: request.context,
         language: request.language
       }, faultLibrary);
       return {

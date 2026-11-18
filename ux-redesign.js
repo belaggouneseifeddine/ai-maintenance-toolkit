@@ -1,44 +1,123 @@
-/* Mobile-first home dashboard for Maintenance AI Toolkit */
+/* Home dashboard content and localization only.
+ * Primary navigation is owned by navigation-redesign.js.
+ */
 (function(){
 'use strict';
-const $=s=>document.querySelector(s);
+const $=selector=>document.querySelector(selector);
 const records=()=>{try{return JSON.parse(localStorage.getItem('maintenance-ai-toolkit-records-v1')||'[]')}catch{return []}};
 const tasks=()=>{try{return JSON.parse(localStorage.getItem('maintenance-ai-toolkit-pm-v1')||'[]')}catch{return []}};
 const lang=()=>window.MaintenanceI18n&&window.MaintenanceI18n.getLanguage?window.MaintenanceI18n.getLanguage():(($('#languageSwitcher')||{}).value||'ar');
 const copy={
-ar:{home:'الرئيسية',eyebrow:'مركز عمليات الصيانة',title:'ماذا تحتاج أن تفعل الآن؟',sub:'شخّص بأمان، وثّق ما حدث، وتابع أعمال الصيانة من مكان واحد.',diagnose:'ابدأ تشخيصًا',diagnoseSub:'خطوات فحص إرشادية حسب المعدة والعَرَض',log:'سجل الصيانة',logSub:'راجع البلاغات والإجراءات والحالات',handover:'تسليم النوبة والصيانة',handoverSub:'المهام الوقائية والتقارير والإحصاءات',ai:'مساعد الذكاء الاصطناعي',aiSub:'مساعدة تجريبية عند إعداد خادم موثوق',overview:'نظرة عامة',total:'إجمالي السجلات',open:'قيد المتابعة',due:'مهام مستحقة',recent:'أحدث السجلات',all:'عرض سجل الصيانة',empty:'لا توجد سجلات بعد. ابدأ بتسجيل أول بلاغ.',safety:'تذكير السلامة',safetyText:'قبل الفحص: اتبع إجراء LOTO المعتمد، وتحقق من الطاقة المخزنة. لا تفتح أنظمة مضغوطة أو تلمس أجزاء حية.',badge:'نسخة أولية • النتائج إرشادية فقط',status:'الحالة',machine:'المعدة',date:'التاريخ',unknown:'غير محدد'},
-fr:{home:'Accueil',eyebrow:'Centre des opérations de maintenance',title:'Que devez-vous faire maintenant ?',sub:'Diagnostiquer en sécurité, documenter les interventions et suivre la maintenance au même endroit.',diagnose:'Commencer un diagnostic',diagnoseSub:'Étapes indicatives selon équipement et symptôme',log:'Journal de maintenance',logSub:'Consulter les signalements, actions et statuts',handover:'Relève et maintenance',handoverSub:'Préventif, rapports et statistiques',ai:'Assistant IA',aiSub:'Assistance expérimentale avec serveur fiable configuré',overview:'Vue d’ensemble',total:'Entrées totales',open:'En cours',due:'Tâches dues',recent:'Entrées récentes',all:'Ouvrir le journal',empty:'Aucune entrée. Créez le premier signalement.',safety:'Rappel de sécurité',safetyText:'Avant toute inspection : appliquez la procédure LOTO et vérifiez les énergies stockées. N’ouvrez pas les systèmes sous pression.',badge:'Version initiale • Résultats indicatifs',status:'Statut',machine:'Équipement',date:'Date',unknown:'Non précisé'},
-en:{home:'Home',eyebrow:'Maintenance operations hub',title:'What do you need to do next?',sub:'Diagnose safely, document work, and track maintenance in one place.',diagnose:'Start diagnosis',diagnoseSub:'Guided checks by equipment and symptom',log:'Maintenance log',logSub:'Review reports, actions, and statuses',handover:'Handover & maintenance',handoverSub:'Preventive tasks, reports, and statistics',ai:'AI assistant',aiSub:'Experimental assistance when a trusted server is configured',overview:'Overview',total:'Total records',open:'In progress',due:'Tasks due',recent:'Recent records',all:'Open maintenance log',empty:'No records yet. Create your first report.',safety:'Safety reminder',safetyText:'Before inspection: follow the approved LOTO procedure and verify stored energy. Never open pressurized systems or touch live parts.',badge:'Prototype • Guidance only',status:'Status',machine:'Equipment',date:'Date',unknown:'Unspecified'}
+ar:{
+ eyebrow:'مركز الصيانة الصناعية • محلي أولًا',title:'ماذا تحتاج أن تفعل الآن؟',
+ sub:'شخّص بأمان، وثّق العمل، واسترجع المعرفة الفنية من مكان واحد.',
+ badge:'نسخة أولية • الإرشادات لا تستبدل إجراءات المصنع والسلامة',
+ overview:'نظرة عامة',workspaces:'مساحات العمل',total:'إجمالي السجلات',open:'قيد المتابعة',due:'مهام مستحقة',
+ recent:'أحدث السجلات',all:'عرض سجل الصيانة',empty:'لا توجد سجلات بعد. ابدأ بتسجيل أول بلاغ.',
+ diagnose:'ابدأ تشخيصًا',diagnoseSub:'اجمع السياق والأعراض والقياسات ورتّب الفرضيات',
+ knowledge:'المعرفة والوثائق',knowledgeSub:'استورد PDF والصور وابحث مع مرجع الصفحة',
+ safety:'السلامة',safetySub:'قوائم التحقق وموانع التدخل',
+ log:'سجل الصيانة',logSub:'راجع البلاغات والإجراءات ونتائج الإصلاح',
+ handover:'أدوات إضافية',handoverSub:'الصيانة الوقائية والتقارير والإعدادات',
+ ai:'مساعد AI',aiSub:'مراجعة خارجية اختيارية بعد موافقتك',
+ safetyTitle:'السلامة قبل التشخيص',
+ safetyText:'اتبع إجراء LOTO المعتمد، وتحقق من الطاقة المخزنة. لا تفتح نظامًا مضغوطًا أو تلمس أجزاء حية أو تتجاوز interlocks.',
+ howTitle:'كيف يعمل المساعد؟',
+ howLocal:'المحرك المحلي يبدأ بجمع بيانات المعدة والسياق والأعراض والقياسات.',
+ howHypotheses:'يرتب الفرضيات ويقترح الفحص التالي مع توضيح عدم اليقين.',
+ howDocs:'يسترجع الوثائق المعتمدة مع مرجع الصفحة الأصلية.',
+ howAI:'الذكاء التوليدي خدمة خارجية اختيارية؛ لا تُرسل الحالة إلا بعد موافقة واضحة.',
+ howLearning:'تُحفظ ملاحظات الفني محليًا؛ لا يحدث تدريب لأوزان النموذج تلقائيًا.',
+ status:'الحالة',machine:'المعدة',date:'التاريخ',unknown:'غير محدد'
+},
+fr:{
+ eyebrow:'Centre de maintenance industrielle • local d’abord',title:'Que devez-vous faire maintenant ?',
+ sub:'Diagnostiquez en sécurité, documentez le travail et retrouvez les connaissances techniques au même endroit.',
+ badge:'Version initiale • Les conseils ne remplacent pas les procédures du fabricant et de sécurité',
+ overview:'Vue d’ensemble',workspaces:'Espaces de travail',total:'Entrées totales',open:'En cours',due:'Tâches échues',
+ recent:'Entrées récentes',all:'Ouvrir le journal',empty:'Aucune entrée. Créez le premier signalement.',
+ diagnose:'Commencer un diagnostic',diagnoseSub:'Contexte, symptômes, mesures et hypothèses',
+ knowledge:'Connaissances et documents',knowledgeSub:'Importer PDF/images et rechercher avec la page source',
+ safety:'Sécurité',safetySub:'Contrôles et conditions d’arrêt',
+ log:'Journal de maintenance',logSub:'Signalements, actions et résultats des réparations',
+ handover:'Outils supplémentaires',handoverSub:'Préventif, rapports et paramètres',
+ ai:'Assistant IA',aiSub:'Relecture externe facultative après consentement',
+ safetyTitle:'La sécurité avant le diagnostic',
+ safetyText:'Appliquez la procédure LOTO et vérifiez les énergies stockées. N’ouvrez pas un système sous pression, ne touchez pas de pièces sous tension et ne contournez pas les interverrouillages.',
+ howTitle:'Comment fonctionne l’assistant ?',
+ howLocal:'Le moteur local recueille l’équipement, le contexte, les symptômes et les mesures.',
+ howHypotheses:'Il classe les hypothèses et propose le prochain contrôle en explicitant l’incertitude.',
+ howDocs:'Il retrouve les documents approuvés avec la référence de la page originale.',
+ howAI:'L’IA générative est un service externe facultatif ; aucune donnée n’est envoyée sans consentement explicite.',
+ howLearning:'Les observations restent locales ; les poids du modèle ne sont pas entraînés automatiquement.',
+ status:'Statut',machine:'Équipement',date:'Date',unknown:'Non précisé'
+},
+en:{
+ eyebrow:'Industrial maintenance hub • local first',title:'What do you need to do next?',
+ sub:'Diagnose safely, document work, and retrieve technical knowledge in one place.',
+ badge:'Prototype • Guidance does not replace OEM or site safety procedures',
+ overview:'Overview',workspaces:'Workspaces',total:'Total records',open:'In progress',due:'Tasks due',
+ recent:'Recent records',all:'Open maintenance log',empty:'No records yet. Create your first report.',
+ diagnose:'Start diagnosis',diagnoseSub:'Capture context, symptoms and readings; rank hypotheses',
+ knowledge:'Knowledge and documents',knowledgeSub:'Import PDFs/images and search with source-page references',
+ safety:'Safety',safetySub:'Checklists and stop conditions',
+ log:'Maintenance log',logSub:'Reports, actions and repair outcomes',
+ handover:'More tools',handoverSub:'Preventive maintenance, reports and settings',
+ ai:'AI assistant',aiSub:'Optional external review after your consent',
+ safetyTitle:'Safety before diagnosis',
+ safetyText:'Follow the approved LOTO procedure and verify stored energy. Never open a pressurized system, touch live parts, or bypass interlocks.',
+ howTitle:'How does the assistant work?',
+ howLocal:'The local engine starts with equipment, operating context, symptoms and available readings.',
+ howHypotheses:'It ranks hypotheses and suggests the next check while showing uncertainty.',
+ howDocs:'It retrieves approved documents with the original page reference.',
+ howAI:'Generative AI is an optional external service; the case is sent only after explicit consent.',
+ howLearning:'Technician observations stay local; model weights are not trained automatically.',
+ status:'Status',machine:'Equipment',date:'Date',unknown:'Unspecified'
+}
 };
-function text(k){const aliases={'total-label':'total','open-label':'open','due-label':'due','diagnose-sub':'diagnoseSub','log-sub':'logSub','handover-sub':'handoverSub','ai-sub':'aiSub','safety-title':'safety','safety-text':'safetyText'};k=aliases[k]||k;return (copy[lang()]||copy.ar)[k]||copy.ar[k]||k}
-function makeHome(){
-const main=$('main'),nav=$('.nav');if(!main||!nav||$('#homeDashboard'))return;
-const b=document.createElement('button');b.type='button';b.className='tab home-tab active';b.dataset.tab='homeDashboard';b.textContent=text('home');nav.insertBefore(b,nav.firstChild);
-const s=document.createElement('section');s.id='homeDashboard';s.className='panel active';s.innerHTML=
-'<div class="ux-hero"><div class="ux-eyebrow" id="ux-eyebrow"></div><h1 id="ux-title"></h1><p id="ux-sub"></p><span class="ux-prototype" id="ux-badge"></span></div>'+
-'<section class="ux-safety" aria-label="Safety reminder"><div class="ux-safety-icon" aria-hidden="true">!</div><div><h2 id="ux-safety-title"></h2><p id="ux-safety-text"></p></div></section>'+
-'<section class="ux-overview"><h2 id="ux-overview"></h2><div class="ux-stats"><article class="ux-stat"><span id="ux-total-label"></span><strong id="ux-total">0</strong></article><article class="ux-stat"><span id="ux-open-label"></span><strong id="ux-open">0</strong></article><article class="ux-stat"><span id="ux-due-label"></span><strong id="ux-due">0</strong></article></div></section>'+
-'<section class="ux-actions"><button class="ux-action ux-action-primary" data-go="diagnose"><span class="ux-action-icon" aria-hidden="true">＋</span><span><b id="ux-diagnose"></b><small id="ux-diagnose-sub"></small></span><span class="ux-arrow" aria-hidden="true">↗</span></button>'+
-'<button class="ux-action" data-go="log"><span class="ux-action-icon" aria-hidden="true">▤</span><span><b id="ux-log"></b><small id="ux-log-sub"></small></span><span class="ux-arrow" aria-hidden="true">↗</span></button>'+
-'<button class="ux-action" data-go="v03"><span class="ux-action-icon" aria-hidden="true">◷</span><span><b id="ux-handover"></b><small id="ux-handover-sub"></small></span><span class="ux-arrow" aria-hidden="true">↗</span></button>'+
-'<button class="ux-action" data-go="ai"><span class="ux-action-icon" aria-hidden="true">✳</span><span><b id="ux-ai"></b><small id="ux-ai-sub"></small></span><span class="ux-arrow" aria-hidden="true">↗</span></button></section>'+
-'<section class="ux-recent"><div class="ux-section-head"><h2 id="ux-recent"></h2><button type="button" class="ux-link" data-go="log" id="ux-all"></button></div><div id="ux-recent-list"></div></section>';
-main.insertBefore(s,nav.nextSibling);
-nav.addEventListener('click',e=>{const t=e.target.closest('.tab');if(t&&t.dataset.tab==='homeDashboard'){e.preventDefault();showHome()}});
-s.querySelectorAll('[data-go]').forEach(x=>x.addEventListener('click',()=>go(x.dataset.go)));
-$('#languageSwitcher')?.addEventListener('change',()=>{renderCopy();renderDashboard()});
-document.addEventListener('visibilitychange',()=>{if(!document.hidden)renderDashboard()});
-window.addEventListener('focus',renderDashboard);
-renderCopy();renderDashboard();document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id==='homeDashboard'));document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab==='homeDashboard'));
+function text(key){const language=copy[lang()]||copy.ar;return language[key]||copy.ar[key]||key}
+function safe(value){return String(value==null?'':value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]))}
+function renderCopy(){
+ const home=$('#homeDashboard');if(!home)return;
+ home.querySelectorAll('[data-ux-key]').forEach(element=>{element.textContent=text(element.dataset.uxKey)});
+ document.documentElement.lang=lang();
+ document.documentElement.dir=lang()==='ar'?'rtl':'ltr';
 }
-function showHome(){document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id==='homeDashboard'));document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab==='homeDashboard'));renderDashboard();window.scrollTo({top:0,behavior:'smooth'})}
-function go(id){const tab=$('.tab[data-tab="'+id+'"]');if(tab){tab.click();return}if(id==='v03'){const t=$('.tab[data-tab="v03"]');if(t)t.click();else{alert('قسم تسليم النوبة غير متاح حاليًا. حدّث التطبيق ثم أعد المحاولة.')}return}}
-function renderCopy(){if(!$('#homeDashboard'))return;['eyebrow','title','sub','badge','overview','total-label','open-label','due-label','recent','all','diagnose','diagnose-sub','log','log-sub','handover','handover-sub','ai','ai-sub','safety-title','safety-text'].forEach(k=>{const e=$('#ux-'+k);if(e)e.textContent=text(k)});document.documentElement.lang=lang();document.documentElement.dir=lang()==='ar'?'rtl':'ltr'}
-function renderDashboard(){if(!$('#homeDashboard'))return;const a=records(),open=a.filter(r=>['قيد الفحص','يتطلب قطع غيار','تم التصعيد','In progress','Needs parts','Escalated','En cours'].includes(r.status)).length;const pm=tasks(),today=new Date();const day=d=>{const x=new Date(d+'T12:00:00');return Number.isNaN(x.getTime())?null:x};const due=pm.filter(t=>{const d=day(t.last);if(!d)return false;const next=new Date(d);if(t.repeat==='monthly')next.setMonth(next.getMonth()+1);else next.setDate(next.getDate()+Number(t.days||0));return next.toISOString().slice(0,10)<=today.toISOString().slice(0,10)}).length;
-$('#ux-total').textContent=a.length;$('#ux-open').textContent=open;$('#ux-due').textContent=due;
-const list=$('#ux-recent-list');if(!a.length){list.innerHTML='<div class="ux-empty"><span aria-hidden="true">▤</span><p>'+text('empty')+'</p><button type="button" class="btn" data-start-diagnosis>'+text('diagnose')+'</button></div>';list.querySelector('[data-start-diagnosis]').addEventListener('click',()=>go('diagnose'));return}
-list.innerHTML=a.slice(0,4).map(r=>'<article class="ux-record"><div class="ux-record-top"><b>'+safe(r.machine||text('unknown'))+'</b><span class="ux-status">'+safe(r.status||text('unknown'))+'</span></div><p>'+safe(r.fault||'—')+'</p><small>'+safe(r.date||'—')+'</small></article>').join('');
+function renderDashboard(){
+ const home=$('#homeDashboard');if(!home)return;
+ const entries=records();
+ const openStatuses=['قيد الفحص','يتطلب قطع غيار','تم التصعيد','In progress','Needs parts','Escalated','En cours'];
+ const open=entries.filter(record=>openStatuses.includes(record.status)).length;
+ const pm=tasks(),today=new Date();
+ const day=value=>{const date=new Date(value+'T12:00:00');return Number.isNaN(date.getTime())?null:date};
+ const due=pm.filter(task=>{
+  const last=day(task.last);if(!last)return false;
+  const next=new Date(last);
+  if(task.repeat==='monthly')next.setMonth(next.getMonth()+1);
+  else next.setDate(next.getDate()+Number(task.days||0));
+  return next.toISOString().slice(0,10)<=today.toISOString().slice(0,10);
+ }).length;
+ const totalNode=$('#ux-total'),openNode=$('#ux-open'),dueNode=$('#ux-due');
+ if(totalNode)totalNode.textContent=String(entries.length);
+ if(openNode)openNode.textContent=String(open);
+ if(dueNode)dueNode.textContent=String(due);
+ const list=$('#ux-recent-list');if(!list)return;
+ if(!entries.length){
+  list.innerHTML='<div class="ux-empty"><span aria-hidden="true">▤</span><p>'+safe(text('empty'))+'</p><button type="button" class="btn" data-go="diagnose">'+safe(text('diagnose'))+'</button></div>';
+  return;
+ }
+ list.innerHTML=entries.slice(0,4).map(record=>
+  '<article class="ux-record"><div class="ux-record-top"><b>'+safe(record.machine||text('unknown'))+'</b><span class="ux-status">'+safe(record.status||text('unknown'))+'</span></div><p>'+safe(record.fault||'—')+'</p><small>'+safe(record.date||'—')+'</small></article>'
+ ).join('');
 }
-function safe(v){return String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',makeHome);else makeHome();
+function initialize(){
+ if(!$('#homeDashboard'))return;
+ renderCopy();renderDashboard();
+ const language=$('#languageSwitcher');
+ if(language)language.addEventListener('change',()=>{renderCopy();renderDashboard()});
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden)renderDashboard()});
+ window.addEventListener('focus',renderDashboard);
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initialize,{once:true});
+else initialize();
 })();

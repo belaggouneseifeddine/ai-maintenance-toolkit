@@ -5,7 +5,7 @@ const vm = require("node:vm");
 
 const root = require("node:path").join(__dirname, "..");
 const ui = fs.readFileSync(require("node:path").join(root, "diagnostic-session-ui.js"), "utf8");
-const html = fs.readFileSync(require("node:path").join(root, "index.html"), "utf8");
+const html = fs.readFileSync(require("node:path").join(root, "index.html"), "utf8") + "\n" + fs.readFileSync(require("node:path").join(root, "app-legacy.js"), "utf8");
 
 test("guided diagnostic session exposes report save only after evidence review", () => {
   assert.match(ui, /const completed = session\.status === "evidence_review"/);

@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "purpose": "Discovery register for potentially useful open industrial-maintenance knowledge and data. It is not an imported fault database.",
   "policy": "Do not copy repository contents or datasets into this project until the exact license, dataset terms, attribution requirements, and provenance are checked. Research papers and public GitHub visibility do not by themselves grant redistribution rights. Permissively licensed dataset metadata and candidate snapshots may be stored in isolated research folders with attribution and source evidence; no candidate data is loaded by runtime until separately reviewed and approved.",
   "sources": [
@@ -270,18 +270,6 @@
       "contentsReviewed": "Not reviewed in this audit."
     },
     {
-      "id": "industrial-ops-rag-agent",
-      "title": "Industrial Ops RAG Agent — multi-equipment fault catalogue",
-      "url": "https://github.com/yilin-2511/industrial-ops-rag-agent",
-      "type": "structured-fault-catalogue-and-rag-example",
-      "potentialUse": "Coverage discovery and schema study only; reviewed data contains 9 equipment types and 55 fault records.",
-      "reportedScope": "Centrifugal pump, induction motor, control valve, air compressor, shell-and-tube heat exchanger, centrifugal fan, cooling tower, safety valve, gear reducer.",
-      "licenseStatus": "repository-code-MIT; no separate data license found; several records cite GB/T standards or generic manual without page/revision/model claim traceability",
-      "accessStatus": "LICENSE, data/knowledge_base.json, data/fault_cases.json and requirements.txt reviewed",
-      "decision": "discovery-only-no-fault-text-import",
-      "qualityNotes": "42/55 records repeat possible_causes as diagnosis_steps; one case record only; generic maintenance schedules lack scope. Do not treat these as validated tests or instructions."
-    },
-    {
       "id": "industrial-ops-rag-agent-snapshot",
       "title": "Industrial Ops RAG Agent — metadata-only rights and quality review",
       "url": "https://github.com/yilin-2511/industrial-ops-rag-agent",
@@ -307,7 +295,7 @@
         "data/standards/gbt3215_pump_faults.csv",
         "requirements.txt"
       ],
-      "contentsReviewed": "Inspected upstream files only; no upstream fault text, dataset file, code, or pump extract is retained in this repository.",
+      "contentsReviewed": "Inspected upstream files only; no upstream fault text, dataset file, code, or pump extract is retained in this repository. Duplicate legacy register entry merged into this canonical record on 2026-11-17; upstream repository is recorded once.",
       "dataOrigin": "Embedded records cite GB/T/JB/T standards and generic manuals, but the exact original editions, pages, permissions and claim-to-source mapping are not established.",
       "equipment": [
         "pumps",
@@ -330,7 +318,10 @@
       "dependencies": "Python RAG stack; requirements include vector retrieval, embeddings and web-app dependencies; not a browser/Worker runtime dependency.",
       "androidWorkerCompatibility": "Do not port the Python stack. Use only as a discovery pointer; no content import.",
       "reuseConditions": "MIT code license does not grant rights to embedded standards-derived or manual-derived data. Do not copy, redistribute, translate or operationalize the knowledge records without a separate explicit data license and source permissions.",
-      "reviewStatus": "reviewed-2026-11-09-metadata-only"
+      "reviewStatus": "reviewed-2026-11-09-metadata-only",
+      "aliases": [
+        "industrial-ops-rag-agent"
+      ]
     },
     {
       "id": "jonmuel-hydraulic-condition-monitoring",
@@ -616,6 +607,55 @@
       "reviewStatus": "partially-reviewed-2026-11-09"
     },
     {
+      "id": "open-fdd",
+      "title": "Open-FDD — HVAC fault detection and diagnostics",
+      "url": "https://github.com/bbartling/open-fdd",
+      "type": "hvac-fdd-rules-and-platform-reference",
+      "owner": "bbartling",
+      "lastUpdated": null,
+      "lastPushed": null,
+      "latestRelease": null,
+      "version": "VERSION file 5.0.20; PyPI package metadata 4.5.11 (not a verified GitHub release tag)",
+      "lastChecked": "2026-11-17",
+      "codeLicense": "MIT (verified in LICENSE and pyproject.toml)",
+      "dataLicense": "not separately verified for any benchmark, demo, or telemetry data",
+      "licenseStatus": "MIT verified for repository code; no blanket data license established",
+      "filesReviewed": [
+        "README.md",
+        "LICENSE",
+        "pyproject.toml",
+        "VERSION"
+      ],
+      "contentsReviewed": "Inspected README, MIT LICENSE, Python package metadata (open-fdd 4.5.11) and application VERSION (5.0.20). The repository describes HVAC fault-detection rules, engineering analytics and integrations; individual rule logic and data sources have not yet been audited.",
+      "dataOrigin": "Repository documentation references HVAC datasets and external building/plant sources; individual source datasets and their redistribution terms were not reviewed in this pass.",
+      "equipment": [
+        "HVAC",
+        "air handling units",
+        "chillers",
+        "boilers",
+        "fans",
+        "pumps",
+        "valves",
+        "building automation points"
+      ],
+      "potentialUse": "Architecture and rule-evaluation reference for HVAC FDD; next review should inspect rule equations, units, input roles, source citations and benchmark provenance.",
+      "reportedScope": "HVAC fault detection and diagnostics platform; current README describes SQL/Pandas rule catalogue and analytics.",
+      "accessStatus": "README.md, LICENSE, pyproject.toml and VERSION fetched and reviewed on 2026-11-17; rule implementation and datasets not yet reviewed.",
+      "qualityNotes": [
+        "Not a general industrial root-cause knowledge base.",
+        "Rule-based FDD outputs require point-role mapping, unit validation, operating-mode checks and asset applicability.",
+        "Do not infer root cause or remaining useful life from anomaly/FDD flags alone.",
+        "Do not copy rule text/data until exact rule provenance and data rights are reviewed.",
+        "The VERSION file and PyPI package metadata report different version numbers; no GitHub release tag or latest commit date was verified in this pass."
+      ],
+      "dataLeakage": "No benchmark leakage assessment performed; any future evaluation must split by site, asset and time, not random overlapping windows.",
+      "dependencies": "Python package requires Python >=3.10 and openpyxl; platform stack has separate services and dependencies. Not suitable as a direct Android or Cloudflare Worker runtime dependency.",
+      "androidWorkerCompatibility": "Use as an external engineering reference; port only individually reviewed equations into a small JavaScript implementation with explicit units, scope and tests.",
+      "reuseConditions": "MIT applies to repository code only. Preserve license and notices for code reuse; verify the source and license of every dataset, example and third-party rule before redistribution.",
+      "decision": "architecture-and-rule-reference-only-pending-rule-and-data-audit",
+      "reviewStatus": "metadata-and-license-reviewed-rule-logic-pending-2026-11-17"
+    },
+    {
       "id": "petrobras-3w",
       "title": "Petrobras 3W — real/synthetic oil-well event dataset",
       "url": "https://github.com/petrobras/3W",
@@ -703,25 +743,23 @@
       "type": "industrial-platform-architecture",
       "potentialUse": "Study asset/signal/alarms lineage, offline installation, read-only OT integration and auditability.",
       "reportedScope": "Historian, analytics, alarms, dashboards, process models, documents and read-only assistant access.",
-      "licenseStatus": "Apache-2.0",
-      "accessStatus": "README and LICENSE reviewed",
+      "licenseStatus": "Apache-2.0 verified for repository code; sample/demo datasets and trademark/logo rights are separate and not verified for reuse",
+      "accessStatus": "README and repository license metadata reviewed; raw LICENSE file and SPEC.md were not fetched in this audit.",
       "decision": "architecture-reference-only-no-runtime-dependency",
       "owner": "PlantCraft",
       "lastUpdated": "2026-11-09",
-      "lastPushed": "2026-11-09",
+      "lastPushed": null,
       "latestRelease": "v0.6.0",
-      "codeLicense": "Apache-2.0",
-      "dataLicense": "no separate sample-data license verified",
+      "codeLicense": "Apache-2.0 (repository LICENSE/README)",
+      "dataLicense": "not separately verified for demo/scenario/telemetry data",
       "filesReviewed": [
         "README.md",
-        "LICENSE",
-        "SPEC.md",
-        "apps/alarms/README.md",
-        "apps/alarms/ROADMAP.md",
-        "apps/alarms/SECURITY.md",
-        "apps/alarms/pyproject.toml"
+        "repository license metadata (Apache-2.0)",
+        "docs/install.md",
+        "docs/how-we-build.md",
+        "releases page (v0.6.0)"
       ],
-      "contentsReviewed": "Reviewed product specification, alarms component documentation, security notes and dependency manifest; did not run the suite or import sample telemetry.",
+      "contentsReviewed": "Reviewed the public README and repository license metadata; docs/install.md and docs/how-we-build.md; release page identifies v0.6.0 (2026-11-02). Documentation describes offline bundle, read-only plant integrations, local-first deployment and optional language-model activation. The raw LICENSE file and SPEC.md were not fetched in this audit; sample/demo data rights remain unverified.",
       "equipment": [
         "process plants",
         "historian tags",
@@ -732,12 +770,18 @@
       "qualityNotes": [
         "Broad self-hosted industrial operations suite; repository describes an alpha-stage platform.",
         "It provides asset/historian/alarm/workflow architecture but no validated pump-specific causal diagnosis in the reviewed material.",
-        "Sample data provenance and license are not separately established."
+        "Sample data provenance and license are not separately established.",
+        "The current upstream owner is the PlantCraft GitHub organization, not the original maintainer login jonathanwvd.",
+        "The project is a broad process-plant suite, not a validated fault-case dataset.",
+        "Offline installation and read-only plant integration are useful architectural patterns; its multi-container stack is not suitable as an Android runtime dependency.",
+        "Repository documentation reports suite 0.6.1 updated 2026-11-09, while the latest tagged GitHub release page reviewed is v0.6.0 (2026-11-02); these are recorded separately, not treated as the same version."
       ],
       "dependencies": "Multi-service application with backend/frontend and deployment dependencies; not a lightweight Android/Worker library.",
       "androidWorkerCompatibility": "Architecture reference only; no runtime dependency or direct port.",
-      "reuseConditions": "Apache-2.0 code may be reused subject to license and NOTICE obligations; do not reuse sample data until its separate rights are verified.",
-      "reviewStatus": "reviewed-2026-11-09"
+      "reuseConditions": "Retain Apache-2.0 license and NOTICE for code reuse; do not reuse names/logos; do not copy sample or telemetry data until its own terms are verified.",
+      "reviewStatus": "reviewed-2026-11-09",
+      "version": "0.6.1 (documentation states suite 0.6.1; latest tagged release reviewed is v0.6.0)",
+      "lastChecked": "2026-11-17"
     },
     {
       "id": "uci-hydraulic-447",
@@ -760,7 +804,7 @@
       "filesReviewed": [
         "official UCI dataset page and metadata"
       ],
-      "contentsReviewed": "Reviewed official metadata and signal descriptions; raw ZIP/CSV files were not downloaded in this audit.",
+      "contentsReviewed": "Reviewed official metadata and signal descriptions; raw ZIP/CSV files were not downloaded in this audit. Duplicate DOI alias merged; one canonical UCI dataset entry retained.",
       "dataOrigin": "ZeMA hydraulic test rig with cooler, valve, pump internal leakage and accumulator condition measurements.",
       "equipment": [
         "hydraulic system",
@@ -777,28 +821,11 @@
       "dataLeakage": "Use operating-point/cycle-group splits; random row or window splitting can leak operating conditions and repeated-cycle patterns.",
       "androidWorkerCompatibility": "Benchmark only; raw dataset is too large for the phone/Worker runtime.",
       "reuseConditions": "CC BY 4.0 attribution; preserve dataset citation and source link; do not turn telemetry labels into maintenance facts.",
-      "reviewStatus": "metadata-and-license-reviewed-2026-11-09"
-    },
-    {
-      "id": "uci-hydraulic-condition-monitoring",
-      "title": "UCI Condition Monitoring of Hydraulic Systems (ID 447)",
-      "url": "https://doi.org/10.24432/C5CW21",
-      "type": "multivariate-hydraulic-telemetry-dataset",
-      "potentialUse": "Offline hydraulic condition benchmark; labels are component states, not repair instructions.",
-      "reportedScope": "UCI dataset ID 447; hydraulic system sensor cycles. Original UCI dataset page must be checked for current attribution and redistribution terms.",
-      "licenseStatus": "catalogue lists CC-BY; verify current UCI terms before redistribution",
-      "accessStatus": "Dataset referenced by JonMuel repository README; data files not imported",
-      "decision": "high-priority-benchmark-pending-primary-terms-check",
-      "owner": "ZeMA / UCI",
-      "codeLicense": "not applicable",
-      "dataLicense": "CC-BY-4.0",
-      "lastUpdated": "2018-11-26",
-      "lastPushed": null,
-      "latestRelease": null,
-      "filesReviewed": [
-        "official UCI dataset metadata"
-      ],
-      "contentsReviewed": "Metadata only; raw files not downloaded."
+      "reviewStatus": "metadata-and-license-reviewed-2026-11-09",
+      "aliases": [
+        "uci-hydraulic-condition-monitoring",
+        "https://doi.org/10.24432/C5CW21"
+      ]
     },
     {
       "id": "urma-crti-zenodo-19109150",

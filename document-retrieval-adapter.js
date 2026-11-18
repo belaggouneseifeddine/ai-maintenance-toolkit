@@ -14,7 +14,10 @@
         status: results.length ? "approved_claims_retrieved" : "no_approved_diagnostic_sources",
         results: (results || []).map(item => ({
           text: item.text, documentTitle: item.documentTitle, citation: item.citation,
-          sourceRef: item.sourceRef, evidenceRole: item.evidenceRole, score: item.score
+          sourceRef: item.sourceRef, evidenceRole: item.evidenceRole, score: item.score,
+          retrievalMethods: item.retrievalMethods || ["bm25"],
+          reviewStatus: item.reviewStatus || "unknown", rightsStatus: item.rightsStatus || "unknown",
+          eligibleForDiagnosis: item.eligibleForDiagnosis === true, evidenceClass: item.evidenceClass || null
         }))
       };
     } catch (_) {

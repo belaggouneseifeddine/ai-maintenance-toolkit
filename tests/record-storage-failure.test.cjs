@@ -3,7 +3,7 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const vm = require("node:vm");
 
-const html = fs.readFileSync(require.resolve("../index.html"), "utf8");
+const html = fs.readFileSync(require.resolve("../maintenance-records.js"), "utf8") + "\n" + fs.readFileSync(require.resolve("../app-legacy.js"), "utf8");
 
 test("saveRecords reports a local-storage write failure instead of claiming success", () => {
   const start = html.indexOf("function saveRecords(a){");
@@ -16,7 +16,7 @@ test("saveRecords reports a local-storage write failure instead of claiming succ
     window: { MaintenanceI18n: null, alert(message) { alerts.push(String(message)); } },
     console: { error(...args) { errors.push(args); } }
   };
-  vm.runInNewContext(html.slice(start, end) + "\nglobalThis.__saveRecords = saveRecords;", context);
+  vm.runInNewContext('const KEY = "maintenance-ai-toolkit-records-v1";\n' + html.slice(start, end) + "\nglobalThis.__saveRecords = saveRecords;", context);
   assert.equal(context.__saveRecords([]), false);
   assert.equal(alerts.length, 1);
   assert.match(alerts[0], /تعذّر حفظ|Could not save|Impossible/);

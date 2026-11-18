@@ -48,18 +48,26 @@ Never commit API keys or put them in browser code, local storage, or the public 
 
 ## Core files
 
-- `index.html` — main interface and local diagnostic logic
+- `index.html` — application structure and runtime asset loading
+- `app-shell.css`, `design-system.css`, `ux-redesign.css`, `p1-app-shell.css` — staged presentation layers; the Industrial Premium token layer is loaded last
+- `maintenance-records.js` — local maintenance-record persistence, rendering, import/export and report helpers
+- `app-legacy.js` — remaining extracted legacy bootstrap (still scheduled for further modularization; extraction is not a completed frontend rewrite)
 - `diagnostic-engine.js`, `faults.json`, `diagnostic-flows.js` — rule-based diagnostics plus local exploratory reasoning
 - `knowledge/manufacturer-sources.json` — scoped source references; entries are not automatically treated as verified fault evidence
 - `i18n.js` — translations
 - `maintenance-v03.js`, `ux-redesign.js` — maintenance workflow and home dashboard
 - `manifest.json`, `sw.js` — PWA metadata and cache
-- `worker.js`, `wrangler.toml` — Cloudflare Worker API
+- `worker.js`, `wrangler.toml` — Cloudflare Worker API and deployment configuration
+- `providers/cloudflare-provider.mjs`, `providers/gemini-provider.mjs` — explicit provider adapters; provider selection remains controlled by Worker configuration
 - `engineering-core.js` — request normalization, conservative routing, and local diagnostic adapter
 - `agent-core.js` — orchestration core with safety-first routing and explicit tool adapters; `agent-ui.js` connects the local-agent and consent-based Worker AI actions. Source wiring does not prove live AI availability or end-to-end production validation.
 - `tests/agent-core.test.cjs` — agent orchestration behavior tests
 - `docs/AI-AGENT-CORE-V1.md` — orchestration contract, current UI integration, and remaining verification gates
 - `BACKEND_DEPLOYMENT.md`, `docs/AI-SETUP.md` — backend setup
+
+## Modernization status
+
+The staged full-stack modernization plan and current integration boundaries are documented in [docs/FULL-STACK-MODERNIZATION-PLAN-2026-11-18.md](docs/FULL-STACK-MODERNIZATION-PLAN-2026-11-18.md). The extracted frontend bootstrap remains legacy code, and the Worker route still requires further modularization and security review.
 
 ## Safety
 

@@ -29,6 +29,8 @@ jobs:
           node-version: "24"
       - name: Test local diagnostic engine
         run: node --test tests/*.test.cjs
+      - name: Run ESM provider and Worker contract tests
+        run: node --test tests/*.test.mjs
       - name: Run application quality checks
         run: node scripts/quality-check.mjs
       - name: Configure Pages
@@ -36,7 +38,7 @@ jobs:
       - name: Prepare static site
         run: |
           mkdir -p _site
-          required_runtime_assets="p1-app-shell.css p1-app-shell.js diagnostic-flows.js normalization.js bayesian-engine.js diagnostic-engine.js engineering-core.js agent-core.js evidence-reasoning.js evidence-reasoning-ui.js diagnostic-evidence-register.json agent-ui.js diagnostic-session.js diagnostic-session-ui.js diagnostic-chat.js oem-lookup.js faults.json i18n.js maintenance-v03.js maintenance-v03.css decision-trees.json knowledge-review.js answer-tools.js ux-redesign.js ux-redesign.css navigation-redesign.js document-library-core.js document-library.js document-library.css document-retrieval-adapter.js document-review-workspaces.js diagnostic-document-evidence.js"
+          required_runtime_assets="design-system.css app-shell.css maintenance-records.js app-legacy.js assistant-session-contract.js assistant-tool-registry.js assistant-local-orchestrator.js assistant-local-tools.js p1-app-shell.css p1-app-shell.js diagnostic-flows.js normalization.js bayesian-engine.js diagnostic-engine.js engineering-core.js agent-core.js evidence-reasoning.js evidence-reasoning-ui.js diagnostic-evidence-register.json agent-ui.js diagnostic-session.js diagnostic-session-ui.js diagnostic-chat.js oem-lookup.js faults.json i18n.js maintenance-v03.js maintenance-v03.css decision-trees.json knowledge-review.js answer-tools.js ux-redesign.js ux-redesign.css navigation-redesign.js document-library-core.js document-semantic-search.js document-library.js document-library.css document-retrieval-adapter.js document-review-workspaces.js learning-feedback-ui.js learning-memory.js diagnostic-document-evidence.js"
           for asset in $required_runtime_assets; do
             test -f "$asset" || { echo "Missing required runtime asset: $asset"; exit 1; }
           done
@@ -47,6 +49,8 @@ jobs:
           if [ -f SAFETY.md ]; then cp SAFETY.md _site/; fi
           if [ -f icon-192.png ]; then cp icon-192.png _site/; fi
           if [ -f icon-512.png ]; then cp icon-512.png _site/; fi
+      - name: Vendor pinned PDF, OCR and local embedding runtime
+        run: bash scripts/vendor-document-runtime.sh _site
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:

@@ -1,0 +1,324 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://belaggouneseifeddine.github.io/ai-maintenance-toolkit/knowledge/schemas/diagnostic-case.schema.json",
+  "title": "Maintenance AI Toolkit Diagnostic Case",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "caseId",
+    "title",
+    "equipmentFamily",
+    "status",
+    "applicability",
+    "mechanism",
+    "symptoms",
+    "requiredContext",
+    "hypotheses",
+    "measurements",
+    "tests",
+    "limits",
+    "stopConditions",
+    "verification",
+    "sources",
+    "licenseStatus",
+    "limitations"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "caseId": {
+      "type": "string",
+      "pattern": "^[A-Z]{2,5}-[0-9]{3}$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 5
+    },
+    "equipmentFamily": {
+      "const": "centrifugal_pump"
+    },
+    "status": {
+      "enum": [
+        "candidate",
+        "source_reviewed",
+        "technically_reviewed",
+        "field_validated",
+        "retired"
+      ]
+    },
+    "applicability": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 3
+      }
+    },
+    "mechanism": {
+      "type": "string",
+      "minLength": 20
+    },
+    "symptoms": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 3
+      }
+    },
+    "requiredContext": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 3
+      }
+    },
+    "hypotheses": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "cause",
+          "supportingEvidence",
+          "contradictingEvidence",
+          "confounders"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$"
+          },
+          "cause": {
+            "type": "string",
+            "minLength": 3
+          },
+          "supportingEvidence": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "contradictingEvidence": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "confounders": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "measurements": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "unit",
+          "location",
+          "operatingCondition",
+          "sourceTypes"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 2
+          },
+          "unit": {
+            "type": "string",
+            "minLength": 1
+          },
+          "location": {
+            "type": "string",
+            "minLength": 3
+          },
+          "operatingCondition": {
+            "type": "string",
+            "minLength": 3
+          },
+          "sourceTypes": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "enum": [
+                "direct_measurement",
+                "plc_value",
+                "historian_value",
+                "estimated",
+                "unknown"
+              ]
+            }
+          },
+          "baselineRequired": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "tests": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "name",
+          "prerequisites",
+          "safetyClass",
+          "discriminates",
+          "requiredMeasurements",
+          "expectedOutcomes",
+          "interpretationLimits"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 3
+          },
+          "prerequisites": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "safetyClass": {
+            "enum": [
+              "installed_instrument_observation",
+              "external_observation",
+              "planned_isolated_inspection",
+              "qualified_personnel_only",
+              "not_permitted"
+            ]
+          },
+          "discriminates": {
+            "type": "array",
+            "minItems": 2,
+            "items": {
+              "type": "string"
+            }
+          },
+          "requiredMeasurements": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "expectedOutcomes": {
+            "type": "array",
+            "minItems": 2,
+            "items": {
+              "type": "string"
+            }
+          },
+          "interpretationLimits": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "timeCost": {
+            "enum": [
+              "low",
+              "medium",
+              "high",
+              "unknown"
+            ]
+          }
+        }
+      }
+    },
+    "limits": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    },
+    "stopConditions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    },
+    "verification": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "sourceId",
+          "claimScope",
+          "reviewStatus"
+        ],
+        "properties": {
+          "sourceId": {
+            "type": "string"
+          },
+          "claimScope": {
+            "type": "string"
+          },
+          "reviewStatus": {
+            "enum": [
+              "not_reviewed",
+              "reviewed",
+              "rejected"
+            ]
+          },
+          "sectionOrPage": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "reuseStatus": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "licenseStatus": {
+      "enum": [
+        "source_gap",
+        "reference_only",
+        "reuse_review_required",
+        "reuse_permitted"
+      ]
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

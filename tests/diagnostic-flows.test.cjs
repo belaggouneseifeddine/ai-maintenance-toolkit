@@ -79,7 +79,7 @@ test("expanded flows preserve isolation and protection safeguards", () => {
 });
 
 test("published UI reads follow-up questions, answers, and guidance from the shared flow registry", () => {
-  const html = fs.readFileSync(require.resolve("../index.html"), "utf8");
+  const html = fs.readFileSync(require.resolve("../index.html"), "utf8") + "\n" + fs.readFileSync(require.resolve("../app-legacy.js"), "utf8");
   assert.match(html, /const flow=window\.MAINTENANCE_DIAGNOSTIC_FLOWS\?\.flows\?\.\[key\]/);
   assert.match(html, /flow\?\.answers\?\.map\(answer=>answer\.label\)/);
   assert.match(html, /if\(matchedAnswer\?\.guidance\)return \[matchedAnswer\.guidance\]/);

@@ -7,6 +7,141 @@
   }[c]));
   const status = (id, message) => { const el = $(id); if (el) el.textContent = message; };
 
+
+  async function refreshLearningDashboard() {
+    const host = $("learningReviewDashboard");
+    const memory = window.MaintenanceLearningMemory;
+    if (!host || !memory) return;
+    try {
+      const [summary, candidates, imageCandidates] = await Promise.all([memory.getLearningDashboard(), memory.getEvaluationCandidates(), memory.getImageObservationCandidates()]);
+      host.replaceChildren();
+      const stats = document.createElement("p");
+      stats.className = "hint";
+      stats.textContent = "وثائق مستوردة: " + summary.documentCount +
+        " | وثائق معتمدة فنيًا: " + summary.reviewedDocumentCount +
+        " | ادعاءات مسجلة: " + summary.claimCount +
+        " | ادعاءات معتمدة: " + summary.approvedClaimCount +
+        " | نتائج تشخيص تنتظر المراجعة: " + summary.outcomeCandidateCount +
+        " | حالات متعارضة: " + summary.conflictingOutcomeCount + " | ملاحظات صور تنتظر مراجعة فنية: " + summary.imageObservationCandidates;
+      const privacy = document.createElement("p");
+      privacy.className = "hint";
+      privacy.textContent = "التخزين محلي على هذا الجهاز. لا مشاركة بين المستخدمين، ولا تعديل لأوزان النموذج أو قاعدة الأعطال تلقائيًا.";
+      host.append(stats, privacy);
+      const list = document.createElement("div");
+      list.className = "document-candidate-list";
+      candidates.forEach(candidate => {
+        const item = document.createElement("article");
+        item.className = "document-result";
+        const heading = document.createElement("strong");
+        heading.textContent = candidate.equipmentFamily || "عائلة معدة غير محددة";
+        const detail = document.createElement("p");
+        detail.className = "hint";
+        detail.textContent = "النتيجة: " + candidate.outcome +
+          (candidate.confirmedFaultId ? " | العطل المبلغ عنه: " + candidate.confirmedFaultId : "") +
+          " | " + candidate.reviewStatus;
+        item.append(heading, detail);
+        list.appendChild(item);
+      });
+      if (candidates.length) host.appendChild(list);
+      if (imageCandidates.length) {
+        const imageHeading = document.createElement("h4");
+        imageHeading.textContent = "ملاحظات الصور وسجل المراجعة التقنية المستقلة";
+        host.appendChild(imageHeading);
+        imageCandidates.forEach(candidate => {
+          const item = document.createElement("article");
+          item.className = "document-result";
+          const heading = document.createElement("strong");
+          heading.textContent = candidate.component + " — " + candidate.condition;
+          const detail = document.createElement("p");
+          detail.className = "hint";
+          detail.textContent = candidate.observation + " | ثقة الملاحظ: " + candidate.confidenceLabel +
+            " | المساهم الأصلي: " + candidate.contributor + " | " + candidate.reviewStatus;
+          item.append(heading, detail);
+          if (candidate.reviewEvidence) {
+            const reviewed = document.createElement("p");
+            reviewed.className = "hint";
+            reviewed.textContent = "قرار المراجع " + candidate.technicalReviewer + ": " +
+              (candidate.reviewDecision === "approved" ? "مقبول تقنيًا" : "مرفوض") + " — " + candidate.reviewEvidence;
+            item.appendChild(reviewed);
+          }
+          if (candidate.reviewStatus === "candidate-requires-technical-review") {
+            const openOriginal = document.createElement("button");
+            openOriginal.type = "button";
+            openOriginal.className = "btn secondary";
+            openOriginal.textContent = "فتح الصورة الأصلية للمراجعة المستقلة";
+            const sourceCheckLabel = document.createElement("label");
+            const sourceCheck = document.createElement("input");
+            sourceCheck.type = "checkbox";
+            sourceCheck.disabled = true;
+            sourceCheckLabel.append(sourceCheck, document.createTextNode(" فتحت الصورة الأصلية وفحصتها بنفسي"));
+            openOriginal.addEventListener("click", async () => {
+              openOriginal.disabled = true;
+              try {
+                const opened = await library().openSourcePage(candidate.documentId, 1);
+                if (opened !== true) throw new Error("تعذر فتح الصورة الأصلية.");
+                sourceCheck.disabled = false;
+                openOriginal.textContent = "تم فتح الصورة الأصلية";
+              } catch (error) {
+                const message = document.createElement("p");
+                message.className = "hint";
+                message.textContent = error && error.message ? error.message : "تعذر فتح الصورة.";
+                item.appendChild(message);
+              } finally {
+                openOriginal.disabled = false;
+              }
+            });
+            const reviewer = document.createElement("input");
+            reviewer.type = "text";
+            reviewer.maxLength = 120;
+            reviewer.placeholder = "اسم / صفة المراجع الفني المستقل";
+            reviewer.setAttribute("aria-label", "المراجع الفني المستقل");
+            const evidence = document.createElement("textarea");
+            evidence.maxLength = 1000;
+            evidence.rows = 3;
+            evidence.placeholder = "مبررات القرار: ما الذي تمت مراجعته؟ ما الدليل؟ وما حدود الاستنتاج؟ (30 حرفًا على الأقل)";
+            evidence.setAttribute("aria-label", "دليل المراجعة الفنية");
+            const actions = document.createElement("div");
+            actions.className = "actions";
+            ["approved", "rejected"].forEach(decision => {
+              const button = document.createElement("button");
+              button.type = "button";
+              button.className = decision === "approved" ? "btn" : "btn secondary";
+              button.textContent = decision === "approved" ? "اعتماد تقني" : "رفض الملاحظة";
+              button.addEventListener("click", async () => {
+                button.disabled = true;
+                try {
+                  await memory.reviewImageObservation({
+                    observationId: candidate.id,
+                    reviewer: reviewer.value,
+                    evidenceSummary: evidence.value,
+                    sourceVerified: sourceCheck.checked,
+                    decision
+                  });
+                  await refreshLearningDashboard();
+                } catch (error) {
+                  const message = document.createElement("p");
+                  message.className = "hint";
+                  message.textContent = error && error.message ? error.message : "تعذرت مراجعة الملاحظة.";
+                  item.appendChild(message);
+                  button.disabled = false;
+                }
+              });
+              actions.appendChild(button);
+            });
+            item.append(openOriginal, sourceCheckLabel, reviewer, evidence, actions);
+          }
+          const eligibility = document.createElement("p");
+          eligibility.className = "hint";
+          eligibility.textContent = "حتى بعد الاعتماد التقني، لا تدخل الملاحظة تلقائيًا في التشخيص أو تدريب نموذج الرؤية.";
+          item.appendChild(eligibility);
+          host.appendChild(item);
+        });
+      }
+    } catch (error) {
+      host.textContent = "تعذر قراءة سجل التعلم المحلي: " + (error && error.message ? error.message : "خطأ غير معروف");
+    }
+  }
+
   async function refreshDocuments() {
     const docs = await library().list();
     const select = $("reviewDocumentSelect");
@@ -46,6 +181,7 @@
     section.className = "card document-workspace";
     section.innerHTML =
       '<h2>مراجعة الوثائق والأدلة التشخيصية</h2>' +
+      '<h3>سجل التعلم المحلي ومراجعة النتائج</h3><div id="learningReviewDashboard" aria-live="polite"><p class="hint">جارٍ تحميل حالة التعلم المحلي…</p></div>' +
       '<p class="hint">كل شيء يُحفظ محليًا على هذا الجهاز. يقبل التطبيق ملفات PDF التي يرفعها المستخدم دون فحص أو اعتماد قانوني للحقوق؛ ويتحمل المستخدم مسؤولية امتلاكه حق استخدام الملف. لا يصبح النص المستخرج دليلًا تشخيصيًا بمجرد استخراجه: يجب مراجعته فنيًا وربطه بالصفحة الأصلية ونطاق المعدة. أي تعديل على المراجعة الفنية أو نطاق الوثيقة يبطل اعتماد الادعاءات السابقة.</p>' +
       '<label for="reviewDocumentSelect">الوثيقة</label><select id="reviewDocumentSelect"><option value="">اختر وثيقة</option></select>' +
       '<label for="reviewManufacturer">الشركة المصنّعة</label><input id="reviewManufacturer" placeholder="مثال: Grundfos / ABB / Schneider Electric">' +
@@ -57,8 +193,8 @@
       '<label class="check"><input id="reviewDocumentApproved" type="checkbox"> اعتماد الوثيقة بعد المراجعة الفنية</label>' +
       '<button type="button" class="btn" id="saveDocumentReview">حفظ مراجعة الوثيقة</button><p id="documentReviewStatus" role="status" aria-live="polite"></p>' +
       '<hr><h3>استخراج ادعاء تشخيصي من صفحة محددة</h3>' +
-      '<p class="hint">اختر رقم صفحة PDF الأصلي، اعرض النص المستخرج، ثم اختصره إلى ادعاء واحد مع شروطه ووحداته. رقم الصفحة المطبوع يُسجل منفصلًا لأنه قد يختلف عن رقم صفحة الملف.</p>' +
-      '<label for="claimPage">رقم صفحة PDF الأصلي (يبدأ من 1)</label><input id="claimPage" type="number" min="1" step="1" placeholder="مثال: 42">' +
+      '<p class="hint">اختر صفحة PDF أو صورة المصدر (الصورة تعامل كصفحة 1)، اعرض النص المستخرج، ثم اختصره إلى ادعاء واحد مع شروطه ووحداته. يجب فتح المصدر الأصلي والتحقق بصريًا من OCR قبل الاعتماد.</p>' +
+      '<label for="claimPage">رقم صفحة PDF أو الصورة (الصورة = 1)</label><input id="claimPage" type="number" min="1" step="1" placeholder="مثال: 42">' +
       '<label for="claimPrintedPage">رقم الصفحة المطبوع داخل الدليل (اختياري)</label><input id="claimPrintedPage" placeholder="مثال: 37 أو A-12">' +
       '<button type="button" class="btn secondary" id="previewClaimPage">عرض النص المستخرج من الصفحة</button>' +
       '<button type="button" class="btn secondary" id="openClaimSourcePage">فتح صفحة PDF الأصلية للمقارنة</button>' +
@@ -76,6 +212,18 @@
       '<label for="claimNotes">ملاحظات التحقق</label><textarea id="claimNotes" rows="3" placeholder="تحقق من النص والسياق والطراز والوحدات والصفحة."></textarea>' +
       '<label class="check"><input id="claimApproved" type="checkbox"> اعتماد هذا الادعاء للاستخدام التشخيصي</label>' +
       '<button type="button" class="btn" id="savePageClaim">حفظ الادعاء المرتبط بالصفحة</button><p id="pageClaimStatus" role="status" aria-live="polite"></p>' +
+      '<hr><h3>تسجيل ملاحظة بصرية من صورة المعدة</h3>' +
+      '<p class="hint">هذه الخطوة تسجل ملاحظة بشرية مرتبطة بالصورة الأصلية؛ لا تستخدم OCR ولا تدّعي أن التطبيق اكتشف العيب بصريًا. كل ملاحظة مرشح يحتاج مراجعة فنية مستقلة، ولا يدخل تدريب نموذج الرؤية أو التشخيص تلقائيًا.</p>' +
+      '<div id="imageObservationForm" hidden>' +
+      '<button type="button" class="btn secondary" id="openImageObservationSource">فتح الصورة الأصلية للمراجعة</button>' +
+      '<label class="check"><input id="imageSourceVerified" type="checkbox" disabled> فتحت الصورة الأصلية وفحصت الجزء المصوّر</label>' +
+      '<label for="imageObservationComponent">المكوّن الظاهر</label><input id="imageObservationComponent" placeholder="مثال: bearing housing / mechanical seal">' +
+      '<label for="imageObservationCondition">الحالة المرصودة</label><select id="imageObservationCondition"><option value="unknown">غير محددة</option><option value="normal">مظهر طبيعي</option><option value="wear">تآكل / اهتراء</option><option value="corrosion">تآكل كيميائي / صدأ</option><option value="crack">شق / كسر</option><option value="leakage">أثر تسرب</option><option value="contamination">تلوث / ترسب</option><option value="overheating_sign">أثر حرارة ظاهر</option><option value="deformation">تشوه</option><option value="other">أخرى</option></select>' +
+      '<label for="imageObservationText">وصف ما تراه فقط</label><textarea id="imageObservationText" rows="3" placeholder="صف العلامة المرئية ومكانها دون استنتاج سبب غير مثبت."></textarea>' +
+      '<label for="imageObservationConfidence">ثقة الملاحظ البشري (ليست احتمالًا)</label><select id="imageObservationConfidence"><option value="low">منخفضة</option><option value="medium">متوسطة</option><option value="high">مرتفعة</option></select>' +
+      '<label for="imageObservationEvidence">سياق ودليل إضافي</label><textarea id="imageObservationEvidence" rows="3" placeholder="حالة المعدة وقت التصوير، زاوية التصوير، فحص مباشر أو قياس يؤيد الملاحظة."></textarea>' +
+      '<label for="imageObservationReviewer">المراجع / الفني</label><input id="imageObservationReviewer" placeholder="صفة المراجع أو دوره">' +
+      '<button type="button" class="btn" id="saveImageObservation">حفظ الملاحظة كمرشح تعلم محلي</button><p id="imageObservationStatus" role="status" aria-live="polite"></p></div>' +
       '<h3>الادعاءات المسجلة</h3><div id="reviewedClaimsList"></div>';
     host.appendChild(section);
 
@@ -108,6 +256,51 @@
     ["claimText", "claimFamily", "claimModel", "claimEvidenceClass"].forEach(id => {
       $(id).addEventListener("input", invalidateClaimReview);
       $(id).addEventListener("change", invalidateClaimReview);
+    });
+
+    async function updateImageObservationVisibility() {
+      const panel = $("imageObservationForm");
+      if (!panel) return;
+      const docs = await library().list();
+      const selected = docs.find(doc => doc.id === $("reviewDocumentSelect").value);
+      panel.hidden = !(selected && selected.sourceType === "image");
+      $("imageSourceVerified").checked = false;
+      $("imageSourceVerified").disabled = true;
+    }
+    $("reviewDocumentSelect").addEventListener("change", () => updateImageObservationVisibility());
+    $("openImageObservationSource").addEventListener("click", async () => {
+      try {
+        const id = $("reviewDocumentSelect").value;
+        const docs = await library().list();
+        const selected = docs.find(doc => doc.id === id && doc.sourceType === "image");
+        if (!selected) throw new Error("اختر صورة مستوردة أولًا.");
+        const opened = await library().openSourcePage(id, 1);
+        if (opened !== true) throw new Error("تعذر فتح الصورة الأصلية.");
+        $("imageSourceVerified").disabled = false;
+        status("imageObservationStatus", "تم فتح الصورة الأصلية. افحص المكوّن قبل تسجيل الملاحظة.");
+      } catch (error) {
+        status("imageObservationStatus", error.message);
+      }
+    });
+    $("saveImageObservation").addEventListener("click", async () => {
+      try {
+        const id = $("reviewDocumentSelect").value;
+        if (!$("imageSourceVerified").checked) throw new Error("افتح الصورة الأصلية وأكد فحصها أولًا.");
+        await window.MaintenanceLearningMemory.recordImageObservation({
+          documentId: id,
+          component: $("imageObservationComponent").value,
+          condition: $("imageObservationCondition").value,
+          observation: $("imageObservationText").value,
+          confidenceLabel: $("imageObservationConfidence").value,
+          evidenceSummary: $("imageObservationEvidence").value,
+          reviewer: $("imageObservationReviewer").value,
+          sourceVerified: true
+        });
+        status("imageObservationStatus", "حُفظت الملاحظة كمرشح محلي ينتظر مراجعة فنية. لم تدخل قاعدة الأعطال أو تدريب نموذج.");
+        await refreshLearningDashboard();
+      } catch (error) {
+        status("imageObservationStatus", error.message);
+      }
     });
     ["reviewDocumentSelect", "claimPage"].forEach(id => {
       $(id).addEventListener("change", () => {
@@ -151,10 +344,10 @@
           : "لم يُكتشف نمط واضح لقيم ووحدات أو رموز فنية؛ تحقق من الصفحة الأصلية يدويًا.";
         const methods = [...new Set(evidence.chunks.map(chunk => chunk.extractionMethod))];
         const confidences = evidence.chunks.map(chunk => chunk.ocrConfidence).filter(Number.isFinite);
-        currentPageHasOcr = methods.includes("ocr");
+        currentPageHasOcr = methods.some(method => method === "ocr" || method === "image-ocr");
         previewedPageKey = selectedPageKey();
         $("openClaimSourcePage").disabled = false;
-        status("claimPageStatus", "تم استخراج " + evidence.chunks.length + " مقطعًا من صفحة PDF " + evidence.pageNumber +
+        status("claimPageStatus", "تم استخراج " + evidence.chunks.length + " مقطعًا من المصدر، الصفحة " + evidence.pageNumber +
           " | الطريقة: " + methods.join(", ") +
           (confidences.length ? " | OCR confidence: " + Math.min(...confidences) + "–" + Math.max(...confidences) + "%" : "") +
           " | افتح الصفحة الأصلية وقارن الادعاء بالمصدر قبل اعتماده." +
@@ -192,7 +385,7 @@
         openedSourceKey = selectedReviewKey();
         $("claimSourcePageVerified").disabled = false;
         if (currentPageHasOcr) $("claimOcrVisuallyVerified").disabled = false;
-        status("claimPageStatus", "تم فتح صفحة PDF الأصلية. قارن الادعاء بالمصدر، ثم أكد مراجعة الصفحة. إذا كان النص مستخرجًا بـOCR فتحقق أيضًا من الأرقام والوحدات ورموز الموديل.");
+        status("claimPageStatus", "تم فتح المصدر الأصلي. قارن الادعاء بالصورة أو صفحة PDF، ثم أكد المراجعة. إذا كان النص مستخرجًا بـOCR فتحقق أيضًا من الأرقام والوحدات ورموز الموديل.");
       } catch (error) {
         openedSourceKey = "";
         status("claimPageStatus", error.message);
@@ -214,6 +407,7 @@
         });
         status("documentReviewStatus", "تم حفظ المراجعة محليًا. يلزم اعتماد ادعاء محدد وصفحته قبل إتاحته للتشخيص.");
         await refreshDocuments();
+        await refreshLearningDashboard();
       } catch (error) {
         status("documentReviewStatus", error.message);
       }
@@ -241,11 +435,13 @@
           ? "تم اعتماد الادعاء بعد اجتياز المراجعة الفنية وربطه بالصفحة الأصلية."
           : "تم حفظ الادعاء كمراجَع، لكنه غير مؤهل للاستخدام التشخيصي.");
         await refreshDocuments();
+        await refreshLearningDashboard();
       } catch (error) {
         status("pageClaimStatus", error.message);
       }
     });
     refreshDocuments().catch(error => status("documentReviewStatus", error.message));
+    refreshLearningDashboard(); updateImageObservationVisibility();
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", mount);

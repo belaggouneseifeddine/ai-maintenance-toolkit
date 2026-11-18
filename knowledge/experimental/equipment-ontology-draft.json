@@ -1,0 +1,725 @@
+{
+  "schemaVersion": 1,
+  "id": "industrial-equipment-ontology-draft",
+  "status": "experimental-not-runtime",
+  "createdAt": "2026-11-17",
+  "purpose": "Equipment and component vocabulary scaffold for later source-reviewed diagnostic cases. This file contains no fault assertions, repair instructions, thresholds, OEM claims, or diagnostic rules.",
+  "reusePolicy": "Project-authored taxonomy draft. No third-party equipment text or datasets copied. Review names and scope before any runtime promotion.",
+  "runtimeEligible": false,
+  "sourcePolicy": "AAS/IEC ontology repositories may inform future mapping only; no external ontology content has been imported into this draft.",
+  "families": [
+    {
+      "id": "centrifugal-pumps",
+      "label": "Centrifugal pumps",
+      "aliases": {
+        "ar": [
+          "مضخات الطرد المركزي"
+        ],
+        "en": [
+          "centrifugal pump"
+        ],
+        "fr": [
+          "pompe centrifuge"
+        ]
+      },
+      "components": [
+        "impeller",
+        "casing",
+        "shaft",
+        "shaft-sleeve",
+        "mechanical-seal",
+        "packing",
+        "bearings",
+        "coupling",
+        "wear-rings",
+        "suction-nozzle",
+        "discharge-nozzle",
+        "baseplate",
+        "seal-flush-system",
+        "suction-strainer"
+      ]
+    },
+    {
+      "id": "positive-displacement-pumps",
+      "label": "Positive-displacement pumps",
+      "aliases": {
+        "ar": [
+          "مضخات الإزاحة الموجبة"
+        ],
+        "en": [
+          "positive displacement pump"
+        ],
+        "fr": [
+          "pompe volumetrique"
+        ]
+      },
+      "components": [
+        "rotors-or-gears",
+        "pump-head",
+        "cylinder",
+        "piston-or-diaphragm",
+        "check-valves",
+        "relief-valve",
+        "shaft",
+        "bearings",
+        "seals",
+        "drive-coupling"
+      ]
+    },
+    {
+      "id": "electric-motors",
+      "label": "Electric motors",
+      "aliases": {
+        "ar": [
+          "محركات كهربائية"
+        ],
+        "en": [
+          "electric motor"
+        ],
+        "fr": [
+          "moteur electrique"
+        ]
+      },
+      "components": [
+        "stator",
+        "rotor",
+        "windings",
+        "air-gap",
+        "bearings",
+        "cooling-fan",
+        "terminal-box",
+        "shaft",
+        "frame",
+        "insulation-system"
+      ]
+    },
+    {
+      "id": "bearings",
+      "label": "Rolling-element and plain bearings",
+      "aliases": {
+        "ar": [
+          "محامل",
+          "رولمان"
+        ],
+        "en": [
+          "bearing"
+        ],
+        "fr": [
+          "roulement",
+          "palier"
+        ]
+      },
+      "components": [
+        "inner-ring",
+        "outer-ring",
+        "rolling-elements",
+        "cage",
+        "raceway",
+        "lubricant",
+        "housing",
+        "seals"
+      ]
+    },
+    {
+      "id": "gearboxes",
+      "label": "Gearboxes and reducers",
+      "aliases": {
+        "ar": [
+          "علب التروس",
+          "مخفضات السرعة"
+        ],
+        "en": [
+          "gearbox",
+          "speed reducer"
+        ],
+        "fr": [
+          "boite de vitesses",
+          "reducteur"
+        ]
+      },
+      "components": [
+        "gears",
+        "shafts",
+        "bearings",
+        "housing",
+        "lubrication-system",
+        "seals",
+        "couplings",
+        "breather",
+        "inspection-cover"
+      ]
+    },
+    {
+      "id": "compressors",
+      "label": "Industrial compressors",
+      "aliases": {
+        "ar": [
+          "ضواغط صناعية"
+        ],
+        "en": [
+          "industrial compressor"
+        ],
+        "fr": [
+          "compresseur industriel"
+        ]
+      },
+      "components": [
+        "air-end-or-cylinder",
+        "rotors",
+        "valves",
+        "pistons",
+        "bearings",
+        "cooler",
+        "separator",
+        "filters",
+        "lubrication-system",
+        "drive-motor",
+        "unloader"
+      ]
+    },
+    {
+      "id": "industrial-fans",
+      "label": "Industrial fans and blowers",
+      "aliases": {
+        "ar": [
+          "مراوح صناعية"
+        ],
+        "en": [
+          "industrial fan",
+          "blower"
+        ],
+        "fr": [
+          "ventilateur industriel",
+          "soufflante"
+        ]
+      },
+      "components": [
+        "impeller-or-wheel",
+        "blades",
+        "shaft",
+        "bearings",
+        "housing",
+        "inlet-cone",
+        "outlet-damper",
+        "drive-belt",
+        "motor",
+        "coupling"
+      ]
+    },
+    {
+      "id": "hydraulic-systems",
+      "label": "Hydraulic systems",
+      "aliases": {
+        "ar": [
+          "أنظمة هيدروليكية"
+        ],
+        "en": [
+          "hydraulic system"
+        ],
+        "fr": [
+          "systeme hydraulique"
+        ]
+      },
+      "components": [
+        "reservoir",
+        "hydraulic-pump",
+        "directional-valve",
+        "pressure-relief-valve",
+        "actuator-cylinder",
+        "filter",
+        "accumulator",
+        "hoses",
+        "cooler",
+        "pressure-sensor",
+        "flow-sensor"
+      ]
+    },
+    {
+      "id": "pneumatic-systems",
+      "label": "Pneumatic systems",
+      "aliases": {
+        "ar": [
+          "أنظمة نيوماتيكية",
+          "هوائية"
+        ],
+        "en": [
+          "pneumatic system"
+        ],
+        "fr": [
+          "systeme pneumatique"
+        ]
+      },
+      "components": [
+        "air-preparation-unit",
+        "compressor-supply",
+        "directional-valve",
+        "regulator",
+        "filter",
+        "lubricator",
+        "cylinder",
+        "actuator",
+        "tubing",
+        "silencer",
+        "pressure-switch"
+      ]
+    },
+    {
+      "id": "industrial-valves",
+      "label": "Industrial valves",
+      "aliases": {
+        "ar": [
+          "صمامات صناعية"
+        ],
+        "en": [
+          "industrial valve"
+        ],
+        "fr": [
+          "vanne industrielle"
+        ]
+      },
+      "components": [
+        "body",
+        "bonnet",
+        "trim",
+        "seat",
+        "disc-or-plug",
+        "stem",
+        "packing",
+        "actuator",
+        "positioner",
+        "solenoid",
+        "limit-switch"
+      ]
+    },
+    {
+      "id": "plc",
+      "label": "Programmable logic controllers",
+      "aliases": {
+        "ar": [
+          "PLC",
+          "متحكم منطقي قابل للبرمجة"
+        ],
+        "en": [
+          "programmable logic controller"
+        ],
+        "fr": [
+          "automate programmable"
+        ]
+      },
+      "components": [
+        "cpu",
+        "power-supply",
+        "digital-input-module",
+        "digital-output-module",
+        "analog-input-module",
+        "analog-output-module",
+        "communication-module",
+        "backplane",
+        "memory",
+        "firmware"
+      ]
+    },
+    {
+      "id": "hmi",
+      "label": "Human-machine interfaces",
+      "aliases": {
+        "ar": [
+          "HMI",
+          "واجهة تشغيل"
+        ],
+        "en": [
+          "human machine interface"
+        ],
+        "fr": [
+          "interface homme machine"
+        ]
+      },
+      "components": [
+        "display",
+        "touch-panel",
+        "processor",
+        "communication-interface",
+        "runtime-project",
+        "alarm-view",
+        "trend-view",
+        "power-supply"
+      ]
+    },
+    {
+      "id": "scada",
+      "label": "SCADA systems",
+      "aliases": {
+        "ar": [
+          "SCADA",
+          "نظام إشراف وتحكم"
+        ],
+        "en": [
+          "SCADA"
+        ],
+        "fr": [
+          "systeme SCADA"
+        ]
+      },
+      "components": [
+        "operator-station",
+        "server",
+        "historian",
+        "communication-gateway",
+        "alarm-server",
+        "tag-database",
+        "network-switch",
+        "remote-terminal-unit"
+      ]
+    },
+    {
+      "id": "sensors-and-instrumentation",
+      "label": "Sensors and instrumentation",
+      "aliases": {
+        "ar": [
+          "حساسات",
+          "أجهزة قياس"
+        ],
+        "en": [
+          "industrial sensor",
+          "instrumentation"
+        ],
+        "fr": [
+          "capteur industriel",
+          "instrumentation"
+        ]
+      },
+      "components": [
+        "pressure-transmitter",
+        "temperature-sensor",
+        "flow-meter",
+        "level-transmitter",
+        "vibration-sensor",
+        "proximity-sensor",
+        "limit-switch",
+        "signal-conditioner",
+        "instrument-cable"
+      ]
+    },
+    {
+      "id": "actuators",
+      "label": "Industrial actuators",
+      "aliases": {
+        "ar": [
+          "مشغلات صناعية"
+        ],
+        "en": [
+          "industrial actuator"
+        ],
+        "fr": [
+          "actionneur industriel"
+        ]
+      },
+      "components": [
+        "electric-actuator",
+        "pneumatic-actuator",
+        "hydraulic-actuator",
+        "servo-drive",
+        "motor",
+        "position-feedback",
+        "gear-train",
+        "limit-switch"
+      ]
+    },
+    {
+      "id": "hvac",
+      "label": "HVAC systems",
+      "aliases": {
+        "ar": [
+          "أنظمة HVAC",
+          "تكييف وتهوية"
+        ],
+        "en": [
+          "HVAC"
+        ],
+        "fr": [
+          "CVC"
+        ]
+      },
+      "components": [
+        "air-handling-unit",
+        "fan",
+        "filter",
+        "heating-coil",
+        "cooling-coil",
+        "damper",
+        "valve",
+        "pump",
+        "duct",
+        "sensor",
+        "controller"
+      ]
+    },
+    {
+      "id": "refrigeration",
+      "label": "Industrial refrigeration",
+      "aliases": {
+        "ar": [
+          "تبريد صناعي"
+        ],
+        "en": [
+          "industrial refrigeration"
+        ],
+        "fr": [
+          "refrigeration industrielle"
+        ]
+      },
+      "components": [
+        "compressor",
+        "condenser",
+        "evaporator",
+        "expansion-valve",
+        "refrigerant-circuit",
+        "receiver",
+        "oil-separator",
+        "pressure-control",
+        "defrost-system"
+      ]
+    },
+    {
+      "id": "boilers",
+      "label": "Industrial boilers",
+      "aliases": {
+        "ar": [
+          "غلايات صناعية"
+        ],
+        "en": [
+          "industrial boiler"
+        ],
+        "fr": [
+          "chaudiere industrielle"
+        ]
+      },
+      "components": [
+        "burner",
+        "combustion-chamber",
+        "heat-transfer-surfaces",
+        "feedwater-pump",
+        "level-control",
+        "safety-valve",
+        "blowdown-system",
+        "flue-gas-path",
+        "draft-fan"
+      ]
+    },
+    {
+      "id": "heat-exchangers",
+      "label": "Heat exchangers",
+      "aliases": {
+        "ar": [
+          "مبادلات حرارية"
+        ],
+        "en": [
+          "heat exchanger"
+        ],
+        "fr": [
+          "echangeur thermique"
+        ]
+      },
+      "components": [
+        "shell",
+        "tube-bundle",
+        "plates",
+        "gaskets",
+        "baffles",
+        "headers",
+        "nozzles",
+        "vents",
+        "drains"
+      ]
+    },
+    {
+      "id": "conveyors",
+      "label": "Conveyors and belt systems",
+      "aliases": {
+        "ar": [
+          "سيور ناقلة",
+          "ناقلات"
+        ],
+        "en": [
+          "conveyor",
+          "belt conveyor"
+        ],
+        "fr": [
+          "convoyeur",
+          "transporteur a bande"
+        ]
+      },
+      "components": [
+        "belt-or-chain",
+        "drive-pulley",
+        "tail-pulley",
+        "idler",
+        "bearing",
+        "gearbox",
+        "motor",
+        "take-up",
+        "scraper",
+        "tracking-device"
+      ]
+    },
+    {
+      "id": "industrial-robots",
+      "label": "Industrial robots",
+      "aliases": {
+        "ar": [
+          "روبوتات صناعية"
+        ],
+        "en": [
+          "industrial robot"
+        ],
+        "fr": [
+          "robot industriel"
+        ]
+      },
+      "components": [
+        "robot-arm",
+        "joints",
+        "servo-motors",
+        "gearboxes",
+        "encoder",
+        "end-effector",
+        "controller",
+        "safety-scanner",
+        "teach-pendant"
+      ]
+    },
+    {
+      "id": "cnc-machines",
+      "label": "CNC machine tools",
+      "aliases": {
+        "ar": [
+          "ماكينات CNC"
+        ],
+        "en": [
+          "CNC machine"
+        ],
+        "fr": [
+          "machine CNC"
+        ]
+      },
+      "components": [
+        "spindle",
+        "tool-changer",
+        "axis-drive",
+        "ballscrew",
+        "linear-guide",
+        "encoder",
+        "coolant-system",
+        "lubrication-system",
+        "controller",
+        "workholding"
+      ]
+    },
+    {
+      "id": "chemical-process",
+      "label": "Chemical process equipment",
+      "aliases": {
+        "ar": [
+          "معدات العمليات الكيميائية"
+        ],
+        "en": [
+          "chemical process equipment"
+        ],
+        "fr": [
+          "equipement de procede chimique"
+        ]
+      },
+      "components": [
+        "reactor",
+        "agitator",
+        "vessel",
+        "column",
+        "pump",
+        "compressor",
+        "heat-exchanger",
+        "instrument-loop",
+        "pipework",
+        "control-valve"
+      ]
+    },
+    {
+      "id": "oil-and-gas",
+      "label": "Oil and gas equipment",
+      "aliases": {
+        "ar": [
+          "معدات النفط والغاز"
+        ],
+        "en": [
+          "oil and gas equipment"
+        ],
+        "fr": [
+          "equipement petro-gazier"
+        ]
+      },
+      "components": [
+        "wellhead",
+        "separator",
+        "pipeline",
+        "compressor",
+        "pump",
+        "choke-valve",
+        "metering-skid",
+        "gas-turbine",
+        "safety-instrumented-system"
+      ]
+    },
+    {
+      "id": "power-generation",
+      "label": "Power generation equipment",
+      "aliases": {
+        "ar": [
+          "معدات توليد الطاقة"
+        ],
+        "en": [
+          "power generation equipment"
+        ],
+        "fr": [
+          "equipement de production electrique"
+        ]
+      },
+      "components": [
+        "turbine",
+        "generator",
+        "boiler",
+        "condenser",
+        "feedwater-system",
+        "transformer",
+        "switchgear",
+        "excitation-system",
+        "cooling-system"
+      ]
+    },
+    {
+      "id": "water-and-wastewater",
+      "label": "Water and wastewater equipment",
+      "aliases": {
+        "ar": [
+          "معدات المياه ومعالجة الصرف"
+        ],
+        "en": [
+          "water and wastewater equipment"
+        ],
+        "fr": [
+          "equipement eau et eaux usees"
+        ]
+      },
+      "components": [
+        "intake-screen",
+        "pump",
+        "blower",
+        "mixer",
+        "filter",
+        "membrane",
+        "chemical-dosing-system",
+        "clarifier",
+        "valve",
+        "instrumentation"
+      ]
+    }
+  ]
+}

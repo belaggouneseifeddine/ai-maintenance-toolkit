@@ -24,4 +24,6 @@ jobs:
         with:
           node-version: "24"
       - name: Run unit and integration tests
-        run: node --test tests/*.test.cjs
+        run: |
+          node --test tests/*.test.cjs
+          node --test tests/*.test.mjs
