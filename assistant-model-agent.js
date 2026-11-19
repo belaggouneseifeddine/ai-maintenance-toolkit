@@ -63,7 +63,9 @@
         let contextText;
         try { contextText = JSON.stringify(localContext || {}); }
         catch (_) { contextText = "{\"contextStatus\":\"unserializable_local_context\"}"; }
-        if (contextText.length > MAX_CONTEXT_CHARS) contextText = contextText.slice(0, MAX_CONTEXT_CHARS);
+        if (contextText.length > MAX_CONTEXT_CHARS) {
+          contextText = JSON.stringify({ contextStatus:"truncated", excerpt:contextText.slice(0, MAX_CONTEXT_CHARS - 120) });
+        }
         const messages = [{
           role: "system",
           content: (systemInstruction + "\n\nAllowed local tools (one call at a time): " +
