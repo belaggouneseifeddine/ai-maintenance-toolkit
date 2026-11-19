@@ -1,11 +1,16 @@
-name: Android local model host POC (branch build)
+name: Android local assistant integration CI
 
 on:
   push:
     branches:
       - "feature/android-local-llm-host-poc"
+      - "feature/android-local-assistant-integration-2026-11-19"
     paths:
       - "android-local-host/**"
+      - "*.js"
+      - "*.html"
+      - "*.css"
+      - "*.json"
       - ".github/workflows/android-local-host.yml"
   workflow_dispatch:
 
@@ -31,7 +36,7 @@ jobs:
       - name: Upload debug APK
         uses: actions/upload-artifact@v4
         with:
-          name: maintenance-local-model-host-debug
+          name: maintenance-local-assistant-debug
           path: android-local-host/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 7
