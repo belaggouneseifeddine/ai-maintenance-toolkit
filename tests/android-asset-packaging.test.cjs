@@ -30,5 +30,5 @@ test("new assistant case-context module is loaded before local UI and cached off
   assert.match(sw, /"\.\/assistant-case-context\.js"/);
   assert.match(html, /if \(!window\.MaintenanceNativeLLM\)[\s\S]*agent-ui\.js/);
   assert.doesNotMatch(gradle, /"agent-ui\.js"/);
-  assert.match(sw, /asset !== "\.\/agent-ui\.js"/);
+  assert.match(sw, /asset === "\.\/agent-ui\.js"/);
 });
