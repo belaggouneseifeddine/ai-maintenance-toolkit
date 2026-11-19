@@ -174,6 +174,7 @@ test("semantic PDF search persists local multilingual vectors and keeps lexical 
   assert.ok(semantic.includes("indexChunks"));
   assert.ok(semantic.includes("textFingerprint === fingerprint"), "unchanged chunks must not be re-embedded");
   assert.ok(semantic.includes("cosine(queryVector, row.vector)"));
+  assert.ok(semantic.includes('store.index("modelVersion").getAll(MODEL_VERSION)'), "search must query only vectors for the active embedding model");
   assert.ok(semantic.includes("useBrowserCache = true"));
   assert.ok(semantic.includes("useWasmCache = true"));
   assert.ok(semantic.includes('dtype: "q8"'));
