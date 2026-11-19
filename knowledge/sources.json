@@ -178,6 +178,26 @@
   ],
   "reference_only_documents": [
     {
+     "id":"grundfos-paco-vl-vls-manual-5104627",
+     "title":"PACO VL/VLS Vertical Inline Centrifugal Pumps — Installation and Operating Instructions",
+     "publisher":"Grundfos / PACO",
+     "url":"https://api.grundfos.com/literature/Grundfosliterature-5104627.pdf",
+     "sectionsReviewed":["Section 12.1 Cause codes","Section 12.2 Possible causes","Printed page 15"],
+     "equipmentScope":"PACO VL and VLS vertical inline centrifugal pumps only; exact product code and nameplate applicability required.",
+     "claimsSupported":[
+      "For the manual's insufficient-flow symptom, the cause-code table references priming/suction-head/air conditions, suction valve/strainer/foot valve, drive speed and rotation, system head and fluid properties, parallel-pump suitability, impeller obstruction/damage, wear-ring condition and possible internal leakage.",
+      "The manual presents these as possible causes for the covered VL/VLS family; it does not establish a universal diagnostic order or general numeric limits."
+     ],
+     "limitations":[
+      "Do not apply this matrix to other pump families without their own documentation.",
+      "No universal flow, pressure, speed, clearance or viscosity thresholds are supplied by the reviewed troubleshooting section.",
+      "No open reuse license or redistribution permission was verified."
+     ],
+     "licenseStatus":"No open reuse license verified; reference-only; link to the original PDF and do not copy its tables or text.",
+     "fetchAllowed":false,
+     "reviewStatus":"source-passage-reviewed-2026-11-19"
+    },
+    {
       "id": "ksb-mdx-maintenance-manual-2021-8-01",
       "title": "MDX Maintenance Manual — Installation/Operating Manual 2021.8/01-US",
       "publisher": "GIW / KSB",
