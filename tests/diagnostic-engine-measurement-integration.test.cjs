@@ -2,13 +2,13 @@ const test=require("node:test");const assert=require("node:assert/strict");
 require("../diagnostic-measurement-rules.js");
 require("../diagnostic-engine.js");
 const Engine=global.MaintenanceDiagnosticEngine;
-const verifiedRule={id:"suction-low",measurementName:"Suction pressure",unit:"bar",operator:"lt",threshold:1.2,operatingCondition:"steady state",
+const verifiedRule={id:"suction-low",measurementName:"Suction pressure",unit:"bar",operator:"lt",threshold:1.2,operatingCondition:"steady state",modelScope:"Pump-X",
  reviewStatus:"approved",sourceStatus:"verified",sourcePageVerified:true,sourceRef:{documentId:"manual-1",pageNumber:18}};
 function library(withRule){return {faults:[
  {id:"fault-a",equipmentType:"pump",symptoms:["low_flow"],title:{en:"Candidate A"},keywords:{},causes:[],measurementRules:withRule?[verifiedRule]:[]},
  {id:"fault-b",equipmentType:"pump",symptoms:["low_flow"],title:{en:"Candidate B"},keywords:{},causes:[]}
 ]};}
-const input=value=>({equipmentType:"pump",symptom:"low_flow",language:"en",measurements:[
+const input=value=>({equipmentType:"pump",model:"Pump-X",symptom:"low_flow",language:"en",measurements:[
  {name:"Suction pressure",value,unit:"bar",sourceType:"direct_measurement",sensorStatus:"healthy",qualityFlag:"good",operatingCondition:"steady state",timestamp:"2026-11-19T10:00:00Z"}
 ]});
 test("verified measurement evidence breaks otherwise equal diagnostic candidate scores",()=>{
