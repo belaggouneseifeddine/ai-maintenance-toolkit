@@ -940,15 +940,22 @@
         renderEvidenceButton();
         return;
       }
-      addMessage("assistant", copy("تم حفظ الملاحظة ضمن سياق المحادثة، لكن مسار الأسئلة الموجّه اكتمل. لا أغيّر فرضياته دون مسار أو دليل جديد قابل للتقييم.", "The note was retained, but the guided question flow is complete. I will not change its hypotheses without a supported path or new assessable evidence.", "La note est conservée, mais le parcours guidé est terminé. Je ne modifierai pas ses hypothèses sans parcours pris en charge ou nouvel élément évaluable."));
+      addMessage("assistant", copy("انتهى مسار الأسئلة الموجّه. سأعيد الآن تقييم الحالة العامة مع الملاحظة الجديدة؛ ستبقى فرضيات المسار الموجّه منفصلة عن نتيجة المحرك العام.", "The guided flow is complete. I will now rerun the general assessment with this new note; guided-flow hypotheses remain separate from the general engine result.", "Le parcours guidé est terminé. Je relance l’évaluation générale avec cette nouvelle note ; les hypothèses guidées restent distinctes du résultat du moteur général."));
+      runLocalDiagnosticAssessment().catch(() => {
+        addMessage("assistant", copy("تعذر إعادة التقييم العام؛ بقيت الملاحظة محفوظة ولم تُضف إلى أدلة الفرضيات الموجّهة.", "The general assessment could not be rerun; the note remains saved and was not added to the guided hypotheses.", "Impossible de relancer l’évaluation générale ; la note reste enregistrée sans être ajoutée aux hypothèses guidées."));
+      });
       renderEvidenceButton();
       return;
     }
     const result = root.MaintenanceDiagnosticSessionUI.answerText(value);
     if (!result || !result.ok) {
       notes.push(value);
-      addMessage("assistant", copy("احتفظت بملاحظتك، لكنها لا تطابق إجابة محددة بما يكفي لتحديث الفرضيات بأمان. اختر أحد الردود المقترحة أدناه، أو أعد صياغة المعلومة.", "I retained your note, but it does not map clearly enough to a known answer to update the hypotheses safely. Choose one of the suggested replies or rephrase the observation.", "Votre note est conservée, mais elle ne correspond pas assez clairement à une réponse connue pour mettre à jour les hypothèses en toute sécurité. Choisissez une réponse proposée ou reformulez l’observation."));
+      addMessage("assistant", copy("لم تطابق الملاحظة إجابة في المسار الموجّه. سأحتفظ بها وأعيد تقييم الحالة عبر المحرك العام بدل تجاهلها أو تحويلها قسرًا إلى دليل موجّه.", "The note did not match an answer in the guided flow. I will retain it and rerun the general engine rather than ignore it or force-map it to guided evidence.", "La note ne correspond pas à une réponse du parcours guidé. Je la conserve et relance le moteur général au lieu de l’ignorer ou de la convertir de force en preuve guidée."));
+      runLocalDiagnosticAssessment().catch(() => {
+        addMessage("assistant", copy("تعذر تشغيل التقييم العام بهذه الملاحظة. لم أغيّر ترتيب فرضيات المسار الموجّه.", "The general assessment could not run with this note. Guided-flow hypothesis ordering was not changed.", "Impossible d’exécuter l’évaluation générale avec cette note. Le classement guidé n’a pas été modifié."));
+      });
       renderReplies();
+      renderEvidenceButton();
       return;
     }
     const updated = currentSession();
