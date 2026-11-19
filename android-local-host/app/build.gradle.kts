@@ -35,6 +35,22 @@ android {
 }
 
 dependencies {
+    implementation("androidx.webkit:webkit:1.12.1")
     // Google Maven Android artifact. CPU model compatibility is validated on-device separately.
     implementation("com.google.ai.edge.litertlm:litertlm-android:0.19.1")
 }
+
+
+// Package the existing PWA as local WebView assets; the APK does not need INTERNET permission.
+val repositoryRoot = rootProject.projectDir.parentFile
+val syncMaintenanceWebAssets = tasks.register<Copy>("syncMaintenanceWebAssets") {
+    from(repositoryRoot) {
+        include("**/*.html", "**/*.js", "**/*.css", "**/*.json", "**/*.md", "**/*.svg",
+            "**/*.png", "**/*.jpg", "**/*.jpeg", "**/*.webp", "**/*.ico", "**/*.woff2")
+        exclude(".git/**", ".github/**", "node_modules/**", "android-local-host/**",
+            "tests/**", "docs/**", "coverage/**", "dist/**", "build/**",
+            "**/*.pdf", "**/*.zip", "**/*.apk", "**/*.jar", "**/*.class")
+    }
+    into(layout.projectDirectory.dir("src/main/assets/www"))
+}
+tasks.named("preBuild").configure { dependsOn(syncMaintenanceWebAssets) }
