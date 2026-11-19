@@ -5,12 +5,14 @@ on:
     branches:
       - "feature/android-local-llm-host-poc"
       - "feature/android-local-assistant-integration-2026-11-19"
+      - "refactor/local-first-codebase-cleanup-2026-11-19"
     paths:
       - "android-local-host/**"
       - "*.js"
       - "*.html"
       - "*.css"
       - "*.json"
+      - "scripts/vendor-document-runtime.sh"
       - ".github/workflows/android-local-host.yml"
   workflow_dispatch:
 
