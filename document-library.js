@@ -662,7 +662,13 @@
       button.className = "btn secondary";
       button.textContent = "تفعيل البحث الدلالي المحلي (تنزيل أولي ~118 MB)";
       button.title = "يعمل النموذج على الجهاز ويُخزّن محليًا بعد تنزيله لأول مرة.";
-      button.addEventListener("click", () => enableSemanticSearch(button).catch(() => {}));
+      if (window.MaintenanceNativeLLM) {
+        button.disabled = true;
+        button.textContent = "البحث الدلالي يحتاج نموذج تضمين محليًا";
+        button.title = "لم تُضمّن أوزان نموذج التضمين بعد. لن يتم تنزيل نموذج خارجي في تطبيق Android؛ البحث اللفظي المحلي متاح.";
+      } else {
+        button.addEventListener("click", () => enableSemanticSearch(button).catch(() => {}));
+      }
       searchForm.appendChild(button);
     }
     $("documentImportForm").addEventListener("submit", async event => {
