@@ -4,321 +4,247 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.SystemClock
-import android.view.Gravity
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.LinearLayout
-import android.widget.ScrollView
-import android.widget.TextView
-import com.google.ai.edge.litertlm.Backend
-import com.google.ai.edge.litertlm.Contents
-import com.google.ai.edge.litertlm.Conversation
-import com.google.ai.edge.litertlm.ConversationConfig
-import com.google.ai.edge.litertlm.Engine
-import com.google.ai.edge.litertlm.EngineConfig
-import com.google.ai.edge.litertlm.Message
-import com.google.ai.edge.litertlm.MessageCallback
-import com.google.ai.edge.litertlm.SamplerConfig
+import android.webkit.JavascriptInterface
+import android.webkit.WebResourceRequest
+import android.webkit.WebView
+import android.widget.Toast
+import androidx.webkit.WebViewAssetLoader
+import androidx.webkit.WebViewClientCompat
+import com.google.ai.edge.litertlm.*
+import org.json.JSONArray
+import org.json.JSONObject
 import java.io.File
-import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 class MainActivity : Activity() {
     companion object {
         private const val PICK_MODEL_REQUEST = 4102
         private const val MAX_MODEL_BYTES = 2L * 1024L * 1024L * 1024L
-        private const val VALVE_TEST = """أجب بالعربية فقط:
-ما وظيفة صمام عدم الرجوع في خط طرد مضخة؟
-أجب في ثلاث نقاط قصيرة."""
-        private const val PUMP_TEST = """مضخة طرد مركزي تعمل، لكن التدفق انخفض بشكل واضح.
-المعطيات:
-- ضغط السحب المقاس طبيعي.
-- ضغط الطرد أقل من المعتاد.
-- سرعة المحرك ثابتة.
-- لا توجد اهتزازات غير طبيعية.
-
-اذكر ثلاث فرضيات قابلة للفحص، وافصل الحقائق عن الفرضيات.
-اختر ثلاثة قياسات فقط ورتبها حسب قيمتها التشخيصية.
-وضح ما الذي لا يمكن استنتاجه من البيانات الحالية.
-لا تستبعد عطلًا بسبب غياب الاهتزازات أو ثبات السرعة.
-لا تجزم بسبب دون أدلة كافية."""
+        private const val MODEL_ID = "qwen3.5-0.8b-int8-cpu"
+        private const val APP_URL = "https://appassets.androidplatform.net/assets/www/index.html"
     }
 
-    // One serial executor owns all Engine and Conversation operations.
-    private val worker: ExecutorService = Executors.newSingleThreadExecutor()
-    private var selectedModel: File? = null
-    private var engine: Engine? = null
-    private var conversation: Conversation? = null
-
-    private lateinit var status: TextView
-    private lateinit var prompt: EditText
-    private lateinit var output: TextView
-    private lateinit var loadButton: Button
-    private lateinit var sendButton: Button
+    private val worker = Executors.newSingleThreadExecutor()
+    private val modelFile by lazy { File(File(filesDir, "models"), "qwen3.5-0.8b.litertlm") }
+    @Volatile private var modelReady = false
+    @Volatile private var busy = false
+    private var webView: WebView? = null
+    private var pickerCallback: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        buildUi()
-        status.text = "اختبار محلي • CPU فقط • دون اتصال شبكي"
-        prompt.setText(VALVE_TEST)
-    }
-
-    private fun buildUi() {
-        val root = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL
-            setPadding(24, 24, 24, 24)
+        val loader = WebViewAssetLoader.Builder()
+            .addPathHandler("/assets/", WebViewAssetLoader.AssetsPathHandler(this))
+            .build()
+        val view = WebView(this)
+        webView = view
+        view.layoutParams = ViewGroup.LayoutParams(-1, -1)
+        view.settings.apply {
+            javaScriptEnabled = true
+            domStorageEnabled = true
+            allowFileAccess = false
+            allowContentAccess = false
+            javaScriptCanOpenWindowsAutomatically = false
+            setSupportMultipleWindows(false)
+            mixedContentMode = android.webkit.WebSettings.MIXED_CONTENT_NEVER_ALLOW
         }
-        val title = TextView(this).apply {
-            text = "اختبار نموذج الصيانة المحلي"
-            textSize = 21f
-        }
-        status = TextView(this).apply { textSize = 14f }
-        val pickButton = Button(this).apply {
-            text = "1. اختر ملف النموذج (.litertlm)"
-            setOnClickListener {
-                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-                    addCategory(Intent.CATEGORY_OPENABLE)
-                    type = "*/*"
-                }
-                startActivityForResult(intent, PICK_MODEL_REQUEST)
+        view.addJavascriptInterface(NativeBridge(), "MaintenanceAndroidHost")
+        view.webViewClient = object : WebViewClientCompat() {
+            override fun shouldInterceptRequest(view: WebView, request: WebResourceRequest) =
+                loader.shouldInterceptRequest(request.url)
+            override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
+                val u = request.url
+                return !(u.scheme == "https" && u.host == "appassets.androidplatform.net")
             }
         }
-        loadButton = Button(this).apply {
-            text = "2. تحميل النموذج على CPU"
-            isEnabled = false
-            setOnClickListener { loadModel() }
-        }
-        val testButtons = LinearLayout(this).apply {
-            orientation = LinearLayout.HORIZONTAL
-        }
-        val valveButton = Button(this).apply {
-            text = "اختبار الصمام"
-            setOnClickListener { prompt.setText(VALVE_TEST) }
-        }
-        val pumpButton = Button(this).apply {
-            text = "اختبار المضخة"
-            setOnClickListener { prompt.setText(PUMP_TEST) }
-        }
-        testButtons.addView(valveButton, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f))
-        testButtons.addView(pumpButton, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f))
-
-        prompt = EditText(this).apply {
-            hint = "اكتب سؤال الصيانة هنا"
-            minLines = 4
-            gravity = Gravity.TOP
-        }
-        sendButton = Button(this).apply {
-            text = "3. أرسل السؤال إلى النموذج المحلي"
-            isEnabled = false
-            setOnClickListener { generate() }
-        }
-        output = TextView(this).apply {
-            textSize = 16f
-            setTextIsSelectable(true)
-            text = "ستظهر إجابة النموذج هنا."
-        }
-        val scroll = ScrollView(this).apply {
-            addView(output, ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            ))
-        }
-        root.addView(title)
-        root.addView(status)
-        root.addView(pickButton)
-        root.addView(loadButton)
-        root.addView(testButtons)
-        root.addView(prompt, LinearLayout.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
-        ))
-        root.addView(sendButton)
-        root.addView(scroll, LinearLayout.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f
-        ))
-        setContentView(root)
+        setContentView(view)
+        view.loadUrl(APP_URL)
     }
 
-    @Deprecated("Use Activity Result APIs in the production host")
+    private inner class NativeBridge {
+        @JavascriptInterface fun getCapabilities() = JSONObject()
+            .put("executionMode", "local").put("localOnly", true)
+            .put("runtime", "LiteRT-LM Android 0.19.1 / CPU")
+            .put("supportedOperations", JSONArray(listOf("status", "load", "unload", "generate"))).toString()
+
+        @JavascriptInterface fun getStatus() = JSONObject()
+            .put("modelLoaded", modelReady && modelFile.isFile)
+            .put("modelId", if (modelReady && modelFile.isFile) MODEL_ID else JSONObject.NULL)
+            .put("busy", busy).put("backend", "CPU").toString()
+
+        @JavascriptInterface fun invoke(method: String, payload: String, callbackId: String) {
+            if (!callbackId.matches(Regex("^[a-zA-Z0-9_-]{1,80}$"))) return
+            when (method) {
+                "pickModel" -> runOnUiThread {
+                    pickerCallback = callbackId
+                    val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                        addCategory(Intent.CATEGORY_OPENABLE)
+                        type = "*/*"
+                    }
+                    startActivityForResult(intent, PICK_MODEL_REQUEST)
+                }
+                "loadModel" -> loadModel(callbackId)
+                "unloadModel" -> {
+                    modelReady = false
+                    complete(callbackId, JSONObject().put("ok", true).put("status", "unloaded"))
+                }
+                "generate" -> generate(payload, callbackId)
+                else -> complete(callbackId, failure("unsupported_operation"))
+            }
+        }
+    }
+
+    @Suppress("DEPRECATION")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode != PICK_MODEL_REQUEST || resultCode != RESULT_OK) return
-        val uri = data?.data ?: return
-        status.text = "جارٍ نسخ النموذج إلى مساحة التطبيق الخاصة…"
-        loadButton.isEnabled = false
+        if (requestCode != PICK_MODEL_REQUEST) return
+        val callback = pickerCallback
+        pickerCallback = null
+        if (resultCode != RESULT_OK || data?.data == null) {
+            if (callback != null) complete(callback, failure("model_selection_cancelled"))
+            return
+        }
         worker.execute {
-            val started = SystemClock.elapsedRealtime()
             try {
-                val copied = copyModel(uri)
-                selectedModel = copied
-                val elapsed = SystemClock.elapsedRealtime() - started
-                runOnUiThread {
-                    status.text = "تم اختيار النموذج: ${copied.name}\nالحجم: ${copied.length() / (1024 * 1024)} MB • النسخ: ${elapsed} ms"
-                    loadButton.isEnabled = true
-                }
-            } catch (error: Exception) {
-                runOnUiThread {
-                    status.text = "فشل استيراد النموذج: ${error.javaClass.simpleName}: ${error.message}"
-                    loadButton.isEnabled = false
-                }
+                val copied = copyModel(data.data!!)
+                modelReady = false
+                if (callback != null) complete(callback, JSONObject().put("ok", true)
+                    .put("modelId", MODEL_ID).put("fileName", copied.name).put("sizeBytes", copied.length()))
+            } catch (e: Exception) {
+                if (callback != null) complete(callback, failure("model_import_failed", e.message))
             }
         }
     }
 
     private fun copyModel(uri: Uri): File {
-        val name = queryDisplayName(uri) ?: "selected-model.litertlm"
-        require(name.endsWith(".litertlm", ignoreCase = true)) {
-            "اختر ملفًا بامتداد .litertlm"
-        }
-        val destinationDir = File(filesDir, "models").apply { mkdirs() }
-        val destination = File(destinationDir, "qwen3.5-0.8b.litertlm")
-        val temporary = File(destinationDir, "model.tmp")
+        val name = contentResolver.query(uri, arrayOf(android.provider.OpenableColumns.DISPLAY_NAME), null, null, null)
+            ?.use { if (it.moveToFirst()) it.getString(0) else null } ?: "model.litertlm"
+        require(name.endsWith(".litertlm", true)) { "Choose a .litertlm file." }
+        val dir = File(filesDir, "models").apply { mkdirs() }
+        val temp = File(dir, "model.tmp")
         contentResolver.openInputStream(uri).use { input ->
-            requireNotNull(input) { "تعذر فتح ملف النموذج المحدد." }
-            temporary.outputStream().use { outputStream ->
+            requireNotNull(input) { "Cannot open model file." }
+            temp.outputStream().use { output ->
                 val buffer = ByteArray(1024 * 1024)
                 var total = 0L
                 while (true) {
-                    val count = input.read(buffer)
-                    if (count < 0) break
-                    total += count
-                    require(total <= MAX_MODEL_BYTES) { "حجم النموذج يتجاوز حد الاختبار 2 GB." }
-                    outputStream.write(buffer, 0, count)
+                    val n = input.read(buffer)
+                    if (n < 0) break
+                    total += n
+                    require(total <= MAX_MODEL_BYTES) { "Model exceeds 2 GB." }
+                    output.write(buffer, 0, n)
                 }
-                outputStream.fd.sync()
+                output.fd.sync()
             }
         }
-        require(temporary.length() > 0L) { "ملف النموذج فارغ." }
-        if (destination.exists()) check(destination.delete()) { "تعذر استبدال النسخة السابقة." }
-        check(temporary.renameTo(destination)) { "تعذر إنهاء نسخ النموذج." }
-        return destination
+        require(temp.length() > 0)
+        if (modelFile.exists()) check(modelFile.delete())
+        check(temp.renameTo(modelFile))
+        return modelFile
     }
 
-    private fun queryDisplayName(uri: Uri): String? {
-        contentResolver.query(
-            uri,
-            arrayOf(android.provider.OpenableColumns.DISPLAY_NAME),
-            null,
-            null,
-            null
-        )?.use { cursor ->
-            if (cursor.moveToFirst()) return cursor.getString(0)
+    private fun loadModel(callback: String) = worker.execute {
+        var engine: Engine? = null
+        var conversation: Conversation? = null
+        try {
+            require(modelFile.isFile && modelFile.length() > 0) { "model_file_missing" }
+            engine = Engine(EngineConfig(modelPath = modelFile.absolutePath, backend = Backend.CPU(), cacheDir = cacheDir.absolutePath))
+            engine.initialize()
+            conversation = engine.createConversation(ConversationConfig(
+                systemInstruction = Contents.of("You are an industrial maintenance assistant."),
+                samplerConfig = SamplerConfig(topK = 32, topP = 0.9, temperature = 0.2),
+                maxOutputToken = 8
+            ))
+            conversation.close(); conversation = null
+            engine.close(); engine = null
+            modelReady = true
+            complete(callback, JSONObject().put("ok", true).put("executionMode", "local").put("modelId", MODEL_ID))
+        } catch (e: Exception) {
+            modelReady = false
+            complete(callback, failure("model_load_failed", e.message))
+        } finally {
+            try { conversation?.close() } catch (_: Exception) {}
+            try { engine?.close() } catch (_: Exception) {}
         }
-        return null
     }
 
-    private fun releaseRuntime() {
-        try { conversation?.close() } catch (_: Exception) { }
-        conversation = null
-        try { engine?.close() } catch (_: Exception) { }
-        engine = null
-    }
-
-    private fun loadModel() {
-        val model = selectedModel ?: return
-        loadButton.isEnabled = false
-        sendButton.isEnabled = false
-        status.text = "جارٍ تحميل LiteRT-LM على CPU. اترك التطبيق مفتوحًا…"
+    private fun generate(payload: String, callback: String) {
+        if (!modelReady || !modelFile.isFile) { complete(callback, failure("local_model_not_loaded")); return }
+        if (busy) { complete(callback, failure("generation_already_active")); return }
+        busy = true
         worker.execute {
-            val started = SystemClock.elapsedRealtime()
+            var engine: Engine? = null
+            var conversation: Conversation? = null
+            val output = StringBuilder()
             try {
-                releaseRuntime()
-                val candidate = Engine(EngineConfig(
-                    modelPath = model.absolutePath,
-                    backend = Backend.CPU(),
-                    cacheDir = cacheDir.absolutePath
+                val request = JSONObject(payload)
+                val messages = request.optJSONArray("messages") ?: JSONArray()
+                require(messages.length() in 1..48) { "invalid_messages" }
+                val system = messages.optJSONObject(0)?.optString("content").orEmpty().take(5000)
+                val prompt = buildString {
+                    for (i in 1 until messages.length()) {
+                        val m = messages.optJSONObject(i) ?: continue
+                        val role = m.optString("role", "user").take(20)
+                        val body = m.optString("content").take(6000)
+                        if (body.isNotBlank()) append("\n[").append(role).append("]\n").append(body).append("\n")
+                    }
+                }.take(18000)
+                require(prompt.isNotBlank()) { "empty_prompt" }
+                engine = Engine(EngineConfig(modelPath = modelFile.absolutePath, backend = Backend.CPU(), cacheDir = cacheDir.absolutePath))
+                engine.initialize()
+                conversation = engine.createConversation(ConversationConfig(
+                    systemInstruction = Contents.of(system.ifBlank { "You are a careful industrial maintenance assistant." }),
+                    samplerConfig = SamplerConfig(topK = 64, topP = 0.95,
+                        temperature = request.optDouble("temperature", 0.2).coerceIn(0.0, 1.0).toFloat()),
+                    maxOutputToken = request.optInt("maxOutputTokens", 384).coerceIn(1, 512)
                 ))
-                candidate.initialize()
-                val candidateConversation = try {
-                    candidate.createConversation(
-                        ConversationConfig(
-                            systemInstruction = Contents.of(
-                                "You are a careful industrial maintenance assistant. " +
-                                "Answer in the user's language. Separate observations from hypotheses. " +
-                                "Do not invent measurements or claim certainty without evidence."
-                            ),
-                            samplerConfig = SamplerConfig(
-                                topK = 64,
-                                topP = 0.95,
-                                temperature = 0.4
-                            ),
-                            maxOutputToken = 512
-                        )
-                    )
-                } catch (error: Exception) {
-                    // Initialization succeeded, so the engine can now be closed safely.
-                    candidate.close()
-                    throw error
-                }
-                engine = candidate
-                conversation = candidateConversation
-                val elapsed = SystemClock.elapsedRealtime() - started
-                runOnUiThread {
-                    status.text = "النموذج جاهز • CPU • تشغيل محلي\nزمن التحميل: ${elapsed} ms"
-                    sendButton.isEnabled = true
-                }
-            } catch (error: Exception) {
-                runOnUiThread {
-                    status.text = "فشل تحميل النموذج: ${error.javaClass.simpleName}: ${error.message}"
-                    loadButton.isEnabled = true
-                }
-            }
-        }
-    }
-
-    private fun generate() {
-        val text = prompt.text.toString().trim()
-        if (text.isEmpty()) return
-        sendButton.isEnabled = false
-        output.text = "جارٍ التوليد محليًا…"
-        worker.execute {
-            val started = SystemClock.elapsedRealtime()
-            val streamed = StringBuilder()
-            var firstChunkAt: Long? = null
-            try {
-                val activeConversation = requireNotNull(conversation)
-                activeConversation.sendMessageAsync(text, object : MessageCallback {
-                    override fun onMessage(message: Message) {
-                        val chunk = message.toString()
-                        if (chunk.isNotEmpty()) {
-                            if (firstChunkAt == null) {
-                                firstChunkAt = SystemClock.elapsedRealtime() - started
-                            }
-                            streamed.append(chunk)
-                            val snapshot = streamed.toString()
-                            runOnUiThread { output.text = snapshot }
-                        }
-                    }
-
+                conversation.sendMessageAsync(prompt, object : MessageCallback {
+                    override fun onMessage(message: Message) { output.append(message.toString()) }
                     override fun onDone() {
-                        val elapsed = SystemClock.elapsedRealtime() - started
-                        val first = firstChunkAt?.toString() ?: "غير متاح"
-                        runOnUiThread {
-                            output.text = "${streamed}\n\n[أول جزء: ${first} ms • الإجمالي: ${elapsed} ms]"
-                            sendButton.isEnabled = true
-                        }
+                        try { conversation?.close() } catch (_: Exception) {}
+                        try { engine?.close() } catch (_: Exception) {}
+                        busy = false
+                        val text = output.toString().trim()
+                        complete(callback, if (text.isNotEmpty()) JSONObject().put("ok", true)
+                            .put("executionMode", "local").put("text", text).put("finishReason", "stop")
+                            else failure("empty_model_response"))
                     }
-
                     override fun onError(throwable: Throwable) {
-                        runOnUiThread {
-                            output.text = "فشل التوليد: ${throwable.javaClass.simpleName}: ${throwable.message}"
-                            sendButton.isEnabled = true
-                        }
+                        try { conversation?.close() } catch (_: Exception) {}
+                        try { engine?.close() } catch (_: Exception) {}
+                        busy = false
+                        complete(callback, failure("local_generation_failed", throwable.message))
                     }
                 })
-            } catch (error: Exception) {
-                runOnUiThread {
-                    output.text = "فشل التوليد: ${error.javaClass.simpleName}: ${error.message}"
-                    sendButton.isEnabled = true
-                }
+            } catch (e: Exception) {
+                try { conversation?.close() } catch (_: Exception) {}
+                try { engine?.close() } catch (_: Exception) {}
+                busy = false
+                complete(callback, failure("local_generation_failed", e.message))
             }
+        }
+    }
+
+    private fun failure(code: String, detail: String? = null) = JSONObject().apply {
+        put("ok", false); put("error", code)
+        if (!detail.isNullOrBlank()) put("detail", detail.take(300))
+    }
+
+    private fun complete(id: String, result: JSONObject) {
+        val jsId = JSONObject.quote(id)
+        val jsResult = JSONObject.quote(result.toString())
+        runOnUiThread {
+            webView?.evaluateJavascript(
+                "window.__MaintenanceNativeLLMResolve && window.__MaintenanceNativeLLMResolve($jsId, $jsResult);", null
+            )
         }
     }
 
     override fun onDestroy() {
-        worker.execute { releaseRuntime() }
-        worker.shutdown()
+        worker.shutdownNow()
+        webView?.apply { removeJavascriptInterface("MaintenanceAndroidHost"); stopLoading(); destroy() }
+        webView = null
         super.onDestroy()
     }
 }
