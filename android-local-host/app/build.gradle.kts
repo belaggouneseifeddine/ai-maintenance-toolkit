@@ -10,7 +10,7 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.maintenanceaitoolkit.localhost"
+        applicationId = "com.maintenanceaitoolkit.localassistant"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
