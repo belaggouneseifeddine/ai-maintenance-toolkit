@@ -1,6 +1,6 @@
 # Maintenance AI Toolkit — Android local assistant host
 
-This Android app packages the existing Maintenance AI Toolkit PWA as local WebView assets and connects it to on-device Qwen inference through LiteRT-LM.
+This Android app packages the existing Maintenance AI Toolkit PWA as local WebView assets and connects it to on-device Qwen inference through LiteRT-LM. It uses application ID `com.maintenanceaitoolkit.localassistant`, separate from the earlier model-test POC, so both apps can remain installed side by side.
 
 ## Local-first behavior
 
@@ -31,7 +31,7 @@ Open `android-local-host/` in Android Studio (JDK 17, Android SDK 36), or run:
 gradle :app:assembleDebug --no-daemon
 ```
 
-The build runs `syncMaintenanceWebAssets` before Android compilation. Do not commit generated `app/src/main/assets/www` output.
+The build runs `syncMaintenanceWebAssets` and `vendorDocumentRuntime` before Android compilation. The latter vendors pinned PDF.js/Tesseract/Transformers runtime assets and language data for offline document workflows. Do not commit generated `app/src/main/assets/www` output.
 
 ## Device acceptance checks
 
