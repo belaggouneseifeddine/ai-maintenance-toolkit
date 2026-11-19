@@ -22,10 +22,11 @@
    if(!validSource(rule))return {...base,state:"unknown",reason:"source_not_reviewed_and_verified"};
    if(typeof rule.measurementName!=="string"||!rule.measurementName.trim()||typeof rule.unit!=="string"||!rule.unit.trim()||
     typeof rule.operatingCondition!=="string"||!rule.operatingCondition.trim()||
+    typeof rule.modelScope!=="string"||!rule.modelScope.trim()||
     !["lt","lte","gt","gte","between"].includes(rule.operator)||!Number.isFinite(rule.threshold)||
     (rule.operator==="between"&&(!Number.isFinite(rule.upperThreshold)||rule.upperThreshold<rule.threshold)))
     return {...base,state:"unknown",reason:"measurement_rule_schema_invalid"};
-   if(rule.model&&normalize(rule.model)!==normalize(context&&context.model))
+   if(normalize(rule.modelScope)!==normalize(context&&context.model))
     return {...base,state:"unknown",reason:"model_scope_mismatch"};
    const candidates=rows.filter(row=>normalize(row&&row.name)===normalize(rule.measurementName));
    if(!candidates.length)return {...base,state:"unknown",reason:"measurement_missing"};
@@ -33,6 +34,8 @@
    const row=candidates[0];
    if(normalize(row.unit)!==normalize(rule.unit))return {...base,state:"unknown",reason:"unit_mismatch"};
    if(row.sourceType!=="direct_measurement")return {...base,state:"unknown",reason:"measurement_not_direct"};
+   if(typeof row.timestamp!=="string"||!Number.isFinite(Date.parse(row.timestamp)))
+    return {...base,state:"unknown",reason:"measurement_timestamp_missing_or_invalid"};
    if(!["healthy","ok"].includes(String(row.sensorStatus||"").toLowerCase())||row.qualityFlag!=="good")
     return {...base,state:"unknown",reason:"measurement_quality_not_accepted"};
    if(normalize(row.operatingCondition)!==normalize(rule.operatingCondition))
