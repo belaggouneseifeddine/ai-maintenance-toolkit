@@ -1,4 +1,4 @@
-const CACHE_NAME = "maintenance-ai-toolkit-v80";
+const CACHE_NAME = "maintenance-ai-toolkit-v81";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -128,7 +128,11 @@ const OPTIONAL_APP_SHELL = [
   "./vendor/licenses/tesseract-js-LICENSE",
   "./vendor/licenses/tesseract-core-LICENSE",
   "./vendor/licenses/tessdata-fast-LICENSE"
-];
+].filter(asset => {
+  if (self.location.hostname !== "appassets.androidplatform.net") return true;
+  return !asset.includes("/vendor/transformers/") &&
+    !/\/vendor\/tessdata\/.*\.traineddata\.gz$/.test(asset);
+});
 const CORE_APP_SHELL = APP_SHELL.filter(asset => !OPTIONAL_APP_SHELL.includes(asset));
 
 self.addEventListener("install", event => {
