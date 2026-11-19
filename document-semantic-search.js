@@ -128,7 +128,10 @@
     const db = await openDb();
     const rows = await new Promise((resolve, reject) => {
       const tx = db.transaction("vectors", "readonly");
-      const request = tx.objectStore("vectors").getAll();
+      const store = tx.objectStore("vectors");
+      // Read only vectors for the active embedding model. The index already
+      // exists in DB_VERSION 1, so this does not require a database migration.
+      const request = store.index("modelVersion").getAll(MODEL_VERSION);
       request.onsuccess = () => resolve(request.result || []);
       request.onerror = () => reject(request.error || new Error("Could not read semantic vectors."));
     });
