@@ -112,8 +112,9 @@ class MainActivity : Activity() {
             .put("supportedOperations", JSONArray(listOf("status", "load", "unload", "generate"))).toString()
 
         @JavascriptInterface fun getStatus() = JSONObject()
+            .put("modelAvailable", modelFile.isFile && modelFile.length() > 0)
             .put("modelLoaded", modelReady && modelFile.isFile)
-            .put("modelId", if (modelReady && modelFile.isFile) MODEL_ID else JSONObject.NULL)
+            .put("modelId", if (modelFile.isFile && modelFile.length() > 0) MODEL_ID else JSONObject.NULL)
             .put("busy", busy).put("backend", "CPU").toString()
 
         @JavascriptInterface fun invoke(method: String, payload: String, callbackId: String) {
