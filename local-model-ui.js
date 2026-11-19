@@ -13,67 +13,31 @@
       ? root.MaintenanceI18n.getLanguage() : (root.document.documentElement.lang || "ar");
     return copy[value] ? value : "ar";
   }
-  const MEASUREMENT_SOURCES = new Set([
-    "direct_measurement", "plc_value", "historian_value", "estimated", "user_reported"
-  ]);
-
-  function fieldValue(id, max = 3000) {
-    return String(($(id) && $(id).value) || "").trim().slice(0, max);
-  }
-
-  function selectedLabel(id) {
-    const element = $(id);
-    if (!element || !element.options || element.selectedIndex < 0) return "";
-    return String(element.options[element.selectedIndex].text || "").trim();
-  }
-
-  function parseMeasurements(raw) {
-    const measurements = [];
-    const warnings = [];
-    String(raw || "").split(/\r?\n/).filter(Boolean).slice(0, 40).forEach((line, index) => {
-      const fields = line.split("|").map(value => value.trim());
-      if (fields.length < 3 || !fields[0] || !fields[1] || !fields[2]) {
-        warnings.push("line_" + (index + 1) + "_missing_name_value_or_unit");
-        return;
-      }
-      const numeric = fields[1].replace(",", ".");
-      const value = /^[-+]?(?:\d+\.?\d*|\.\d+)$/.test(numeric) ? Number(numeric) : fields[1];
-      const sourceLabel = fields[3] || "user_reported";
-      const source = MEASUREMENT_SOURCES.has(sourceLabel) ? sourceLabel : "unverified_source";
-      const timestamp = fields[4] && Number.isFinite(Date.parse(fields[4]))
-        ? new Date(fields[4]).toISOString() : null;
-      if (fields[4] && !timestamp) warnings.push("line_" + (index + 1) + "_invalid_timestamp");
-      if (source === "unverified_source") warnings.push("line_" + (index + 1) + "_unrecognized_source");
-      measurements.push({
-        name: fields[0].slice(0, 100), value, unit: fields[2].slice(0, 40),
-        source, sourceLabel: source === "unverified_source" ? sourceLabel.slice(0, 60) : null,
-        timestamp, operatingConditions: (fields[5] || "").slice(0, 160),
-        sensorStatus: (fields[6] || "").slice(0, 60),
-        quality: (fields[7] || "").slice(0, 60)
-      });
-    });
-    return { measurements, warnings };
-  }
-
   function caseContext() {
-    const equipmentType = fieldValue("aiMachine", 120) || selectedLabel("machine") || fieldValue("machine", 120);
-    const manufacturer = fieldValue("aiManufacturer", 120) || fieldValue("manufacturer", 120);
-    const model = fieldValue("equipmentModel", 120) || fieldValue("aiModel", 160);
-    const symptom = fieldValue("aiSymptom", 240) || selectedLabel("symptom");
-    const observationsText = fieldValue("aiObservations") || fieldValue("observations");
-    const parsed = parseMeasurements(fieldValue("aiMeasurementReadings"));
-    return {
-      equipment: { type:equipmentType, manufacturer, model },
-      symptom,
-      alarmCode:fieldValue("aiCode", 300) || fieldValue("code", 300),
-      observations:observationsText.split(/\r?\n/).map(item => item.trim()).filter(Boolean).slice(0, 30),
-      measurementStatus:fieldValue("aiMeasurementStatus", 30) || "unknown",
-      measurements:parsed.measurements,
-      measurementWarnings:parsed.warnings,
+    const api = root.MaintenanceAssistantCaseContext;
+    if (!api || typeof api.createCaseContext !== "function") {
+      throw new Error("assistant_case_context_unavailable");
+    }
+    const value = id => String(($(id) && $(id).value) || "").trim();
+    const selectedLabel = id => {
+      const element = $(id);
+      return element && element.options && element.selectedIndex >= 0
+        ? String(element.options[element.selectedIndex].text || "").trim() : "";
+    };
+    return api.createCaseContext({
+      equipmentType: value("aiMachine") || selectedLabel("machine") || value("machine"),
+      manufacturer: value("aiManufacturer") || value("manufacturer"),
+      model: value("equipmentModel") || value("aiModel"),
+      assetId: value("assetId"),
+      symptom: value("aiSymptom") || selectedLabel("symptom"),
+      alarmCode: value("aiCode") || value("code"),
+      observations: value("aiObservations") || value("observations"),
+      measurementStatus: value("aiMeasurementStatus") || "unknown",
+      measurementText: value("aiMeasurementReadings"),
       guidedDiagnostic: root.MaintenanceDiagnosticSessionUI &&
         typeof root.MaintenanceDiagnosticSessionUI.getPayload === "function"
         ? root.MaintenanceDiagnosticSessionUI.getPayload() : null
-    };
+    });
   }
 
   function mount() {
