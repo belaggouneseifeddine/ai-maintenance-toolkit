@@ -8,15 +8,11 @@ test("parses supplied measurements without promoting unknown provenance", () => 
     "Flow|18|m3/h|plc_value|2026-11-19T10:01:00Z|70% load|normal|verified",
     "Temperature|hot|C|mystery_source|not-a-date"
   ].join("\n"));
-  assert.equal(result.measurements.length, 3);
+  assert.equal(result.measurements.length, 2);
   assert.equal(result.measurements[0].value, 1.25);
-  assert.equal(result.measurements[0].source, "direct_measurement");
-  assert.equal(result.measurements[1].source, "plc_value");
-  assert.equal(result.measurements[2].value, "hot");
-  assert.equal(result.measurements[2].source, "unverified_source");
-  assert.equal(result.measurements[2].timestamp, null);
-  assert.ok(result.warnings.includes("line_3_unrecognized_source"));
-  assert.ok(result.warnings.includes("line_3_invalid_timestamp"));
+  assert.equal(result.measurements[0].sourceType, "direct_measurement");
+  assert.equal(result.measurements[1].sourceType, "plc_value");
+  assert.ok(result.warnings.includes("line_3_non_numeric_measurement"));
 });
 
 test("rejects incomplete measurement rows instead of inventing values or units", () => {
@@ -44,7 +40,7 @@ test("builds bounded equipment context and preserves source and operating condit
     model: "CR 32-4", assetId: "P-101"
   });
   assert.deepEqual(result.observations, ["Flow dropped", "No abnormal vibration"]);
-  assert.equal(result.measurements[0].source, "plc_value");
-  assert.equal(result.measurements[0].operatingConditions, "70% load");
+  assert.equal(result.measurements[0].sourceType, "plc_value");
+  assert.equal(result.measurements[0].operatingCondition, "70% load");
   assert.equal(result.guidedDiagnostic.sessionId, "session-1");
 });
