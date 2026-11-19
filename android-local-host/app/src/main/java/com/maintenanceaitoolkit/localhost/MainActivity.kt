@@ -90,7 +90,15 @@ class MainActivity : Activity() {
                 loader.shouldInterceptRequest(request.url)
             override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
                 val u = request.url
-                return !(u.scheme == "https" && u.host == "appassets.androidplatform.net")
+                if (u.scheme == "https" && u.host == "appassets.androidplatform.net") return false
+                if (u.scheme == "https") {
+                    try {
+                        startActivity(Intent(Intent.ACTION_VIEW, u))
+                    } catch (_: Exception) {
+                        Toast.makeText(this@MainActivity, "تعذر فتح الرابط الخارجي", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                return true
             }
         }
         setContentView(view)
