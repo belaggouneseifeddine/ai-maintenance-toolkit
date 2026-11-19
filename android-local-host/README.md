@@ -4,7 +4,7 @@ This Android app packages the existing Maintenance AI Toolkit PWA as local WebVi
 
 ## Local-first behavior
 
-- The APK contains the web application assets. Gradle syncs the required HTML, JavaScript, CSS, JSON, Markdown, and image/font assets from the repository into `app/src/main/assets/www` during the build.
+- The APK contains an explicit allow-list of PWA entrypoints, runtime modules, and required local knowledge/data files. Gradle uses a Sync task to remove stale generated assets and copy only those files into `app/src/main/assets/www`.
 - WebView serves those assets through AndroidX WebKit's `WebViewAssetLoader` on the secure `appassets.androidplatform.net` origin.
 - The manifest deliberately does **not** request `INTERNET`. No hosted LLM, Worker, Gemini, OpenAI API, remote inference, or cloud fallback is used by this host.
 - The user imports a `.litertlm` file through Android's document picker. The source file is not deleted; a private app copy is created.
@@ -17,7 +17,7 @@ Expected artifact: `Qwen3.5-0.8B_int8.litertlm` (CPU, approximately 965 MB).
 
 Model ID used by the app: `qwen3.5-0.8b-int8-cpu`.
 
-The host pins `com.google.ai.edge.litertlm:litertlm-android:0.19.1`. The exact artifact/runtime/device combination was confirmed to launch and generate on the user's Android phone in the standalone POC. The WebView bridge integration still requires a new APK build and a second physical-device test.
+The host pins `com.google.ai.edge.litertlm:litertlm-android:0.19.1`. The exact artifact/runtime/device combination launched and generated on the Android phone in the standalone POC. The integrated WebView host now builds successfully; it still requires a second physical-device test because the native bridge and PWA integration are new.
 
 ## Runtime isolation
 
@@ -31,7 +31,7 @@ Open `android-local-host/` in Android Studio (JDK 17, Android SDK 36), or run:
 gradle :app:assembleDebug --no-daemon
 ```
 
-The build runs `syncMaintenanceWebAssets` and `vendorDocumentRuntime` before Android compilation. The latter vendors pinned PDF.js/Tesseract/Transformers runtime code and Arabic, English and French OCR data. PDF text extraction, OCR, local BM25 retrieval and page citations are available offline. The multilingual embedding weights are **not** bundled yet; Android disables remote model downloads, so semantic-vector search remains unavailable until a local embedding model is packaged. Do not commit generated `app/src/main/assets/www` output.
+The build runs `syncMaintenanceWebAssets` and `vendorDocumentRuntime` before Android compilation. The Android build vendors pinned PDF.js/Tesseract runtime code and Arabic, English and French OCR data, but deliberately skips the unused Transformers.js embedding runtime. PDF text extraction, OCR, local BM25 retrieval and page citations are available offline. Multilingual embedding weights are **not** bundled; Android disables remote model downloads, so semantic-vector search remains unavailable until a compatible local embedding model is packaged. Do not commit generated `app/src/main/assets/www` output.
 
 ## Device acceptance checks
 
@@ -47,6 +47,6 @@ The build runs `syncMaintenanceWebAssets` and `vendorDocumentRuntime` before And
 
 ## Known limits
 
-- The native host currently returns a completed generation response rather than streaming tokens into the chat UI.
-- The first WebView bridge build is an integration prototype. Do not merge or deploy it until the new APK passes CI, physical-device tests, offline tests, and the diagnostic/security regression suite.
+- The native host streams generation chunks through LiteRT-LM callbacks and displays partial output in the chat UI; the final response is assembled when generation completes.
+- The first WebView bridge build is an integration prototype. Do not merge it until the current APK passes physical-device and airplane-mode tests, and the diagnostic/security regression suite remains green. CI build and source tests have passed, but they do not prove device performance or model quality.
 - The small Qwen model is the primary local generator, not an authority for engineering facts. Local deterministic tools, reviewed PDF evidence, source/page references, and technician verification remain authoritative.
