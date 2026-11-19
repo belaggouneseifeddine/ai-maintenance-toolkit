@@ -84,11 +84,11 @@
 </form><div id="diagnosisResult" aria-live="polite"></div></div>
 </section>
 <section id="ai" class="panel">
-<div class="card"><h2>مساعد الصيانة — الذكاء الاصطناعي والتشخيص المحلي</h2>
+<div class="card"><h2>مساعد الصيانة المحلي — سياق الحالة والقياسات</h2>
 <p class="hint">اختر التشخيص المحلي دون إرسال البيانات، أو وافق صراحةً لإرسال بيانات الحالة إلى خادم الصيانة عبر Cloudflare Worker. لا تُرسل بيانات سرية أو معلومات تشغيلية حساسة.</p>
 <form id="aiForm">
 <label for="aiMachine">نوع المعدة</label><input id="aiMachine" required maxlength="120" placeholder="مثال: مضخة طرد مركزي">
-<label for="aiModel">الشركة والطراز الدقيق (اختياري)</label><input id="aiModel" maxlength="160" placeholder="مثال: Grundfos CR 32-4 / ABB ACS580">
+<div class="grid"><div><label for="aiManufacturer">الشركة المصنّعة (اختياري)</label><input id="aiManufacturer" maxlength="120" placeholder="مثال: Grundfos / Siemens"></div><div><label for="aiModel">طراز المعدة (اختياري)</label><input id="aiModel" maxlength="160" placeholder="مثال: CR 32-4 / ACS580"></div></div>
 <label for="aiSymptom">العطل أو العرض الرئيسي</label><input id="aiSymptom" required maxlength="240" placeholder="مثال: ضغط الخروج منخفض">
 <label for="aiCode">رمز الإنذار (اختياري)</label><input id="aiCode" maxlength="300" placeholder="الرمز كما يظهر على الشاشة">
 <label for="aiObservations">الملاحظات والقياسات مع الوحدات (اختياري)</label><textarea id="aiObservations" maxlength="3000" placeholder="اذكر ما لاحظته فقط، ولا تضع بيانات سرية أو معلومات تخص المصنع الحساسة."></textarea>
