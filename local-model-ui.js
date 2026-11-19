@@ -92,7 +92,7 @@
     });
     const consent = $("aiCloudConsent");
     if (consent) { consent.checked = false; consent.disabled = true; const label = consent.closest("label"); if (label) label.hidden = true; }
-    ["askCloudAI","simulateCloudAI"].forEach(id => { if ($(id)) { $(id).hidden = true; $(id).disabled = true; } });
+    ["askCloudAI","simulateCloudAI","askAi","aiAnswerTools","aiResult"].forEach(id => { if ($(id)) { $(id).hidden = true; if ("disabled" in $(id)) $(id).disabled = true; } });
 
     let runtime = null;
     let orchestrator = null;
