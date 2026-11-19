@@ -62,6 +62,9 @@ jobs:
             diagnostic-casebook.js \
             maintenance-records.js \
             app-legacy.js \
+            local-llm-runtime.js \\
+            native-local-llm-bridge.js \\
+            assistant-model-agent.js \\
             sw.js; do
             node --check "$file"
           done
