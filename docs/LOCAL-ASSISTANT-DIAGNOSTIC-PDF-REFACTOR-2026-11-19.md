@@ -73,7 +73,7 @@ Current semantic-search behavior:
 - The IndexedDB store already has a non-unique `modelVersion` index.
 - Search previously called `getAll()` on the entire vector store, including records from inactive model versions, before filtering them in memory.
 
-**Implemented in this branch:** search now queries `vectors` through the existing `modelVersion` index for the active model version. No IndexedDB schema migration is required. A static regression assertion protects this access path.
+**Implemented in this branch:** search now streams `vectors` through the existing `modelVersion` index for the active model version and retains only the requested top-K matches. This avoids materializing the active model's full vector corpus in memory. The scan remains linear in the active model's vector count; this is not an approximate nearest-neighbor index. No IndexedDB schema migration is required. Static regression assertions protect the indexed cursor and bounded result set.
 
 Still unverified:
 - OCR accuracy for real Arabic/French/English industrial PDFs.
@@ -93,7 +93,7 @@ Still unverified:
 
 ## 6. Verification status for this branch
 
-- Implemented: model-version-indexed vector lookup and a regression contract assertion.
-- Repository diff: two files changed at the time of this audit.
+- Implemented: model-version-indexed vector cursor with bounded top-K retention; regression contract assertions; local Qwen runtime/agent adapters and one-chat controls; canonical evidence envelope; post-guided-flow note reassessment.
+- Not implemented or proven: numeric threshold scoring (no source-reviewed measurement rules were found in the current diagnostic schema), new fault cases (no new claims added without reviewed source evidence), real PDF extraction/quality fixtures, Android APK rebuild/device acceptance, and dead-file deletion.
 - CI/device validation: not yet demonstrated by this document.
 - Merge and production deployment: not performed.
