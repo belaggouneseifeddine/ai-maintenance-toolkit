@@ -15,6 +15,7 @@ function setup(responses) {
   let index = 0;
   const runtime = { generate: async request => {
     assert.equal(request.maxOutputTokens, 384);
+    assert.ok(request.messages[0].content.length <= 4800, "system prompt must fit the Android host limit");
     return { text:responses[Math.min(index++,responses.length-1)] };
   }};
   return { assistant, agent:Agent.createLocalModelAgent({runtime,orchestrator:assistant,
