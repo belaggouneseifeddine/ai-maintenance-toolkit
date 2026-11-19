@@ -101,6 +101,7 @@ const general=['وثّق الحالة كما هي، ولا تفترض سببًا
 
 $('aiForm').addEventListener('submit',async e=>{
  e.preventDefault();
+ if(window.MaintenanceNativeLLM) return;
  if(window.MaintenanceAgentUI&&typeof window.MaintenanceAgentUI.runLocal==='function'){
    window.MaintenanceAgentUI.runLocal();
  }else{
