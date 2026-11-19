@@ -176,6 +176,7 @@
   const WORKER_ENDPOINT = "https://maintenance-ai-toolkit-api.maintenance-ai-toolkit-api-seif.workers.dev/api/chat";
 
   async function runCloudAI() {
+    if (root.MaintenanceNativeLLM) return { ok:false, status:"cloud_disabled_in_local_android_host" };
     const output = root.document && root.document.getElementById("aiResult");
     const button = root.document && root.document.getElementById("askCloudAI");
     const consent = root.document && root.document.getElementById("aiCloudConsent");
