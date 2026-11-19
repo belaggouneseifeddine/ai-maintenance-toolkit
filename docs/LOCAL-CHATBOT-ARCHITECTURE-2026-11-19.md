@@ -61,6 +61,8 @@ The loop must be bounded (e.g. maximum 3 tool rounds per user turn), reject unkn
 - Never invent OEM specifications, source citations, measured values, or confirmed root causes.
 
 ### Deterministic diagnostic layer
+
+Numeric measurements may influence candidate ordering only through a fault-specific rule whose source page is verified, whose review/source status is approved, and whose unit and operating context exactly match the reading. The current evaluator uses these verified results only as tie-breakers; it does not invent conversions or thresholds. Otherwise the reading remains recorded as unknown evidence.
 - Normalize and validate measurements and units.
 - Rank fault hypotheses only from declared evidence relationships and validated conditions.
 - Distinguish supporting, contradicting, missing, stale, estimated, and low-quality evidence.
