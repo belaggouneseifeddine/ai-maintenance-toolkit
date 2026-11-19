@@ -61,7 +61,7 @@ val syncMaintenanceWebAssets = tasks.register<Sync>("syncMaintenanceWebAssets") 
             "document-retrieval-adapter.js", "document-review-workspaces.js",
             "diagnostic-document-evidence.js",
             "faults.json", "decision-trees.json", "diagnostic-evidence-register.json",
-            "knowledge/*.json", "knowledge/*.md", "knowledge/diagnostic-cases/*.json",
+            "knowledge/*.json", "knowledge/*.md",
             "knowledge/schemas/*.json"
         )
         exclude(

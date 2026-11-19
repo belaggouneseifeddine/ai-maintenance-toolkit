@@ -2,71 +2,143 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const Casebook = require("../diagnostic-casebook.js");
-const lowFlow = JSON.parse(fs.readFileSync("knowledge/diagnostic-cases/centrifugal-pump-low-flow.json", "utf8"));
-const sourceRegistry = JSON.parse(fs.readFileSync("knowledge/sources.json", "utf8"));
 
-test("low-flow candidate case satisfies the case contract", () => {
-  const result = Casebook.validateCase(lowFlow);
+const lowFlow = JSON.parse(fs.readFileSync("knowledge/candidates/diagnostic-cases/centrifugal-pump-low-flow.json", "utf8"));
+const sourceRegistry = JSON.parse(fs.readFileSync("knowledge/sources.json", "utf8"));
+const schema = JSON.parse(fs.readFileSync("knowledge/schemas/diagnostic-case.schema.json", "utf8"));
+
+test("low-flow candidate validates and remains reference-only", () => {
+  const result = Casebook.validateCase(lowFlow, sourceRegistry);
   assert.equal(result.ok, true, result.errors.join("; "));
   assert.equal(lowFlow.status, "candidate");
   assert.equal(lowFlow.licenseStatus, "reference_only");
 });
 
-test("measurements preserve units, location, operating condition and source provenance", () => {
-  for (const m of lowFlow.measurements) {
-    assert.ok(m.unit && m.location && m.operatingCondition);
-    assert.ok(m.sourceTypes.includes("plc_value"));
-    assert.ok(m.sourceTypes.includes("direct_measurement"));
+test("schema and executable contract remain aligned", () => {
+  assert.deepEqual(schema.required.slice().sort(), Casebook.contract.required.slice().sort());
+  assert.ok(schema.properties.measurements.items.required.includes("allowedUnits"));
+  assert.ok(schema.properties.measurements.items.properties.allowedUnits);
+  assert.ok(schema.properties.tests.items.properties.timeCost);
+  assert.ok(schema.properties.tests.items.properties.resourceCost);
+});
+
+test("measurement definitions require allowed units and provenance", () => {
+  for (const measurement of lowFlow.measurements) {
+    assert.ok(Array.isArray(measurement.allowedUnits) && measurement.allowedUnits.length > 0);
+    assert.ok(measurement.sourceTypes.includes("direct_measurement"));
+    assert.ok(measurement.sourceTypes.includes("plc_value"));
   }
   const broken = structuredClone(lowFlow);
   delete broken.measurements[0].location;
-  assert.equal(Casebook.validateCase(broken).ok, false);
+  assert.equal(Casebook.validateCase(broken, sourceRegistry).ok, false);
 });
 
-test("candidate status cannot be promoted without claim-level reviewed sources", () => {
+test("claim review requires a source section or page", () => {
   const broken = structuredClone(lowFlow);
   broken.status = "technically_reviewed";
   broken.sources[0].sectionOrPage = null;
-  assert.equal(Casebook.validateCase(broken).ok, false);
+  const result = Casebook.validateCase(broken, sourceRegistry);
+  assert.equal(result.ok, false);
+  assert.ok(result.errors.some(error => /claim-level sources/.test(error)));
 });
 
-test("triage keeps all hypotheses unresolved and never emits probabilities", () => {
-  const result = Casebook.triageLowFlow({ measurements: [
-    { name: "Flow rate", value: 12, unit: "m3/h", location: "FT-101", operatingCondition: "stable", sourceType: "plc_value" }
-  ] }, lowFlow);
+test("reference-only sources prevent field-validated reuse promotion", () => {
+  const promoted = structuredClone(lowFlow);
+  promoted.status = "field_validated";
+  promoted.licenseStatus = "reuse_permitted";
+  const result = Casebook.validateCase(promoted, sourceRegistry);
+  assert.equal(result.ok, false);
+  assert.ok(result.errors.some(error => /field_validated source is not cleared for reuse/.test(error)));
+});
+
+test("unknown source IDs fail registry validation", () => {
+  const broken = structuredClone(lowFlow);
+  broken.sources[0].sourceId = "not-registered";
+  const result = Casebook.validateCase(broken, sourceRegistry);
+  assert.equal(result.ok, false);
+  assert.ok(result.errors.some(error => /unregistered source/.test(error)));
+});
+
+test("triage keeps hypotheses unresolved and does not claim information gain", () => {
+  const result = Casebook.triageLowFlow({
+    measurements: [{
+      name: "Flow rate", value: 12, unit: "m3/h", location: "FT-101",
+      operatingCondition: "stable", sourceType: "plc_value"
+    }]
+  }, lowFlow, sourceRegistry);
+
   assert.equal(result.status, "candidate_triage_only");
   assert.equal(result.runtimeEligible, false);
-  assert.ok(result.hypotheses.every(h => h.status === "unresolved"));
-  assert.equal(Object.hasOwn(result, "probabilities"), false);
-  assert.ok(result.hypotheses.every(h => !Object.hasOwn(h, "probability")));
+  assert.equal(result.selectionMethod, "coverage_heuristic_not_information_gain");
+  assert.equal(result.informationGainAvailable, false);
+  assert.ok(result.hypotheses.every(item => item.status === "unresolved" && !Object.hasOwn(item, "probability")));
+  assert.equal(result.evidenceQuality.qualityUnknownCount, 1);
 });
 
-test("missing, estimated and incomplete readings are not silently promoted to measured evidence", () => {
-  const result = Casebook.triageLowFlow({ measurements: [
-    { name: "Suction pressure", value: 1.2, unit: "bar", location: "", operatingCondition: "unknown", sourceType: "estimated" },
-    { name: "Discharge pressure", value: null, unit: "bar", location: "PT-102", operatingCondition: "stable", sourceType: "unknown" }
-  ] }, lowFlow);
+test("missing and incomplete readings are not promoted to measured evidence", () => {
+  const result = Casebook.triageLowFlow({
+    measurements: [
+      { name: "Suction pressure", value: 1.2, unit: "bar(g)", location: "", operatingCondition: "unknown", sourceType: "estimated" },
+      { name: "Discharge pressure", value: null, unit: "bar(g)", location: "PT-102", operatingCondition: "stable", sourceType: "unknown" }
+    ]
+  }, lowFlow);
+
   assert.equal(result.evidenceQuality.acceptedMeasurementCount, 0);
   assert.equal(result.evidenceQuality.incompleteMeasurementCount, 2);
-  assert.ok(result.hypotheses.every(h => h.status === "unresolved"));
 });
 
-test("unsafe and invasive inspections are not selected as the next automatic observation", () => {
+test("estimated and unknown provenance remains distinct from direct readings", () => {
+  const result = Casebook.triageLowFlow({
+    measurements: [{
+      name: "Flow rate", value: 12, unit: "m3/h", location: "FT-101",
+      operatingCondition: "stable", sourceType: "estimated"
+    }]
+  }, lowFlow);
+
+  assert.equal(result.evidenceQuality.acceptedMeasurementCount, 1);
+  assert.equal(result.evidenceQuality.estimatedOrUnknownCount, 1);
+});
+
+test("noisy, stale, contradictory and failed/suspect sensor readings are excluded", () => {
+  const samples = [
+    { name: "Flow rate", value: 12, unit: "m3/h", location: "FT-101", operatingCondition: "stable", sourceType: "plc_value", sensorStatus: "normal", qualityFlag: "noisy" },
+    { name: "Suction pressure", value: 1.2, unit: "bar(g)", location: "PT-101", operatingCondition: "stable", sourceType: "direct_measurement", sensorStatus: "failed", qualityFlag: "normal" },
+    { name: "Discharge pressure", value: 2.4, unit: "bar(g)", location: "PT-102", operatingCondition: "stable", sourceType: "historian_value", sensorStatus: "normal", qualityFlag: "contradictory" },
+    { name: "Pump speed", value: 1450, unit: "rpm", location: "drive feedback", operatingCondition: "stable", sourceType: "plc_value", sensorStatus: "suspect", qualityFlag: "stale" }
+  ];
+  const result = Casebook.triageLowFlow({ measurements: samples }, lowFlow);
+  assert.equal(result.evidenceQuality.acceptedMeasurementCount, 0);
+  assert.equal(result.evidenceQuality.rejectedMeasurementCount, 4);
+});
+
+test("duplicate measurement names are withheld until reconciled", () => {
+  const result = Casebook.triageLowFlow({
+    measurements: [
+      { name: "Flow rate", value: 12, unit: "m3/h", location: "FT-101", operatingCondition: "stable", sourceType: "plc_value" },
+      { name: "Flow rate", value: 15, unit: "m3/h", location: "FT-101", operatingCondition: "stable", sourceType: "direct_measurement" }
+    ]
+  }, lowFlow);
+
+  assert.equal(result.evidenceQuality.acceptedMeasurementCount, 0);
+  assert.deepEqual(result.evidenceQuality.duplicateMeasurementNames, ["flow rate"]);
+});
+
+test("unknown measurements, invalid units and timestamps are rejected", () => {
+  const result = Casebook.triageLowFlow({
+    measurements: [
+      { name: "Pump current", value: 12, unit: "A", location: "M-101", operatingCondition: "stable", sourceType: "plc_value" },
+      { name: "Flow rate", value: 12, unit: "bar(g)", location: "FT-101", operatingCondition: "stable", sourceType: "plc_value" },
+      { name: "Pump speed", value: 1450, unit: "rpm", location: "drive", operatingCondition: "stable", sourceType: "plc_value", timestamp: "not-a-date" }
+    ]
+  }, lowFlow);
+
+  assert.equal(result.evidenceQuality.acceptedMeasurementCount, 0);
+  assert.equal(result.evidenceQuality.rejectedMeasurementCount, 3);
+});
+
+test("only safe installed observations are eligible for automatic next-step selection", () => {
   const result = Casebook.triageLowFlow({ measurements: [] }, lowFlow);
   assert.ok(result.nextEvidence);
   assert.equal(result.nextEvidence.safetyClass, "installed_instrument_observation");
-});
-
-test("every cited source is registered and reuse-restricted sources remain reference-only", () => {
-  const ids = new Set([
-    ...sourceRegistry.sources.map(s => s.id),
-    ...(sourceRegistry.reference_only_documents || []).map(s => s.id)
-  ]);
-  for (const source of lowFlow.sources) assert.ok(ids.has(source.sourceId), "unregistered source: " + source.sourceId);
-  for (const id of ["ksb-mdx-maintenance-manual-2021-8-01", "ksb-centrifugal-pump-lexicon-operating-point", "ashrae-handbook-2024-chapter-44-centrifugal-pumps"]) {
-    const source = sourceRegistry.reference_only_documents.find(s => s.id === id);
-    assert.ok(source);
-    assert.equal(source.fetchAllowed, false);
-    assert.match(source.licenseStatus, /reference-only/i);
-  }
+  assert.equal(result.nextEvidence.selectionMethod, "coverage_heuristic_not_information_gain");
 });

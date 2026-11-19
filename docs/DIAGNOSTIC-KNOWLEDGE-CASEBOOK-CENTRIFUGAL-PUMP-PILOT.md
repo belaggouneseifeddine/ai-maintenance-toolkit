@@ -233,3 +233,28 @@ No paper text, figures, tables or raw data were copied. The two sources are regi
 ### Pilot gate
 
 No pump case enters runtime until every claim has a permitted source, exact section/page, equipment scope, units, measurement location, operating conditions, supporting and opposing evidence, safe test prerequisites, expected results for competing hypotheses, stop conditions, post-repair verification and automated tests for missing, contradictory, noisy and invalid measurements. Actual measurements, PLC-indicated values and estimates must remain distinct. No general numeric threshold is allowed without the applicable model/curve/fluid/installation source.
+
+
+## 10. Review 2026-11-19 — current evidence and gaps
+
+### Current repository evidence
+
+- The pilot contains one structured case, CP-004 (low flow), with six competing hypotheses. Cavitation, Air Lock, Suction Blockage, Mechanical Seal Leakage and Bearing Degradation are not yet separate structured cases with source-backed outcome matrices.
+- Root `faults.json` has 284 records across 36 equipment types; 17 are pump records and none has `sourceRefs`. `pump-mechanical-seal-leak` and `pump-seal-leak` overlap semantically and need deduplication review, not automatic deletion.
+- `knowledge/faults-supplement.json` has three records and no pump case. `knowledge/oem-verified-faults.json` has 99 records but no pump record. Existing generic pump records are not OEM-verified evidence.
+- `knowledge/sources.json` has two open research sources and three reference-only KSB/ASHRAE documents. The research papers are limited to their cited laboratory rigs; the KSB MDX table is limited to its slurry-pump family; the lexicon/ASHRAE material supports operating-point concepts, not a universal six-way fault matrix.
+- The structured case has no per-hypothesis expected-outcome matrix. The next-test choice is a coverage heuristic, not Bayesian expected information gain. No approved pump-specific likelihood table exists; no probability or root cause is emitted.
+
+### Validation and isolation update
+
+- The candidate JSON is isolated at `knowledge/candidates/diagnostic-cases/centrifugal-pump-low-flow.json` and excluded from the Android package. No candidate data enters the runtime diagnosis library.
+- Candidate triage validates allowed units and provenance, rejects unknown measurements, mismatched units, noisy/stale/contradictory readings, suspect/failed sensors and duplicate measurement names, and keeps all hypotheses unresolved.
+- The case remains `candidate` with `licenseStatus: reference_only`. No OEM manual, standard text, table or raw dataset was copied into runtime knowledge.
+
+### Next acceptance gates
+
+1. Build a source-backed pump component map and six separate differential cases with claim-level source/page and separate code/data reuse checks.
+2. Define per-hypothesis outcome matrices; record units, measurement point, operating state, quality, uncertainty and direct/PLC/historian/estimated provenance.
+3. Add approved likelihood data before exposing expected-information-gain ranking; otherwise keep the coverage heuristic label.
+4. Have a qualified pump specialist review safety classes, stop conditions and post-repair verification.
+5. Keep candidate cases isolated until licensing, technical review and regression tests pass.

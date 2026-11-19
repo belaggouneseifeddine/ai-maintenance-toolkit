@@ -47,6 +47,9 @@ The build runs `syncMaintenanceWebAssets` and `vendorDocumentRuntime` before And
 
 ## Known limits
 
-- The native host streams generation chunks through LiteRT-LM callbacks and displays partial output in the chat UI; the final response is assembled when generation completes.
+- A ready status means the imported artifact passed the host load check and is available for on-demand generation; the Engine is closed after the check and recreated for each request. The model is not kept resident between turns.
+- Import currently checks the `.litertlm` extension and a size ceiling, but does not pin an approved SHA-256 or authenticate the artifact origin. Import only from a trusted official source and retain its checksum.
+
+- LiteRT-LM emits native generation chunks, but the current JavaScript bridge buffers the response and resolves only after generation completes. The chat UI does not yet stream tokens, and native cancellation is not implemented.
 - The first WebView bridge build is an integration prototype. Do not merge it until the current APK passes physical-device and airplane-mode tests, and the diagnostic/security regression suite remains green. CI build and source tests have passed, but they do not prove device performance or model quality.
 - The small Qwen model is the primary local generator, not an authority for engineering facts. Local deterministic tools, reviewed PDF evidence, source/page references, and technician verification remain authoritative.

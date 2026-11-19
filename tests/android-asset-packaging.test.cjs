@@ -32,3 +32,12 @@ test("new assistant case-context module is loaded before local UI and cached off
   assert.doesNotMatch(gradle, /"agent-ui\.js"/);
   assert.match(sw, /asset === "\.\/agent-ui\.js"/);
 });
+
+
+test("candidate diagnostic cases stay outside the Android runtime package", () => {
+  const gradle = fs.readFileSync("android-local-host/app/build.gradle.kts", "utf8");
+  const sw = fs.readFileSync("sw.js", "utf8");
+  assert.doesNotMatch(gradle, /knowledge\/diagnostic-cases\/\*\.json/);
+  assert.match(gradle, /exclude\([\s\S]*"knowledge\/candidates\/\*\*"/);
+  assert.doesNotMatch(sw, /centrifugal-pump-low-flow/);
+});

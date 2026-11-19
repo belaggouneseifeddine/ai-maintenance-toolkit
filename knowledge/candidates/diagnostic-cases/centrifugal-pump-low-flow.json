@@ -121,7 +121,15 @@
         "estimated",
         "unknown"
       ],
-      "baselineRequired": true
+      "baselineRequired": true,
+      "allowedUnits": [
+        "m³/h",
+        "m3/h",
+        "L/s",
+        "L/min",
+        "gpm",
+        "US gpm"
+      ]
     },
     {
       "name": "Suction pressure",
@@ -135,7 +143,17 @@
         "estimated",
         "unknown"
       ],
-      "baselineRequired": true
+      "baselineRequired": true,
+      "allowedUnits": [
+        "kPa(g)",
+        "bar(g)",
+        "MPa(g)",
+        "psi(g)",
+        "kPa(a)",
+        "bar(a)",
+        "MPa(a)",
+        "psi(a)"
+      ]
     },
     {
       "name": "Discharge pressure",
@@ -149,7 +167,17 @@
         "estimated",
         "unknown"
       ],
-      "baselineRequired": true
+      "baselineRequired": true,
+      "allowedUnits": [
+        "kPa(g)",
+        "bar(g)",
+        "MPa(g)",
+        "psi(g)",
+        "kPa(a)",
+        "bar(a)",
+        "MPa(a)",
+        "psi(a)"
+      ]
     },
     {
       "name": "Pump speed",
@@ -163,7 +191,10 @@
         "estimated",
         "unknown"
       ],
-      "baselineRequired": true
+      "baselineRequired": true,
+      "allowedUnits": [
+        "rpm"
+      ]
     },
     {
       "name": "Source liquid level",
@@ -177,7 +208,13 @@
         "estimated",
         "unknown"
       ],
-      "baselineRequired": true
+      "baselineRequired": true,
+      "allowedUnits": [
+        "m",
+        "cm",
+        "mm",
+        "ft"
+      ]
     },
     {
       "name": "Fluid temperature",
@@ -191,7 +228,11 @@
         "estimated",
         "unknown"
       ],
-      "baselineRequired": true
+      "baselineRequired": true,
+      "allowedUnits": [
+        "°C",
+        "°F"
+      ]
     },
     {
       "name": "Strainer differential pressure",
@@ -205,7 +246,12 @@
         "estimated",
         "unknown"
       ],
-      "baselineRequired": true
+      "baselineRequired": true,
+      "allowedUnits": [
+        "kPa",
+        "bar",
+        "psi"
+      ]
     }
   ],
   "tests": [
@@ -241,7 +287,9 @@
         "A pressure value without tap location, unit, timestamp and operating condition is incomplete",
         "PLC command/frequency is not equivalent to independently measured shaft speed",
         "Do not use generic pressure or flow thresholds"
-      ]
+      ],
+      "timeCost": "low",
+      "resourceCost": "low"
     },
     {
       "id": "review-source-and-valve-state",
@@ -268,7 +316,9 @@
       "interpretationLimits": [
         "A displayed valve position may not equal physical valve position",
         "Do not manipulate valves as an experiment"
-      ]
+      ],
+      "timeCost": "low",
+      "resourceCost": "low"
     },
     {
       "id": "plan-isolated-inspection",
@@ -296,7 +346,9 @@
       "interpretationLimits": [
         "This is not an instruction to open equipment; use exact OEM and site procedures",
         "Inspection findings must be recorded with component, location and photographs where permitted"
-      ]
+      ],
+      "timeCost": "high",
+      "resourceCost": "high"
     }
   ],
   "limits": [

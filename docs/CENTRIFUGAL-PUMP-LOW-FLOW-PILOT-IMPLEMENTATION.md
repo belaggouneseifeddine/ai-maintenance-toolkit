@@ -1,11 +1,11 @@
 # Centrifugal-pump low-flow pilot — implementation note
 
-**Branch:** `work/maintenance-offline-semantic-phase2-2026-11-17`  
+**Branch:** `refactor/local-first-codebase-cleanup-2026-11-19`  
 **Status:** Candidate case + build-time contract; not runtime knowledge.
 
 ## What was added
 
-- `knowledge/diagnostic-cases/centrifugal-pump-low-flow.json`: a structured differential case with six competing hypotheses, explicit measurement metadata, three evidence-gathering activities, limits, stop conditions, verification criteria and source/license status.
+- `knowledge/candidates/diagnostic-cases/centrifugal-pump-low-flow.json`: a structured differential case with six competing hypotheses, explicit measurement metadata and allowed units, three evidence-gathering activities, qualitative time/resource costs, limits, stop conditions, verification criteria and source/license status. It remains a candidate and is excluded from the Android package.
 - `knowledge/schemas/diagnostic-case.schema.json`: JSON Schema contract for diagnostic cases.
 - `diagnostic-casebook.js`: dependency-free contract validator and conservative candidate triage helper.
 - `tests/diagnostic-casebook.test.cjs`: tests for missing metadata, provenance, source-review gates, unresolved hypotheses and safe next-observation selection.
@@ -23,3 +23,13 @@ The source register now also records three bounded reference-only sources: the G
 3. Add contradictory, stale, noisy, mismatched-unit and sensor-fault fixtures.
 4. Have a qualified pump technician review the test logic and stop conditions.
 5. Only then consider connecting the case to the runtime registry.
+
+## Review update — 2026-11-19
+
+- CP-004 (low flow) is the only structured pump pilot record. Cavitation, air lock, suction blockage, mechanical-seal leakage and bearing degradation are not yet separate structured, source-reviewed cases.
+- The candidate JSON is isolated under `knowledge/candidates/diagnostic-cases/`; the Android Gradle allow-list no longer packages `knowledge/diagnostic-cases/*.json`. A packaging regression test enforces this.
+- Candidate triage now rejects unknown measurement names, unit mismatches, suspect/failed sensors, noisy/stale/contradictory quality flags, invalid timestamps and duplicate measurement names. Unknown quality/sensor status remains explicitly unverified; estimated and unknown provenance are counted separately.
+- Source IDs are checked against the source registry. Field-validated promotion is blocked while any cited source is reference-only or lacks explicit reusable rights.
+- Next-observation selection remains a transparent coverage heuristic using safe installed observations and qualitative time/resource cost. It is not expected information gain; no approved likelihood table exists and no numeric probability is produced.
+- Remaining gaps: per-hypothesis expected-outcome matrix; source-backed component/failure map; model-specific pump curve; exact OEM rights; specialist review; and field validation.
+- No candidate was promoted into runtime knowledge and no OEM-verified pump record was created.

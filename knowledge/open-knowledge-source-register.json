@@ -18,22 +18,22 @@
       "lastPushed": "2026-10-26",
       "latestRelease": "v3.2.0",
       "version": "3.2.0",
-      "codeLicense": "not applicable to the metamodel schema itself",
-      "dataLicense": "CC-BY-4.0 for schema/specification content",
+      "codeLicense": "not applicable to schema",
+      "dataLicense": "CC-BY-4.0 for specification/schema content",
       "filesReviewed": [
         "README.md",
         "LICENSE.txt",
         "schemas/json/README.md",
         "schemas/json/aas.json"
       ],
-      "contentsReviewed": "Reviewed the 3.2.0 JSON schema and repository license notice.",
+      "contentsReviewed": "Rechecked release 3.2.0 metadata, CC BY 4.0 licence text and JSON schema. The metamodel structures assets/submodels; it is not a fault ontology.",
       "qualityNotes": [
         "A generic asset/submodel metamodel, not an equipment fault ontology or repair database.",
         "The full schema is broader than the Toolkit's current needs."
       ],
       "androidWorkerCompatibility": "A small attributed subset can be represented as JSON; avoid embedding the entire metamodel unless required.",
       "reuseConditions": "Provide CC BY 4.0 attribution and preserve notices; verify the exact release-specific license before redistributing schema files.",
-      "reviewStatus": "reviewed-2026-11-09"
+      "reviewStatus": "reviewed-2026-11-19"
     },
     {
       "id": "arx-mfcm-hydraulic-dataset",
@@ -65,11 +65,11 @@
       "accessStatus": "README and LICENSE reviewed",
       "decision": "discovery-index-only-noncommercial-license",
       "owner": "jonathanwvd",
-      "lastUpdated": "2026-11-09",
-      "lastPushed": "2026-11-09",
+      "lastUpdated": "2026-11-19",
+      "lastPushed": "2026-11-16",
       "latestRelease": null,
-      "codeLicense": "not applicable for content reuse",
-      "dataLicense": "CC-BY-NC-4.0 for the catalogue content; linked datasets have separate licenses",
+      "codeLicense": "not applicable to catalogue",
+      "dataLicense": "CC-BY-NC-4.0 for catalogue content only; each listed dataset has separate rights",
       "filesReviewed": [
         "README.md",
         "LICENSE",
@@ -77,15 +77,16 @@
         "markdown/3w.md",
         "markdown/damadics_actuator_benchmark.md"
       ],
-      "contentsReviewed": "Reviewed catalogue entries for UCI hydraulic, 3W and DAMADICS; 199 dataset entries are indexed.",
+      "contentsReviewed": "README reports 398 dataset entries. The catalogue licence is non-commercial; listed dataset licences are not inherited from the catalogue.",
       "qualityNotes": [
         "Useful discovery index, not a validated data source.",
         "The catalogue's non-commercial license is incompatible with commercial reuse of its text without permission.",
         "Each linked dataset must be checked at its original publisher."
       ],
       "androidWorkerCompatibility": "Use only as a discovery index; do not package its catalogue content into runtime.",
-      "reuseConditions": "Do not copy catalogue descriptions into a commercial product; navigate to and verify each original source.",
-      "reviewStatus": "reviewed-2026-11-09"
+      "reuseConditions": "Use links for discovery; do not copy catalogue text into a commercial product. Review each dataset's original licence independently.",
+      "reviewStatus": "reviewed-2026-11-19",
+      "version": "no formal release identified"
     },
     {
       "id": "azure-predictive-maintenance-agents",
@@ -121,15 +122,18 @@
       "lastPushed": "2026-10-03",
       "latestRelease": "v0.3.0",
       "version": "0.3.0",
-      "codeLicense": "MIT",
-      "dataLicense": "per-dataset; not covered by the repository MIT license",
+      "codeLicense": "MIT for package code",
+      "dataLicense": "per dataset: CWRU unspecified; FEMTO unspecified; URMA manifest claims CC-BY-4.0 but primary Zenodo record was not verified",
       "filesReviewed": [
         "README.md",
         "LICENSE",
         "pyproject.toml",
-        "dataset.yaml for CWRU, XJTU-SY, FEMTO, Paderborn and URMA-CRTI"
+        "src/bearing_datasets/datasets/cwru/dataset.yaml",
+        "src/bearing_datasets/datasets/femto/dataset.yaml",
+        "src/bearing_datasets/datasets/urma_crti/dataset.yaml",
+        "src/bearing_datasets/datasets/urma_crti/files.lock.json"
       ],
-      "contentsReviewed": "Reviewed 70 dataset.yaml manifests and representative per-dataset manifests; no raw benchmark data is bundled in the repository.",
+      "contentsReviewed": "README reports 69 datasets; current tree contains 70 dataset.yaml manifests. Reviewed CWRU/FEMTO/URMA manifests and checksum metadata; no raw data downloaded.",
       "dataOrigin": "Each manifest points to its own original publisher or repository; source-level terms must be verified per dataset.",
       "equipment": [
         "rolling-element bearings",
@@ -138,16 +142,16 @@
         "rotating machinery"
       ],
       "qualityNotes": [
-        "The library is a metadata/downloader registry, not a fault knowledge base.",
-        "CWRU, XJTU-SY and FEMTO manifests do not establish an explicit data license in the reviewed fields.",
-        "Paderborn is marked CC-BY-NC-4.0; non-commercial only.",
-        "URMA-CRTI is marked CC-BY-4.0 by this third-party manifest, but the primary Zenodo record was not independently verified in this run."
+        "README/tree count mismatch: 69 vs 70 manifests.",
+        "CWRU and FEMTO data licences are unspecified in reviewed manifests.",
+        "URMA CC BY 4.0 claim is from package manifest; primary Zenodo record was not accessible.",
+        "Labels and test-rig conditions are not causal repair instructions."
       ],
-      "dataLeakage": "Use run/bearing/operating-condition group splits; avoid splitting overlapping windows from the same run across train and test.",
+      "dataLeakage": "Split by recording/run and operating speed; do not randomly split adjacent windows.",
       "dependencies": "Python package with dataset-specific download and parsing adapters; not suitable as a runtime dependency in the Android PWA or Cloudflare Worker.",
       "androidWorkerCompatibility": "Port only small, reviewed metadata fields; run large dataset experiments outside the phone/Worker.",
-      "reuseConditions": "MIT applies to registry code. Check and comply with each dataset's own license, citation, redistribution and non-commercial/share-alike conditions.",
-      "reviewStatus": "reviewed-2026-11-09"
+      "reuseConditions": "MIT applies to package code only. Do not download/redistribute datasets until each original licence is confirmed.",
+      "reviewStatus": "reviewed-2026-11-19"
     },
     {
       "id": "brick-schema",
@@ -285,8 +289,8 @@
       "lastUpdated": "2026-06-12",
       "lastPushed": "2026-06-02",
       "latestRelease": null,
-      "codeLicense": "MIT (repository LICENSE; applies to code)",
-      "dataLicense": "not-declared-separately",
+      "codeLicense": "MIT for repository code",
+      "dataLicense": "no separate data licence found for knowledge_base.json, fault_cases.json or standards CSV",
       "filesReviewed": [
         "README.md",
         "LICENSE",
@@ -295,7 +299,7 @@
         "data/standards/gbt3215_pump_faults.csv",
         "requirements.txt"
       ],
-      "contentsReviewed": "Inspected upstream files only; no upstream fault text, dataset file, code, or pump extract is retained in this repository. Duplicate legacy register entry merged into this canonical record on 2026-11-17; upstream repository is recorded once.",
+      "contentsReviewed": "Actual JSON/CSV reviewed. Knowledge records cite GB/T 3215-2019 and manual-derived content; fault-case examples include named operators/timestamps with no independently verified origin.",
       "dataOrigin": "Embedded records cite GB/T/JB/T standards and generic manuals, but the exact original editions, pages, permissions and claim-to-source mapping are not established.",
       "equipment": [
         "pumps",
@@ -309,19 +313,20 @@
         "safety valves"
       ],
       "qualityNotes": [
-        "55 records across 9 equipment classes; 9 pump records were counted during review.",
-        "42 of 55 diagnosis_steps duplicate possible_causes rather than describing discriminating tests.",
-        "The pump CSV contains 5 rows while the README describes 3 pump fault types.",
-        "fault_cases.json lacks sufficient model, operating-condition, measurement-location and source-page provenance for runtime use."
+        "MIT does not license data files by itself.",
+        "Standards-derived text has no separate reuse permission.",
+        "Fault-case provenance is unclear and may contain identifying operator information.",
+        "Do not promote its pump records to technical facts."
       ],
       "dataLeakage": "No model benchmark reviewed. Any future evaluation must split by source document, machine/model and case rather than randomly splitting near-duplicate records.",
       "dependencies": "Python RAG stack; requirements include vector retrieval, embeddings and web-app dependencies; not a browser/Worker runtime dependency.",
       "androidWorkerCompatibility": "Do not port the Python stack. Use only as a discovery pointer; no content import.",
-      "reuseConditions": "MIT code license does not grant rights to embedded standards-derived or manual-derived data. Do not copy, redistribute, translate or operationalize the knowledge records without a separate explicit data license and source permissions.",
-      "reviewStatus": "reviewed-2026-11-09-metadata-only",
+      "reuseConditions": "No data/code copied. Do not reuse standards-derived text or fault cases until each source and rights basis is verified.",
+      "reviewStatus": "reviewed-2026-11-19",
       "aliases": [
         "industrial-ops-rag-agent"
-      ]
+      ],
+      "version": "no formal release"
     },
     {
       "id": "jonmuel-hydraulic-condition-monitoring",
@@ -332,15 +337,33 @@
       "reportedScope": "UCI hydraulic condition monitoring dataset; notebook, exported model, FastAPI demo.",
       "licenseStatus": "repository code MIT; UCI dataset terms are separate",
       "accessStatus": "README and LICENSE reviewed",
-      "decision": "offline-evaluation-reference",
+      "decision": "offline-evaluation-reference-only-no-model-import",
       "owner": "JonMuel",
-      "codeLicense": "MIT reported in repository review",
-      "dataLicense": "underlying UCI hydraulic data CC BY 4.0; separate from repository code",
-      "lastUpdated": null,
-      "lastPushed": null,
+      "codeLicense": "MIT in LICENSE; GitHub API did not assign SPDX metadata",
+      "dataLicense": "UCI hydraulic dataset CC-BY-4.0; model/weight artefact licence not separately declared",
+      "lastUpdated": "2026-08-17",
+      "lastPushed": "2026-07-05",
       "latestRelease": null,
-      "filesReviewed": [],
-      "contentsReviewed": "Not reviewed in this audit."
+      "filesReviewed": [
+        "README.md",
+        "LICENSE",
+        "notebook/01_condition_monitoring_valve.ipynb",
+        "deployment/models/model_info.json",
+        "deployment/models/feature_schema.json",
+        "deployment/README.md",
+        "scripts/download_data.py"
+      ],
+      "contentsReviewed": "Notebook uses StratifiedGroupKFold by operating-condition blocks and an imbalanced-learn pipeline; reports 90.6% held-out accuracy, CV F1 0.775, Brier 0.152 and ECE 0.023. Target is valve condition on one hydraulic rig, not pump root cause.",
+      "version": "no tagged release",
+      "qualityNotes": [
+        "README reports random-split F1 inflation of 0.451; group split is safer.",
+        "Early-wear recall is 0.51; aggregate accuracy hides a weak class.",
+        "Virtual CE/CP/SE channels may encode condition/operating context; feature ablation remains needed.",
+        "No independent rig/field validation; do not import the trained model."
+      ],
+      "dataLeakage": "Group split used; virtual-channel and same-rig generalization risks remain.",
+      "reviewStatus": "reviewed-2026-11-19",
+      "reuseConditions": "MIT applies to code; UCI data requires CC BY 4.0 attribution. Model artefact rights and suitability are not established."
     },
     {
       "id": "lbnl-fdd-datasets",
@@ -352,12 +375,12 @@
       "lastPushed": null,
       "latestRelease": null,
       "codeLicense": "not applicable",
-      "dataLicense": "CC-BY-4.0 confirmed through the Open Energy Data Initiative record",
+      "dataLicense": "exact licence not verified in official inventory PDF; public OEDI availability is not itself a reuse licence",
       "filesReviewed": [
-        "official LBNL FDD datasets page",
-        "OEDI submission 5763 metadata and license link"
+        "OEDI dataset record metadata",
+        "Inventory of LBNL Fault Detection and Diagnostics: Fan Coil Unit Test Data Sets (PDF, 2022-08-01)"
       ],
-      "contentsReviewed": "Reviewed source metadata, system coverage and license; raw CSV/telemetry files and linked PDF/TTL files were not retrieved in this run.",
+      "contentsReviewed": "FCU inventory: 29 points, 49 scenarios (48 faulted plus one fault-free), one-minute data, simulated four-pipe fan-coil unit and Brick model. The PDF contains no licence statement; no CSV downloaded.",
       "dataOrigin": "LBNL FDD datasets assembled from LBNL and collaborating national laboratories/universities; includes simulation, laboratory and field HVAC data.",
       "equipment": [
         "HVAC",
@@ -369,15 +392,15 @@
         "building systems"
       ],
       "qualityNotes": [
-        "Metadata describes seven system types, 257 fault/operating states and billions of data points.",
-        "Full dataset access on the LBNL site requires a contact/registration workflow; OEDI record exposes inventory/semantic metadata rather than all raw data.",
-        "Fault labels are domain-specific HVAC FDD cases, not universal repair procedures."
+        "Inspected FCU data are simulated, not field measurements.",
+        "Fault labels represent injected scenarios, not general causal rules.",
+        "Exact reuse licence must be confirmed from OEDI record or dataset owner."
       ],
       "dataLeakage": "Split by building, equipment, fault injection and operating scenario; avoid random time-window leakage.",
       "androidWorkerCompatibility": "Large offline benchmark only; no raw data in runtime.",
-      "reuseConditions": "CC BY 4.0 attribution; cite LBNL and each contributing dataset/source; no raw data was copied.",
+      "reuseConditions": "Do not redistribute raw CSVs or extract rule text until exact dataset licence is confirmed.",
       "decision": "reference-and-benchmark-candidate-no-runtime-import",
-      "reviewStatus": "metadata-license-reviewed-raw-data-not-accessed-2026-11-09",
+      "reviewStatus": "official-inventory-pdf-reviewed-2026-11-19-license-unverified",
       "potentialUse": "HVAC fault-detection benchmark and domain-specific test design; no universal repair knowledge.",
       "lastChecked": "2026-11-09",
       "licenseStatus": "CC-BY-4.0 confirmed through the OEDI record license link"
@@ -431,18 +454,18 @@
       "accessStatus": "README.md and LICENSE path fetches returned NOT_FOUND through the inspected route",
       "decision": "dataset-benchmark-only-code-do-not-copy",
       "owner": "MIMII-hitachi",
-      "lastUpdated": "2022-12-27",
+      "lastUpdated": "2026-11-04",
       "lastPushed": "2022-12-27",
       "latestRelease": null,
-      "codeLicense": "no repository LICENSE found; baseline.py header states Copyright 2019 Hitachi, Ltd. All rights reserved",
-      "dataLicense": "CC-BY-SA-4.0 for the MIMII public 1.0 dataset on Zenodo; separate from code",
+      "codeLicense": "no code licence grant identified; baseline files carry Hitachi copyright/all-rights-reserved notice",
+      "dataLicense": "MIMII public 1.0 dataset is separately CC-BY-SA-4.0",
       "filesReviewed": [
         "readme.md",
         "baseline.py",
         "baseline.yaml",
         "requirements.txt"
       ],
-      "contentsReviewed": "Reviewed the baseline implementation and requirements; no LICENSE file exists in the repository tree.",
+      "contentsReviewed": "Baseline v1.0.3 is a DAE-based normal/anomaly detector using Python 3.6, TensorFlow 1.15 and old Keras/librosa; it does not identify root cause.",
       "dataOrigin": "Hitachi lab recordings of valves, pumps, fans and slide rails; eight-channel audio at 16 kHz with background factory noise.",
       "equipment": [
         "valves",
@@ -457,8 +480,9 @@
       ],
       "dataLeakage": "Split by machine/model and recording conditions; keep domain and machine identity groups separate. Normal/abnormal labels do not provide causal repair labels.",
       "androidWorkerCompatibility": "Audio dataset and legacy model are not suitable for Android/Worker runtime; use only as an isolated benchmark if licensing is followed.",
-      "reuseConditions": "Dataset may be used under CC BY-SA 4.0 with attribution and share-alike obligations; do not copy baseline code without permission.",
-      "reviewStatus": "reviewed-2026-11-09"
+      "reuseConditions": "Do not copy baseline code or weights. Dataset reuse is governed by separate Zenodo CC BY-SA 4.0 terms.",
+      "reviewStatus": "reviewed-2026-11-19",
+      "version": "1.0.3"
     },
     {
       "id": "mimii-dataset-zenodo-3384388",
@@ -474,7 +498,7 @@
       "filesReviewed": [
         "Zenodo record 3384388 metadata and conditions of use"
       ],
-      "contentsReviewed": "Reviewed official dataset description and license; audio archives were not downloaded or decoded.",
+      "contentsReviewed": "Official Zenodo record confirms CC BY-SA 4.0, 100.2 GB, normal/anomalous sound for valves, pumps, fans and slide rails. Public 1.0 lists four model IDs (00, 02, 04, 06). No raw audio downloaded.",
       "dataOrigin": "Hitachi laboratory recordings of valves, pumps, fans and slide rails, with mixed background noise recorded in real factories.",
       "equipment": [
         "valves",
@@ -491,10 +515,11 @@
       "androidWorkerCompatibility": "Research benchmark only; do not embed audio in the PWA or Worker.",
       "reuseConditions": "CC BY-SA 4.0 requires attribution and share-alike for adaptations; keep dataset separate from runtime knowledge.",
       "decision": "research-benchmark-only-sharealike-no-runtime-import",
-      "reviewStatus": "official-license-and-metadata-reviewed-2026-11-09",
+      "reviewStatus": "official-license-and-metadata-reviewed-2026-11-19",
       "potentialUse": "Acoustic anomaly-detection benchmark for pumps, valves, fans and slide rails only.",
       "lastChecked": "2026-11-09",
-      "licenseStatus": "CC-BY-SA-4.0 confirmed on the official Zenodo record"
+      "licenseStatus": "CC-BY-SA-4.0 confirmed on the official Zenodo record",
+      "version": "public 1.0"
     },
     {
       "id": "mimii-dg-zenodo-6529888",
@@ -585,13 +610,13 @@
       "lastPushed": "2026-10-23",
       "latestRelease": "v1.9.0",
       "version": "1.9.0",
-      "codeLicense": "NASA Open Source Agreement (NOSA) stated by repository; exact PDF version/obligations not fully reviewed",
-      "dataLicense": "no separate dataset license reviewed",
+      "codeLicense": "NASA-1.3 declared in pyproject; the two licence PDFs were not parsed in this run",
+      "dataLicense": "no separate dataset licence reviewed",
       "filesReviewed": [
         "README.md",
         "pyproject.toml"
       ],
-      "contentsReviewed": "Reviewed README, package metadata and version; license PDFs are present in the repository but were not parsed in this audit.",
+      "contentsReviewed": "ProgPy 1.9.0 is a physics-based prognostics framework, not a pump root-cause knowledge base.",
       "equipment": [
         "generic prognostics models",
         "pump simulation example",
@@ -603,8 +628,8 @@
       ],
       "dependencies": "Python scientific stack including SciPy, pandas, matplotlib and filtering/prognostics packages.",
       "androidWorkerCompatibility": "Not suitable as a runtime dependency; use only as a research reference after license review.",
-      "reuseConditions": "Do not copy code until the actual NOSA license PDFs and component-specific terms have been reviewed.",
-      "reviewStatus": "partially-reviewed-2026-11-09"
+      "reuseConditions": "Do not copy code until both NASA licence PDFs are read and obligations accepted.",
+      "reviewStatus": "partially-reviewed-2026-11-19-license-pdf-pending"
     },
     {
       "id": "open-fdd",
@@ -711,19 +736,18 @@
       "accessStatus": "README and LICENSE reviewed",
       "decision": "offline-prototype-only-no-python-runtime-dependency",
       "owner": "pgmpy",
-      "lastUpdated": "2026-11-09",
-      "lastPushed": "2026-11-09",
+      "lastUpdated": "2026-11-19",
+      "lastPushed": "2026-11-19",
       "latestRelease": "v1.1.2",
       "version": "1.1.2",
       "codeLicense": "MIT",
-      "dataLicense": "not applicable to the library; examples must be reviewed individually",
+      "dataLicense": "not applicable; no industrial fault dataset",
       "filesReviewed": [
-        "LICENSE",
-        "pyproject.toml",
         "README.md",
-        "examples/Creating_Discrete_BN.ipynb"
+        "LICENSE",
+        "pyproject.toml"
       ],
-      "contentsReviewed": "Reviewed package metadata, license, documentation and a discrete Bayesian-network example.",
+      "contentsReviewed": "v1.1.2 provides Bayesian networks, parameter estimation and causal/probabilistic modelling; no pump-specific priors or likelihood data are supplied.",
       "equipment": [
         "domain-independent probabilistic graphical models"
       ],
@@ -734,32 +758,33 @@
       "dependencies": "Python >=3.10 with NumPy, SciPy, NetworkX, pandas and optional probabilistic backends.",
       "androidWorkerCompatibility": "Use as an algorithm reference or isolated research prototype; implement only a small, tested JS subset if needed.",
       "reuseConditions": "MIT code reuse is allowed with license notice; do not copy example datasets without separate review.",
-      "reviewStatus": "reviewed-2026-11-09"
+      "reviewStatus": "reviewed-2026-11-19"
     },
     {
       "id": "plantcraft",
       "title": "PlantCraft — industrial historian and analytics suite",
-      "url": "https://github.com/PlantCraft/PlantCraft",
+      "url": "https://github.com/jonathanwvd/PlantCraft",
       "type": "industrial-platform-architecture",
       "potentialUse": "Study asset/signal/alarms lineage, offline installation, read-only OT integration and auditability.",
       "reportedScope": "Historian, analytics, alarms, dashboards, process models, documents and read-only assistant access.",
       "licenseStatus": "Apache-2.0 verified for repository code; sample/demo datasets and trademark/logo rights are separate and not verified for reuse",
       "accessStatus": "README and repository license metadata reviewed; raw LICENSE file and SPEC.md were not fetched in this audit.",
       "decision": "architecture-reference-only-no-runtime-dependency",
-      "owner": "PlantCraft",
-      "lastUpdated": "2026-11-09",
-      "lastPushed": null,
-      "latestRelease": "v0.6.0",
-      "codeLicense": "Apache-2.0 (repository LICENSE/README)",
-      "dataLicense": "not separately verified for demo/scenario/telemetry data",
+      "owner": "jonathanwvd",
+      "lastUpdated": "2026-11-17",
+      "lastPushed": "2026-11-16",
+      "latestRelease": "v0.6.1",
+      "codeLicense": "Apache-2.0",
+      "dataLicense": "no separate fault-dataset licence reviewed",
       "filesReviewed": [
         "README.md",
-        "repository license metadata (Apache-2.0)",
-        "docs/install.md",
-        "docs/how-we-build.md",
-        "releases page (v0.6.0)"
+        "LICENSE",
+        "SPEC.md",
+        "apps/historian/docs/boundary.md",
+        "apps/historian/docs/data-layer.md",
+        "apps/alarms/README.md"
       ],
-      "contentsReviewed": "Reviewed the public README and repository license metadata; docs/install.md and docs/how-we-build.md; release page identifies v0.6.0 (2026-11-02). Documentation describes offline bundle, read-only plant integrations, local-first deployment and optional language-model activation. The raw LICENSE file and SPEC.md were not fetched in this audit; sample/demo data rights remain unverified.",
+      "contentsReviewed": "Canonical owner is jonathanwvd, not a PlantCraft GitHub organisation. Historian, asset/data boundaries and alarm docs reviewed; adjacent operations suite, not a diagnostic casebook.",
       "equipment": [
         "process plants",
         "historian tags",
@@ -779,8 +804,8 @@
       "dependencies": "Multi-service application with backend/frontend and deployment dependencies; not a lightweight Android/Worker library.",
       "androidWorkerCompatibility": "Architecture reference only; no runtime dependency or direct port.",
       "reuseConditions": "Retain Apache-2.0 license and NOTICE for code reuse; do not reuse names/logos; do not copy sample or telemetry data until its own terms are verified.",
-      "reviewStatus": "reviewed-2026-11-09",
-      "version": "0.6.1 (documentation states suite 0.6.1; latest tagged release reviewed is v0.6.0)",
+      "reviewStatus": "reviewed-2026-11-19",
+      "version": "0.6.1",
       "lastChecked": "2026-11-17"
     },
     {
@@ -800,11 +825,11 @@
       "lastPushed": null,
       "latestRelease": null,
       "codeLicense": "not applicable",
-      "dataLicense": "CC-BY-4.0",
+      "dataLicense": "CC-BY-4.0 verified on official UCI dataset page",
       "filesReviewed": [
-        "official UCI dataset page and metadata"
+        "UCI Machine Learning Repository dataset 447 official page"
       ],
-      "contentsReviewed": "Reviewed official metadata and signal descriptions; raw ZIP/CSV files were not downloaded in this audit. Duplicate DOI alias merged; one canonical UCI dataset entry retained.",
+      "contentsReviewed": "Official page confirms 2,205 cycles, 43,680 features, 17 sensor channels, 60-second repeated cycles, 100/10/1 Hz rates and cycle-wise labels for cooler, valve, internal pump leakage and accumulator. Includes virtual CE/CP/SE channels and a stability flag.",
       "dataOrigin": "ZeMA hydraulic test rig with cooler, valve, pump internal leakage and accumulator condition measurements.",
       "equipment": [
         "hydraulic system",
@@ -814,14 +839,14 @@
         "accumulator"
       ],
       "qualityNotes": [
-        "2,205 cycles of 60 seconds and 17 signals at mixed sampling frequencies; metadata reports 43,680 features.",
-        "Labels describe component condition states, not root-cause explanations or safe repair instructions.",
-        "No raw-file validation was run."
+        "Controlled hydraulic test rig, not field data.",
+        "Labels are cycle-wise targets, not work orders or root-cause explanations.",
+        "Virtual channels and operating-condition correlation require feature-ablation and group-split checks."
       ],
-      "dataLeakage": "Use operating-point/cycle-group splits; random row or window splitting can leak operating conditions and repeated-cycle patterns.",
+      "dataLeakage": "Split by operating-condition/run groups; random row/window splits can leak near-duplicate cycles.",
       "androidWorkerCompatibility": "Benchmark only; raw dataset is too large for the phone/Worker runtime.",
-      "reuseConditions": "CC BY 4.0 attribution; preserve dataset citation and source link; do not turn telemetry labels into maintenance facts.",
-      "reviewStatus": "metadata-and-license-reviewed-2026-11-09",
+      "reuseConditions": "CC BY 4.0 attribution required. Keep benchmark labels separate from repair knowledge.",
+      "reviewStatus": "official-metadata-and-license-reviewed-2026-11-19",
       "aliases": [
         "uci-hydraulic-condition-monitoring",
         "https://doi.org/10.24432/C5CW21"
@@ -859,6 +884,42 @@
       "androidWorkerCompatibility": "No Android/Worker runtime use; isolated benchmark only after primary license verification.",
       "reuseConditions": "Do not download or redistribute until the original Zenodo record explicitly confirms the exact license and citation.",
       "reviewStatus": "pending-primary-source-verification-2026-11-09"
+    },
+    {
+      "id": "camber-hvac-fdd",
+      "title": "CAMBER — building automation FDD, M&V and dataset toolkit",
+      "url": "https://github.com/yroussev/camber",
+      "type": "hvac-fdd-framework-and-dataset-catalog",
+      "potentialUse": "Reference for vendor-neutral point roles, asset topology, FDD evaluation, dataset manifests, SHA-256 verification and explicit licence gates.",
+      "reportedScope": "HVAC/BAS trend analysis, central-plant and hydronic rules, drift monitoring, Brick/Haystack interop and per-dataset catalogue.",
+      "licenseStatus": "Apache-2.0 for repository code; each dataset and standards-derived rule source has separate rights.",
+      "accessStatus": "README, LICENSE, pyproject, licence gate and downloader tests reviewed; no datasets downloaded/copied.",
+      "decision": "architecture-reference-only-no-runtime-import",
+      "owner": "yroussev",
+      "lastUpdated": "2026-10-31",
+      "lastPushed": "2026-11-15",
+      "latestRelease": null,
+      "version": "0.111.0",
+      "codeLicense": "Apache-2.0",
+      "dataLicense": "per-dataset; no blanket data licence",
+      "filesReviewed": [
+        "README.md",
+        "LICENSE",
+        "pyproject.toml",
+        "camber/datasets/_licence.py",
+        "tests/test_datasets_fetch.py"
+      ],
+      "contentsReviewed": "Reviewed NC/ND research-only gate, acknowledgement ledger, HTTPS-only downloader and size/SHA-256 verification tests. README claims 11 central-plant/hydronic rules; individual rule content not fully audited.",
+      "qualityNotes": [
+        "Useful pattern for licence gating and provenance.",
+        "HVAC/building scope, not a pump casebook.",
+        "Some rules reference ASHRAE standards; do not copy standard text or assume Apache covers third-party material.",
+        "Python 3.10+ scientific stack; not a direct Android dependency."
+      ],
+      "dataLeakage": "No dataset downloaded or model evaluated; building FDD should split by building/site/time, not random rows.",
+      "androidWorkerCompatibility": "Port manifest/licence-gate concepts only; Python package not suitable for direct Android/Worker deployment.",
+      "reuseConditions": "Apache-2.0 code requires notices; each dataset and standards-derived rule needs separate rights review.",
+      "reviewStatus": "reviewed-2026-11-19"
     }
   ]
 }
