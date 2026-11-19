@@ -13,6 +13,9 @@ import android.webkit.ValueCallback
 import android.widget.Toast
 import androidx.webkit.WebViewAssetLoader
 import androidx.webkit.WebViewClientCompat
+import androidx.webkit.ServiceWorkerControllerCompat
+import androidx.webkit.ServiceWorkerClientCompat
+import androidx.webkit.WebViewFeature
 import com.google.ai.edge.litertlm.*
 import org.json.JSONArray
 import org.json.JSONObject
@@ -41,6 +44,14 @@ class MainActivity : Activity() {
         val loader = WebViewAssetLoader.Builder()
             .addPathHandler("/assets/", WebViewAssetLoader.AssetsPathHandler(this))
             .build()
+        if (WebViewFeature.isFeatureSupported(WebViewFeature.SERVICE_WORKER_BASIC_USAGE)) {
+            ServiceWorkerControllerCompat.getInstance().setServiceWorkerClient(
+                object : ServiceWorkerClientCompat() {
+                    override fun shouldInterceptRequest(request: WebResourceRequest) =
+                        loader.shouldInterceptRequest(request.url)
+                }
+            )
+        }
         val view = WebView(this)
         webView = view
         view.layoutParams = ViewGroup.LayoutParams(-1, -1)
