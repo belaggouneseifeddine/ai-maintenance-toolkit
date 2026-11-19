@@ -8,7 +8,7 @@ test("verified source-backed numeric rule supports only a direct, quality-accept
  assert.equal(result.usedForRanking,true);assert.equal(result.supporting.length,1);assert.equal(result.contradicting.length,0);
 });
 test("value outside the verified fault condition is explicit contradiction, not exclusion",()=>{
- const result=Engine.evaluateFault({measurementRules:[rule]},[reading({value:2.1})],{});
+ const result=Engine.evaluateFault({measurementRules:[rule]},[reading({value:2.1})],{model:"Pump-X"});
  assert.equal(result.contradicting.length,1);assert.equal(result.evaluations[0].state,"contradicts");
 });
 test("unreviewed, wrong-unit, estimated, stale-quality or wrong-context readings remain unknown",()=>{
@@ -21,10 +21,10 @@ test("unreviewed, wrong-unit, estimated, stale-quality or wrong-context readings
   [ rule, reading({timestamp:""}), "measurement_timestamp_missing_or_invalid" ],
   [ {...rule,modelScope:"Pump-Y"}, reading(), "model_scope_mismatch" ]
  ];
- for(const [r,m,reason] of cases){const result=Engine.evaluateFault({measurementRules:[r]},[m],{});assert.equal(result.unknown[0].reason,reason);}
+ for(const [r,m,reason] of cases){const result=Engine.evaluateFault({measurementRules:[r]},[m],{model:r.modelScope==="Pump-Y"?"Pump-X":"Pump-X"});assert.equal(result.unknown[0].reason,reason);}
 });
 test("missing measurements and unverified source pages never influence ranking",()=>{
- const missing=Engine.evaluateFault({measurementRules:[rule]},[],{});
+ const missing=Engine.evaluateFault({measurementRules:[rule]},[],{model:"Pump-X"});
  assert.equal(missing.usedForRanking,false);assert.equal(missing.unknown[0].reason,"measurement_missing");
  const unverified=Engine.evaluateFault({measurementRules:[{...rule,sourcePageVerified:false}]},[reading()],{});
  assert.equal(unverified.usedForRanking,false);
