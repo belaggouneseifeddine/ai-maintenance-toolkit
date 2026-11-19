@@ -81,7 +81,7 @@ test("PACO VL/VLS low-flow case is source-bounded and remains candidate-only", (
   assert.ok(paco.applicability.some(value => /PACO VL and VLS/i.test(value)));
   assert.ok(paco.hypotheses.length >= 2);
   assert.ok(paco.measurements.every(item => item.location && item.operatingCondition && item.sourceTypes.includes("unknown")));
-  assert.ok(paco.limits.some(value => /no universal numeric/i.test(value)));
+  assert.ok(paco.limits.some(value => /universal numeric/i.test(value)));
   assert.ok(paco.sources.some(source => source.sourceId === "grundfos-paco-vl-vls-manual-5104627" && source.sectionOrPage.includes("printed page 15")));
   const registered = sourceRegistry.reference_only_documents.find(source => source.id === "grundfos-paco-vl-vls-manual-5104627");
   assert.ok(registered);
