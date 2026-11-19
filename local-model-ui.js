@@ -174,6 +174,7 @@
         await root.MaintenanceNativeLLM.pickModel();
         $("localModelStatus").textContent = "تم استيراد الملف. اضغط تحميل النموذج.";
         $("localModelLoad").disabled = false;
+        $("localModelSend").disabled = true;
       } catch (error) {
         $("localModelStatus").textContent = t.error + (error.code || error.message || "unknown");
       }
@@ -192,9 +193,17 @@
         $("localModelLoad").disabled = false;
       }
     });
-    $("localModelNew").addEventListener("click", () => {
-      try { createAgent(); showHistory(); $("localModelSend").disabled = false; }
-      catch (error) { $("localModelStatus").textContent = t.error + (error.message || "unknown"); }
+    $("localModelNew").addEventListener("click", async () => {
+      try {
+        const state = await runtime.getStatus();
+        createAgent();
+        showHistory();
+        $("localModelSend").disabled = !(state.available && state.modelLoaded);
+        if (!(state.available && state.modelLoaded)) $("localModelStatus").textContent = t.notLoaded;
+      } catch (error) {
+        $("localModelStatus").textContent = t.error + (error.message || "unknown");
+        $("localModelSend").disabled = true;
+      }
     });
     async function send() {
       const input = $("localModelInput");
