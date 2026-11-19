@@ -48,6 +48,8 @@ The diagram describes the intended/runtime call boundaries at a high level; indi
 - The Bayesian EIG function is stricter: it requires approved, resolvable likelihood sources and valid outcome distributions. If these are missing, it returns a non-success status rather than fabricating an information-gain ranking.
 - `assistant-local-tools.js` exposes `rankNextDiagnosticTests`; verify every model/tool adapter exposes it before describing next-test ranking as available in all assistant paths.
 
+**Measurement-rule implementation on this branch:** a separate evaluator now accepts only rules with approved review status, verified source status, a visually verified source page, a document/page locator, exact measurement name and unit, exact operating context, and an explicit comparison operator/range. It accepts only direct measurements with healthy sensor status and good quality. Unsupported, estimated, PLC/Historian, stale, mismatched, missing, or ambiguous readings remain `unknown`. Verified supports/contradictions are used only as tie-breakers after the existing equipment/symptom/keyword score; no generic numeric limits or calibrated probabilities are added. Existing fault records without these rule fields are unchanged.
+
 **Next diagnostic change:** introduce a single evidence/result contract before adding more scoring logic. Numerical evidence may influence ranking only when a fault rule defines the measured variable, canonical unit, valid operating context, comparison operator/range, source reference, and review state. Missing, stale, estimated, contradictory, or non-independent readings must remain explicitly qualified. No generic thresholds should be inferred.
 
 ## 3. Flow registry versus adaptive session engine
