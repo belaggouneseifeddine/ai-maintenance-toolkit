@@ -26,3 +26,17 @@ test("deployment and offline cache include the runtime modules used by the chat"
   assert.ok(cf.includes(file),"Cloudflare artifact missing "+file);
  }
 });
+
+test("Android host packages the PWA locally and does not request network access",()=>{
+ const manifest=read("android-local-host/app/src/main/AndroidManifest.xml");
+ const build=read("android-local-host/app/build.gradle.kts");
+ const main=read("android-local-host/app/src/main/java/com/maintenanceaitoolkit/localhost/MainActivity.kt");
+ const workflow=read(".github/workflows/android-local-host.yml");
+ assert.doesNotMatch(manifest,/android\.permission\.INTERNET/);
+ assert.match(build,/syncMaintenanceWebAssets/);
+ assert.match(build,/litertlm-android:0\.19\.1/);
+ assert.match(main,/Backend\.CPU\(\)/);
+ assert.match(main,/qwen3\.5-0\.8b-int8-cpu/);
+ assert.match(workflow,/assembleDebug/);
+ assert.match(workflow,/refactor\/local-assistant-diagnostic-pdf-2026-11-19/);
+});
