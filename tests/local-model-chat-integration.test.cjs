@@ -6,6 +6,8 @@ test("single diagnostic chat exposes optional local Qwen import and load control
  for(const id of ["diagnosticChatImportModel","diagnosticChatLoadModel","diagnosticChatLocalModelStatus"])assert.ok(chat.includes(id));
  assert.ok(chat.includes("MaintenanceNativeLLM.pickModel"));
  assert.ok(chat.includes("localRuntime.loadModel"));
+ assert.ok(chat.includes("state.modelAvailable"));
+ assert.ok(read("android-local-host/app/src/main/java/com/maintenanceaitoolkit/localhost/MainActivity.kt").includes("modelAvailable"));
  assert.ok(chat.includes("MaintenanceLocalModelAgent.createLocalModelAgent"));
  assert.ok(html.indexOf('src="./native-local-llm-bridge.js"')<html.indexOf('src="./diagnostic-chat.js"'));
  assert.ok(html.indexOf('src="./assistant-model-agent.js"')<html.indexOf('src="./diagnostic-chat.js"'));
