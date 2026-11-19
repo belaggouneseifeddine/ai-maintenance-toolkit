@@ -1,4 +1,4 @@
-const CACHE_NAME = "maintenance-ai-toolkit-v82";
+const CACHE_NAME = "maintenance-ai-toolkit-v83";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -87,7 +87,7 @@ const APP_SHELL = [
   "./vendor/licenses/tessdata-fast-LICENSE",
 ];
 
-const OPTIONAL_APP_SHELL_SOURCE = [
+const OPTIONAL_APP_SHELL = [
   "./agent-ui.js",
   "./diagnostic-evidence-register.json",
   "./knowledge/manufacturer-sources.json",
@@ -137,10 +137,13 @@ function isAndroidOmittedAsset(asset) {
     asset.endsWith("/transformers-LICENSE") ||
     (asset.includes("/vendor/tessdata/") && asset.endsWith(".traineddata.gz"));
 }
-const OPTIONAL_APP_SHELL = OPTIONAL_APP_SHELL_SOURCE.filter(asset =>
+const OPTIONAL_APP_SHELL_FOR_HOST = OPTIONAL_APP_SHELL.filter(asset =>
   !IS_ANDROID_LOCAL_HOST || !isAndroidOmittedAsset(asset)
 );
-const CORE_APP_SHELL = APP_SHELL.filter(asset => !OPTIONAL_APP_SHELL.includes(asset) && !(IS_ANDROID_LOCAL_HOST && isAndroidOmittedAsset(asset)));
+const CORE_APP_SHELL = APP_SHELL.filter(asset =>
+  !OPTIONAL_APP_SHELL.includes(asset) &&
+  !(IS_ANDROID_LOCAL_HOST && isAndroidOmittedAsset(asset))
+);
 
 self.addEventListener("install", event => {
   event.waitUntil((async () => {
@@ -154,13 +157,13 @@ self.addEventListener("install", event => {
     // Optional reference bundles are cached independently so one unavailable
     // document cannot prevent the core app from becoming available offline.
     const optionalResults = await Promise.allSettled(
-      OPTIONAL_APP_SHELL.map(asset => cache.add(asset))
+      OPTIONAL_APP_SHELL_FOR_HOST.map(asset => cache.add(asset))
     );
     const failedOptionalAssets = optionalResults.filter(result => result.status === "rejected").length;
     if (failedOptionalAssets) {
       console.warn("Maintenance Toolkit optional offline references were not all cached.", {
         failedOptionalAssets,
-        totalOptionalAssets: OPTIONAL_APP_SHELL.length
+        totalOptionalAssets: OPTIONAL_APP_SHELL_FOR_HOST.length
       });
     }
 
