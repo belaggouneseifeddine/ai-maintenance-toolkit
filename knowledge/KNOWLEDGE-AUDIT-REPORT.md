@@ -88,3 +88,11 @@ This is a conservative string-presence check only. It does not prove that a topi
 - Word counts use whitespace-separated tokens; they are inventory measures, not measures of quality.
 - This audit does not validate technical correctness, OEM applicability, or the evidentiary support of every statement.
 - No source text is fetched by this script and no new technical content is generated.
+
+
+## Addendum — 2026-11-19 refactor branch
+
+- Added candidate case **CP-005**: PACO VL/VLS vertical inline centrifugal pump — insufficient flow. It is scoped strictly to the PACO VL/VLS families covered by the Grundfos/PACO installation and operating instructions, Section 12.1–12.2, printed page 15.
+- The source is registered as **reference-only** because an open redistribution license was not verified. The case remains `candidate`, `licenseStatus: reference_only`, and is not promoted into the live fault library. It adds no universal numeric thresholds and no field-validation claim.
+- Added a source-gated measurement-rule evaluator. It accepts only explicitly approved rules with a verified source status and page, exact unit and operating-condition match, direct measurement provenance, healthy sensor status and good quality. Verified support/contradiction is a ranking tie-breaker only; missing, estimated, PLC/historian, ambiguous or mismatched readings remain unknown.
+- Added regression tests for the new candidate case, source registration, measurement-rule eligibility and ranking behavior. The inventory counts above are the previous baseline; CP-005 is a separate casebook candidate and must not be added to live fault counts.
