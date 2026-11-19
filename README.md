@@ -76,3 +76,10 @@ Follow site procedures, lockout/tagout (LOTO), the exact manufacturer manual, an
 ## Verification policy
 
 Do not claim that a feature or deployment has passed testing unless it was actually tested. A source-code commit is not proof that the live site or AI backend works.
+
+
+## Local Android assistant
+
+The local-first Android host uses Qwen through LiteRT-LM on CPU, with a bounded native bridge and an allow-listed local tool registry. Its case context is normalized separately from the model UI, and diagnostic measurements follow the deterministic engine's validated provenance schema. Android builds package only the required PWA/runtime/knowledge assets and omit the unused embedding runtime and repository development files.
+
+See [the local-first architecture and cleanup review](docs/LOCAL-FIRST-CODEBASE-REVIEW-2026-11-19.md) for module responsibilities, retained components, known limitations, and device acceptance tests.
