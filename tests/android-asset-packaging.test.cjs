@@ -8,7 +8,7 @@ test("Android packages an explicit local runtime allow-list, not the whole repos
   assert.match(gradle, /include\([\s\S]*"index\.html"[\s\S]*"assistant-case-context\.js"[\s\S]*"assistant-model-agent\.js"/);
   assert.match(gradle, /exclude\([\s\S]*"knowledge\/candidates\/\*\*"/);
   assert.match(gradle, /environment\("MAINTENANCE_SKIP_EMBEDDINGS", "1"\)/);
-  assert.doesNotMatch(gradle, /include\("\*\*\/\*\.js"/);
+  assert.doesNotMatch(gradle, /include\("\*\*\/\*\.js"/);\n  assert.doesNotMatch(gradle, /"agent-ui\.js"/);
   assert.doesNotMatch(gradle, /onlyIf\s*\{/);
 });
 
@@ -23,7 +23,7 @@ test("Android vendor build keeps PDF/OCR assets but skips unused embedding runti
 
 test("new assistant case-context module is loaded before local UI and cached offline", () => {
   const html = fs.readFileSync("index.html", "utf8");
-  const sw = fs.readFileSync("sw.js", "utf8");
+  const sw = fs.readFileSync("sw.js", "utf8");\n  const gradle = fs.readFileSync("android-local-host/app/build.gradle.kts", "utf8");
   assert.ok(html.indexOf('src="./assistant-case-context.js"') < html.indexOf('src="./local-model-ui.js"'));
-  assert.match(sw, /"\.\/assistant-case-context\.js"/);
+  assert.match(sw, /"\.\/assistant-case-context\.js"/);\n  assert.match(html, /if \(!window\.MaintenanceNativeLLM\)[\s\S]*agent-ui\.js/);\n  assert.doesNotMatch(gradle, /"agent-ui\.js"/);\n  assert.match(sw, /asset !== "\.\/agent-ui\.js"/);
 });
