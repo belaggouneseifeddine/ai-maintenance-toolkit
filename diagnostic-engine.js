@@ -455,7 +455,7 @@
         const language = doc.getElementById("languageSwitcher")?.value || "ar";
         const target = doc.getElementById("diagnosisResult");
         const priority = doc.getElementById("priority")?.value;
-        if (target) { const old = doc.getElementById("localReasoningCard"); if (old) old.remove(); }
+        if (target) { const old = doc.getElementById("localReasoningCard"); if (old) old.remove(); const oldSafety = doc.getElementById("localReasoningSafetyNotice"); if (oldSafety) oldSafety.remove(); }
         const safetyReviewIncomplete = priority === "urgent" || !checks.length || checks.some(item => !item.checked);
         const input = {
           machine: doc.getElementById("machine")?.value || "",
