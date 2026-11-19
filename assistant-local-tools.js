@@ -40,30 +40,34 @@
           !request.equipment || typeof request.equipment !== "object" ||
           Array.isArray(request.equipment) ||
           typeof request.equipment.type !== "string" || !request.equipment.type.trim() ||
-          request.equipment.type.length > 120 ||
+          request.equipment.type.length > 160 ||
           typeof request.symptom !== "string" || !request.symptom.trim() ||
-          request.symptom.length > 240 ||
+          request.symptom.length > 600 ||
           ![undefined, "ar", "en", "fr"].includes(request.language) ||
           ![undefined, "diagnose"].includes(request.intent)) return false;
-      for (const key of ["manufacturer", "model", "assetId"]) {
+      for (const [key, max] of [["manufacturer", 120], ["model", 120]]) {
         if (request.equipment[key] != null &&
-            (typeof request.equipment[key] !== "string" || request.equipment[key].length > 120)) return false;
+            (typeof request.equipment[key] !== "string" || request.equipment[key].length > max)) return false;
       }
       if (request.observations != null &&
-          (!Array.isArray(request.observations) || request.observations.length > 30 ||
-           request.observations.some(item => typeof item !== "string" || item.length > 1000))) return false;
+          (!Array.isArray(request.observations) || request.observations.length > 10 ||
+           request.observations.some(item => typeof item !== "string" || item.length > 800))) return false;
+      const sourceTypes = new Set(["direct_measurement", "plc_value", "historian_value", "estimated", "user_reported", "unknown"]);
+      const sensorStates = new Set(["normal", "suspect", "failed", "unknown"]);
+      const qualityFlags = new Set(["normal", "noisy", "stale", "contradictory", "unknown"]);
       if (request.measurements != null &&
-          (!Array.isArray(request.measurements) || request.measurements.length > 40 ||
+          (!Array.isArray(request.measurements) || request.measurements.length > 10 ||
            request.measurements.some(item => !item || typeof item !== "object" || Array.isArray(item) ||
              typeof item.name !== "string" || !item.name.trim() || item.name.length > 100 ||
-             !(typeof item.value === "string" || (typeof item.value === "number" && Number.isFinite(item.value))) ||
-             String(item.value).length > 80 ||
-             typeof item.unit !== "string" || !item.unit.trim() || item.unit.length > 40 ||
-             (item.source != null && typeof item.source !== "string") ||
-             (item.timestamp != null && (typeof item.timestamp !== "string" || !Number.isFinite(Date.parse(item.timestamp)))) ||
-             (item.operatingConditions != null && (typeof item.operatingConditions !== "string" || item.operatingConditions.length > 160)) ||
-             (item.sensorStatus != null && (typeof item.sensorStatus !== "string" || item.sensorStatus.length > 60)) ||
-             (item.quality != null && (typeof item.quality !== "string" || item.quality.length > 60)))) return false;
+             typeof item.value !== "number" || !Number.isFinite(item.value) ||
+             typeof item.unit !== "string" || !item.unit.trim() || item.unit.length > 24 ||
+             (item.sourceType != null && !sourceTypes.has(item.sourceType)) ||
+             (item.timestamp != null && (typeof item.timestamp !== "string" || item.timestamp.length > 40 || !Number.isFinite(Date.parse(item.timestamp)))) ||
+             (item.operatingCondition != null && (typeof item.operatingCondition !== "string" || item.operatingCondition.length > 200)) ||
+             (item.sensorStatus != null && !sensorStates.has(item.sensorStatus)) ||
+             (item.qualityFlag != null && !qualityFlags.has(item.qualityFlag)) ||
+             (item.sensorId != null && (typeof item.sensorId !== "string" || item.sensorId.length > 120)) ||
+             (item.sourceId != null && (typeof item.sourceId !== "string" || item.sourceId.length > 120)))) return false;
       return true;
     }
     function safetyGate({ toolName, input }) {
