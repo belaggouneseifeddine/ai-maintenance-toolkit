@@ -14,7 +14,7 @@ test("Android local host cannot invoke the hosted AI endpoint through legacy UI"
 
 test("incomplete safety checklist remains advisory and does not suppress diagnostic hypotheses", () => {
   const engine = fs.readFileSync("diagnostic-engine.js", "utf8");
-  assert.match(engine, /const safetyReviewIncomplete = priority === "urgent" \|\| !checks\.length \|\| checks\.some/);
+  assert.match(engine, /const safetyChecklistIncomplete = !checks\.length \|\| checks\.some[\s\S]*const safetyReviewIncomplete = priority === "urgent" \|\| safetyChecklistIncomplete/);
   assert.match(engine, /const localResult = analyse\(input\)/);
   assert.match(engine, /renderLocalReasoning\(input, rankedResult\)/);
   assert.match(engine, /Hypotheses remain visible/);
