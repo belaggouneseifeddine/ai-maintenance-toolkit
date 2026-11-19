@@ -177,10 +177,14 @@
         localModelReady = true; createLocalModelAgent();
         status.textContent = copy("Qwen المحلي جاهز على CPU.", "Local Qwen is ready on CPU.", "Qwen local est prêt sur CPU.");
         pick.disabled = false; load.disabled = false;
+      } else if (state.modelAvailable) {
+        localModelReady = false; localModelAgent = null;
+        status.textContent = copy("ملف Qwen موجود في تخزين التطبيق. اضغط تحميل النموذج.", "Qwen model file is already stored in the app. Press Load model.", "Le fichier Qwen est déjà stocké dans l'application. Appuyez sur Charger le modèle.");
+        pick.disabled = false; load.disabled = false;
       } else {
         localModelReady = false; localModelAgent = null;
         status.textContent = copy("استورد ملف .litertlm ثم حمّل النموذج.", "Import a .litertlm file, then load the model.", "Importez un fichier .litertlm puis chargez le modèle.");
-        pick.disabled = false; load.disabled = false;
+        pick.disabled = false; load.disabled = true;
       }
     } catch (_) {
       localModelReady = false; localModelAgent = null;
