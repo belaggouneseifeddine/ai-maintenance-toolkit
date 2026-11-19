@@ -145,28 +145,32 @@ class MainActivity : Activity() {
     }
 
     private fun loadModel(payload: String, callback: String) = worker.execute {
-        var engine: Engine? = null
-        var conversation: Conversation? = null
+        var engineToClose: Engine? = null
         try {
             require(JSONObject(payload).optString("modelId") == MODEL_ID) { "unknown_model_id" }
             require(modelFile.isFile && modelFile.length() > 0) { "model_file_missing" }
-            engine = Engine(EngineConfig(modelPath = modelFile.absolutePath, backend = Backend.CPU(), cacheDir = cacheDir.absolutePath))
-            engine.initialize()
-            conversation = engine.createConversation(ConversationConfig(
+            val candidate = Engine(EngineConfig(
+                modelPath = modelFile.absolutePath,
+                backend = Backend.CPU(),
+                cacheDir = cacheDir.absolutePath
+            ))
+            engineToClose = candidate
+            candidate.initialize()
+            val warmupConversation = candidate.createConversation(ConversationConfig(
                 systemInstruction = Contents.of("You are an industrial maintenance assistant."),
                 samplerConfig = SamplerConfig(topK = 32, topP = 0.9, temperature = 0.2),
                 maxOutputToken = 8
             ))
-            conversation.close(); conversation = null
-            engine.close(); engine = null
+            warmupConversation.close()
+            candidate.close()
+            engineToClose = null
             modelReady = true
             complete(callback, JSONObject().put("ok", true).put("executionMode", "local").put("modelId", MODEL_ID))
         } catch (e: Exception) {
             modelReady = false
             complete(callback, failure("model_load_failed", e.message))
         } finally {
-            try { conversation?.close() } catch (_: Exception) {}
-            try { engine?.close() } catch (_: Exception) {}
+            try { engineToClose?.close() } catch (_: Exception) {}
         }
     }
 
@@ -194,15 +198,21 @@ class MainActivity : Activity() {
                     }
                 }.take(18000)
                 require(prompt.isNotBlank()) { "empty_prompt" }
-                engine = Engine(EngineConfig(modelPath = modelFile.absolutePath, backend = Backend.CPU(), cacheDir = cacheDir.absolutePath))
-                engine.initialize()
-                conversation = engine.createConversation(ConversationConfig(
+                val candidate = Engine(EngineConfig(
+                    modelPath = modelFile.absolutePath,
+                    backend = Backend.CPU(),
+                    cacheDir = cacheDir.absolutePath
+                ))
+                engine = candidate
+                candidate.initialize()
+                val candidateConversation = candidate.createConversation(ConversationConfig(
                     systemInstruction = Contents.of(system.ifBlank { "You are a careful industrial maintenance assistant." }),
                     samplerConfig = SamplerConfig(topK = 64, topP = 0.95,
                         temperature = request.optDouble("temperature", 0.2).coerceIn(0.0, 1.0).toFloat()),
                     maxOutputToken = request.optInt("maxOutputTokens", 384).coerceIn(1, 512)
                 ))
-                val activeConversation = requireNotNull(conversation)
+                conversation = candidateConversation
+                val activeConversation = candidateConversation
                 activeConversation.sendMessageAsync(prompt, object : MessageCallback {
                     override fun onMessage(message: Message) { output.append(message.toString()) }
                     override fun onDone() {
