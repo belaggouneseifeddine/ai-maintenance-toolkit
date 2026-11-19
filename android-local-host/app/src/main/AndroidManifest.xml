@@ -1,8 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- No INTERNET permission: the native host and model inference remain offline-only. -->
     <application
         android:allowBackup="false"
-        android:label="Maintenance Local Model Test"
+        android:hardwareAccelerated="true"
+        android:label="Maintenance AI Toolkit"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="false"
         android:theme="@android:style/Theme.Material.Light.NoActionBar">
         <activity
             android:name=".MainActivity"
