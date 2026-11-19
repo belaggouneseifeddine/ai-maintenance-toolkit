@@ -126,20 +126,34 @@
     if (!extractor) return [];
     const queryVector = await embed(query);
     const db = await openDb();
-    const rows = await new Promise((resolve, reject) => {
+    const maxResults = Math.max(1, Math.min(50, Number(limit) || 12));
+    // Stream only the active model's indexed rows and retain top-K matches.
+    // This avoids materializing the entire vector corpus in memory per query.
+    return new Promise((resolve, reject) => {
       const tx = db.transaction("vectors", "readonly");
-      const store = tx.objectStore("vectors");
-      // Read only vectors for the active embedding model. The index already
-      // exists in DB_VERSION 1, so this does not require a database migration.
-      const request = store.index("modelVersion").getAll(MODEL_VERSION);
-      request.onsuccess = () => resolve(request.result || []);
+      const index = tx.objectStore("vectors").index("modelVersion");
+      const request = index.openCursor(MODEL_VERSION);
+      const best = [];
+      request.onsuccess = () => {
+        const cursor = request.result;
+        if (!cursor) { resolve(best); return; }
+        const row = cursor.value;
+        if (row && row.dimensions === queryVector.length && Array.isArray(row.vector)) {
+          const score = cosine(queryVector, row.vector);
+          if (score >= 0) {
+            const match = { chunkId: row.chunkId, documentId: row.documentId, score };
+            let position = best.findIndex(item => score > item.score);
+            if (position < 0) position = best.length;
+            best.splice(position, 0, match);
+            if (best.length > maxResults) best.pop();
+          }
+        }
+        cursor.continue();
+      };
       request.onerror = () => reject(request.error || new Error("Could not read semantic vectors."));
+      tx.onerror = () => reject(tx.error || new Error("Could not read semantic vectors."));
+      tx.onabort = () => reject(tx.error || new Error("Semantic vector read aborted."));
     });
-    return rows.filter(row => row.modelVersion === MODEL_VERSION && row.dimensions === queryVector.length)
-      .map(row => ({ chunkId: row.chunkId, documentId: row.documentId, score: cosine(queryVector, row.vector) }))
-      .filter(row => row.score >= 0)
-      .sort((a, b) => b.score - a.score)
-      .slice(0, Math.max(1, Math.min(50, Number(limit) || 12)));
   }
 
   async function removeDocument(documentId) {
