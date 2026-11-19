@@ -1,52 +1,52 @@
-# Maintenance Local Model Host (POC)
+# Maintenance AI Toolkit — Android local assistant host
 
-This is a separate Android proof-of-concept module for testing the exact Qwen
-LiteRT-LM CPU artifact on the target phone before wiring inference into the PWA.
+This Android app packages the existing Maintenance AI Toolkit PWA as local WebView assets and connects it to on-device Qwen inference through LiteRT-LM.
 
-## Scope
+## Local-first behavior
 
-- User selects an existing `.litertlm` file through Android's Storage Access Framework.
-- The app copies it to app-private storage; no network download is performed.
-- LiteRT-LM runs on CPU only.
-- The model is loaded off the UI thread and released when the activity is destroyed.
-- The prompt/response test is local. No API key, Worker, Gemini, OpenAI, or cloud fallback exists.
+- The APK contains the web application assets. Gradle syncs the required HTML, JavaScript, CSS, JSON, Markdown, and image/font assets from the repository into `app/src/main/assets/www` during the build.
+- WebView serves those assets through AndroidX WebKit's `WebViewAssetLoader` on the secure `appassets.androidplatform.net` origin.
+- The manifest deliberately does **not** request `INTERNET`. No hosted LLM, Worker, Gemini, OpenAI API, remote inference, or cloud fallback is used by this host.
+- The user imports a `.litertlm` file through Android's document picker. The source file is not deleted; a private app copy is created.
+- The native bridge exposes a narrow allow-list: capability/status, model pick/load/unload, and generation. It does not expose filesystem, shell, arbitrary URLs, or code execution.
+- The PWA's local assistant agent remains responsible for constrained JSON actions and allow-listed local tools. Tool execution and validation remain in JavaScript.
 
-This is a runtime smoke-test shell, **not yet the Maintenance AI Toolkit chat integration**.
-It intentionally does not execute diagnostic tools or modify the existing PWA.
+## First model
+
+Expected artifact: `Qwen3.5-0.8B_int8.litertlm` (CPU, approximately 965 MB).
+
+Model ID used by the app: `qwen3.5-0.8b-int8-cpu`.
+
+The host pins `com.google.ai.edge.litertlm:litertlm-android:0.19.1`. The exact artifact/runtime/device combination was confirmed to launch and generate on the user's Android phone in the standalone POC. The WebView bridge integration still requires a new APK build and a second physical-device test.
+
+## Runtime isolation
+
+The Qwen model card documents recurrent-state leakage when multiple conversations reuse one Engine on LiteRT-LM releases through 0.19.1. To avoid sharing recurrent state across independent generation calls, this host creates a fresh Engine and Conversation for each generation request and closes both after completion. This is conservative and may increase first-token latency; measure it on the target phone before optimizing.
 
 ## Build
 
-Open `android-local-host/` in Android Studio with JDK 17 and Android SDK 36,
-or run:
+Open `android-local-host/` in Android Studio (JDK 17, Android SDK 36), or run:
 
 ```bash
-gradle :app:assembleDebug
+gradle :app:assembleDebug --no-daemon
 ```
 
-The module pins the published Google Maven Android artifact LiteRT-LM 0.19.1. The selected Qwen3.5-0.8B CPU artifact is documented for LiteRT-LM 0.19.x and was also checked on earlier desktop runtimes. This exact Android + CPU combination still requires a physical-device smoke test; the model card's 0.19.2 recommendation refers to the newer upstream runtime release, which was not resolvable as an Android Maven artifact in the initial CI build.
+The build runs `syncMaintenanceWebAssets` before Android compilation. Do not commit generated `app/src/main/assets/www` output.
 
-## Device test
+## Device acceptance checks
 
-1. Build and install the debug APK.
-2. Select the existing `Qwen3.5-0.8B_int8.litertlm` file from Downloads.
-3. Wait for the copy to finish (the source file is not deleted).
-4. Load model; verify that the UI reports CPU / local.
-5. Run the short Arabic valve test, then the pump diagnostic case.
-6. Record load time, first-token/complete-response time, device temperature,
-   battery impact, crashes, and whether airplane mode remains enabled.
-7. Repeat after closing and reopening the app.
-
-The file is copied into app-private storage because LiteRT-LM requires a filesystem
-path. Ensure at least the model size plus temporary copy space is available.
+1. Install the new integration APK.
+2. Confirm the Maintenance AI Toolkit PWA opens inside the Android host.
+3. Import the existing Qwen CPU `.litertlm` file and load it.
+4. Confirm status reports local / CPU / ready.
+5. Run one Arabic valve question and one pump case.
+6. Verify the model can call the local diagnostic and reviewed-document tools; reject unknown tool names and malformed JSON.
+7. Enable airplane mode and repeat generation and local document retrieval.
+8. Reopen the app and confirm the model file remains available in app-private storage.
+9. Record load time, first-token latency, total generation time, memory pressure, temperature, battery use, and crash/ANR behavior.
 
 ## Known limits
 
-- This POC uses a simple synchronous response call on a dedicated single-thread
-  executor; it does not yet provide token streaming or cancellation.
-- It uses one Engine/Conversation for this single test session and closes both
-  on activity destruction. A future chat integration must create a fresh Engine
-  per assistant session unless a later pinned LiteRT-LM release is verified to
-  resolve the Qwen recurrent-state reuse issue.
-- No WebView bridge, PWA chat wiring, tool calling, PDF retrieval, or diagnostic
-  orchestration is included yet.
-- The POC build and physical-device inference must both pass before integration.
+- The native host currently returns a completed generation response rather than streaming tokens into the chat UI.
+- The first WebView bridge build is an integration prototype. Do not merge or deploy it until the new APK passes CI, physical-device tests, offline tests, and the diagnostic/security regression suite.
+- The small Qwen model is the primary local generator, not an authority for engineering facts. Local deterministic tools, reviewed PDF evidence, source/page references, and technician verification remain authoritative.
