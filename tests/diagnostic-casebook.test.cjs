@@ -70,3 +70,21 @@ test("every cited source is registered and reuse-restricted sources remain refer
     assert.match(source.licenseStatus, /reference-only/i);
   }
 });
+
+test("PACO VL/VLS low-flow case is source-bounded and remains candidate-only", () => {
+  const paco = JSON.parse(fs.readFileSync("knowledge/diagnostic-cases/paco-vl-vls-insufficient-flow.json", "utf8"));
+  const result = Casebook.validateCase(paco);
+  assert.equal(result.ok, true, result.errors.join("; "));
+  assert.equal(paco.caseId, "CP-005");
+  assert.equal(paco.status, "candidate");
+  assert.equal(paco.licenseStatus, "reference_only");
+  assert.ok(paco.applicability.some(value => /PACO VL and VLS/i.test(value)));
+  assert.ok(paco.hypotheses.length >= 2);
+  assert.ok(paco.measurements.every(item => item.location && item.operatingCondition && item.sourceTypes.includes("unknown")));
+  assert.ok(paco.limits.some(value => /No universal numeric/i.test(value)));
+  assert.ok(paco.sources.some(source => source.sourceId === "grundfos-paco-vl-vls-manual-5104627" && source.sectionOrPage.includes("printed page 15")));
+  const registered = sourceRegistry.reference_only_documents.find(source => source.id === "grundfos-paco-vl-vls-manual-5104627");
+  assert.ok(registered);
+  assert.equal(registered.fetchAllowed, false);
+  assert.match(registered.licenseStatus, /reference-only/i);
+});
