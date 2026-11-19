@@ -59,7 +59,9 @@ const checks = [
   ["Local diagnosis remains offline and configured Gemini/Cloudflare AI requires explicit consent", () => {
     assert.ok(appSource.includes('<script src="./engineering-core.js"></script>'));
     assert.ok(appSource.includes('<script src="./agent-core.js"></script>'));
-    assert.ok(appSource.includes('<script src="./agent-ui.js"></script>'));
+    assert.ok(appSource.includes('if (!window.MaintenanceNativeLLM)'));
+    assert.ok(appSource.includes('legacyAgentUi.src = "./agent-ui.js"'));
+    assert.doesNotMatch(html, /<script src="\.\/agent-ui\.js"><\/script>/);
     assert.ok(appSource.includes('<script src="./evidence-reasoning.js"></script>'));
     assert.ok(appSource.includes('<script src="./evidence-reasoning-ui.js"></script>'));
     assert.ok(appSource.includes("MaintenanceAgentUI.runLocal()"));
