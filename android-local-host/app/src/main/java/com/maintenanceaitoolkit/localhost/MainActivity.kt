@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.webkit.JavascriptInterface
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
+import android.webkit.WebChromeClient
+import android.webkit.ValueCallback
 import android.widget.Toast
 import androidx.webkit.WebViewAssetLoader
 import androidx.webkit.WebViewClientCompat
@@ -20,6 +22,7 @@ import java.util.concurrent.Executors
 class MainActivity : Activity() {
     companion object {
         private const val PICK_MODEL_REQUEST = 4102
+        private const val FILE_CHOOSER_REQUEST = 4103
         private const val MAX_MODEL_BYTES = 2L * 1024L * 1024L * 1024L
         private const val MODEL_ID = "qwen3.5-0.8b-int8-cpu"
         private const val APP_URL = "https://appassets.androidplatform.net/assets/www/index.html"
@@ -31,6 +34,7 @@ class MainActivity : Activity() {
     @Volatile private var busy = false
     private var webView: WebView? = null
     private var pickerCallback: String? = null
+    private var fileChooserCallback: ValueCallback<Array<Uri>>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,12 +48,32 @@ class MainActivity : Activity() {
             javaScriptEnabled = true
             domStorageEnabled = true
             allowFileAccess = false
-            allowContentAccess = false
+            // SAF-selected PDF/image URIs are user-granted content URIs.
+            allowContentAccess = true
             javaScriptCanOpenWindowsAutomatically = false
             setSupportMultipleWindows(false)
             mixedContentMode = android.webkit.WebSettings.MIXED_CONTENT_NEVER_ALLOW
         }
         view.addJavascriptInterface(NativeBridge(), "MaintenanceAndroidHost")
+        view.webChromeClient = object : WebChromeClient() {
+            override fun onShowFileChooser(
+                webView: WebView,
+                filePathCallback: ValueCallback<Array<Uri>>,
+                fileChooserParams: FileChooserParams
+            ): Boolean {
+                fileChooserCallback?.onReceiveValue(null)
+                fileChooserCallback = filePathCallback
+                return try {
+                    val intent = fileChooserParams.createIntent()
+                    startActivityForResult(intent, FILE_CHOOSER_REQUEST)
+                    true
+                } catch (_: Exception) {
+                    fileChooserCallback?.onReceiveValue(null)
+                    fileChooserCallback = null
+                    false
+                }
+            }
+        }
         view.webViewClient = object : WebViewClientCompat() {
             override fun shouldInterceptRequest(view: WebView, request: WebResourceRequest) =
                 loader.shouldInterceptRequest(request.url)
@@ -98,6 +122,12 @@ class MainActivity : Activity() {
     @Suppress("DEPRECATION")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == FILE_CHOOSER_REQUEST) {
+            val callback = fileChooserCallback
+            fileChooserCallback = null
+            callback?.onReceiveValue(WebChromeClient.FileChooserParams.parseResult(resultCode, data))
+            return
+        }
         if (requestCode != PICK_MODEL_REQUEST) return
         val callback = pickerCallback
         pickerCallback = null
@@ -256,6 +286,8 @@ class MainActivity : Activity() {
     }
 
     override fun onDestroy() {
+        fileChooserCallback?.onReceiveValue(null)
+        fileChooserCallback = null
         worker.shutdownNow()
         webView?.apply { removeJavascriptInterface("MaintenanceAndroidHost"); stopLoading(); destroy() }
         webView = null
