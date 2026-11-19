@@ -422,3 +422,41 @@ test("local diagnosis automatically retrieves only approved page-linked PDF clai
   assert.equal(captured.length, 1);
   assert.equal(captured[0].sourceRef.pageNumber, 12);
 });
+
+test("diagnostic tool attaches the canonical evidence contract without converting scores into probabilities", async () => {
+  const EvidenceContract = require("../diagnostic-evidence-contract.js");
+  const previous = global.MaintenanceDiagnosticEvidenceContract;
+  global.MaintenanceDiagnosticEvidenceContract = EvidenceContract;
+  try {
+    const tools = LocalTools.createLocalTools({
+      engineeringCore: {
+        routeRequest: () => ({ ok: true, decision: { route: "local_diagnostic", safetyReviewRequired: false } }),
+        executeLocalDiagnosis: request => ({
+          ok: true,
+          diagnosis: {
+            matched: true,
+            results: [{ id: "pump-low-flow", title: "Possible low-flow cause", score: 9, causes: [] }],
+            measurementEvidence: { usedForNumericThresholdDecision: false },
+            supportingDocuments: []
+          }
+        })
+      },
+      diagnosticEngine: { diagnose() {} },
+      faultLibrary: { faults: [] }
+    });
+    const registry = Registry.createToolRegistry({ tools: tools.tools, safetyGate: tools.safetyGate });
+    const result = await registry.call("diagnose", {
+      equipment: { type: "pump" }, symptom: "low_flow", language: "ar", intent: "diagnose",
+      measurements: [{ name: "Suction pressure", value: 2.1, unit: "bar", sourceType: "direct_measurement" }]
+    });
+    const contract = result.data.diagnosis.evidenceContract;
+    assert.equal(contract.schemaVersion, "1.0.0");
+    assert.equal(contract.evidence[0].provenance, "measured");
+    assert.equal(contract.evidence[0].state, "unknown");
+    assert.equal(contract.hypotheses[0].scoreMeaning, "heuristic_match_score_not_probability");
+    assert.ok(contract.limitations.includes("numeric_values_not_used_for_fault_threshold_decisions"));
+  } finally {
+    if (previous === undefined) delete global.MaintenanceDiagnosticEvidenceContract;
+    else global.MaintenanceDiagnosticEvidenceContract = previous;
+  }
+});
