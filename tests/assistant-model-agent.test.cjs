@@ -15,9 +15,9 @@ function setup(responses) {
   let index = 0;
   const runtime = { generate: async request => {
     assert.equal(request.maxOutputTokens, 384);
-    assert.ok(request.messages[0].content.length <= 4000, "system prompt must fit the Android host limit");
-    assert.ok(request.messages.length <= 9, "agent must bound conversation history for the 4K-token model context");
-    assert.ok(request.messages.slice(1).every(message => message.content.length <= 1400));
+    assert.ok(request.messages[0].content.length <= 3800, "system prompt must fit the Android host limit");
+    assert.ok(request.messages.length <= 7, "agent must bound conversation history for the 4K-token model context");
+    assert.ok(request.messages.slice(1).every(message => message.content.length <= 900));
     return { text:responses[Math.min(index++,responses.length-1)] };
   }};
   return { assistant, agent:Agent.createLocalModelAgent({runtime,orchestrator:assistant,
