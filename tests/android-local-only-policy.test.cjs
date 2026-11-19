@@ -11,6 +11,7 @@ test("Android local host has no network permission or remote embedding model fal
   assert.match(semantic, /const nativeLocalHost = Boolean\(root\.MaintenanceNativeLLM\)/);
   assert.match(semantic, /library\.env\.allowRemoteModels = !nativeLocalHost/);
   assert.match(semantic, /library\.env\.allowLocalModels = true/);
+  assert.match(documents, /gzip: !window\.MaintenanceNativeLLM/);
   assert.match(activity, /appassets\.androidplatform\.net/);
   assert.match(activity, /"pickModel"|"loadModel"|"unloadModel"|"generate"/);
   assert.doesNotMatch(activity, /Runtime\.getRuntime|ProcessBuilder|eval\(/);
