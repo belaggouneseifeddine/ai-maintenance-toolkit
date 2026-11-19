@@ -18,7 +18,7 @@ test("Qwen path uses the existing local orchestrator and does not call a hosted 
 });
 test("deployment and offline cache include the runtime modules used by the chat",()=>{
  const sw=read("sw.js"),pages=read(".github/workflows/deploy-pages.yml"),cf=read(".github/workflows/deploy-cloudflare-pages.yml");
- for(const file of ["local-llm-runtime.js","native-local-llm-bridge.js","assistant-model-agent.js","diagnostic-evidence-contract.js"]){
+ for(const file of ["local-llm-runtime.js","native-local-llm-bridge.js","assistant-model-agent.js","diagnostic-evidence-contract.js","diagnostic-measurement-rules.js"]){
   assert.ok(sw.includes('"./'+file+'"'),"service worker missing "+file);
   assert.ok(pages.includes(file),"Pages artifact missing "+file);
   assert.ok(cf.includes(file),"Cloudflare artifact missing "+file);
