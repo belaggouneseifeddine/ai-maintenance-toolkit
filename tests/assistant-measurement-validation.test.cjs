@@ -28,7 +28,7 @@ test("diagnostic tool rejects malformed measurement evidence before engine execu
       equipment: { type: "pump" }, symptom: "low flow", language: "en",
       measurements: [{
         name: "suction pressure", value: 1.2, unit: "bar",
-        source: "direct_measurement", timestamp: "2026-11-19T10:00:00.000Z"
+        sourceType: "direct_measurement", timestamp: "2026-11-19T10:00:00.000Z", sensorStatus: "normal", qualityFlag: "normal"
       }]
     }
   });
