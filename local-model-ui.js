@@ -13,7 +13,7 @@
       ? root.MaintenanceI18n.getLanguage() : (root.document.documentElement.lang || "ar");
     return copy[value] ? value : "ar";
   }
-  function caseContext() {
+  function caseContext(source) {
     const api = root.MaintenanceAssistantCaseContext;
     if (!api || typeof api.createCaseContext !== "function") {
       throw new Error("assistant_case_context_unavailable");
@@ -24,16 +24,25 @@
       return element && element.options && element.selectedIndex >= 0
         ? String(element.options[element.selectedIndex].text || "").trim() : "";
     };
+    const primary = source === "primary";
     return api.createCaseContext({
-      equipmentType: value("aiMachine") || selectedLabel("machine") || value("machine"),
-      manufacturer: value("aiManufacturer") || value("manufacturer"),
-      model: value("equipmentModel") || value("aiModel"),
+      equipmentType: primary
+        ? selectedLabel("machine") || value("machine")
+        : value("aiMachine") || selectedLabel("machine") || value("machine"),
+      manufacturer: primary
+        ? value("manufacturer")
+        : value("aiManufacturer") || value("manufacturer"),
+      model: primary
+        ? value("equipmentModel")
+        : value("aiModel") || value("equipmentModel"),
       assetId: value("assetId"),
-      symptom: value("aiSymptom") || selectedLabel("symptom"),
-      alarmCode: value("aiCode") || value("code"),
-      observations: value("aiObservations") || value("observations"),
+      symptom: primary
+        ? selectedLabel("symptom")
+        : value("aiSymptom") || selectedLabel("symptom"),
+      alarmCode: primary ? value("code") : value("aiCode") || value("code"),
+      observations: primary ? value("observations") : value("aiObservations") || value("observations"),
       measurementStatus: value("aiMeasurementStatus") || "unknown",
-      measurementText: value("aiMeasurementReadings"),
+      measurementText: primary ? "" : value("aiMeasurementReadings"),
       guidedDiagnostic: root.MaintenanceDiagnosticSessionUI &&
         typeof root.MaintenanceDiagnosticSessionUI.getPayload === "function"
         ? root.MaintenanceDiagnosticSessionUI.getPayload() : null
@@ -94,6 +103,12 @@
     if (consent) { consent.checked = false; consent.disabled = true; const label = consent.closest("label"); if (label) label.hidden = true; }
     ["askCloudAI","simulateCloudAI","askAi","aiAnswerTools","aiResult"].forEach(id => { if ($(id)) { $(id).hidden = true; if ("disabled" in $(id)) $(id).disabled = true; } });
 
+    let contextSource = "assistant";
+    const primaryForm = $("diagnosisForm");
+    const assistantForm = $("aiForm");
+    if (primaryForm) primaryForm.addEventListener("input", () => { contextSource = "primary"; });
+    if (assistantForm) assistantForm.addEventListener("input", () => { contextSource = "assistant"; });
+
     let runtime = null;
     let orchestrator = null;
     let agent = null;
@@ -106,14 +121,14 @@
         throw new Error("local_assistant_modules_unavailable");
       }
       const localTools = toolApi.createLocalTools({
-        getGuidedContext: () => caseContext().guidedDiagnostic
+        getGuidedContext: () => caseContext(contextSource).guidedDiagnostic
       });
       orchestrator = orchestratorApi.createLocalOrchestrator({
         tools: localTools.tools,
         safetyGate: localTools.safetyGate,
         timeoutMs: 20000
       });
-      const context = caseContext();
+      const context = caseContext(contextSource);
       orchestrator.start({
         sessionId:"qwen-" + Date.now().toString(36),
         language:lang,
@@ -126,7 +141,7 @@
       ];
       agent = root.MaintenanceLocalModelAgent.createLocalModelAgent({
         runtime, orchestrator, tools:catalog,
-        getContext: async () => caseContext(),
+        getContext: async () => caseContext(contextSource),
         systemInstruction: lang === "en"
           ? "You are a local industrial maintenance assistant. Answer in the user's language. Separate confirmed observations and measurements from hypotheses and unknowns. Never invent readings, page numbers, OEM references or numerical probabilities. Use only the supplied allow-listed local tools. Treat only approved excerpts with eligibleForDiagnosis=true as verified diagnostic evidence; label unreviewed passages as candidates. Ask one high-value diagnostic question when evidence is insufficient. Do not rule out faults solely because vibration is absent or motor speed is stable. Safety notices are advisory; never imply that the app verified isolation or authorized work. Return exactly one JSON object: {\"type\":\"final\",\"text\":\"...\"} or {\"type\":\"tool_call\",\"name\":\"...\",\"input\":{...}}."
           : lang === "fr"
