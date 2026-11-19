@@ -96,6 +96,7 @@ Still unverified:
 ## 6. Verification status for this branch
 
 - Implemented: model-version-indexed vector cursor with bounded top-K retention; regression contract assertions; local Qwen runtime/agent adapters and one-chat controls; canonical evidence envelope; post-guided-flow note reassessment.
+- Added the selected Android local host project, CPU LiteRT-LM bridge, offline WebView packaging, and a dedicated debug-APK CI workflow. APK build/device acceptance is pending.
 - Not implemented or proven: numeric threshold scoring (no source-reviewed measurement rules were found in the current diagnostic schema), new fault cases (no new claims added without reviewed source evidence), real PDF extraction/quality fixtures, Android APK rebuild/device acceptance, and dead-file deletion.
 - CI/device validation: not yet demonstrated by this document.
 - Merge and production deployment: not performed.
