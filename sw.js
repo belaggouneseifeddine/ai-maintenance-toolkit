@@ -135,12 +135,12 @@ function isAndroidOmittedAsset(asset) {
   return asset === "./agent-ui.js" ||
     asset.includes("/vendor/transformers/") ||
     asset.endsWith("/transformers-LICENSE") ||
-    /\\/vendor\\/tessdata\\/.*\\.traineddata\\.gz$/.test(asset);
+    (asset.includes("/vendor/tessdata/") && asset.endsWith(".traineddata.gz"));
 }
 const OPTIONAL_APP_SHELL = OPTIONAL_APP_SHELL_SOURCE.filter(asset =>
   !IS_ANDROID_LOCAL_HOST || !isAndroidOmittedAsset(asset)
 );
-const CORE_APP_SHELL = APP_SHELL.filter(asset => !OPTIONAL_APP_SHELL.includes(asset));
+const CORE_APP_SHELL = APP_SHELL.filter(asset => !OPTIONAL_APP_SHELL.includes(asset) && !(IS_ANDROID_LOCAL_HOST && isAndroidOmittedAsset(asset)));
 
 self.addEventListener("install", event => {
   event.waitUntil((async () => {
