@@ -199,7 +199,8 @@ class MainActivity : Activity() {
                         temperature = request.optDouble("temperature", 0.2).coerceIn(0.0, 1.0).toFloat()),
                     maxOutputToken = request.optInt("maxOutputTokens", 384).coerceIn(1, 512)
                 ))
-                conversation.sendMessageAsync(prompt, object : MessageCallback {
+                val activeConversation = requireNotNull(conversation)
+                activeConversation.sendMessageAsync(prompt, object : MessageCallback {
                     override fun onMessage(message: Message) { output.append(message.toString()) }
                     override fun onDone() {
                         try { conversation?.close() } catch (_: Exception) {}
