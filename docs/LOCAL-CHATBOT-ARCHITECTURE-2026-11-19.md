@@ -13,7 +13,7 @@ Keep one conversational interface. Make Qwen the local language interface and to
 - Input routing relies heavily on regex/keyword detection and special-case handlers for history, PM, handover, equipment context, and checklists.
 - The chat can call local tools through `assistant-local-orchestrator.js`, `assistant-tool-registry.js`, and `assistant-local-tools.js`.
 - The orchestrator records messages/facts/tool events and executes explicitly supplied `toolCalls`; it does not itself interpret natural language, plan tool calls, or run an agent loop.
-- The optional generative button calls `MaintenanceAgentUI.runCloudAI()` after explicit consent. It is not the local Qwen integration.
+- The optional generative button calls `MaintenanceAgentUI.runCloudAI()` after explicit consent. The refactor branch now adds local-only runtime/bridge adapters and Qwen import/load controls inside the same diagnostic chat; once Qwen is loaded in a compatible Android host, free-text chat turns use the bounded local agent. The Android host project itself remains on a separate branch and is not yet integrated or device-validated.
 - When a guided diagnostic flow ends, an additional free-text note can be retained without re-ranking the guided hypotheses. This must be corrected so new evidence is either evaluated by the general diagnostic path or clearly marked as pending, never silently ignored.
 
 ## Qwen Android integration status
@@ -111,8 +111,8 @@ Allowed `kind` values should include `message`, `ask_question`, and `tool_call`.
 
 ## Implementation sequence
 
-1. **Bridge audit:** inspect exact Android branch files and commit diff; verify model lifecycle, WebView origin, bridge allow-list, asset sync, and error/cancel handling.
-2. **Agent contract:** implement a pure JavaScript response parser/schema validator and bounded tool loop. Test malformed JSON, unknown tools, oversized outputs, repeated tool loops, timeout, and hostile prompt text.
+1. **Bridge audit:** inspect exact Android branch files and commit diff; verify model lifecycle, WebView origin, bridge allow-list, asset sync, and error/cancel handling. The JS runtime/bridge and same-chat agent path are now present on the refactor branch; Android host packaging and physical-device acceptance remain outstanding.
+2. **Agent contract:** a pure JavaScript response parser, bounded tool loop (maximum three tool calls per user turn), local allow-list intersection, bounded context/results, and regression tests are now implemented. Continue hardening with model-generated Qwen output fixtures. Test malformed JSON, unknown tools, oversized outputs, repeated tool loops, timeout, and hostile prompt text.
 3. **Chat integration:** replace special-case routing gradually with Qwen structured intent/action planning. Keep explicit deterministic shortcuts only as fallback, not the primary intelligence.
 4. **Evidence feedback:** feed tool results back into Qwen with provenance and source citations. Require one next question when essential information is missing.
 5. **State correctness:** re-evaluate newly added free text after guided flows; separate model suggestions from accepted facts.
