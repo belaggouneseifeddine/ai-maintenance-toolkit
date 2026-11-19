@@ -52,7 +52,7 @@ val syncMaintenanceWebAssets = tasks.register<Sync>("syncMaintenanceWebAssets") 
             "maintenance-v03.js", "knowledge-review.js", "answer-tools.js",
             "ux-redesign.js", "navigation-redesign.js", "p1-app-shell.js",
             "agent-ui.js", "native-local-llm-bridge.js", "local-llm-runtime.js",
-            "assistant-session-contract.js", "assistant-tool-registry.js",
+            "assistant-case-context.js", "assistant-session-contract.js", "assistant-tool-registry.js",
             "assistant-local-orchestrator.js", "assistant-model-agent.js",
             "assistant-local-tools.js", "local-model-ui.js",
             "diagnostic-session.js", "diagnostic-session-ui.js", "diagnostic-chat.js",
