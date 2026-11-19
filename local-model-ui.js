@@ -101,8 +101,8 @@
       const box = $("localModelMessages");
       if (!box || !orchestrator) return;
       const session = orchestrator.getSession();
-      box.textContent = (session.messages || []).filter(m => m.role === "user" || m.role === "assistant")
-        .map(m => (m.role === "user" ? "أنت: " : "Qwen: ") + m.content).join("\n\n");
+      box.textContent = (session.messages || []).filter(m => m.role === "user" || m.role === "assistant" || m.role === "tool")
+        .map(m => (m.role === "user" ? "أنت: " : m.role === "tool" ? "نتيجة أداة محلية: " : "Qwen: ") + m.content).join("\n\n");
       box.scrollTop = box.scrollHeight;
     }
 
