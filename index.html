@@ -281,8 +281,14 @@
 <script src="./ux-redesign.js"></script>
 <script src="./navigation-redesign.js"></script>
 <script src="./p1-app-shell.js"></script>
-<script src="./agent-ui.js"></script>
 <script src="./native-local-llm-bridge.js"></script>
+<script>
+  if (!window.MaintenanceNativeLLM) {
+    const legacyAgentUi = document.createElement("script");
+    legacyAgentUi.src = "./agent-ui.js";
+    document.head.appendChild(legacyAgentUi);
+  }
+</script>
 <script src="./local-llm-runtime.js"></script>
 <script src="./assistant-case-context.js"></script>
 <script src="./assistant-session-contract.js"></script>
