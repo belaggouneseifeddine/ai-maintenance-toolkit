@@ -18,6 +18,8 @@ import com.google.ai.edge.litertlm.Conversation
 import com.google.ai.edge.litertlm.ConversationConfig
 import com.google.ai.edge.litertlm.Engine
 import com.google.ai.edge.litertlm.EngineConfig
+import com.google.ai.edge.litertlm.Message
+import com.google.ai.edge.litertlm.MessageCallback
 import com.google.ai.edge.litertlm.SamplerConfig
 import java.io.File
 import java.util.concurrent.ExecutorService
@@ -272,13 +274,39 @@ class MainActivity : Activity() {
         output.text = "جارٍ التوليد محليًا…"
         worker.execute {
             val started = SystemClock.elapsedRealtime()
+            val streamed = StringBuilder()
+            var firstChunkAt: Long? = null
             try {
-                val response = requireNotNull(conversation).sendMessage(text)
-                val elapsed = SystemClock.elapsedRealtime() - started
-                runOnUiThread {
-                    output.text = "${response}\n\n[زمن الإجابة: ${elapsed} ms]"
-                    sendButton.isEnabled = true
-                }
+                val activeConversation = requireNotNull(conversation)
+                activeConversation.sendMessageAsync(text, object : MessageCallback {
+                    override fun onMessage(message: Message) {
+                        val chunk = message.toString()
+                        if (chunk.isNotEmpty()) {
+                            if (firstChunkAt == null) {
+                                firstChunkAt = SystemClock.elapsedRealtime() - started
+                            }
+                            streamed.append(chunk)
+                            val snapshot = streamed.toString()
+                            runOnUiThread { output.text = snapshot }
+                        }
+                    }
+
+                    override fun onDone() {
+                        val elapsed = SystemClock.elapsedRealtime() - started
+                        val first = firstChunkAt?.toString() ?: "غير متاح"
+                        runOnUiThread {
+                            output.text = "${streamed}\n\n[أول جزء: ${first} ms • الإجمالي: ${elapsed} ms]"
+                            sendButton.isEnabled = true
+                        }
+                    }
+
+                    override fun onError(throwable: Throwable) {
+                        runOnUiThread {
+                            output.text = "فشل التوليد: ${throwable.javaClass.simpleName}: ${throwable.message}"
+                            sendButton.isEnabled = true
+                        }
+                    }
+                })
             } catch (error: Exception) {
                 runOnUiThread {
                     output.text = "فشل التوليد: ${error.javaClass.simpleName}: ${error.message}"
