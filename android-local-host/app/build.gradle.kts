@@ -46,11 +46,20 @@ val repositoryRoot = rootProject.projectDir.parentFile
 val syncMaintenanceWebAssets = tasks.register<Copy>("syncMaintenanceWebAssets") {
     from(repositoryRoot) {
         include("**/*.html", "**/*.js", "**/*.css", "**/*.json", "**/*.md", "**/*.svg",
-            "**/*.png", "**/*.jpg", "**/*.jpeg", "**/*.webp", "**/*.ico", "**/*.woff2")
+            "**/*.png", "**/*.jpg", "**/*.jpeg", "**/*.webp", "**/*.ico", "**/*.woff2", "**/*.mjs", "**/*.wasm", "**/*.gz", "**/*.txt")
         exclude(".git/**", ".github/**", "node_modules/**", "android-local-host/**",
             "tests/**", "docs/**", "coverage/**", "dist/**", "build/**",
             "**/*.pdf", "**/*.zip", "**/*.apk", "**/*.jar", "**/*.class")
     }
     into(layout.projectDirectory.dir("src/main/assets/www"))
 }
-tasks.named("preBuild").configure { dependsOn(syncMaintenanceWebAssets) }
+val vendorDocumentRuntime = tasks.register<Exec>("vendorDocumentRuntime") {
+    dependsOn(syncMaintenanceWebAssets)
+    workingDir(repositoryRoot)
+    commandLine("bash", "scripts/vendor-document-runtime.sh",
+        layout.projectDirectory.dir("src/main/assets/www").asFile.absolutePath)
+    onlyIf {
+        !layout.projectDirectory.file("src/main/assets/www/vendor/pdfjs/pdf.min.mjs").asFile.exists()
+    }
+}
+tasks.named("preBuild").configure { dependsOn(vendorDocumentRuntime) }
