@@ -19,3 +19,12 @@ test("runtime sends bounded requests only to a local bridge",async()=>{
  const result=await runtime.generate({messages:[{role:"user",content:"hello"}],maxOutputTokens:9999});
  assert.equal(result.executionMode,"local"); assert.equal(request.maxOutputTokens,768);
 });
+
+test("runtime distinguishes a persisted imported model file from a loaded engine",async()=>{
+ const runtime=Runtime.createLocalLlmRuntime({bridge:{
+  getCapabilities:async()=>({executionMode:"local",localOnly:true}),
+  getStatus:async()=>({modelAvailable:true,modelLoaded:false,modelId:"qwen-local"})
+ }});
+ const status=await runtime.getStatus();
+ assert.equal(status.modelAvailable,true);assert.equal(status.modelLoaded,false);assert.equal(status.modelId,"qwen-local");
+});
