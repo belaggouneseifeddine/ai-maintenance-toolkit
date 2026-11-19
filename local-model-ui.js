@@ -16,7 +16,7 @@
   function caseContext() {
     const value = id => ($(id) && $(id).value || "").trim().slice(0, 3000);
     return {
-      equipment: { type:value("aiMachine"), manufacturer:value("aiManufacturer"), model:value("aiModel") },
+      equipment: { type:value("aiMachine"), model:value("aiModel") },
       symptom:value("aiSymptom"), alarmCode:value("aiCode"),
       observations:value("aiObservations"), measurementStatus:value("aiMeasurementStatus"),
       measurements:value("aiMeasurementReadings"),
@@ -82,7 +82,7 @@
       orchestrator.start({
         sessionId:"qwen-" + Date.now().toString(36),
         language:lang,
-        equipment:{type:context.equipment.type,manufacturer:context.equipment.manufacturer,model:context.equipment.model}
+        equipment:{type:context.equipment.type,model:context.equipment.model}
       });
       const catalog = [
         {name:"diagnose",description:"Run the deterministic local industrial diagnostic engine. Input: {equipment:{type,manufacturer?,model?}, symptom, language, intent:'diagnose', observations:string[], measurements?:array}. Returns ranked preliminary hypotheses, evidence and safety notices.",inputSchema:{type:"object",required:["equipment","symptom"],properties:{equipment:{type:"object",required:["type"]},symptom:{type:"string"},language:{enum:["ar","fr","en"]},intent:{const:"diagnose"},observations:{type:"array",items:{type:"string"}},measurements:{type:"array"}}}},
