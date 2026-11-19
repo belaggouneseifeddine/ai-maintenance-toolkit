@@ -36,8 +36,9 @@
       if (library.env) {
         library.env.useBrowserCache = true;
         library.env.useWasmCache = true;
-        library.env.allowRemoteModels = true;
-        library.env.allowLocalModels = false;
+        const nativeLocalHost = Boolean(root.MaintenanceNativeLLM);
+        library.env.allowRemoteModels = !nativeLocalHost;
+        library.env.allowLocalModels = true;
         if (library.env.backends && library.env.backends.onnx && library.env.backends.onnx.wasm) {
           library.env.backends.onnx.wasm.wasmPaths = "./vendor/transformers/";
         }
