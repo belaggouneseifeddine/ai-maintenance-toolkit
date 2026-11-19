@@ -84,6 +84,7 @@
     const panel = root.document.createElement("section");
     panel.className = "card";
     panel.id = "localModelAssistant";
+    target.classList.add("local-only-mode");
     panel.innerHTML = '<h2></h2><p class="hint" id="localModelSub"></p>' +
       '<div class="actions"><button type="button" class="btn secondary" id="localModelPick"></button>' +
       '<button type="button" class="btn" id="localModelLoad" disabled></button>' +
@@ -104,7 +105,27 @@
     panel.querySelector("p.hint:last-child").textContent = t.tools;
     target.insertBefore(panel, target.firstChild);
 
-    // This branch is local-only: hide the legacy hosted-provider controls.
+    // This branch is local-only: remove hosted-provider actions and copy.
+    const intro = target.querySelector("#aiForm > p.hint");
+    if (intro) intro.textContent = lang === "en"
+      ? "Qwen and the diagnostic tools run on this device. Case data is not sent to a hosted model."
+      : lang === "fr"
+        ? "Qwen et les outils de diagnostic fonctionnent sur cet appareil. Aucune donnée n’est envoyée à un modèle hébergé."
+        : "يعمل Qwen وأدوات التشخيص على هذا الجهاز. لا تُرسل بيانات الحالة إلى نموذج مستضاف.";
+    const navLink = root.document.querySelector('[data-go="ai"]');
+    if (navLink) {
+      const label = navLink.querySelector("b");
+      const hint = navLink.querySelector("small");
+      if (label) label.textContent = lang === "en" ? "Local assistant" : lang === "fr" ? "Assistant local" : "المساعد المحلي";
+      if (hint) hint.textContent = lang === "en" ? "On-device Qwen and diagnostic tools" : lang === "fr" ? "Qwen et outils locaux sur l’appareil" : "Qwen ومحرك التشخيص على الهاتف";
+    }
+    root.document.querySelectorAll('[data-ux-key="howAI"]').forEach(node => {
+      node.textContent = lang === "en"
+        ? "Qwen interprets the case and invokes allow-listed local diagnostic tools; no cloud provider is used."
+        : lang === "fr"
+          ? "Qwen interprète le cas et appelle les outils locaux autorisés ; aucun fournisseur cloud n’est utilisé."
+          : "يفهم Qwen الحالة ويستدعي أدوات التشخيص المحلية المسموحة؛ لا يُستخدم أي مزود سحابي.";
+    });
     const consent = $("aiCloudConsent");
     if (consent) { consent.checked = false; consent.disabled = true; const label = consent.closest("label"); if (label) label.hidden = true; }
     ["askCloudAI","simulateCloudAI"].forEach(id => { if ($(id)) { $(id).hidden = true; $(id).disabled = true; } });
@@ -132,10 +153,11 @@
       orchestrator.start({
         sessionId:"qwen-" + Date.now().toString(36),
         language:lang,
-        equipment:{type:context.equipment.type,model:context.equipment.model}
+        equipment:{type:context.equipment.type,manufacturer:context.equipment.manufacturer,model:context.equipment.model}
       });
       const catalog = [
         {name:"diagnose",description:"Run the deterministic local industrial diagnostic engine. Input: {equipment:{type,manufacturer?,model?}, symptom, language, intent:'diagnose', observations:string[], measurements:[{name,value,unit}]}. Include only readings explicitly supplied by the technician; omit unknown measurements. Returns ranked preliminary hypotheses, evidence and advisory safety notices.",inputSchema:{type:"object",required:["equipment","symptom"],properties:{equipment:{type:"object",required:["type"],properties:{type:{type:"string"},manufacturer:{type:"string"},model:{type:"string"}}},symptom:{type:"string"},language:{enum:["ar","fr","en"]},intent:{const:"diagnose"},observations:{type:"array",items:{type:"string"}},measurements:{type:"array",items:{type:"object",required:["name","value","unit"],properties:{name:{type:"string"},value:{type:["number","string"]},unit:{type:"string"}}}}}}},
+        {name:"rankNextDiagnosticTests",description:"Rank only candidate tests and hypotheses returned by the local diagnostic engine using expected information gain. Do not invent measurements or test results.",inputSchema:{type:"object",required:["hypotheses","tests"],properties:{hypotheses:{type:"array",minItems:1,maxItems:20},tests:{type:"array",minItems:1,maxItems:30}}}},
         {name:"searchReviewedDocuments",description:"Search locally stored PDF/manual text and page references. Input: {query:string, context?:object}. Results include reviewStatus and eligibility: use only approved excerpts with eligibleForDiagnosis=true as verified diagnostic evidence; label other passages as unreviewed candidates.",inputSchema:{type:"object",required:["query"],properties:{query:{type:"string"},context:{type:"object"}}}},
         {name:"getMaintenanceHistory",description:"Read matching maintenance records stored locally. Input: {query?:string,equipment?:object,limit?:number}.",inputSchema:{type:"object",properties:{query:{type:"string"},equipment:{type:"object"},limit:{type:"integer",minimum:1,maximum:20}}}}
       ];
@@ -143,10 +165,10 @@
         runtime, orchestrator, tools:catalog,
         getContext: async () => caseContext(),
         systemInstruction: lang === "en"
-          ? "You are a local industrial maintenance assistant. Answer in the user's language. Separate confirmed observations and measurements from hypotheses and unknowns. Never invent readings, page numbers, OEM references or numerical probabilities. Use only the supplied allow-listed local tools. Treat only approved excerpts with eligibleForDiagnosis=true as verified diagnostic evidence; label unreviewed passages as candidates. Ask one high-value diagnostic question when evidence is insufficient. Do not rule out faults solely because vibration is absent or motor speed is stable. Safety notices are advisory; never imply that the app verified isolation or authorized work. Return exactly one JSON object: {\"type\":\"final\",\"text\":\"...\"} or {\"type\":\"tool_call\",\"name\":\"...\",\"input\":{...}}."
+          ? "You are a local industrial maintenance assistant. Use diagnose first for a described case; then use rankNextDiagnosticTests only with the hypotheses and candidate tests returned by the diagnostic engine. Never invent test results. Answer in the user's language. Separate confirmed observations and measurements from hypotheses and unknowns. Never invent readings, page numbers, OEM references or numerical probabilities. Use only the supplied allow-listed local tools. Treat only approved excerpts with eligibleForDiagnosis=true as verified diagnostic evidence; label unreviewed passages as candidates. Ask one high-value diagnostic question when evidence is insufficient. Do not rule out faults solely because vibration is absent or motor speed is stable. Safety notices are advisory; never imply that the app verified isolation or authorized work. Return exactly one JSON object: {\"type\":\"final\",\"text\":\"...\"} or {\"type\":\"tool_call\",\"name\":\"...\",\"input\":{...}}."
           : lang === "fr"
-          ? "Vous êtes un assistant local de maintenance industrielle. Répondez dans la langue de l'utilisateur. Distinguez les observations et mesures confirmées des hypothèses et inconnues. N'inventez jamais de mesures, pages, références constructeur ou probabilités numériques. Utilisez uniquement les outils locaux autorisés. Considérez uniquement les extraits approuvés avec eligibleForDiagnosis=true comme preuves diagnostiques vérifiées; signalez les autres passages comme non vérifiés. Posez une question de diagnostic à forte valeur lorsque les preuves sont insuffisantes. N'écartez pas une panne uniquement parce qu'il n'y a pas de vibration ou que la vitesse moteur est stable. Les avertissements de sécurité sont consultatifs; ne prétendez jamais que l'application a vérifié la consignation ou autorisé le travail. Retournez exactement un objet JSON : {\"type\":\"final\",\"text\":\"...\"} ou {\"type\":\"tool_call\",\"name\":\"...\",\"input\":{...}}."
-          : "أنت مساعد صيانة صناعية يعمل محليًا. أجب بلغة المستخدم. افصل القياسات والملاحظات المؤكدة عن الفرضيات والمعلومات المجهولة. لا تخترع قيمًا أو صفحات أو مراجع مصنع أو احتمالات رقمية. استخدم الأدوات المحلية المسموحة فقط. لا تعتبر دليلاً تشخيصيًا موثقًا إلا المقتطفات المعتمدة ذات eligibleForDiagnosis=true؛ وصنّف المقاطع غير المعتمدة كمادة مرشحة غير متحققة. واطلب معلومة واحدة ذات قيمة تشخيصية عندما لا تكفي البيانات. لا تستبعد عطلًا بسبب غياب الاهتزاز أو ثبات السرعة. تحذيرات السلامة استشارية؛ لا توحِ بأن التطبيق تحقق من العزل أو منح تصريح عمل. أعد كائن JSON واحدًا فقط: {\"type\":\"final\",\"text\":\"...\"} أو {\"type\":\"tool_call\",\"name\":\"...\",\"input\":{...}}."
+          ? "Vous êtes un assistant local de maintenance industrielle. Utilisez diagnose en premier ; ensuite, utilisez rankNextDiagnosticTests uniquement avec les hypothèses et tests candidats retournés par le moteur. N’inventez pas de résultats de test. Répondez dans la langue de l'utilisateur. Distinguez les observations et mesures confirmées des hypothèses et inconnues. N'inventez jamais de mesures, pages, références constructeur ou probabilités numériques. Utilisez uniquement les outils locaux autorisés. Considérez uniquement les extraits approuvés avec eligibleForDiagnosis=true comme preuves diagnostiques vérifiées; signalez les autres passages comme non vérifiés. Posez une question de diagnostic à forte valeur lorsque les preuves sont insuffisantes. N'écartez pas une panne uniquement parce qu'il n'y a pas de vibration ou que la vitesse moteur est stable. Les avertissements de sécurité sont consultatifs; ne prétendez jamais que l'application a vérifié la consignation ou autorisé le travail. Retournez exactement un objet JSON : {\"type\":\"final\",\"text\":\"...\"} ou {\"type\":\"tool_call\",\"name\":\"...\",\"input\":{...}}."
+          : "أنت مساعد صيانة صناعية يعمل محليًا. استخدم diagnose أولًا عند وصف حالة، ثم استخدم rankNextDiagnosticTests فقط مع الفرضيات والاختبارات التي أعادها محرك التشخيص. لا تخترع نتائج اختبارات. أجب بلغة المستخدم. افصل القياسات والملاحظات المؤكدة عن الفرضيات والمعلومات المجهولة. لا تخترع قيمًا أو صفحات أو مراجع مصنع أو احتمالات رقمية. استخدم الأدوات المحلية المسموحة فقط. لا تعتبر دليلاً تشخيصيًا موثقًا إلا المقتطفات المعتمدة ذات eligibleForDiagnosis=true؛ وصنّف المقاطع غير المعتمدة كمادة مرشحة غير متحققة. واطلب معلومة واحدة ذات قيمة تشخيصية عندما لا تكفي البيانات. لا تستبعد عطلًا بسبب غياب الاهتزاز أو ثبات السرعة. تحذيرات السلامة استشارية؛ لا توحِ بأن التطبيق تحقق من العزل أو منح تصريح عمل. أعد كائن JSON واحدًا فقط: {\"type\":\"final\",\"text\":\"...\"} أو {\"type\":\"tool_call\",\"name\":\"...\",\"input\":{...}}."
       });
     }
 
