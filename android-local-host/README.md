@@ -31,7 +31,7 @@ Open `android-local-host/` in Android Studio (JDK 17, Android SDK 36), or run:
 gradle :app:assembleDebug --no-daemon
 ```
 
-The build runs `syncMaintenanceWebAssets` and `vendorDocumentRuntime` before Android compilation. The latter vendors pinned PDF.js/Tesseract/Transformers runtime assets and language data for offline document workflows. Do not commit generated `app/src/main/assets/www` output.
+The build runs `syncMaintenanceWebAssets` and `vendorDocumentRuntime` before Android compilation. The latter vendors pinned PDF.js/Tesseract/Transformers runtime code and Arabic, English and French OCR data. PDF text extraction, OCR, local BM25 retrieval and page citations are available offline. The multilingual embedding weights are **not** bundled yet; Android disables remote model downloads, so semantic-vector search remains unavailable until a local embedding model is packaged. Do not commit generated `app/src/main/assets/www` output.
 
 ## Device acceptance checks
 
