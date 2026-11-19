@@ -7,7 +7,7 @@ test("Android local host cannot invoke the hosted AI endpoint through legacy UI"
   const legacy = fs.readFileSync("app-legacy.js", "utf8");
   const localUi = fs.readFileSync("local-model-ui.js", "utf8");
   assert.match(agentUi, /if \(root\.MaintenanceNativeLLM\) return \{ ok:false, status:"cloud_disabled_in_local_android_host" \}/);
-  assert.match(legacy, /if\\s*\\(window\\.MaintenanceNativeLLM\\) return;/);
+  assert.match(legacy, /if\s*\(window\.MaintenanceNativeLLM\) return;/);
   assert.match(localUi, /local-only-mode/);
   assert.match(localUi, /\["askCloudAI","simulateCloudAI","askAi","aiAnswerTools","aiResult"\]/);
 });
