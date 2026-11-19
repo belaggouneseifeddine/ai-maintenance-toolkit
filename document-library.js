@@ -208,6 +208,7 @@
                 workerPath: "./vendor/tesseract/worker.min.js",
                 corePath: "./vendor/tesseract/core/",
                 langPath: "./vendor/tessdata",
+                gzip: !window.MaintenanceNativeLLM,
                 cacheMethod: "write",
                 logger: message => {
                   if (message && message.status === "recognizing text") {
