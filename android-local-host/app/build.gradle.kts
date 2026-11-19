@@ -17,11 +17,6 @@ android {
         versionName = "0.1.0"
     }
 
-    androidResources {
-        // Keep Tesseract language files as .traineddata.gz so its loader can resolve them.
-        noCompress += "gz"
-    }
-
     buildTypes {
         release {
             isMinifyEnabled = false
