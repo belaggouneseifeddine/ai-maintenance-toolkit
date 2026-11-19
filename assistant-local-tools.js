@@ -36,12 +36,35 @@
     }
     function validDiagnosticInput(input) {
       const request = requestFrom(input);
-      return !!request && typeof request === "object" &&
-        request.equipment && typeof request.equipment.type === "string" &&
-        typeof request.symptom === "string" &&
-        [undefined, "ar", "en", "fr"].includes(request.language) &&
-        [undefined, "diagnose"].includes(request.intent) &&
-        (request.observations == null || Array.isArray(request.observations));
+      if (!request || typeof request !== "object" || Array.isArray(request) ||
+          !request.equipment || typeof request.equipment !== "object" ||
+          Array.isArray(request.equipment) ||
+          typeof request.equipment.type !== "string" || !request.equipment.type.trim() ||
+          request.equipment.type.length > 120 ||
+          typeof request.symptom !== "string" || !request.symptom.trim() ||
+          request.symptom.length > 240 ||
+          ![undefined, "ar", "en", "fr"].includes(request.language) ||
+          ![undefined, "diagnose"].includes(request.intent)) return false;
+      for (const key of ["manufacturer", "model", "assetId"]) {
+        if (request.equipment[key] != null &&
+            (typeof request.equipment[key] !== "string" || request.equipment[key].length > 120)) return false;
+      }
+      if (request.observations != null &&
+          (!Array.isArray(request.observations) || request.observations.length > 30 ||
+           request.observations.some(item => typeof item !== "string" || item.length > 1000))) return false;
+      if (request.measurements != null &&
+          (!Array.isArray(request.measurements) || request.measurements.length > 40 ||
+           request.measurements.some(item => !item || typeof item !== "object" || Array.isArray(item) ||
+             typeof item.name !== "string" || !item.name.trim() || item.name.length > 100 ||
+             !(typeof item.value === "string" || (typeof item.value === "number" && Number.isFinite(item.value))) ||
+             String(item.value).length > 80 ||
+             typeof item.unit !== "string" || !item.unit.trim() || item.unit.length > 40 ||
+             (item.source != null && typeof item.source !== "string") ||
+             (item.timestamp != null && (typeof item.timestamp !== "string" || !Number.isFinite(Date.parse(item.timestamp)))) ||
+             (item.operatingConditions != null && (typeof item.operatingConditions !== "string" || item.operatingConditions.length > 160)) ||
+             (item.sensorStatus != null && (typeof item.sensorStatus !== "string" || item.sensorStatus.length > 60)) ||
+             (item.quality != null && (typeof item.quality !== "string" || item.quality.length > 60)))) return false;
+      return true;
     }
     function safetyGate({ toolName, input }) {
       if (toolName !== "diagnose") return { allowed: true, reason: "not_a_diagnostic_intervention" };
