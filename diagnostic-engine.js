@@ -456,7 +456,8 @@
         const target = doc.getElementById("diagnosisResult");
         const priority = doc.getElementById("priority")?.value;
         if (target) { const old = doc.getElementById("localReasoningCard"); if (old) old.remove(); const oldSafety = doc.getElementById("localReasoningSafetyNotice"); if (oldSafety) oldSafety.remove(); }
-        const safetyReviewIncomplete = priority === "urgent" || !checks.length || checks.some(item => !item.checked);
+        const safetyChecklistIncomplete = !checks.length || checks.some(item => !item.checked);
+        const safetyReviewIncomplete = priority === "urgent" || safetyChecklistIncomplete;
         const input = {
           machine: doc.getElementById("machine")?.value || "",
           symptom: doc.getElementById("symptom")?.value || "",
@@ -471,16 +472,16 @@
           ? root.MaintenanceBayesianEngine.enrich(input, localResult)
           : localResult;
         renderLocalReasoning(input, rankedResult);
-        if (safetyReviewIncomplete && target) {
+        if (safetyReviewIncomplete && !safetyChecklistIncomplete && target) {
           const notice = doc.createElement("p");
           notice.id = "localReasoningSafetyNotice";
           notice.className = "notice";
           notice.setAttribute("role", "status");
           notice.textContent = language === "ar"
-            ? "تنبيه استشاري: أولوية الحالة أو قائمة التحقق تشير إلى ضرورة مراجعة إجراءات الموقع والتصعيد عند الحاجة. لم يمنع ذلك عرض الفرضيات، ولا يمثل هذا التنبيه تحققًا من العزل أو تصريحًا بالعمل."
+            ? "تنبيه استشاري: أولوية الحالة عاجلة حسب اختيار المستخدم؛ راجع إجراءات الموقع وصعّد عند الحاجة. تبقى الفرضيات معروضة، ولا يمثل هذا التنبيه تحققًا من العزل أو تصريحًا بالعمل."
             : language === "fr"
-              ? "Avis consultatif : la priorité ou la liste de contrôle indique qu’il faut revoir les procédures du site et escalader si nécessaire. Les hypothèses restent affichées ; cet avis ne vérifie pas la consignation et n’autorise pas le travail."
-              : "Advisory notice: the priority or checklist indicates that site procedures and escalation may need review. Hypotheses remain visible; this notice does not verify isolation or authorize work.";
+              ? "Avis consultatif : la priorité est urgente selon le choix de l’utilisateur ; revoir les procédures du site et escalader si nécessaire. Les hypothèses restent affichées ; cet avis ne vérifie pas la consignation et n’autorise pas le travail."
+              : "Advisory notice: urgent priority requires site-procedure review and escalation as appropriate. Hypotheses remain visible; this notice does not verify isolation or authorize work.";
           target.prepend(notice);
         }
       });
