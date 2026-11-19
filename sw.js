@@ -131,6 +131,7 @@ const OPTIONAL_APP_SHELL = [
 ].filter(asset => {
   if (self.location.hostname !== "appassets.androidplatform.net") return true;
   return !asset.includes("/vendor/transformers/") &&
+    !asset.endsWith("/transformers-LICENSE") &&
     !/\/vendor\/tessdata\/.*\.traineddata\.gz$/.test(asset);
 });
 const CORE_APP_SHELL = APP_SHELL.filter(asset => !OPTIONAL_APP_SHELL.includes(asset));
