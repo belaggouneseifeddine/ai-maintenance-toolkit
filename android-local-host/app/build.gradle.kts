@@ -36,5 +36,5 @@ android {
 
 dependencies {
     // Pin to the runtime generation documented for the selected Qwen CPU artifact.
-    implementation("com.google.ai.edge.litertlm:litertlm-android:0.19.2")
+    implementation("com.google.ai.edge.litertlm:litertlm-android:0.18.1")
 }
