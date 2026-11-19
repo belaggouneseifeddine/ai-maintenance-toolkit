@@ -37,8 +37,9 @@
       if (!capabilities.available) return { ...capabilities, modelLoaded:false, modelId:null };
       const status = typeof bridge.getStatus === "function" ? await invoke("getStatus") : {};
       const modelId = typeof status.modelId === "string" ? status.modelId.slice(0,120) : null;
-      return { ...capabilities, modelLoaded:status.modelLoaded === true && !!modelId,
-        modelId:status.modelLoaded === true ? modelId : null, busy:status.busy === true,
+      return { ...capabilities, modelAvailable:status.modelAvailable === true || (status.modelLoaded === true && !!modelId),
+        modelLoaded:status.modelLoaded === true && !!modelId,
+        modelId:status.modelAvailable === true || status.modelLoaded === true ? modelId : null, busy:status.busy === true,
         backend:typeof status.backend === "string" ? status.backend.slice(0,40) : "unknown" };
     }
     async function loadModel(modelId, options) {
