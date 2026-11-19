@@ -4,15 +4,15 @@ const Context = require("../assistant-case-context.js");
 
 test("parses supplied measurements without promoting unknown provenance", () => {
   const result = Context.parseMeasurementReadings([
-    "Suction pressure|1.25|bar|direct_measurement|2026-11-19T10:00:00Z|70% load|normal|verified",
-    "Flow|18|m3/h|plc_value|2026-11-19T10:01:00Z|70% load|normal|verified",
-    "Temperature|hot|C|mystery_source|not-a-date"
+    "Suction pressure|1.25|bar|direct_measurement|2026-11-19T10:00:00Z|70% load|normal|normal",
+    "Flow|18|m3/h|plc_value|2026-11-19T10:01:00Z|70% load|normal|normal",
+    "Temperature|68|C|mystery_source|not-a-date|70% load|normal|normal"
   ].join("\n"));
-  assert.equal(result.measurements.length, 2);
+  assert.equal(result.measurements.length, 3);
   assert.equal(result.measurements[0].value, 1.25);
   assert.equal(result.measurements[0].sourceType, "direct_measurement");
   assert.equal(result.measurements[1].sourceType, "plc_value");
-  assert.ok(result.warnings.includes("line_3_non_numeric_measurement"));
+  assert.equal(result.measurements[2].sourceType, "unknown");\n  assert.equal(result.measurements[2].timestamp, null);\n  assert.ok(result.warnings.includes("line_3_unrecognized_source"));\n  assert.ok(result.warnings.includes("line_3_invalid_timestamp"));
 });
 
 test("rejects incomplete measurement rows instead of inventing values or units", () => {
@@ -32,7 +32,7 @@ test("builds bounded equipment context and preserves source and operating condit
     alarmCode: "E-01",
     observations: "Flow dropped\nNo abnormal vibration",
     measurementStatus: "available",
-    measurementText: "Discharge pressure|2.1|bar|plc_value|2026-11-19T10:00:00Z|70% load|normal|verified",
+    measurementText: "Discharge pressure|2.1|bar|plc_value|2026-11-19T10:00:00Z|70% load|normal|normal",
     guidedDiagnostic: { sessionId: "session-1" }
   });
   assert.deepEqual(result.equipment, {
