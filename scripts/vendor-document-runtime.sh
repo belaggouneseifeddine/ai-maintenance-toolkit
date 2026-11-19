@@ -2,7 +2,6 @@
 set -euo pipefail
 
 OUT_DIR="${1:-_site}"
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 TMP_DIR="$(mktemp -d)"
 trap 'rm -rf "$TMP_DIR"' EXIT
 
@@ -60,8 +59,8 @@ License texts for bundled packages and language data are copied into vendor/lice
 NOTICE
 
 if [[ "${MAINTENANCE_SKIP_EMBEDDINGS:-0}" != "1" ]]; then
-  printf '%s\\n' "Transformers.js 3.8.1: Apache-2.0. See https://github.com/huggingface/transformers.js" >> "$OUT_DIR/vendor/THIRD-PARTY-NOTICES.txt"
-  printf '%s\\n' "Base model sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2: Apache-2.0. The Xenova ONNX export repository does not show a separately verified license notice in this audit; weights are not bundled or redistributed and are fetched only after user activation. Verify export terms before redistribution. See https://huggingface.co/Xenova/paraphrase-multilingual-MiniLM-L12-v2" >> "$OUT_DIR/vendor/THIRD-PARTY-NOTICES.txt"
+  printf '%s\n' "Transformers.js 3.8.1: Apache-2.0. See https://github.com/huggingface/transformers.js" >> "$OUT_DIR/vendor/THIRD-PARTY-NOTICES.txt"
+  printf '%s\n' "Base model sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2: Apache-2.0. The Xenova ONNX export repository does not show a separately verified license notice in this audit; weights are not bundled or redistributed and are fetched only after user activation. Verify export terms before redistribution. See https://huggingface.co/Xenova/paraphrase-multilingual-MiniLM-L12-v2" >> "$OUT_DIR/vendor/THIRD-PARTY-NOTICES.txt"
   test -s "$OUT_DIR/vendor/licenses/transformers-LICENSE"
   test -s "$OUT_DIR/vendor/transformers/transformers.min.js"
 fi
