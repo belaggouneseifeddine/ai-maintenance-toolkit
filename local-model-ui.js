@@ -58,6 +58,7 @@
     panel.className = "card";
     panel.id = "localModelAssistant";
     target.classList.add("local-only-mode");
+    root.document.querySelectorAll('a[href="./cv.html"]').forEach(link => { link.hidden = true; });
     panel.innerHTML = '<h2></h2><p class="hint" id="localModelSub"></p>' +
       '<div class="actions"><button type="button" class="btn secondary" id="localModelPick"></button>' +
       '<button type="button" class="btn" id="localModelLoad" disabled></button>' +
