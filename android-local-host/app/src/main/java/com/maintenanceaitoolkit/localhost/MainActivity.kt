@@ -84,7 +84,7 @@ class MainActivity : Activity() {
                     }
                     startActivityForResult(intent, PICK_MODEL_REQUEST)
                 }
-                "loadModel" -> loadModel(callbackId)
+                "loadModel" -> loadModel(payload, callbackId)
                 "unloadModel" -> {
                     modelReady = false
                     complete(callbackId, JSONObject().put("ok", true).put("status", "unloaded"))
@@ -144,10 +144,11 @@ class MainActivity : Activity() {
         return modelFile
     }
 
-    private fun loadModel(callback: String) = worker.execute {
+    private fun loadModel(payload: String, callback: String) = worker.execute {
         var engine: Engine? = null
         var conversation: Conversation? = null
         try {
+            require(JSONObject(payload).optString("modelId") == MODEL_ID) { "unknown_model_id" }
             require(modelFile.isFile && modelFile.length() > 0) { "model_file_missing" }
             engine = Engine(EngineConfig(modelPath = modelFile.absolutePath, backend = Backend.CPU(), cacheDir = cacheDir.absolutePath))
             engine.initialize()
@@ -179,6 +180,8 @@ class MainActivity : Activity() {
             val output = StringBuilder()
             try {
                 val request = JSONObject(payload)
+                require(request.optString("modelId") == MODEL_ID) { "unknown_model_id" }
+                require(payload.length <= 300000) { "request_too_large" }
                 val messages = request.optJSONArray("messages") ?: JSONArray()
                 require(messages.length() in 1..48) { "invalid_messages" }
                 val system = messages.optJSONObject(0)?.optString("content").orEmpty().take(5000)
