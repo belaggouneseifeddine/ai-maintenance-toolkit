@@ -208,7 +208,7 @@ class MainActivity : Activity() {
                 val candidateConversation = candidate.createConversation(ConversationConfig(
                     systemInstruction = Contents.of(system.ifBlank { "You are a careful industrial maintenance assistant." }),
                     samplerConfig = SamplerConfig(topK = 64, topP = 0.95,
-                        temperature = request.optDouble("temperature", 0.2).coerceIn(0.0, 1.0).toFloat()),
+                        temperature = request.optDouble("temperature", 0.2).coerceIn(0.0, 1.0)),
                     maxOutputToken = request.optInt("maxOutputTokens", 384).coerceIn(1, 512)
                 ))
                 conversation = candidateConversation
