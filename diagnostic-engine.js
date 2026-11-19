@@ -456,16 +456,7 @@
         const target = doc.getElementById("diagnosisResult");
         const priority = doc.getElementById("priority")?.value;
         if (target) { const old = doc.getElementById("localReasoningCard"); if (old) old.remove(); }
-        if (priority === "urgent" || !checks.length || checks.some(item => !item.checked)) {
-          if (target) {
-            const notice = doc.createElement("p");
-            notice.id = "localReasoningCard";
-            notice.className = "notice";
-            notice.textContent = language==="ar" ? "لم تُعرض فرضيات لأن الحالة عاجلة أو لأن قائمة السلامة لم تكتمل. أكمل التحقق الآمن أو صعّد للمسؤول." : language==="fr" ? "Les hypothèses sont masquées car la priorité est urgente ou la liste de sécurité est incomplète." : "Hypotheses are hidden because priority is urgent or the safety checklist is incomplete.";
-            target.appendChild(notice);
-          }
-          return;
-        }
+        const safetyReviewIncomplete = priority === "urgent" || !checks.length || checks.some(item => !item.checked);
         const input = {
           machine: doc.getElementById("machine")?.value || "",
           symptom: doc.getElementById("symptom")?.value || "",
@@ -480,6 +471,18 @@
           ? root.MaintenanceBayesianEngine.enrich(input, localResult)
           : localResult;
         renderLocalReasoning(input, rankedResult);
+        if (safetyReviewIncomplete && target) {
+          const notice = doc.createElement("p");
+          notice.id = "localReasoningSafetyNotice";
+          notice.className = "notice";
+          notice.setAttribute("role", "status");
+          notice.textContent = language === "ar"
+            ? "تنبيه استشاري: أولوية الحالة أو قائمة التحقق تشير إلى ضرورة مراجعة إجراءات الموقع والتصعيد عند الحاجة. لم يمنع ذلك عرض الفرضيات، ولا يمثل هذا التنبيه تحققًا من العزل أو تصريحًا بالعمل."
+            : language === "fr"
+              ? "Avis consultatif : la priorité ou la liste de contrôle indique qu’il faut revoir les procédures du site et escalader si nécessaire. Les hypothèses restent affichées ; cet avis ne vérifie pas la consignation et n’autorise pas le travail."
+              : "Advisory notice: the priority or checklist indicates that site procedures and escalation may need review. Hypotheses remain visible; this notice does not verify isolation or authorize work.";
+          target.prepend(notice);
+        }
       });
     });
   }
