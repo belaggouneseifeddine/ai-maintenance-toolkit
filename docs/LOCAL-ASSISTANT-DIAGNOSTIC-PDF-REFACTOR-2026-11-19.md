@@ -99,3 +99,11 @@ Still unverified:
 - Not implemented or proven: numeric threshold scoring (no source-reviewed measurement rules were found in the current diagnostic schema), new fault cases (no new claims added without reviewed source evidence), real PDF extraction/quality fixtures, Android APK rebuild/device acceptance, and dead-file deletion.
 - CI/device validation: not yet demonstrated by this document.
 - Merge and production deployment: not performed.
+
+
+## Additional implementation — source-gated measurements and candidate knowledge
+
+- Added `diagnostic-measurement-rules.js`. A measurement rule is eligible only when it is approved, source-verified, page-verified, exact-model-scoped, and matches the exact measurement name, unit, operating condition, direct-measurement source, timestamp, sensor state and quality flag. It does not convert units or invent limits.
+- Verified support/contradiction now acts only as a tie-breaker after the existing equipment/symptom/keyword score. No verified rule means numeric values do not change ranking.
+- Added candidate case CP-005 for PACO VL/VLS insufficient flow, sourced to the Grundfos/PACO manual Section 12.1–12.2, printed page 15. It is reference-only and candidate-only; it is not added to the live fault library.
+- Added PDF retrieval-adapter tests to verify that document ID, PDF page, printed page, review state and retrieval methods survive the adapter boundary. These tests do not replace real OCR/table extraction or Android device testing.
