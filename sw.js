@@ -57,7 +57,6 @@ const APP_SHELL = [
   "./document-retrieval-adapter.js",
   "./document-review-workspaces.js",
   "./diagnostic-document-evidence.js",
-  "./agent-ui.js",
   "./vendor/transformers/transformers.min.js",
   "./vendor/transformers/ort-wasm-simd-threaded.jsep.mjs",
   "./vendor/transformers/ort-wasm-simd-threaded.jsep.wasm",
@@ -88,6 +87,7 @@ const APP_SHELL = [
 ];
 
 const OPTIONAL_APP_SHELL = [
+  "./agent-ui.js",
   "./diagnostic-evidence-register.json",
   "./knowledge/manufacturer-sources.json",
   "./knowledge/oem-platform-index.json",
