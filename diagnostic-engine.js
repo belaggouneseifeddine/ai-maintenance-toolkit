@@ -153,9 +153,13 @@
     const symptom = canonicalSymptom(input && input.symptom);
     const measurementTerms = measurementEvidence.readings.map(item => item.name).filter(Boolean).join(" ");
     const notes = normalizeText([input && input.observations, measurementTerms].filter(Boolean).join(" "));
-    const results = data.faults.map(fault => {
+    const rankedCandidates = data.faults.map(fault => {
       const equipmentMatch = canonicalEquipment(fault.equipmentType) === equipment;
       const symptomMatch = (fault.symptoms || []).some(item => { const candidate = canonicalSymptom(item); return candidate === symptom || (symptom === "noise_vibration" && ["noise","vibration"].includes(candidate)); });
+      const measurementRuleEvidence = equipmentMatch && symptomMatch &&
+        root.MaintenanceMeasurementRuleEngine && typeof root.MaintenanceMeasurementRuleEngine.evaluateFault === "function"
+        ? root.MaintenanceMeasurementRuleEngine.evaluateFault(fault, measurementEvidence.readings, { model: input && input.model })
+        : { evaluations: [], supporting: [], contradicting: [], unknown: [], usedForRanking: false };
       const allKeywords = Object.values(fault.keywords || {}).flat();
       const keywordMatches = findMatches(notes, allKeywords);
       const distinctHits = Math.min(keywordMatches.length, 3);
@@ -179,6 +183,8 @@
         : lang === "fr"
           ? "Correspondance initiale seulement; ajoutez des observations pour préciser les possibilités."
           : "Preliminary match only; add observations to narrow the possibilities.");
+      if (measurementRuleEvidence.supporting.length) reasons.push(lang === "ar" ? "قياس يطابق قاعدة موثقة المصدر" : lang === "fr" ? "Mesure conforme à une règle sourcée" : "Measurement matches a source-verified rule");
+      if (measurementRuleEvidence.contradicting.length) reasons.push(lang === "ar" ? "قياس يعارض قاعدة موثقة المصدر" : lang === "fr" ? "Mesure contraire à une règle sourcée" : "Measurement contradicts a source-verified rule");
       const confidence = keywordMatches.length >= 2 ? "medium" : "low";
       return {
         id: fault.id,
@@ -190,14 +196,22 @@
         symptomMatch,
         matchedKeywords: keywordMatches,
         rankingReason: reasons.join(" + "),
+        measurementRuleEvidence,
         causes,
         safeChecks: (fault.safeChecks || []).map(item => item[lang]).filter(Boolean),
         escalation: fault.escalation && fault.escalation[lang] || "",
         // Equipment + symptom is enough to show tentative candidates. Observation keywords improve ranking but must not hide all candidates.
         thresholdMet: equipmentMatch && symptomMatch && score >= 7
       };
-    }).filter(item => item.thresholdMet)
-      .sort((a, b) => b.score - a.score || b.matchedKeywords.length - a.matchedKeywords.length || a.title.localeCompare(b.title));
+    });
+    measurementEvidence.usedForNumericThresholdDecision = rankedCandidates.some(item =>
+      item.measurementRuleEvidence && item.measurementRuleEvidence.usedForRanking
+    );
+    const results = rankedCandidates.filter(item => item.thresholdMet)
+      .sort((a, b) => b.score - a.score ||
+        b.measurementRuleEvidence.supporting.length - a.measurementRuleEvidence.supporting.length ||
+        a.measurementRuleEvidence.contradicting.length - b.measurementRuleEvidence.contradicting.length ||
+        b.matchedKeywords.length - a.matchedKeywords.length || a.title.localeCompare(b.title));
 
     if (!results.length) {
       const aliasHints = [

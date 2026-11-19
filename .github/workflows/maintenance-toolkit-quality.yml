@@ -52,7 +52,9 @@ jobs:
             assistant-tool-registry.js \
             assistant-local-orchestrator.js \
             assistant-local-tools.js \
+            diagnostic-evidence-contract.js \
             bayesian-engine.js \
+            diagnostic-measurement-rules.js \
             document-semantic-search.js \
             document-library-core.js \
             document-library.js \
@@ -62,6 +64,9 @@ jobs:
             diagnostic-casebook.js \
             maintenance-records.js \
             app-legacy.js \
+            local-llm-runtime.js \
+            native-local-llm-bridge.js \
+            assistant-model-agent.js \
             sw.js; do
             node --check "$file"
           done

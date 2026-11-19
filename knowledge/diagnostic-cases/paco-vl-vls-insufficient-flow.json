@@ -1,0 +1,282 @@
+{
+  "schemaVersion": 1,
+  "caseId": "CP-005",
+  "title": "PACO VL/VLS vertical inline centrifugal pump — insufficient flow (OEM-specific candidate)",
+  "equipmentFamily": "centrifugal_pump",
+  "status": "candidate",
+  "applicability": [
+    "Only PACO VL and VLS vertical inline centrifugal pump families covered by the cited Grundfos/PACO manual",
+    "Exact catalog/model number, serial number, impeller configuration, rated duty and fluid must be checked against the unit nameplate and supplied manual",
+    "This candidate is not a universal centrifugal-pump fault matrix and is not yet eligible for live diagnostic ranking"
+  ],
+  "mechanism": "The cited PACO VL/VLS troubleshooting table associates insufficient flow with multiple possible conditions across priming and suction availability, suction restrictions or air ingress, speed and rotation, system head and fluid properties, parallel-pump suitability, impeller condition, wear-ring clearance and internal leakage. These are competing possibilities, not a single root cause.",
+  "symptoms": [
+    "Measured or reported flow rate is below the expected duty for a PACO VL/VLS pump",
+    "Pump may continue to run while delivered flow is insufficient"
+  ],
+  "requiredContext": [
+    "Confirm the exact PACO VL or VLS product code, model/catalog number and serial number",
+    "Record the specified duty point, pump curve revision, impeller configuration and rated speed",
+    "Record actual operating speed, driver/rotation configuration and whether pumps operate in parallel",
+    "Record fluid identity, temperature, density/viscosity if known, and suction source level",
+    "Record suction/discharge tap locations, units, valve lineup and concurrent flow readings"
+  ],
+  "hypotheses": [
+    {
+      "id": "paco-suction-availability",
+      "cause": "Incomplete priming, insufficient available suction head, air pockets/ingress or inadequate submergence",
+      "supportingEvidence": [
+        "Documented loss of prime or incomplete priming record",
+        "Concurrent suction/source observations differ from the documented normal baseline",
+        "Air ingress or gas entrainment is independently evidenced"
+      ],
+      "contradictingEvidence": [
+        "Priming, suction source level and suction-line integrity are independently verified against the applicable installation conditions"
+      ],
+      "confounders": [
+        "Pressure tap location and units",
+        "Air/gas content and fluid temperature",
+        "Transmitter or impulse-line faults"
+      ]
+    },
+    {
+      "id": "paco-suction-restriction",
+      "cause": "Suction valve, strainer or foot-valve restriction",
+      "supportingEvidence": [
+        "Installed differential-pressure indication across a strainer changes against a comparable baseline",
+        "Valve-position and suction-pressure records indicate a changed suction path",
+        "Inspection record identifies obstruction or undersized/stuck foot valve"
+      ],
+      "contradictingEvidence": [
+        "Suction path and valve lineup are confirmed unobstructed by suitable evidence"
+      ],
+      "confounders": [
+        "Valve feedback may not prove physical valve position",
+        "No differential-pressure threshold is supplied by the cited manual"
+      ]
+    },
+    {
+      "id": "paco-speed-rotation-duty",
+      "cause": "Drive speed/rotation or installation total-head mismatch",
+      "supportingEvidence": [
+        "Actual speed differs from the exact rated operating condition",
+        "Rotation/impeller installation record conflicts with the specified configuration",
+        "Measured duty point differs from the applicable pump/system curve"
+      ],
+      "contradictingEvidence": [
+        "Actual speed, rotation, impeller configuration and system duty are independently verified against the exact unit documentation"
+      ],
+      "confounders": [
+        "VFD command is not equivalent to measured shaft speed",
+        "System resistance and parallel-pump interaction can shift the operating point"
+      ]
+    },
+    {
+      "id": "paco-internal-hydraulic-condition",
+      "cause": "Impeller blockage/damage, wear-ring wear or internal leakage",
+      "supportingEvidence": [
+        "Performance decline persists after external suction, speed and system conditions are verified",
+        "Approved inspection documents impeller obstruction/damage, wear or internal gasket leakage"
+      ],
+      "contradictingEvidence": [
+        "A verified external condition or instrument issue fully explains the low-flow indication"
+      ],
+      "confounders": [
+        "Pump configuration, fluid properties and inspection scope",
+        "No universal wear-clearance limit is supplied in this case"
+      ]
+    }
+  ],
+  "measurements": [
+    {
+      "name": "Flow rate",
+      "unit": "site unit; record exact unit",
+      "location": "Installed flowmeter tag and pipe location",
+      "operatingCondition": "Concurrent stable operating point; record speed, fluid and valve lineup",
+      "sourceTypes": [
+        "direct_measurement",
+        "plc_value",
+        "historian_value",
+        "estimated",
+        "unknown"
+      ],
+      "baselineRequired": true
+    },
+    {
+      "name": "Suction pressure",
+      "unit": "as installed; identify gauge or absolute",
+      "location": "Exact suction tap relative to pump datum",
+      "operatingCondition": "Concurrent with flow and discharge pressure at stable duty",
+      "sourceTypes": [
+        "direct_measurement",
+        "plc_value",
+        "historian_value",
+        "estimated",
+        "unknown"
+      ],
+      "baselineRequired": true
+    },
+    {
+      "name": "Discharge pressure",
+      "unit": "as installed; identify gauge or absolute",
+      "location": "Exact discharge tap and downstream system location",
+      "operatingCondition": "Concurrent with suction pressure and flow",
+      "sourceTypes": [
+        "direct_measurement",
+        "plc_value",
+        "historian_value",
+        "estimated",
+        "unknown"
+      ],
+      "baselineRequired": true
+    },
+    {
+      "name": "Actual pump speed",
+      "unit": "rpm; record VFD Hz separately",
+      "location": "Drive feedback or independent speed measurement; state which",
+      "operatingCondition": "Record command, feedback and load state separately",
+      "sourceTypes": [
+        "direct_measurement",
+        "plc_value",
+        "historian_value",
+        "estimated",
+        "unknown"
+      ],
+      "baselineRequired": true
+    },
+    {
+      "name": "Source liquid level",
+      "unit": "m or site unit",
+      "location": "Tank/sump level tag and datum",
+      "operatingCondition": "Concurrent with suction and flow measurements",
+      "sourceTypes": [
+        "direct_measurement",
+        "plc_value",
+        "historian_value",
+        "estimated",
+        "unknown"
+      ],
+      "baselineRequired": true
+    }
+  ],
+  "tests": [
+    {
+      "id": "paco-compare-duty",
+      "name": "Compare concurrent flow, suction/discharge pressure and actual speed with the exact PACO duty documentation",
+      "prerequisites": [
+        "Use existing installed instruments and approved read-only records",
+        "Confirm exact model, instrument units, tap locations and timestamp alignment",
+        "Do not change valve positions or drive settings as an experiment"
+      ],
+      "safetyClass": "installed_instrument_observation",
+      "discriminates": [
+        "paco-suction-availability",
+        "paco-suction-restriction",
+        "paco-speed-rotation-duty",
+        "paco-internal-hydraulic-condition"
+      ],
+      "requiredMeasurements": [
+        "Flow rate",
+        "Suction pressure",
+        "Discharge pressure",
+        "Actual pump speed"
+      ],
+      "expectedOutcomes": [
+        "A coherent suction-side deviation redirects review toward suction availability/restriction but does not prove a specific blockage",
+        "A verified actual-speed or rotation mismatch redirects review toward drive/configuration applicability",
+        "A duty point inconsistent with the exact pump and system curves requires configuration and system review before internal-fault ranking"
+      ],
+      "interpretationLimits": [
+        "No universal numeric pressure or flow thresholds are supplied by the cited manual",
+        "A command frequency is not proof of actual shaft speed",
+        "One pressure reading without location, unit and concurrent flow is incomplete"
+      ]
+    },
+    {
+      "id": "paco-review-valve-source",
+      "name": "Review installed source-level and valve-position indications",
+      "prerequisites": [
+        "Use installed indicators and approved records from a safe location",
+        "Treat feedback as indication until physical position is independently verified"
+      ],
+      "safetyClass": "installed_instrument_observation",
+      "discriminates": [
+        "paco-suction-availability",
+        "paco-suction-restriction",
+        "paco-speed-rotation-duty"
+      ],
+      "requiredMeasurements": [
+        "Source liquid level",
+        "Suction pressure"
+      ],
+      "expectedOutcomes": [
+        "A changed source level or suction-line status supports further review of suction availability",
+        "A changed valve indication supports review of the suction path but does not prove physical valve position",
+        "No recorded change leaves the relevant hypotheses unresolved"
+      ],
+      "interpretationLimits": [
+        "No manipulation of valves is prescribed by this case",
+        "No generic minimum submergence or suction-pressure value is supplied"
+      ]
+    },
+    {
+      "id": "paco-plan-inspection",
+      "name": "Plan internal inspection only under the exact approved shutdown and service procedure",
+      "prerequisites": [
+        "Exact model-specific manual and approved work order",
+        "Qualified personnel and site energy-control process",
+        "Documented inspection scope and post-inspection verification"
+      ],
+      "safetyClass": "planned_isolated_inspection",
+      "discriminates": [
+        "paco-suction-restriction",
+        "paco-internal-hydraulic-condition"
+      ],
+      "requiredMeasurements": [
+        "Flow rate",
+        "Suction pressure",
+        "Discharge pressure"
+      ],
+      "expectedOutcomes": [
+        "Documented obstruction or damage supports the inspected hypothesis within the inspected scope",
+        "No visible defect does not exclude hidden wear, internal leakage or intermittent process conditions"
+      ],
+      "interpretationLimits": [
+        "This case is not an instruction to dismantle equipment",
+        "Use the supplied OEM manual and site procedure; do not infer clearances or repair limits"
+      ]
+    }
+  ],
+  "limits": [
+    "The source is specific to PACO VL/VLS vertical inline centrifugal pumps; do not generalize the cause matrix to unrelated pump families",
+    "The cited manual lists possible causes but does not supply universal numeric pressure, flow, speed or wear thresholds",
+    "Exact pump curve, impeller, speed, fluid, system resistance and instrument locations govern interpretation",
+    "No probability, root cause or field validation is claimed"
+  ],
+  "stopConditions": [
+    "Any operating condition outside the exact OEM/site operating envelope",
+    "Severe abnormal noise/vibration, rapid temperature rise, leakage or an active stop alarm",
+    "Uncertain isolation or need for internal inspection without approved work controls"
+  ],
+  "verification": [
+    "Confirm exact PACO VL/VLS model and serial applicability before using this candidate",
+    "Record concurrent post-correction flow, suction/discharge pressure and actual speed at comparable conditions",
+    "Keep the case unresolved until the exact pump duty and corrective outcome are documented"
+  ],
+  "sources": [
+    {
+      "sourceId": "grundfos-paco-vl-vls-manual-5104627",
+      "claimScope": "Section 12.1 lists cause codes for insufficient flow and Section 12.2 describes possible causes for the PACO VL/VLS vertical inline centrifugal pump families only.",
+      "reviewStatus": "reviewed",
+      "sectionOrPage": "Section 12.1–12.2, printed page 15 (PDF page 15 in the extracted manual)",
+      "reuseStatus": "Reference-only; no open redistribution license verified; paraphrase only and link to the original manual."
+    }
+  ],
+  "licenseStatus": "reference_only",
+  "limitations": [
+    "The original manual applies to PACO VL/VLS product codes only; exact nameplate and supplied manual must be matched.",
+    "This is a candidate knowledge record and is not yet eligible for automatic live diagnostic ranking.",
+    "The source lists possible causes but provides no generic numeric thresholds for the measurements in this case.",
+    "No field validation or independent technical approval has been completed."
+  ]
+}

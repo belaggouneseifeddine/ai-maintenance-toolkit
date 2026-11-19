@@ -1,4 +1,4 @@
-const CACHE_NAME = "maintenance-ai-toolkit-v75";
+const CACHE_NAME = "maintenance-ai-toolkit-v78";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -9,12 +9,17 @@ const APP_SHELL = [
   "./assistant-session-contract.js",
   "./assistant-tool-registry.js",
   "./assistant-local-orchestrator.js",
+  "./diagnostic-evidence-contract.js",
   "./assistant-local-tools.js",
+  "./local-llm-runtime.js",
+  "./native-local-llm-bridge.js",
+  "./assistant-model-agent.js",
   "./p1-app-shell.css",
   "./p1-app-shell.js",
   "./diagnostic-flows.js",
   "./normalization.js",
   "./bayesian-engine.js",
+  "./diagnostic-measurement-rules.js",
   "./diagnostic-engine.js",
   "./engineering-core.js",
   "./agent-core.js",

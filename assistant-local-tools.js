@@ -200,6 +200,11 @@
             intent: "diagnose",
             consent: { sendToAI: false }
           }, engine, await loadFaultLibrary());
+          const evidenceContract = root.MaintenanceDiagnosticEvidenceContract;
+          if (evidenceContract && typeof evidenceContract.build === "function" && result && typeof result === "object") {
+            const diagnosis = result.diagnosis && typeof result.diagnosis === "object" ? result.diagnosis : result;
+            diagnosis.evidenceContract = evidenceContract.build({ request, diagnosis });
+          }
           if (executionContext && executionContext.safetyNotice && result && result.diagnosis) {
             result.diagnosis.safetyWarning = executionContext.safetyNotice;
           }
