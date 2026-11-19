@@ -28,7 +28,7 @@ test("Android service worker never precaches assets excluded from the local APK"
     },
     fetch: async () => new Response("ok", { status: 200 })
   };
-  const script = source + "\nglobalThis.__CORE = CORE_APP_SHELL; globalThis.__OPTIONAL = OPTIONAL_APP_SHELL;";
+  const script = source + "\nglobalThis.__CORE = CORE_APP_SHELL; globalThis.__OPTIONAL = OPTIONAL_APP_SHELL_FOR_HOST;";
   vm.runInNewContext(script, context, { filename: "sw-android.js" });
 
   assert.ok(context.__CORE.includes("./index.html"));
