@@ -67,7 +67,7 @@
              (item.sensorStatus != null && !sensorStates.has(item.sensorStatus)) ||
              (item.qualityFlag != null && !qualityFlags.has(item.qualityFlag)) ||
              (item.sensorId != null && (typeof item.sensorId !== "string" || item.sensorId.length > 120)) ||
-             (item.sourceId != null && (typeof item.sourceId !== "string" || item.sourceId.length > 120)))) return false;
+             (item.sourceId != null && (typeof item.sourceId !== "string" || item.sourceId.length > 120))))) return false;
       return true;
     }
     function safetyGate({ toolName, input }) {
