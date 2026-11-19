@@ -12,7 +12,10 @@ test("parses supplied measurements without promoting unknown provenance", () => 
   assert.equal(result.measurements[0].value, 1.25);
   assert.equal(result.measurements[0].sourceType, "direct_measurement");
   assert.equal(result.measurements[1].sourceType, "plc_value");
-  assert.equal(result.measurements[2].sourceType, "unknown");\n  assert.equal(result.measurements[2].timestamp, null);\n  assert.ok(result.warnings.includes("line_3_unrecognized_source"));\n  assert.ok(result.warnings.includes("line_3_invalid_timestamp"));
+  assert.equal(result.measurements[2].sourceType, "unknown");
+  assert.equal(result.measurements[2].timestamp, null);
+  assert.ok(result.warnings.includes("line_3_unrecognized_source"));
+  assert.ok(result.warnings.includes("line_3_invalid_timestamp"));
 });
 
 test("rejects incomplete measurement rows instead of inventing values or units", () => {
