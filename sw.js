@@ -1,4 +1,4 @@
-const CACHE_NAME = "maintenance-ai-toolkit-v81";
+const CACHE_NAME = "maintenance-ai-toolkit-v82";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -26,7 +26,6 @@ const APP_SHELL = [
   "./evidence-reasoning.js",
   "./evidence-reasoning-ui.js",
   "./diagnostic-evidence-register.json",
-  "./agent-ui.js",
   "./diagnostic-session.js",
   "./diagnostic-session-ui.js",
   "./diagnostic-chat.js",
@@ -58,6 +57,7 @@ const APP_SHELL = [
   "./document-retrieval-adapter.js",
   "./document-review-workspaces.js",
   "./diagnostic-document-evidence.js",
+  "./agent-ui.js",
   "./vendor/transformers/transformers.min.js",
   "./vendor/transformers/ort-wasm-simd-threaded.jsep.mjs",
   "./vendor/transformers/ort-wasm-simd-threaded.jsep.wasm",
@@ -130,7 +130,7 @@ const OPTIONAL_APP_SHELL = [
   "./vendor/licenses/tessdata-fast-LICENSE"
 ].filter(asset => {
   if (self.location.hostname !== "appassets.androidplatform.net") return true;
-  return !asset.includes("/vendor/transformers/") &&
+  return asset !== "./agent-ui.js" && !asset.includes("/vendor/transformers/") &&
     !asset.endsWith("/transformers-LICENSE") &&
     !/\/vendor\/tessdata\/.*\.traineddata\.gz$/.test(asset);
 });
