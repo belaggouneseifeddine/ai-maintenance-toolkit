@@ -31,7 +31,7 @@ The Android manifest has no INTERNET permission. The local host has no hosted-mo
 - Unknown measurement provenance is retained as unknown with a warning; non-numeric and incomplete rows are not silently converted into measurements.
 - Diagnostic input validation now matches the deterministic engine's limits and accepted measurement fields.
 - The model catalogue does not expose expected-information-gain ranking as a tool yet. The current diagnostic result does not provide a validated candidate-test/likelihood package; exposing that tool now would invite invented inputs. Keep it internal until the diagnostic engine returns grounded candidate tests and approved likelihood sources.
-- The assistant's legacy duplicate submit button and hosted-provider controls are hidden in the Android host. Hosted AI invocation also returns a local-only-disabled status if called from that host.
+- The legacy hosted AI UI script is loaded dynamically only in a normal browser PWA; it is neither packaged nor loaded in the Android host. The duplicate submit action and hosted-provider controls are hidden, and the retained hosted invocation function has a local-only guard as defence in depth.
 - The old diagnosis form can still provide case context to Qwen. The last-edited form wins, avoiding stale fields from the other form.
 
 ### Safety behavior
