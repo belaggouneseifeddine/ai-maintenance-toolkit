@@ -767,15 +767,15 @@
       "type": "industrial-platform-architecture",
       "potentialUse": "Study asset/signal/alarms lineage, offline installation, read-only OT integration and auditability.",
       "reportedScope": "Historian, analytics, alarms, dashboards, process models, documents and read-only assistant access.",
-      "licenseStatus": "Apache-2.0 verified for repository code; sample/demo datasets and trademark/logo rights are separate and not verified for reuse",
-      "accessStatus": "README and repository license metadata reviewed; raw LICENSE file and SPEC.md were not fetched in this audit.",
+      "licenseStatus": "Apache-2.0 for repository code; sample/demo datasets and trademark/logo rights are separate and not verified for reuse",
+      "accessStatus": "README, LICENSE, SPEC.md and historian/alarm documentation reviewed; no dataset imported.",
       "decision": "architecture-reference-only-no-runtime-dependency",
       "owner": "jonathanwvd",
       "lastUpdated": "2026-11-17",
       "lastPushed": "2026-11-16",
-      "latestRelease": "v0.6.1",
+      "latestRelease": "v0.6.0",
       "codeLicense": "Apache-2.0",
-      "dataLicense": "no separate fault-dataset licence reviewed",
+      "dataLicense": "not separately verified; no separate fault-dataset licence reviewed",
       "filesReviewed": [
         "README.md",
         "LICENSE",
@@ -784,7 +784,7 @@
         "apps/historian/docs/data-layer.md",
         "apps/alarms/README.md"
       ],
-      "contentsReviewed": "Canonical owner is jonathanwvd, not a PlantCraft GitHub organisation. Historian, asset/data boundaries and alarm docs reviewed; adjacent operations suite, not a diagnostic casebook.",
+      "contentsReviewed": "GitHub API redirects PlantCraft/PlantCraft to jonathanwvd/PlantCraft. Reviewed historian, asset/data boundaries, alarms and release metadata. Adjacent operations suite, not a diagnostic casebook.",
       "equipment": [
         "process plants",
         "historian tags",
@@ -793,19 +793,18 @@
         "models and dashboards"
       ],
       "qualityNotes": [
-        "Broad self-hosted industrial operations suite; repository describes an alpha-stage platform.",
-        "It provides asset/historian/alarm/workflow architecture but no validated pump-specific causal diagnosis in the reviewed material.",
-        "Sample data provenance and license are not separately established.",
-        "The current upstream owner is the PlantCraft GitHub organization, not the original maintainer login jonathanwvd.",
-        "The project is a broad process-plant suite, not a validated fault-case dataset.",
-        "Offline installation and read-only plant integration are useful architectural patterns; its multi-container stack is not suitable as an Android runtime dependency.",
-        "Repository documentation reports suite 0.6.1 updated 2026-11-09, while the latest tagged GitHub release page reviewed is v0.6.0 (2026-11-02); these are recorded separately, not treated as the same version."
+        "Repository is an alpha-stage, multi-service industrial operations suite.",
+        "Provides asset/historian/alarm/workflow architecture but no validated pump-specific causal diagnosis in the reviewed material.",
+        "Sample data provenance and reuse rights are not separately established.",
+        "The current GitHub repository owner is the user account jonathanwvd; the former PlantCraft/PlantCraft URL redirects to it.",
+        "Repository package metadata reports 0.6.1 while the latest tagged GitHub release is v0.6.0; these are distinct version indicators.",
+        "Offline installation and read-only plant integration are useful architectural patterns; the multi-container stack is not an Android runtime dependency."
       ],
       "dependencies": "Multi-service application with backend/frontend and deployment dependencies; not a lightweight Android/Worker library.",
       "androidWorkerCompatibility": "Architecture reference only; no runtime dependency or direct port.",
       "reuseConditions": "Retain Apache-2.0 license and NOTICE for code reuse; do not reuse names/logos; do not copy sample or telemetry data until its own terms are verified.",
       "reviewStatus": "reviewed-2026-11-19",
-      "version": "0.6.1",
+      "version": "0.6.1 (pyproject metadata)",
       "lastChecked": "2026-11-17"
     },
     {

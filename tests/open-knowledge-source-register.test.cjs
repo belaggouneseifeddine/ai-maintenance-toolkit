@@ -29,14 +29,14 @@ test("open knowledge source register is discovery-only and does not claim unveri
   }
   const upstream = register.sources.filter(source =>
     source.url.includes("github.com/yilin-2511/industrial-ops-rag-agent") ||
-    source.url.includes("github.com/PlantCraft/PlantCraft") ||
+    source.url.includes("github.com/jonathanwvd/PlantCraft") ||
     source.url.includes("github.com/bbartling/open-fdd")
   );
   const canonicalUrls = new Set(upstream.map(source => source.url.replace(/\/$/, "").toLowerCase()));
   assert.equal(canonicalUrls.size, upstream.length, "one canonical record per upstream repository URL");
   const plantcraft = register.sources.find(source => source.id === "plantcraft");
-  assert.equal(plantcraft.owner, "PlantCraft");
-  assert.equal(plantcraft.url, "https://github.com/PlantCraft/PlantCraft");
+  assert.equal(plantcraft.owner, "jonathanwvd");
+  assert.equal(plantcraft.url, "https://github.com/jonathanwvd/PlantCraft");
   assert.match(plantcraft.codeLicense, /Apache-2.0/);
   assert.match(plantcraft.dataLicense, /not separately verified/i);
   const openFdd = register.sources.find(source => source.id === "open-fdd");
