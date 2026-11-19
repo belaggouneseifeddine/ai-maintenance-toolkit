@@ -2,7 +2,7 @@ name: Maintenance Toolkit Quality Checks
 
 on:
   push:
-    branches: [main, "chore/**", "fix/**", "feature/**", "feat/**"]
+    branches: [main, "chore/**", "fix/**", "feature/**", "feat/**", "refactor/**"]
   pull_request:
     branches: [main]
   workflow_dispatch:
