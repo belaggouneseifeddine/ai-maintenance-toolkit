@@ -9,6 +9,7 @@ const APP_SHELL = [
   "./native-local-llm-bridge.js",
   "./local-model-ui.js",
   "./local-llm-runtime.js",
+  "./assistant-case-context.js",
   "./assistant-session-contract.js",
   "./assistant-tool-registry.js",
   "./assistant-local-orchestrator.js",
