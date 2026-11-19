@@ -6,8 +6,10 @@
 
   const VERSION = "1.0.0";
   const MEASUREMENT_SOURCES = new Set([
-    "direct_measurement", "plc_value", "historian_value", "estimated", "user_reported"
+    "direct_measurement", "plc_value", "historian_value", "estimated", "user_reported", "unknown"
   ]);
+  const SENSOR_STATES = new Set(["normal", "suspect", "failed", "unknown"]);
+  const QUALITY_FLAGS = new Set(["normal", "noisy", "stale", "contradictory", "unknown"]);
 
   function parseMeasurementReadings(raw) {
     const measurements = [];
@@ -19,23 +21,31 @@
         return;
       }
       const numeric = fields[1].replace(",", ".");
-      const value = /^[-+]?(?:\d+\.?\d*|\.\d+)$/.test(numeric) ? Number(numeric) : fields[1];
-      const sourceLabel = fields[3] || "user_reported";
-      const source = MEASUREMENT_SOURCES.has(sourceLabel) ? sourceLabel : "unverified_source";
+      if (!/^[-+]?(?:\d+\.?\d*|\.\d+)$/.test(numeric) || !Number.isFinite(Number(numeric))) {
+        warnings.push("line_" + (index + 1) + "_non_numeric_measurement");
+        return;
+      }
+      const sourceLabel = fields[3] || "unknown";
+      const sourceType = MEASUREMENT_SOURCES.has(sourceLabel) ? sourceLabel : "unknown";
       const timestamp = fields[4] && Number.isFinite(Date.parse(fields[4]))
         ? new Date(fields[4]).toISOString() : null;
+      const sensorLabel = fields[6] || "unknown";
+      const qualityLabel = fields[7] || "unknown";
+      const sensorStatus = SENSOR_STATES.has(sensorLabel) ? sensorLabel : "unknown";
+      const qualityFlag = QUALITY_FLAGS.has(qualityLabel) ? qualityLabel : "unknown";
       if (fields[4] && !timestamp) warnings.push("line_" + (index + 1) + "_invalid_timestamp");
-      if (source === "unverified_source") warnings.push("line_" + (index + 1) + "_unrecognized_source");
+      if (!MEASUREMENT_SOURCES.has(sourceLabel)) warnings.push("line_" + (index + 1) + "_unrecognized_source");
+      if (!SENSOR_STATES.has(sensorLabel)) warnings.push("line_" + (index + 1) + "_unrecognized_sensor_status");
+      if (!QUALITY_FLAGS.has(qualityLabel)) warnings.push("line_" + (index + 1) + "_unrecognized_quality");
       measurements.push({
         name: fields[0].slice(0, 100),
-        value,
-        unit: fields[2].slice(0, 40),
-        source,
-        sourceLabel: source === "unverified_source" ? sourceLabel.slice(0, 60) : null,
+        value: Number(numeric),
+        unit: fields[2].slice(0, 24),
+        sourceType,
         timestamp,
-        operatingConditions: (fields[5] || "").slice(0, 160),
-        sensorStatus: (fields[6] || "").slice(0, 60),
-        quality: (fields[7] || "").slice(0, 60)
+        operatingCondition: (fields[5] || "").slice(0, 200),
+        sensorStatus,
+        qualityFlag
       });
     });
     return { measurements, warnings };
@@ -56,7 +66,7 @@
       symptom: String(fields.symptom || "").trim().slice(0, 240),
       alarmCode: String(fields.alarmCode || "").trim().slice(0, 300),
       observations: observations.map(item => String(item || "").trim())
-        .filter(Boolean).slice(0, 30).map(item => item.slice(0, 1000)),
+        .filter(Boolean).slice(0, 10).map(item => item.slice(0, 800)),
       measurementStatus: String(fields.measurementStatus || "unknown").slice(0, 30),
       measurements: parsed.measurements,
       measurementWarnings: parsed.warnings,
