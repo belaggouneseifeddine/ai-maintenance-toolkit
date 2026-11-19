@@ -93,12 +93,14 @@ test("safety-sensitive tools continue with advisory warnings when the safety gat
   const missing = Registry.createToolRegistry({ tools });
   const missingResult = await missing.call("diagnose", {});
   assert.equal(missingResult.status, "completed");
-  assert.equal(missingResult.safetyNotice.reason, "safety_advisory_unavailable");
+  assert.equal(missingResult.safetyNotice.severity, "warning");
+  assert.equal(missingResult.safetyNotice.reason, "safety_gate_unavailable");
   const blocked = Registry.createToolRegistry({
     tools, safetyGate: async () => ({ allowed: false, reason: "hazard_review" })
   });
   const result = await blocked.call("diagnose", {});
   assert.equal(result.status, "completed");
+  assert.equal(result.safetyNotice.severity, "warning");
   assert.equal(result.safetyNotice.reason, "hazard_review");
   assert.equal(called, 2);
 });

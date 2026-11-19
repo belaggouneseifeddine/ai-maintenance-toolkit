@@ -48,6 +48,7 @@ test("orchestrator records advisory safety warnings and still executes local dia
   });
   assert.equal(result.status, "completed");
   assert.equal(result.results[0].status, "completed");
+  assert.equal(result.results[0].safetyNotice.severity, "warning");
   assert.equal(result.results[0].safetyNotice.reason, "hazard_not_reviewed");
   assert.equal(result.session.toolEvents[0].status, "completed");
   assert.equal(executions, 1);

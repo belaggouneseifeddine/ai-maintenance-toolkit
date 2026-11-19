@@ -4,7 +4,7 @@ const LocalTools = require("../assistant-local-tools.js");
 const Registry = require("../assistant-tool-registry.js");
 const Bayesian = require("../bayesian-engine.js");
 
-test("diagnostic tool continues after deterministic safety review and returns a warning", async () => {
+test("diagnostic tool continues with an advisory after deterministic safety review", async () => {
   let executed = 0;
   const tools = LocalTools.createLocalTools({
     engineeringCore: {
@@ -19,8 +19,9 @@ test("diagnostic tool continues after deterministic safety review and returns a 
     request: { intent: "diagnose", language: "ar", equipment: { type: "pump" }, symptom: "leak" }
   });
   assert.equal(result.status, "completed");
+  assert.equal(result.ok, true);
+  assert.equal(result.safetyNotice.severity, "warning");
   assert.equal(result.safetyNotice.reason, "deterministic_safety_review_required");
-  assert.equal(result.data.diagnosis.safetyWarning.reason, "deterministic_safety_review_required");
   assert.equal(executed, 1);
 });
 

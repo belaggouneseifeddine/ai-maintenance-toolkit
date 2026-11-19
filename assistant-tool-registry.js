@@ -37,17 +37,21 @@
       let safetyNotice = null;
       if (tool.safetySensitive === true) {
         if (typeof safetyGate !== "function") {
-          safetyNotice = { severity: "warning", reason: "safety_advisory_unavailable", message: "Review site procedures and OEM instructions before intervention." };
+          safetyNotice = {
+            severity: "warning",
+            reason: "safety_gate_unavailable",
+            message: "Safety review is unavailable. Verify site procedures, isolation and OEM instructions before intervention."
+          };
         } else {
           let decision;
           try { decision = await safetyGate({ toolName: name, input, context: context || {} }); }
-          catch (_) { decision = { allowed: false, reason: "safety_advisory_failed" }; }
+          catch (_) { decision = { allowed: false, reason: "safety_gate_failed" }; }
           if (!decision || decision.allowed !== true) {
             safetyNotice = {
               severity: "warning",
               reason: decision && decision.reason ? String(decision.reason) : "safety_review_recommended",
               decision: decision || null,
-              message: "Safety review is recommended. This advisory does not block diagnostic information."
+              message: "Safety review is recommended. This warning is advisory and does not block diagnostic information."
             };
           }
         }
