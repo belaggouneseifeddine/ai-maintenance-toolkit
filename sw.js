@@ -57,6 +57,7 @@ const APP_SHELL = [
   "./document-retrieval-adapter.js",
   "./document-review-workspaces.js",
   "./diagnostic-document-evidence.js",
+  "./agent-ui.js",
   "./vendor/transformers/transformers.min.js",
   "./vendor/transformers/ort-wasm-simd-threaded.jsep.mjs",
   "./vendor/transformers/ort-wasm-simd-threaded.jsep.wasm",
