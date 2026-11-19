@@ -276,7 +276,7 @@ class MainActivity : Activity() {
                 val response = requireNotNull(conversation).sendMessage(text)
                 val elapsed = SystemClock.elapsedRealtime() - started
                 runOnUiThread {
-                    output.text = "${response.text}\n\n[زمن الإجابة: ${elapsed} ms]"
+                    output.text = "${response}\n\n[زمن الإجابة: ${elapsed} ms]"
                     sendButton.isEnabled = true
                 }
             } catch (error: Exception) {
