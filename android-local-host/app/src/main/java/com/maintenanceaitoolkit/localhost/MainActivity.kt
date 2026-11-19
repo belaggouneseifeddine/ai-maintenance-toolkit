@@ -228,21 +228,27 @@ class MainActivity : Activity() {
                     cacheDir = cacheDir.absolutePath
                 ))
                 candidate.initialize()
-                val candidateConversation = candidate.createConversation(
-                    ConversationConfig(
-                        systemInstruction = Contents.of(
-                            "You are a careful industrial maintenance assistant. " +
-                            "Answer in the user's language. Separate observations from hypotheses. " +
-                            "Do not invent measurements or claim certainty without evidence."
-                        ),
-                        samplerConfig = SamplerConfig(
-                            topK = 64,
-                            topP = 0.95,
-                            temperature = 0.4
-                        ),
-                        maxOutputToken = 512
+                val candidateConversation = try {
+                    candidate.createConversation(
+                        ConversationConfig(
+                            systemInstruction = Contents.of(
+                                "You are a careful industrial maintenance assistant. " +
+                                "Answer in the user's language. Separate observations from hypotheses. " +
+                                "Do not invent measurements or claim certainty without evidence."
+                            ),
+                            samplerConfig = SamplerConfig(
+                                topK = 64,
+                                topP = 0.95,
+                                temperature = 0.4
+                            ),
+                            maxOutputToken = 512
+                        )
                     )
-                )
+                } catch (error: Exception) {
+                    // Initialization succeeded, so the engine can now be closed safely.
+                    candidate.close()
+                    throw error
+                }
                 engine = candidate
                 conversation = candidateConversation
                 val elapsed = SystemClock.elapsedRealtime() - started
