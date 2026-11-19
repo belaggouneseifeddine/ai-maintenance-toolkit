@@ -23,8 +23,7 @@ or run:
 gradle :app:assembleDebug
 ```
 
-The module pins LiteRT-LM Android 0.19.2 for the Qwen3.5-0.8B CPU artifact trial.
-Do not change the runtime version without rechecking the artifact's model card.
+The module pins the published Google Maven Android artifact LiteRT-LM 0.19.1. The selected Qwen3.5-0.8B CPU artifact is documented for LiteRT-LM 0.19.x and was also checked on earlier desktop runtimes. This exact Android + CPU combination still requires a physical-device smoke test; the model card's 0.19.2 recommendation refers to the newer upstream runtime release, which was not resolvable as an Android Maven artifact in the initial CI build.
 
 ## Device test
 
