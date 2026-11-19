@@ -54,6 +54,7 @@ jobs:
             assistant-local-tools.js \
             diagnostic-evidence-contract.js \
             bayesian-engine.js \
+            diagnostic-measurement-rules.js \
             document-semantic-search.js \
             document-library-core.js \
             document-library.js \
