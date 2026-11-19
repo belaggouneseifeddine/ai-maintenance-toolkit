@@ -43,7 +43,7 @@
       observations: primary ? value("observations") : value("aiObservations") || value("observations"),
       measurementStatus: value("aiMeasurementStatus") || "unknown",
       measurementText: primary ? "" : value("aiMeasurementReadings"),
-      guidedDiagnostic: root.MaintenanceDiagnosticSessionUI &&
+      guidedDiagnostic: !primary && root.MaintenanceDiagnosticSessionUI &&
         typeof root.MaintenanceDiagnosticSessionUI.getPayload === "function"
         ? root.MaintenanceDiagnosticSessionUI.getPayload() : null
     });
