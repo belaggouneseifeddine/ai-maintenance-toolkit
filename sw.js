@@ -87,7 +87,7 @@ const APP_SHELL = [
   "./vendor/licenses/tessdata-fast-LICENSE",
 ];
 
-const OPTIONAL_APP_SHELL = [
+const OPTIONAL_APP_SHELL_SOURCE = [
   "./agent-ui.js",
   "./diagnostic-evidence-register.json",
   "./knowledge/manufacturer-sources.json",
@@ -129,12 +129,17 @@ const OPTIONAL_APP_SHELL = [
   "./vendor/licenses/tesseract-js-LICENSE",
   "./vendor/licenses/tesseract-core-LICENSE",
   "./vendor/licenses/tessdata-fast-LICENSE"
-].filter(asset => {
-  if (self.location.hostname !== "appassets.androidplatform.net") return true;
-  return asset !== "./agent-ui.js" && !asset.includes("/vendor/transformers/") &&
-    !asset.endsWith("/transformers-LICENSE") &&
-    !/\/vendor\/tessdata\/.*\.traineddata\.gz$/.test(asset);
-});
+];
+const IS_ANDROID_LOCAL_HOST = self.location.hostname === "appassets.androidplatform.net";
+function isAndroidOmittedAsset(asset) {
+  return asset === "./agent-ui.js" ||
+    asset.includes("/vendor/transformers/") ||
+    asset.endsWith("/transformers-LICENSE") ||
+    /\\/vendor\\/tessdata\\/.*\\.traineddata\\.gz$/.test(asset);
+}
+const OPTIONAL_APP_SHELL = OPTIONAL_APP_SHELL_SOURCE.filter(asset =>
+  !IS_ANDROID_LOCAL_HOST || !isAndroidOmittedAsset(asset)
+);
 const CORE_APP_SHELL = APP_SHELL.filter(asset => !OPTIONAL_APP_SHELL.includes(asset));
 
 self.addEventListener("install", event => {
