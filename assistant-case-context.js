@@ -60,7 +60,7 @@
       equipment: {
         type: String(fields.equipmentType || "").trim().slice(0, 120),
         manufacturer: String(fields.manufacturer || "").trim().slice(0, 120),
-        model: String(fields.model || "").trim().slice(0, 160),
+        model: String(fields.model || "").trim().slice(0, 120),
         assetId: String(fields.assetId || "").trim().slice(0, 80)
       },
       symptom: String(fields.symptom || "").trim().slice(0, 240),
