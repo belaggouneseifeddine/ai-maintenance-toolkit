@@ -52,6 +52,7 @@ jobs:
             assistant-tool-registry.js \
             assistant-local-orchestrator.js \
             assistant-local-tools.js \
+            diagnostic-evidence-contract.js \
             bayesian-engine.js \
             document-semantic-search.js \
             document-library-core.js \
