@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "status": "candidate_taxonomy_roadmap",
+  "runtimeEligible": false,
+  "note": "Coverage plan only. These entries are equipment-family categories, not fault claims or repair instructions.",
+  "domains": [
+    {"id":"rotating_equipment","families":["centrifugal_pumps","positive_displacement_pumps","electric_motors","bearings","gearboxes","compressors","fans","blowers"]},
+    {"id":"fluid_power","families":["hydraulic_power_units","hydraulic_pumps","hydraulic_valves","hydraulic_cylinders","pneumatic_valves","pneumatic_cylinders","air_preparation_units"]},
+    {"id":"automation_and_controls","families":["plc","hmi","scada","industrial_sensors","actuators","drives_and_vfd","industrial_networks","instrumentation"]},
+    {"id":"thermal_and_building_systems","families":["hvac","chillers","refrigeration","boilers","heat_exchangers","cooling_towers","pumps_for_hydronic_systems"]},
+    {"id":"material_handling_and_machining","families":["conveyors","belts","rollers","industrial_robots","cnc_machines","machine_tools","motors_and_spindles"]},
+    {"id":"process_industries","families":["chemical_processes","oil_and_gas","power_generation","water_and_wastewater","steam_systems","turbines","process_compressors"]}
+  ],
+  "candidate_component_relations": ["has_component","driven_by","measured_by","controlled_by","connected_to","lubricated_by","cooled_by"],
+  "promotionPolicy": "Each equipment family requires a reviewed component map, separate fault hypotheses, measured evidence schema, test fixtures, and source/licence review before runtime inclusion."
+}
