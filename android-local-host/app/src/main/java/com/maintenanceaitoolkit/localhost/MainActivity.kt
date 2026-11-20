@@ -199,8 +199,10 @@ class MainActivity : Activity() {
         }
         require(temp.length() > 0) { "Model file is empty." }
         val hash = digest.digest().joinToString("") { "%02x".format(it) }
-        tempHash.writeText(hash)
-        tempHash.outputStream().use { it.fd.sync() }
+        tempHash.outputStream().use { output ->
+            output.write(hash.toByteArray(Charsets.US_ASCII))
+            output.fd.sync()
+        }
 
         backup.delete()
         backupHash.delete()
