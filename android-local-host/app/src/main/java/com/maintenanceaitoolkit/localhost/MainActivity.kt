@@ -289,6 +289,11 @@ class MainActivity : Activity() {
                 val request = JSONObject(payload)
                 require(request.optString("modelId") == MODEL_ID) { "unknown_model_id" }
                 require(payload.length <= 300000) { "request_too_large" }
+                val expectedHash = modelHashFile.takeIf { it.isFile }?.readText()?.trim()
+                require(expectedHash != null && expectedHash.matches(Regex("^[a-f0-9]{64}$"))) {
+                    "model_integrity_record_missing"
+                }
+                require(sha256(modelFile) == expectedHash) { "model_integrity_check_failed" }
                 val messages = request.optJSONArray("messages") ?: JSONArray()
                 require(messages.length() in 1..48) { "invalid_messages" }
                 val system = messages.optJSONObject(0)?.optString("content").orEmpty().take(5000)
