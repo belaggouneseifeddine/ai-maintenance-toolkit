@@ -45,7 +45,7 @@ jobs:
           cp index.html manifest.json sw.js $required_runtime_assets icon.svg _site/
           if [ -f cv.html ]; then cp cv.html _site/; fi
           if [ -d docs ]; then cp -R docs _site/; fi
-          if [ -d knowledge ]; then cp -R knowledge _site/; fi
+          if [ -d knowledge ]; then mkdir -p _site/knowledge; rsync -a --exclude='candidates/' knowledge/ _site/knowledge/; fi
           if [ -f SAFETY.md ]; then cp SAFETY.md _site/; fi
           if [ -f icon-192.png ]; then cp icon-192.png _site/; fi
           if [ -f icon-512.png ]; then cp icon-512.png _site/; fi
