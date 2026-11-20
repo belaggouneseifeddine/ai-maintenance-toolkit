@@ -20,6 +20,7 @@ import com.google.ai.edge.litertlm.*
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
+import java.security.MessageDigest
 import java.util.concurrent.Executors
 
 class MainActivity : Activity() {
@@ -32,7 +33,9 @@ class MainActivity : Activity() {
     }
 
     private val worker = Executors.newSingleThreadExecutor()
-    private val modelFile by lazy { File(File(filesDir, "models"), "qwen3.5-0.8b.litertlm") }
+    private val modelDirectory by lazy { File(filesDir, "models").apply { mkdirs() } }
+    private val modelFile by lazy { File(modelDirectory, "qwen3.5-0.8b.litertlm") }
+    private val modelHashFile by lazy { File(modelDirectory, "qwen3.5-0.8b.sha256") }
     @Volatile private var modelReady = false
     @Volatile private var busy = false
     private var webView: WebView? = null
@@ -159,19 +162,25 @@ class MainActivity : Activity() {
                 val copied = copyModel(data.data!!)
                 modelReady = false
                 if (callback != null) complete(callback, JSONObject().put("ok", true)
-                    .put("modelId", MODEL_ID).put("fileName", copied.name).put("sizeBytes", copied.length()))
+                    .put("modelId", MODEL_ID).put("fileName", copied.first.name)
+                    .put("sizeBytes", copied.first.length()).put("sha256", copied.second)
+                    .put("integrity", "sha256_recorded_on_import_not_upstream_authentication"))
             } catch (e: Exception) {
                 if (callback != null) complete(callback, failure("model_import_failed", e.message))
             }
         }
     }
 
-    private fun copyModel(uri: Uri): File {
+    private fun copyModel(uri: Uri): Pair<File, String> {
         val name = contentResolver.query(uri, arrayOf(android.provider.OpenableColumns.DISPLAY_NAME), null, null, null)
             ?.use { if (it.moveToFirst()) it.getString(0) else null } ?: "model.litertlm"
         require(name.endsWith(".litertlm", true)) { "Choose a .litertlm file." }
-        val dir = File(filesDir, "models").apply { mkdirs() }
+        val dir = modelDirectory
         val temp = File(dir, "model.tmp")
+        val tempHash = File(dir, "model.sha256.tmp")
+        val backup = File(dir, "model.previous")
+        val backupHash = File(dir, "model.previous.sha256")
+        val digest = MessageDigest.getInstance("SHA-256")
         contentResolver.openInputStream(uri).use { input ->
             requireNotNull(input) { "Cannot open model file." }
             temp.outputStream().use { output ->
@@ -182,15 +191,53 @@ class MainActivity : Activity() {
                     if (n < 0) break
                     total += n
                     require(total <= MAX_MODEL_BYTES) { "Model exceeds 2 GB." }
+                    digest.update(buffer, 0, n)
                     output.write(buffer, 0, n)
                 }
                 output.fd.sync()
             }
         }
-        require(temp.length() > 0)
-        if (modelFile.exists()) check(modelFile.delete())
-        check(temp.renameTo(modelFile))
-        return modelFile
+        require(temp.length() > 0) { "Model file is empty." }
+        val hash = digest.digest().joinToString("") { "%02x".format(it) }
+        tempHash.writeText(hash)
+        tempHash.outputStream().use { it.fd.sync() }
+
+        backup.delete()
+        backupHash.delete()
+        val hadModel = modelFile.exists()
+        val hadHash = modelHashFile.exists()
+        if (hadModel) check(modelFile.renameTo(backup)) { "Could not stage previous model." }
+        if (hadHash && !modelHashFile.renameTo(backupHash)) {
+            if (hadModel) backup.renameTo(modelFile)
+            throw IllegalStateException("Could not stage previous model hash.")
+        }
+        if (!temp.renameTo(modelFile)) {
+            if (hadModel) backup.renameTo(modelFile)
+            if (hadHash) backupHash.renameTo(modelHashFile)
+            throw IllegalStateException("Could not install imported model.")
+        }
+        if (!tempHash.renameTo(modelHashFile)) {
+            modelFile.delete()
+            if (hadModel) backup.renameTo(modelFile)
+            if (hadHash) backupHash.renameTo(modelHashFile)
+            throw IllegalStateException("Could not install model integrity record.")
+        }
+        backup.delete()
+        backupHash.delete()
+        return Pair(modelFile, hash)
+    }
+
+    private fun sha256(file: File): String {
+        val digest = MessageDigest.getInstance("SHA-256")
+        file.inputStream().buffered().use { input ->
+            val buffer = ByteArray(1024 * 1024)
+            while (true) {
+                val count = input.read(buffer)
+                if (count < 0) break
+                digest.update(buffer, 0, count)
+            }
+        }
+        return digest.digest().joinToString("") { "%02x".format(it) }
     }
 
     private fun loadModel(payload: String, callback: String) = worker.execute {
@@ -198,6 +245,11 @@ class MainActivity : Activity() {
         try {
             require(JSONObject(payload).optString("modelId") == MODEL_ID) { "unknown_model_id" }
             require(modelFile.isFile && modelFile.length() > 0) { "model_file_missing" }
+            val expectedHash = modelHashFile.takeIf { it.isFile }?.readText()?.trim()
+            require(expectedHash != null && expectedHash.matches(Regex("^[a-f0-9]{64}$"))) {
+                "model_integrity_record_missing"
+            }
+            require(sha256(modelFile) == expectedHash) { "model_integrity_check_failed" }
             val candidate = Engine(EngineConfig(
                 modelPath = modelFile.absolutePath,
                 backend = Backend.CPU(),
