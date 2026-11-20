@@ -142,3 +142,45 @@ test("only safe installed observations are eligible for automatic next-step sele
   assert.equal(result.nextEvidence.safetyClass, "installed_instrument_observation");
   assert.equal(result.nextEvidence.selectionMethod, "coverage_heuristic_not_information_gain");
 });
+
+test("stale, noisy and contradictory quality flags are each rejected independently", () => {
+  for (const qualityFlag of ["stale", "noisy", "contradictory"]) {
+    const result = Casebook.triageLowFlow({
+      measurements: [{
+        name: "Flow rate", value: 12, unit: "m3/h", location: "FT-101",
+        operatingCondition: "stable", sourceType: "plc_value",
+        sensorStatus: "normal", qualityFlag
+      }]
+    }, lowFlow, sourceRegistry);
+    assert.equal(result.evidenceQuality.acceptedMeasurementCount, 0, qualityFlag);
+    assert.equal(result.evidenceQuality.rejectedMeasurementCount, 1, qualityFlag);
+  }
+});
+
+test("direct, PLC, historian and estimated readings retain distinct provenance", () => {
+  const sourceTypes = ["direct_measurement", "plc_value", "historian_value", "estimated"];
+  const result = Casebook.triageLowFlow({
+    measurements: sourceTypes.map((sourceType, index) => ({
+      name: ["Flow rate", "Suction pressure", "Discharge pressure", "Pump speed"][index],
+      value: [12, 1.1, 2.3, 1450][index],
+      unit: ["m3/h", "bar(g)", "bar(g)", "rpm"][index],
+      location: ["FT-101", "PT-101", "PT-102", "drive feedback"][index],
+      operatingCondition: "stable at recorded operating point",
+      sourceType,
+      sensorStatus: "normal",
+      qualityFlag: "normal"
+    }))
+  }, lowFlow, sourceRegistry);
+  assert.equal(result.evidenceQuality.acceptedMeasurementCount, 4);
+  assert.equal(result.evidenceQuality.estimatedOrUnknownCount, 1);
+  assert.equal(result.status, "candidate_triage_only");
+  assert.ok(result.hypotheses.every(item => item.status === "unresolved"));
+});
+
+test("absence of measurements leaves all competing causes unresolved", () => {
+  const result = Casebook.triageLowFlow({ measurements: [] }, lowFlow, sourceRegistry);
+  assert.equal(result.evidenceQuality.acceptedMeasurementCount, 0);
+  assert.equal(result.hypotheses.length, lowFlow.hypotheses.length);
+  assert.ok(result.hypotheses.every(item => item.status === "unresolved"));
+  assert.equal(result.informationGainAvailable, false);
+});
