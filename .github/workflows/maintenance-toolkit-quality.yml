@@ -58,6 +58,7 @@ jobs:
             assistant-local-orchestrator.js \
             assistant-local-tools.js \
             bayesian-engine.js \
+            bayesian-calibration-evaluator.js \
             document-semantic-search.js \
             document-library-core.js \
             document-library.js \
