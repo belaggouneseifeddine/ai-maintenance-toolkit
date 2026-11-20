@@ -48,3 +48,32 @@ A case remains a candidate and cannot enter runtime until its differential hypot
 ## Verification status
 
 The new evaluator tests are authored but have not yet been executed in this environment. No test result is claimed here.
+
+
+## Work completed in this branch so far
+
+- Added `bayesian-calibration-evaluator.js` and its tests. It evaluates externally produced holdout probabilities using multiclass Brier score, mean log loss and top-label ECE; checks asset-group leakage; and explicitly never claims calibration.
+- Added a measurable centrifugal-pump pilot test matrix for six differential cases and input-quality scenarios.
+- Expanded CP-004 regression tests for stale, noisy and contradictory readings; distinct direct/PLC/Historian/estimated provenance; and unresolved hypotheses when readings are absent.
+- Added SHA-256 recording and re-checking for the imported Qwen model file. The digest is self-recorded at import and detects later corruption; it does **not** authenticate the upstream model publisher or establish model provenance.
+- Excluded `knowledge/candidates/` from GitHub Pages and Cloudflare Pages static artifacts; added a regression test for both deployment scripts.
+- Added a candidate-only equipment-family coverage roadmap.
+- Added a local work-order lifecycle design proposal; no UI or persistence implementation has been merged into runtime.
+- Added a reviewed inventory note for two additional public GitHub repositories. No external dataset or third-party code was copied.
+
+## Verification performed
+
+- An isolated Node.js harness for the calibration evaluator ran 6 tests: 6 passed, 0 failed. This was not the repository-wide test suite.
+- The repository GitHub Actions quality workflow is configured to run the new `*.test.cjs` tests and JavaScript syntax check. It has not been executed on this branch.
+- Android Gradle compilation and physical-device Qwen import/inference have not been run after the Kotlin change.
+- No production build, merge, or deployment was run.
+
+## Still open within the approved scope
+
+1. Complete structured candidate records for CP-001, CP-002, CP-003, CP-005 and CP-006, and expand CP-004 tests beyond input validation into expected-outcome scenario fixtures.
+2. Obtain real, correctly grouped labelled diagnostic outcomes before fitting or claiming calibrated Bayesian probabilities. The current evaluator is measurement infrastructure only.
+3. Complete a module dependency audit and remove duplicate/dead code only after reference and test proof.
+4. Validate Qwen model import rollback and SHA-256 verification on Android; benchmark latency, memory, temperature and storage on the target phone.
+5. Complete the Android PDF/OCR/semantic-search feasibility review. Current Android packaging skips embedding-model vendoring; lexical retrieval remains the dependable local fallback until model licensing and a user-controlled local asset delivery path are resolved.
+6. Implement work orders in separate schema, persistence, migration, export/import, and UI stages.
+7. Continue primary-source licence review and equipment-family dataset rotation.
