@@ -113,7 +113,9 @@
       upsert(assistant, "hypotheses", {
         id: hypothesisId, label: String(item.label || item.id).slice(0, 500),
         score: Number.isFinite(item.score) ? item.score : null,
-        status: String(item.status || "proposed").slice(0, 40), provenance: "engine_inferred",
+        status: ["proposed", "supported", "weakened", "contradicted", "unresolved", "requires_more_evidence"]
+          .includes(String(item.status || "")) ? String(item.status) : "proposed",
+        provenance: "engine_inferred",
         knowledgeRecordId: String(item.knowledgeRecordId || "").slice(0, 120),
         sourceRefs: Array.isArray(item.sourceRefs) ? item.sourceRefs.slice(0, 10) : [],
         support: Array.isArray(item.supportingEvidence) ? item.supportingEvidence.slice(0, 10) : [],
