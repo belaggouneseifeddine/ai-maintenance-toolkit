@@ -92,6 +92,7 @@
       guidedRestored = !!(result && result.ok);
     }
     started = !!(chat.started && guidedRestored);
+    if (guidedRestored) syncGuidedDiagnosticState(currentSession());
     renderMessages();
     renderReplies();
     renderEvidenceButton();
@@ -611,6 +612,76 @@
     }
   }
 
+  function syncGuidedDiagnosticState(guidedSession) {
+    if (!localAssistant || !guidedSession ||
+        typeof localAssistant.upsertDiagnosticRecord !== "function") return;
+    const ui = root.MaintenanceDiagnosticSessionUI;
+    const payload = ui && typeof ui.getPayload === "function" ? ui.getPayload() : null;
+    if (!payload || !payload.diagnosticFlowId) return;
+    const flowId = String(payload.diagnosticFlowId).slice(0, 120);
+    const flowKey = flowId.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 42) || "guided";
+    const now = new Date().toISOString();
+    const answers = Array.isArray(payload.diagnosticAnswers) ? payload.diagnosticAnswers.slice(0, 40) : [];
+    const hypotheses = Array.isArray(payload.diagnosticHypotheses) ? payload.diagnosticHypotheses.slice(0, 20) : [];
+    const current = localAssistant.getSession();
+    const operating = current && current.operatingContext || {};
+    if (operating.guidedDiagnosticFlowId !== flowId || operating.guidedAnswerCount !== answers.length) {
+      try {
+        localAssistant.updateOperatingContext({
+          guidedDiagnosticFlowId: flowId,
+          guidedDiagnosticFlowMode: String(payload.diagnosticFlowMode || "adaptive_hypothesis"),
+          guidedAnswerCount: answers.length,
+          guidedUpdatedAt: now
+        });
+      } catch (error) {
+        console.warn("Guided diagnostic context was not stored.", error);
+      }
+    }
+    const upsert = (collection, record) => {
+      try { localAssistant.upsertDiagnosticRecord(collection, record); }
+      catch (error) { console.warn("Guided diagnostic record was not stored:", collection, error); }
+    };
+    answers.forEach((entry, index) => {
+      if (!entry || typeof entry.questionId !== "string" || typeof entry.answerId !== "string") return;
+      const questionKey = entry.questionId.toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 32) || String(index + 1);
+      upsert("evidence", {
+        id: "guided-evidence-" + flowKey + "-" + questionKey,
+        flowId, questionId: entry.questionId, answerId: entry.answerId,
+        evidenceIds: Array.isArray(entry.evidence) ? entry.evidence.slice(0, 20) : [],
+        provenance: "user_reported", status: "reported",
+        recordedAt: now
+      });
+    });
+    hypotheses.forEach((item, index) => {
+      if (!item || typeof item.id !== "string") return;
+      const key = item.id.toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 42) || String(index + 1);
+      upsert("hypotheses", {
+        id: "guided-hypothesis-" + flowKey + "-" + key,
+        label: String(item.label || item.id).slice(0, 500),
+        score: Number.isFinite(item.score) ? item.score : null,
+        status: String(item.status || "proposed").slice(0, 40),
+        provenance: "engine_inferred",
+        knowledgeRecordId: String(item.knowledgeRecordId || "").slice(0, 120),
+        sourceRefs: Array.isArray(item.sourceRefs) ? item.sourceRefs.slice(0, 10) : [],
+        support: Array.isArray(item.supportingEvidence) ? item.supportingEvidence.slice(0, 10) : [],
+        contradictions: Array.isArray(item.contradictingEvidence) ? item.contradictingEvidence.slice(0, 10) : [],
+        recordedAt: now
+      });
+      (Array.isArray(item.checks) ? item.checks : []).slice(0, 10).forEach((check, checkIndex) => {
+        const label = String(check || "").slice(0, 500);
+        if (!label) return;
+        upsert("tests", {
+          id: "guided-test-" + flowKey + "-" + key + "-" + checkIndex,
+          hypothesisId: "guided-hypothesis-" + flowKey + "-" + key,
+          label, status: "recommended", provenance: "engine_inferred",
+          rationale: "Suggested by the curated diagnostic flow; not yet performed.",
+          recordedAt: now
+        });
+      });
+    });
+    persistLocalAssistantSession();
+  }
+
   function submitKnownAnswer(answerId, label) {
     const session = currentSession();
     if (!session || !root.MaintenanceDiagnosticSessionUI || !root.MaintenanceDiagnosticSessionUI.answerById) return;
@@ -621,6 +692,7 @@
       return;
     }
     const updated = currentSession();
+    syncGuidedDiagnosticState(updated);
     if (updated && updated.nextQuestion) {
       addMessage("assistant", updated.nextQuestion.text);
     } else if (updated && updated.summary) {
