@@ -215,6 +215,44 @@
     return touch(next);
   }
 
+  function upsertDiagnosticRecord(session, collection, item) {
+    if (!DIAGNOSTIC_COLLECTIONS.has(collection)) throw new TypeError("invalid_diagnostic_collection");
+    const next = copy(session);
+    const record = item && typeof item === "object" && !Array.isArray(item) ? copy(item) : null;
+    if (!record || !validId(record.id)) throw new TypeError("invalid_diagnostic_record_id");
+    if (!PROVENANCE.has(record.provenance)) throw new TypeError("invalid_diagnostic_record_provenance");
+    if (!hasRequiredReview(record)) throw new TypeError("model_suggestion_requires_review_record");
+    const entries = Array.isArray(next[collection]) ? next[collection] : [];
+    const index = entries.findIndex(existing => existing && existing.id === record.id);
+    if (index < 0) {
+      if (entries.length >= MAX_FACTS) throw new RangeError("diagnostic_collection_limit_reached");
+      record.recordedAt = text(record.recordedAt, 40) || new Date().toISOString();
+      entries.push(record);
+    } else {
+      const previous = entries[index];
+      const history = Array.isArray(previous.history) ? previous.history.slice(-9) : [];
+      history.push({
+        score: previous.score == null ? null : previous.score,
+        status: text(previous.status, 40),
+        provenance: previous.provenance,
+        recordedAt: text(previous.recordedAt, 40),
+        updatedAt: text(previous.updatedAt, 40)
+      });
+      if (["accepted", "confirmed", "confirmed_cause"].includes(previous.status)) {
+        record.status = previous.status;
+        record.review = previous.review || record.review;
+        record.provenance = previous.provenance;
+      }
+      record.history = history;
+      record.recordedAt = text(previous.recordedAt, 40) || text(record.recordedAt, 40) || new Date().toISOString();
+      record.updatedAt = new Date().toISOString();
+      entries[index] = record;
+    }
+    if (JSON.stringify(record).length > 12000) throw new RangeError("diagnostic_record_too_large");
+    next[collection] = entries;
+    return touch(next);
+  }
+
   function updateEquipment(session, patch) {
     if (!patch || typeof patch !== "object" || Array.isArray(patch)) {
       throw new TypeError("invalid_equipment_context");
@@ -284,7 +322,7 @@
   }
 
   const api = Object.freeze({
-    version: VERSION, createSession, migrateSession, appendMessage, recordFact, appendToolEvent, appendDiagnosticRecord, updateEquipment, updateOperatingContext, validateSession
+    version: VERSION, createSession, migrateSession, appendMessage, recordFact, appendToolEvent, appendDiagnosticRecord, upsertDiagnosticRecord, updateEquipment, updateOperatingContext, validateSession
   });
   root.MaintenanceAssistantSession = api;
   if (typeof module === "object" && module.exports) module.exports = api;
