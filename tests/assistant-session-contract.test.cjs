@@ -37,7 +37,9 @@ test("v1.0 sessions migrate without dropping conversation, facts or hypotheses",
   assert.equal(migrated.schemaVersion, "1.1.0");
   assert.equal(migrated.messages[0].content, "low flow");
   assert.equal(migrated.equipment.model, "P-10");
-  assert.deepEqual(migrated.hypotheses, old.activeHypotheses);
+  assert.equal(migrated.hypotheses.length, 1);
+  assert.equal(migrated.hypotheses[0].id, "h-1");
+  assert.equal(migrated.hypotheses[0].provenance, "unknown");
   assert.deepEqual(migrated.measurements, []);
   assert.equal(migrated.revision, 0);
   assert.equal(Session.validateSession(migrated).ok, true);
