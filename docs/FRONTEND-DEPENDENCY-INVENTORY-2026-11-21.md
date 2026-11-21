@@ -5,7 +5,7 @@
 
 ## 1. Runtime entry point
 
-`index.html` loads 34 classic JavaScript files in this order:
+`index.html` loads 35 classic JavaScript files in this order:
 
 1. `diagnostic-flows.js`
 2. `normalization.js`
@@ -30,17 +30,18 @@
 21. `assistant-tool-registry.js`
 22. `assistant-local-orchestrator.js`
 23. `assistant-local-tools.js`
-24. `diagnostic-session.js`
-25. `diagnostic-session-ui.js`
-26. `diagnostic-chat.js`
-27. `learning-feedback-ui.js`
-28. `document-library-core.js`
-29. `document-semantic-search.js`
-30. `learning-memory.js`
-31. `document-library.js`
-32. `document-retrieval-adapter.js`
-33. `document-review-workspaces.js`
-34. `diagnostic-document-evidence.js`
+24. `assistant-diagnostic-projection.js`
+25. `diagnostic-session.js`
+26. `diagnostic-session-ui.js`
+27. `diagnostic-chat.js`
+28. `learning-feedback-ui.js`
+29. `document-library-core.js`
+30. `document-semantic-search.js`
+31. `learning-memory.js`
+32. `document-library.js`
+33. `document-retrieval-adapter.js`
+34. `document-review-workspaces.js`
+35. `diagnostic-document-evidence.js`
 
 These are ordered classic scripts rather than isolated ES modules. Their execution order is therefore part of the current runtime contract.
 
@@ -72,6 +73,7 @@ The following dependencies were visible in the current source:
 - `assistant-local-tools.js` resolves/injects the engineering core, diagnostic engine, Bayesian engine, evidence-source resolver, document retrieval adapter, and local fault library.
 - `assistant-local-orchestrator.js` consumes the session contract and tool registry.
 - `diagnostic-chat.js` creates the local tools and orchestrator and owns local session persistence.
+- `assistant-diagnostic-projection.js` is a DOM-free application module that maps local assessments and guided answers into the shared diagnostic session; it is loaded before the chat controller and precached in the core service-worker shell.
 
 This is a static source-reference inventory, not a complete runtime call graph. Dynamic property access, DOM events, inline handlers, and implicit global reads require browser instrumentation to enumerate fully.
 
