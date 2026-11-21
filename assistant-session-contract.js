@@ -178,6 +178,17 @@
   const DIAGNOSTIC_COLLECTIONS = new Set([
     "symptoms", "measurements", "evidence", "hypotheses", "tests", "references"
   ]);
+  const REVIEW_METHODS = new Set([
+    "technician_review", "corroborating_measurement", "document_verification", "repair_outcome"
+  ]);
+  function hasRequiredReview(record) {
+    if (!record || record.provenance !== "llm_suggested" ||
+        !["accepted", "confirmed", "confirmed_cause"].includes(record.status)) return true;
+    const review = record.review;
+    return !!review && typeof review === "object" && !Array.isArray(review) &&
+      REVIEW_METHODS.has(review.method) && typeof review.note === "string" &&
+      review.note.trim().length >= 4;
+  }
 
   function appendDiagnosticRecord(session, collection, item) {
     if (!DIAGNOSTIC_COLLECTIONS.has(collection)) throw new TypeError("invalid_diagnostic_collection");
@@ -186,6 +197,9 @@
     if (!record || !validId(record.id)) throw new TypeError("invalid_diagnostic_record_id");
     if (!PROVENANCE.has(record.provenance)) {
       throw new TypeError("invalid_diagnostic_record_provenance");
+    }
+    if (!hasRequiredReview(record)) {
+      throw new TypeError("model_suggestion_requires_review_record");
     }
     // Provenance remains mandatory, but record status is controlled by the
     // diagnostic workflow and may be promoted after review or corroboration.
@@ -247,6 +261,7 @@
       for (const record of session[key]) {
         if (!record || typeof record !== "object" || Array.isArray(record) ||
             !validId(record.id) || !PROVENANCE.has(record.provenance) ||
+            !hasRequiredReview(record) ||
             JSON.stringify(record).length > 12000 || seenIds.has(record.id)) {
           errors.push("invalid_" + key + "_record");
           break;
