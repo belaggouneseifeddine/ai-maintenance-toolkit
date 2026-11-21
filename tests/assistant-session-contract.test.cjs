@@ -118,3 +118,20 @@ test("equipment updates are immutable and increment the shared revision", () => 
   assert.equal(session.equipment.type, "");
   assert.throws(() => Session.updateEquipment(next, { serialNumber: "not-allowed" }), /invalid_equipment_context_field/);
 });
+
+test("restored diagnostic collections reject missing provenance and duplicate record ids", () => {
+  const session = Session.createSession({ sessionId: "record-validation-1" });
+  session.measurements = [
+    { id: "pressure-1", value: 2.1, unit: "bar" }
+  ];
+  assert.equal(Session.validateSession(session).ok, false);
+  session.measurements = [
+    { id: "pressure-1", value: 2.1, unit: "bar", provenance: "measured" },
+    { id: "pressure-1", value: 2.2, unit: "bar", provenance: "measured" }
+  ];
+  assert.equal(Session.validateSession(session).ok, false);
+  session.measurements = [
+    { id: "pressure-1", value: 2.1, unit: "bar", provenance: "measured" }
+  ];
+  assert.equal(Session.validateSession(session).ok, true);
+});
