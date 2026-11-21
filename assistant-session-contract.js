@@ -59,6 +59,7 @@
   }
   function touch(session) {
     session.updatedAt = new Date().toISOString();
+    session.revision = (Number.isSafeInteger(session.revision) && session.revision >= 0 ? session.revision : 0) + 1;
     return session;
   }
   function appendMessage(session, message) {
@@ -186,7 +187,6 @@
     if (JSON.stringify(record).length > 12000) throw new RangeError("diagnostic_record_too_large");
     entries.push(record);
     next[collection] = entries;
-    next.revision = (Number.isSafeInteger(next.revision) && next.revision >= 0 ? next.revision : 0) + 1;
     return touch(next);
   }
 
@@ -200,7 +200,6 @@
     const merged = { ...current, ...copy(patch) };
     if (JSON.stringify(merged).length > 12000) throw new RangeError("operating_context_too_large");
     next.operatingContext = merged;
-    next.revision = (Number.isSafeInteger(next.revision) && next.revision >= 0 ? next.revision : 0) + 1;
     return touch(next);
   }
 
