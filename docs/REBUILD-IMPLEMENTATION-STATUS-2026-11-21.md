@@ -34,8 +34,7 @@
 
 ### Application and domain
 - Extract a DOM-free diagnostic state projection/application service from `diagnostic-chat.js`.
-- Connect diagnostic session answers and test outcomes to the same session state, not only the final local assessment.
-- Connect guided diagnostic session answers and test outcomes to the same unified session state, not only the final local assessment.
+- Connect completed test outcomes and repair results to the unified session state; guided answers and recommendations are now synchronized.
 - Integrate Rules + Bayesian updates + validated Expected Information Gain with clear separation between calibrated probabilities and relative scores.
 - Complete repair-outcome capture and use prior repair cases as historical context, not as automatic proof.
 - Complete local PDF retrieval and document/case indexing; preserve document/page provenance and verification status.
@@ -48,7 +47,7 @@
 - Consolidate CSS only after visual baselines exist for Arabic RTL, French/English LTR, light/dark, and narrow mobile viewports.
 
 ### Quality
-- Obtain a green run for the latest review-gated promotion change.
+- Keep both CI suites green as subsequent application modules are extracted and integrated.
 - Add integration tests for the chat-to-session projection and repeat-assessment behaviour.
 - Run accessibility, browser, PWA offline, and real Android regression checks.
 - Remove legacy code only after dependency, runtime, and test evidence confirms it is unused.
