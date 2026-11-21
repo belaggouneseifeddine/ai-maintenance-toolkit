@@ -162,6 +162,48 @@
     return session;
   }
 
+  const DIAGNOSTIC_COLLECTIONS = new Set([
+    "symptoms", "measurements", "evidence", "hypotheses", "tests", "references"
+  ]);
+
+  function appendDiagnosticRecord(session, collection, item) {
+    if (!DIAGNOSTIC_COLLECTIONS.has(collection)) throw new TypeError("invalid_diagnostic_collection");
+    const next = copy(session);
+    const record = item && typeof item === "object" && !Array.isArray(item) ? copy(item) : null;
+    if (!record || !validId(record.id)) throw new TypeError("invalid_diagnostic_record_id");
+    if (record.provenance && !PROVENANCE.has(record.provenance)) {
+      throw new TypeError("invalid_diagnostic_record_provenance");
+    }
+    if (record.provenance === "llm_suggested" &&
+        ["accepted", "confirmed", "confirmed_cause"].includes(record.status)) {
+      throw new TypeError("model_suggestion_requires_human_or_evidence_review");
+    }
+    const entries = Array.isArray(next[collection]) ? next[collection] : [];
+    if (entries.some(existing => existing && existing.id === record.id)) {
+      throw new TypeError("duplicate_diagnostic_record_id");
+    }
+    if (entries.length >= MAX_FACTS) throw new RangeError("diagnostic_collection_limit_reached");
+    if (JSON.stringify(record).length > 12000) throw new RangeError("diagnostic_record_too_large");
+    entries.push(record);
+    next[collection] = entries;
+    next.revision = (Number.isSafeInteger(next.revision) && next.revision >= 0 ? next.revision : 0) + 1;
+    return touch(next);
+  }
+
+  function updateOperatingContext(session, patch) {
+    if (!patch || typeof patch !== "object" || Array.isArray(patch)) {
+      throw new TypeError("invalid_operating_context_patch");
+    }
+    const next = copy(session);
+    const current = next.operatingContext && typeof next.operatingContext === "object" &&
+      !Array.isArray(next.operatingContext) ? next.operatingContext : {};
+    const merged = { ...current, ...copy(patch) };
+    if (JSON.stringify(merged).length > 12000) throw new RangeError("operating_context_too_large");
+    next.operatingContext = merged;
+    next.revision = (Number.isSafeInteger(next.revision) && next.revision >= 0 ? next.revision : 0) + 1;
+    return touch(next);
+  }
+
   function validateSession(session) {
     const errors = [];
     if (!session || session.schemaVersion !== VERSION) errors.push("unsupported_schema_version");
@@ -187,7 +229,7 @@
   }
 
   const api = Object.freeze({
-    version: VERSION, createSession, migrateSession, appendMessage, recordFact, appendToolEvent, validateSession
+    version: VERSION, createSession, migrateSession, appendMessage, recordFact, appendToolEvent, appendDiagnosticRecord, updateOperatingContext, validateSession
   });
   root.MaintenanceAssistantSession = api;
   if (typeof module === "object" && module.exports) module.exports = api;
