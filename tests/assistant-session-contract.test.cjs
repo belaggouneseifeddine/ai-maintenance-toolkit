@@ -140,3 +140,20 @@ test("restored diagnostic collections reject missing provenance and duplicate re
   ];
   assert.equal(Session.validateSession(session).ok, true);
 });
+
+test("hypothesis upsert keeps stable identity and records prior assessment history", () => {
+  const session = Session.createSession({ sessionId: "hypothesis-upsert-1" });
+  const first = Session.upsertDiagnosticRecord(session, "hypotheses", {
+    id: "hypothesis-low-flow", label: "restriction", score: 0.35,
+    status: "proposed", provenance: "engine_inferred"
+  });
+  const second = Session.upsertDiagnosticRecord(first, "hypotheses", {
+    id: "hypothesis-low-flow", label: "restriction", score: 0.62,
+    status: "proposed", provenance: "engine_inferred"
+  });
+  assert.equal(second.hypotheses.length, 1);
+  assert.equal(second.hypotheses[0].score, 0.62);
+  assert.equal(second.hypotheses[0].history.length, 1);
+  assert.equal(second.hypotheses[0].history[0].score, 0.35);
+  assert.equal(Session.validateSession(second).ok, true);
+});
