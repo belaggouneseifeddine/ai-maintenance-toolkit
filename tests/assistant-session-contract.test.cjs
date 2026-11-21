@@ -42,7 +42,7 @@ test("v1.0 sessions migrate without dropping conversation, facts or hypotheses",
   assert.equal(migrated.hypotheses[0].provenance, "unknown");
   assert.deepEqual(migrated.measurements, []);
   assert.equal(migrated.revision, 0);
-  assert.equal(Session.validateSession(migrated).ok, true);
+  assert.equal(Session.validateSession(migrated).ok, true, JSON.stringify(Session.validateSession(migrated)));
   assert.equal(old.schemaVersion, "1.0.0");
 });
 
