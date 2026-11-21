@@ -85,6 +85,14 @@
       current = Session.appendDiagnosticRecord(current, collection, record || {});
       return snapshot();
     }
+    function upsertDiagnosticRecord(collection, record) {
+      requireSession();
+      if (typeof Session.upsertDiagnosticRecord !== "function") {
+        throw new TypeError("diagnostic_session_contract_unavailable");
+      }
+      current = Session.upsertDiagnosticRecord(current, collection, record || {});
+      return snapshot();
+    }
     function updateOperatingContext(patch) {
       requireSession();
       if (typeof Session.updateOperatingContext !== "function") {
@@ -146,6 +154,7 @@
       addMessage,
       addFact,
       addDiagnosticRecord,
+      upsertDiagnosticRecord,
       updateOperatingContext,
       invokeTool,
       processTurn,
