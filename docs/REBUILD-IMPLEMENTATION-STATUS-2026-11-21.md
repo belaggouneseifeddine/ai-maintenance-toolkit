@@ -2,7 +2,7 @@
 
 **Working branch:** `refactor/unified-android-pwa-architecture-2026-11-21`  
 **Base:** `main` at `28bd2ecea8282e8f6d7bb915d83e8509d198b06e`  
-**Status:** In progress — session/diagnostic integration and hypothesis-history milestone implemented; not release-ready.
+**Status:** In progress — session/diagnostic integration, guided-flow synchronization, and hypothesis-history milestone implemented; not release-ready.
 
 ## Completed in this branch
 
@@ -15,17 +15,18 @@
 7. Model-suggested hypotheses can be promoted only when the record carries review metadata with an allowed review method and a substantive note. The original model provenance remains visible.
 8. Updated local chat restoration to migrate old sessions before validating them.
 9. Connected the local diagnostic result path to the unified session state. It now records the user-reported symptom, measurements with source classification, observations, engine-inferred hypotheses, and retrieved-document references. Hypotheses remain proposed; retrieved references are labelled as retrieved, not verified.
-10. Added stable-ID hypothesis upsert so repeated local assessments update one hypothesis and retain a bounded history of prior score/status/source instead of duplicating entries.
-11. Added focused contract and orchestrator tests for migration, provenance, review-gated promotion, equipment updates, revision tracking, hypothesis upsert, and restored-session validation.
-12. Added `docs/FRONTEND-DEPENDENCY-INVENTORY-2026-11-21.md`, recording the 34-script load order, five stylesheet cascade, confirmed dependency edges, service-worker relationship, and safe extraction sequence.
-13. Bumped the PWA cache identifier from `v75` to `v76` for a future branch release.
+10. Added stable-ID hypothesis upsert so repeated local assessments update one hypothesis and retain a bounded history of prior score/status/source instead of duplicating entries. Reviewed confirmations are not downgraded by later provisional updates.
+11. Connected guided diagnostic answers, answer-derived evidence IDs, hypotheses, and recommended checks to the same session state; repeated answers and hypotheses are upserted rather than duplicated.
+12. Added focused contract and orchestrator tests for migration, provenance, review-gated promotion, equipment updates, revision tracking, hypothesis upsert, and restored-session validation.
+13. Added `docs/FRONTEND-DEPENDENCY-INVENTORY-2026-11-21.md`, recording the 34-script load order, five stylesheet cascade, confirmed dependency edges, service-worker relationship, and safe extraction sequence.
+14. Bumped the PWA cache identifier from `v75` to `v76` for a future branch release.
 
 ## Verification status
 
-- Branch comparison at this update: 38 commits ahead of `main`, 0 behind. This is a commit count, not a count of completed rebuild features.
-- GitHub Actions diagnostic regression run on commit `557e73cde5c262e61447b28611645ae922d46c7d`: **363 tests passed, 0 failed**. This run includes the provenance validation, review-gated model-hypothesis promotion, and hypothesis upsert changes.
-- An earlier workflow exposed a legacy-migration validation failure. The migration was corrected by assigning `unknown` provenance to legacy hypotheses; the subsequent diagnostic regression run passed.
-- The separate Maintenance Toolkit workflow was still pending/cancelled during rapid branch updates; the verified green result above is specifically the diagnostic regression workflow.
+- Branch comparison at this update: 41 commits ahead of `main`, 0 behind. This is a commit count, not a count of completed rebuild features.
+- GitHub Actions on commit `e43b941be6f5299d1433159d033a85c28887f536`: **364 diagnostic regression tests passed, 0 failed**, and the separate Node/provider suite completed **13 tests passed, 0 failed**.
+- These runs include provenance validation, review-gated model-hypothesis promotion, hypothesis upsert/history, and guided-answer synchronization.
+- An earlier workflow exposed a legacy-migration validation failure. The migration was corrected by assigning `unknown` provenance to legacy hypotheses; the subsequent suites passed.
 - No complete Android build, APK installation, WebView/device test, offline-device test, memory/thermal test, or visual regression test was performed.
 - No PR was opened and no production release was approved.
 
