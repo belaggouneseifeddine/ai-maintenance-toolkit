@@ -59,7 +59,7 @@ test("guided answers, hypotheses and recommended checks map into the same sessio
       {
         id: "suction_restriction", label: "Suction restriction", status: "supported",
         score: 0.6, supportingEvidence: ["suction_restriction"], checks: ["Inspect strainer differential pressure"]
-      }
+      },
       {
         id: "unverified_candidate", label: "Unverified candidate", status: "confirmed",
         score: 0.1, supportingEvidence: [], checks: []
