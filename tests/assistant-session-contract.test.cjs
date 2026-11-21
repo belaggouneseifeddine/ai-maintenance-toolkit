@@ -66,7 +66,7 @@ test("validation rejects malformed unified diagnostic collections", () => {
   assert.equal(Session.validateSession(session).ok, false);
 });
 
-test("diagnostic records require provenance, unique ids and keep model proposals unconfirmed", () => {
+test("diagnostic records require provenance but allow reviewed model records to be promoted", () => {
   const session = Session.createSession({ sessionId: "records-1" });
   const first = Session.appendDiagnosticRecord(session, "measurements", {
     id: "suction-pressure-1", value: 1.8, unit: "bar", provenance: "measured"
@@ -77,9 +77,12 @@ test("diagnostic records require provenance, unique ids and keep model proposals
   assert.throws(() => Session.appendDiagnosticRecord(first, "measurements", {
     id: "suction-pressure-1", value: 1.8, unit: "bar", provenance: "measured"
   }), /duplicate_diagnostic_record_id/);
-  assert.throws(() => Session.appendDiagnosticRecord(first, "evidence", {
-    id: "model-cause", provenance: "llm_suggested", status: "confirmed"
-  }), /model_suggestion_requires_human_or_evidence_review/);
+  const promoted = Session.appendDiagnosticRecord(first, "hypotheses", {
+    id: "model-cause", label: "possible restriction", provenance: "llm_suggested",
+    status: "confirmed", review: { method: "technician_review", note: "corroborated by field test" }
+  });
+  assert.equal(promoted.hypotheses[0].status, "confirmed");
+  assert.equal(promoted.hypotheses[0].provenance, "llm_suggested");
   assert.throws(() => Session.appendDiagnosticRecord(first, "evidence", {
     id: "missing-provenance"
   }), /invalid_diagnostic_record_provenance/);
