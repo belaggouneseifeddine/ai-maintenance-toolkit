@@ -2,7 +2,7 @@
 
 **Working branch:** `refactor/unified-android-pwa-architecture-2026-11-21`  
 **Base:** `main` at `28bd2ecea8282e8f6d7bb915d83e8509d198b06e`  
-**Status:** In progress — session/diagnostic integration, guided-flow synchronization, and hypothesis-history milestone implemented; not release-ready.
+**Status:** In progress — diagnostic projection extraction, unified session integration, guided-flow synchronization, and hypothesis-history milestone implemented; not release-ready.
 
 ## Completed in this branch
 
@@ -19,13 +19,15 @@
 11. Connected guided diagnostic answers, answer-derived evidence IDs, hypotheses, and recommended checks to the same session state; repeated answers and hypotheses are upserted rather than duplicated.
 12. Added focused contract and orchestrator tests for migration, provenance, review-gated promotion, equipment updates, revision tracking, hypothesis upsert, and restored-session validation.
 13. Added `docs/FRONTEND-DEPENDENCY-INVENTORY-2026-11-21.md`, recording the 34-script load order, five stylesheet cascade, confirmed dependency edges, service-worker relationship, and safe extraction sequence.
-14. Bumped the PWA cache identifier from `v75` to `v76` for a future branch release.
+14. Extracted DOM-free projection logic into `assistant-diagnostic-projection.js`, with unit tests for local assessments, guided answers, provenance mapping, provisional status, and idempotent updates.
+15. Added the projection module to `index.html`, the service-worker core cache, GitHub Pages and Cloudflare Pages artifact manifests, and the Cloudflare production smoke-test contract. Bumped the PWA cache identifier to `v78`.
 
 ## Verification status
 
-- Branch comparison at this update: 43 commits ahead of `main`, 0 behind. This is a commit count, not a count of completed rebuild features.
-- GitHub Actions on the current code plus documentation branch state: **364 diagnostic regression tests passed, 0 failed**, and the separate Node/provider suite completed **13 tests passed, 0 failed** (latest Node suite on commit `51b19e2939a0f30b978d2d777755e12ac1c2b934`).
-- These runs include provenance validation, review-gated model-hypothesis promotion, hypothesis upsert/history, and guided-answer synchronization.
+- Branch comparison at this update: 58 commits ahead of `main`, 0 behind. This is a commit count, not a count of completed rebuild features.
+- GitHub Actions diagnostic regression suite on commit `dcf34c48add928140af9fd7a5f899ff8ddd104fc`: **367 tests passed, 0 failed**. This includes projection tests and checks that the new script is loaded before chat, included in both deployment artifacts, and cached by the PWA service worker.
+- The separate Node/provider suite last completed **13 tests passed, 0 failed** on commit `51b19e2939a0f30b978d2d777755e12ac1c2b934`; its run for the newest deployment-manifest changes was still pending at this update.
+- The green diagnostic suite includes provenance validation, review-gated model-hypothesis promotion, hypothesis upsert/history, and guided-answer synchronization.
 - An earlier workflow exposed a legacy-migration validation failure. The migration was corrected by assigning `unknown` provenance to legacy hypotheses; the subsequent suites passed.
 - No complete Android build, APK installation, WebView/device test, offline-device test, memory/thermal test, or visual regression test was performed.
 - Vercel status checks report a build-rate-limit failure for the connected Vercel project. This is a hosting/build quota limitation, not a passing preview build; no production deployment or promotion was initiated.
@@ -34,7 +36,6 @@
 ## Remaining work
 
 ### Application and domain
-- Extract a DOM-free diagnostic state projection/application service from `diagnostic-chat.js`.
 - Connect completed test outcomes and repair results to the unified session state; guided answers and recommendations are now synchronized.
 - Integrate Rules + Bayesian updates + validated Expected Information Gain with clear separation between calibrated probabilities and relative scores.
 - Complete repair-outcome capture and use prior repair cases as historical context, not as automatic proof.
@@ -49,7 +50,7 @@
 
 ### Quality
 - Keep both CI suites green as subsequent application modules are extracted and integrated.
-- Add integration tests for the chat-to-session projection and repeat-assessment behaviour.
+- Add browser-level integration tests for chat-to-session projection, restore/reset, and repeat-assessment behaviour.
 - Run accessibility, browser, PWA offline, and real Android regression checks.
 - Remove legacy code only after dependency, runtime, and test evidence confirms it is unused.
 
