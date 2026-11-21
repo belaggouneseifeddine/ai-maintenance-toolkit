@@ -23,11 +23,12 @@
 
 ## Verification status
 
-- Branch comparison at this update: 41 commits ahead of `main`, 0 behind. This is a commit count, not a count of completed rebuild features.
-- GitHub Actions on commit `e43b941be6f5299d1433159d033a85c28887f536`: **364 diagnostic regression tests passed, 0 failed**, and the separate Node/provider suite completed **13 tests passed, 0 failed**.
+- Branch comparison at this update: 43 commits ahead of `main`, 0 behind. This is a commit count, not a count of completed rebuild features.
+- GitHub Actions on the current code plus documentation branch state: **364 diagnostic regression tests passed, 0 failed**, and the separate Node/provider suite completed **13 tests passed, 0 failed** (latest Node suite on commit `51b19e2939a0f30b978d2d777755e12ac1c2b934`).
 - These runs include provenance validation, review-gated model-hypothesis promotion, hypothesis upsert/history, and guided-answer synchronization.
 - An earlier workflow exposed a legacy-migration validation failure. The migration was corrected by assigning `unknown` provenance to legacy hypotheses; the subsequent suites passed.
 - No complete Android build, APK installation, WebView/device test, offline-device test, memory/thermal test, or visual regression test was performed.
+- Vercel status checks report a build-rate-limit failure for the connected Vercel project. This is a hosting/build quota limitation, not a passing preview build; no production deployment or promotion was initiated.
 - No PR was opened and no production release was approved.
 
 ## Remaining work
