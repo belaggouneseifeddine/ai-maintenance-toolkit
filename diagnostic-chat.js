@@ -59,21 +59,29 @@
     if (!snapshot || snapshot.schema !== "maintenance-assistant-local-session" ||
         snapshot.version !== 1 || !snapshot.session || !snapshot.chat) return false;
     const Session = root.MaintenanceAssistantSession;
-    if (!Session || typeof Session.validateSession !== "function" ||
-        !Session.validateSession(snapshot.session).ok) return false;
+    if (!Session || typeof Session.validateSession !== "function") return false;
+    let restoredSession;
+    try {
+      restoredSession = typeof Session.migrateSession === "function"
+        ? Session.migrateSession(snapshot.session)
+        : snapshot.session;
+    } catch (_) {
+      return false;
+    }
+    if (!Session.validateSession(restoredSession).ok) return false;
     const chat = snapshot.chat;
     pendingEquipment = typeof chat.pendingEquipment === "string" ? chat.pendingEquipment.slice(0, 120) : "";
     pendingSymptom = typeof chat.pendingSymptom === "string" ? chat.pendingSymptom.slice(0, 120) : "";
     equipmentContext = typeof chat.equipmentContext === "string" ? chat.equipmentContext.slice(0, 160) : "";
     notes = Array.isArray(chat.notes) ? chat.notes.filter(item => typeof item === "string").slice(-30) : [];
-    const equipment = snapshot.session.equipment || {};
+    const equipment = restoredSession.equipment || {};
     setField("aiMachine", equipmentContext || equipment.type || "");
     setField("aiManufacturer", equipment.manufacturer || "");
     setField("aiModel", equipment.model || "");
     setField("aiSymptom", pendingSymptom || "");
-    startLocalAssistantSession(snapshot.session);
+    startLocalAssistantSession(restoredSession);
     if (!localAssistant) return false;
-    messages = snapshot.session.messages
+    messages = restoredSession.messages
       .filter(item => item && (item.role === "user" || item.role === "assistant"))
       .slice(-100)
       .map(item => ({ role: item.role, text: item.content, time: item.createdAt || "" }));
