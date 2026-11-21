@@ -471,88 +471,9 @@
   }
 
   function syncDiagnosticState(request, diagnosis) {
-    if (!localAssistant || !diagnosis) return;
-    const now = new Date().toISOString();
-    const prefix = "diag-" + Date.now().toString(36);
-    const safe = value => String(value == null ? "" : value).slice(0, 1000);
-    const add = (collection, record) => {
-      try { localAssistant.addDiagnosticRecord(collection, record); }
-      catch (error) { console.warn("Diagnostic state record was not stored:", collection, error); }
-    };
-    try {
-      localAssistant.updateEquipment({
-        type: safe(request.equipment && request.equipment.type).slice(0, 120),
-        manufacturer: safe(request.equipment && request.equipment.manufacturer).slice(0, 120),
-        model: safe(request.equipment && request.equipment.model).slice(0, 120)
-      });
-      localAssistant.updateOperatingContext({
-        capturedAt: now,
-        language: request.language || "ar",
-        measurementCount: Array.isArray(request.measurements) ? request.measurements.length : 0
-      });
-    } catch (error) {
-      console.warn("Diagnostic operating context was not stored.", error);
-    }
-    const symptom = safe(request.symptom);
-    if (symptom) add("symptoms", {
-      id: prefix + "-symptom", value: symptom, provenance: "user_reported",
-      status: "reported", recordedAt: now
-    });
-    (Array.isArray(request.measurements) ? request.measurements : []).slice(0, 10).forEach((item, index) => {
-      const source = item && item.sourceType;
-      const provenance = source === "direct_measurement" || source === "plc_value" || source === "historian_value"
-        ? "measured" : source === "user_reported" ? "user_reported" : source === "estimated" ? "unknown" : "unknown";
-      add("measurements", {
-        id: prefix + "-measurement-" + index,
-        name: safe(item && item.name), value: item && item.value,
-        unit: safe(item && item.unit), sourceType: safe(source),
-        timestamp: safe(item && item.timestamp),
-        operatingCondition: safe(item && item.operatingCondition),
-        sensorStatus: safe(item && item.sensorStatus || "unknown"),
-        qualityFlag: safe(item && item.qualityFlag || "unknown"),
-        provenance, recordedAt: now
-      });
-    });
-    (Array.isArray(request.observations) ? request.observations : []).slice(0, 10).forEach((value, index) => {
-      add("evidence", {
-        id: prefix + "-observation-" + index, observation: safe(value),
-        polarity: "unclassified", provenance: "user_reported",
-        status: "reported", recordedAt: now
-      });
-    });
-    const hypotheses = Array.isArray(diagnosis.results) ? diagnosis.results : [];
-    hypotheses.slice(0, 20).forEach((item, index) => {
-      if (!item || typeof item !== "object") return;
-      const label = safe(item.label || item.title || item.name || item.fault || item.id);
-      const stableKey = safe(item.id || item.code || label).toLowerCase()
-        .replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 48) || String(index + 1);
-      const record = {
-        id: "hypothesis-" + stableKey,
-        label,
-        score: Number.isFinite(item.score) ? item.score : null,
-        status: "proposed",
-        provenance: "engine_inferred",
-        support: Array.isArray(item.support) ? item.support.slice(0, 10).map(safe) : [],
-        contradictions: Array.isArray(item.contradictions) ? item.contradictions.slice(0, 10).map(safe) : [],
-        recordedAt: now
-      };
-      try { localAssistant.upsertDiagnosticRecord("hypotheses", record); }
-      catch (error) { console.warn("Diagnostic hypothesis was not stored.", error); }
-    });
-    const references = Array.isArray(diagnosis.supportingDocuments) ? diagnosis.supportingDocuments : [];
-    references.slice(0, 20).forEach((item, index) => {
-      if (!item || typeof item !== "object") return;
-      const ref = item.sourceRef || {};
-      add("references", {
-        id: prefix + "-reference-" + index,
-        title: safe(item.title || item.name || ref.documentId),
-        documentId: safe(ref.documentId),
-        page: item.page == null ? "" : safe(item.page),
-        provenance: "document_claim",
-        status: "retrieved_not_verified",
-        recordedAt: now
-      });
-    });
+    const projection = root.MaintenanceAssistantDiagnosticProjection;
+    if (!projection || !localAssistant) return;
+    projection.syncLocalAssessment(localAssistant, request, diagnosis);
     persistLocalAssistantSession();
   }
 
@@ -613,72 +534,10 @@
   }
 
   function syncGuidedDiagnosticState(guidedSession) {
-    if (!localAssistant || !guidedSession ||
-        typeof localAssistant.upsertDiagnosticRecord !== "function") return;
+    const projection = root.MaintenanceAssistantDiagnosticProjection;
     const ui = root.MaintenanceDiagnosticSessionUI;
-    const payload = ui && typeof ui.getPayload === "function" ? ui.getPayload() : null;
-    if (!payload || !payload.diagnosticFlowId) return;
-    const flowId = String(payload.diagnosticFlowId).slice(0, 120);
-    const flowKey = flowId.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 42) || "guided";
-    const now = new Date().toISOString();
-    const answers = Array.isArray(payload.diagnosticAnswers) ? payload.diagnosticAnswers.slice(0, 40) : [];
-    const hypotheses = Array.isArray(payload.diagnosticHypotheses) ? payload.diagnosticHypotheses.slice(0, 20) : [];
-    const current = localAssistant.getSession();
-    const operating = current && current.operatingContext || {};
-    if (operating.guidedDiagnosticFlowId !== flowId || operating.guidedAnswerCount !== answers.length) {
-      try {
-        localAssistant.updateOperatingContext({
-          guidedDiagnosticFlowId: flowId,
-          guidedDiagnosticFlowMode: String(payload.diagnosticFlowMode || "adaptive_hypothesis"),
-          guidedAnswerCount: answers.length,
-          guidedUpdatedAt: now
-        });
-      } catch (error) {
-        console.warn("Guided diagnostic context was not stored.", error);
-      }
-    }
-    const upsert = (collection, record) => {
-      try { localAssistant.upsertDiagnosticRecord(collection, record); }
-      catch (error) { console.warn("Guided diagnostic record was not stored:", collection, error); }
-    };
-    answers.forEach((entry, index) => {
-      if (!entry || typeof entry.questionId !== "string" || typeof entry.answerId !== "string") return;
-      const questionKey = entry.questionId.toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 32) || String(index + 1);
-      upsert("evidence", {
-        id: "guided-evidence-" + flowKey + "-" + questionKey,
-        flowId, questionId: entry.questionId, answerId: entry.answerId,
-        evidenceIds: Array.isArray(entry.evidence) ? entry.evidence.slice(0, 20) : [],
-        provenance: "user_reported", status: "reported",
-        recordedAt: now
-      });
-    });
-    hypotheses.forEach((item, index) => {
-      if (!item || typeof item.id !== "string") return;
-      const key = item.id.toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 42) || String(index + 1);
-      upsert("hypotheses", {
-        id: "guided-hypothesis-" + flowKey + "-" + key,
-        label: String(item.label || item.id).slice(0, 500),
-        score: Number.isFinite(item.score) ? item.score : null,
-        status: String(item.status || "proposed").slice(0, 40),
-        provenance: "engine_inferred",
-        knowledgeRecordId: String(item.knowledgeRecordId || "").slice(0, 120),
-        sourceRefs: Array.isArray(item.sourceRefs) ? item.sourceRefs.slice(0, 10) : [],
-        support: Array.isArray(item.supportingEvidence) ? item.supportingEvidence.slice(0, 10) : [],
-        contradictions: Array.isArray(item.contradictingEvidence) ? item.contradictingEvidence.slice(0, 10) : [],
-        recordedAt: now
-      });
-      (Array.isArray(item.checks) ? item.checks : []).slice(0, 10).forEach((check, checkIndex) => {
-        const label = String(check || "").slice(0, 500);
-        if (!label) return;
-        upsert("tests", {
-          id: "guided-test-" + flowKey + "-" + key + "-" + checkIndex,
-          hypothesisId: "guided-hypothesis-" + flowKey + "-" + key,
-          label, status: "recommended", provenance: "engine_inferred",
-          rationale: "Suggested by the curated diagnostic flow; not yet performed.",
-          recordedAt: now
-        });
-      });
-    });
+    if (!projection || !localAssistant || !ui || typeof ui.getPayload !== "function") return;
+    projection.syncGuidedSession(localAssistant, guidedSession, ui.getPayload());
     persistLocalAssistantSession();
   }
 
