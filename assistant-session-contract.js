@@ -230,6 +230,13 @@
       entries.push(record);
     } else {
       const previous = entries[index];
+      const previousCore = { ...previous };
+      const incomingCore = { ...record };
+      ["history", "recordedAt", "updatedAt"].forEach(key => {
+        delete previousCore[key];
+        delete incomingCore[key];
+      });
+      if (JSON.stringify(previousCore) === JSON.stringify(incomingCore)) return next;
       const history = Array.isArray(previous.history) ? previous.history.slice(-9) : [];
       history.push({
         score: previous.score == null ? null : previous.score,
