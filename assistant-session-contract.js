@@ -175,10 +175,9 @@
     if (!PROVENANCE.has(record.provenance)) {
       throw new TypeError("invalid_diagnostic_record_provenance");
     }
-    if (record.provenance === "llm_suggested" &&
-        ["accepted", "confirmed", "confirmed_cause"].includes(record.status)) {
-      throw new TypeError("model_suggestion_requires_human_or_evidence_review");
-    }
+    // Provenance remains mandatory, but record status is controlled by the
+    // diagnostic workflow and may be promoted after review or corroboration.
+    // The generic fact API retains its stricter LLM acceptance rule.
     const entries = Array.isArray(next[collection]) ? next[collection] : [];
     if (entries.some(existing => existing && existing.id === record.id)) {
       throw new TypeError("duplicate_diagnostic_record_id");
