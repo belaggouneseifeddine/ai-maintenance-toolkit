@@ -93,3 +93,15 @@ test("operating context updates are immutable and revisioned", () => {
   assert.deepEqual(session.operatingContext, {});
   assert.throws(() => Session.updateOperatingContext(next, []), /invalid_operating_context_patch/);
 });
+
+test("orchestrator routes diagnostic records and operating context through the session contract", () => {
+  const assistant = Orchestrator.createLocalOrchestrator({ toolRegistry: Registry, tools: {} });
+  assistant.start({ sessionId: "orchestrated-state-1" });
+  const withContext = assistant.updateOperatingContext({ duty: "continuous", speedRpm: 1480 });
+  assert.equal(withContext.operatingContext.speedRpm, 1480);
+  const withMeasurement = assistant.addDiagnosticRecord("measurements", {
+    id: "discharge-pressure", value: 2.4, unit: "bar", provenance: "measured"
+  });
+  assert.equal(withMeasurement.measurements[0].value, 2.4);
+  assert.equal(withMeasurement.revision, 2);
+});
