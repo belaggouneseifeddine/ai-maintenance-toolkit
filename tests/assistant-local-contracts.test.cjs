@@ -8,7 +8,7 @@ test("session contract creates a versioned local session with equipment context"
     sessionId: "case-001", language: "ar",
     equipment: { type: "pump", manufacturer: "KSB", model: "Etanorm" }
   });
-  assert.equal(session.schemaVersion, "1.0.0");
+  assert.equal(session.schemaVersion, "1.1.0");
   assert.equal(session.equipment.model, "Etanorm");
   assert.deepEqual(Session.validateSession(session), { ok: true, errors: [] });
 });
