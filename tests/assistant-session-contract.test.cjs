@@ -108,3 +108,13 @@ test("orchestrator routes diagnostic records and operating context through the s
   assert.equal(withMeasurement.measurements[0].value, 2.4);
   assert.equal(withMeasurement.revision, 2);
 });
+
+test("equipment updates are immutable and increment the shared revision", () => {
+  const session = Session.createSession({ sessionId: "equipment-contract-1" });
+  const next = Session.updateEquipment(session, { type: "pump", manufacturer: "KSB" });
+  assert.equal(next.equipment.type, "pump");
+  assert.equal(next.equipment.manufacturer, "KSB");
+  assert.equal(next.revision, 1);
+  assert.equal(session.equipment.type, "");
+  assert.throws(() => Session.updateEquipment(next, { serialNumber: "not-allowed" }), /invalid_equipment_context_field/);
+});
