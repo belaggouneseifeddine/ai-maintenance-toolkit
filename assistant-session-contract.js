@@ -189,6 +189,23 @@
     return touch(next);
   }
 
+  function updateEquipment(session, patch) {
+    if (!patch || typeof patch !== "object" || Array.isArray(patch)) {
+      throw new TypeError("invalid_equipment_context");
+    }
+    const allowed = ["type", "manufacturer", "model", "assetId"];
+    for (const key of Object.keys(patch)) {
+      if (!allowed.includes(key) || typeof patch[key] !== "string" || patch[key].length > 120) {
+        throw new TypeError("invalid_equipment_context_field");
+      }
+    }
+    const next = copy(session);
+    for (const key of allowed) {
+      if (Object.prototype.hasOwnProperty.call(patch, key)) next.equipment[key] = patch[key].trim();
+    }
+    return touch(next);
+  }
+
   function updateOperatingContext(session, patch) {
     if (!patch || typeof patch !== "object" || Array.isArray(patch)) {
       throw new TypeError("invalid_operating_context_patch");
@@ -227,7 +244,7 @@
   }
 
   const api = Object.freeze({
-    version: VERSION, createSession, migrateSession, appendMessage, recordFact, appendToolEvent, appendDiagnosticRecord, updateOperatingContext, validateSession
+    version: VERSION, createSession, migrateSession, appendMessage, recordFact, appendToolEvent, appendDiagnosticRecord, updateEquipment, updateOperatingContext, validateSession
   });
   root.MaintenanceAssistantSession = api;
   if (typeof module === "object" && module.exports) module.exports = api;
