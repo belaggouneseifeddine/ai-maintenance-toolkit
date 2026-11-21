@@ -471,7 +471,6 @@
 
   function syncDiagnosticState(request, diagnosis) {
     if (!localAssistant || !diagnosis) return;
-    const session = localAssistant.getSession();
     const now = new Date().toISOString();
     const prefix = "diag-" + Date.now().toString(36);
     const safe = value => String(value == null ? "" : value).slice(0, 1000);
