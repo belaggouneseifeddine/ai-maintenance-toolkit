@@ -3,7 +3,7 @@
  */
 (function (root) {
   "use strict";
-  const VERSION = "1.0.0";
+  const VERSION = "1.1.0";
   const MAX_MESSAGES = 200;
   const MAX_FACTS = 300;
   const MAX_EVENTS = 300;
@@ -41,6 +41,15 @@
         model: text(data.equipment && data.equipment.model, 120),
         assetId: text(data.equipment && data.equipment.assetId, 120)
       },
+      operatingContext: {},
+      symptoms: [],
+      measurements: [],
+      evidence: [],
+      hypotheses: [],
+      tests: [],
+      references: [],
+      repairOutcome: null,
+      revision: 0,
       messages: [],
       facts: [],
       toolEvents: [],
@@ -122,6 +131,37 @@
     });
     return touch(next);
   }
+  function migrateSession(input) {
+    if (!input || typeof input !== "object" || Array.isArray(input)) {
+      throw new TypeError("invalid_session_snapshot");
+    }
+    const session = copy(input);
+    if (session.schemaVersion === "1.0.0") {
+      session.operatingContext = {};
+      session.symptoms = [];
+      session.measurements = [];
+      session.evidence = [];
+      session.hypotheses = Array.isArray(session.activeHypotheses) ? session.activeHypotheses : [];
+      session.tests = [];
+      session.references = [];
+      session.repairOutcome = null;
+      session.revision = 0;
+      session.schemaVersion = VERSION;
+    }
+    if (session.schemaVersion !== VERSION) throw new TypeError("unsupported_schema_version");
+    const collections = ["symptoms", "measurements", "evidence", "hypotheses", "tests", "references"];
+    for (const key of collections) {
+      if (!Array.isArray(session[key])) session[key] = [];
+      if (session[key].length > MAX_FACTS) throw new RangeError("session_collection_limit_reached");
+    }
+    if (!session.operatingContext || typeof session.operatingContext !== "object" || Array.isArray(session.operatingContext)) {
+      session.operatingContext = {};
+    }
+    if (!Number.isSafeInteger(session.revision) || session.revision < 0) session.revision = 0;
+    if (!Object.prototype.hasOwnProperty.call(session, "repairOutcome")) session.repairOutcome = null;
+    return session;
+  }
+
   function validateSession(session) {
     const errors = [];
     if (!session || session.schemaVersion !== VERSION) errors.push("unsupported_schema_version");
@@ -129,6 +169,11 @@
     if (!session || !Array.isArray(session.messages) || session.messages.length > MAX_MESSAGES) errors.push("invalid_messages");
     if (!session || !Array.isArray(session.facts) || session.facts.length > MAX_FACTS) errors.push("invalid_facts");
     if (!session || !Array.isArray(session.toolEvents) || session.toolEvents.length > MAX_EVENTS) errors.push("invalid_tool_events");
+    for (const key of ["symptoms", "measurements", "evidence", "hypotheses", "tests", "references"]) {
+      if (!session || !Array.isArray(session[key]) || session[key].length > MAX_FACTS) errors.push("invalid_" + key);
+    }
+    if (!session || !Number.isSafeInteger(session.revision) || session.revision < 0) errors.push("invalid_revision");
+    if (session && (!session.operatingContext || typeof session.operatingContext !== "object" || Array.isArray(session.operatingContext))) errors.push("invalid_operating_context");
     if (session && Array.isArray(session.messages)) {
       for (const message of session.messages) {
         if (!message || !ROLES.has(message.role) || !validId(message.messageId) ||
@@ -142,7 +187,7 @@
   }
 
   const api = Object.freeze({
-    version: VERSION, createSession, appendMessage, recordFact, appendToolEvent, validateSession
+    version: VERSION, createSession, migrateSession, appendMessage, recordFact, appendToolEvent, validateSession
   });
   root.MaintenanceAssistantSession = api;
   if (typeof module === "object" && module.exports) module.exports = api;
