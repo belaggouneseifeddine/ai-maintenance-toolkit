@@ -522,16 +522,21 @@
     const hypotheses = Array.isArray(diagnosis.results) ? diagnosis.results : [];
     hypotheses.slice(0, 20).forEach((item, index) => {
       if (!item || typeof item !== "object") return;
-      add("hypotheses", {
-        id: prefix + "-hypothesis-" + index,
-        label: safe(item.label || item.title || item.name || item.fault || item.id),
+      const label = safe(item.label || item.title || item.name || item.fault || item.id);
+      const stableKey = safe(item.id || item.code || label).toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 48) || String(index + 1);
+      const record = {
+        id: "hypothesis-" + stableKey,
+        label,
         score: Number.isFinite(item.score) ? item.score : null,
         status: "proposed",
         provenance: "engine_inferred",
         support: Array.isArray(item.support) ? item.support.slice(0, 10).map(safe) : [],
         contradictions: Array.isArray(item.contradictions) ? item.contradictions.slice(0, 10).map(safe) : [],
         recordedAt: now
-      });
+      };
+      try { localAssistant.upsertDiagnosticRecord("hypotheses", record); }
+      catch (error) { console.warn("Diagnostic hypothesis was not stored.", error); }
     });
     const references = Array.isArray(diagnosis.supportingDocuments) ? diagnosis.supportingDocuments : [];
     references.slice(0, 20).forEach((item, index) => {
