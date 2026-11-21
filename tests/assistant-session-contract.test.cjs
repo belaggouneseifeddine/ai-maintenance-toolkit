@@ -65,3 +65,31 @@ test("validation rejects malformed unified diagnostic collections", () => {
   session.measurements = {};
   assert.equal(Session.validateSession(session).ok, false);
 });
+
+test("diagnostic records require provenance, unique ids and keep model proposals unconfirmed", () => {
+  const session = Session.createSession({ sessionId: "records-1" });
+  const first = Session.appendDiagnosticRecord(session, "measurements", {
+    id: "suction-pressure-1", value: 1.8, unit: "bar", provenance: "measured"
+  });
+  assert.equal(first.measurements.length, 1);
+  assert.equal(first.revision, 1);
+  assert.equal(session.measurements.length, 0);
+  assert.throws(() => Session.appendDiagnosticRecord(first, "measurements", {
+    id: "suction-pressure-1", value: 1.8, unit: "bar", provenance: "measured"
+  }), /duplicate_diagnostic_record_id/);
+  assert.throws(() => Session.appendDiagnosticRecord(first, "evidence", {
+    id: "model-cause", provenance: "llm_suggested", status: "confirmed"
+  }), /model_suggestion_requires_human_or_evidence_review/);
+  assert.throws(() => Session.appendDiagnosticRecord(first, "evidence", {
+    id: "missing-provenance"
+  }), /invalid_diagnostic_record_provenance/);
+});
+
+test("operating context updates are immutable and revisioned", () => {
+  const session = Session.createSession({ sessionId: "context-1" });
+  const next = Session.updateOperatingContext(session, { duty: "continuous", load: "75%" });
+  assert.equal(next.operatingContext.duty, "continuous");
+  assert.equal(next.revision, 1);
+  assert.deepEqual(session.operatingContext, {});
+  assert.throws(() => Session.updateOperatingContext(next, []), /invalid_operating_context_patch/);
+});
