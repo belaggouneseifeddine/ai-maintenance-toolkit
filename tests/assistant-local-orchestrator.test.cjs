@@ -75,7 +75,11 @@ test("orchestrator restores a validated local session without changing its evide
   const restored = assistant.restore(withFact);
   assert.deepEqual(restored, withFact);
   assert.equal(assistant.getSession().facts[0].revisions[0].provenance, "user_reported");
-  assert.throws(() => assistant.restore({ ...withFact, schemaVersion: "99.0.0" }), /assistant_session_snapshot_invalid/);
+  assert.throws(
+    () => assistant.restore({ ...withFact, schemaVersion: "99.0.0" }),
+    error => error.message === "assistant_session_snapshot_invalid" &&
+      error.cause && error.cause.message === "unsupported_schema_version"
+  );
 });
 
 test("orchestrator updates equipment context with bounded allow-listed fields", () => {
