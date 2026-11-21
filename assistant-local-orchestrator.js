@@ -33,11 +33,19 @@
       return snapshot();
     }
     function restore(sessionSnapshot) {
-      const migrated = typeof Session.migrateSession === "function"
-        ? Session.migrateSession(sessionSnapshot)
-        : JSON.parse(JSON.stringify(sessionSnapshot));
-      const validation = Session.validateSession(migrated);
-      if (!validation || validation.ok !== true) throw new TypeError("assistant_session_snapshot_invalid");
+      let migrated;
+      try {
+        migrated = typeof Session.migrateSession === "function"
+          ? Session.migrateSession(sessionSnapshot)
+          : JSON.parse(JSON.stringify(sessionSnapshot));
+        const validation = Session.validateSession(migrated);
+        if (!validation || validation.ok !== true) {
+          throw new TypeError("assistant_session_snapshot_invalid");
+        }
+      } catch (error) {
+        if (error && error.message === "assistant_session_snapshot_invalid") throw error;
+        throw new TypeError("assistant_session_snapshot_invalid", { cause: error });
+      }
       current = JSON.parse(JSON.stringify(migrated));
       sequence = Math.max(sequence, current.messages.length + current.toolEvents.length + current.facts.length);
       return snapshot();
