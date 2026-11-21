@@ -85,6 +85,9 @@ test("diagnostic records require provenance but allow reviewed model records to 
   });
   assert.equal(promoted.hypotheses[0].status, "confirmed");
   assert.equal(promoted.hypotheses[0].provenance, "llm_suggested");
+  assert.throws(() => Session.appendDiagnosticRecord(first, "hypotheses", {
+    id: "unreviewed-model-cause", label: "unverified", provenance: "llm_suggested", status: "confirmed"
+  }), /model_suggestion_requires_review_record/);
   assert.throws(() => Session.appendDiagnosticRecord(first, "evidence", {
     id: "missing-provenance"
   }), /invalid_diagnostic_record_provenance/);
