@@ -63,6 +63,7 @@
         if (Object.prototype.hasOwnProperty.call(input, key)) next.equipment[key] = input[key].trim();
       }
       next.updatedAt = new Date().toISOString();
+      next.revision = (Number.isSafeInteger(next.revision) && next.revision >= 0 ? next.revision : 0) + 1;
       const validation = Session.validateSession(next);
       if (!validation.ok) throw new TypeError("assistant_session_invalid");
       current = next;
@@ -80,6 +81,22 @@
     function addFact(fact) {
       requireSession();
       current = Session.recordFact(current, fact || {});
+      return snapshot();
+    }
+    function addDiagnosticRecord(collection, record) {
+      requireSession();
+      if (typeof Session.appendDiagnosticRecord !== "function") {
+        throw new TypeError("diagnostic_session_contract_unavailable");
+      }
+      current = Session.appendDiagnosticRecord(current, collection, record || {});
+      return snapshot();
+    }
+    function updateOperatingContext(patch) {
+      requireSession();
+      if (typeof Session.updateOperatingContext !== "function") {
+        throw new TypeError("diagnostic_session_contract_unavailable");
+      }
+      current = Session.updateOperatingContext(current, patch || {});
       return snapshot();
     }
     async function invokeTool(name, input, extraContext) {
@@ -134,6 +151,8 @@
       updateEquipment,
       addMessage,
       addFact,
+      addDiagnosticRecord,
+      updateOperatingContext,
       invokeTool,
       processTurn,
       availableTools: () => registry.list()
