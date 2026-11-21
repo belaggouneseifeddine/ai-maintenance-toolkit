@@ -89,6 +89,7 @@ test("orchestrator updates equipment context with bounded allow-listed fields", 
   assert.deepEqual(updated.equipment, {
     type: "pump", manufacturer: "KSB", model: "Etanorm", assetId: "P-101"
   });
+  assert.equal(updated.revision, 1);
   assert.throws(() => assistant.updateEquipment({ serialNumber: "secret" }), /invalid_equipment_context_field/);
   assert.throws(() => assistant.updateEquipment({ model: "x".repeat(121) }), /invalid_equipment_context_field/);
 });
