@@ -171,7 +171,7 @@
     const next = copy(session);
     const record = item && typeof item === "object" && !Array.isArray(item) ? copy(item) : null;
     if (!record || !validId(record.id)) throw new TypeError("invalid_diagnostic_record_id");
-    if (record.provenance && !PROVENANCE.has(record.provenance)) {
+    if (!PROVENANCE.has(record.provenance)) {
       throw new TypeError("invalid_diagnostic_record_provenance");
     }
     if (record.provenance === "llm_suggested" &&
