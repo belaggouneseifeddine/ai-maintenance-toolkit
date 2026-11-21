@@ -157,3 +157,21 @@ test("hypothesis upsert keeps stable identity and records prior assessment histo
   assert.equal(second.hypotheses[0].history[0].score, 0.35);
   assert.equal(Session.validateSession(second).ok, true);
 });
+
+test("hypothesis upsert does not downgrade a reviewed confirmation", () => {
+  const session = Session.createSession({ sessionId: "hypothesis-review-preservation-1" });
+  const reviewed = Session.upsertDiagnosticRecord(session, "hypotheses", {
+    id: "hypothesis-confirmed", label: "verified cause", score: 0.9,
+    status: "confirmed", provenance: "llm_suggested",
+    review: { method: "technician_review", note: "confirmed by independent field measurement" }
+  });
+  const refreshed = Session.upsertDiagnosticRecord(reviewed, "hypotheses", {
+    id: "hypothesis-confirmed", label: "verified cause", score: 0.95,
+    status: "proposed", provenance: "engine_inferred"
+  });
+  assert.equal(refreshed.hypotheses[0].status, "confirmed");
+  assert.equal(refreshed.hypotheses[0].provenance, "llm_suggested");
+  assert.equal(refreshed.hypotheses[0].review.method, "technician_review");
+  assert.equal(refreshed.hypotheses[0].history[0].status, "confirmed");
+  assert.equal(Session.validateSession(refreshed).ok, true);
+});
