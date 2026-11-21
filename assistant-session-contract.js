@@ -227,7 +227,20 @@
     if (!session || !Array.isArray(session.facts) || session.facts.length > MAX_FACTS) errors.push("invalid_facts");
     if (!session || !Array.isArray(session.toolEvents) || session.toolEvents.length > MAX_EVENTS) errors.push("invalid_tool_events");
     for (const key of ["symptoms", "measurements", "evidence", "hypotheses", "tests", "references"]) {
-      if (!session || !Array.isArray(session[key]) || session[key].length > MAX_FACTS) errors.push("invalid_" + key);
+      if (!session || !Array.isArray(session[key]) || session[key].length > MAX_FACTS) {
+        errors.push("invalid_" + key);
+        continue;
+      }
+      const seenIds = new Set();
+      for (const record of session[key]) {
+        if (!record || typeof record !== "object" || Array.isArray(record) ||
+            !validId(record.id) || !PROVENANCE.has(record.provenance) ||
+            JSON.stringify(record).length > 12000 || seenIds.has(record.id)) {
+          errors.push("invalid_" + key + "_record");
+          break;
+        }
+        seenIds.add(record.id);
+      }
     }
     if (!session || !Number.isSafeInteger(session.revision) || session.revision < 0) errors.push("invalid_revision");
     if (session && (!session.operatingContext || typeof session.operatingContext !== "object" || Array.isArray(session.operatingContext))) errors.push("invalid_operating_context");
