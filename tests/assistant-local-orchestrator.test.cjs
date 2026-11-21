@@ -126,3 +126,19 @@ test("public session snapshots cannot mutate the orchestrator's internal state",
   snapshot.messages.push({ messageId: "forged", role: "assistant", content: "forged" });
   assert.equal(assistant.getSession().messages.length, 0);
 });
+
+test("orchestrator exposes hypothesis upsert without duplicating the diagnostic record", () => {
+  const assistant = Orchestrator.createLocalOrchestrator({ tools: {} });
+  assistant.start({ sessionId: "hypothesis-upsert-orchestrator-1" });
+  assistant.upsertDiagnosticRecord("hypotheses", {
+    id: "hypothesis-bearing", label: "bearing wear", score: 0.2,
+    status: "proposed", provenance: "engine_inferred"
+  });
+  const updated = assistant.upsertDiagnosticRecord("hypotheses", {
+    id: "hypothesis-bearing", label: "bearing wear", score: 0.7,
+    status: "proposed", provenance: "engine_inferred"
+  });
+  assert.equal(updated.hypotheses.length, 1);
+  assert.equal(updated.hypotheses[0].score, 0.7);
+  assert.equal(updated.hypotheses[0].history.length, 1);
+});
