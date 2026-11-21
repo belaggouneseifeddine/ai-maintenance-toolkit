@@ -142,7 +142,19 @@
       session.symptoms = [];
       session.measurements = [];
       session.evidence = [];
-      session.hypotheses = Array.isArray(session.activeHypotheses) ? session.activeHypotheses : [];
+      const legacyHypotheses = Array.isArray(session.activeHypotheses) ? session.activeHypotheses : [];
+      const migratedIds = new Set();
+      session.hypotheses = legacyHypotheses.map((item, index) => {
+        const record = item && typeof item === "object" && !Array.isArray(item) ? item : {};
+        let id = validId(record.id) ? record.id : "legacy-hypothesis-" + (index + 1);
+        while (migratedIds.has(id)) id = "legacy-hypothesis-" + (index + 1) + "-" + migratedIds.size;
+        migratedIds.add(id);
+        return {
+          ...record,
+          id,
+          provenance: PROVENANCE.has(record.provenance) ? record.provenance : "unknown"
+        };
+      });
       session.tests = [];
       session.references = [];
       session.repairOutcome = null;
