@@ -57,24 +57,10 @@
     }
     function updateEquipment(input) {
       requireSession();
-      if (!input || typeof input !== "object" || Array.isArray(input)) {
-        throw new TypeError("invalid_equipment_context");
+      if (typeof Session.updateEquipment !== "function") {
+        throw new TypeError("diagnostic_session_contract_unavailable");
       }
-      const allowed = ["type", "manufacturer", "model", "assetId"];
-      for (const key of Object.keys(input)) {
-        if (!allowed.includes(key) || typeof input[key] !== "string" || input[key].length > 120) {
-          throw new TypeError("invalid_equipment_context_field");
-        }
-      }
-      const next = JSON.parse(JSON.stringify(current));
-      for (const key of allowed) {
-        if (Object.prototype.hasOwnProperty.call(input, key)) next.equipment[key] = input[key].trim();
-      }
-      next.updatedAt = new Date().toISOString();
-      next.revision = (Number.isSafeInteger(next.revision) && next.revision >= 0 ? next.revision : 0) + 1;
-      const validation = Session.validateSession(next);
-      if (!validation.ok) throw new TypeError("assistant_session_invalid");
-      current = next;
+      current = Session.updateEquipment(current, input || {});
       return snapshot();
     }
     function addMessage(role, content, messageId) {
