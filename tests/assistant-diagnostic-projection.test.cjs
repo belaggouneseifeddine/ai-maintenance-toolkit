@@ -60,6 +60,10 @@ test("guided answers, hypotheses and recommended checks map into the same sessio
         id: "suction_restriction", label: "Suction restriction", status: "supported",
         score: 0.6, supportingEvidence: ["suction_restriction"], checks: ["Inspect strainer differential pressure"]
       }
+      {
+        id: "unverified_candidate", label: "Unverified candidate", status: "confirmed",
+        score: 0.1, supportingEvidence: [], checks: []
+      }
     ]
   };
   const first = Projection.syncGuidedSession(local, guided, payload);
@@ -67,12 +71,13 @@ test("guided answers, hypotheses and recommended checks map into the same sessio
   assert.equal(first.session.evidence[0].provenance, "user_reported");
   assert.equal(first.session.hypotheses[0].provenance, "engine_inferred");
   assert.equal(first.session.hypotheses[0].status, "supported");
+  assert.equal(first.session.hypotheses[1].status, "proposed");
   assert.equal(first.session.tests[0].status, "recommended");
   assert.equal(first.session.tests[0].provenance, "engine_inferred");
   const revision = first.session.revision;
   const repeated = Projection.syncGuidedSession(local, guided, payload);
   assert.equal(repeated.session.evidence.length, 1);
-  assert.equal(repeated.session.hypotheses.length, 1);
+  assert.equal(repeated.session.hypotheses.length, 2);
   assert.equal(repeated.session.tests.length, 1);
   assert.equal(repeated.session.revision, revision);
   assert.equal(Session.validateSession(repeated.session).ok, true);
