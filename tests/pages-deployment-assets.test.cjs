@@ -89,3 +89,11 @@ test("navigation uses five destinations and nests home and optional AI under dia
   assert.match(styles, /grid-template-columns:repeat\(5,minmax\(0,1fr\)\)/);
   assert.match(design, /grid-template-columns:repeat\(5,minmax\(0,1fr\)\)!important/);
 });
+
+test("diagnostic projection loads before chat and is cached in the core PWA shell", () => {
+  const projection = html.indexOf('<script src="./assistant-diagnostic-projection.js"></script>');
+  const chat = html.indexOf('<script src="./diagnostic-chat.js"></script>');
+  assert.ok(projection >= 0 && chat > projection, "projection must load before diagnostic chat");
+  assert.ok(sw.includes('"./assistant-diagnostic-projection.js"'), "service worker must cache the projection module");
+  assert.match(sw, /maintenance-ai-toolkit-v78/);
+});
