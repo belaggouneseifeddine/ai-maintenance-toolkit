@@ -469,6 +469,88 @@
     return { measurements, invalidLines };
   }
 
+  function syncDiagnosticState(request, diagnosis) {
+    if (!localAssistant || !diagnosis) return;
+    const session = localAssistant.getSession();
+    const now = new Date().toISOString();
+    const prefix = "diag-" + Date.now().toString(36);
+    const safe = value => String(value == null ? "" : value).slice(0, 1000);
+    const add = (collection, record) => {
+      try { localAssistant.addDiagnosticRecord(collection, record); }
+      catch (error) { console.warn("Diagnostic state record was not stored:", collection, error); }
+    };
+    try {
+      localAssistant.updateEquipment({
+        type: safe(request.equipment && request.equipment.type).slice(0, 120),
+        manufacturer: safe(request.equipment && request.equipment.manufacturer).slice(0, 120),
+        model: safe(request.equipment && request.equipment.model).slice(0, 120)
+      });
+      localAssistant.updateOperatingContext({
+        capturedAt: now,
+        language: request.language || "ar",
+        measurementCount: Array.isArray(request.measurements) ? request.measurements.length : 0
+      });
+    } catch (error) {
+      console.warn("Diagnostic operating context was not stored.", error);
+    }
+    const symptom = safe(request.symptom);
+    if (symptom) add("symptoms", {
+      id: prefix + "-symptom", value: symptom, provenance: "user_reported",
+      status: "reported", recordedAt: now
+    });
+    (Array.isArray(request.measurements) ? request.measurements : []).slice(0, 10).forEach((item, index) => {
+      const source = item && item.sourceType;
+      const provenance = source === "direct_measurement" || source === "plc_value" || source === "historian_value"
+        ? "measured" : source === "user_reported" ? "user_reported" : source === "estimated" ? "unknown" : "unknown";
+      add("measurements", {
+        id: prefix + "-measurement-" + index,
+        name: safe(item && item.name), value: item && item.value,
+        unit: safe(item && item.unit), sourceType: safe(source),
+        timestamp: safe(item && item.timestamp),
+        operatingCondition: safe(item && item.operatingCondition),
+        sensorStatus: safe(item && item.sensorStatus || "unknown"),
+        qualityFlag: safe(item && item.qualityFlag || "unknown"),
+        provenance, recordedAt: now
+      });
+    });
+    (Array.isArray(request.observations) ? request.observations : []).slice(0, 10).forEach((value, index) => {
+      add("evidence", {
+        id: prefix + "-observation-" + index, observation: safe(value),
+        polarity: "unclassified", provenance: "user_reported",
+        status: "reported", recordedAt: now
+      });
+    });
+    const hypotheses = Array.isArray(diagnosis.results) ? diagnosis.results : [];
+    hypotheses.slice(0, 20).forEach((item, index) => {
+      if (!item || typeof item !== "object") return;
+      add("hypotheses", {
+        id: prefix + "-hypothesis-" + index,
+        label: safe(item.label || item.title || item.name || item.fault || item.id),
+        score: Number.isFinite(item.score) ? item.score : null,
+        status: "proposed",
+        provenance: "engine_inferred",
+        support: Array.isArray(item.support) ? item.support.slice(0, 10).map(safe) : [],
+        contradictions: Array.isArray(item.contradictions) ? item.contradictions.slice(0, 10).map(safe) : [],
+        recordedAt: now
+      });
+    });
+    const references = Array.isArray(diagnosis.supportingDocuments) ? diagnosis.supportingDocuments : [];
+    references.slice(0, 20).forEach((item, index) => {
+      if (!item || typeof item !== "object") return;
+      const ref = item.sourceRef || {};
+      add("references", {
+        id: prefix + "-reference-" + index,
+        title: safe(item.title || item.name || ref.documentId),
+        documentId: safe(ref.documentId),
+        page: item.page == null ? "" : safe(item.page),
+        provenance: "document_claim",
+        status: "retrieved_not_verified",
+        recordedAt: now
+      });
+    });
+    persistLocalAssistantSession();
+  }
+
   async function runLocalDiagnosticAssessment() {
     if (!localAssistant || typeof localAssistant.invokeTool !== "function") return;
     const parsedMeasurements = collectMeasurementReadings();
@@ -502,6 +584,7 @@
     }
     addMessage("assistant", formatLocalDiagnosis(result.data));
     const diagnosis = result.data && result.data.diagnosis ? result.data.diagnosis : result.data;
+    syncDiagnosticState(request, diagnosis);
     if (root.MaintenanceLearningMemory && diagnosis) {
       try {
         const memory = await root.MaintenanceLearningMemory.recordDiagnostic({
