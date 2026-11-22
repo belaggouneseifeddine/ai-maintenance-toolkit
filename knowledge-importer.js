@@ -55,6 +55,7 @@
     if (!rows.length) return [];
     const headers = rows.shift().map(value => value.trim());
     if (headers.some(value => !value) || new Set(headers).size !== headers.length) throw new Error("csv_invalid_or_duplicate_headers");
+    if (headers.some(value => ["__proto__", "prototype", "constructor"].includes(value))) throw new Error("csv_unsafe_header");
     if (rows.length > MAX_ROWS) throw new Error("csv_row_limit_exceeded");
     return rows.map((values, index) => {
       const item = { _row: index + 2 };
