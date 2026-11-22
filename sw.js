@@ -1,4 +1,4 @@
-const CACHE_NAME = "maintenance-ai-toolkit-v75";
+const CACHE_NAME = "maintenance-ai-toolkit-v76";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -16,6 +16,11 @@ const APP_SHELL = [
   "./normalization.js",
   "./bayesian-engine.js",
   "./diagnostic-engine.js",
+  "./diagnostic-casebook.js",
+  "./diagnostic-knowledge-engine.js",
+  "./knowledge-importer.js",
+  "./knowledge-staging-store.js",
+  "./knowledge-importer-ui.js",
   "./engineering-core.js",
   "./agent-core.js",
   "./evidence-reasoning.js",
@@ -35,6 +40,8 @@ const APP_SHELL = [
   "./knowledge/oem-verified-faults.json",
   "./knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md",
   "./knowledge/manufacturer-machine-fault-matrix.json",
+  "./knowledge/schemas/diagnostic-case.schema.json",
+  "./knowledge/diagnostic-cases/centrifugal-pump-low-flow.json",
   "./i18n.js",
   "./manifest.json",
   "./icon.svg",
