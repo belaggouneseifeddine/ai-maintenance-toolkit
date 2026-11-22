@@ -40,8 +40,6 @@ const APP_SHELL = [
   "./knowledge/oem-verified-faults.json",
   "./knowledge/OEM-VERIFIED-FAULTS-AR-FR-EN.md",
   "./knowledge/manufacturer-machine-fault-matrix.json",
-  "./knowledge/schemas/diagnostic-case.schema.json",
-  "./knowledge/diagnostic-cases/centrifugal-pump-low-flow.json",
   "./i18n.js",
   "./manifest.json",
   "./icon.svg",
@@ -87,6 +85,8 @@ const APP_SHELL = [
 ];
 
 const OPTIONAL_APP_SHELL = [
+  "./knowledge/schemas/diagnostic-case.schema.json",
+  "./knowledge/diagnostic-cases/centrifugal-pump-low-flow.json",
   "./diagnostic-evidence-register.json",
   "./knowledge/manufacturer-sources.json",
   "./knowledge/oem-platform-index.json",
