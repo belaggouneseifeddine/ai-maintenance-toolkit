@@ -207,6 +207,33 @@
   <div id="documentLibraryList"></div>
 </div>
 
+<div class="card" id="knowledgeImportPanel">
+  <h2>استيراد بيانات المعرفة — منطقة استقبال محلية</h2>
+  <p class="hint">استورد JSON أو CSV أو Markdown أو TXT إلى منطقة مرشحين منفصلة على هذا الجهاز. لا تدخل هذه البيانات إلى التشخيص تلقائيًا. ملفات PDF والصور تُدار من مكتبة الوثائق أعلاه.</p>
+  <div class="notice">يلزم تسجيل ترخيص الكود وترخيص البيانات كلٌّ على حدة. لا يعني ظهور الملف في منطقة الاستقبال أن مصدره موثوق أو أن إعادة استخدامه مسموحة أو أنه اجتاز المراجعة الفنية.</div>
+  <form id="knowledgeImportForm">
+    <label for="knowledgeImportFile">ملف المعرفة</label>
+    <input id="knowledgeImportFile" type="file" accept=".json,.csv,.md,.markdown,.txt,application/json,text/csv,text/markdown,text/plain" required>
+    <div class="grid">
+      <div><label for="knowledgeSourceId">معرّف المصدر</label><input id="knowledgeSourceId" required maxlength="120" placeholder="مثال: pump-manual-2026"></div>
+      <div><label for="knowledgeSourceTitle">عنوان المصدر</label><input id="knowledgeSourceTitle" required maxlength="300"></div>
+      <div><label for="knowledgeSourceOwner">المالك / الناشر</label><input id="knowledgeSourceOwner" required maxlength="160"></div>
+      <div><label for="knowledgeSourceUrl">الرابط الأصلي HTTPS</label><input id="knowledgeSourceUrl" type="url" required placeholder="https://"></div>
+      <div><label for="knowledgeSourceVersion">الإصدار / الطبعة</label><input id="knowledgeSourceVersion" required></div>
+      <div><label for="knowledgeSourceDate">تاريخ المصدر</label><input id="knowledgeSourceDate" type="date"></div>
+      <div><label for="knowledgeSourceType">نوع المصدر</label><select id="knowledgeSourceType"><option value="technical_document">وثيقة فنية</option><option value="dataset">Dataset</option><option value="fault_case">حالة عطل</option><option value="telemetry">Telemetry</option><option value="simulation">Simulation</option><option value="ontology">Ontology</option><option value="model">Model</option><option value="procedure">إجراء صيانة</option><option value="unknown">غير محدد</option></select></div>
+      <div><label for="knowledgeReuseStatus">حالة إعادة الاستخدام</label><select id="knowledgeReuseStatus"><option value="unknown">غير متحقق منها</option><option value="reference_only">مرجع فقط</option><option value="reuse_permitted">مسموح صراحةً — بعد التحقق</option><option value="prohibited">ممنوع</option></select></div>
+    </div>
+    <label for="knowledgeCodeLicense">ترخيص الكود أو not_applicable</label><input id="knowledgeCodeLicense" required placeholder="MIT / Apache-2.0 / not_applicable">
+    <label for="knowledgeDataLicense">ترخيص البيانات/المحتوى أو not_applicable</label><input id="knowledgeDataLicense" required placeholder="CC-BY-4.0 / Dataset terms / not_applicable">
+    <label for="knowledgeAttribution">الإسناد المطلوب أو not_applicable</label><textarea id="knowledgeAttribution" required rows="2"></textarea>
+    <button class="btn" id="knowledgeImportButton" type="submit">تحقق واحفظ كمرشح محلي</button>
+  </form>
+  <p id="knowledgeImportStatus" role="status" aria-live="polite">لا يوجد رفع إلى الخادم. تُحفظ البيانات في IndexedDB محليًا.</p>
+  <h3>العناصر في منطقة الاستقبال</h3>
+  <div id="knowledgeImportList" aria-live="polite"></div>
+</div>
+
 </section>
 <section id="safety" class="panel">
 <div class="card"><h2>قائمة تحقق قبل التدخل</h2><p class="hint">هذه القائمة لا تستبدل إجراءات السلامة المعتمدة في موقع العمل.</p>
@@ -267,6 +294,11 @@
 <script src="./normalization.js"></script>
 <script src="./bayesian-engine.js"></script>
 <script src="./diagnostic-engine.js"></script>
+<script src="./diagnostic-casebook.js"></script>
+<script src="./diagnostic-knowledge-engine.js"></script>
+<script src="./knowledge-importer.js"></script>
+<script src="./knowledge-staging-store.js"></script>
+<script src="./knowledge-importer-ui.js"></script>
 <script src="./engineering-core.js"></script>
 <script src="./agent-core.js"></script>
 <script src="./evidence-reasoning.js"></script>
