@@ -37,9 +37,10 @@
 - [ ] Complete technical and safety review before any runtime promotion.
 - [ ] Verify post-repair outcome and field validation before `field_validated`.
 
-## Known limitations of this foundation
+## Verification and remaining limitations
 
-- This importer is a parsing/staging core, not yet a user-facing file picker, IndexedDB staging store, or PDF/OCR replacement.
+- A user-facing file picker and device-local IndexedDB staging store are now wired into the Knowledge tab. The importer accepts JSON, CSV, Markdown and TXT; PDF/OCR remains in the existing document-library workflow.
 - CSV and Markdown are intentionally retained as raw candidate records; no automatic conversion to verified diagnosis rules is performed.
-- Case-specific likelihood mappings and validated Bayesian update rules are not yet implemented.
-- No Android device test, browser test, full repository test suite, or live deployment test is claimed by this commit.
+- Case-specific likelihood mappings and validated Bayesian update rules are not yet implemented. The current next-test ordering is a safe-observation coverage heuristic, not information gain.
+- GitHub Actions on commit `1f397185d35cad19dbebc7c0a64b85cf044ff4a5` completed successfully: diagnostic regression suite 364/364, full unit/integration test workflow, static safety/integrity checks, UI smoke tests and read-only live app/Worker smoke checks.
+- No manual Android-device acceptance test, technician field validation, new source/license adjudication, runtime knowledge promotion, merge or deployment has been performed.
