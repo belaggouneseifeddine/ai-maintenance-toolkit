@@ -23,7 +23,7 @@ test("CSV parser handles quoted commas and escaped quotes", () => {
   assert.equal(rows[1].notes, 'said "stop"');
 });
 
-test("duplicate or empty CSV headers are rejected", () => {
+test("duplicate, empty and unsafe CSV headers are rejected", () => {
   assert.throws(() => Importer.parseCsv("name,name\na,b"), /csv_invalid_or_duplicate_headers/);
   assert.throws(() => Importer.parseCsv('name,notes\nA,"unfinished'), /csv_unclosed_quote/);
 });
