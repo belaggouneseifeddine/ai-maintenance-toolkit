@@ -340,3 +340,43 @@ Verified on commit `0c1b2287df7d0a94fff0160f7652befd56b0f6c5`:
 | Published app / Worker smoke | `node scripts/smoke-test-live.mjs` | `CORS_PREFLIGHT_OK`; published app and Worker health checks passed |
 
 The Worker flow-pair regression tests, URMA primary-license gate tests and unlicensed Industrial Ops content-removal tests all passed. The service-worker test still reports one of seven optional reference assets not cached; core offline app installation remains successful. The live smoke test checks health/CORS, not a full live generative-AI response. No Android handset test, provider completion test, RUL calibration, merge or deployment was performed.
+
+
+## 2026-11-23 daily audit — evidence-led pump pilot and import gates
+
+**Audit base:** branch `feat/knowledge-importer-diagnostic-engine-2026-11-22`; branch comparison reports 17 commits ahead of `main`, 0 behind. The branch is not merged. No production deployment was performed.
+
+### Verified repository state
+
+- The branch adds a local knowledge importer, a user-facing import form, and an IndexedDB staging store. The importer accepts JSON, CSV, Markdown and TXT, enforces a 5 MiB input limit and 5,000-row limit, and saves records as `candidate` / `runtimeEligible: false`. PDF/OCR remains in the separate document-library workflow.
+- Staging is local to the browser/device. The UI explicitly says imported items are not available to the diagnostic engine.
+- The importer requires code-license and data-license text, attribution and a reuse-status value, but these fields are user-supplied metadata; they are not proof of rights. Do not treat `reuse_permitted` as legally verified without an evidence URL and reviewer record.
+- The pump casebook documents six differential cases (cavitation, air lock/loss of prime, suction restriction, low flow, mechanical-seal leakage and bearing degradation). The current machine-readable pilot file is CP-004 low-flow only; it remains `candidate` with `licenseStatus: reference_only`.
+- The casebook/knowledge adapters preserve unresolved hypotheses and distinguish direct measurements, PLC/historian values and estimates. The current next-evidence ordering is a safe-observation coverage heuristic, not expected information gain.
+- The live diagnostic session remains a separate curated-flow path. Do not infer that the candidate casebook has become the production diagnostic source merely because its JavaScript modules are present in the branch or deployment asset list.
+
+### Knowledge and provenance audit
+
+- `faults.json`: 284 unique records, no duplicate IDs within this file. 152 records have no `sourceRefs` and no explicit `evidenceStatus`; treat them as unprovenanced general candidates until reviewed. The remaining records include 72 general-guidance records and 60 model-specific-manual-reviewed records.
+- `knowledge/faults-supplement.json`: 3 supplemental general cases; these do not replace claim-level source review.
+- `knowledge/oem-verified-faults.json`: 99 records labelled `verified-source-exact-scope`. This is source-claim review, not field validation or confirmation on a specific installed asset.
+- `knowledge/sources.json`: 2 candidate source entries and 0 approved entries in the inspected snapshot. `knowledge/open-knowledge-source-register.json` is a discovery register, not an import allowlist.
+- The exact-source, exact-model, document revision and page/section gate remains mandatory. Never promote a telemetry label, anomaly label, general article or unreviewed OCR excerpt to a confirmed root cause or OEM-verified instruction.
+
+### Validation status and limits
+
+- The latest branch commit records a claim that GitHub Actions passed 364/364 diagnostic tests plus broader unit/integration, static, UI and read-only live smoke checks on commit `1f397185d35cad19dbebc7c0a64b85cf044ff4a5`. This audit did not independently retrieve the corresponding Actions run details.
+- The branch head has successful Vercel status checks; this is not evidence of a Cloudflare production deployment. The latest `main` commit has Vercel status failures reporting a build-rate-limit URL.
+- No local test suite, Android-device acceptance, technician field validation, new rights adjudication, runtime promotion, merge or production deployment was performed in this audit.
+
+### Updated priority order
+
+1. **P0 — provenance repair:** classify the 152 unprovenanced base records as `unreviewed` or attach exact claim-level sources; do not let missing provenance inherit an OEM-supported label.
+2. **P0 — pump pilot evidence:** keep CP-001 through CP-006 as separate cases; add machine-readable records only after source and technical review. CP-004 is the only structured pilot record currently confirmed in this branch review.
+3. **P1 — test integrity:** add fixtures for missing, contradictory, noisy, stale, mismatched-unit and failed-sensor data; preserve measured / PLC / historian / estimated source types and uncertainty.
+4. **P1 — test selection:** replace missing-field-count ordering with a measured, transparent discrimination score; implement expected information gain only after defensible likelihoods and outcome data exist, constrained by safety, time and cost.
+5. **P1 — importer rights evidence:** add explicit code/data license evidence URLs, original dataset origin, file-level review scope, attribution text, reviewer/date and redistribution/commercial-use flags. The staging form must remain non-authoritative.
+6. **P2 — Android/offline acceptance:** test IndexedDB quota/unavailability, corrupt/oversized imports, cache upgrades, local document retrieval, offline restart and data export on target Android devices.
+7. **P2 — post-pilot expansion:** only after the pump pilot meets its Definition of Done, extend the same evidence contract to motors, bearings, compressors, hydraulics and pneumatics.
+
+**Definition of Done for every pilot case:** exact applicability; component/failure mechanism; competing hypotheses; supporting and contradicting evidence; measurement units, locations, operating state and provenance; safe discriminating tests and prerequisites; expected outcomes; interpretation limits; stop conditions; post-repair verification; claim-level source and rights record; and regression fixtures. No uncalibrated heuristic score may be displayed as a probability.
