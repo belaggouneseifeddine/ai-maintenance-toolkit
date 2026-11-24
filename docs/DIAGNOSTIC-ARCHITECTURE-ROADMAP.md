@@ -468,4 +468,4 @@ No fault record was promoted, no OEM claim was created, no candidate data was im
 ### CI correction after the source-register update
 
 - The first CI run on commit `eb51e8ac32d127c05559cf8a2efb06d1db263e71` reported 364 passing tests and one failing new source-register test. The failure was a test-fixture scope error (`register is not defined`), not a failed source-license assertion or runtime behavior.
-- The test was corrected to load the register within its own test scope. The follow-up CI result is pending and must be checked before calling the metadata update verified.
+- The test was corrected in commit `a746dd05887415408837e0b035c669fbbadc3481` to load the register within its own test scope. No new workflow run appeared for that commit after the GitHub API ref update, and a local `git clone` attempt failed because the execution environment could not resolve `github.com`. A direct programmatic check of the 32-record JSON register, unique IDs/URLs, the seven new quarantine flags and the corrected test fixture passed; the full Node test suite on the corrected commit remains unverified.
