@@ -71,7 +71,7 @@ test("2026-11-24 discovered repositories remain quarantined with separate code/d
     assert.ok(source.reuseConditions && source.androidWorkerCompatibility);
     assert.match(source.decision, /discovery-only|reference-only|benchmark-only|research-reference-only/);
   }
-  assert.match(auditRegister.sources.find(item => item.id === "scada-mv-ids").dataLicense, /CC BY 4\\.0 claimed by README only/);
+  assert.match(auditRegister.sources.find(item => item.id === "scada-mv-ids").dataLicense, /CC BY 4.0 claimed by README only/);
   assert.match(auditRegister.sources.find(item => item.id === "pivot-anomaly-detection-cps").codeLicense, /All Rights Reserved/);
   assert.match(auditRegister.sources.find(item => item.id === "mfarthas-pump-maintenance").codeLicense, /not declared/);
   assert.match(auditRegister.sources.find(item => item.id === "awesome-bearing-dataset").dataLicense, /Per-dataset/);
