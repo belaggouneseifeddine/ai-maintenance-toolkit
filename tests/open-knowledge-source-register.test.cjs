@@ -46,3 +46,33 @@ test("open knowledge source register is discovery-only and does not claim unveri
   assert.match(openFdd.dataLicense, /not separately verified/i);
   assert.match(openFdd.decision, /reference-only|pending/i);
 });
+
+
+test("2026-11-24 discovered repositories remain quarantined with separate code/data rights", () => {
+  const ids = [
+    "scada-mv-ids",
+    "ics-telemetry-dataset",
+    "pivot-anomaly-detection-cps",
+    "mfarthas-pump-maintenance",
+    "awesome-bearing-dataset",
+    "fsbrick",
+    "designmukesh-hydraulic-condition-monitoring"
+  ];
+  for (const id of ids) {
+    const source = register.sources.find(item => item.id === id);
+    assert.ok(source, "missing audit record: " + id);
+    assert.equal(source.reviewStatus, "reviewed-2026-11-24");
+    assert.equal(source.runtimeImport, false);
+    assert.ok(source.owner && source.lastUpdated && source.lastPushed);
+    assert.ok(source.codeLicense && source.dataLicense);
+    assert.ok(Array.isArray(source.filesReviewed) && source.filesReviewed.length > 0);
+    assert.ok(source.contentsReviewed && source.originalDataSource);
+    assert.ok(source.reuseConditions && source.androidWorkerCompatibility);
+    assert.match(source.decision, /discovery-only|reference-only|benchmark-only|research-reference-only/);
+  }
+  assert.match(register.sources.find(item => item.id === "scada-mv-ids").dataLicense, /README claims CC BY 4.0/);
+  assert.match(register.sources.find(item => item.id === "pivot-anomaly-detection-cps").codeLicense, /All Rights Reserved/);
+  assert.match(register.sources.find(item => item.id === "mfarthas-pump-maintenance").codeLicense, /not declared/);
+  assert.match(register.sources.find(item => item.id === "awesome-bearing-dataset").dataLicense, /Per-dataset/);
+  assert.match(register.sources.find(item => item.id === "designmukesh-hydraulic-condition-monitoring").codeLicense, /not declared/);
+});
