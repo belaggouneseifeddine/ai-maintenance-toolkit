@@ -463,3 +463,9 @@ The competitive gap is not a lack of diagnostic content alone: these products em
 7. **P2 — Android/offline:** measure cold install, cache recovery, IndexedDB quota behavior, import size limits and session restoration on the target Android device.
 
 No fault record was promoted, no OEM claim was created, no candidate data was imported into runtime, no PR was opened, and no merge or production deployment was performed.
+
+
+### CI correction after the source-register update
+
+- The first CI run on commit `eb51e8ac32d127c05559cf8a2efb06d1db263e71` reported 364 passing tests and one failing new source-register test. The failure was a test-fixture scope error (`register is not defined`), not a failed source-license assertion or runtime behavior.
+- The test was corrected to load the register within its own test scope. The follow-up CI result is pending and must be checked before calling the metadata update verified.

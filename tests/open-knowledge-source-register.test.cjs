@@ -49,6 +49,7 @@ test("open knowledge source register is discovery-only and does not claim unveri
 
 
 test("2026-11-24 discovered repositories remain quarantined with separate code/data rights", () => {
+  const auditRegister = JSON.parse(fs.readFileSync(registerPath, "utf8"));
   const ids = [
     "scada-mv-ids",
     "ics-telemetry-dataset",
@@ -59,7 +60,7 @@ test("2026-11-24 discovered repositories remain quarantined with separate code/d
     "designmukesh-hydraulic-condition-monitoring"
   ];
   for (const id of ids) {
-    const source = register.sources.find(item => item.id === id);
+    const source = auditRegister.sources.find(item => item.id === id);
     assert.ok(source, "missing audit record: " + id);
     assert.equal(source.reviewStatus, "reviewed-2026-11-24");
     assert.equal(source.runtimeImport, false);
@@ -70,9 +71,9 @@ test("2026-11-24 discovered repositories remain quarantined with separate code/d
     assert.ok(source.reuseConditions && source.androidWorkerCompatibility);
     assert.match(source.decision, /discovery-only|reference-only|benchmark-only|research-reference-only/);
   }
-  assert.match(register.sources.find(item => item.id === "scada-mv-ids").dataLicense, /README claims CC BY 4.0/);
-  assert.match(register.sources.find(item => item.id === "pivot-anomaly-detection-cps").codeLicense, /All Rights Reserved/);
-  assert.match(register.sources.find(item => item.id === "mfarthas-pump-maintenance").codeLicense, /not declared/);
-  assert.match(register.sources.find(item => item.id === "awesome-bearing-dataset").dataLicense, /Per-dataset/);
-  assert.match(register.sources.find(item => item.id === "designmukesh-hydraulic-condition-monitoring").codeLicense, /not declared/);
+  assert.match(auditRegister.sources.find(item => item.id === "scada-mv-ids").dataLicense, /README claims CC BY 4.0/);
+  assert.match(auditRegister.sources.find(item => item.id === "pivot-anomaly-detection-cps").codeLicense, /All Rights Reserved/);
+  assert.match(auditRegister.sources.find(item => item.id === "mfarthas-pump-maintenance").codeLicense, /not declared/);
+  assert.match(auditRegister.sources.find(item => item.id === "awesome-bearing-dataset").dataLicense, /Per-dataset/);
+  assert.match(auditRegister.sources.find(item => item.id === "designmukesh-hydraulic-condition-monitoring").codeLicense, /not declared/);
 });
