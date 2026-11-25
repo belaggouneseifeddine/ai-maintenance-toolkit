@@ -588,3 +588,9 @@ No merge, production deployment, paid service, or external binding action was pe
 - The original DOE Open Energy Data Initiative submission 5763 and Data.gov catalog identify DOI 10.25984/1881324 and CC BY 4.0. The LBNL source page confirms the seven HVAC system families and distinguishes simulation, laboratory and field sources. The Open-FDD benchmark reviewed here uses only the simulated single-duct AHU subset; do not generalize its benchmark results to the full LBNL collection.
 - After commit `31883c20c2f2a012902d8d3ddcc7ec380a847ca4`, GitHub Actions run `45687447883` passed 367 CommonJS tests and 13 ESM tests (0 failures); `45687447797` passed the 367-test diagnostic suite; `45687447879` passed 62/62 static checks, Playwright UI smoke and GitHub Pages HTTP 200.
 - The run results are for the audit branch only. No Worker health check, Android-device validation, merge or Production deployment was performed.
+
+
+### CI correction note — 2026-11-25
+
+- The first validation of commit `9a2691f5` failed one new source-register assertion (366/367 passed) because the test expected the acronym “OEDI” while the record spelled out “Open Energy Data Initiative”. The diagnostic suite failed for the same shared assertion; 62/62 static checks still passed.
+- This was a test/metadata wording mismatch, not a dataset-license or runtime failure. The source record now includes both “OEDI” and the full organization name, and the assertion checks both. Re-run the CommonJS, diagnostic and quality workflows on the correction commit before treating the final head as green.

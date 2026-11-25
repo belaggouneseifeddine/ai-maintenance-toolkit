@@ -637,7 +637,7 @@
       "version": "GitHub application release v5.0.21 (2026-11-20); pyproject Python package version 4.5.11 (separate package version)",
       "lastChecked": "2026-11-25",
       "codeLicense": "MIT (LICENSE and pyproject.toml verified; GitHub repository API license metadata currently reports NOASSERTION)",
-      "dataLicense": "CC BY 4.0 for the LBNL FDD dataset (verified in DOE Open Energy Data Initiative submission 5763 and Data.gov catalog); the Open-FDD fixture README records attribution and transformations. Other datasets/examples remain per-source and are not covered by a blanket license.",
+      "dataLicense": "CC BY 4.0 for the LBNL FDD dataset (verified in OEDI / DOE Open Energy Data Initiative submission 5763 and Data.gov catalog); the Open-FDD fixture README records attribution and transformations. Other datasets/examples remain per-source and are not covered by a blanket license.",
       "licenseStatus": "MIT verified for repository code; LBNL dataset CC BY 4.0 verified in OEDI/Data.gov metadata and fixture attribution; GitHub API repository license metadata reports NOASSERTION; no blanket license established for unrelated examples.",
       "filesReviewed": [
         "README.md",
