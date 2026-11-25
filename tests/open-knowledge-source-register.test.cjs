@@ -101,12 +101,12 @@ test("2026-11-25 HVAC and hydraulic repositories remain quarantined with distinc
   const camber = auditRegister.sources.find(item => item.id === "camber-fdd-toolkit");
   assert.match(camber.codeLicense, /Apache-2.0/);
   assert.match(camber.dataLicense, /per-dataset/i);
-  assert.match(camber.reuseConditions, /research-only/i);
+  assert.match(camber.reuseConditions, /NC\\/ND/i);
   const hydronic = auditRegister.sources.find(item => item.id === "hydronic-deltat-diagnostics");
   assert.match(hydronic.codeLicense, /MIT/);
   assert.match(hydronic.dataLicense, /Open-Meteo/);
   const hydraulic = auditRegister.sources.find(item => item.id === "operating-state-aware-hydraulic-monitoring");
   assert.match(hydraulic.codeLicense, /No repository LICENSE/);
   assert.match(hydraulic.dataLicense, /CC-BY-4.0/);
-  assert.match(hydraulic.dataLeakage, /144 contiguous blocks/);
+  assert.match(hydraulic.dataLeakage, /144 contiguous condition blocks/);
 });
