@@ -43,8 +43,12 @@ test("open knowledge source register is discovery-only and does not claim unveri
   assert.ok(openFdd, "Open-FDD must be tracked");
   assert.equal(openFdd.owner, "bbartling");
   assert.match(openFdd.codeLicense, /MIT/);
-  assert.match(openFdd.dataLicense, /not separately verified/i);
-  assert.match(openFdd.decision, /reference-only|pending/i);
+  assert.match(openFdd.dataLicense, /LBNL.*CC BY 4.0/i);
+  assert.equal(openFdd.latestRelease, "v5.0.21");
+  assert.equal(openFdd.runtimeImport, false);
+  assert.ok(openFdd.filesReviewed.includes("docs/rules/index.md"));
+  assert.match(openFdd.dataLeakage, /byte-identical/i);
+  assert.match(openFdd.decision, /reference-only|pending|benchmark-only/i);
 });
 
 
@@ -109,4 +113,27 @@ test("2026-11-25 HVAC and hydraulic repositories remain quarantined with distinc
   assert.match(hydraulic.codeLicense, /No repository LICENSE/);
   assert.match(hydraulic.dataLicense, /CC-BY-4.0/);
   assert.ok(hydraulic.dataLeakage.includes("144 contiguous blocks"));
+});
+
+
+test("2026-11-25 AAS/OPC UA sources keep code and example-data rights separate and remain outside runtime", () => {
+  const auditRegister = JSON.parse(fs.readFileSync(registerPath, "utf8"));
+  const faaster = auditRegister.sources.find(item => item.id === "faaster-aas-opcua");
+  const open62541 = auditRegister.sources.find(item => item.id === "open62541-opcua-stack");
+  for (const source of [faaster, open62541]) {
+    assert.ok(source, "missing AAS/OPC UA source record");
+    assert.equal(source.reviewStatus, "reviewed-2026-11-25");
+    assert.equal(source.runtimeImport, false);
+    assert.ok(source.owner && source.lastUpdated && source.lastPushed);
+    assert.ok(source.codeLicense && source.dataLicense);
+    assert.ok(source.filesReviewed.length > 0);
+    assert.ok(source.originalDataSource && source.reuseConditions);
+    assert.match(source.decision, /reference-only|review-required/);
+  }
+  assert.match(faaster.codeLicense, /Apache-2.0/);
+  assert.match(faaster.dataLicense, /No separate rights statement/);
+  assert.match(faaster.qualityNotes.join(" "), /NoSecurity/);
+  assert.match(open62541.codeLicense, /MPL-2.0/);
+  assert.match(open62541.codeLicense, /CC0-1.0/);
+  assert.match(open62541.androidWorkerCompatibility, /ANDROID|Android NDK/i);
 });

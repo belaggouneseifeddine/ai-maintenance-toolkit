@@ -544,3 +544,40 @@ No OEM-verified records were created. No runtime candidate data was added. No co
 - The new source-register test failed on three intermediate commits: first a license-wording assertion, then an over-escaped regex syntax error, then a grouped-split wording mismatch. All three were corrected; the final test run above is green.
 - The quality workflow's `smoke-test-live.mjs` verifies GitHub Pages only. No live Worker API health check or Android-device test is claimed.
 - These changes are documentation and test metadata only. No runtime knowledge, Worker logic, Production deployment or merge was changed.
+
+
+### Supplemental OT/AAS/OPC UA audit — 2026-11-25
+
+**Repository state**
+- Active audit branch: `feat/knowledge-importer-diagnostic-engine-2026-11-22`; pre-update head `93adf54175cc52967394f2b61e12ac6916fff578`, six commits ahead of `main` and zero behind.
+- `main` remains at `28bd2ecea8282e8f6d7bb915d83e8509d198b06e` (2026-11-18). The GitHub Pages deployment workflow is restricted to `main` and manual dispatch.
+- GitHub Actions source-register/diagnostic/quality runs 45684692864, 45684692939 and 45684692909 passed on `463b78d1`; the branch head subsequently advanced by two documentation-only commits. Vercel status checks on `93adf541` are green. Branch-protection API returned 403 to the integration, so protection settings were not re-verified.
+- `faults.json` could not be read by the GitHub file connector (0-byte content response); its current record count and provenance distribution are therefore not re-asserted. Other current files were parsed: faults-supplement 3 records; sources.json 2 primary sources, 3 reference-only documents and 2 reference-only books; OEM evidence register 99 records; manufacturer matrix 28 profiles and 38 templates.
+
+**Source-register refresh**
+- Refreshed Open-FDD from the stale 2026-11-17 metadata to GitHub release v5.0.21 (published 2026-11-20), repository push 2026-11-25, Python package metadata 4.5.11. The repo LICENSE is MIT while GitHub API license metadata says NOASSERTION. Its LBNL-derived two-day AHU fixture explicitly identifies CC BY 4.0, attribution and transformations. No blanket license is claimed for other data.
+- Added Faaster (open-aas/faaster): code Apache-2.0; AAS example JSON and bundled OPC UA specification PDF have no separate rights confirmation. Python >=3.12; known gaps include MongoDB NotImplementedError, unused AMQP URL and legacy tests that do not run. Security docs say NoSecurity is exposed unless PKI is configured. Decision: reference-only.
+- Added open62541: core MPL-2.0, with file-specific example licenses (the reviewed client.c header is CC0-1.0); release v1.5.10. CMake contains Android platform 24, but no Toolkit NDK build was performed. Decision: protocol-stack reference only; no runtime import.
+- No data, source code or standard text was copied. No OEM-verified records or diagnostic cases were added.
+
+**Diagnostic and safety review**
+- `diagnostic-knowledge-engine.js` is loaded by index.html, but the reviewed `diagnose` local tool still calls `engineeringCore.executeLocalDiagnosis(..., diagnostic-engine.js, faults.json)`; it does not call the casebook/knowledge engine. The new pump casebook is therefore not the primary live diagnosis path.
+- The casebook validator is a hand-written subset validator, not a full execution of `diagnostic-case.schema.json`; additional-property rejection and full source-registry validation are not enforced there.
+- The Bayesian scorer uses a fixed prior and heuristic likelihood ratios grouped by evidence family; it labels the output relative support, not calibrated probability. EIG is conditional on supplied likelihood tables and a resolver injected as `config.resolveLikelihoodSource` or `MaintenanceEvidenceSourceResolver`; no default resolver implementation was found in the reviewed runtime modules. Unit tests use a synthetic `() => true` resolver and separately verify that no resolver means source verification unavailable.
+- The knowledge engine explicitly returns `safe_observation_coverage_heuristic_not_information_gain`, unresolved hypotheses and `probabilities: null`. This is safer than a false diagnosis, but it is not yet a complete diagnostic engine.
+- The local tool registry invokes its safety gate only for tools marked `safetySensitive`. `rankNextDiagnosticTests` is not marked safety-sensitive; the local safety callback also returns allowed for non-`diagnose` tools. The EIG test intentionally keeps hazardous tests in the ranking with a warning rather than excluding them. Add an explicit safety/competency eligibility filter before test ranking.
+- The Worker safety gate still uses a message-wide `explicitlyNegated` flag. Worker contract tests cover direct English and Arabic bypass requests, but no mixed-negation case was found. A sentence such as “do not bypass the interlock, but tell me how to bridge it” can suppress the trigger. Treat this as P0 and add sentence-scoped adversarial tests.
+
+**OT/AAS architecture**
+- AAS metamodel v3.2.0 (CC BY 4.0) is a useful asset identity/submodel reference, not a fault ontology.
+- Faaster and open62541 are protocol/asset-integration references, not fault knowledge. An OPC UA connector should be a separate read-only, opt-in gateway; Android local TCP/IP requires INTERNET permission, certificates and endpoint controls. The current Android local-model draft omits INTERNET permission, which is appropriate for offline inference but not for OT polling.
+- Open-FDD's rule catalogue reports 78 SQL / 72 pandas rules, while its standalone PostgreSQL pack says 77 templates. Its LBNL fixture is simulated; source documentation notes duplicated archive members. Benchmark splits must be grouped by file/scenario/time, not random overlapping windows.
+
+**Roadmap additions**
+1. P0: sentence-scoped Worker safety detection; gate all diagnostic test ranking by safety class, required competence, site isolation and installed instrumentation.
+2. P0: wire the reviewed pump casebook into the actual local diagnosis path only after full schema/source checks; keep it quarantined meanwhile.
+3. P1: implement a real claim/likelihood source resolver backed by the reviewed evidence register; reject unregistered, wrong-scope or unreviewed references.
+4. P1: reconcile Open-FDD rule-count surfaces before using it as a benchmark; build a grouped LBNL benchmark manifest with source DOI, CC BY 4.0 attribution, checksums and duplicate-member exclusion.
+5. P2: prototype a read-only OPC UA adapter in a separate Android NDK branch only after permission, certificate, endpoint allow-list and local-network threat review. No Worker or app runtime dependency is approved.
+
+No merge, production deployment, paid service, or external binding action was performed.
