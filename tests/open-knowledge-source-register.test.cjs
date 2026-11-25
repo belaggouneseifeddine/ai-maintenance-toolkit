@@ -29,14 +29,14 @@ test("open knowledge source register is discovery-only and does not claim unveri
   }
   const upstream = register.sources.filter(source =>
     source.url.includes("github.com/yilin-2511/industrial-ops-rag-agent") ||
-    source.url.includes("github.com/PlantCraft/PlantCraft") ||
+    source.url.includes("github.com/jonathanwvd/PlantCraft") ||
     source.url.includes("github.com/bbartling/open-fdd")
   );
   const canonicalUrls = new Set(upstream.map(source => source.url.replace(/\/$/, "").toLowerCase()));
   assert.equal(canonicalUrls.size, upstream.length, "one canonical record per upstream repository URL");
   const plantcraft = register.sources.find(source => source.id === "plantcraft");
-  assert.equal(plantcraft.owner, "PlantCraft");
-  assert.equal(plantcraft.url, "https://github.com/PlantCraft/PlantCraft");
+  assert.equal(plantcraft.owner, "jonathanwvd");
+  assert.equal(plantcraft.url, "https://github.com/jonathanwvd/PlantCraft");
   assert.match(plantcraft.codeLicense, /Apache-2.0/);
   assert.match(plantcraft.dataLicense, /not separately verified/i);
   const openFdd = register.sources.find(source => source.id === "open-fdd");
@@ -76,4 +76,37 @@ test("2026-11-24 discovered repositories remain quarantined with separate code/d
   assert.match(auditRegister.sources.find(item => item.id === "mfarthas-pump-maintenance").codeLicense, /not declared/);
   assert.match(auditRegister.sources.find(item => item.id === "awesome-bearing-dataset").dataLicense, /Per-dataset/);
   assert.match(auditRegister.sources.find(item => item.id === "designmukesh-hydraulic-condition-monitoring").codeLicense, /not declared/);
+});
+
+
+test("2026-11-25 HVAC and hydraulic repositories remain quarantined with distinct code and dataset rights", () => {
+  const auditRegister = JSON.parse(fs.readFileSync(registerPath, "utf8"));
+  const ids = [
+    "camber-fdd-toolkit",
+    "hydronic-deltat-diagnostics",
+    "operating-state-aware-hydraulic-monitoring"
+  ];
+  for (const id of ids) {
+    const source = auditRegister.sources.find(item => item.id === id);
+    assert.ok(source, "missing audit record: " + id);
+    assert.equal(source.reviewStatus, "reviewed-2026-11-25");
+    assert.equal(source.runtimeImport, false);
+    assert.ok(source.owner && source.lastUpdated && source.lastPushed);
+    assert.ok(source.codeLicense && source.dataLicense);
+    assert.ok(Array.isArray(source.filesReviewed) && source.filesReviewed.length > 0);
+    assert.ok(source.contentsReviewed && source.originalDataSource);
+    assert.ok(source.reuseConditions && source.androidWorkerCompatibility);
+    assert.match(source.decision, /reference-only|benchmark-only/);
+  }
+  const camber = auditRegister.sources.find(item => item.id === "camber-fdd-toolkit");
+  assert.match(camber.codeLicense, /Apache-2.0/);
+  assert.match(camber.dataLicense, /per-dataset/i);
+  assert.match(camber.reuseConditions, /research-only/i);
+  const hydronic = auditRegister.sources.find(item => item.id === "hydronic-deltat-diagnostics");
+  assert.match(hydronic.codeLicense, /MIT/);
+  assert.match(hydronic.dataLicense, /Open-Meteo/);
+  const hydraulic = auditRegister.sources.find(item => item.id === "operating-state-aware-hydraulic-monitoring");
+  assert.match(hydraulic.codeLicense, /No repository LICENSE/);
+  assert.match(hydraulic.dataLicense, /CC-BY-4.0/);
+  assert.match(hydraulic.dataLeakage, /144 contiguous blocks/);
 });

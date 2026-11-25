@@ -469,3 +469,67 @@ No fault record was promoted, no OEM claim was created, no candidate data was im
 
 - The first CI run on commit `eb51e8ac32d127c05559cf8a2efb06d1db263e71` reported 364 passing tests and one failing new source-register test. The failure was a test-fixture scope error (`register is not defined`), not a failed source-license assertion or runtime behavior.
 - The first CI attempt on `eb51e8ac32d127c05559cf8a2efb06d1db263e71` failed because the new test referenced a register variable outside its scope. That was corrected in `a746dd05887415408837e0b035c669fbbadc3481`. The next CI attempt on `7e804db1e502746239776b23afa0c0e40c70e096` then exposed a second test-only assertion mismatch: the expected license wording did not match the stored wording. The second assertion also contained an over-escaped dot in its regular expression; it is now changed to match the exact recorded license wording. Final verification on commit `c64c89a4f26d62290eb5fa40d9586aaef46bf00e` succeeded: 365/365 CommonJS tests, 13/13 ESM tests, 62/62 static quality checks, UI smoke checks and the published GitHub Pages smoke test (`PAGES_OK HTTP 200`). The Worker API was not exercised by that live smoke script, and the knowledge-validation workflow was not triggered on this branch.
+
+
+## Daily audit — 2026-11-25 (HVAC, hydraulic and rotating-equipment rotation)
+
+### Repository state at audit start
+
+- Branch: `feat/knowledge-importer-diagnostic-engine-2026-11-22`; head `33b9952c30ab0ea7c619ae9b2fbb6b91f9683374`; 25 commits ahead of `main`, 0 behind.
+- `main` head: `28bd2ecea8282e8f6d7bb915d83e8509d198b06e`. GitHub reports `protected:false` for both `main` and the feature branch. The branch-protection details endpoint returned 403, so repository rulesets were not independently inspected.
+- 18 open pull requests; this feature branch has no associated PR.
+- No code commit had landed after the 2026-11-24 audit before this documentation refresh. This update changes only the source register, its tests and this roadmap; no runtime fault data or engine code is changed.
+
+### CI evidence and limits
+
+- GitHub Actions run `45466179732` on the audited head `33b9952c30ab0ea7c619ae9b2fbb6b91f9683374`: CommonJS suite 365/365 passed.
+- Run `45466179834` on the same head: ESM suite 13/13, static checks 62/62 and Playwright UI smoke passed.
+- The live smoke script used by the quality workflow checks GitHub Pages and prints `PAGES_OK`; despite the workflow step label, it does not call the Worker API. The separate Worker smoke script is part of a manual deployment workflow and was not run.
+- The knowledge-validation workflow does not include this feature branch in its push trigger; no knowledge-validation run is claimed.
+- No Android-device test, live Worker health check or raw external dataset benchmark was run in this audit.
+- GitHub Pages deploys on pushes to `main`; Cloudflare Pages/Worker workflows are manual and main-gated. No merge or deployment occurred.
+
+### Safety and security findings
+
+- `worker/safety-gate.mjs` concatenates machine, symptom, code and observations, then treats the presence of any phrase such as `do not bypass` anywhere in that combined text as a global negation. This suppresses the bypass trigger even if a later clause requests bridging/jumpering the same interlock. This is a static code-path finding; the current tests cover a direct bypass request but not mixed-negation/adversarial clauses.
+- The Worker does run this deterministic gate before retrieval and provider calls; the existing test verifies that direct bypass requests stop both. The current gate is limited to protective-device bypass and hydraulic/high-pressure leaks; it does not comprehensively cover live electrical work, rotating guards, steam/hot surfaces, chemicals or confined spaces.
+- `main` is not marked protected by GitHub branch metadata. GitHub Pages' main-branch deployment trigger remains a governance risk.
+
+### Knowledge and diagnostic engine state
+
+- `faults.json`: 284 records in the current branch snapshot; 17 records have `equipmentType=pump`, and none of those 17 has a top-level source/provenance reference.
+- `knowledge/faults-supplement.json`: 3 records. `knowledge/sources.json`: 2 candidate sources, 0 approved. `knowledge/oem-verified-faults.json`: 99 records and no pump record. `manufacturer-machine-fault-matrix.json`: 28 manufacturer profiles and 38 case templates.
+- `INDUSTRIAL-FAULT-KNOWLEDGE-BASE.md` is a broad narrative reference with explicit general-vs-OEM scope warnings; `ELECTRIC-MOTOR-AND-VFD-CASEBOOK.md` has five general case groups and model-specific reference links. Neither replaces claim-level structured provenance for pump cases.
+- The pump casebook describes CP-001 through CP-006, but only CP-004 currently has a machine-readable JSON case. CP-004 remains `candidate` with `licenseStatus=reference_only`; its five sources include two CC BY research papers that do not establish low-flow root causes, a KSB MDX family-specific manual reference, and KSB/ASHRAE operating-point references. No exact pump model/curve or field validation is available.
+- The casebook validator is hand-written and does not execute the full JSON Schema. CP-004 triage is candidate-only and selects the next observation by missing-measurement coverage, not expected information gain.
+- `diagnostic-knowledge-engine.js` and `diagnostic-casebook.js` are loaded by the page but are not called by the primary assistant/session/orchestrator path inspected. The primary local tools still use the separate diagnostic engine.
+- The Bayesian helper uses fixed prior/likelihood-ratio constants and explicitly marks outputs uncalibrated. It does not define a DAG with learned/validated CPDs. Expected-information-gain requires an injected `resolveLikelihoodSource`/global resolver; no default resolver implementation exists in the current branch tree. The pump Pilot path uses `safe_observation_coverage_heuristic_not_information_gain`, not EIG.
+
+### Open-source inventory refresh
+
+The source register now contains 35 entries. Three newly reviewed repositories were added; no code or dataset was copied:
+
+- [CAMBER](https://github.com/yroussev/camber), package version 0.112.0, Apache-2.0 code. Its 24-entry dataset catalogue records publishers, per-dataset licenses, SHA-256 hashes, file sizes, transformations and known data issues. Its research-only license gate requires explicit acknowledgement and an append-only ledger. The reviewed LBNL SDAHU entry is simulated; no raw dataset was downloaded. Decision: isolated benchmark only.
+- [Hydronic Delta-T Diagnostics](https://github.com/VB-Builds/hydronic-deltat-diagnostics), version 0.1.0, MIT code; LBNL FCU and Open-Meteo data retain separate terms. Most examples are synthetic, the first 28 active days are assumed healthy, and thresholds are project-specific. Decision: isolated benchmark only.
+- [Operating-State-Aware Monitoring](https://github.com/RocketWill/operating-state-aware-monitoring), no declared code license; UCI hydraulic data are CC BY 4.0. It documents grouped splits over 144 contiguous condition blocks, but those blocks are not established independent physical runs. Decision: reference only; do not copy code.
+
+Previously registered sources were refreshed: Awesome Industrial Datasets now reports 398 entries under CC BY-NC-4.0; BearingDatasets reports 69 datasets and its CWRU/Paderborn manifests have different rights; MIMII's dataset is CC BY-SA-4.0 while its baseline code is unlicensed; PlantCraft's canonical owner/repository is `jonathanwvd/PlantCraft` and latest release is v0.6.1; AAS is at v3.2.0; pgmpy is v1.1.2; NASA ProgPy is v1.9.0 with NASA-1.3 identified but license PDFs still pending text review. UCI #447 is CC BY 4.0 and LBNL FDD is CC BY 4.0 according to OEDI/Data.gov metadata; raw files were not downloaded.
+
+### Competitor scan — vendor claims, not independent validation
+
+- [InduQT](https://induqt.ai/demo) is the closest workflow comparison: public OPC UA/MQTT/CSV feeds, historian exports, manuals/photos, live replay and root-cause investigations. Its own 27-Oct-2026 test report says the decision engine caught 3/4 seeded LBNL boiler faults; AI first-choice was 2/4 and top-two 3/4, missing a slow fouling case. The vendor explicitly says the windows were used to improve the engine, so this is a demonstration, not an independent benchmark.
+- [Samotics SAM4](https://samotics.com/sam4) combines cabinet current/voltage, electrical-signature analysis, automated detection and reliability-engineer review. Its published fleet figures are vendor-reported (95.5% recall and 2.1% post-review false-alert rate over its stated 12-month window); they are not independently verified here. “Sensorless” means no sensor mounted on the pump, not no measurement hardware.
+- [Mantenix](https://www.mantenix.com/) advertises ISO 14224 failure coding, offline PWA, asset QR, work orders, PM, inventory, LOTO/JSA/permits and human approval of AI suggestions.
+- [Fiix](https://fiixsoftware.com/cmms/pricing/) lists a free plan with 25 active PMs, work orders and asset/inventory features; its mobile documentation separately advertises offline capture/sync, but plan-specific offline entitlement is not explicit in the pricing table.
+- [UpKeep](https://upkeep.com/) combines Nova AI, CMMS, safety, IIoT and work orders; its pricing page places mobile offline mode in Professional, not the entry plans.
+- [Siemens Senseye](https://www.siemens.com/en-us/products/industrial-digitalization-services/senseye-predictive-maintenance/) and [Augury](https://www.augury.com/machine-health/) emphasize continuous condition monitoring, AI diagnostics and enterprise integrations; performance and ROI claims remain vendor claims.
+
+### Roadmap changes
+
+1. **P0 — Safety:** fix sentence-scoped negation and add mixed-negation, Arabic/French/English and prompt-injection tests; expand the deterministic hazard taxonomy before exposing repair actions.
+2. **P0 — Pump Pilot:** finish CP-001–CP-006 as separate structured cases, but keep them quarantined until model scope, claim-level source rights, technical review, safe preconditions and tests pass. Do not use CP-004 as a live root-cause rule yet.
+3. **P1 — Provenance/Importer:** implement CAMBER-style per-dataset manifests (publisher, exact license, DOI, version, SHA-256, source files, transformations, known issues, attribution, redistribution status) and an explicit acknowledgement ledger for restricted datasets.
+4. **P1 — Reasoning:** add a real source resolver; enforce JSON Schema at import and runtime boundaries; keep heuristic scores distinct from calibrated probabilities; make EIG depend on validated likelihoods and explicit test cost/safety.
+5. **P2 — Product:** measure Android offline behavior, add a minimal AAS-inspired asset/component passport and diagnostic-to-work-order export; defer multi-user sync and OPC UA/MQTT connectors until the local diagnostic path is proven.
+
+No OEM-verified records were created. No runtime candidate data was added. No code/data from external repositories was copied. No merge, production deployment or paid service was used.
