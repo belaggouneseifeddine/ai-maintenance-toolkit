@@ -541,6 +541,6 @@ No OEM-verified records were created. No runtime candidate data was added. No co
 - GitHub Actions run `45684692864`: CommonJS suite 366/366 passed.
 - Run `45684692939`: ESM suite 13/13 passed.
 - Run `45684692909`: static checks 62/62, Playwright UI smoke passed, and GitHub Pages smoke returned HTTP 200.
-- The new source-register test failed on two intermediate commits because of an escaped-regex assertion and a wording mismatch in the grouped-split note. Both assertions were corrected; the final test run above is green.
+- The new source-register test failed on three intermediate commits: first a license-wording assertion, then an over-escaped regex syntax error, then a grouped-split wording mismatch. All three were corrected; the final test run above is green.
 - The quality workflow's `smoke-test-live.mjs` verifies GitHub Pages only. No live Worker API health check or Android-device test is claimed.
 - These changes are documentation and test metadata only. No runtime knowledge, Worker logic, Production deployment or merge was changed.
