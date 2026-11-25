@@ -108,5 +108,5 @@ test("2026-11-25 HVAC and hydraulic repositories remain quarantined with distinc
   const hydraulic = auditRegister.sources.find(item => item.id === "operating-state-aware-hydraulic-monitoring");
   assert.match(hydraulic.codeLicense, /No repository LICENSE/);
   assert.match(hydraulic.dataLicense, /CC-BY-4.0/);
-  assert.match(hydraulic.dataLeakage, /144 contiguous condition blocks/);
+  assert.ok(hydraulic.dataLeakage.includes("144 contiguous blocks"));
 });
