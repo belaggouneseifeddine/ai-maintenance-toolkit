@@ -637,8 +637,8 @@
       "version": "GitHub application release v5.0.21 (2026-11-20); pyproject Python package version 4.5.11 (separate package version)",
       "lastChecked": "2026-11-25",
       "codeLicense": "MIT (LICENSE and pyproject.toml verified; GitHub repository API license metadata currently reports NOASSERTION)",
-      "dataLicense": "LBNL single-duct AHU derived test fixture: CC BY 4.0 with attribution and transformation note in tests/fixtures/lbnl_sdahu/README.md; all other datasets/examples require per-source review; no blanket data license",
-      "licenseStatus": "MIT verified for repository code; LBNL-derived fixture has explicit CC BY 4.0 provenance; no blanket data license established for other benchmark, demo or telemetry assets",
+      "dataLicense": "CC BY 4.0 for the LBNL FDD dataset (verified in DOE Open Energy Data Initiative submission 5763 and Data.gov catalog); the Open-FDD fixture README records attribution and transformations. Other datasets/examples remain per-source and are not covered by a blanket license.",
+      "licenseStatus": "MIT verified for repository code; LBNL dataset CC BY 4.0 verified in OEDI/Data.gov metadata and fixture attribution; GitHub API repository license metadata reports NOASSERTION; no blanket license established for unrelated examples.",
       "filesReviewed": [
         "README.md",
         "LICENSE",
@@ -650,10 +650,12 @@
         "docs/ml/lbnl-ahu-benchmark.md",
         "tests/fixtures/lbnl_sdahu/README.md",
         "open_fdd/data/fdd-catalog.json",
-        "open_fdd/rules/runner.py"
+        "open_fdd/rules/runner.py",
+        "OEDI submission 5763 metadata (https://data.openei.org/submissions/5763)",
+        "Data.gov catalog record for DOI 10.25984/1881324"
       ],
       "contentsReviewed": "Reviewed current README, license, Python package metadata, latest GitHub release, generated rule index, SQL rule-pack README, security documentation, LBNL benchmark documentation, fixture attribution, generated FDD catalog and pandas rule runner. The rule index states 78 SQL fault/analytics rules and 72 pandas twins; the standalone PostgreSQL README says 77 registry SQL templates, so the published counts are not identical across surfaces. Rules use Haystack point roles, SI units, confirmation windows and run-proof gates. The SQL/Pandas parity harness uses deterministic synthetic screening data, not field-accuracy validation.",
-      "dataOrigin": "LBNL FDD Data Sets, single-duct AHU (simulated), DOI 10.25984/1881324. The repository contains a two-day derived fixture from AHU_annual.csv and coi_stuck_050_annual.csv; fixture README records CC BY 4.0, attribution, subset and rounding. The broader benchmark downloads selected files from the LBNL source.",
+      "dataOrigin": "The broader LBNL FDD collection covers rooftop units, single-duct and dual-duct AHUs, VAV boxes, fan coil units, chiller plants and boiler plants. The Open-FDD benchmark uses eight selected files from the simulated single-duct AHU dataset; the committed two-day fixture is derived from AHU_annual.csv and coi_stuck_050_annual.csv, with subset and rounding documented.",
       "equipment": [
         "HVAC",
         "AHU",
@@ -679,7 +681,8 @@
         "SQL/Pandas parity tests use deterministic synthetic screening data and do not establish field diagnostic accuracy.",
         "LBNL AHU data is simulated and each selected fault scenario is present for the full year; do not randomly split overlapping time windows.",
         "Benchmark documentation notes byte-identical OA-bias and coil-leakage source archive members; de-duplicate before scoring to avoid duplicated evidence.",
-        "Do not infer RUL or causal root cause from anomaly/FDD output alone."
+        "Do not infer RUL or causal root cause from anomaly/FDD output alone.",
+        "The original OEDI catalog confirms CC BY 4.0 for the LBNL dataset (DOI 10.25984/1881324); this does not extend to unrelated third-party examples or standards."
       ],
       "dataLeakage": "LBNL benchmark is simulated and fault labels persist through full-year files. The benchmark notes multiple byte-identical archive members for OA-bias and coil-leakage cases. Use group splits by source file/fault scenario and temporal holdouts; do not random-split overlapping windows or duplicate archive members.",
       "dependencies": "Python >=3.11 in current pyproject; openpyxl base dependency, optional pandas/NumPy/SciPy, DuckDB, PostgreSQL/psycopg, RDFLib and reporting/ML extras. Full Normal Framework app and database/edge services are separate from the Python package.",
@@ -687,7 +690,8 @@
       "reuseConditions": "MIT applies to repository code; preserve LICENSE and notices if code is reused. The included LBNL-derived fixture is CC BY 4.0 with attribution and change notes. Verify each other dataset/example separately; do not treat the repository MIT license as a blanket data license.",
       "decision": "benchmark-only-isolated-experiment-review-required-no-runtime-import",
       "reviewStatus": "reviewed-2026-11-25",
-      "runtimeImport": false
+      "runtimeImport": false,
+      "originalDataSource": "Lawrence Berkeley National Laboratory / DOE Open Energy Data Initiative (OEDI) LBNL FDD Data Sets, DOI 10.25984/1881324; OEDI submission 5763 lists CC BY 4.0. The Open-FDD benchmark uses the simulated single-duct AHU subset; the broader LBNL collection spans seven HVAC system types and mixed simulation, laboratory and field sources."
     },
     {
       "id": "petrobras-3w",

@@ -581,3 +581,10 @@ No OEM-verified records were created. No runtime candidate data was added. No co
 5. P2: prototype a read-only OPC UA adapter in a separate Android NDK branch only after permission, certificate, endpoint allow-list and local-network threat review. No Worker or app runtime dependency is approved.
 
 No merge, production deployment, paid service, or external binding action was performed.
+
+
+### LBNL source-rights and final CI confirmation — 2026-11-25
+
+- The original DOE Open Energy Data Initiative submission 5763 and Data.gov catalog identify DOI 10.25984/1881324 and CC BY 4.0. The LBNL source page confirms the seven HVAC system families and distinguishes simulation, laboratory and field sources. The Open-FDD benchmark reviewed here uses only the simulated single-duct AHU subset; do not generalize its benchmark results to the full LBNL collection.
+- After commit `31883c20c2f2a012902d8d3ddcc7ec380a847ca4`, GitHub Actions run `45687447883` passed 367 CommonJS tests and 13 ESM tests (0 failures); `45687447797` passed the 367-test diagnostic suite; `45687447879` passed 62/62 static checks, Playwright UI smoke and GitHub Pages HTTP 200.
+- The run results are for the audit branch only. No Worker health check, Android-device validation, merge or Production deployment was performed.

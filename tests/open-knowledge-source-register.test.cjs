@@ -43,7 +43,8 @@ test("open knowledge source register is discovery-only and does not claim unveri
   assert.ok(openFdd, "Open-FDD must be tracked");
   assert.equal(openFdd.owner, "bbartling");
   assert.match(openFdd.codeLicense, /MIT/);
-  assert.match(openFdd.dataLicense, /LBNL.*CC BY 4.0/i);
+  assert.match(openFdd.dataLicense, /CC BY 4.0.*OEDI/i);
+  assert.match(openFdd.originalDataSource, /10\.25984\/1881324/);
   assert.equal(openFdd.latestRelease, "v5.0.21");
   assert.equal(openFdd.runtimeImport, false);
   assert.ok(openFdd.filesReviewed.includes("docs/rules/index.md"));
