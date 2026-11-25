@@ -533,3 +533,14 @@ Previously registered sources were refreshed: Awesome Industrial Datasets now re
 5. **P2 — Product:** measure Android offline behavior, add a minimal AAS-inspired asset/component passport and diagnostic-to-work-order export; defer multi-user sync and OPC UA/MQTT connectors until the local diagnostic path is proven.
 
 No OEM-verified records were created. No runtime candidate data was added. No code/data from external repositories was copied. No merge, production deployment or paid service was used.
+
+
+### Post-refresh validation — 2026-11-25
+
+- Final source-register/test head before this note: `463b78d1fa95a47e0d351e175302933ee9165bf1`.
+- GitHub Actions run `45684692864`: CommonJS suite 366/366 passed.
+- Run `45684692939`: ESM suite 13/13 passed.
+- Run `45684692909`: static checks 62/62, Playwright UI smoke passed, and GitHub Pages smoke returned HTTP 200.
+- The new source-register test failed on two intermediate commits because of an escaped-regex assertion and a wording mismatch in the grouped-split note. Both assertions were corrected; the final test run above is green.
+- The quality workflow's `smoke-test-live.mjs` verifies GitHub Pages only. No live Worker API health check or Android-device test is claimed.
+- These changes are documentation and test metadata only. No runtime knowledge, Worker logic, Production deployment or merge was changed.
